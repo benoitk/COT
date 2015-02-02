@@ -1,0 +1,23 @@
+#ifndef CLINKACTION_H
+#define CLINKACTION_H
+
+#include <QObject>
+
+class IAction;
+class CLinkAction : public QObject
+{
+	Q_OBJECT
+
+public:
+	CLinkAction(int, IAction*);
+	~CLinkAction();
+
+	int getStep()const;
+	IAction* getAction()const;
+
+private:
+	IAction* m_action;
+	int m_step;
+};
+
+#endif // CLINKACTION_H

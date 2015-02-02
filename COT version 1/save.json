@@ -1,0 +1,93 @@
+{
+    "FR_lbl_analyser" : "COT",
+    "EN_lbl_analyser" : "COT",
+    "number_of_stream" : 1,
+    "type variable available" : ["enteger","float","boolean", "string", "cmd_organne", "read_organne"],
+    "variables" : [ {"name":"test_pompe_1", "type":"cmd_organne", "value" : 0, "bind" : ["nom_variable", "nom_varible_2"]},
+                    {"name":"test_ev_A", "type":"cmd_organne", "value" : 1}
+    ],
+    "sequenceur_measure" : [
+        {"name_cycle" :"cycle_measure_cot", "nb_cycle" : 2, "every_day" : "monday", "at_hour" : "0820", "period" : 2}, 
+        {"name_cycle" :"cycle_measure_1", "nb_cycle" : 1, "every_day" : "saturday", "at_hour" : "1330", "period" : 2}, 
+        {"name_cycle" :"cycle_measure_cot", "nb_cycle" : 3, "every_day" : "sunday", "at_hour" : "0000", "period" : 2}, 
+        {"name_cycle" :"cycle_pause_0", "nb_cycle" : 1, "every_day" : "thursday", "at_hour" : "1200", "period" : 2},
+        {"name_cycle" :"cycle_pause_0", "nb_cycle" : 1, "every_day" : "thursday", "at_hour" : "1200", "period" : 2},
+        {"name_cycle" :"cycle_pause_0", "nb_cycle" : 1, "every_day" : "thursday", "at_hour" : "1200", "period" : 2}
+    ],
+
+  
+    "cycles" : [
+        {
+            "name" : "cycle_pause_0",
+            "FR_lbl" : "En pause",
+            "EN_lbl" : "Paused",
+            "type" : "pause",
+            "timer" : 10
+        },
+        {
+            "name" : "cycle_pause_1",
+            "FR_lbl" : "En pause",
+            "EN_lbl" : "Paused",
+            "type" : "pause",
+            "timer" : 3
+        },
+        {
+            "name" : "cycle_measure_cot",
+            "FR_lbl" : "mesure de COT",
+            "EN_lbl" : "measure of TOC",
+            "type" : "measure",
+            "actions" : [ {"step":1, "name":"4_tour_pompe_2"}, {"step":4, "name":"fermeture_ev_1"}, {"step":4, "name":"4_tour_pompe_2"}, {"step":6, "name":"6_tour_pompe_2"}, {"step":12, "name":"fermeture_ev_1"}, {"step":25, "name":"6_tour_pompe_2"}]                       
+        },     
+        {
+            "name" : "cycle_measure_1",
+            "FR_lbl" : "mesure de COT 2",
+            "EN_lbl" : "measure of TOC 2",
+            "type" : "measure",
+            "actions" : [{"step":1, "name":"4_tour_pompe_2"}, {"step":6, "name":"6_tour_pompe_2"}]
+        },
+        {
+            "name" : "cycle_measure_2",
+            "FR_lbl" : "mesure de COT 2",
+            "EN_lbl" : "measure of TOC 2",
+            "type" : "measure",
+            "actions" : [ {"step":1, "name":"4_tour_pompe_2"}, {"step":3, "name":"6_tour_pompe_2"}]
+        }
+
+    ],
+      "actions" : [ {
+                    "name" : "4_tour_pompe_2",
+                    "class" : "cmd_pump",
+                    "FR_lbl" : "4 tours de pompes 2",
+                    "EN_lbl" : "4 tours of pumps 2",
+                    "timing" : 3,
+                    "num_pump" : 2,
+                    "speed_pump" : 30,
+                    "direction_trigo_pump" : false,
+                    "num_step_or_tour_pump" : 4,
+                    "cmd_step_by_step_pump" : false,
+                    "cmd_continu_pump" : false
+                },
+                {
+                    "name" : "fermeture_ev_1",
+                    "class" : "cmd_relay",
+                    "FR_lbl" : "Fermeture EV 1",
+                    "EN_lbl" : "Close EV 1",
+                    "timing" : 5, 
+                    "card_id" : 1,
+                    "num_card_output" : 2
+                },
+                {
+                    "name" : "6_tour_pompe_2",
+                    "class" : "cmd_pump",
+                    "FR_lbl" : "6 tours de pompes 2",
+                    "EN_lbl" : "6 tours of pumps 2",
+                    "timing" : 6,
+                    "num_pump" : 6,
+                    "speed_pump" : 30,
+                    "direction_trigo_pump" : false,
+                    "num_step_or_tour_pump" : 4,
+                    "cmd_step_by_step_pump" : false,
+                    "cmd_continu_pump" : false
+                }
+    ]
+}
