@@ -3,28 +3,21 @@
 #include "qtimer.h"
 #include "qlist.h"
 #include "CLinkAction.h"
+#include "CActionFactory.h"
 CCycleMesure::CCycleMesure(QObject *parent)
 	: ICycle(parent)
 {
 	initTimer();
 }
 CCycleMesure::CCycleMesure(QVariantMap mapCycle, QMap<QString, IAction*> mapActions): ICycle(){
-	qDebug() << "CCycleMesure::CCycleMesure(QVariantMap mapCycle, QMap<QString, IAction*> mapActions)): ICycle(){" << mapCycle; 
 	
 	m_label = mapCycle[tr("FR_lbl")].toString();
 	m_name = mapCycle["name"].toString();
 	
 	QVariantList listActions = mapCycle["actions"].toList(); 
 	
-	qDebug() << "m_label" << m_label; 
-	qDebug() << "m_name" << m_name; 
-	qDebug() << " mapActions" << mapActions; 
-	qDebug() << " mapCycle`Actions" << mapCycle["actions"]; 
-	qDebug() << "QVariantList listActions" << listActions; 
 	foreach(QVariant varAction, listActions){
-		qDebug() << "varAction : " << varAction.toMap();
 		QVariantMap variantMap = varAction.toMap();
-		qDebug() << "mapActions[varAction.toString()] : " << mapActions.value(variantMap.value("name").toString()) ; 
 		IAction* action = mapActions.value(variantMap.value("name").toString());
 		if(action) 
 			this->addAction(variantMap.value("step").toInt() , action);
@@ -33,22 +26,16 @@ CCycleMesure::CCycleMesure(QVariantMap mapCycle, QMap<QString, IAction*> mapActi
 	this->moveToThread(&m_thread);
 	m_thread.start();
 	
-	qDebug() << "FIN CCycleMesure::CCycleMesure(QVariantMap mapCycle): ICycle(){" ; 
 }
 CCycleMesure::CCycleMesure(QVariantMap mapCycle): ICycle(){
-	qDebug() << "CCycleMesure::CCycleMesure(QVariantMap mapCycle): ICycle(){" << mapCycle; 
 	
 	m_label = mapCycle[tr("FR_lbl")].toString();
 	m_name = mapCycle["name"].toString();
 	
 	QVariantList listActions = mapCycle["actions"].toList(); 
 	
-	qDebug() << "m_label" << m_label; 
-	qDebug() << "m_name" << m_name; 
-	qDebug() << " mapCycle`Actions" << mapCycle["actions"]; 
-	qDebug() << "QVariantList listActions" << listActions; 
 	foreach(QVariant varAction, listActions){
-		IAction* action = IAction::factory(varAction.toMap());
+		IAction* action = CActionFactory::build(varAction.toMap());
 		QVariantMap variantMap = varAction.toMap();
 		if(action) 
 			this->addAction(variantMap.value("step").toInt(),action);
@@ -57,7 +44,6 @@ CCycleMesure::CCycleMesure(QVariantMap mapCycle): ICycle(){
 	this->moveToThread(&m_thread);
 	m_thread.start();
 	
-	qDebug() << "FIN CCycleMesure::CCycleMesure(QVariantMap mapCycle): ICycle(){" ; 
 }
 CCycleMesure::CCycleMesure():ICycle()
 {
@@ -92,14 +78,12 @@ void CCycleMesure::slotExecNextStep(){
 	m_iTimer++;
 }
 void CCycleMesure::slotRunCycle(){
-	qDebug() << "CCycleMesure::slotRunCycle() ";
 
 	if(!m_ListAction.isEmpty()){
 		m_itListActionPasEnCours = m_ListAction.begin(); 
 		m_iTimer = 0;
 		m_timer->start();
 	}
-	qDebug() << "FIN CCycleMesure::slotRunCycle()";
 }
 void CCycleMesure::slotPauseCycle(){
 	
@@ -112,7 +96,6 @@ QString CCycleMesure::getLbl()const{ return m_label;}
 void CCycleMesure::setLbl(QString lbl){ m_label = lbl;}
 	
 void CCycleMesure::addAction(int arg_step, IAction* action){
-	qDebug() << "CCycleMesure::addAction(IAction* action){" ;
 	if(action){
 		CLinkAction* linkAction = new CLinkAction(arg_step, action);
 		QLinkedList<CLinkAction*>::iterator it = m_ListAction.begin();
@@ -126,7 +109,6 @@ void CCycleMesure::addAction(int arg_step, IAction* action){
 		}
 		if(!bSortie) m_ListAction.append(linkAction); 
 	}
-	qDebug() << "FIN CCycleMesure::addAction(IAction* action){" << m_ListAction.count();
 
 }
 void CCycleMesure::setType(eTypeCycle){}

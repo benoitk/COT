@@ -2,21 +2,58 @@
     "FR_lbl_analyser" : "COT",
     "EN_lbl_analyser" : "COT",
     "number_of_stream" : 1,
-    "type variable available" : ["enteger","float","boolean", "string", "cmd_organne", "read_organne"],
-    "variables" : [ {"name":"test_pompe_1", "type":"cmd_organne", "value" : 0, "bind" : ["nom_variable", "nom_varible_2"]},
-                    {"name":"test_ev_A", "type":"cmd_organne", "value" : 1}
+
+    "busses" : [
+        {"name" : "int_jbus", "hardware":"eth0"},
+        {"name" : "ext_jbus", "hardware":"uart0"}
     ],
+
+    "type_organnes_available" : ["input_bit", "output_bit", "input_integer", "output_integer", "input_float", "output_float", "input_string", "output_string", "input_buffer", "output_buffer"],
+    "extentions" : [
+        {"name" : "measure_card_1","FR_lbl" : "Carte mesure 1", "EN_lbl" : "Measure card 1", "bus" : "int_jbus",
+         "organnes" : [{"name":"measure", "FR_lbl" : "mesure", "EN_lbl" : "measure", "type":"input_float"},
+                       {"name":"heater", "FR_lbl" : "chauffe", "EN_lbl" : "heater", "type":"output_float"}]
+        },
+        {"name" : "io_card_1","FR_lbl" : "Carte E/S 1", "EN_lbl" : "I/O card 1", "bus" : "int_jbus",
+         "organnes" : [{"name":"output_1", "FR_lbl" : "sortie 1", "EN_lbl" : "output 1", "type":"output_bit"},
+                       {"name":"output_2", "FR_lbl" : "sortie 2", "EN_lbl" : "output 2", "type":"output_bit"},
+                       {"name":"output_3", "FR_lbl" : "sortie 3", "EN_lbl" : "output 3", "type":"output_bit"},
+                       {"name":"output_4", "FR_lbl" : "sortie 4", "EN_lbl" : "output 4", "type":"output_bit"},
+                       {"name":"output_5", "FR_lbl" : "sortie 5", "EN_lbl" : "output 5", "type":"output_bit"},
+                       {"name":"input_1", "FR_lbl" : "entrée 1", "EN_lbl" : "input 1", "type":"input_bit"}] 
+        }
+    ],
+
+
+    "type_variable_available" : ["integer","float","boolean", "string"],
+
+    "variables" : [ {"name":"test_entee", "FR_lbl" : "test entrée 1", "EN_lbl" : "test input 1", "type":"boolean", "value" : 1},
+                    {"name":"test_ev_A", "FR_lbl" : "entrée 1", "EN_lbl" : "input 1", "type":"boolean", "value" : 1}
+    ],
+    "binds" : [
+        {"variable_origin_name":"test_entee", "variable_destination_name":"test_ev_A"}
+
+    ],
+
+
     "sequenceur_measure" : [
-        {"name_cycle" :"cycle_measure_cot", "nb_cycle" : 2, "every_day" : "monday", "at_hour" : "0820", "period" : 2}, 
-        {"name_cycle" :"cycle_measure_1", "nb_cycle" : 1, "every_day" : "saturday", "at_hour" : "1330", "period" : 2}, 
-        {"name_cycle" :"cycle_measure_cot", "nb_cycle" : 3, "every_day" : "sunday", "at_hour" : "0000", "period" : 2}, 
-        {"name_cycle" :"cycle_pause_0", "nb_cycle" : 1, "every_day" : "thursday", "at_hour" : "1200", "period" : 2},
-        {"name_cycle" :"cycle_pause_0", "nb_cycle" : 1, "every_day" : "thursday", "at_hour" : "1200", "period" : 2},
-        {"name_cycle" :"cycle_pause_0", "nb_cycle" : 1, "every_day" : "thursday", "at_hour" : "1200", "period" : 2}
+        {"name_cycle" :"cycle_measure_cot", "nb_cycle" : 2}, 
+        {"name_cycle" :"cycle_measure_1", "nb_cycle" : 1}, 
+        {"name_cycle" :"cycle_measure_cot", "nb_cycle" : 3}, 
+        {"name_cycle" :"cycle_pause_0", "nb_cycle" : 1},
+        {"name_cycle" :"cycle_pause_0", "nb_cycle" : 1},
+        {"name_cycle" :"cycle_pause_0", "nb_cycle" : 1}
     ],
 
   
     "cycles" : [
+        {
+            "name" : "read_io_card_1",
+            "FR_lbl" : "Cycle de lecture de la carte E/S 1",
+            "EN_lbl" : "Reading cycle on I/O card 1",
+            "type":"autonome",
+            "action" : [{"step":1, "name":"read_input_1_card_io_1"}, {"step":2, "name":"read_input_2_card_io_1"}, {"step":5, "name":"read_all_input_card_io_1"}]
+        },
         {
             "name" : "cycle_pause_0",
             "FR_lbl" : "En pause",
@@ -36,7 +73,7 @@
             "FR_lbl" : "mesure de COT",
             "EN_lbl" : "measure of TOC",
             "type" : "measure",
-            "actions" : [ {"step":1, "name":"4_tour_pompe_2"}, {"step":4, "name":"fermeture_ev_1"}, {"step":4, "name":"4_tour_pompe_2"}, {"step":6, "name":"6_tour_pompe_2"}, {"step":12, "name":"fermeture_ev_1"}, {"step":25, "name":"6_tour_pompe_2"}]                       
+            "actions" : [{"step":1, "name":"read_input_1_card_io_1"}, {"step":4, "name":"fermeture_ev_1"}, {"step":4, "name":"4_tour_pompe_2"}, {"step":6, "name":"6_tour_pompe_2"}, {"step":12, "name":"fermeture_ev_1"}, {"step":25, "name":"6_tour_pompe_2"}]                       
         },     
         {
             "name" : "cycle_measure_1",
@@ -59,7 +96,6 @@
                     "class" : "cmd_pump",
                     "FR_lbl" : "4 tours de pompes 2",
                     "EN_lbl" : "4 tours of pumps 2",
-                    "timing" : 3,
                     "num_pump" : 2,
                     "speed_pump" : 30,
                     "direction_trigo_pump" : false,
@@ -72,8 +108,7 @@
                     "class" : "cmd_relay",
                     "FR_lbl" : "Fermeture EV 1",
                     "EN_lbl" : "Close EV 1",
-                    "timing" : 5, 
-                    "card_id" : 1,
+                    "extention_name" : "io_card_1",
                     "num_card_output" : 2
                 },
                 {
@@ -81,13 +116,21 @@
                     "class" : "cmd_pump",
                     "FR_lbl" : "6 tours de pompes 2",
                     "EN_lbl" : "6 tours of pumps 2",
-                    "timing" : 6,
                     "num_pump" : 6,
                     "speed_pump" : 30,
                     "direction_trigo_pump" : false,
                     "num_step_or_tour_pump" : 4,
                     "cmd_step_by_step_pump" : false,
                     "cmd_continu_pump" : false
+                },
+                {
+                    "name":"read_input_1_card_io_1",
+                    "class":"cmd_read_input",
+                    "FR_lbl" : "Lecture entrée 1 sur carte E/S 1",
+                    "EN_lbl" : "Read input 1 on I/O card 1",
+                    "extention_name" : "io_card_1",
+                    "organne_name" : "input_1",
+                    "variable_destination_name" : "test_entee"
                 }
     ]
 }

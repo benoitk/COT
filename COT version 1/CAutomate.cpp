@@ -2,19 +2,33 @@
 #include "CControlerCycle.h"
 #include "CSequenceur.h"
 #include "ICycle.h"
+#include "IVariable.h"
 #include "CCycleMesure.h"
 #include "CCycleMaintenance.h"
 #include "CCycleAutonome.h"
 #include "CActionCmdPompe.h"
+#include "CModelConfigFile.h"
+#include "CVariableFactory.h"
+
 #include <qdebug.h>
 #include <qthread.h>
-#include "CModelConfigFile.h"
+
+
+CAutomate* CAutomate::singleton = 0;
+
+CAutomate* CAutomate::getInstance(){
+	if(!singleton)
+		singleton = new CAutomate();
+	return singleton;
+}
+
 CAutomate::CAutomate()
 {
 	m_stateCycleMesure = 0;
 	m_stateCycleIO = 0;
 	m_stateCycleMaintenance = 0;
-
+ }
+void CAutomate::initConfig(){
 	CModelConfigFile configFile(this);
 	
 	QMap<QString, ICycle*> mapCycles = configFile.getMapCycle();
@@ -27,14 +41,28 @@ CAutomate::CAutomate()
 	
 	connect(threadSequenceur, &QThread::started, m_sequenceur, &CSequenceur::slotRequestPlaySequenceMesure);
 	threadSequenceur->start();
-	
- }
-
+}
 CAutomate::~CAutomate()
 {
 
 }
 
+IVariable* CAutomate::getVariable(QString name){
+	QMutexLocker locker(&m_mutexVariablesAccess);
+
+	IVariable* var = m_mapVariables.value(name);
+	if(!var){
+		var = CVariableFactory::build(name + "unknow in map");
+	}
+	return var;
+}
+
+void CAutomate::addVariable(QString name, IVariable* var){
+	QMutexLocker locker(&m_mutexVariablesAccess);
+	if(var)
+		m_mapVariables.insert(name, var);
+
+}
 
 void CAutomate::addCycle(ICycle* cycle){
 	//CControlerCycle* controlerCycle = new CControlerCycle(this, cycle);
@@ -89,11 +117,8 @@ void CAutomate::setStateRunCycleMaintenance(){
 
 }
 void CAutomate::slotRunAutomate(){
-	qDebug() << "CAutomate::runAutomate()";
-
 	
 	while(1){
-		//qDebug() << "runAutomate" ;
 		QThread::msleep(1000);
 	}
 }

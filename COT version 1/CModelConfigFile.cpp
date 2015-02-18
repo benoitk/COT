@@ -1,3 +1,11 @@
+#include "CModelConfigFile.h"
+
+#include "IAction.h"
+#include "ICycle.h"
+#include "CCycleFactory.h"
+#include "CActionFactory.h"
+#include "CVariableFactory.h"
+#include "CAutomate.h"
 
 #include "qfile.h"
 #include "qjsonobject.h"
@@ -5,16 +13,13 @@
 #include "qjsondocument.h"
 #include "qjsonvalue.h"
 #include "qjsonarray.h"
-#include "CCycleMesure.h"
-#include "CCyclePause.h"
 #include "qdebug.h"
 #include "qvariant.h"
 #include "qmap.h"
-#include "IAction.h"
-#include "ICycle.h"
-
-#include "CModelConfigFile.h"
 #include "qfileinfo.h"
+
+
+
 CModelConfigFile::CModelConfigFile(QObject *parent)
 	: QObject(parent)
 {
@@ -30,14 +35,35 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
 	qDebug() << "fileInfo.path()" << fileInfo.absoluteFilePath();
 	
     QByteArray jsonData = jsonFile.readAll();
-	qDebug() << "jsonData " <<jsonData ;
 	
 	QJsonParseError * jsonError  = new QJsonParseError();
 	m_jsonDoc = new QJsonDocument(QJsonDocument::fromJson(jsonData, jsonError));
-	qDebug() << "m_jsonDoc->isEmpty() " <<m_jsonDoc->isEmpty() ;
-	qDebug() << "jsonError " <<jsonError->errorString() ;
+	if(m_jsonDoc->isEmpty()){
+		qDebug() << "m_jsonDoc->isEmpty() " <<m_jsonDoc->isEmpty() ;
+		qDebug() << "jsonError " <<jsonError->errorString() ;
+		qDebug() << "jsonError offset" <<jsonError->offset ;
+		qDebug() << "jsonData " <<jsonData.mid(jsonError->offset, jsonError->offset+60) ;
+	}
 
 	QJsonObject jsonObjectAction = m_jsonDoc->object();
+
+	//Variables
+	if(jsonObjectAction["variables"] == QJsonValue::Undefined){
+		qDebug() << "jsonObject[\"variables\"] == QJsonValue::Undefined";
+	}
+	else {
+		QJsonArray jsonArrayVariables = jsonObjectAction["variables"].toArray();
+		foreach(QJsonValue jsonValueVariable, jsonArrayVariables){
+			QVariantMap mapVariable = jsonValueVariable.toVariant().toMap();
+			IVariable* var = CVariableFactory::build(mapVariable); 
+			if(var)
+				CAutomate::getInstance()->addVariable(mapVariable["name"].toString(),var);
+			else 
+				qDebug() << "Variables null : map = " << mapVariable;
+		}
+	}
+
+	//Actions
 	if(jsonObjectAction["actions"] == QJsonValue::Undefined){
 		qDebug() << "jsonObject[\"actions\"] == QJsonValue::Undefined";
 	}
@@ -45,14 +71,15 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
 		QJsonArray jsonArrayActions = jsonObjectAction["actions"].toArray();
 		foreach(QJsonValue jsonValueAction, jsonArrayActions){
 			QVariantMap mapAction = jsonValueAction.toVariant().toMap();
-			IAction* action = IAction::factory(mapAction); 
-			qDebug() << "IAction* action" << action->getName();
+			IAction* action = CActionFactory::build(mapAction); 
 			if(action)
 				m_mapActions.insert(action->getName(),action);
 			else 
 				qDebug() << "Action null : map = " << mapAction;
 		}
 	}
+
+	//Cycles
 	QJsonObject jsonObjectCycle = m_jsonDoc->object();
 	if(jsonObjectCycle["cycles"] == QJsonValue::Undefined){
 		qDebug() << "jsonObject[\"cycles\"] == QJsonValue::Undefined";
@@ -61,7 +88,7 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
 		QJsonArray jsonArrayCycles = jsonObjectCycle["cycles"].toArray();
 		foreach(QJsonValue jsonValueCycle, jsonArrayCycles){
 			QVariantMap mapCycle = jsonValueCycle.toVariant().toMap();
-			ICycle* cycle = ICycle::factory(mapCycle, m_mapActions); 
+			ICycle* cycle = CCycleFactory::build(mapCycle, m_mapActions); 
 			if(cycle)
 				m_mapCycles.insert(cycle->getName(),cycle);
 			else
@@ -69,6 +96,7 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
 		}
 	}
 
+	//Séquenceur
 	QJsonObject jsonObjectSequenceur = m_jsonDoc->object();
 	if(jsonObjectSequenceur["sequenceur_measure"] == QJsonValue::Undefined){
 		qDebug() << "jsonObject[\"sequenceur_measure\"] == QJsonValue::Undefined";
@@ -110,9 +138,6 @@ int CModelConfigFile::getNumberOfStream(){
 QMap<QString, ICycle*> CModelConfigFile::getMapCycle(){
 	return m_mapCycles;
 }
-
-
-
 
 QList<ICycle *> CModelConfigFile::getListSequenceurMesure(){
 	return m_listSequences;

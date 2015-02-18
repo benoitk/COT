@@ -13,8 +13,6 @@ public:
 	CActionCmdPompe();
 	~CActionCmdPompe();
 
-	int getTiming();	
-	void setTiming(int);
 	bool runAction();
 	QString getName()const;
 private:

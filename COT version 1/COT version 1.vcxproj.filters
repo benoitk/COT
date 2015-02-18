@@ -35,6 +35,12 @@
     <Filter Include="Header Automate">
       <UniqueIdentifier>{d2f79349-e51f-4a72-a71a-2dc7bffc51d6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source IHM">
+      <UniqueIdentifier>{d12cc33c-5820-4a76-ab02-76ad704d71b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header IHM">
+      <UniqueIdentifier>{f4dcdad9-bd92-42c8-ab29-f66469905c52}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -53,24 +59,6 @@
       <Filter>Generated Files</Filter>
     </ClCompile>
     <ClCompile Include="ivariable.cpp">
-      <Filter>Source Automate</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_CInt.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_CInt.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="CInt.cpp">
-      <Filter>Source Automate</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_CVoie.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_CVoie.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="CVoie.cpp">
       <Filter>Source Automate</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_IVariable.cpp">
@@ -208,6 +196,105 @@
     <ClCompile Include="CLinkAction.cpp">
       <Filter>Source Automate</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_CActionFactory.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_CActionFactory.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_CCycleFactory.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_CCycleFactory.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_CVariableFactory.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_CVariableFactory.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_CActionCmdReadInput.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_CActionCmdReadInput.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="CActionCmdReadInput.cpp">
+      <Filter>Source Automate</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_CVariableUnknow.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_CVariableUnknow.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_CVariableInt.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_CVariableInt.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="CVariableInt.cpp">
+      <Filter>Source Automate</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_CVariableFloat.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_CVariableFloat.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_CVariableBool.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_CVariableBool.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_CVariableString.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_CVariableString.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_CVariableVoie.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_CVariableVoie.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="CVariableVoie.cpp">
+      <Filter>Source Automate</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_CActionUnknow.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_CActionUnknow.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="CActionFactory.cpp">
+      <Filter>Source Automate</Filter>
+    </ClCompile>
+    <ClCompile Include="CActionUnknow.cpp">
+      <Filter>Source Automate</Filter>
+    </ClCompile>
+    <ClCompile Include="CCycleFactory.cpp">
+      <Filter>Source Automate</Filter>
+    </ClCompile>
+    <ClCompile Include="CVariableBool.cpp">
+      <Filter>Source Automate</Filter>
+    </ClCompile>
+    <ClCompile Include="CVariableFactory.cpp">
+      <Filter>Source Automate</Filter>
+    </ClCompile>
+    <ClCompile Include="CVariableFloat.cpp">
+      <Filter>Source Automate</Filter>
+    </ClCompile>
+    <ClCompile Include="CVariableString.cpp">
+      <Filter>Source Automate</Filter>
+    </ClCompile>
+    <ClCompile Include="CVariableUnknow.cpp">
+      <Filter>Source Automate</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="cotversion1.h">
@@ -215,15 +302,6 @@
     </CustomBuild>
     <CustomBuild Include="cotversion1.qrc">
       <Filter>Resource Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="CInt.h">
-      <Filter>Header Automate</Filter>
-    </CustomBuild>
-    <CustomBuild Include="CVoie.h">
-      <Filter>Header Automate</Filter>
-    </CustomBuild>
-    <CustomBuild Include="IVariable.h">
-      <Filter>Header Automate</Filter>
     </CustomBuild>
     <CustomBuild Include="CAutomate.h">
       <Filter>Header Automate</Filter>
@@ -268,6 +346,42 @@
       <Filter>Header Automate</Filter>
     </CustomBuild>
     <CustomBuild Include="CLinkAction.h">
+      <Filter>Header Automate</Filter>
+    </CustomBuild>
+    <CustomBuild Include="CActionCmdReadInput.h">
+      <Filter>Header Automate</Filter>
+    </CustomBuild>
+    <CustomBuild Include="CVariableInt.h">
+      <Filter>Header Automate</Filter>
+    </CustomBuild>
+    <CustomBuild Include="CVariableVoie.h">
+      <Filter>Header Automate</Filter>
+    </CustomBuild>
+    <CustomBuild Include="CActionFactory.h">
+      <Filter>Header Automate</Filter>
+    </CustomBuild>
+    <CustomBuild Include="CActionUnknow.h">
+      <Filter>Header Automate</Filter>
+    </CustomBuild>
+    <CustomBuild Include="CCycleFactory.h">
+      <Filter>Header Automate</Filter>
+    </CustomBuild>
+    <CustomBuild Include="CVariableBool.h">
+      <Filter>Header Automate</Filter>
+    </CustomBuild>
+    <CustomBuild Include="CVariableFactory.h">
+      <Filter>Header Automate</Filter>
+    </CustomBuild>
+    <CustomBuild Include="CVariableFloat.h">
+      <Filter>Header Automate</Filter>
+    </CustomBuild>
+    <CustomBuild Include="CVariableString.h">
+      <Filter>Header Automate</Filter>
+    </CustomBuild>
+    <CustomBuild Include="CVariableUnknow.h">
+      <Filter>Header Automate</Filter>
+    </CustomBuild>
+    <CustomBuild Include="IVariable.h">
       <Filter>Header Automate</Filter>
     </CustomBuild>
   </ItemGroup>

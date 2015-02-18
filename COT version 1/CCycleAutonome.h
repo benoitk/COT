@@ -1,18 +1,21 @@
 #ifndef CCYCLEAUTONOME_H
 #define CCYCLEAUTONOME_H
 
-#include "ICycle.h"
+//#include "ICycle.h"
+#include "CCycleMesure.h"
 
-class CCycleAutonome : public ICycle
+//class CCycleAutonome : public ICycle
+class CCycleAutonome : public CCycleMesure
 {
 	Q_OBJECT
 
 public:
 	CCycleAutonome(QObject *parent);
-	CCycleAutonome(QObject *parent, eTypeCycle);
+	CCycleAutonome(QVariantMap);
+	CCycleAutonome(QVariantMap, QMap<QString, IAction*>);
 	~CCycleAutonome();
 
-	void setType(eTypeCycle);
+/*	void setType(eTypeCycle);
 	eTypeCycle getType()const;
 	bool isRunning();
 	bool isPaused();
@@ -38,6 +41,6 @@ private:
 	int m_idCycle;
 	eTypeCycle m_typeCycle;
 	QString m_name;
-	QString m_label;
+	QString m_label;*/
 };
 #endif // CCYCLEAUTONOME_H

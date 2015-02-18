@@ -13,11 +13,9 @@ public:
 	~IAction();
 
 	virtual bool runAction()=0;
-	virtual int getTiming()=0;
-	virtual void setTiming(int)=0;
 	virtual QString getName()const=0;
 
-	static IAction* factory(QVariantMap);
+	//static IAction* factory(QVariantMap);
 
 };
 

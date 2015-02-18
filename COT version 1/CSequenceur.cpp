@@ -29,7 +29,6 @@ void CSequenceur::setSequenceMesure(QList<ICycle*> list){
 	m_listSequenceCyclesMesure.swap(list);
 }
 void CSequenceur::apendSequenceMesureRunCycle(ICycle* cycle, int nbMesure){
-	qDebug() << "CSequenceur::apendSequenceMesureRunCycle " << nbMesure;
 	//CControlerCycle* ctrlCycle = new CControlerCycle(this, cycle);
 	//this->apendSequenceMesureRunCycle(ctrlCycle, nbMesure);
 	while(nbMesure>0){
@@ -37,8 +36,6 @@ void CSequenceur::apendSequenceMesureRunCycle(ICycle* cycle, int nbMesure){
 		m_listSequenceCyclesMesure.append(cycle);
 		nbMesure--;
 	}
-	qDebug() << "nbMesure " << nbMesure;
-	qDebug() << "FIN CSequenceur::apendSequenceMesureRunCycle " << nbMesure;
 }
 
 /*void CSequenceur::apendSequenceMesureRunCycle(CControlerCycle* ctrlCycle, int nbMesure){
@@ -46,36 +43,27 @@ void CSequenceur::apendSequenceMesureRunCycle(ICycle* cycle, int nbMesure){
 		m_listSequenceCyclesMesure.append(ctrlCycle );
 	}
 }*/
-
 void CSequenceur::apendSequenceMesurePause(int minute){
-		qDebug() << "CSequenceur::apendSequenceMesurePause " << minute;
 	CCyclePause* cyclePause = new CCyclePause(this, minute);
 	//CControlerCycle* ctrlCycle = new CControlerCycle(this, cyclePause);
 	m_listSequenceCyclesMesure.append(cyclePause);
-		qDebug() << "FIN CSequenceur::apendSequenceMesurePause " << minute;
 }
 
 void CSequenceur::setSequenceMesure(){
-	qDebug() << "CSequenceur::setSequenceMesure";
 	if(m_cycleMaintenanceEnCours){
-		qDebug() << "CSequenceur::setSequenceMesure m_cycleMaintenanceEnCours" << m_cycleMaintenanceEnCours;
 		this->signalStopCycleMaintenance();
 		while(m_cycleMaintenanceEnCours->isRunning()){
 			QThread::msleep(50);
-			qDebug() << "CSequenceur::setSequenceMesure m_cycleMaintenanceEnCours->isRunning()";
 		}
 		this->disconnectCycle(m_cycleMaintenanceEnCours);
 	}
 
 	this->disconnectCycle(m_cycleMesureEnCours);	
 	
-	qDebug() << "CSequenceur::  m_listSequenceCyclesMesure" << m_listSequenceCyclesMesure;
 
 	if( m_itListSequenceCyclesMesure != m_listSequenceCyclesMesure.end()){
-		qDebug() << "CSequenceur:: Connections";
 
 		m_cycleMesureEnCours = (*m_itListSequenceCyclesMesure);
-		qDebug() << "CSequenceur:: m_cycleMesureEnCours" << m_cycleMesureEnCours;
 
 		//Si les signaux ne fonctionne pas, vérfier que le cycle à était déplacer dans un QThread à part(movethead)
 		connect(this, &CSequenceur::signalRunCycleMesure, m_cycleMesureEnCours, &ICycle::slotRunCycle);//, Qt::DirectConnection);
@@ -92,7 +80,6 @@ void CSequenceur::setSequenceMesure(){
 		disconnect(this, &CSequenceur::signalGetReadyForPlayCycleMesure, this, &CSequenceur::slotPlaySequenceMesure);
 		connect(m_cycleMesureEnCours, &ICycle::signalReadyForPlayCycle, this, &CSequenceur::slotPlaySequenceMesure);
 	}
-	qDebug() << "FIN CSequenceur::setSequenceMesure";
 
 }
 void CSequenceur::disconnectCycle(ICycle* cycle){
@@ -150,20 +137,15 @@ void CSequenceur::slotRequestUnPauseSequenceMesure(){
 
 //Play  cycle Mesure(démarre ou redémarre du début de la séquence)
 void CSequenceur::slotRequestPlaySequenceMesure(){
-	qDebug() << "slotRequestPlaySequenceMesure";
 	emit signalGetReadyForPlayCycleMesure();
 }
 void CSequenceur::slotPlaySequenceMesure(){
-	qDebug() << "slotPlaySequenceMesure";
 	if(!m_cycleMesureEnCours || (m_cycleMesureEnCours && !m_cycleMesureEnCours->isRunning()))
 	{
-		qDebug() << "if(!m_cycleMesureEnCours";
 		m_itListSequenceCyclesMesure = m_listSequenceCyclesMesure.begin();
 		this->setSequenceMesure();
 		emit signalRunCycleMesure();
-		qDebug() << "CSequenceur Thread " << this->thread();
 	}
-	qDebug() << "FIN slotPlaySequenceMesure";
 
 }
 //fin play cycle Mesure

@@ -43,13 +43,6 @@ bool CActionCmdPompe::runAction(){
 	return true;
 }
 
-void CActionCmdPompe::setTiming(int seconde){
-	m_timing = seconde;
-}
-
-int CActionCmdPompe::getTiming(){
-	return m_timing;
-}
 QString CActionCmdPompe::getName()const{
 	return m_name; 
 }
