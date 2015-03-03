@@ -62,6 +62,22 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
 				qDebug() << "Variables null : map = " << mapVariable;
 		}
 	}
+	//bind variables
+	if(jsonObjectAction["variables"] == QJsonValue::Undefined){
+		qDebug() << "jsonObject[\"variables\"] == QJsonValue::Undefined";
+	}
+	else {
+		QJsonArray jsonArrayBinds = jsonObjectAction["binds"].toArray();
+		foreach(QJsonValue jsonValueBind, jsonArrayBinds){
+			QVariantMap mapBind = jsonValueBind.toVariant().toMap();
+			IVariable* var = CAutomate::getInstance()->getVariable(mapBind["variable_origin_name"].toString());
+			IVariable* var_binded = CAutomate::getInstance()->getVariable(mapBind["variable_destination_name"].toString());
+			if(var && var_binded)
+				var->addBind(var_binded);
+			else 
+				qDebug() << "Bind introuvable : map = " << mapBind;
+		}
+	}
 
 	//Actions
 	if(jsonObjectAction["actions"] == QJsonValue::Undefined){

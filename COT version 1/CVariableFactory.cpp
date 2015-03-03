@@ -4,6 +4,13 @@
 #include "CVariableFloat.h"
 #include "CVariableString.h"
 #include "CVariableUnknow.h"
+#include "CVariableInputFloat.h"
+#include "CVariableInputBool.h"
+#include "CVariableInputInt.h"
+#include "CVariableOutputBool.h"
+#include "CVariableOutputFloat.h"
+#include "CVariableOutputInt.h"
+
 
 #include "qvariant.h"
 #include "qdebug.h"
@@ -22,7 +29,11 @@ IVariable* CVariableFactory::build(QMap<QString, QVariant> mapVar){
 	}
 	else if(mapVar["type"].toString() == "string"){
 		variable = new CVariableString(mapVar["value"].toString());
-	}else{
+	}
+	else if(mapVar["type"].toString() == "input_float"){
+		variable = new CVariableInputFloat(mapVar);
+	}
+	else{
 		variable = new CVariableUnknow();
 		qDebug() << "Type variable INCONNU " << mapVar["type"].toString() ;
 

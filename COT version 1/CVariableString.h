@@ -3,7 +3,10 @@
 
 #include "IVariable.h"
 
-class CVariableString : public IVariable
+#include <qobject.h>
+#include "qlinkedlist.h"
+
+class CVariableString : public QObject, public IVariable
 {
 	Q_OBJECT
 
@@ -12,18 +15,23 @@ public:
 	CVariableString(QString);
 	~CVariableString();
 
-	QString toString()const;
-	int toInt()const;
-	float toFloat()const;
+	QString toString();
+	int toInt();
+	float toFloat();
+	bool toBool();
 	void setValue(QString);
 	void setValue(QVariant);
 	QString getLabel()const;
 	void setLabel(QString);
 	//QString getName()const;
+	void addBind(IVariable*);
+	void setToBindedValue(QVariant);
+	variableType getType()const;
 
 private:
 	QString m_sValeur;
 	QString m_label;
+	QLinkedList<IVariable*> m_listBinds;
 };
 
 

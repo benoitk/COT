@@ -53,6 +53,7 @@ private:
 	QTimer* m_timer;
 	int m_iTimer;
 	QString m_label;
+	int m_periode;
 
 	QThread m_thread;
 };

@@ -60,7 +60,7 @@ void CVariableVoie::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
 }
 
 const QMetaObject CVariableVoie::staticMetaObject = {
-    { &IVariable::staticMetaObject, qt_meta_stringdata_CVariableVoie.data,
+    { &QObject::staticMetaObject, qt_meta_stringdata_CVariableVoie.data,
       qt_meta_data_CVariableVoie,  qt_static_metacall, 0, 0}
 };
 
@@ -75,12 +75,14 @@ void *CVariableVoie::qt_metacast(const char *_clname)
     if (!_clname) return 0;
     if (!strcmp(_clname, qt_meta_stringdata_CVariableVoie.stringdata))
         return static_cast<void*>(const_cast< CVariableVoie*>(this));
-    return IVariable::qt_metacast(_clname);
+    if (!strcmp(_clname, "IVariable"))
+        return static_cast< IVariable*>(const_cast< CVariableVoie*>(this));
+    return QObject::qt_metacast(_clname);
 }
 
 int CVariableVoie::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
-    _id = IVariable::qt_metacall(_c, _id, _a);
+    _id = QObject::qt_metacall(_c, _id, _a);
     if (_id < 0)
         return _id;
     return _id;

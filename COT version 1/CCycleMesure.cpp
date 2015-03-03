@@ -51,9 +51,10 @@ CCycleMesure::CCycleMesure():ICycle()
 
 }
 void CCycleMesure::initTimer(){
+	m_periode = 500;
 	m_timer = new QTimer(this);
 	connect(m_timer, &QTimer::timeout, this, &CCycleMesure::slotExecNextStep);
-	m_timer->setInterval(1000);
+	m_timer->setInterval(m_periode);
 }
 CCycleMesure::~CCycleMesure()
 {

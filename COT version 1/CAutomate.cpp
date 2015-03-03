@@ -61,6 +61,20 @@ void CAutomate::addVariable(QString name, IVariable* var){
 	QMutexLocker locker(&m_mutexVariablesAccess);
 	if(var)
 		m_mapVariables.insert(name, var);
+}
+
+CModelExtensionCard* CAutomate::getExtensionCard(QString){
+	CModelExtensionCard* modelExtCard;
+	return modelExtCard;
+}
+void CAutomate::addExtensionCard(QString, CModelExtensionCard*){
+
+}
+IVariable* CAutomate::getVariable(QString addr_var)const{
+	IVariable* modelExtCard;
+	return modelExtCard;
+}
+void CAutomate::setCom(ICom* arg_comObject){
 
 }
 
@@ -74,7 +88,7 @@ void CAutomate::addCycle(ICycle* cycle){
 		m_listCycleMaintenance.append(cycle);
 		break;
 	case CYCLE_AUTONOME:
-		m_listlCycleAutonome.append(cycle);
+		m_listlCycleAutonome.append(cycle); 
 		break;
 
 	}

@@ -2,6 +2,7 @@
 #include "IVariable.h"
 #include "CVariableFactory.h"
 #include "CAutomate.h"
+#include "CModelExtensionCard.h"
 
 #include "qdebug.h"
 
@@ -20,20 +21,16 @@ CActionCmdReadInput::CActionCmdReadInput(QVariantMap mapAction)
 	m_organneName = mapAction["organne_name"].toString();
 
 	m_variableDestination =  CAutomate::getInstance()->getVariable(mapAction["variable_destination_name"].toString());
-	
-
+	//m_extensionCard = CAutomate::getInstance()->getExtensionCard(mapAction["extention_name"].toString());
 }
 CActionCmdReadInput::CActionCmdReadInput()
 	: IAction()
 {
-
 }
 
 CActionCmdReadInput::~CActionCmdReadInput()
 {
-
 }
-
 
 bool CActionCmdReadInput::runAction(){
 	qDebug()<< QString("Action lecture entrée ")
@@ -42,6 +39,8 @@ bool CActionCmdReadInput::runAction(){
 			<< " m_num_card_output " << m_organneName
 			<< " var name " << m_variableDestination->getLabel()
 			<< " value " << m_variableDestination->toString();
+
+	
 	return true;
 }
 

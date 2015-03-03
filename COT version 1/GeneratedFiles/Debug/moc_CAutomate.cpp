@@ -103,6 +103,8 @@ void *CAutomate::qt_metacast(const char *_clname)
     if (!_clname) return 0;
     if (!strcmp(_clname, qt_meta_stringdata_CAutomate.stringdata))
         return static_cast<void*>(const_cast< CAutomate*>(this));
+    if (!strcmp(_clname, "IComObserver"))
+        return static_cast< IComObserver*>(const_cast< CAutomate*>(this));
     return QObject::qt_metacast(_clname);
 }
 

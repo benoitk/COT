@@ -4,6 +4,7 @@
 #include "IAction.h"
 
 class IVariable;
+class CModelExtensionCard;
 class CActionCmdReadInput : public IAction
 {
 	Q_OBJECT
@@ -25,6 +26,7 @@ private:
 	QString m_extentionName;
 	QString m_organneName;
 	IVariable* m_variableDestination;
+	CModelExtensionCard* m_extensionCard;
 };
 
 #endif // CACTIONCMDREADINPUT_H

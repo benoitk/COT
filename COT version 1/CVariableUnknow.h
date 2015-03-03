@@ -3,7 +3,9 @@
 
 #include "IVariable.h"
 
-class CVariableUnknow : public IVariable
+#include <qobject.h>
+
+class CVariableUnknow : public QObject, public IVariable
 {
 	Q_OBJECT
 
@@ -11,13 +13,17 @@ public:
 	CVariableUnknow();
 	~CVariableUnknow();
 
-	QString toString()const;
-	int toInt()const;
-	float toFloat()const;
+	QString toString();
+	int toInt();
+	float toFloat();
+	bool toBool();
 	void setValue(QVariant);
 	QString getLabel()const;
 	void setLabel(QString);
 	//QString getName()const;
+	void addBind(IVariable*);
+	void setToBindedValue(QVariant);
+	variableType getType()const;
 
 private:
 	QString m_label;

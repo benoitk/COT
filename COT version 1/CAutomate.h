@@ -1,15 +1,19 @@
 #ifndef CAUTOMATE_H
 #define CAUTOMATE_H
 
+#include "IComObserver.h"
+
 #include <QObject>
 #include "qmap.h"
 #include "qmutex.h"
+
 //Automade de gestion des cycles
 class ICycle;
 class CControlerCycle;
 class CSequenceur;
 class IVariable;
-class CAutomate : public QObject
+class CModelExtensionCard;
+class CAutomate : public QObject, IComObserver
 {
 	Q_OBJECT
 
@@ -35,6 +39,13 @@ public:
 
 	IVariable* getVariable(QString);
 	void addVariable(QString, IVariable*);
+
+	CModelExtensionCard* getExtensionCard(QString);
+	void addExtensionCard(QString, CModelExtensionCard*); 
+
+	//IComObserver
+	IVariable* getVariable(QString addr_var)const;
+	void setCom(ICom*);
 
 	static CAutomate* singleton;
 

@@ -60,7 +60,7 @@ void CVariableUnknow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int 
 }
 
 const QMetaObject CVariableUnknow::staticMetaObject = {
-    { &IVariable::staticMetaObject, qt_meta_stringdata_CVariableUnknow.data,
+    { &QObject::staticMetaObject, qt_meta_stringdata_CVariableUnknow.data,
       qt_meta_data_CVariableUnknow,  qt_static_metacall, 0, 0}
 };
 
@@ -75,12 +75,14 @@ void *CVariableUnknow::qt_metacast(const char *_clname)
     if (!_clname) return 0;
     if (!strcmp(_clname, qt_meta_stringdata_CVariableUnknow.stringdata))
         return static_cast<void*>(const_cast< CVariableUnknow*>(this));
-    return IVariable::qt_metacast(_clname);
+    if (!strcmp(_clname, "IVariable"))
+        return static_cast< IVariable*>(const_cast< CVariableUnknow*>(this));
+    return QObject::qt_metacast(_clname);
 }
 
 int CVariableUnknow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
-    _id = IVariable::qt_metacall(_c, _id, _a);
+    _id = QObject::qt_metacall(_c, _id, _a);
     if (_id < 0)
         return _id;
     return _id;
