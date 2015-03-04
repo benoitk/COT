@@ -1,10 +1,92 @@
-﻿La génération a démarré 26/02/2015 15:21:01.
-     1>Projet "E:\COT\sources\COT\COT version 1\COT version 1.vcxproj" sur le nœud 2 (ClCompile cible(s)).
+﻿La génération a démarré 04/03/2015 13:44:02.
+     1>Projet "E:\COT\sources\COT\COT version 1\COT version 1.vcxproj" sur le nœud 2 (Build cible(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\CL.exe /c /I.\GeneratedFiles /I. /I"C:\Qt\qt-5\qtbase\include" /I.\GeneratedFiles\Debug /I"C:\Qt\qt-5\qtbase\include\QtCore" /I"C:\Qt\qt-5\qtbase\include\QtGui" /I"C:\Qt\qt-5\qtbase\include\QtWidgets" /Zi /nologo /W1 /WX- /Od /D UNICODE /D WIN32 /D WIN64 /D QT_DLL /D QT_CORE_LIB /D QT_GUI_LIB /D QT_WIDGETS_LIB /Gm- /EHsc /MDd /GS /fp:precise /Zc:wchar_t- /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc110.pdb" /Gd /TP /errorReport:prompt CComJbus.cpp
          CComJbus.cpp
-     1>Génération du projet "E:\COT\sources\COT\COT version 1\COT version 1.vcxproj" terminée (ClCompile cible(s)).
+     1>e:\cot\sources\cot\cot version 1\ccomjbus.cpp(41): warning C4700: variable locale 'value' non initialisée utilisée
+     1>e:\cot\sources\cot\cot version 1\ccomjbus.cpp(53): warning C4700: variable locale 'fValue' non initialisée utilisée
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"E:\COT\sources\COT\x64\Debug\\COT version 1.exe" /NOLOGO /LIBPATH:"C:\Qt\qt-5\qtbase\lib" qtmaind.lib Qt5Cored.lib Qt5Guid.lib Qt5Widgetsd.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:\COT\sources\COT\x64\Debug\COT version 1.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\COT\sources\COT\x64\Debug\COT version 1.lib" /MACHINE:X64 x64\Debug\CActionCmdPompe.obj
+         x64\Debug\CActionCmdReadInput.obj
+         x64\Debug\CActionCmdRelay.obj
+         x64\Debug\CActionFactory.obj
+         x64\Debug\CActionUnknow.obj
+         x64\Debug\CAutomate.obj
+         x64\Debug\CComJbus.obj
+         x64\Debug\CControlerAutomate.obj
+         x64\Debug\CControlerCycle.obj
+         x64\Debug\CCycleAutonome.obj
+         x64\Debug\CCycleFactory.obj
+         x64\Debug\CCycleMaintenance.obj
+         x64\Debug\CCycleMesure.obj
+         x64\Debug\CCyclePause.obj
+         x64\Debug\CLinkAction.obj
+         x64\Debug\CModelConfigFile.obj
+         x64\Debug\CModelExtensionCard.obj
+         x64\Debug\cotversion1.obj
+         x64\Debug\CVariableBool.obj
+         x64\Debug\CVariableFloat.obj
+         x64\Debug\CVariableInputBool.obj
+         x64\Debug\CVariableInputFloat.obj
+         x64\Debug\CVariableInt.obj
+         x64\Debug\CRunnableCycle.obj
+         x64\Debug\CSequenceur.obj
+         x64\Debug\CVariableFactory.obj
+         x64\Debug\CVariableOutputBool.obj
+         x64\Debug\CVariableOutputFloat.obj
+         x64\Debug\CVariableOutputInt.obj
+         x64\Debug\CVariableString.obj
+         x64\Debug\CVariableUnknow.obj
+         x64\Debug\CVariableVoie.obj
+         x64\Debug\CVariableInputInt.obj
+         x64\Debug\moc_CActionCmdPompe.obj
+         x64\Debug\moc_CActionCmdReadInput.obj
+         x64\Debug\moc_CActionCmdRelay.obj
+         x64\Debug\moc_CActionFactory.obj
+         x64\Debug\moc_CActionUnknow.obj
+         x64\Debug\moc_CAutomate.obj
+         x64\Debug\moc_CComJBus.obj
+         x64\Debug\moc_CControlerAutomate.obj
+         x64\Debug\moc_CControlerCycle.obj
+         x64\Debug\moc_CCycleAutonome.obj
+         x64\Debug\moc_CCycleFactory.obj
+         x64\Debug\moc_CCycleMaintenance.obj
+         x64\Debug\moc_CCycleMesure.obj
+         x64\Debug\moc_CCyclePause.obj
+         x64\Debug\moc_CLinkAction.obj
+         x64\Debug\moc_CModelConfigFile.obj
+         x64\Debug\moc_CModelExtensionCard.obj
+         x64\Debug\moc_cotversion1.obj
+         x64\Debug\moc_CSequenceur.obj
+         x64\Debug\moc_CVariableBool.obj
+         x64\Debug\moc_CVariableFactory.obj
+         x64\Debug\moc_CVariableFloat.obj
+         x64\Debug\moc_CVariableInputBool.obj
+         x64\Debug\moc_CVariableInputFloat.obj
+         x64\Debug\moc_CVariableInputInt.obj
+         x64\Debug\moc_CVariableInt.obj
+         x64\Debug\moc_CVariableOutputBool.obj
+         x64\Debug\moc_CVariableOutputFloat.obj
+         x64\Debug\moc_CVariableOutputInt.obj
+         x64\Debug\moc_CVariableString.obj
+         x64\Debug\moc_CVariableUnknow.obj
+         x64\Debug\moc_CVariableVoie.obj
+         x64\Debug\moc_IAction.obj
+         x64\Debug\moc_ICom.obj
+         x64\Debug\moc_ICycle.obj
+         x64\Debug\qrc_cotversion1.obj
+         x64\Debug\IAction.obj
+         x64\Debug\ICom.obj
+         x64\Debug\IComObserver.obj
+         x64\Debug\ICycle.obj
+         x64\Debug\IHardware.obj
+         x64\Debug\IVariableInput.obj
+         x64\Debug\IVariableOuput.obj
+         x64\Debug\ivariable.obj
+         x64\Debug\main.obj
+         COT version 1.vcxproj -> E:\COT\sources\COT\x64\Debug\COT version 1.exe
+     1>Génération du projet "E:\COT\sources\COT\COT version 1\COT version 1.vcxproj" terminée (Build cible(s)).
 
 La génération a réussi.
 
-Temps écoulé 00:00:01.37
+Temps écoulé 00:00:03.57

@@ -1,137 +1,145 @@
 {
-    "FR_lbl_analyser" : "COT",
-    "EN_lbl_analyser" : "TOC",
-
+    "fr_FR_analyser" : "COT",
+    "en_EN_analyser" : "TOC",
+    "version":"0.0.0",
 
     "hardwares_available" : [
         {"name":"eth0", "type":"ethernet", "address" : "192.168.1.2"}, 
         {"name":"uart0", "type":"uart", "baudrate":115000, "stop":1, "data":8}, 
         {"name":"uart1", "type":"uart", "baudrate":9600, "stop":1, "data":8}
     ],
-
-    
- /*   "coms_available" : [
-        {"name" :"jbus_over_tcpip", "default_port":244, "default_hardware":"eth0"}, 
-        {"name" :"jbus",  "default_hardware":"uart0"}, 
-        {"name" :"tcp", "default_port" : 488, "default_hardware":"eth0"}, 
-        {"name":"hart"}, 
-        {"name":"ftp", "default_port" : 21, "default_hardware":"eth0"},
-        {"name":"profibus"}
-    ],
-
-    "type_organs_available" : ["input_bit", "output_bit", "input_integer", "output_integer", "input_float", "output_float", "input_string", "output_string", "input_buffer", "output_buffer"],
- */   
+  
     "extensions" : [
-        {"name" : "measure_card_1","FR_lbl" : "Carte mesure 1", "EN_lbl" : "Measure card 1", 
-            "com" : {"type":"jbus_over_tcpip", "esclave":1 , "ip":"192.168.1.5", "port":245, "hardware":"eth0"} ,
-            "organs" : [{"name":"measure_cell", "type":"input_float", "addresse_data":"0x0001"},
-                          {"name":"heater", "type":"output_float", "addresse_data":"0x0002"},
-                          {"name":"vitesse_pump1", "type":"output_integer", "addresse_data":"0x0002"},
-                          {"name":"vitesse_pump2", "type":"output_integer", "addresse_data":"0x0003"},
-                          {"name":"conf_pump1", "type":"output_integer", "addresse_data":"0x0004"},
-                          {"name":"conf_pump2", "type":"output_integer", "addresse_data":"0x0005"},
-                          {"name":"cmd_pump1", "type":"output_bit", "addresse_data":"0x0006"},
-                          {"name":"cmd_pump2", "type":"output_bit", "addresse_data":"0x0007"}]
+        {"name" : "measure_card_1","fr_FR" : "Carte measure 1", "en_EN" : "Measure card 1", 
+            "com" : {"type":"jbus_over_tcpip", "slave":1 , "ip":"192.168.1.5", "port":245, "hardware":"eth0"} ,
+            "organs" : [{"name":"measure_cell", "type":"input_float", "address_data":"0x0001"},
+                          {"name":"heater", "type":"output_float", "address_data":"0x0002"},
+                          {"name":"speed_pump1", "type":"output_integer", "address_data":"0x0002"},
+                          {"name":"speed_pump2", "type":"output_integer", "address_data":"0x0003"},
+                          {"name":"conf_pump1", "type":"output_integer", "address_data":"0x0004"},
+                          {"name":"conf_pump2", "type":"output_integer", "address_data":"0x0005"},
+                          {"name":"cmd_pump1", "type":"output_bit", "address_data":"0x0006"},
+                          {"name":"cmd_pump2", "type":"output_bit", "address_data":"0x0007"}]
         },
-        {"name" : "io_card_1","FR_lbl" : "Carte E/S 1", "EN_lbl" : "I/O card 1", 
-            "com" : {"type":"jbus_over_tcpip", "esclave":2, "ip":"192.168.1.3", "port":245 },
-            "organs" : [{"name":"output_1", "type":"output_bit", "addresse_data":"0x0001", "state":"passif"},
-                       {"name":"output_2", "type":"output_bit", "addresse_data":"0x0002", "state":"active"},
-                       {"name":"output_3", "type":"output_bit", "addresse_data":"0x0003", "state":"active"},
-                       {"name":"output_4", "type":"output_bit", "addresse_data":"0x0004", "state":"active"},
-                       {"name":"output_5", "type":"output_bit", "addresse_data":"0x0005", "state":"active"},
-                       {"name":"measure_temperature", "type":"input_float", "addresse_data":"0x00010"},
-                       {"name":"input_2",  "type":"input_bit", "addresse_data":"0x0011", "state":"active"}] 
+        {"name" : "io_card_1","fr_FR" : "Carte E/S 1", "en_EN" : "I/O card 1", 
+            "com" : {"type":"jbus_over_tcpip", "slave":2, "ip":"192.168.1.3", "port":245 },
+            "organs" : [{"name":"output_1", "type":"output_bit", "address_data":"0x0001", "state":"passif"},
+                       {"name":"output_2", "type":"output_bit", "address_data":"0x0002", "state":"active"},
+                       {"name":"output_3", "type":"output_bit", "address_data":"0x0003", "state":"active"},
+                       {"name":"output_4", "type":"output_bit", "address_data":"0x0004", "state":"active"},
+                       {"name":"output_5", "type":"output_bit", "address_data":"0x0005", "state":"active"},
+                       {"name":"measure_temperature", "type":"input_float", "address_data":"0x00010"},
+                       {"name":"input_2",  "type":"input_bit", "address_data":"0x0011", "state":"passif"},
+                       {"name":"input_3",  "type":"input_bit", "address_data":"0x0011", "state":"active"},
+                       {"name":"input_4",  "type":"input_bit", "address_data":"0x0011", "state":"active"}] 
         },
-        {"name" : "io_card_2","FR_lbl" : "Carte E/S 2", "EN_lbl" : "I/O card 2", 
-            "com" : {"type":"jbus", "esclave":3, "hardware":"uart0"},
-            "organs" : [{"name":"output_1", "type":"output_bit", "addresse_data":"0x0001"},
-                       {"name":"input_1",  "type":"input_bit", "addresse_data":"0x0011"}] 
+        {"name" : "io_card_2","fr_FR" : "Carte E/S 2", "en_EN" : "I/O card 2", 
+            "com" : {"type":"jbus", "slave":3, "hardware":"uart0"},
+            "organs" : [{"name":"output_1", "type":"output_bit", "address_data":"0x0001"},
+                       {"name":"input_1",  "type":"input_bit", "address_data":"0x0011"}] 
         },
-        {"name" : "measure_card_2","FR_lbl" : "Carte E/S 2", "EN_lbl" : "I/O card 2", 
-            "com" : {"type":"jbus", "esclave":4, "hardware":"uart1"},
-            "organs" : [{"name":"output_1", "type":"output_bit", "addresse_data":"0x0001"},
-                       {"name":"input_1",  "type":"input_bit", "addresse_data":"0x0011"}] 
+        {"name" : "measure_card_2","fr_FR" : "Carte E/S 2", "en_EN" : "I/O card 2", 
+            "com" : {"type":"jbus", "slave":4, "hardware":"uart1"},
+            "organs" : [{"name":"output_1", "type":"output_bit", "address_data":"0x0001"},
+                       {"name":"input_1",  "type":"input_bit", "address_data":"0x0011"}] 
         }
     ],
 
   
  
-/*    "type_variable_available" : ["integer", "input_integer", "output_integer", "float", "input_float", "output_float", 
-                                 "boolean", "input_boolean", "output_boolean", "string", "conf_speed_pump"
-                                 "array_bool", "array_integer", "array_float","array_string"],
-*/
-    "variables" : [ {"name":"test_entee", "FR_lbl" : "test entrée 1", "EN_lbl" : "test input 1", "type":"boolean", "value" : 1, "unit":"mg/l"},
-                    {"name":"speed_pump_30rpm", "FR_lbl" : "test entrée 1", "EN_lbl" : "test input 1", "type":"integer", "value" : 30, "unit":"tr/min"},
-                    {"name":"direction_pump_trigo", "FR_lbl" : "test entrée 1", "EN_lbl" : "test input 1", "type":"integer", "value" : true, "unit":"tr/min", "mesure":[1,2], "voie":[1]},
-                    {"name":"direction_pump_antitrigo", "FR_lbl" : "test entrée 1", "EN_lbl" : "test input 1", "type":"integer", "value" : false, "unit":"tr/min"},
-                    {"name":"test_ev_A", "FR_lbl" : "entrée 1", "EN_lbl" : "input 1", "type":"boolean", "value" : 1},
-                    {"name":"entree_ana", "FR_lbl" : "entrée analogique 1", "EN_lbl" : "analog input 1", "type":"input_float", 
+
+    "variables" : [ {"name":"test_entee", "fr_FR" : "test entrée 1", "en_EN" : "test input 1", "type":"boolean", "value" : 1, "unit":"mg/l"},
+                    {"name":"speed_pump_30rpm", "fr_FR" : "test entrée 1", "en_EN" : "test input 1", "type":"integer", "value" : 30, "unit":"tr/min"},
+                    {"name":"direction_pump_trigo", "fr_FR" : "test entrée 1", "en_EN" : "test input 1", "type":"integer", "value" : true, "unit":"tr/min", "measure":[1,2], "stream":[1]},
+                    {"name":"direction_pump_antitrigo", "fr_FR" : "test entrée 1", "en_EN" : "test input 1", "type":"integer", "value" : false, "unit":"tr/min"},
+                    {"name":"test_ev_A", "fr_FR" : "entrée 1", "en_EN" : "input 1", "type":"boolean", "value" : 1},
+                    {"name":"entree_ana", "fr_FR" : "entrée analogique 1", "en_EN" : "analog input 1", "type":"input_float", 
                             "value" : 0, "extension_name":"measure_card_1", "organ_name":"measure_cell"
                     },
-                    {"name":"ev_1", "FR_lbl" : "sortie EV", "EN_lbl" : "analog input 1", "type":"output_boolean", 
+                    {"name":"ev_1", "fr_FR" : "sortie EV", "en_EN" : "analog input 1", "type":"output_boolean", 
                             "value" : 0, "extension_name":"io_card_1", "organ_name":"output_1"
                     },
-                    {"name":"ev_2", "FR_lbl" : "sortie EV", "EN_lbl" : "analog input 1", "type":"output_boolean", 
+                    {"name":"ev_2", "fr_FR" : "sortie EV", "en_EN" : "analog input 1", "type":"output_boolean", 
                             "value" : 0, "extension_name":"io_card_1", "organ_name":"output_2"
                     },
-                    {"name":"actionneur_1", "FR_lbl" : "sortie EV", "EN_lbl" : "analog input 1", "type":"output_boolean", 
+                    {"name":"actionneur_1", "fr_FR" : "sortie EV", "en_EN" : "analog input 1", "type":"output_boolean", 
                             "value" : 0, "extension_name":"io_card_1", "organ_name":"output_3"
                     },
-                     {"name":"actionneur_2", "FR_lbl" : "sortie EV", "EN_lbl" : "analog input 1", "type":"output_boolean", 
+                     {"name":"actionneur_2", "fr_FR" : "sortie EV", "en_EN" : "analog input 1", "type":"output_boolean", 
                             "value" : 0, "extension_name":"io_card_1", "organ_name":"output_4"
                     },
-                    {"name":"aff_mesure_1", "FR_lbl" : "mesure", "EN_lbl" : "measure", "type":"float", 
-                            "value" : 0, "extension_name":"ecran", "organ_name":"donnee_ecran_principale_mesure_1"
+                    {"name":"aff_measure_1", "fr_FR" : "measure", "en_EN" : "measure", "type":"float", 
+                            "value" : 0, "extension_name":"ecran", "organ_name":"donnee_ecran_principale_measure_1"
                     },
-                    {"name":"aff_mesure_2", "FR_lbl" : "mesure", "EN_lbl" : "measure", "type":"float", 
-                            "value" : 0, "extension_name":"ecran", "organ_name":"donnee_ecran_principale_mesure_2"
+                    {"name":"aff_measure_2", "fr_FR" : "measure", "en_EN" : "measure", "type":"float", 
+                            "value" : 0, "extension_name":"ecran", "organ_name":"donnee_ecran_principale_measure_2"
                     },
-                    {"name":"cellule_mesure", "FR_lbl":"cellule de mesure", "type":"input_float",
+                    {"name":"cellule_measure", "fr_FR":"cellule de measure", "type":"input_float",
                             "value":0, "extension_name":"measure_card_1", "organ_name":"measure_cell"
                     },
-                    {"name":"cellule_temperature", "FR_lbl":"cellule de température", "type":"input_float",
+                    {"name":"cellule_temperature", "fr_FR":"cellule de température", "type":"input_float",
                             "value":0, "extension_name":"measure_card_1", "organ_name":"measure_temperature", "unit":"°C"
                     },
-                    {"name":"coef_test", "FR_lbl":"Coeff", "type":"float", "value":0.2, "unit":""},
-                    {"name":"mesure_silice", "FR_lbl":"Silice", "type":"float", "value":0, "unit":"µg/l"},
-                    {"name":"voie_en_cours", "FR_lbl":"Silice", "type":"integer", "value":0},
-                    {"name":"voie_1_state", "type":"boolean"},
+                    {"name":"coef_test", "fr_FR":"Coeff", "type":"float", "value":0.2, "unit":""},
+                    {"name":"measure_silice", "fr_FR":"Silice", "type":"float", "value":0, "unit":"µg/l"},
+                    {"name":"stream_en_cours", "fr_FR":"Silice", "type":"integer", "value":0},
+                    {"name":"stream_1_state", "type":"boolean"},
+                    {"name":"selecteur_position_stream1", "type":"integer", "value":18},
+                    {"name":"selecteur_position_stream2", "type":"integer", "value":48},
+                    {"name":"etalon_reference", "type":"float", "value":0.244},
+                    {"name":"etalon_precedent", "type":"float", "value":2.48},
                     {"name":"cmd_pump1", "type":"boolean", "value":false},
-                    {"name":"vitesse_pump1", "FR_lbl":"vitesse_pump1", "type":"input_integer",
+                    {"name":"alarm_defaut_eau_stream1","fr_FR":"Defaut d'eau", "type":"boolean", "value":false},
+                    {"name":"alarm_defaut_eau_stream2","fr_FR":"Defaut d'eau", "type":"boolean", "value":false},
+                    {"name":"speed_pump1", "fr_FR":"speed_pump1", "type":"output_integer",
                             "value":30, "extension_name":"measure_card_1", "organ_name":"cmd_pump1", "unit":"tr/min"
                     },
-                    {"name":"conf_pump1", "FR_lbl":"conf_pump1", "type":"input_integer",
+                    {"name":"conf_pump1", "fr_FR":"conf_pump1", "type":"output_integer",
                             "value":0, "extension_name":"measure_card_1", "organ_name":"conf_pump1"
                     },
-                    {"name":"cmd_pump2", "type":"boolean", "value":false},
-                    {"name":"vitesse_pump2", "FR_lbl":"vitesse_pump1", "type":"input_integer",
+                    {"name":"cmd_pump2", "type":"output_boolean", "value":false},
+                    {"name":"speed_pump2", "fr_FR":"speed_pump1", "type":"output_integer",
                             "value":30, "extension_name":"measure_card_1", "organ_name":"cmd_pump2", "unit":"tr/min"
                     },
-                    {"name":"conf_pump2", "FR_lbl":"conf_pump2", "type":"input_integer",
+                    {"name":"conf_pump2", "fr_FR":"conf_pump2", "type":"output_integer",
                             "value":0, "extension_name":"measure_card_1", "organ_name":"conf_pump2"
                     },
+                    {"name":"selection_stream1", "fr_FR":"selection_stream1", "type":"input_boolean",
+                            "extension_name":"measure_card_1", "organ_name":"input_2"
+                    },
+                    {"name":"arret_fin_cycle", "fr_FR":"conf_pump2", "type":"input_boolean",
+                            "extension_name":"measure_card_1", "organ_name":"input_3"
+                    }
     ],
 
     "display":{
-        "diag":["cellule_mesure", "cellule_temperature"],
-        "test_elec":[{"name":"onglet_EV", "evs":["ev_1", "ev_2"]},
-                     {"name":"onglet_Actionneurs", "actionneurs":["actionneur_1", "actionneur_2"]}
-                     {"name":"onglet_pump", "pumps":[{"FR_lbl":"Rhodol", "num_pump":"num_pump1", "vitesse":"vitesse_pump1", "conf":"conf_pump1"},
-                                                     {"FR_lbl":"Sodium", "num_pump":"num_pump2", "vitesse":"vitesse_pump2", "conf":"conf_pump2"}]}
-        ]
+        "diagnostic":["cellule_measure", "cellule_temperature"],
+        "elec_tests":[{"name":"tab_EV", "variables":["ev_1", "ev_2"]},
+                     {"name":"tab_Actionneurs", "variables":["actionneur_1", "actionneur_2"]},
+                     {"name":"tab_entrees", "variables":["selection_stream1", "arret_fin_cycle"]},
+                     {"name":"tab_pump", "variables":[{"fr_FR":"Rhodol", "num_pump":"num_pump1", "speed":"speed_pump1", "conf":"conf_pump1"},
+                                                     {"fr_FR":"Sodium", "num_pump":"num_pump2", "speed":"speed_pump2", "conf":"conf_pump2"}]},
+                     {"name":"tab_selecteur", 
+                      "variables":["selecteur_position_stream1", "selecteur_position_stream2"],
+                      "pump":{"num_pump":"num_pump2", "speed":"speed_pump2", "conf":"conf_pump2"}
+                     }
+        ],
+        "options":["consigne_teperature", "nombre_cycle_avant_calib", "seuil_measure"],
+        "history":["measure_1","status"],
+        "alarms":["alarm_defaut_eau_stream1","alarm_defaut_eau_stream2"]
+        
     },
 
-    "voies" : [{"FR_lbl":"voie 1", "variables":["status", "defaut_eau"], "active_state": "voie_1_state", 
-            "mesures":[{"FR_lbl":"var relative a mesure 1", "variables":[{"name":"coeff", "type":"standard"}, {"name":"mesure_silice", "type":"mesure"}]},
-                       {"FR_lbl":"var relative a mesure 2", "variables":[{"name":"coeff_2", "type":"standard"}, {"name":"mesure_silice_2", "type":"mesure"}]}
+    "streams" : [{"fr_FR":"stream 1", "variables":["status", "defaut_eau"], "active_state": "stream_1_state", 
+            "measures":[{"fr_FR":"var relative a measure 1", "variables":[{"name":"coeff", "type":"standard"}, {"name":"measure_silice", "type":"measure"}]},
+                       {"fr_FR":"var relative a measure 2", "variables":[{"name":"coeff_2", "type":"standard"}, {"name":"measure_silice_2", "type":"measure"}]}
             ],
-            "cycles":["maintenance_1", "zero_1", "cycle_measure_cot_voie1"]
+            "cycles":["maintenance_1", "zero_1", "cycle_measure_cot_stream1"]
         
             },
-            {"FR_lbl":"voie 2", "variables":["var_voie", "mesure"], 
-            "mesures":[{"FR_lbl":"mesure 1", "variables":["var_mesure", "var_mesure"]},
-                       {"FR_lbl":"mesure 2", "variables":["var_mesure", "var_mesure"]}
+            {"fr_FR":"stream 2", "variables":["var_stream", "measure"], 
+            "measures":[{"fr_FR":"measure 1", "variables":["var_measure", "var_measure"]},
+                       {"fr_FR":"measure 2", "variables":["var_measure", "var_measure"]}
 
             ],
             "cycles":["maintenance_2"]
@@ -141,35 +149,35 @@
  
     
     "binds" : [
-        {"variable_origin_name":"test_entee", "variable_destination_name":"test_ev_A"},
-        {"variable_origin_name":"mesure_1", "variable_destination_name":"aff_mesure_2"},
-        {"variable_origin_name":"aff_mesure_2", "variable_destination_name":"mesure_1"},
-        {"variable_origin_name":"mesure_2", "variable_destination_name":"aff_mesure_1"}
+        {"source":"test_entee", "target":"test_ev_A"},
+        {"source":"measure_1", "target":"aff_measure_2"},
+        {"source":"aff_measure_2", "target":"measure_1"},
+        {"source":"measure_2", "target":"aff_measure_1"}
 
     ],
 
     "actions" : [
                 {
-                    "name":"calcul_mesure_voie_1",
-                    "type":"calcul_mesure",
-                    "FR_lbl":"Calcul de mesure voie 1",
-                    "variable_entre_cell":"cellule_mesure",
+                    "name":"calcul_measure_stream_1",
+                    "type":"calcul_measure",
+                    "fr_FR":"Calcul de measure stream 1",
+                    "variable_entre_cell":"cellule_measure",
                     "variable_entre_coeff":"coef_test",
-                    "variable_sortie_mesure":"mesure_1"
+                    "variable_sortie_measure":"measure_1"
                 },
                 {
-                    "name":"calcul_mesure_voie_2",
-                    "type":"calcul_mesure",
-                    "FR_lbl":"Calcul de mesure",
-                    "variable_entre_cell":"cellule_mesure",
+                    "name":"calcul_measure_stream_2",
+                    "type":"calcul_measure",
+                    "fr_FR":"Calcul de measure",
+                    "variable_entre_cell":"cellule_measure",
                     "variable_entre_coeff":"coef_test",
-                    "variable_sortie_mesure":"mesure_2"
+                    "variable_sortie_measure":"measure_2"
                 },
                 {
                     "name" : "4_tour_pompe_2",
                     "type" : "cmd_pump",
-                    "FR_lbl" : "4 tours de pompes 2",
-                    "EN_lbl" : "4 tours of pumps 2",
+                    "fr_FR" : "4 tours de pompes 2",
+                    "en_EN" : "4 tours of pumps 2",
                     "num_pump" : 2,
                     "speed_pump" : "speed_pump_30rpm",
                     "direction_trigo_pump" : "direction_pump_trigo",
@@ -178,104 +186,115 @@
                     "cmd_continu_pump" : false
                 },
                 {
-                    "name" : "ouverture_ev_voie1",
+                    "name" : "ouverture_ev_stream1",
                     "type" : "cmd_relay",
-                    "FR_lbl" : "Fermeture EV 1",
-                    "EN_lbl" : "Close EV 1",
-                    "variable_destination_name" : "output_ev"
+                    "fr_FR" : "Fermeture EV 1",
+                    "en_EN" : "Close EV 1",
+                    "target" : "output_ev"
                     
                 },
                 {
-                    "name" : "ouverture_ev_voie2",
+                    "name" : "ouverture_ev_stream2",
                     "type" : "cmd_relay",
-                    "FR_lbl" : "Fermeture EV 1",
-                    "EN_lbl" : "Close EV 1",
-                    "variable_destination_name" : "output_ev"
+                    "fr_FR" : "Fermeture EV 1",
+                    "en_EN" : "Close EV 1",
+                    "target" : "output_ev"
                     
                 },
                 {
                     "name" : "bloc_rincage",
                     "type" : "bloc",
-                    "FR_lbl" : "6 tours de pompes 2",
-                    "EN_lbl" : "6 tours of pumps 2",
+                    "fr_FR" : "6 tours de pompes 2",
+                    "en_EN" : "6 tours of pumps 2",
                     "steps" : [{"step":1, "name":"read_input_1_card_io_1"}, {"step":2, "name":"read_input_2_card_io_1"}, {"step":5, "name":"read_all_input_card_io_1"}]
                 
                 },
                 {
                     "name":"read_input_1_card_io_1",
                     "type":"cmd_read_input",
-                    "FR_lbl" : "Lecture entrée 1 sur carte E/S 1",
-                    "EN_lbl" : "Read input 1 on I/O card 1",
-                    "variable_destination_name" : "test_entee"
+                    "fr_FR" : "Lecture entrée 1 sur carte E/S 1",
+                    "en_EN" : "Read input 1 on I/O card 1",
+                    "target" : "test_entee"
                 },
                 {
                     "name":"calcul coef",
                     "type":"cal_coef",
-                    "FR_lbl" : "Lecture entrée 1 sur carte E/S 1",
-                    "EN_lbl" : "Read input 1 on I/O card 1",
+                    "fr_FR" : "Lecture entrée 1 sur carte E/S 1",
+                    "en_EN" : "Read input 1 on I/O card 1",
                     "variable_entre_concentration_avant" : "coef_test",
-                    "variable_sortie_concentration" : "coef_actuel",
+                    "variable_sortie_concentration" : "coef_actuel"
+                },
+                 {
+                    "name":"report_coeff_calcule",
+                    "type":"report_coeff",
+                    "fr_FR" : "Lecture entrée 1 sur carte E/S 1",
+                    "en_EN" : "Read input 1 on I/O card 1",
+                    "variable_entre" : "coeff_calcule",
+                    "variable_sortie" : "coef_actuel"
                 }
     ],
 
     "cycles" : [
         {
             "name" : "maintenance_1",
-            "FR_lbl" : "Cycle de lecture de la carte E/S 1",
-            "EN_lbl" : "Reading cycle on I/O card 1",
+            "fr_FR" : "Cycle de lecture de la carte E/S 1",
+            "en_EN" : "Reading cycle on I/O card 1",
             "type":"autonome",
-            "steps" : [{"step":1, "FR_lbl":"Init", "actions":["read_input_1_card_io_1", "read_input_1_card_io_1"] }, {"step":2, "name":"read_input_2_card_io_1"}, {"step":5, "name":"read_all_input_card_io_1"},{"step":"stop", "name":"action_bidule"},{"step":"stop", "name":"action_machin"}]
+            "steps" : [{"step":1, "fr_FR":"Init", "actions":["read_input_1_card_io_1", "read_input_1_card_io_1"] }, {"step":2, "name":"read_input_2_card_io_1"}, {"step":5, "name":"read_all_input_card_io_1"},{"step":"stop", "name":"action_bidule"},{"step":"stop", "name":"action_machin"}]
         },
         {
             "name" : "cycle_pause_0",
-            "FR_lbl" : "En pause",
-            "EN_lbl" : "Paused",
+            "fr_FR" : "En pause",
+            "en_EN" : "Paused",
             "type" : "pause",
             "timer" : 10
         },
         {
             "name" : "cycle_pause_1",
-            "FR_lbl" : "En pause",
-            "EN_lbl" : "Paused",
+            "fr_FR" : "En pause",
+            "en_EN" : "Paused",
             "type" : "pause",
             "timer" : 3
         },
         {
-            "name" : "cycle_measure_cot_voie1",
-            "FR_lbl" : "mesure de COT",
-            "EN_lbl" : "measure of TOC",
+            "name" : "cycle_measure_cot_stream1",
+            "fr_FR" : "measure de COT",
+            "en_EN" : "measure of TOC",
             "type" : "measure",
-            "steps" : [{"step":1,"FR_lbl":"Init", "actions":["ouverture_ev_voie1"]}, {"step":4, "name":"fermeture_ev_1"}, {"step":4, "name":"4_tour_pompe_2"}, {"step":6, "name":"6_tour_pompe_2"}, {"step":12, "name":"fermeture_ev_1"}, {"step":25, "name":"6_tour_pompe_2"}]                       
+            "steps" : [{"step":1,"fr_FR":"Init", "actions":["ouverture_ev_stream1"]}, {"step":4, "actions":["fermeture_ev_1","4_tour_pompe_2"]}, {"step":6, "name":"6_tour_pompe_2"}, {"step":12, "name":"fermeture_ev_1"}, {"step":25, "name":"6_tour_pompe_2"}]                       
         },  
         {
-            "name" : "cycle_measure_cot_voie2",
-            "FR_lbl" : "mesure de COT",
-            "EN_lbl" : "measure of TOC",
+            "name" : "cycle_measure_cot_stream2",
+            "fr_FR" : "measure de COT",
+            "en_EN" : "measure of TOC",
             "type" : "measure",
-            "steps" : [{"step":1,"name":"ouverture_ev_voie2"}, {"step":4, "name":"fermeture_ev_1"}, {"step":4, "name":"4_tour_pompe_2"}, {"step":6, "name":"6_tour_pompe_2"}, {"step":12, "name":"fermeture_ev_1"}, {"step":25, "name":"6_tour_pompe_2"}]                       
+            "steps" : [{"step":1,"name":"ouverture_ev_stream2"}, {"step":4, "name":"fermeture_ev_1"}, {"step":4, "name":"4_tour_pompe_2"}, {"step":6, "name":"6_tour_pompe_2"}, {"step":12, "name":"fermeture_ev_1"}, {"step":25, "name":"6_tour_pompe_2"}]                       
         },     
         {
             "name" : "cycle_measure_1",
-            "FR_lbl" : "mesure de COT 2",
-            "EN_lbl" : "measure of TOC 2",
+            "fr_FR" : "measure de COT 2",
+            "en_EN" : "measure of TOC 2",
             "type" : "measure",
             "steps" : [{"step":1, "name":"4_tour_pompe_2"}, {"step":6, "name":"6_tour_pompe_2"}]
         },
         {
             "name" : "cycle_measure_2",
-            "FR_lbl" : "mesure de COT 2",
-            "EN_lbl" : "measure of TOC 2",
+            "fr_FR" : "measure de COT 2",
+            "en_EN" : "measure of TOC 2",
             "type" : "maintenance",
+            "parameter_input":["etalon_reference"],
+            "parameter_output":["coeff_actuel", "coeff_calcule"],
+            "action_de_fin":"report_coeff_calcule",
             "steps" : [ {"step":1, "name":"4_tour_pompe_2"}, {"step":3, "name":"6_tour_pompe_2"}]
         }
 
     ],
 
-     "sequenceur_measure" : [
-        {"name_cycle" :"cycle_measure_cot_voie1", "nb_cycle" : 2}, 
-        {"name_cycle" :"cycle_measure_1", "nb_cycle" : 1}, 
-        {"name_cycle" :"cycle_measure_cot", "nb_cycle" : 3}, 
-        {"name_cycle" :"cycle_pause_0", "nb_cycle" : 1}
+     "scheduler" : [
+        {"cycle" :"cycle_measure_cot_stream1", "nb_cycle" : 2}, 
+        {"cycle" :"cycle_measure_1", "nb_cycle" : 1}, 
+        {"cycle" :"cycle_measure_cot", "nb_cycle" : 3}, 
+        {"cycle" :"cycle_pause_0", "nb_cycle" : 1}
     ]
 
       

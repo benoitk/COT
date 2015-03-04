@@ -21,6 +21,7 @@ QVariant CComJBus::readData(IVariableInput* arg_input){
 	QBitArray bitArray;
 	QList<char> byteArray;
 	QVariant returnedVar;
+
 	switch (arg_input->getTypeOrganne())
 	{
 	case type_input_bool:
@@ -30,25 +31,30 @@ QVariant CComJBus::readData(IVariableInput* arg_input){
 		}
 		break;
 	case type_input_int:
-		byteArray = readNWordsFunction3(arg_input->getOrganneAddr().toInt(), 2);	
-		char byte;
-		int value =0;
-		int i=0;
-		foreach(byte, byteArray){
-			int value = value + ((byte << (8*i++)) & 0xffff);
+		{
+			byteArray = readNWordsFunction3(arg_input->getOrganneAddr().toInt(), 2);	
+		
+			char byte;
+			int value =0;
+			int i=0;
+			foreach(byte, byteArray){
+				int value = value + ((byte << (8*i++)) & 0xffff);
+			}
+			returnedVar = value;
+			break;
 		}
-		returnedVar = value;
-		break;
 	case type_input_float:
-		byteArray = readNWordsFunction3(arg_input->getOrganneAddr().toInt(), 4);
-		char byte;
-		float fValue =0;
-		int i=0;
-		foreach(byte, byteArray){
-			int fValue = fValue + ((byte << (8*i++)) & 0xffff);
+		{
+			byteArray = readNWordsFunction3(arg_input->getOrganneAddr().toInt(), 4);
+			char byte;
+			float fValue =0;
+			int i=0;
+			foreach(byte, byteArray){
+				int fValue = fValue + ((byte << (8*i++)) & 0xffff);
+			}
+			returnedVar = fValue;
+			break;
 		}
-		returnedVar = fValue;
-		break;
 	case type_input_unknow:
 	default:
 		break;
