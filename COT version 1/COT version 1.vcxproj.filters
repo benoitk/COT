@@ -400,11 +400,14 @@
     <ClCompile Include="ICom.cpp">
       <Filter>Source Automate\Com</Filter>
     </ClCompile>
-    <ClCompile Include="IHardware.cpp">
-      <Filter>Source Automate</Filter>
-    </ClCompile>
     <ClCompile Include="IComObserver.cpp">
       <Filter>Source Automate\Com</Filter>
+    </ClCompile>
+    <ClCompile Include="IOrgan.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="INetwork.cpp">
+      <Filter>Source Automate</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -525,14 +528,17 @@
     <CustomBuild Include="CComJBus.h">
       <Filter>Header Automate\Com</Filter>
     </CustomBuild>
-    <CustomBuild Include="IHardware.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="IComObserver.h">
       <Filter>Header Automate\Com</Filter>
     </CustomBuild>
     <CustomBuild Include="CModelExtensionCard.h">
       <Filter>Header Automate</Filter>
+    </CustomBuild>
+    <CustomBuild Include="IOrgan.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="INetwork.h">
+      <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

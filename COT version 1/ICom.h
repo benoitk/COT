@@ -4,6 +4,13 @@
 #include <QObject>
 #include "qvariant.h"
 
+typedef enum comType{
+		type_tcp = 0,
+		type_jbus,
+		type_jbus_over_tcpip,
+		
+};
+
 class IVariableInput;
 class IVariableOutput;
 class ICom : public QObject
@@ -22,7 +29,7 @@ public:
 	virtual void addVariableOnDataTable(IVariableOutput*)=0;
 
 	virtual void triggerUpdateAllData()=0;
-
+	virtual ICom* getType()const=0;
 
 private:
 	

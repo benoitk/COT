@@ -6,7 +6,7 @@
 #include "qlist.h"
 #include "qbitarray.h"
 
-class IHardware;
+class INetwork;
 class CComJBus : public ICom
 {
 	Q_OBJECT
@@ -32,7 +32,7 @@ public:
 
 private:
 	
-	IHardware* m_uart;
+	INetwork* m_uart;
 	int m_numSlave;
 	QMap<int, IVariableInput*> m_mapInputTable;
 	QMap<int, IVariableOutput*> m_mapOutputTable;

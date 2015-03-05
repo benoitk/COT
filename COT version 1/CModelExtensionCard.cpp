@@ -29,3 +29,9 @@ void CModelExtensionCard::setCom(ICom*){
 	m_interfaceCom;
 }
 
+QList<IOrgan*>  CModelExtensionCard::getListOrgan()const{
+	return m_listOrgan;
+}
+
+
+

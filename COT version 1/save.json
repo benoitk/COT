@@ -3,7 +3,7 @@
     "en_EN_analyser" : "TOC",
     "version":"0.0.0",
 
-    "hardwares_available" : [
+    "network" : [
         {"name":"eth0", "type":"ethernet", "address" : "192.168.1.2"}, 
         {"name":"uart0", "type":"uart", "baudrate":115000, "stop":1, "data":8}, 
         {"name":"uart1", "type":"uart", "baudrate":9600, "stop":1, "data":8}
@@ -14,7 +14,8 @@
             "com" : {"type":"jbus_over_tcpip", "slave":1 , "ip":"192.168.1.5", "port":245, "hardware":"eth0"} ,
             "organs" : [{"name":"measure_cell", "type":"input_float", "address_data":"0x0001"},
                           {"name":"heater", "type":"output_float", "address_data":"0x0002"},
-                          {"name":"speed_pump1", "type":"output_integer", "address_data":"0x0002"},
+                          {"name":"motor1", "type":"output_integer", "address_data":"0x0002"},
+                          {"name":"motor2", "type":"output_integer", "address_data":"0x0002"},
                           {"name":"speed_pump2", "type":"output_integer", "address_data":"0x0003"},
                           {"name":"conf_pump1", "type":"output_integer", "address_data":"0x0004"},
                           {"name":"conf_pump2", "type":"output_integer", "address_data":"0x0005"},
@@ -23,15 +24,15 @@
         },
         {"name" : "io_card_1","fr_FR" : "Carte E/S 1", "en_EN" : "I/O card 1", 
             "com" : {"type":"jbus_over_tcpip", "slave":2, "ip":"192.168.1.3", "port":245 },
-            "organs" : [{"name":"output_1", "type":"output_bit", "address_data":"0x0001", "state":"passif"},
-                       {"name":"output_2", "type":"output_bit", "address_data":"0x0002", "state":"active"},
-                       {"name":"output_3", "type":"output_bit", "address_data":"0x0003", "state":"active"},
-                       {"name":"output_4", "type":"output_bit", "address_data":"0x0004", "state":"active"},
-                       {"name":"output_5", "type":"output_bit", "address_data":"0x0005", "state":"active"},
+            "organs" : [{"name":"output_1", "type":"output_bit", "address_data":"0x0001", "passif":true},
+                       {"name":"output_2", "type":"output_bit", "address_data":"0x0002", "passif":true},
+                       {"name":"output_3", "type":"output_bit", "address_data":"0x0003", "passif":true},
+                       {"name":"output_4", "type":"output_bit", "address_data":"0x0004", "passif":true},
+                       {"name":"output_5", "type":"output_bit", "address_data":"0x0005", "passif":true},
                        {"name":"measure_temperature", "type":"input_float", "address_data":"0x00010"},
-                       {"name":"input_2",  "type":"input_bit", "address_data":"0x0011", "state":"passif"},
-                       {"name":"input_3",  "type":"input_bit", "address_data":"0x0011", "state":"active"},
-                       {"name":"input_4",  "type":"input_bit", "address_data":"0x0011", "state":"active"}] 
+                       {"name":"input_2",  "type":"input_bit", "address_data":"0x0011", "passif":true},
+                       {"name":"input_3",  "type":"input_bit", "address_data":"0x0011", "passif":true},
+                       {"name":"input_4",  "type":"input_bit", "address_data":"0x0011", "passif":true}] 
         },
         {"name" : "io_card_2","fr_FR" : "Carte E/S 2", "en_EN" : "I/O card 2", 
             "com" : {"type":"jbus", "slave":3, "hardware":"uart0"},
@@ -50,7 +51,7 @@
 
     "variables" : [ {"name":"test_entee", "fr_FR" : "test entrée 1", "en_EN" : "test input 1", "type":"boolean", "value" : 1, "unit":"mg/l"},
                     {"name":"speed_pump_30rpm", "fr_FR" : "test entrée 1", "en_EN" : "test input 1", "type":"integer", "value" : 30, "unit":"tr/min"},
-                    {"name":"direction_pump_trigo", "fr_FR" : "test entrée 1", "en_EN" : "test input 1", "type":"integer", "value" : true, "unit":"tr/min", "measure":[1,2], "stream":[1]},
+                    {"name":"direction_pump_trigo", "fr_FR" : "test entrée 1", "en_EN" : "test input 1", "type":"integer", "value" : true, "unit":"tr/min"},
                     {"name":"direction_pump_antitrigo", "fr_FR" : "test entrée 1", "en_EN" : "test input 1", "type":"integer", "value" : false, "unit":"tr/min"},
                     {"name":"test_ev_A", "fr_FR" : "entrée 1", "en_EN" : "input 1", "type":"boolean", "value" : 1},
                     {"name":"entree_ana", "fr_FR" : "entrée analogique 1", "en_EN" : "analog input 1", "type":"input_float", 
@@ -68,22 +69,23 @@
                      {"name":"actionneur_2", "fr_FR" : "sortie EV", "en_EN" : "analog input 1", "type":"output_boolean", 
                             "value" : 0, "extension_name":"io_card_1", "organ_name":"output_4"
                     },
-                    {"name":"aff_measure_1", "fr_FR" : "measure", "en_EN" : "measure", "type":"float", 
+                    {"name":"aff_measure_1", "fr_FR" : "measure", "en_EN" : "measure", "type":"float", "format":"%f7.2",
                             "value" : 0, "extension_name":"ecran", "organ_name":"donnee_ecran_principale_measure_1"
                     },
                     {"name":"aff_measure_2", "fr_FR" : "measure", "en_EN" : "measure", "type":"float", 
                             "value" : 0, "extension_name":"ecran", "organ_name":"donnee_ecran_principale_measure_2"
                     },
-                    {"name":"cellule_measure", "fr_FR":"cellule de measure", "type":"input_float",
+                    {"name":"cellule_measure", "fr_FR":"cellule de measure", "type":"input_float","format":"%f7.2",
                             "value":0, "extension_name":"measure_card_1", "organ_name":"measure_cell"
                     },
-                    {"name":"cellule_temperature", "fr_FR":"cellule de température", "type":"input_float",
+                    {"name":"cellule_temperature", "fr_FR":"cellule de température", "type":"input_float","format":"%f7.2",
                             "value":0, "extension_name":"measure_card_1", "organ_name":"measure_temperature", "unit":"°C"
                     },
                     {"name":"coef_test", "fr_FR":"Coeff", "type":"float", "value":0.2, "unit":""},
                     {"name":"measure_silice", "fr_FR":"Silice", "type":"float", "value":0, "unit":"µg/l"},
                     {"name":"stream_en_cours", "fr_FR":"Silice", "type":"integer", "value":0},
                     {"name":"stream_1_state", "type":"boolean"},
+                    {"name":"num_pump1", "type":"integer", "value":3},
                     {"name":"selecteur_position_stream1", "type":"integer", "value":18},
                     {"name":"selecteur_position_stream2", "type":"integer", "value":48},
                     {"name":"etalon_reference", "type":"float", "value":0.244},
@@ -109,6 +111,10 @@
                     },
                     {"name":"arret_fin_cycle", "fr_FR":"conf_pump2", "type":"input_boolean",
                             "extension_name":"measure_card_1", "organ_name":"input_3"
+                    },
+                    {
+                        "name":"pompe_1", "fr_FR":"Rhodol", "type":"struct_pump_step_by_step",
+                        "num_pump":"num_pump1", "speed":"speed_pump1", "conf":"conf_pump1"
                     }
     ],
 
@@ -117,11 +123,10 @@
         "elec_tests":[{"name":"tab_EV", "variables":["ev_1", "ev_2"]},
                      {"name":"tab_Actionneurs", "variables":["actionneur_1", "actionneur_2"]},
                      {"name":"tab_entrees", "variables":["selection_stream1", "arret_fin_cycle"]},
-                     {"name":"tab_pump", "variables":[{"fr_FR":"Rhodol", "num_pump":"num_pump1", "speed":"speed_pump1", "conf":"conf_pump1"},
-                                                     {"fr_FR":"Sodium", "num_pump":"num_pump2", "speed":"speed_pump2", "conf":"conf_pump2"}]},
+                     {"name":"tab_pump", "variables":["pompe_1", "pompe_2"]}
                      {"name":"tab_selecteur", 
                       "variables":["selecteur_position_stream1", "selecteur_position_stream2"],
-                      "pump":{"num_pump":"num_pump2", "speed":"speed_pump2", "conf":"conf_pump2"}
+                      "pump":{"pompe_2"}
                      }
         ],
         "options":["consigne_teperature", "nombre_cycle_avant_calib", "seuil_measure"],
@@ -131,12 +136,12 @@
     },
 
     "streams" : [{"fr_FR":"stream 1", "variables":["status", "defaut_eau"], "active_state": "stream_1_state", 
-            "measures":[{"fr_FR":"var relative a measure 1", "variables":[{"name":"coeff", "type":"standard"}, {"name":"measure_silice", "type":"measure"}]},
+                    "measures":[{"fr_FR":"var relative a measure 1", "variables":[{"name":"coeff", "type":"standard"}, {"name":"measure_silice", "type":"measure"}]},
                        {"fr_FR":"var relative a measure 2", "variables":[{"name":"coeff_2", "type":"standard"}, {"name":"measure_silice_2", "type":"measure"}]}
-            ],
-            "cycles":["maintenance_1", "zero_1", "cycle_measure_cot_stream1"]
-        
-            },
+                    ],
+                    "cycles":["maintenance_1", "zero_1", "cycle_measure_cot_stream1"]
+                
+                },
             {"fr_FR":"stream 2", "variables":["var_stream", "measure"], 
             "measures":[{"fr_FR":"measure 1", "variables":["var_measure", "var_measure"]},
                        {"fr_FR":"measure 2", "variables":["var_measure", "var_measure"]}

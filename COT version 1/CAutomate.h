@@ -13,6 +13,7 @@ class CControlerCycle;
 class CSequenceur;
 class IVariable;
 class CModelExtensionCard;
+class INetwork;
 class CAutomate : public QObject, IComObserver
 {
 	Q_OBJECT
@@ -41,7 +42,9 @@ public:
 	void addVariable(QString, IVariable*);
 
 	CModelExtensionCard* getExtensionCard(QString);
+	QList<CModelExtensionCard*> getListExtension(QString);
 	void addExtensionCard(QString, CModelExtensionCard*); 
+
 
 	//IComObserver
 	IVariable* getVariable(QString addr_var)const;
@@ -60,6 +63,8 @@ private:
 	CAutomate();
 	~CAutomate();
 
+	QList<INetwork*> m_listNetwork;
+	QList<CModelExtensionCard*> m_listExtCard;
 	int m_stateCycleMesure; //0 stoped, 1 run, 2 pause
 	int m_stateCycleIO; //0 stoped, 1 run, 2 pause
 	int m_stateCycleMaintenance; //0 stoped, 1 run, 2 pause
