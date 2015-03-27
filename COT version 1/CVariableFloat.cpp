@@ -1,5 +1,5 @@
 #include "CVariableFloat.h"
-
+#include "CUnit.h"
 CVariableFloat::CVariableFloat(QObject *parent)
 	: QObject(parent)
 {
@@ -61,4 +61,10 @@ void CVariableFloat::addBind(IVariable* arg_var){
 }
 variableType CVariableFloat::getType()const{
 	return variableType::type_float;
+}
+void CVariableFloat::switchToUnit(CUnit* targetUnit){
+	QVariant var = m_unit->convert(targetUnit->getName(), QVariant(m_fValeur));
+	if(!var.isNull())
+		m_fValeur = var.toFloat();
+	m_unit = targetUnit;
 }

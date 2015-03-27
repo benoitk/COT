@@ -38,6 +38,7 @@ public:
 	void addBind(IVariable*);
 	void setToBindedValue(QVariant);
 	variableType getType()const;
+	void switchToUnit(CUnit*);
 private:
 	void writeValue();
 	CModelExtensionCard* m_modelExtensionCard;
@@ -48,6 +49,7 @@ private:
 	QString m_label;
 	QLinkedList<IVariable*> m_listBinds;
 	organneOutputType m_organneType;
+	CUnit* m_unit;
 	
 };
 

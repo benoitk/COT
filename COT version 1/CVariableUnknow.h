@@ -24,6 +24,7 @@ public:
 	void addBind(IVariable*);
 	void setToBindedValue(QVariant);
 	variableType getType()const;
+	void switchToUnit(CUnit*);
 
 private:
 	QString m_label;

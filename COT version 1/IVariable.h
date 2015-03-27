@@ -15,6 +15,7 @@ typedef enum variableType{
 
 
 //Interface pour toute les variables de l'automate
+class CUnit;
 class IVariable
 {
 
@@ -31,6 +32,7 @@ public:
 	virtual void addBind(IVariable*)=0;
 	virtual void setToBindedValue(QVariant)=0;
 	virtual variableType getType()const=0;
+	virtual void switchToUnit(CUnit*)=0;
 	
 private:
 	

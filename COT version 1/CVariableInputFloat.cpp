@@ -1,6 +1,7 @@
 #include "CVariableInputFloat.h"
 #include "CModelExtensionCard.h"
 #include "CAutomate.h"
+#include "CUnit.h"
 
 CVariableInputFloat::CVariableInputFloat(QObject *parent)
 	: QObject(parent)
@@ -92,4 +93,10 @@ organneInputType CVariableInputFloat::getTypeOrganne()const{
 }
 IVariable* CVariableInputFloat::getIVariable(){
 	return this;
+}
+void CVariableInputFloat::switchToUnit(CUnit* targetUnit){
+	QVariant var = m_unit->convert(targetUnit->getName(), QVariant(m_fValeur));
+	if(!var.isNull())
+		m_fValeur = var.toFloat();
+	m_unit = targetUnit;
 }

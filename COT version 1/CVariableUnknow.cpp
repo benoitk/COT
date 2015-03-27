@@ -1,4 +1,5 @@
 #include "CVariableUnknow.h"
+#include "CUnit.h"
 
 CVariableUnknow::CVariableUnknow()
 	: QObject()
@@ -38,4 +39,7 @@ void CVariableUnknow::setToBindedValue(QVariant value){
 }
 variableType CVariableUnknow::getType()const{
 	return variableType::type_unknow;
+}
+void CVariableUnknow::switchToUnit(CUnit* targetUnit){
+	
 }

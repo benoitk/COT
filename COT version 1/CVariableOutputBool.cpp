@@ -1,5 +1,6 @@
 #include "CVariableOutputBool.h"
 #include "CModelExtensionCard.h"
+#include "CUnit.h"
 
 CVariableOutputBool::CVariableOutputBool(QObject *parent)
 	: QObject(parent)
@@ -84,4 +85,9 @@ IVariable* CVariableOutputBool::getIVariable(){
 }
 bool CVariableOutputBool::toBool(){
 	return m_bValeur;
+}void CVariableOutputBool::switchToUnit(CUnit* targetUnit){
+	QVariant var = m_unit->convert(targetUnit->getName(), QVariant(m_bValeur));
+	if(!var.isNull())
+		m_bValeur = var.toBool();
+	m_unit = targetUnit;
 }

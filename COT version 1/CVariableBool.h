@@ -27,10 +27,13 @@ public:
 	void addBind(IVariable*);
 	void setToBindedValue(QVariant);
 	variableType getType()const;
+	void switchToUnit(CUnit*);
+
 
 private:
 	bool m_bValeur;
 	QString m_label;
 	QLinkedList<IVariable*> m_listBinds;
+	CUnit* m_unit;
 };
 #endif // CVARIABLEBOOL_H

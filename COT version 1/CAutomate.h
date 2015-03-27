@@ -19,22 +19,20 @@ class CAutomate : public QObject, IComObserver
 	Q_OBJECT
 
 public:
-	static CAutomate* getInstance();
-	void initConfig();
 	
-	void setStateCycleMesure(int);
-	void setStateCycleIO(int);
-	void setStateMaintenance(int);
+	enum eStateCycle{CYCLE_RUN, CYLE_PAUSE, CYCLE_STOP};
+	enum eStateAutomate{GENERAL_DEFAULT, RUNNING};
+	enum eStateStream{STREAM_DEFAULT, WATER_DEFAULT, ACTIVE, INACTIVE};
+	static CAutomate* getInstance();
 
-	void setStateStopCycleMesure();
-	void setStateStopCycleIO();
-	void setStateStopCycleMaintenance();
-	void setStatePauseCycleMesure();
-	void setStatePauseCycleIO();
-	void setStatePauseCycleMaintenance();
-	void setStateRunCycleMesure();
-	void setStateRunCycleIO();
-	void setStateRunCycleMaintenance();
+	void setStateCycleMesure(eStateCycle);
+	eStateCycle getStateCycleMesure();
+	void setStateCycleIO(eStateCycle);
+	eStateCycle getStateCycleIO();
+	void setStateCycleMaintenance(eStateCycle);
+	eStateCycle getStateCycleMaintenance();
+
+	
 
 	void addCycle(ICycle*);
 
@@ -50,8 +48,7 @@ public:
 	IVariable* getVariable(QString addr_var)const;
 	void setCom(ICom*);
 
-	static CAutomate* singleton;
-
+	void initConfig();
 public slots:
 	void slotRunAutomate();
 
@@ -59,7 +56,7 @@ signals:
 	void signalRunCycle(int);
 	
 private:
-
+	static CAutomate* singleton;
 	CAutomate();
 	~CAutomate();
 
@@ -83,7 +80,6 @@ private:
 	/*QList<CControlerCycle*> m_listCtrlCycleMesure;
 	QList<CControlerCycle*> m_listCtrlCycleMaintenance;
 	QList<CControlerCycle*> m_listCtrlCycleIO;*/
-	enum eStateCycle{CYCLE_RUN, CYLE_PAUSE, CYCLE_STOP};
 	
 };
 

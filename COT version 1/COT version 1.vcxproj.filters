@@ -65,6 +65,12 @@
     <Filter Include="Header Automate\Com">
       <UniqueIdentifier>{87432217-66fb-4eb3-a5af-c7a42094b1ac}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Automate\Units">
+      <UniqueIdentifier>{44e30977-180d-403c-81b7-6497f67ce33e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Automate\Units">
+      <UniqueIdentifier>{132b6c8d-cb27-47bf-b076-bf479f93a94c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -409,6 +415,57 @@
     <ClCompile Include="INetwork.cpp">
       <Filter>Source Automate</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_CUnit.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_CUnit.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_CConverterCoef.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_CConverterCoef.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_CConverterOffset.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_CConverterOffset.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_CConverterOffsetCoef.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_CConverterOffsetCoef.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_CCOnverterCoefOffset.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_CCOnverterCoefOffset.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="CConverterCoef.cpp">
+      <Filter>Source Automate\Units</Filter>
+    </ClCompile>
+    <ClCompile Include="CCOnverterCoefOffset.cpp">
+      <Filter>Source Automate\Units</Filter>
+    </ClCompile>
+    <ClCompile Include="CConverterOffset.cpp">
+      <Filter>Source Automate\Units</Filter>
+    </ClCompile>
+    <ClCompile Include="CConverterOffsetCoef.cpp">
+      <Filter>Source Automate\Units</Filter>
+    </ClCompile>
+    <ClCompile Include="CUnit.cpp">
+      <Filter>Source Automate\Units</Filter>
+    </ClCompile>
+    <ClCompile Include="IConverter.cpp">
+      <Filter>Source Automate\Units</Filter>
+    </ClCompile>
+    <ClCompile Include="IObserverAutomate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="cotversion1.h">
@@ -540,5 +597,28 @@
     <CustomBuild Include="INetwork.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="CConverterCoef.h">
+      <Filter>Header Automate\Units</Filter>
+    </CustomBuild>
+    <CustomBuild Include="CCOnverterCoefOffset.h">
+      <Filter>Header Automate\Units</Filter>
+    </CustomBuild>
+    <CustomBuild Include="CConverterOffset.h">
+      <Filter>Header Automate\Units</Filter>
+    </CustomBuild>
+    <CustomBuild Include="CConverterOffsetCoef.h">
+      <Filter>Header Automate\Units</Filter>
+    </CustomBuild>
+    <CustomBuild Include="IConverter.h">
+      <Filter>Header Automate\Units</Filter>
+    </CustomBuild>
+    <CustomBuild Include="CUnit.h">
+      <Filter>Header Automate\Units</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="IObserverAutomate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,4 +1,5 @@
 #include "CVariableString.h"
+#include "CUnit.h"
 
 CVariableString::CVariableString(QObject *parent)
 	: QObject(parent)
@@ -57,4 +58,10 @@ void CVariableString::addBind(IVariable* arg_var){
 }
 variableType CVariableString::getType()const{
 	return variableType::type_string;
+}
+void CVariableString::switchToUnit(CUnit* targetUnit){
+	QVariant var = m_unit->convert(targetUnit->getName(), QVariant(m_sValeur));
+	if(!var.isNull())
+		m_sValeur = var.toFloat();
+	m_unit = targetUnit;
 }

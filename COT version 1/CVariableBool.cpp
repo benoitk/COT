@@ -1,5 +1,5 @@
 #include "CVariableBool.h"
-
+#include "CUnit.h"
 CVariableBool::CVariableBool(QObject *parent)
 	: QObject(parent)
 {
@@ -68,3 +68,9 @@ variableType CVariableBool::getType()const{
 	return variableType::type_bool;
 }
 
+void CVariableBool::switchToUnit(CUnit* targetUnit){
+	QVariant var = m_unit->convert(targetUnit->getName(), QVariant(m_bValeur));
+	if(!var.isNull())
+		m_bValeur = var.toBool();
+	m_unit = targetUnit;
+}

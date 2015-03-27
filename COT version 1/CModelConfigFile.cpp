@@ -19,7 +19,6 @@
 #include "qfileinfo.h"
 
 
-
 CModelConfigFile::CModelConfigFile(QObject *parent)
 	: QObject(parent)
 {

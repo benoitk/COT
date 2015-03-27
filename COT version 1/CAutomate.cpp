@@ -93,43 +93,28 @@ void CAutomate::addCycle(ICycle* cycle){
 
 	}
 }
-void CAutomate::setStateCycleMesure(int state){
+void CAutomate::setStateCycleMesure(eStateCycle state){
 	
 }
 
-void CAutomate::setStateCycleIO(int state){
+void CAutomate::setStateCycleIO(eStateCycle state){
+}
+void CAutomate::setStateCycleMaintenance(eStateCycle state){
 
 }
-void CAutomate::setStateMaintenance(int state){
+
+CAutomate::eStateCycle CAutomate::getStateCycleMesure(){
+	return eStateCycle::CYCLE_STOP;
+}
+
+CAutomate::eStateCycle CAutomate::getStateCycleIO( ){
+	return eStateCycle::CYCLE_STOP;
+}
+CAutomate::eStateCycle CAutomate::getStateCycleMaintenance( ){
+	return eStateCycle::CYCLE_STOP;
 
 }
-void CAutomate::setStateStopCycleMesure(){
-	
-}
-void CAutomate::setStateStopCycleIO(){
 
-}
-void CAutomate::setStateStopCycleMaintenance(){
-
-}
-void CAutomate::setStatePauseCycleMesure(){
-
-}
-void CAutomate::setStatePauseCycleIO(){
-
-}
-void CAutomate::setStatePauseCycleMaintenance(){
-
-}
-void CAutomate::setStateRunCycleMesure(){
-
-}
-void CAutomate::setStateRunCycleIO(){
-
-}
-void CAutomate::setStateRunCycleMaintenance(){
-
-}
 void CAutomate::slotRunAutomate(){
 	
 	while(1){

@@ -38,6 +38,7 @@ public:
 	void addBind(IVariable*);
 	void setToBindedValue(QVariant);
 	variableType getType()const;
+	void switchToUnit(CUnit*);
 
 private:
 	IVariable* readValue();
@@ -49,6 +50,7 @@ private:
 	QString m_label;
 	QLinkedList<IVariable*> m_listBinds;
 	
+	CUnit* m_unit;
 	organneInputType m_organneType;
 };
 

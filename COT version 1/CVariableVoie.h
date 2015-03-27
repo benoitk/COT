@@ -23,6 +23,7 @@ public:
 	void setLabel(QString);
 	void setToBindedValue(QVariant);
 	variableType getType()const;
+	void switchToUnit(CUnit*);
 private:
 	int m_iNumVoie;
 	QString m_label;

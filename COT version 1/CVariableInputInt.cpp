@@ -1,5 +1,6 @@
 #include "CVariableInputInt.h"
 #include "CModelExtensionCard.h"
+#include "CUnit.h"
 CVariableInputInt::CVariableInputInt(QObject *parent)
 	: QObject(parent)
 {
@@ -10,7 +11,6 @@ CVariableInputInt::~CVariableInputInt()
 {
 
 }
-
 
 CVariableInputInt::CVariableInputInt(QMap<QString, QVariant> mapVar): QObject(){
 
@@ -89,4 +89,10 @@ organneInputType CVariableInputInt::getTypeOrganne()const{
 }
 IVariable* CVariableInputInt::getIVariable(){
 	return this;
+}
+void CVariableInputInt::switchToUnit(CUnit* targetUnit){
+	QVariant var = m_unit->convert(targetUnit->getName(), QVariant(m_iValeur));
+	if(!var.isNull())
+		m_iValeur = var.toFloat();
+	m_unit = targetUnit;
 }

@@ -9,9 +9,16 @@
         {"name":"uart1", "type":"uart", "baudrate":9600, "stop":1, "data":8}
     ],
   
+    "com_automate":[
+        {"type":"tcpip", "network":"eth0", "port":533},
+        {"type":"jbus_over_tcpip", "slave":2, "network":"eth0", "port":532},
+        {"name":"hart_over_tcpip", "network":"eth0", "port":658},
+        {"type":"jbus", "slave":2, "network":"uart1"}
+        
+    ],
     "extensions" : [
         {"name" : "measure_card_1","fr_FR" : "Carte measure 1", "en_EN" : "Measure card 1", 
-            "com" : {"type":"jbus_over_tcpip", "slave":1 , "ip":"192.168.1.5", "port":245, "hardware":"eth0"} ,
+            "com" : {"type":"jbus_over_tcpip", "slave":1 , "ip":"192.168.1.5", "port":245, "network":"eth0"} ,
             "organs" : [{"name":"measure_cell", "type":"input_float", "address_data":"0x0001"},
                           {"name":"heater", "type":"output_float", "address_data":"0x0002"},
                           {"name":"motor1", "type":"output_integer", "address_data":"0x0002"},
@@ -23,7 +30,7 @@
                           {"name":"cmd_pump2", "type":"output_bit", "address_data":"0x0007"}]
         },
         {"name" : "io_card_1","fr_FR" : "Carte E/S 1", "en_EN" : "I/O card 1", 
-            "com" : {"type":"jbus_over_tcpip", "slave":2, "ip":"192.168.1.3", "port":245 },
+            "com" : {"type":"jbus_over_tcpip", "slave":2, "ip":"192.168.1.3", "port":245, "network":"eth0" },
             "organs" : [{"name":"output_1", "type":"output_bit", "address_data":"0x0001", "passif":true},
                        {"name":"output_2", "type":"output_bit", "address_data":"0x0002", "passif":true},
                        {"name":"output_3", "type":"output_bit", "address_data":"0x0003", "passif":true},
@@ -35,24 +42,41 @@
                        {"name":"input_4",  "type":"input_bit", "address_data":"0x0011", "passif":true}] 
         },
         {"name" : "io_card_2","fr_FR" : "Carte E/S 2", "en_EN" : "I/O card 2", 
-            "com" : {"type":"jbus", "slave":3, "hardware":"uart0"},
+            "com" : {"type":"jbus", "slave":3, "network":"uart0"},
             "organs" : [{"name":"output_1", "type":"output_bit", "address_data":"0x0001"},
                        {"name":"input_1",  "type":"input_bit", "address_data":"0x0011"}] 
         },
         {"name" : "measure_card_2","fr_FR" : "Carte E/S 2", "en_EN" : "I/O card 2", 
-            "com" : {"type":"jbus", "slave":4, "hardware":"uart1"},
+            "com" : {"type":"jbus", "slave":4, "network":"uart1"},
             "organs" : [{"name":"output_1", "type":"output_bit", "address_data":"0x0001"},
                        {"name":"input_1",  "type":"input_bit", "address_data":"0x0011"}] 
         }
     ],
 
   
- 
+    "units":[{"name":"g_l", "fr_FR":"g/l"}, {"name":"mg_l", "fr_FR":"mg/l"}, {"name":"µg_l", "fr_FR":"µg/l"}, {"name":"tr_min", "fr_FR":"tr/min"},
+             {"name":"deg_celsius", "fr_FR":"°C"}, {"name":"deg_fahrenheit", "fr_FR":"°F"}, {"name":"kelvin", "fr_FR":"K"} 
+    ],
 
-    "variables" : [ {"name":"test_entee", "fr_FR" : "test entrée 1", "en_EN" : "test input 1", "type":"boolean", "value" : 1, "unit":"mg/l"},
-                    {"name":"speed_pump_30rpm", "fr_FR" : "test entrée 1", "en_EN" : "test input 1", "type":"integer", "value" : 30, "unit":"tr/min"},
-                    {"name":"direction_pump_trigo", "fr_FR" : "test entrée 1", "en_EN" : "test input 1", "type":"integer", "value" : true, "unit":"tr/min"},
-                    {"name":"direction_pump_antitrigo", "fr_FR" : "test entrée 1", "en_EN" : "test input 1", "type":"integer", "value" : false, "unit":"tr/min"},
+    "units_convertion":[{"source":"g_l", "target":"mg_l", "type":"coef", "coef":0.001},
+                        {"source":"g_l", "target":"µg_l", "type":"coef","coef":0.0001},
+                        {"source":"mg_l", "target":"g_l", "type":"coef","coef":1000},
+                        {"source":"mg_l", "target":"µg_l", "type":"coef","coef":0.1},
+                        {"source":"µg_l", "target":"g_l", "type":"coef","coef":10000},
+                        {"source":"µg_l", "target":"mg_l", "type":"coef","coef":10},
+                        {"source":"deg_fah", "target":"deg_cel", "type":"offset_coef", "pre_offset":-32, "coef":0.555555},
+                        {"source":"deg_fah", "target":"kelvin", "type":"offset_coef", "pre_offset":458.67, "coef":0.555555},
+                        {"source":"deg_cel", "target":"deg_fah", "type":"coef_offset", "offset":32, "coef":1.8},
+                        {"source":"deg_cel", "target":"kelvin", "type":"offset", "offset":273.15},
+                        {"source":"kelvin", "target":"deg_fah", "type":"coef_offset", "offset":-458.67, "coef":1.8},
+                        {"source":"kelvin", "target":"deg_cel", "type":"offset", "offset":-273.15},
+
+    ],
+
+    "variables" : [ {"name":"test_entee", "fr_FR" : "test entrée 1", "en_EN" : "test input 1", "type":"boolean", "value" : 1, "unit":"mg_l"},
+                    {"name":"speed_pump_30rpm", "fr_FR" : "test entrée 1", "en_EN" : "test input 1", "type":"integer", "value" : 30, "unit":"tr_min"},
+                    {"name":"direction_pump_trigo", "fr_FR" : "test entrée 1", "en_EN" : "test input 1", "type":"integer", "value" : true, "unit":"tr_min"},
+                    {"name":"direction_pump_antitrigo", "fr_FR" : "test entrée 1", "en_EN" : "test input 1", "type":"integer", "value" : false, "unit":"tr_min"},
                     {"name":"test_ev_A", "fr_FR" : "entrée 1", "en_EN" : "input 1", "type":"boolean", "value" : 1},
                     {"name":"entree_ana", "fr_FR" : "entrée analogique 1", "en_EN" : "analog input 1", "type":"input_float", 
                             "value" : 0, "extension_name":"measure_card_1", "organ_name":"measure_cell"
@@ -79,29 +103,30 @@
                             "value":0, "extension_name":"measure_card_1", "organ_name":"measure_cell"
                     },
                     {"name":"cellule_temperature", "fr_FR":"cellule de température", "type":"input_float","format":"%f7.2",
-                            "value":0, "extension_name":"measure_card_1", "organ_name":"measure_temperature", "unit":"°C"
+                            "value":0, "extension_name":"measure_card_1", "organ_name":"measure_temperature", "unit":"deg_cel"
                     },
-                    {"name":"coef_test", "fr_FR":"Coeff", "type":"float", "value":0.2, "unit":""},
-                    {"name":"measure_silice", "fr_FR":"Silice", "type":"float", "value":0, "unit":"µg/l"},
+                    {"name":"coef_test", "fr_FR":"Coeff", "type":"float", "value":0.2},
+                    {"name":"measure_silice", "fr_FR":"Silice", "type":"float", "value":0, "unit":"µg_l"},
                     {"name":"stream_en_cours", "fr_FR":"Silice", "type":"integer", "value":0},
-                    {"name":"stream_1_state", "type":"boolean"},
+                    {"name":"stream_1_state", "type":"boolean", "address":"0x00012"},
                     {"name":"num_pump1", "type":"integer", "value":3},
                     {"name":"selecteur_position_stream1", "type":"integer", "value":18},
                     {"name":"selecteur_position_stream2", "type":"integer", "value":48},
                     {"name":"etalon_reference", "type":"float", "value":0.244},
                     {"name":"etalon_precedent", "type":"float", "value":2.48},
                     {"name":"cmd_pump1", "type":"boolean", "value":false},
+                    {"name":"stream_1_state", "type":"boolean", "value":false},
                     {"name":"alarm_defaut_eau_stream1","fr_FR":"Defaut d'eau", "type":"boolean", "value":false},
                     {"name":"alarm_defaut_eau_stream2","fr_FR":"Defaut d'eau", "type":"boolean", "value":false},
                     {"name":"speed_pump1", "fr_FR":"speed_pump1", "type":"output_integer",
-                            "value":30, "extension_name":"measure_card_1", "organ_name":"cmd_pump1", "unit":"tr/min"
+                            "value":30, "extension_name":"measure_card_1", "organ_name":"cmd_pump1", "unit":"tr_min"
                     },
                     {"name":"conf_pump1", "fr_FR":"conf_pump1", "type":"output_integer",
                             "value":0, "extension_name":"measure_card_1", "organ_name":"conf_pump1"
                     },
                     {"name":"cmd_pump2", "type":"output_boolean", "value":false},
                     {"name":"speed_pump2", "fr_FR":"speed_pump1", "type":"output_integer",
-                            "value":30, "extension_name":"measure_card_1", "organ_name":"cmd_pump2", "unit":"tr/min"
+                            "value":30, "extension_name":"measure_card_1", "organ_name":"cmd_pump2", "unit":"tr_min"
                     },
                     {"name":"conf_pump2", "fr_FR":"conf_pump2", "type":"output_integer",
                             "value":0, "extension_name":"measure_card_1", "organ_name":"conf_pump2"

@@ -2,7 +2,7 @@
 #include "CModelExtensionCard.h"
 #include "CAutomate.h"
 #include "IVariable.h"
-
+#include "CUnit.h"
 CVariableInputBool::CVariableInputBool(QObject *parent)
 	: QObject(parent)
 {
@@ -92,4 +92,10 @@ organneInputType CVariableInputBool::getTypeOrganne()const{
 
 IVariable* CVariableInputBool::getIVariable(){
 	return this;
+}
+void CVariableInputBool::switchToUnit(CUnit* targetUnit){
+	QVariant var = m_unit->convert(targetUnit->getName(), QVariant(m_bValeur));
+	if(!var.isNull())
+		m_bValeur = var.toBool();
+	m_unit = targetUnit;
 }
