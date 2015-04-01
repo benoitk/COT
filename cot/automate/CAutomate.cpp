@@ -104,14 +104,14 @@ void CAutomate::setStateCycleMaintenance(eStateCycle state){
 }
 
 CAutomate::eStateCycle CAutomate::getStateCycleMesure(){
-	return eStateCycle::CYCLE_STOP;
+    return CAutomate::CYCLE_STOP;
 }
 
 CAutomate::eStateCycle CAutomate::getStateCycleIO( ){
-	return eStateCycle::CYCLE_STOP;
+    return CAutomate::CYCLE_STOP;
 }
 CAutomate::eStateCycle CAutomate::getStateCycleMaintenance( ){
-	return eStateCycle::CYCLE_STOP;
+    return CAutomate::CYCLE_STOP;
 
 }
 

@@ -38,7 +38,7 @@ void CVariableUnknow::addBind(IVariable* arg_var){
 void CVariableUnknow::setToBindedValue(QVariant value){
 }
 variableType CVariableUnknow::getType()const{
-	return variableType::type_unknow;
+    return type_unknow;
 }
 void CVariableUnknow::switchToUnit(CUnit* targetUnit){
 	

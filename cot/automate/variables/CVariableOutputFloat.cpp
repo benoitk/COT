@@ -73,7 +73,7 @@ void CVariableOutputFloat::addBind(IVariable* arg_var){
 		m_listBinds.append(arg_var);
 }
 variableType CVariableOutputFloat::getType()const{
-	return variableType::type_float;
+    return type_float;
 }
 organneOutputType CVariableOutputFloat::getTypeOrganne()const{
 	return m_organneType;

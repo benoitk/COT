@@ -1,7 +1,7 @@
 #ifndef CVARIABLEINPUTFLOAT_H
 #define CVARIABLEINPUTFLOAT_H
 
-#include "Ivariable.h"
+#include "IVariable.h"
 #include "IVariableInput.h"
 
 #include <qobject.h>

@@ -65,7 +65,7 @@ void CVariableBool::addBind(IVariable* arg_var){
 }
 
 variableType CVariableBool::getType()const{
-	return variableType::type_bool;
+    return type_bool;
 }
 
 void CVariableBool::switchToUnit(CUnit* targetUnit){

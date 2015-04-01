@@ -43,7 +43,7 @@ void CVariableVoie::setToBindedValue(QVariant value){
 	
 }
 variableType CVariableVoie::getType()const{
-	return variableType::type_stream;
+    return type_stream;
 }
 void CVariableVoie::switchToUnit(CUnit* targetUnit){
 

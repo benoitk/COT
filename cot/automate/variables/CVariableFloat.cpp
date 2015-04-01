@@ -60,7 +60,7 @@ void CVariableFloat::addBind(IVariable* arg_var){
 		m_listBinds.append(arg_var);
 }
 variableType CVariableFloat::getType()const{
-	return variableType::type_float;
+    return type_float;
 }
 void CVariableFloat::switchToUnit(CUnit* targetUnit){
 	QVariant var = m_unit->convert(targetUnit->getName(), QVariant(m_fValeur));

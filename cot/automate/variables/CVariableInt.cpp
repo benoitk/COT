@@ -53,7 +53,7 @@ void CVariableInt::addBind(IVariable* arg_var){
 		m_listBinds.append(arg_var);
 }
 variableType CVariableInt::getType()const{
-	return variableType::type_int;
+    return type_int;
 }
 void CVariableInt::switchToUnit(CUnit* targetUnit){
 	QVariant var = m_unit->convert(targetUnit->getName(), QVariant(m_iValeur));

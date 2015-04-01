@@ -82,7 +82,7 @@ void CVariableInputInt::addBind(IVariable* arg_var){
 		m_listBinds.append(arg_var);
 }
 variableType CVariableInputInt::getType()const{
-	return variableType::type_int;
+    return type_int;
 }
 organneInputType CVariableInputInt::getTypeOrganne()const{
 	return m_organneType;

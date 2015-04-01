@@ -1,4 +1,4 @@
-#include "CCOnverterCoefOffset.h"
+#include "CConverterCoefOffset.h"
 
 CCOnverterCoefOffset::CCOnverterCoefOffset(QVariantMap variantMap)
 	: QObject()

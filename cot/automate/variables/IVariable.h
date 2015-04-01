@@ -1,10 +1,9 @@
 #ifndef IVARIABLE_H
 #define IVARIABLE_H
 
-#include "qwidget.h"
-#include "qvariant.h"
+#include <QVariant>
 
-typedef enum variableType{
+enum variableType{
 		type_bool = 0,
 		type_float,
 		type_int,

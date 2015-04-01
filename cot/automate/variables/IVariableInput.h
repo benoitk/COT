@@ -3,7 +3,7 @@
 
 #include "qstring.h"
 
-typedef enum organneInputType{
+enum organneInputType{
 		type_input_bool = 0,
 		type_input_float,
 		type_input_int,

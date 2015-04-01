@@ -3,7 +3,7 @@
 
 #include "qstring.h"
 
-typedef enum organneOutputType{
+enum organneOutputType{
 		type_output_bool = 0,
 		type_output_float,
 		type_output_int,

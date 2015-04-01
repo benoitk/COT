@@ -1,2 +1,2 @@
-#include "ivariable.h"
+#include "IVariable.h"
 

@@ -20,7 +20,7 @@ class CAutomate : public QObject, IComObserver
 
 public:
 	
-	enum eStateCycle{CYCLE_RUN, CYLE_PAUSE, CYCLE_STOP};
+    enum eStateCycle{CYCLE_RUN, CYCLE_PAUSE, CYCLE_STOP};
 	enum eStateAutomate{GENERAL_DEFAULT, RUNNING};
 	enum eStateStream{STREAM_DEFAULT, WATER_DEFAULT, ACTIVE, INACTIVE};
 	static CAutomate* getInstance();
