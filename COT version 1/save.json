@@ -64,12 +64,12 @@
                         {"source":"mg_l", "target":"µg_l", "type":"coef","coef":0.1},
                         {"source":"µg_l", "target":"g_l", "type":"coef","coef":10000},
                         {"source":"µg_l", "target":"mg_l", "type":"coef","coef":10},
-                        {"source":"deg_fah", "target":"deg_cel", "type":"offset_coef", "pre_offset":-32, "coef":0.555555},
-                        {"source":"deg_fah", "target":"kelvin", "type":"offset_coef", "pre_offset":458.67, "coef":0.555555},
+                        {"source":"deg_fah", "target":"deg_cel", "type":"offset_coef", "offset":-32, "coef":0.555555},
+                        {"source":"deg_fah", "target":"kelvin", "type":"offset_coef", "offset":458.67, "coef":0.555555},
                         {"source":"deg_cel", "target":"deg_fah", "type":"coef_offset", "offset":32, "coef":1.8},
                         {"source":"deg_cel", "target":"kelvin", "type":"offset", "offset":273.15},
                         {"source":"kelvin", "target":"deg_fah", "type":"coef_offset", "offset":-458.67, "coef":1.8},
-                        {"source":"kelvin", "target":"deg_cel", "type":"offset", "offset":-273.15},
+                        {"source":"kelvin", "target":"deg_cel", "type":"offset", "offset":-273.15}
 
     ],
 
@@ -148,11 +148,8 @@
         "elec_tests":[{"name":"tab_EV", "variables":["ev_1", "ev_2"]},
                      {"name":"tab_Actionneurs", "variables":["actionneur_1", "actionneur_2"]},
                      {"name":"tab_entrees", "variables":["selection_stream1", "arret_fin_cycle"]},
-                     {"name":"tab_pump", "variables":["pompe_1", "pompe_2"]}
-                     {"name":"tab_selecteur", 
-                      "variables":["selecteur_position_stream1", "selecteur_position_stream2"],
-                      "pump":{"pompe_2"}
-                     }
+                     {"name":"tab_pump", "variables":["pompe_1", "pompe_2"]},
+                     {"name":"tab_selecteur","variables":["selecteur_position_stream1", "selecteur_position_stream2"],"pump":"pompe_2"  }
         ],
         "options":["consigne_teperature", "nombre_cycle_avant_calib", "seuil_measure"],
         "history":["measure_1","status"],

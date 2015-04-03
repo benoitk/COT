@@ -618,7 +618,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IObserverAutomate.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Automate</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

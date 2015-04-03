@@ -38,7 +38,7 @@ void CSequenceur::apendSequenceMesureRunCycle(ICycle* cycle, int nbMesure){
 	}
 }
 
-/*void CSequenceur::apendSequenceMesureRunCycle(CControlerCycle* ctrlCycle, int nbMesure){
+/*void CSequenceur::apendSequenceMesureRunCycle(CControlerCycle* ctrlCycle, int nbMesur	e){
 	while(nbMesure--<0){
 		m_listSequenceCyclesMesure.append(ctrlCycle );
 	}
@@ -100,8 +100,7 @@ void CSequenceur::slotRequestPlayNextSequenceMesure(){
 	this->signalGetReadyForPlayNextCycleMesure();
 }
 void CSequenceur::slotPlayNextSequenceMesure(){	
-	if(m_cycleMesureEnCours)
-	{
+	if(m_cycleMesureEnCours){
 		if( (++m_itListSequenceCyclesMesure) == m_listSequenceCyclesMesure.end()){
 			m_itListSequenceCyclesMesure = m_listSequenceCyclesMesure.begin();
 
