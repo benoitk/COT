@@ -8,7 +8,7 @@ class CCyclePause : public ICycle
 {
 	Q_OBJECT
 
-public: //acces multithread possible sur tout les get, penser au mutex sur tous les accès aux variables.
+public: //acces multithread possible sur tout les get, penser au mutex sur tous les accÃ¨s aux variables.
 	CCyclePause(QObject *parent);
 	CCyclePause(QVariantMap);
     CCyclePause(QObject* parent, int temps);

@@ -65,7 +65,7 @@ void CSequenceur::setSequenceMesure(){
 
 		m_cycleMesureEnCours = (*m_itListSequenceCyclesMesure);
 
-		//Si les signaux ne fonctionne pas, vérfier que le cycle à était déplacer dans un QThread à part(movethead)
+		//Si les signaux ne fonctionne pas, vÃ©rfier que le cycle Ã  Ã©tait dÃ©placer dans un QThread Ã  part(movethead)
 		connect(this, &CSequenceur::signalRunCycleMesure, m_cycleMesureEnCours, &ICycle::slotRunCycle);//, Qt::DirectConnection);
 		connect(this, &CSequenceur::signalPauseCycleMesure, m_cycleMesureEnCours, &ICycle::slotPauseCycle);
 		connect(this, &CSequenceur::signalUnPauseCycleMesure, m_cycleMesureEnCours, &ICycle::slotUnPauseCycle); //en double avec play
@@ -135,7 +135,7 @@ void CSequenceur::slotRequestUnPauseSequenceMesure(){
 }
 //Fin Unpause cycle Mesure
 
-//Play  cycle Mesure(démarre ou redémarre du début de la séquence)
+//Play  cycle Mesure(dÃ©marre ou redÃ©marre du dÃ©but de la sÃ©quence)
 void CSequenceur::slotRequestPlaySequenceMesure(){
 	emit signalGetReadyForPlayCycleMesure();
 }

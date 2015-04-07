@@ -111,7 +111,7 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
 		}
 	}
 
-	//Séquenceur
+	//SÃ©quenceur
 	QJsonObject jsonObjectSequenceur = m_jsonDoc->object();
 	if(jsonObjectSequenceur["sequenceur_measure"] == QJsonValue::Undefined){
 		qDebug() << "jsonObject[\"sequenceur_measure\"] == QJsonValue::Undefined";

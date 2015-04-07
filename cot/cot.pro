@@ -1,10 +1,10 @@
 TEMPLATE = app
 TARGET = cot
-QT += widgets
+QT *= widgets
 
-DEFINES += "COT_JSON_FILE=\\\"$$PWD/save.json\\\""
+DEFINES *= "COT_JSON_FILE=\\\"$$PWD/save.json\\\""
 
-INCLUDEPATH += \
+INCLUDEPATH *= \
     . \
     gui \
     automate/variables \
@@ -14,7 +14,7 @@ INCLUDEPATH += \
     automate/actions \
     automate/units
 
-DEPENDPATH += \
+DEPENDPATH *= \
     . \
     gui \
     automate/variables \
@@ -24,13 +24,13 @@ DEPENDPATH += \
     automate/actions \
     automate/units
 
-RESOURCES = \
+RESOURCES *= \
     resources/cot-resources.qrc
 
-FORMS = \
+FORMS *= \
     gui/cotversion1.ui
 
-HEADERS = \
+HEADERS *= \
     automate/CAutomate.h \
     automate/CControlerAutomate.h \
     automate/CControlerCycle.h \
@@ -82,7 +82,7 @@ HEADERS = \
     automate/variables/IVariableOutput.h \
     gui/cotversion1.h
 
-SOURCES = main.cpp \
+SOURCES *= main.cpp \
     automate/CAutomate.cpp \
     automate/CControlerAutomate.cpp \
     automate/CControlerCycle.cpp \
@@ -133,3 +133,7 @@ SOURCES = main.cpp \
     automate/variables/IVariableInput.cpp \
     automate/variables/IVariableOuput.cpp \
     gui/cotversion1.cpp
+
+DISTFILES *= \
+    save.json \
+    utf-8-converter.sh

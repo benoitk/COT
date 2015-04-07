@@ -34,7 +34,7 @@ void CVariableUnknow::setLabel(QString){
 }
 void CVariableUnknow::addBind(IVariable* arg_var){
 }
-//Pas de récursivité dans les binds pour l'instant pour ne pas gérer les binds croisés({var1, var2}, {var2, var1})
+//Pas de rÃ©cursivitÃ© dans les binds pour l'instant pour ne pas gÃ©rer les binds croisÃ©s({var1, var2}, {var2, var1})
 void CVariableUnknow::setToBindedValue(QVariant value){
 }
 variableType CVariableUnknow::getType()const{

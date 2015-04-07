@@ -33,7 +33,7 @@ CActionCmdReadInput::~CActionCmdReadInput()
 }
 
 bool CActionCmdReadInput::runAction(){
-	qDebug()<< QString("Action lecture entrée ")
+	qDebug()<< QString("Action lecture entrÃ©e ")
 			<< " label fr " << m_label
 			<< " m_card_id " << m_extentionName
 			<< " m_num_card_output " << m_organneName

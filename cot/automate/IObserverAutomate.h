@@ -7,54 +7,54 @@ class IObserverAutomate
 {
 public:
 
-	// DEBUT Fenêtre principale 
+	// DEBUT FenÃªtre principale 
 
 	//desc : nouvelle ligne d'alarme 
-	//entrées : identifiant(pour acquitement), date, heure et descriptif  
+	//entrÃ©es : identifiant(pour acquitement), date, heure et descriptif  
 	virtual void updateAlarms(int, QDateTime, QString)=0; 
 	
 	//desc : Nouvelle ligne d'historique de mesure
-	//entrées : date, heure, descriptif
+	//entrÃ©es : date, heure, descriptif
 	virtual void updateHistory(QDateTime, QString)=0; 
 	
-	//desc : Etat changé : En court, en pause, en arrêt
-	//entrées : enum de l'état du cycle en cours
+	//desc : Etat changÃ© : En court, en pause, en arrÃªt
+	//entrÃ©es : enum de l'Ã©tat du cycle en cours
 	virtual void updateStateCycle(CAutomate::eStateCycle)=0; 
 	
 	
-	//desc : Etat changé : En défaut, en cycle, en maintenance
-	//entrées : enum de l'état de l'automate
+	//desc : Etat changÃ© : En dÃ©faut, en cycle, en maintenance
+	//entrÃ©es : enum de l'Ã©tat de l'automate
 	virtual void updateStateAutomoate(CAutomate::eStateAutomate)=0; 
 
-	//desc : Pas en cours changé 
-	//entrées : pas en cours; label du pas 
+	//desc : Pas en cours changÃ© 
+	//entrÃ©es : pas en cours; label du pas 
 	virtual void updateCurrentStep(float, QString)=0; 
 
-	//desc : Nombre total de pas changé 
-	//entrées : Nombre de pas total
+	//desc : Nombre total de pas changÃ© 
+	//entrÃ©es : Nombre de pas total
 	virtual void updateCountStep(int); 
 
-	//desc : Voie en court changé 
-	//entrées : numéro, Label voie 
+	//desc : Voie en court changÃ© 
+	//entrÃ©es : numÃ©ro, Label voie 
 	virtual void updateCurrentStream(int, QString); 
 
-	//desc : Nombre total de voie changée 
-	//entrées : Nombre de voie total
+	//desc : Nombre total de voie changÃ©e 
+	//entrÃ©es : Nombre de voie total
 	virtual void updateCountStream(int); 
 
-	//desc : Statue de voie changée : Active, en défeau d'eau...
-	//entrées : enum de l'état de la voie 
+	//desc : Statue de voie changÃ©e : Active, en dÃ©feau d'eau...
+	//entrÃ©es : enum de l'Ã©tat de la voie 
 	virtual void updateStateStream(CAutomate::eStateStream); 
 
-	//desc : Valeur des variables de mesures affichable sur l'écran principale  (JSon : champ "streams->variables->type = measure)
-	//entrées : identifiant et valeur de la variable de mesure, 
+	//desc : Valeur des variables de mesures affichable sur l'Ã©cran principale  (JSon : champ "streams->variables->type = measure)
+	//entrÃ©es : identifiant et valeur de la variable de mesure, 
 	virtual void updateMeasureValues(int, QVariant); 
 	
-	//desc : Label et unité des variables de mesures affichable sur l'écran principale
-	//entrées : identifiant, label et unité de la variable
+	//desc : Label et unitÃ© des variables de mesures affichable sur l'Ã©cran principale
+	//entrÃ©es : identifiant, label et unitÃ© de la variable
 	virtual void updateMeasureLabels(int, QString); 
 
-	//FIN fenêtre principale
+	//FIN fenÃªtre principale
 
 
 	

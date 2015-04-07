@@ -38,7 +38,7 @@ void CVariableVoie::setValue(int iValue){
 void CVariableVoie::setValue(QVariant value){
 	m_iNumVoie = value.toInt();
 }
-//Pas de récursivité dans les binds pour l'instant pour ne pas gérer les binds croisés({var1, var2}, {var2, var1})
+//Pas de rÃ©cursivitÃ© dans les binds pour l'instant pour ne pas gÃ©rer les binds croisÃ©s({var1, var2}, {var2, var1})
 void CVariableVoie::setToBindedValue(QVariant value){
 	
 }

@@ -3,7 +3,7 @@
 
 #include <QObject>
 
-//GEstion de l'éxecution des cycles
+//GEstion de l'Ã©xecution des cycles
 class ICycle;
 class CControlerCycle;
 class CSequenceur : public QObject
@@ -22,7 +22,7 @@ public:
 	void setSequenceMesure(QList<ICycle*>);
 
 public slots:
-	void slotRequestPlaySequenceMesure(); //démarre ou redémarre 
+	void slotRequestPlaySequenceMesure(); //dÃ©marre ou redÃ©marre 
 	void slotRequestPlayNextSequenceMesure();
 	void slotRequestStopSequenceMesure();
 	void slotRequestPauseSequenceMesure();
