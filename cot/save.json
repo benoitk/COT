@@ -1,6 +1,7 @@
 {
-    "fr_FR_analyser" : "COT",
-    "en_EN_analyser" : "TOC",
+    "name" : "toc",
+    "fr_FR" : "COT",
+    "en_EN" : "TOC",
     "version":"0.0.0",
 
     "network" : [
@@ -157,16 +158,16 @@
 
     },
 
-    "streams" : [{"fr_FR":"stream 1", "variables":["status", "defaut_eau"], "active_state": "stream_1_state",
-                    "measures":[{"fr_FR":"var relative a measure 1", "variables":[{"name":"coeff", "type":"standard"}, {"name":"measure_silice", "type":"measure"}]},
-                       {"fr_FR":"var relative a measure 2", "variables":[{"name":"coeff_2", "type":"standard"}, {"name":"measure_silice_2", "type":"measure"}]}
+    "streams" : [{"name":"stream_1", "fr_FR":"stream 1", "variables":["status", "defaut_eau"], "active_state": "stream_1_state",
+                    "measures":[{"name":"measure_1", "fr_FR":"var relative a measure 1", "variables":[{"name":"coeff", "type":"standard"}, {"name":"measure_silice", "type":"measure"}]},
+                       {"name":"measure_2", "fr_FR":"var relative a measure 2", "variables":[{"name":"coeff_2", "type":"standard"}, {"name":"measure_silice_2", "type":"measure"}]}
                     ],
                     "cycles":["maintenance_1", "zero_1", "cycle_measure_cot_stream1"]
 
                 },
-            {"fr_FR":"stream 2", "variables":["var_stream", "measure"],
-            "measures":[{"fr_FR":"measure 1", "variables":["var_measure", "var_measure"]},
-                       {"fr_FR":"measure 2", "variables":["var_measure", "var_measure"]}
+            {"name":"stream_2", "fr_FR":"stream 2", "variables":["var_stream", "measure"],
+            "measures":[{"name":"measure_3","fr_FR":"measure 1", "variables":["var_measure", "var_measure"]},
+                       {"name":"measure_4","fr_FR":"measure 2", "variables":["var_measure", "var_measure"]}
 
             ],
             "cycles":["maintenance_2"]
@@ -267,7 +268,7 @@
             "fr_FR" : "Cycle de lecture de la carte E/S 1",
             "en_EN" : "Reading cycle on I/O card 1",
             "type":"autonome",
-            "steps" : [{"step":1, "fr_FR":"Init", "actions":["read_input_1_card_io_1", "read_input_1_card_io_1"] }, {"step":2, "name":"read_input_2_card_io_1"}, {"step":5, "name":"read_all_input_card_io_1"},{"step":"stop", "name":"action_bidule"},{"step":"stop", "name":"action_machin"}]
+            "steps" : [{"name":"step_1", "step":1, "fr_FR":"Init", "actions":["read_input_1_card_io_1", "read_input_1_card_io_1"] }, {"step":2, "name":"read_input_2_card_io_1"}, {"step":5, "name":"read_all_input_card_io_1"},{"step":"stop", "name":"action_bidule"},{"step":"stop", "name":"action_machin"}]
         },
         {
             "name" : "cycle_pause_0",
@@ -288,7 +289,7 @@
             "fr_FR" : "measure de COT",
             "en_EN" : "measure of TOC",
             "type" : "measure",
-            "steps" : [{"step":1,"fr_FR":"Init", "actions":["ouverture_ev_stream1"]}, {"step":4, "actions":["fermeture_ev_1","4_tour_pompe_2"]}, {"step":6, "name":"6_tour_pompe_2"}, {"step":12, "name":"fermeture_ev_1"}, {"step":25, "name":"6_tour_pompe_2"}]
+            "steps" : [{"name":"step_2", "step":1,"fr_FR":"Init", "actions":["ouverture_ev_stream1"]}, {"name":"step_3", "step":4, "actions":["fermeture_ev_1","4_tour_pompe_2"]}, {"step":6, "name":"6_tour_pompe_2"}, {"step":12, "name":"fermeture_ev_1"}, {"step":25, "name":"6_tour_pompe_2"}]
         },
         {
             "name" : "cycle_measure_cot_stream2",

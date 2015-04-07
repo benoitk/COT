@@ -13,7 +13,9 @@ INCLUDEPATH *= \
     automate/com \
     automate/cycles \
     automate/actions \
-    automate/units
+    automate/units \
+    translations \
+    translations/3rdparty
 
 DEPENDPATH *= \
     . \
@@ -23,7 +25,9 @@ DEPENDPATH *= \
     automate/com \
     automate/cycles \
     automate/actions \
-    automate/units
+    automate/units \
+    translations \
+    translations/3rdparty
 
 RESOURCES *= \
     resources/cot-resources.qrc
@@ -84,7 +88,8 @@ HEADERS *= \
     gui/cotversion1.h \
     translations/3rdparty/simtexth.h \
     translations/3rdparty/translator.h \
-    translations/3rdparty/translatormessage.h
+    translations/3rdparty/translatormessage.h \
+    translations/CTranslationGenerator.h
 
 SOURCES *= main.cpp \
     automate/CAutomate.cpp \
@@ -142,7 +147,8 @@ SOURCES *= main.cpp \
     translations/3rdparty/simtexth.cpp \
     translations/3rdparty/translator.cpp \
     translations/3rdparty/translatormessage.cpp \
-    translations/3rdparty/ts.cpp
+    translations/3rdparty/ts.cpp \
+    translations/CTranslationGenerator.cpp
 
 DISTFILES *= \
     save.json \
