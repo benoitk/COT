@@ -1,7 +1,7 @@
 {
     "name" : "toc",
     "fr_FR" : "COT",
-    "en_EN" : "TOC",
+    "en_US" : "TOC",
     "version":"0.0.0",
 
     "network" : [
@@ -18,7 +18,7 @@
 
     ],
     "extensions" : [
-        {"name" : "measure_card_1","fr_FR" : "Carte measure 1", "en_EN" : "Measure card 1",
+        {"name" : "measure_card_1","fr_FR" : "Carte measure 1", "en_US" : "Measure card 1",
             "com" : {"type":"jbus_over_tcpip", "slave":1 , "ip":"192.168.1.5", "port":245, "network":"eth0"} ,
             "organs" : [{"name":"measure_cell", "type":"input_float", "address_data":"0x0001"},
                           {"name":"heater", "type":"output_float", "address_data":"0x0002"},
@@ -30,7 +30,7 @@
                           {"name":"cmd_pump1", "type":"output_bit", "address_data":"0x0006"},
                           {"name":"cmd_pump2", "type":"output_bit", "address_data":"0x0007"}]
         },
-        {"name" : "io_card_1","fr_FR" : "Carte E/S 1", "en_EN" : "I/O card 1",
+        {"name" : "io_card_1","fr_FR" : "Carte E/S 1", "en_US" : "I/O card 1",
             "com" : {"type":"jbus_over_tcpip", "slave":2, "ip":"192.168.1.3", "port":245, "network":"eth0" },
             "organs" : [{"name":"output_1", "type":"output_bit", "address_data":"0x0001", "passif":true},
                        {"name":"output_2", "type":"output_bit", "address_data":"0x0002", "passif":true},
@@ -42,12 +42,12 @@
                        {"name":"input_3",  "type":"input_bit", "address_data":"0x0011", "passif":true},
                        {"name":"input_4",  "type":"input_bit", "address_data":"0x0011", "passif":true}]
         },
-        {"name" : "io_card_2","fr_FR" : "Carte E/S 2", "en_EN" : "I/O card 2",
+        {"name" : "io_card_2","fr_FR" : "Carte E/S 2", "en_US" : "I/O card 2",
             "com" : {"type":"jbus", "slave":3, "network":"uart0"},
             "organs" : [{"name":"output_1", "type":"output_bit", "address_data":"0x0001"},
                        {"name":"input_1",  "type":"input_bit", "address_data":"0x0011"}]
         },
-        {"name" : "measure_card_2","fr_FR" : "Carte E/S 2", "en_EN" : "I/O card 2",
+        {"name" : "measure_card_2","fr_FR" : "Carte E/S 2", "en_US" : "I/O card 2",
             "com" : {"type":"jbus", "slave":4, "network":"uart1"},
             "organs" : [{"name":"output_1", "type":"output_bit", "address_data":"0x0001"},
                        {"name":"input_1",  "type":"input_bit", "address_data":"0x0011"}]
@@ -74,30 +74,30 @@
 
     ],
 
-    "variables" : [ {"name":"test_entee", "fr_FR" : "test entrée 1", "en_EN" : "test input 1", "type":"boolean", "value" : 1, "unit":"mg_l"},
-                    {"name":"speed_pump_30rpm", "fr_FR" : "test entrée 1", "en_EN" : "test input 1", "type":"integer", "value" : 30, "unit":"tr_min"},
-                    {"name":"direction_pump_trigo", "fr_FR" : "test entrée 1", "en_EN" : "test input 1", "type":"integer", "value" : true, "unit":"tr_min"},
-                    {"name":"direction_pump_antitrigo", "fr_FR" : "test entrée 1", "en_EN" : "test input 1", "type":"integer", "value" : false, "unit":"tr_min"},
-                    {"name":"test_ev_A", "fr_FR" : "entrée 1", "en_EN" : "input 1", "type":"boolean", "value" : 1},
-                    {"name":"entree_ana", "fr_FR" : "entrée analogique 1", "en_EN" : "analog input 1", "type":"input_float",
+    "variables" : [ {"name":"test_entee", "fr_FR" : "test entrée 1", "en_US" : "test input 1", "type":"boolean", "value" : 1, "unit":"mg_l"},
+                    {"name":"speed_pump_30rpm", "fr_FR" : "test entrée 1", "en_US" : "test input 1", "type":"integer", "value" : 30, "unit":"tr_min"},
+                    {"name":"direction_pump_trigo", "fr_FR" : "test entrée 1", "en_US" : "test input 1", "type":"integer", "value" : true, "unit":"tr_min"},
+                    {"name":"direction_pump_antitrigo", "fr_FR" : "test entrée 1", "en_US" : "test input 1", "type":"integer", "value" : false, "unit":"tr_min"},
+                    {"name":"test_ev_A", "fr_FR" : "entrée 1", "en_US" : "input 1", "type":"boolean", "value" : 1},
+                    {"name":"entree_ana", "fr_FR" : "entrée analogique 1", "en_US" : "analog input 1", "type":"input_float",
                             "value" : 0, "extension_name":"measure_card_1", "organ_name":"measure_cell"
                     },
-                    {"name":"ev_1", "fr_FR" : "sortie EV", "en_EN" : "analog input 1", "type":"output_boolean",
+                    {"name":"ev_1", "fr_FR" : "sortie EV", "en_US" : "analog input 1", "type":"output_boolean",
                             "value" : 0, "extension_name":"io_card_1", "organ_name":"output_1"
                     },
-                    {"name":"ev_2", "fr_FR" : "sortie EV", "en_EN" : "analog input 1", "type":"output_boolean",
+                    {"name":"ev_2", "fr_FR" : "sortie EV", "en_US" : "analog input 1", "type":"output_boolean",
                             "value" : 0, "extension_name":"io_card_1", "organ_name":"output_2"
                     },
-                    {"name":"actionneur_1", "fr_FR" : "sortie EV", "en_EN" : "analog input 1", "type":"output_boolean",
+                    {"name":"actionneur_1", "fr_FR" : "sortie EV", "en_US" : "analog input 1", "type":"output_boolean",
                             "value" : 0, "extension_name":"io_card_1", "organ_name":"output_3"
                     },
-                     {"name":"actionneur_2", "fr_FR" : "sortie EV", "en_EN" : "analog input 1", "type":"output_boolean",
+                     {"name":"actionneur_2", "fr_FR" : "sortie EV", "en_US" : "analog input 1", "type":"output_boolean",
                             "value" : 0, "extension_name":"io_card_1", "organ_name":"output_4"
                     },
-                    {"name":"aff_measure_1", "fr_FR" : "measure", "en_EN" : "measure", "type":"float", "format":"%f7.2",
+                    {"name":"aff_measure_1", "fr_FR" : "measure", "en_US" : "measure", "type":"float", "format":"%f7.2",
                             "value" : 0, "extension_name":"ecran", "organ_name":"donnee_ecran_principale_measure_1"
                     },
-                    {"name":"aff_measure_2", "fr_FR" : "measure", "en_EN" : "measure", "type":"float",
+                    {"name":"aff_measure_2", "fr_FR" : "measure", "en_US" : "measure", "type":"float",
                             "value" : 0, "extension_name":"ecran", "organ_name":"donnee_ecran_principale_measure_2"
                     },
                     {"name":"cellule_measure", "fr_FR":"cellule de measure", "type":"input_float","format":"%f7.2",
@@ -205,7 +205,7 @@
                     "name" : "4_tour_pompe_2",
                     "type" : "cmd_pump",
                     "fr_FR" : "4 tours de pompes 2",
-                    "en_EN" : "4 tours of pumps 2",
+                    "en_US" : "4 tours of pumps 2",
                     "num_pump" : 2,
                     "speed_pump" : "speed_pump_30rpm",
                     "direction_trigo_pump" : "direction_pump_trigo",
@@ -217,7 +217,7 @@
                     "name" : "ouverture_ev_stream1",
                     "type" : "cmd_relay",
                     "fr_FR" : "Fermeture EV 1",
-                    "en_EN" : "Close EV 1",
+                    "en_US" : "Close EV 1",
                     "target" : "output_ev"
 
                 },
@@ -225,7 +225,7 @@
                     "name" : "ouverture_ev_stream2",
                     "type" : "cmd_relay",
                     "fr_FR" : "Fermeture EV 1",
-                    "en_EN" : "Close EV 1",
+                    "en_US" : "Close EV 1",
                     "target" : "output_ev"
 
                 },
@@ -233,7 +233,7 @@
                     "name" : "bloc_rincage",
                     "type" : "bloc",
                     "fr_FR" : "6 tours de pompes 2",
-                    "en_EN" : "6 tours of pumps 2",
+                    "en_US" : "6 tours of pumps 2",
                     "steps" : [{"step":1, "name":"read_input_1_card_io_1"}, {"step":2, "name":"read_input_2_card_io_1"}, {"step":5, "name":"read_all_input_card_io_1"}]
 
                 },
@@ -241,14 +241,14 @@
                     "name":"read_input_1_card_io_1",
                     "type":"cmd_read_input",
                     "fr_FR" : "Lecture entrée 1 sur carte E/S 1",
-                    "en_EN" : "Read input 1 on I/O card 1",
+                    "en_US" : "Read input 1 on I/O card 1",
                     "target" : "test_entee"
                 },
                 {
                     "name":"calcul coef",
                     "type":"cal_coef",
                     "fr_FR" : "Lecture entrée 1 sur carte E/S 1",
-                    "en_EN" : "Read input 1 on I/O card 1",
+                    "en_US" : "Read input 1 on I/O card 1",
                     "variable_entre_concentration_avant" : "coef_test",
                     "variable_sortie_concentration" : "coef_actuel"
                 },
@@ -256,7 +256,7 @@
                     "name":"report_coeff_calcule",
                     "type":"report_coeff",
                     "fr_FR" : "Lecture entrée 1 sur carte E/S 1",
-                    "en_EN" : "Read input 1 on I/O card 1",
+                    "en_US" : "Read input 1 on I/O card 1",
                     "variable_entre" : "coeff_calcule",
                     "variable_sortie" : "coef_actuel"
                 }
@@ -266,49 +266,49 @@
         {
             "name" : "maintenance_1",
             "fr_FR" : "Cycle de lecture de la carte E/S 1",
-            "en_EN" : "Reading cycle on I/O card 1",
+            "en_US" : "Reading cycle on I/O card 1",
             "type":"autonome",
             "steps" : [{"name":"step_1", "step":1, "fr_FR":"Init", "actions":["read_input_1_card_io_1", "read_input_1_card_io_1"] }, {"step":2, "name":"read_input_2_card_io_1"}, {"step":5, "name":"read_all_input_card_io_1"},{"step":"stop", "name":"action_bidule"},{"step":"stop", "name":"action_machin"}]
         },
         {
             "name" : "cycle_pause_0",
             "fr_FR" : "En pause",
-            "en_EN" : "Paused",
+            "en_US" : "Paused",
             "type" : "pause",
             "timer" : 10
         },
         {
             "name" : "cycle_pause_1",
             "fr_FR" : "En pause",
-            "en_EN" : "Paused",
+            "en_US" : "Paused",
             "type" : "pause",
             "timer" : 3
         },
         {
             "name" : "cycle_measure_cot_stream1",
             "fr_FR" : "measure de COT",
-            "en_EN" : "measure of TOC",
+            "en_US" : "measure of TOC",
             "type" : "measure",
             "steps" : [{"name":"step_2", "step":1,"fr_FR":"Init", "actions":["ouverture_ev_stream1"]}, {"name":"step_3", "step":4, "actions":["fermeture_ev_1","4_tour_pompe_2"]}, {"step":6, "name":"6_tour_pompe_2"}, {"step":12, "name":"fermeture_ev_1"}, {"step":25, "name":"6_tour_pompe_2"}]
         },
         {
             "name" : "cycle_measure_cot_stream2",
             "fr_FR" : "measure de COT",
-            "en_EN" : "measure of TOC",
+            "en_US" : "measure of TOC",
             "type" : "measure",
             "steps" : [{"step":1,"name":"ouverture_ev_stream2"}, {"step":4, "name":"fermeture_ev_1"}, {"step":4, "name":"4_tour_pompe_2"}, {"step":6, "name":"6_tour_pompe_2"}, {"step":12, "name":"fermeture_ev_1"}, {"step":25, "name":"6_tour_pompe_2"}]
         },
         {
             "name" : "cycle_measure_1",
             "fr_FR" : "measure de COT 2",
-            "en_EN" : "measure of TOC 2",
+            "en_US" : "measure of TOC 2",
             "type" : "measure",
             "steps" : [{"step":1, "name":"4_tour_pompe_2"}, {"step":6, "name":"6_tour_pompe_2"}]
         },
         {
             "name" : "cycle_measure_2",
             "fr_FR" : "measure de COT 2",
-            "en_EN" : "measure of TOC 2",
+            "en_US" : "measure of TOC 2",
             "type" : "maintenance",
             "parameter_input":["etalon_reference"],
             "parameter_output":["coeff_actuel", "coeff_calcule"],

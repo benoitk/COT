@@ -89,7 +89,7 @@ HEADERS *= \
     translations/3rdparty/simtexth.h \
     translations/3rdparty/translator.h \
     translations/3rdparty/translatormessage.h \
-    translations/CTranslationGenerator.h
+    translations/CTranslator.h
 
 SOURCES *= main.cpp \
     automate/CAutomate.cpp \
@@ -148,7 +148,7 @@ SOURCES *= main.cpp \
     translations/3rdparty/translator.cpp \
     translations/3rdparty/translatormessage.cpp \
     translations/3rdparty/ts.cpp \
-    translations/CTranslationGenerator.cpp
+    translations/CTranslator.cpp
 
 DISTFILES *= \
     save.json \

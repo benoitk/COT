@@ -1,18 +1,29 @@
 #ifndef COTVERSION1_H
 #define COTVERSION1_H
 
-#include <QtWidgets/QMainWindow>
+#include <QMainWindow>
 
-class COTversion1 : public QMainWindow
+namespace Ui {
+class COTVersion1;
+}
+
+class COTVersion1 : public QMainWindow
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	COTversion1(QWidget *parent = 0);
-	~COTversion1();
+    COTVersion1(QWidget *parent = 0);
+    ~COTVersion1();
+
+private slots:
+    void slotExportTranslations();
+    void slotImportTranslations();
 
 private:
+    Ui::COTVersion1 *ui;
 
+    QString jsonFilePath() const;
+    QString translationsPath() const;
 };
 
 #endif // COTVERSION1_H
