@@ -1,6 +1,7 @@
 TEMPLATE = app
 TARGET = cot
 QT *= widgets
+QT *= core-private
 
 DEFINES *= "COT_JSON_FILE=\\\"$$PWD/save.json\\\""
 
@@ -80,7 +81,10 @@ HEADERS *= \
     automate/variables/IVariable.h \
     automate/variables/IVariableInput.h \
     automate/variables/IVariableOutput.h \
-    gui/cotversion1.h
+    gui/cotversion1.h \
+    translations/3rdparty/simtexth.h \
+    translations/3rdparty/translator.h \
+    translations/3rdparty/translatormessage.h
 
 SOURCES *= main.cpp \
     automate/CAutomate.cpp \
@@ -132,7 +136,13 @@ SOURCES *= main.cpp \
     automate/variables/IVariable.cpp \
     automate/variables/IVariableInput.cpp \
     automate/variables/IVariableOuput.cpp \
-    gui/cotversion1.cpp
+    gui/cotversion1.cpp \
+    translations/3rdparty/numerus.cpp \
+    translations/3rdparty/qm.cpp \
+    translations/3rdparty/simtexth.cpp \
+    translations/3rdparty/translator.cpp \
+    translations/3rdparty/translatormessage.cpp \
+    translations/3rdparty/ts.cpp
 
 DISTFILES *= \
     save.json \
