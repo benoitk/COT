@@ -15,15 +15,8 @@ public:
     COTVersion1(QWidget *parent = 0);
     ~COTVersion1();
 
-private slots:
-    void slotExportTranslations();
-    void slotImportTranslations();
-
 private:
     Ui::COTVersion1 *ui;
-
-    QString jsonFilePath() const;
-    QString translationsPath() const;
 };
 
 #endif // COTVERSION1_H

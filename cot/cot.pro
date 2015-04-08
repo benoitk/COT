@@ -1,7 +1,6 @@
 TEMPLATE = app
 TARGET = cot
 QT *= widgets
-QT *= core-private
 
 DEFINES *= "COT_JSON_FILE=\\\"$$PWD/save.json\\\""
 
@@ -13,9 +12,7 @@ INCLUDEPATH *= \
     automate/com \
     automate/cycles \
     automate/actions \
-    automate/units \
-    translations \
-    translations/3rdparty
+    automate/units
 
 DEPENDPATH *= \
     . \
@@ -25,9 +22,7 @@ DEPENDPATH *= \
     automate/com \
     automate/cycles \
     automate/actions \
-    automate/units \
-    translations \
-    translations/3rdparty
+    automate/units
 
 RESOURCES *= \
     resources/cot-resources.qrc
@@ -85,11 +80,7 @@ HEADERS *= \
     automate/variables/IVariable.h \
     automate/variables/IVariableInput.h \
     automate/variables/IVariableOutput.h \
-    gui/cotversion1.h \
-    translations/3rdparty/simtexth.h \
-    translations/3rdparty/translator.h \
-    translations/3rdparty/translatormessage.h \
-    translations/CTranslator.h
+    gui/cotversion1.h
 
 SOURCES *= main.cpp \
     automate/CAutomate.cpp \
@@ -141,15 +132,4 @@ SOURCES *= main.cpp \
     automate/variables/IVariable.cpp \
     automate/variables/IVariableInput.cpp \
     automate/variables/IVariableOuput.cpp \
-    gui/cotversion1.cpp \
-    translations/3rdparty/numerus.cpp \
-    translations/3rdparty/qm.cpp \
-    translations/3rdparty/simtexth.cpp \
-    translations/3rdparty/translator.cpp \
-    translations/3rdparty/translatormessage.cpp \
-    translations/3rdparty/ts.cpp \
-    translations/CTranslator.cpp
-
-DISTFILES *= \
-    save.json \
-    utf-8-converter.sh
+    gui/cotversion1.cpp
