@@ -14,12 +14,25 @@ class CSequenceur;
 class IVariable;
 class CModelExtensionCard;
 class INetwork;
+class IAction;
 class CAutomate : public QObject, IComObserver
 {
 	Q_OBJECT
 
 public:
 	
+	//use for API 
+	QList<CModelExtensionCard*> getListExtensions();
+	QList<ICycle*> getListCycles();
+	QList<IAction*> getListActions();
+	QMap<QString, IVariable*> getMapVariables();
+	void setMapVariables(QMap<QString, IVariable*>);
+	QMap<QString, QList<QString>> getMapStreamsMeasures();
+	void getMapStreamsMeasures(QMap<QString, QList<QString>>);
+
+	//FIN API
+
+
 	enum eStateCycle{CYCLE_RUN, CYLE_PAUSE, CYCLE_STOP};
 	enum eStateAutomate{GENERAL_DEFAULT, RUNNING};
 	enum eStateStream{STREAM_DEFAULT, WATER_DEFAULT, ACTIVE, INACTIVE};
@@ -40,7 +53,6 @@ public:
 	void addVariable(QString, IVariable*);
 
 	CModelExtensionCard* getExtensionCard(QString);
-	QList<CModelExtensionCard*> getListExtension(QString);
 	void addExtensionCard(QString, CModelExtensionCard*); 
 
 
@@ -60,20 +72,22 @@ private:
 	CAutomate();
 	~CAutomate();
 
-	QList<INetwork*> m_listNetwork;
-	QList<CModelExtensionCard*> m_listExtCard;
+	QList<INetwork*> m_listNetworks;
+	QList<CModelExtensionCard*> m_listExtCards;
 	int m_stateCycleMesure; //0 stoped, 1 run, 2 pause
 	int m_stateCycleIO; //0 stoped, 1 run, 2 pause
 	int m_stateCycleMaintenance; //0 stoped, 1 run, 2 pause
 
 	CSequenceur* m_sequenceur;
 
-	QList<ICycle*> m_listCycleMesure;
-	QList<ICycle*> m_listCycleMaintenance;
-	QList<ICycle*> m_listlCycleAutonome;
+	QList<ICycle*> m_listCycleMesures;
+	QList<ICycle*> m_listCycleMaintenances;
+	QList<ICycle*> m_listlCycleAutonomes;
+	QList<IAction*> m_listActions;
 
 	QMap<QString, IVariable*> m_mapVariables;
 	QMutex m_mutexVariablesAccess;
+	QMap<QString, QList<QString>> m_mapStreamsMeasures;
 
 
 

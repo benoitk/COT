@@ -466,6 +466,15 @@
     <ClCompile Include="IObserverAutomate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CStep.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_CStep.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_CStep.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="cotversion1.h">
@@ -614,6 +623,9 @@
     </CustomBuild>
     <CustomBuild Include="CUnit.h">
       <Filter>Header Automate\Units</Filter>
+    </CustomBuild>
+    <CustomBuild Include="CStep.h">
+      <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>

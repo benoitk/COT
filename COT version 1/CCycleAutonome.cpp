@@ -9,7 +9,18 @@ CCycleAutonome::CCycleAutonome(QVariantMap variantMap, QMap<QString, IAction*> a
 	:CCycleMesure(variantMap, actionMap){}
 CCycleAutonome::~CCycleAutonome(){}
 
-
+bool CCycleAutonome::isStreamRelated()const{
+	return true;
+}
+QString CCycleAutonome::getRelatedStreamName()const{
+	return "voie 1";
+}
+QList<CStep*> CCycleAutonome::getListSteps()const{
+	return m_listSteps;
+}
+CStep* CCycleAutonome::getStepStop()const{
+	return m_stepStop;
+}
 //CCycleAutonome::CCycleAutonome(QObject *parent)
 //	: ICycle(parent)
 //{

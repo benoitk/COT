@@ -3,6 +3,7 @@
 
 #include <QObject>
 
+class IVariable;
 class IAction : public QObject
 {
 	Q_OBJECT
@@ -14,8 +15,8 @@ public:
 
 	virtual bool runAction()=0;
 	virtual QString getName()const=0;
-
-	//static IAction* factory(QVariantMap);
+	virtual QList<IVariable*> getListParameters()const=0;
+	
 
 };
 

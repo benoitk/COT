@@ -15,6 +15,12 @@ class CModelExtensionCard : public QObject, public IComObserver
 	Q_OBJECT
 
 public:
+	//Use for API
+	QList<IOrgan*>  getListOrgans()const;
+	QString getLabel()const;
+	ICom* getICom()const;
+
+	//
 	CModelExtensionCard(QObject *parent);
 	~CModelExtensionCard();
 
@@ -22,9 +28,6 @@ public:
 	QString getName()const;
 	QVariant readOrganneValue(IVariableInput*);
 
-	QList<IOrgan*>  getListOrgan()const;
-	QString getLabel()const;
-	ICom* getICom()const;
 
 
 
@@ -37,7 +40,7 @@ private:
 	
 	//qmap<name, type>
 
-	QList<IOrgan*> m_listOrgan;
+	QList<IOrgan*> m_listOrgans;
 	ICom* m_interfaceCom;
 	
 	QString m_lbl;

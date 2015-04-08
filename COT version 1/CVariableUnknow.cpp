@@ -1,6 +1,6 @@
 #include "CVariableUnknow.h"
 #include "CUnit.h"
-
+#include "qlinkedlist.h"
 CVariableUnknow::CVariableUnknow()
 	: QObject()
 {
@@ -42,4 +42,34 @@ variableType CVariableUnknow::getType()const{
 }
 void CVariableUnknow::switchToUnit(CUnit* targetUnit){
 	
+}
+void  CVariableUnknow::delBind(IVariable*){
+
+}
+void  CVariableUnknow::getUnit(){
+
+}
+bool  CVariableUnknow::isStreamRelated()const{
+	return false;
+}
+QString  CVariableUnknow::getRelatedStreamName()const{
+	return "voie a changer";
+}
+bool  CVariableUnknow::isMeasureRelated()const{
+	return false;
+}
+QString  CVariableUnknow::getRelatedMeasureName()const{
+	return "mesure a changer";
+}
+bool  CVariableUnknow::isDisplay()const{
+	return false;
+}
+QLinkedList<IVariable*>  CVariableUnknow::getListOutBinds()const{
+	QLinkedList<IVariable*> list;
+	return list;
+}
+QLinkedList<IVariable*>  CVariableUnknow::getListInBinds()const{
+	QLinkedList<IVariable*> list;
+	return list;
+
 }

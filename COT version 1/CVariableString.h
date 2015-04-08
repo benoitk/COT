@@ -29,6 +29,17 @@ public:
 	variableType getType()const;
 	void switchToUnit(CUnit*);
 
+	//
+	void delBind(IVariable*);
+	void getUnit();
+	bool isStreamRelated()const;
+	QString getRelatedStreamName()const;
+	bool isMeasureRelated()const;
+	QString getRelatedMeasureName()const;
+	bool isDisplay()const;
+	QLinkedList<IVariable*> getListOutBinds()const;
+	QLinkedList<IVariable*> getListInBinds()const;
+
 private:
 	QString m_sValeur;
 	QString m_label;

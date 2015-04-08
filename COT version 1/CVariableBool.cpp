@@ -74,3 +74,32 @@ void CVariableBool::switchToUnit(CUnit* targetUnit){
 		m_bValeur = var.toBool();
 	m_unit = targetUnit;
 }
+
+void  CVariableBool::delBind(IVariable*){
+
+}
+void  CVariableBool::getUnit(){
+
+}
+bool  CVariableBool::isStreamRelated()const{
+	return false;
+}
+QString  CVariableBool::getRelatedStreamName()const{
+	return "voie a changer";
+}
+bool  CVariableBool::isMeasureRelated()const{
+	return false;
+}
+QString  CVariableBool::getRelatedMeasureName()const{
+	return "mesure a changer";
+}
+bool  CVariableBool::isDisplay()const{
+	return false;
+}
+QLinkedList<IVariable*>  CVariableBool::getListOutBinds()const{
+	return m_listBinds;
+}
+QLinkedList<IVariable*>  CVariableBool::getListInBinds()const{
+	return m_listBinds;
+
+}

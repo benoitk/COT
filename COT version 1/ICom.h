@@ -13,6 +13,7 @@ typedef enum comType{
 
 class IVariableInput;
 class IVariableOutput;
+class IVariable;
 class ICom : public QObject
 {
 	Q_OBJECT
@@ -30,6 +31,7 @@ public:
 
 	virtual void triggerUpdateAllData()=0;
 	virtual ICom* getType()const=0;
+	virtual QList<IVariable*> getParameters()const=0;
 
 private:
 	

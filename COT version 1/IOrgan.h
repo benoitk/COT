@@ -3,6 +3,7 @@
 
 
 #include "qstring.h"
+#include "qlist.h"
 
 typedef enum organType{
 		output_bool = 0,
@@ -13,14 +14,19 @@ typedef enum organType{
 		input_int
 };
 
+class IVariable;
 class IOrgan 
 {
 
 public:
 	virtual QString getName()const=0;
+	virtual void setName(QString)const=0;
 	virtual organType getType()const=0;
-	virtual QString getAddress()const=0;
+	//adresse physique sur le materiel, varie selon protocol 
+	virtual QString getAddress()const=0; 
+	virtual void setAddress(QString)const=0;
 	virtual QString toString()const=0;
+	virtual QList<IVariable*> getListParamters()const=0;
 
 private:
 	

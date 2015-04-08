@@ -12,12 +12,18 @@ class CSequenceur : public QObject
 
 public:
 	
+	//API
+	QList<ICycle*> getListSequenceCyclesMesures();
+	void setListSequenceCyclesMesures(QList<ICycle*>);
+
+	//FIN API
+
 	static CSequenceur* getInstance();
 
 	void apendSequenceMesureRunCycle(ICycle*, int nbCycle);
 	//void apendSequenceMesureRunCycle(CControlerCycle*, int nbCycle);
 	void apendSequenceMesurePause(int minute);
-	void initListSequenceCyclesMesure(QList<ICycle*>);
+	void initListSequenceCyclesMesures(QList<ICycle*>);
 
 	void setSequenceMesure(QList<ICycle*>);
 
@@ -66,9 +72,9 @@ private:
 
 
 	static CSequenceur* singleton;
-	QList<ICycle*> m_listSequenceCyclesMesure;
-	QList<ICycle*> m_listSequenceCyclesAutonome;
-	QList<ICycle*> m_listSequenceCyclesMaintenance;
+	QList<ICycle*> m_listSequenceCyclesMesures;
+	QList<ICycle*> m_listSequenceCyclesAutonomes;
+	QList<ICycle*> m_listSequenceCyclesMaintenances;
 
 	/*QList<CControlerCycle*> m_listSequenceCyclesMesure;
 	QList<CControlerCycle*> m_listSequenceCyclesAutonome;
@@ -81,7 +87,7 @@ private:
 	bool m_bCycleMesurePaused;
 	bool m_bCycleMesureRunning;
 
-	QList<ICycle*>::iterator m_itListSequenceCyclesMesure; 
+	QList<ICycle*>::iterator m_itListSequenceCyclesMesures; 
 
 	ICycle* m_cycleMesureEnCours;
 	ICycle* m_cycleMaintenanceEnCours;

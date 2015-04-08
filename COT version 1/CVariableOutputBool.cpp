@@ -91,3 +91,31 @@ bool CVariableOutputBool::toBool(){
 		m_bValeur = var.toBool();
 	m_unit = targetUnit;
 }
+void  CVariableOutputBool::delBind(IVariable*){
+
+}
+void  CVariableOutputBool::getUnit(){
+
+}
+bool  CVariableOutputBool::isStreamRelated()const{
+	return false;
+}
+QString  CVariableOutputBool::getRelatedStreamName()const{
+	return "voie a changer";
+}
+bool  CVariableOutputBool::isMeasureRelated()const{
+	return false;
+}
+QString  CVariableOutputBool::getRelatedMeasureName()const{
+	return "mesure a changer";
+}
+bool  CVariableOutputBool::isDisplay()const{
+	return false;
+}
+QLinkedList<IVariable*>  CVariableOutputBool::getListOutBinds()const{
+	return m_listBinds;
+}
+QLinkedList<IVariable*>  CVariableOutputBool::getListInBinds()const{
+	return m_listBinds;
+
+}

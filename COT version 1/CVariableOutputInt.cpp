@@ -91,3 +91,31 @@ void CVariableOutputInt::switchToUnit(CUnit* targetUnit){
 		m_iValeur = var.toFloat();
 	m_unit = targetUnit;
 }
+void  CVariableOutputInt::delBind(IVariable*){
+
+}
+void  CVariableOutputInt::getUnit(){
+
+}
+bool  CVariableOutputInt::isStreamRelated()const{
+	return false;
+}
+QString  CVariableOutputInt::getRelatedStreamName()const{
+	return "voie a changer";
+}
+bool  CVariableOutputInt::isMeasureRelated()const{
+	return false;
+}
+QString  CVariableOutputInt::getRelatedMeasureName()const{
+	return "mesure a changer";
+}
+bool  CVariableOutputInt::isDisplay()const{
+	return false;
+}
+QLinkedList<IVariable*>  CVariableOutputInt::getListOutBinds()const{
+	return m_listBinds;
+}
+QLinkedList<IVariable*>  CVariableOutputInt::getListInBinds()const{
+	return m_listBinds;
+
+}
