@@ -1,8 +1,8 @@
 TEMPLATE = subdirs
 
-SUBDIRS *= \
+SUBDIRS *= tests \
     cot-translator \
-    cot
+    cot \
 
 DISTFILES *= \
     cot/save.json \

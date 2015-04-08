@@ -80,7 +80,13 @@ HEADERS *= \
     automate/variables/IVariable.h \
     automate/variables/IVariableInput.h \
     automate/variables/IVariableOutput.h \
-    gui/cotversion1.h
+    gui/cotversion1.h \
+    keyboards/keyboardbuttonbase.h \
+    keyboards/keyboarddialog.h \
+    keyboards/numericalkeyboarddialog.h \
+    keyboards/keyboardspecialbutton.h \
+    keyboards/keyboardnormalbutton.h \
+    keyboards/keyboardlayoututils.h
 
 SOURCES *= main.cpp \
     automate/CAutomate.cpp \
@@ -132,4 +138,14 @@ SOURCES *= main.cpp \
     automate/variables/IVariable.cpp \
     automate/variables/IVariableInput.cpp \
     automate/variables/IVariableOuput.cpp \
-    gui/cotversion1.cpp
+    gui/cotversion1.cpp \
+    keyboards/keyboardbuttonbase.cpp \
+    keyboards/keyboarddialog.cpp \
+    keyboards/numericalkeyboarddialog.cpp \
+    keyboards/keyboardspecialbutton.cpp \
+    keyboards/keyboardnormalbutton.cpp \
+    keyboards/keyboardlayoututils.cpp
+
+DISTFILES *= \
+    save.json \
+    utf-8-converter.sh
