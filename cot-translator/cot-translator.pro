@@ -5,8 +5,7 @@ QT *= core-private
 
 INCLUDEPATH *= \
     . \
-    translations \
-    translations/3rdparty
+    3rdparty
 
 DEPENDPATH *= \
     . \
@@ -26,3 +25,6 @@ SOURCES *= main.cpp \
     3rdparty/translatormessage.cpp \
     3rdparty/ts.cpp \
     CTranslator.cpp
+
+DISTFILES += \
+    README.txt
