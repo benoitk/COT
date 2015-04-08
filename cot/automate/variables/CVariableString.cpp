@@ -6,7 +6,7 @@ CVariableString::CVariableString(QObject *parent)
 {
 
 }
-CVariableString::CVariableString(QString arg_value)
+CVariableString::CVariableString(const QString &arg_value)
 	: QObject()
 {
 	m_sValeur = arg_value;

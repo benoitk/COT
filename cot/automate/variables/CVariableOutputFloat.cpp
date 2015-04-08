@@ -12,7 +12,7 @@ CVariableOutputFloat::~CVariableOutputFloat()
 
 }
 
-CVariableOutputFloat::CVariableOutputFloat(QMap<QString, QVariant> mapVar): QObject(){
+CVariableOutputFloat::CVariableOutputFloat(const QMap<QString, QVariant> &mapVar): QObject(){
 
 }
 

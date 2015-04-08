@@ -11,8 +11,8 @@ class CVariableFactory : public QObject
 public:
 	
 
-	static IVariable* build(QMap<QString, QVariant>);
-	static IVariable* build(QString);
+    static IVariable* build(const QMap<QString, QVariant> &);
+    static IVariable* build(const QString&);
 
 private:
 	

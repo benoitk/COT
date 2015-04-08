@@ -12,7 +12,7 @@ CVariableInputInt::~CVariableInputInt()
 
 }
 
-CVariableInputInt::CVariableInputInt(QMap<QString, QVariant> mapVar): QObject(){
+CVariableInputInt::CVariableInputInt(const QMap<QString, QVariant> &mapVar): QObject(){
 
 }
 

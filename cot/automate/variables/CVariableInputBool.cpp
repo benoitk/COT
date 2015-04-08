@@ -13,7 +13,7 @@ CVariableInputBool::~CVariableInputBool()
 {
 
 }
-CVariableInputBool::CVariableInputBool(QMap<QString, QVariant> mapVar): QObject(){
+CVariableInputBool::CVariableInputBool(const QMap<QString, QVariant> &mapVar): QObject(){
 
 }
 

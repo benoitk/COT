@@ -13,7 +13,7 @@ CVariableOutputBool::~CVariableOutputBool()
 
 }
 
-CVariableOutputBool::CVariableOutputBool(QMap<QString, QVariant> mapVar): QObject(){
+CVariableOutputBool::CVariableOutputBool(const QMap<QString, QVariant> &mapVar): QObject(){
 
 }
 

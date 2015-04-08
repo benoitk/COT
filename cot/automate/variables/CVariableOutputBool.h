@@ -13,7 +13,7 @@ class CVariableOutputBool : public QObject, public IVariable, public IVariableOu
 
 public:
 	CVariableOutputBool(QObject *parent);
-	CVariableOutputBool(QMap<QString, QVariant> mapVar);
+    CVariableOutputBool(const QMap<QString, QVariant> &mapVar);
 	~CVariableOutputBool();
 
 	//IVariableOutput

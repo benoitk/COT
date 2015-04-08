@@ -15,7 +15,7 @@
 #include "qvariant.h"
 #include "qdebug.h"
 
-IVariable* CVariableFactory::build(QMap<QString, QVariant> mapVar){
+IVariable* CVariableFactory::build(const QMap<QString, QVariant> &mapVar){
 	
 	IVariable* variable = NULL;
 	if(mapVar["type"].toString() == "integer"){
@@ -42,7 +42,7 @@ IVariable* CVariableFactory::build(QMap<QString, QVariant> mapVar){
 	return variable;
 }
 
-IVariable* CVariableFactory::build(QString arg_type){
+IVariable* CVariableFactory::build(const QString &arg_type){
 	
 	IVariable* variable = NULL;
 

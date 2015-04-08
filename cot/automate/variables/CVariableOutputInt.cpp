@@ -13,7 +13,7 @@ CVariableOutputInt::~CVariableOutputInt()
 
 }
 
-CVariableOutputInt::CVariableOutputInt(QMap<QString, QVariant> mapVar): QObject(){
+CVariableOutputInt::CVariableOutputInt(const QMap<QString, QVariant> &mapVar): QObject(){
 
 }
 

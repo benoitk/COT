@@ -14,7 +14,7 @@ CVariableInputFloat::~CVariableInputFloat()
 
 }
 
-CVariableInputFloat::CVariableInputFloat(QMap<QString, QVariant> mapVar): QObject(){
+CVariableInputFloat::CVariableInputFloat(const QMap<QString, QVariant> &mapVar): QObject(){
 
 }
 

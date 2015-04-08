@@ -12,7 +12,7 @@ class CVariableString : public QObject, public IVariable
 
 public:
 	CVariableString(QObject *parent);
-	CVariableString(QString);
+    CVariableString(const QString&);
 	~CVariableString();
 
 	QString toString();
