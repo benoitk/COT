@@ -33,7 +33,7 @@ void CAutomate::initConfig(){
 	
 	QMap<QString, ICycle*> mapCycles = configFile.getMapCycle();
 	m_sequenceur = CSequenceur::getInstance();
-	m_sequenceur->setSequenceMesure(configFile.getListSequenceurMesure());
+	m_sequenceur->setSequenceMesure(configFile.getListSequencesMesure());
 	
 	QThread* threadSequenceur = new QThread(this);
 	
@@ -67,6 +67,32 @@ CModelExtensionCard* CAutomate::getExtensionCard(QString){
 	CModelExtensionCard* modelExtCard;
 	return modelExtCard;
 }
+
+QList<CModelExtensionCard*> CAutomate::getListExtensions(){
+	return m_listExtCards;
+}
+QList<ICycle*> CAutomate::getListCycles(){
+	QList<ICycle*> listAllCycles;
+	listAllCycles.append(m_listCycleMesures);
+	listAllCycles.append(m_listCycleMaintenances);
+	listAllCycles.append(m_listlCycleAutonomes);
+	return listAllCycles;
+}
+QList<IAction*>  CAutomate::getListActions(){
+	return m_listActions;
+}
+QMap<QString, IVariable*> CAutomate::getMapVariables(){
+	return m_mapVariables;
+}
+void CAutomate::setMapVariables(QMap<QString, IVariable*> mapVariable){
+	m_mapVariables.swap(mapVariable);
+}
+QMap<QString, QList<QString>> CAutomate::getMapStreamsMeasures(){
+	return m_mapStreamsMeasures;
+}
+void CAutomate::getMapStreamsMeasures(QMap<QString, QList<QString>> mapStreamMeasure){
+	m_mapStreamsMeasures.swap(mapStreamMeasure);
+}
 void CAutomate::addExtensionCard(QString, CModelExtensionCard*){
 
 }
@@ -82,13 +108,13 @@ void CAutomate::addCycle(ICycle* cycle){
 	//CControlerCycle* controlerCycle = new CControlerCycle(this, cycle);
 	switch(cycle->getType()){
 	case CYCLE_MESURE:
-		m_listCycleMesure.append(cycle);
+		m_listCycleMesures.append(cycle);
 		break;
 	case CYCLE_MAINTENANCE :
-		m_listCycleMaintenance.append(cycle);
+		m_listCycleMaintenances.append(cycle);
 		break;
 	case CYCLE_AUTONOME:
-		m_listlCycleAutonome.append(cycle); 
+		m_listlCycleAutonomes.append(cycle); 
 		break;
 
 	}

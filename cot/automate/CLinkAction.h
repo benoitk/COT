@@ -12,12 +12,12 @@ public:
 	CLinkAction(int, IAction*);
 	~CLinkAction();
 
-	int getStep()const;
+	int getNum()const;
+	QString getName();
 	IAction* getAction()const;
 
 private:
 	IAction* m_action;
-	int m_step;
 };
 
 #endif // CLINKACTION_H

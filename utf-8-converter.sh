@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 # Small check to be sure we are in a git folder in case of...
-if [ ! -d "../.git" ]; then
+if [ ! -d ".git" ]; then
     echo "It looks like you are not in a Git repository, aborting."
     exit 1
 fi

@@ -23,6 +23,12 @@ public: //acces multithread possible sur tout les get, penser au mutex sur tous 
 	QString getName()const;
 	void setName(QString);
 
+	bool isStreamRelated()const;
+	QString getRelatedStreamName()const;
+	QList<CStep*> getListSteps()const;
+	CStep* getStepStop()const;
+
+
 	bool isRunning();
 	bool isPaused();
 
@@ -51,6 +57,9 @@ private :
 	QString m_label;
 
 	QThread m_thread;
+
+	CStep* m_stepStop;
+	QList<CStep*> m_listSteps;
 	
 };
 

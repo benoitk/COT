@@ -39,7 +39,16 @@ public:
 	void setToBindedValue(QVariant);
 	variableType getType()const;
 	void switchToUnit(CUnit*);
-
+	//
+	void delBind(IVariable*);
+	void getUnit();
+	bool isStreamRelated()const;
+	QString getRelatedStreamName()const;
+	bool isMeasureRelated()const;
+	QString getRelatedMeasureName()const;
+	bool isDisplay()const;
+	QLinkedList<IVariable*> getListOutBinds()const;
+	QLinkedList<IVariable*> getListInBinds()const;
 private:
 	IVariable* readValue();
 	CModelExtensionCard* m_modelExtensionCard;

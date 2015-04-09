@@ -1,6 +1,6 @@
 #include "CVariableVoie.h"
 #include "CUnit.h"
-
+#include "qlinkedlist.h"
 CVariableVoie::CVariableVoie(QObject *parent):QObject(parent)
 {	
 }
@@ -46,5 +46,35 @@ variableType CVariableVoie::getType()const{
     return type_stream;
 }
 void CVariableVoie::switchToUnit(CUnit* targetUnit){
+
+}
+void  CVariableVoie::delBind(IVariable*){
+
+}
+void  CVariableVoie::getUnit(){
+
+}
+bool  CVariableVoie::isStreamRelated()const{
+	return false;
+}
+QString  CVariableVoie::getRelatedStreamName()const{
+	return "voie a changer";
+}
+bool  CVariableVoie::isMeasureRelated()const{
+	return false;
+}
+QString  CVariableVoie::getRelatedMeasureName()const{
+	return "mesure a changer";
+}
+bool  CVariableVoie::isDisplay()const{
+	return false;
+}
+QLinkedList<IVariable*>  CVariableVoie::getListOutBinds()const{
+	QLinkedList<IVariable*> list;
+	return list;
+}
+QLinkedList<IVariable*>  CVariableVoie::getListInBinds()const{
+	QLinkedList<IVariable*> list;
+	return list;
 
 }

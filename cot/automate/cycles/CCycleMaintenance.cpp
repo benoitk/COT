@@ -41,7 +41,18 @@ void CCycleMaintenance::setName(QString name){
 	m_name = name;
 
 }
-
+bool CCycleMaintenance::isStreamRelated()const{
+	return true;
+}
+QString CCycleMaintenance::getRelatedStreamName()const{
+	return "voie 1";
+}
+QList<CStep*> CCycleMaintenance::getListSteps()const{
+	return m_listSteps;
+}
+CStep* CCycleMaintenance::getStepStop()const{
+	return m_stepStop;
+}
 bool CCycleMaintenance::isRunning(){return true;}
 bool CCycleMaintenance::isPaused(){return true;}
 void CCycleMaintenance::slotUnPauseCycle(){}

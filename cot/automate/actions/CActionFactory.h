@@ -9,11 +9,8 @@ class CActionFactory : public QObject
 	Q_OBJECT
 
 public:
-	
 	static IAction* build(QVariantMap);
 
-private:
-	
 };
 
 #endif // CACTIONFACTORY_H

@@ -83,3 +83,16 @@ void CCyclePause::slotGoToEndCycle(){}
 void CCyclePause::slotGoToStepCycle(int){}
 void CCyclePause::slotGetReadyForPlayNextCycle(){}
 void CCyclePause::slotGetReadyForPlayCycle(){}
+
+bool CCyclePause::isStreamRelated()const{
+	return true;
+}
+QString CCyclePause::getRelatedStreamName()const{
+	return "voie 1";
+}
+QList<CStep*> CCyclePause::getListSteps()const{
+	return m_listSteps;
+}
+CStep* CCyclePause::getStepStop()const{
+	return m_stepStop;
+}
