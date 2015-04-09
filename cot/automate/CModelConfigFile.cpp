@@ -154,6 +154,6 @@ QMap<QString, ICycle*> CModelConfigFile::getMapCycle(){
 	return m_mapCycles;
 }
 
-QList<ICycle *> CModelConfigFile::getListSequenceurMesure(){
+QList<ICycle *> CModelConfigFile::getListSequencesMesure(){
 	return m_listSequences;
 }

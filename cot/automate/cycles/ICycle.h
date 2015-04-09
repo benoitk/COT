@@ -2,10 +2,12 @@
 #define ICYCLE_H
 
 #include <QObject>
-#include "IAction.h"
+
 
 enum eTypeCycle{CYCLE_MESURE, CYCLE_AUTONOME, CYCLE_MAINTENANCE, CYCLE_PAUSE};
 
+class IAction;
+class CStep;
 class ICycle : public QObject
 {
 	Q_OBJECT
@@ -22,8 +24,10 @@ public:
 	virtual void setName(QString)=0;
 	virtual QString getLbl()const=0;
 	virtual void setLbl(QString)=0;
-
-
+	virtual bool isStreamRelated()const=0;
+	virtual QString getRelatedStreamName()const=0;
+	virtual QList<CStep*> getListSteps()const=0;
+	virtual CStep* getStepStop()const=0;
 	virtual bool isRunning()=0;
 	virtual bool isPaused()=0;
 

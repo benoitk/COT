@@ -17,7 +17,7 @@ public:
 	~CModelConfigFile();
 
 	QString getLblAnalyser(QLocale);
-	QList<ICycle*> getListSequenceurMesure();
+	QList<ICycle*> getListSequencesMesure();
 	QMap<QString, ICycle*> getMapCycle();
 	
 	int getNumberOfStream();

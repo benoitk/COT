@@ -48,7 +48,6 @@ CCycleMesure::CCycleMesure(QVariantMap mapCycle): ICycle(){
 CCycleMesure::CCycleMesure():ICycle()
 {
 	initTimer();
-
 }
 void CCycleMesure::initTimer(){
 	m_periode = 500;
@@ -64,15 +63,15 @@ eTypeCycle CCycleMesure::getType()const{
 	return CYCLE_MESURE;
 }
 void CCycleMesure::slotExecNextStep(){	
-	qDebug() << "CCycleMesure slotExecNextStep. Setp : " << m_iTimer << " Next step : " << (*m_itListActionPasEnCours)->getStep();
-	if(m_itListActionPasEnCours != m_ListAction.end()){
-		while(	  m_itListActionPasEnCours != m_ListAction.end() 
-			  && (*m_itListActionPasEnCours)->getStep() == m_iTimer){
-			(*m_itListActionPasEnCours++)->getAction()->runAction();
-		}
+	//qDebug() << "CCycleMesure slotExecNextStep. Setp : " << m_iTimer << " Next step : " << (*m_itListActionsPasEnCours)->getStep();
+	if(m_itListActionsPasEnCours != m_ListActions.end()){
+		/*while(	  m_itListActionPasEnCours != m_ListActions.end() 
+			  && (*m_itListActionsPasEnCours)->getStep() == m_iTimer){
+			(*m_itListActionsPasEnCours++)->getAction()->runAction();
+		}*/
 	}
 	
-	if(m_itListActionPasEnCours == m_ListAction.end()) { //fin du cycle
+	if(m_itListActionsPasEnCours == m_ListActions.end()) { //fin du cycle
 		m_timer->stop();
 		emit signalReadyForPlayNextCycle();
 	}
@@ -80,8 +79,8 @@ void CCycleMesure::slotExecNextStep(){
 }
 void CCycleMesure::slotRunCycle(){
 
-	if(!m_ListAction.isEmpty()){
-		m_itListActionPasEnCours = m_ListAction.begin(); 
+	if(!m_ListActions.isEmpty()){
+		m_itListActionsPasEnCours = m_ListActions.begin(); 
 		m_iTimer = 0;
 		m_timer->start();
 	}
@@ -92,23 +91,34 @@ void CCycleMesure::slotPauseCycle(){
 void CCycleMesure::slotStopCycle(){
 
 }
-
+bool CCycleMesure::isStreamRelated()const{
+	return true;
+}
+QString CCycleMesure::getRelatedStreamName()const{
+	return "voie 1";
+}
+QList<CStep*> CCycleMesure::getListSteps()const{
+	return m_listSteps;
+}
+CStep* CCycleMesure::getStepStop()const{
+	return m_stepStop;
+}
 QString CCycleMesure::getLbl()const{ return m_label;}
 void CCycleMesure::setLbl(QString lbl){ m_label = lbl;}
 	
 void CCycleMesure::addAction(int arg_step, IAction* action){
 	if(action){
 		CLinkAction* linkAction = new CLinkAction(arg_step, action);
-		QLinkedList<CLinkAction*>::iterator it = m_ListAction.begin();
+		QLinkedList<CLinkAction*>::iterator it = m_ListActions.begin();
 		bool bSortie= false;
-		while(!bSortie && it != m_ListAction.end()){
-			if((*it)->getStep() > linkAction->getStep()){
-				m_ListAction.insert(it, linkAction);
-				bSortie = true;
-			}
+		while(!bSortie && it != m_ListActions.end()){
+			//if((*it)->getStep() > linkAction->getStep()){
+			//	m_ListActions.insert(it, linkAction);
+			//	bSortie = true;
+			//}
 			it++;
 		}
-		if(!bSortie) m_ListAction.append(linkAction); 
+		if(!bSortie) m_ListActions.append(linkAction); 
 	}
 
 }

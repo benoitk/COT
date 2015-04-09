@@ -1,5 +1,6 @@
 TEMPLATE = app
 TARGET = cot
+CONFIG *= c++11
 QT *= widgets
 
 DEFINES *= "COT_JSON_FILE=\\\"$$PWD/save.json\\\""
@@ -39,6 +40,7 @@ HEADERS *= \
     automate/CModelExtensionCard.h \
     automate/CRunnableCycle.h \
     automate/CSequenceur.h \
+    automate/CStep.h \
     automate/INetwork.h \
     automate/IObserverAutomate.h \
     automate/IOrgan.h \
@@ -97,6 +99,7 @@ SOURCES *= main.cpp \
     automate/CModelExtensionCard.cpp \
     automate/CRunnableCycle.cpp \
     automate/CSequenceur.cpp \
+    automate/CStep.cpp \
     automate/INetwork.cpp \
     automate/IObserverAutomate.cpp \
     automate/IOrgan.cpp \

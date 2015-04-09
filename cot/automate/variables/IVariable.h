@@ -29,9 +29,20 @@ public:
 	virtual void setValue(QVariant)=0;
 	//virtual QString getName()const=0;
 	virtual void addBind(IVariable*)=0;
+	virtual void delBind(IVariable*)=0;
 	virtual void setToBindedValue(QVariant)=0;
 	virtual variableType getType()const=0;
 	virtual void switchToUnit(CUnit*)=0;
+	virtual void getUnit()=0;
+	virtual bool isStreamRelated()const=0;
+	virtual QString getRelatedStreamName()const=0;
+	virtual bool isMeasureRelated()const=0;
+	virtual QString getRelatedMeasureName()const=0;
+	virtual bool isDisplay()const=0;
+	virtual QLinkedList<IVariable*> getListOutBinds()const=0;
+	virtual QLinkedList<IVariable*> getListInBinds()const=0;
+	
+	
 	
 private:
 	

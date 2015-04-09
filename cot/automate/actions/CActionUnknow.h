@@ -14,6 +14,7 @@ public:
 
 	bool runAction();
 	QString getName()const;
+	QList<IVariable*> getListParameters()const;
 
 private:
 	QString m_name;

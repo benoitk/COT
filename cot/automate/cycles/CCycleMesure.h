@@ -29,6 +29,11 @@ public:
 	bool isRunning();
 	bool isPaused();
 
+	bool isStreamRelated()const;
+	QString getRelatedStreamName()const;
+	QList<CStep*> getListSteps()const;
+	CStep* getStepStop()const;
+
 public slots:
 	void slotRunCycle();
 	void slotPauseCycle();
@@ -47,8 +52,8 @@ private:
 	int m_idCycle;
 	QString m_name;
 	eTypeCycle m_typeCycle;
-	QLinkedList<CLinkAction*> m_ListAction;
-	QLinkedList<CLinkAction*>::iterator m_itListActionPasEnCours;
+	QLinkedList<CLinkAction*> m_ListActions;
+	QLinkedList<CLinkAction*>::iterator m_itListActionsPasEnCours;
 
 	QTimer* m_timer;
 	int m_iTimer;
@@ -56,5 +61,8 @@ private:
 	int m_periode;
 
 	QThread m_thread;
+
+	CStep* m_stepStop;
+	QList<CStep*> m_listSteps;
 };
 #endif // CCYCLEMESURE_H

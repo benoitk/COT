@@ -15,6 +15,12 @@ public:
 	CCycleAutonome(QVariantMap, QMap<QString, IAction*>);
 	~CCycleAutonome();
 
+
+	bool isStreamRelated()const;
+	QString getRelatedStreamName()const;
+	QList<CStep*> getListSteps()const;
+	CStep* getStepStop()const;
+
 /*	void setType(eTypeCycle);
 	eTypeCycle getType()const;
 	bool isRunning();
@@ -36,11 +42,14 @@ public slots:
 	void slotGetReadyForPlayCycle();
 
 	void slotExecNextStep();
-
+	*/
 private:
 	int m_idCycle;
 	eTypeCycle m_typeCycle;
 	QString m_name;
-	QString m_label;*/
+	QString m_label;
+
+	CStep* m_stepStop;
+	QList<CStep*> m_listSteps;
 };
 #endif // CCYCLEAUTONOME_H
