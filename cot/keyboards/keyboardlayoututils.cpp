@@ -9,7 +9,7 @@
 QStringList KeyboardLayoutUtils::frenchKeyboardLayout()
 {
     const QStringList lst = QStringList() << QStringLiteral("² & é \" ' ( - è _ ç à ) = B3" )
-                                          << QStringLiteral("T3a z e r t y u i o p ^ $" )
+                                          << QStringLiteral("T3a z e r t y u i o p ^ $ " )
                                           << QStringLiteral("C4q s d f g h j k l m ù * R3" )
                                           << QStringLiteral("S5< w x c v b n , ; : ! S4" );
     return lst;
@@ -83,7 +83,7 @@ QChar KeyboardLayoutUtils::convertToLower(QChar currentChar, const QString &shif
 
 QString KeyboardLayoutUtils::frenchShiftMapping()
 {
-    return QStringLiteral("&1é2\"3'4(5-6è7_8ç9à0)°=+");
+    return QStringLiteral("&1é2\"3'4(5-6è7_8ç9à0)°=+<>:/;.,?^¨");
 }
 
 
