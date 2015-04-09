@@ -1,5 +1,7 @@
 #include "keyboardlayoututils.h"
 
+//See http://fr.wikipedia.org/wiki/Disposition_des_touches_des_claviers_informatiques
+
 // Keyboard layout: one string per row.
 // First character is the letter, second letter is the width.
 // Special letter codes: B=backspace  T=tab  C=caps  R=enter  S=shift
@@ -32,19 +34,32 @@ QStringList KeyboardLayoutUtils::englishKeyboardLayout()
 
 QStringList KeyboardLayoutUtils::spanishKeyboardLayout()
 {
-    return QStringList();
+    const QStringList lst = QStringList() << QStringLiteral("² 1 2 3 4 5 6 7 8 9 0 ' ¡ B3")
+                                          << QStringLiteral("T3q w e r t y u i o p [ ] ")
+                                          << QStringLiteral("C4a s d f g h j k l ň { } R3")
+                                          << QStringLiteral("S5< w x c v b n m , . _ S4");
+
+    return lst;
 }
 
 
 QStringList KeyboardLayoutUtils::portugueseKeyboardLayout()
 {
-    return QStringList();
+    const QStringList lst = QStringList() << QStringLiteral("")
+                                          << QStringLiteral("")
+                                          << QStringLiteral("")
+                                          << QStringLiteral("");
+    return lst;
 }
 
 
 QStringList KeyboardLayoutUtils::chineseKeyboardLayout()
 {
-    return QStringList();
+    const QStringList lst = QStringList() << QStringLiteral("")
+                                          << QStringLiteral("")
+                                          << QStringLiteral("")
+                                          << QStringLiteral("");
+    return lst;
 }
 
 QChar KeyboardLayoutUtils::convertToUpper(QChar currentChar, const QString &shiftMappingString)

@@ -14,6 +14,7 @@ NumericalKeyboardWidget::NumericalKeyboardWidget(QWidget *parent)
     m_mainLayout = new QVBoxLayout(this);
 
     m_lineEdit = new QLineEdit(this);
+    m_lineEdit->setReadOnly(true);
     m_lineEdit->setObjectName(QStringLiteral("lineedit"));
     m_mainLayout->addWidget(m_lineEdit);
     initializeKeyboardLayout();

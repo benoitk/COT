@@ -23,6 +23,7 @@ KeyboardWidget::KeyboardWidget(QWidget *parent)
     m_lineEdit = new QLineEdit;
     m_lineEdit->setObjectName(QStringLiteral("lineedit"));
     m_mainLayout->addWidget(m_lineEdit);
+    m_lineEdit->setReadOnly(true);
     initializeKeyboardLayout();
 }
 
