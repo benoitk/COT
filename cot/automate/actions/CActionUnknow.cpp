@@ -30,7 +30,7 @@ QString CActionUnknow::getName()const{
 
 QList<IVariable*> CActionUnknow::getListParameters()const{
 	QList<IVariable*> listParams;
-	/*TO DO mettre tout ça en tant que IVariable qui va bien
+	/*TO DO mettre tout Ã§a en tant que IVariable qui va bien
 	m_ctrlContinu = mapAction["cmd_continu_pump"].toBool();
 	m_nbPasTour = mapAction["num_step_or_tour_pump"].toInt();
 	m_numero = mapAction["num_pump"].toInt();
