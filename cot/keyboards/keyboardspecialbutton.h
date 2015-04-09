@@ -24,7 +24,7 @@ Q_SIGNALS:
     void clicked(Qt::Key);
 
 private:
-    Qt::Key mSpecialKey;
+    Qt::Key m_specialKey;
 };
 
 #endif // KEYBOARDSPECIALBUTTON_H

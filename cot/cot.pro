@@ -86,7 +86,9 @@ HEADERS *= \
     keyboards/numericalkeyboarddialog.h \
     keyboards/keyboardspecialbutton.h \
     keyboards/keyboardnormalbutton.h \
-    keyboards/keyboardlayoututils.h
+    keyboards/keyboardlayoututils.h \
+    keyboards/keyboardwidget.h \
+    keyboards/numericalkeyboardwidget.h
 
 SOURCES *= main.cpp \
     automate/CAutomate.cpp \
@@ -144,7 +146,9 @@ SOURCES *= main.cpp \
     keyboards/numericalkeyboarddialog.cpp \
     keyboards/keyboardspecialbutton.cpp \
     keyboards/keyboardnormalbutton.cpp \
-    keyboards/keyboardlayoututils.cpp
+    keyboards/keyboardlayoututils.cpp \
+    keyboards/keyboardwidget.cpp \
+    keyboards/numericalkeyboardwidget.cpp
 
 DISTFILES *= \
     save.json \

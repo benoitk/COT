@@ -2,7 +2,7 @@
 
 KeyboardSpecialButton::KeyboardSpecialButton(QWidget *parent)
     : KeyboardButtonBase(parent),
-      mSpecialKey(Qt::Key_Any)
+      m_specialKey(Qt::Key_Any)
 {
     connect( this, &QAbstractButton::pressed, this, &KeyboardSpecialButton::slotButtonPressed );
     connect( this, &QAbstractButton::released, this, &KeyboardSpecialButton::slotButtonReleased );
@@ -16,32 +16,32 @@ KeyboardSpecialButton::~KeyboardSpecialButton()
 
 void KeyboardSpecialButton::slotButtonPressed()
 {
-    if (mSpecialKey != Qt::Key_Any) {
-       Q_EMIT pressed(mSpecialKey);
+    if (m_specialKey != Qt::Key_Any) {
+       Q_EMIT pressed(m_specialKey);
     }
 }
 
 void KeyboardSpecialButton::slotButtonReleased()
 {
-    if (mSpecialKey != Qt::Key_Any) {
-        Q_EMIT released(mSpecialKey);
+    if (m_specialKey != Qt::Key_Any) {
+        Q_EMIT released(m_specialKey);
     }
 }
 
 void KeyboardSpecialButton::slotButtonClicked()
 {
-    if (mSpecialKey != Qt::Key_Any) {
-        Q_EMIT clicked(mSpecialKey);
+    if (m_specialKey != Qt::Key_Any) {
+        Q_EMIT clicked(m_specialKey);
     }
 }
 
 Qt::Key KeyboardSpecialButton::specialKey() const
 {
-    return mSpecialKey;
+    return m_specialKey;
 }
 
 void KeyboardSpecialButton::setSpecialKey(const Qt::Key &specialKey)
 {
-    mSpecialKey = specialKey;
+    m_specialKey = specialKey;
 }
 

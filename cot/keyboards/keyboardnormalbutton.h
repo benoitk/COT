@@ -25,7 +25,7 @@ private Q_SLOTS:
     void slotButtonClicked();
 
 private:
-    QChar mCharacter;
+    QChar m_character;
 };
 
 #endif // KEYBOARDNORMALBUTTON_H

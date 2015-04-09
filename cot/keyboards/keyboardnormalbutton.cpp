@@ -1,4 +1,5 @@
 #include "keyboardnormalbutton.h"
+#include <QDebug>
 
 KeyboardNormalButton::KeyboardNormalButton(QWidget *parent)
     : KeyboardButtonBase(parent)
@@ -15,35 +16,39 @@ KeyboardNormalButton::~KeyboardNormalButton()
 
 QChar KeyboardNormalButton::character() const
 {
-    return mCharacter;
+    return m_character;
 }
 
 void KeyboardNormalButton::setCharacter(const QChar &character)
 {
-    if (mCharacter != character) {
-        mCharacter = character;
-        setText(mCharacter);
+    if (m_character != character) {
+        m_character = character;
+        if (m_character == QLatin1Char('&')) {
+            setText(QLatin1String("&&"));
+        } else {
+            setText(m_character);
+        }
     }
 }
 
 void KeyboardNormalButton::slotButtonPressed()
 {
-    if (!mCharacter.isNull()) {
-       Q_EMIT pressed(mCharacter);
+    if (!m_character.isNull()) {
+       Q_EMIT pressed(m_character);
     }
 }
 
 void KeyboardNormalButton::slotButtonReleased()
 {
-    if (!mCharacter.isNull()) {
-        Q_EMIT released(mCharacter);
+    if (!m_character.isNull()) {
+        Q_EMIT released(m_character);
     }
 }
 
 void KeyboardNormalButton::slotButtonClicked()
 {
-    if (!mCharacter.isNull()) {
-        Q_EMIT clicked(mCharacter);
+    if (!m_character.isNull()) {
+        Q_EMIT clicked(m_character);
     }
 }
 
