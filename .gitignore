@@ -29,3 +29,6 @@
 
 # QtCreator file
 *.pro.user
+
+# Shadow build
+/build
