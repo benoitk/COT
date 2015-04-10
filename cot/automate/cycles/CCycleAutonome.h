@@ -11,8 +11,8 @@ class CCycleAutonome : public CCycleMesure
 
 public:
 	CCycleAutonome(QObject *parent);
-	CCycleAutonome(QVariantMap);
-	CCycleAutonome(QVariantMap, QMap<QString, IAction*>);
+    CCycleAutonome(const QVariantMap&);
+    CCycleAutonome(const QVariantMap&, const QMap<QString, IAction*> &);
 	~CCycleAutonome();
 
 
@@ -26,7 +26,7 @@ public:
 	bool isRunning();
 	bool isPaused();
 	QString getName()const;
-	void setName(QString);
+    void setName(const QString &);
 	void addAction(IAction*);
 	QString getLbl()const;
     void setLbl(const QString&);

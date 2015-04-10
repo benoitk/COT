@@ -3,9 +3,9 @@
 
 CCycleAutonome::CCycleAutonome(QObject *parent)
 	:CCycleMesure(parent){}
-CCycleAutonome::CCycleAutonome(QVariantMap variantMap)
+CCycleAutonome::CCycleAutonome(const QVariantMap &variantMap)
 	:CCycleMesure(variantMap){}
-CCycleAutonome::CCycleAutonome(QVariantMap variantMap, QMap<QString, IAction*> actionMap)
+CCycleAutonome::CCycleAutonome(const QVariantMap &variantMap, const QMap<QString, IAction *> &actionMap)
 	:CCycleMesure(variantMap, actionMap){}
 CCycleAutonome::~CCycleAutonome(){}
 
@@ -57,7 +57,7 @@ CStep* CCycleAutonome::getStepStop()const{
 //QString CCycleAutonome::getName()const{
 //	return m_name;
 //}
-//void CCycleAutonome::setName(QString name){
+//void CCycleAutonome::setName(const QString &name){
 //	m_name = name;
 //}
 //

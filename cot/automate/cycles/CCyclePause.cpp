@@ -76,7 +76,7 @@ bool CCyclePause::isPaused(){ return true;}
 QString CCyclePause::getName()const{
 	return m_name;
 }
-void CCyclePause::setName(QString){
+void CCyclePause::setName(const QString&){
 }
 void CCyclePause::slotStopEndCycle(){}
 void CCyclePause::slotGoToEndCycle(){}

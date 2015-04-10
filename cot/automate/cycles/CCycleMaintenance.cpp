@@ -37,7 +37,7 @@ QString CCycleMaintenance::getName()const{
 	return m_name;
 
 }
-void CCycleMaintenance::setName(QString name){
+void CCycleMaintenance::setName(const QString &name){
 	m_name = name;
 
 }

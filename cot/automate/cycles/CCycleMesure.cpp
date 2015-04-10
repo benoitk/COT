@@ -129,7 +129,7 @@ QString CCycleMesure::getName()const{
 	return m_name;
 
 }
-void CCycleMesure::setName(QString name){
+void CCycleMesure::setName(const QString &name){
 	m_name = name;
 
 }

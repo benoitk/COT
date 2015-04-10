@@ -21,7 +21,7 @@ public: //acces multithread possible sur tout les get, penser au mutex sur tous 
     QString getLbl()const Q_DECL_OVERRIDE;
     void setLbl(const QString&) Q_DECL_OVERRIDE;
     QString getName()const Q_DECL_OVERRIDE;
-    void setName(QString) Q_DECL_OVERRIDE;
+    void setName(const QString&) Q_DECL_OVERRIDE;
 
     bool isStreamRelated()const Q_DECL_OVERRIDE;
     QString getRelatedStreamName()const Q_DECL_OVERRIDE;
