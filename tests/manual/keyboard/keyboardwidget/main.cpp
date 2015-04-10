@@ -1,9 +1,9 @@
 #include <QApplication>
-#include "../../../../cot/keyboards/keyboardwidget.h"
+#include "widget.h"
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    KeyboardWidget *w = new KeyboardWidget();
+    Widget *w = new Widget();
     w->show();
     return a.exec();
 }

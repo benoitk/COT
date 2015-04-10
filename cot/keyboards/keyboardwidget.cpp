@@ -37,6 +37,9 @@ bool KeyboardWidget::event(QEvent *ev)
     if (ev->type() == QEvent::LocaleChange) {
         initializeKeyboardLayout();
         return true;
+    } else if (ev->type() == QEvent::LanguageChange) {
+        initializeKeyboardLayout();
+        return true;
     }
     return QWidget::event(ev);
 }
