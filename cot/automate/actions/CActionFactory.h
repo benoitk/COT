@@ -9,7 +9,7 @@ class CActionFactory : public QObject
 	Q_OBJECT
 
 public:
-	static IAction* build(QVariantMap);
+    static IAction* build(const QVariantMap&);
 
 };
 

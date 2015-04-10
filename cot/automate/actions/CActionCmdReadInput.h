@@ -11,15 +11,15 @@ class CActionCmdReadInput : public IAction
 
 public:
 	CActionCmdReadInput(QObject *parent);
-	CActionCmdReadInput(QVariantMap);
+    CActionCmdReadInput(const QVariantMap&);
 	CActionCmdReadInput();
 	~CActionCmdReadInput();
 
-int getTiming();	
+    int getTiming();
 	void setTiming(int);
-	bool runAction();
-	QString getName()const;
-	QList<IVariable*> getListParameters()const;
+    bool runAction() Q_DECL_OVERRIDE;
+    QString getName()const Q_DECL_OVERRIDE;
+    QList<IVariable*> getListParameters()const Q_DECL_OVERRIDE;
 private:
 
 	QString m_name;

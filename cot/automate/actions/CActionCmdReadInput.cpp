@@ -12,7 +12,7 @@ CActionCmdReadInput::CActionCmdReadInput(QObject *parent)
 {
 
 }
-CActionCmdReadInput::CActionCmdReadInput(QVariantMap mapAction)
+CActionCmdReadInput::CActionCmdReadInput(const QVariantMap &mapAction)
 	: IAction()
 {
 	m_name = mapAction["name"].toString();

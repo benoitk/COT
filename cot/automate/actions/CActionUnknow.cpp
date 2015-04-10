@@ -6,7 +6,7 @@ CActionUnknow::CActionUnknow(QObject *parent)
 {
 
 }
-CActionUnknow::CActionUnknow(QVariantMap mapAction)
+CActionUnknow::CActionUnknow(const QVariantMap &mapAction)
 	: IAction()
 {
 	m_label = mapAction[tr("FR_lbl")].toString();

@@ -54,7 +54,7 @@ void CCyclePause::slotExecNextStep(){
 
 }
 QString CCyclePause::getLbl()const{ return m_label;}
-void CCyclePause::setLbl(QString lbl){ m_label = lbl;}
+void CCyclePause::setLbl(const QString &lbl){ m_label = lbl;}
 void CCyclePause::slotPauseCycle(){
 	
 }

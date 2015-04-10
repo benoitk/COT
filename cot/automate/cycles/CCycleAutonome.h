@@ -16,10 +16,10 @@ public:
 	~CCycleAutonome();
 
 
-	bool isStreamRelated()const;
-	QString getRelatedStreamName()const;
-	QList<CStep*> getListSteps()const;
-	CStep* getStepStop()const;
+    bool isStreamRelated()const Q_DECL_OVERRIDE;
+    QString getRelatedStreamName()const Q_DECL_OVERRIDE;
+    QList<CStep*> getListSteps()const Q_DECL_OVERRIDE;
+    CStep* getStepStop()const Q_DECL_OVERRIDE;
 
 /*	void setType(eTypeCycle);
 	eTypeCycle getType()const;
@@ -29,7 +29,7 @@ public:
 	void setName(QString);
 	void addAction(IAction*);
 	QString getLbl()const;
-	void setLbl(QString);
+    void setLbl(const QString&);
 public slots:
 	void slotRunCycle();
 	void slotPauseCycle();

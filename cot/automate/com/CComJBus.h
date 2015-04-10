@@ -16,13 +16,13 @@ public:
 	~CComJBus();
 
 
-	QVariant readData();
-	QVariant readData(IVariableInput*);
-	void writeData(IVariableOutput*);
-	void addVariableOnDataTable(IVariableInput*);
-	void addVariableOnDataTable(IVariableOutput*);
+    QVariant readData() Q_DECL_OVERRIDE;
+    QVariant readData(IVariableInput*) Q_DECL_OVERRIDE;
+    void writeData(IVariableOutput*) Q_DECL_OVERRIDE;
+    void addVariableOnDataTable(IVariableInput*) Q_DECL_OVERRIDE;
+    void addVariableOnDataTable(IVariableOutput*) Q_DECL_OVERRIDE;
 
-	void triggerUpdateAllData();
+    void triggerUpdateAllData() Q_DECL_OVERRIDE;
 
 
 	QBitArray readNBitsFunction1( int addrVar, int nbBitsToRead);

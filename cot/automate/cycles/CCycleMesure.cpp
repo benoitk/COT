@@ -9,7 +9,7 @@ CCycleMesure::CCycleMesure(QObject *parent)
 {
 	initTimer();
 }
-CCycleMesure::CCycleMesure(QVariantMap mapCycle, QMap<QString, IAction*> mapActions): ICycle(){
+CCycleMesure::CCycleMesure(const QVariantMap &mapCycle, const QMap<QString, IAction*> &mapActions): ICycle(){
 	
 	m_label = mapCycle[tr("FR_lbl")].toString();
 	m_name = mapCycle["name"].toString();
@@ -27,7 +27,7 @@ CCycleMesure::CCycleMesure(QVariantMap mapCycle, QMap<QString, IAction*> mapActi
 	m_thread.start();
 	
 }
-CCycleMesure::CCycleMesure(QVariantMap mapCycle): ICycle(){
+CCycleMesure::CCycleMesure(const QVariantMap &mapCycle): ICycle(){
 	
 	m_label = mapCycle[tr("FR_lbl")].toString();
 	m_name = mapCycle["name"].toString();
@@ -43,8 +43,9 @@ CCycleMesure::CCycleMesure(QVariantMap mapCycle): ICycle(){
 	initTimer();
 	this->moveToThread(&m_thread);
 	m_thread.start();
-	
+
 }
+
 CCycleMesure::CCycleMesure():ICycle()
 {
 	initTimer();
@@ -104,7 +105,7 @@ CStep* CCycleMesure::getStepStop()const{
 	return m_stepStop;
 }
 QString CCycleMesure::getLbl()const{ return m_label;}
-void CCycleMesure::setLbl(QString lbl){ m_label = lbl;}
+void CCycleMesure::setLbl(const QString &lbl){ m_label = lbl;}
 	
 void CCycleMesure::addAction(int arg_step, IAction* action){
 	if(action){

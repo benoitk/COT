@@ -7,7 +7,7 @@ CActionCmdRelay::CActionCmdRelay(QObject *parent)
 {
 
 }
-CActionCmdRelay::CActionCmdRelay(QVariantMap mapAction)
+CActionCmdRelay::CActionCmdRelay(const QVariantMap &mapAction)
 	: IAction()
 {
 	m_label = mapAction[tr("FR_lbl")].toString();

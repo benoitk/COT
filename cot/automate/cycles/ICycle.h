@@ -23,7 +23,7 @@ public:
 	virtual QString getName()const =0;
 	virtual void setName(QString)=0;
 	virtual QString getLbl()const=0;
-	virtual void setLbl(QString)=0;
+    virtual void setLbl(const QString&)=0;
 	virtual bool isStreamRelated()const=0;
 	virtual QString getRelatedStreamName()const=0;
 	virtual QList<CStep*> getListSteps()const=0;

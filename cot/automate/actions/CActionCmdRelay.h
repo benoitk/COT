@@ -10,15 +10,15 @@ class CActionCmdRelay : public IAction
 public:
 
 	CActionCmdRelay(QObject *parent);
-	CActionCmdRelay(QVariantMap);
+    CActionCmdRelay(const QVariantMap&);
 	CActionCmdRelay();
 	~CActionCmdRelay();
 
 	int getTiming();	
 	void setTiming(int);
-	bool runAction();
-	QString getName()const;
-	QList<IVariable*> getListParameters()const;
+    bool runAction() Q_DECL_OVERRIDE;
+    QString getName()const Q_DECL_OVERRIDE;
+    QList<IVariable*> getListParameters()const Q_DECL_OVERRIDE;
 private:
 
 	QString m_label;

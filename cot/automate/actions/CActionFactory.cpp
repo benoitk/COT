@@ -9,7 +9,7 @@
 #include "qdebug.h"
 
 
-IAction* CActionFactory::build(QVariantMap mapAction){
+IAction* CActionFactory::build(const QVariantMap &mapAction){
 	
 	IAction* action = NULL;
 	if(mapAction["type"].toString() == "cmd_pump"){

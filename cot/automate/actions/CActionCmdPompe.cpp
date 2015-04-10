@@ -5,7 +5,7 @@ CActionCmdPompe::CActionCmdPompe(QObject *parent)
 {
 
 }
-CActionCmdPompe::CActionCmdPompe(QVariantMap mapAction)
+CActionCmdPompe::CActionCmdPompe(const QVariantMap &mapAction)
 	: IAction()
 {
 	m_label = mapAction[tr("FR_lbl")].toString();

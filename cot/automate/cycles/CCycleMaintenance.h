@@ -12,33 +12,33 @@ public:
 	CCycleMaintenance(QObject *parent, eTypeCycle);
 	~CCycleMaintenance();
 
-	void setType(eTypeCycle);
-	eTypeCycle getType()const;
+    void setType(eTypeCycle) Q_DECL_OVERRIDE;
+    eTypeCycle getType()const Q_DECL_OVERRIDE;
 	void addAction(IAction*);
-	QString getName()const;
-	void setName(QString);
-	bool isRunning();
-	bool isPaused();
-	QString getLbl()const;
-	void setLbl(QString);
+    QString getName()const Q_DECL_OVERRIDE;
+    void setName(QString) Q_DECL_OVERRIDE;
+    bool isRunning() Q_DECL_OVERRIDE;
+    bool isPaused() Q_DECL_OVERRIDE;
+    QString getLbl()const Q_DECL_OVERRIDE;
+    void setLbl(const QString&) Q_DECL_OVERRIDE;
 
-	bool isStreamRelated()const;
-	QString getRelatedStreamName()const;
-	QList<CStep*> getListSteps()const;
-	CStep* getStepStop()const;
+    bool isStreamRelated()const Q_DECL_OVERRIDE;
+    QString getRelatedStreamName()const Q_DECL_OVERRIDE;
+    QList<CStep*> getListSteps()const Q_DECL_OVERRIDE;
+    CStep* getStepStop()const Q_DECL_OVERRIDE;
 
 public slots:
-	void slotRunCycle();
-	void slotPauseCycle();
-	void slotStopCycle();
-	void slotUnPauseCycle();
-	void slotStopEndCycle();
-	void slotGoToEndCycle();
-	void slotGoToStepCycle(int);
-	void slotGetReadyForPlayNextCycle();
-	void slotGetReadyForPlayCycle();
+    void slotRunCycle() Q_DECL_OVERRIDE;
+    void slotPauseCycle() Q_DECL_OVERRIDE;
+    void slotStopCycle() Q_DECL_OVERRIDE;
+    void slotUnPauseCycle() Q_DECL_OVERRIDE;
+    void slotStopEndCycle() Q_DECL_OVERRIDE;
+    void slotGoToEndCycle() Q_DECL_OVERRIDE;
+    void slotGoToStepCycle(int) Q_DECL_OVERRIDE;
+    void slotGetReadyForPlayNextCycle() Q_DECL_OVERRIDE;
+    void slotGetReadyForPlayCycle() Q_DECL_OVERRIDE;
 
-	void slotExecNextStep();
+    void slotExecNextStep() Q_DECL_OVERRIDE;
 
 
 private:

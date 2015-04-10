@@ -11,11 +11,11 @@ public:
 	CCycleIO(QObject *parent);
 	~CCycleIO();
 
-	eTypeCycle getType()const;
+    eTypeCycle getType()const Q_DECL_OVERRIDE;
 public slots:
-	void slotRunCycle();
-	void slotPauseCycle();
-	void slotStopCycle();
+    void slotRunCycle() Q_DECL_OVERRIDE;
+    void slotPauseCycle() Q_DECL_OVERRIDE;
+    void slotStopCycle() Q_DECL_OVERRIDE;
 	void addAction(IAction*);
 
 

@@ -41,7 +41,7 @@ CStep* CCycleAutonome::getStepStop()const{
 //	
 //}
 //QString CCycleAutonome::getLbl()const{ return m_label;}
-//void CCycleAutonome::setLbl(QString lbl){ m_label = lbl;}
+//void CCycleAutonome::setLbl(const QString &lbl){ m_label = lbl;}
 //void CCycleAutonome::slotPauseCycle(){
 //	
 //}

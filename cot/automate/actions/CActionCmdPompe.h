@@ -9,13 +9,13 @@ class CActionCmdPompe : public IAction
 
 public:
 	CActionCmdPompe(QObject *parent);
-	CActionCmdPompe(QVariantMap);
+	CActionCmdPompe(const QVariantMap &);
 	CActionCmdPompe();
 	~CActionCmdPompe();
 
-	bool runAction();
-	QString getName()const;
-	QList<IVariable*> getListParameters()const;
+    bool runAction() Q_DECL_OVERRIDE;
+    QString getName()const Q_DECL_OVERRIDE;
+    QList<IVariable*> getListParameters()const Q_DECL_OVERRIDE;
 
 private:
 
