@@ -132,11 +132,10 @@ void CUpdateManager::slotProcessStateChanged(QProcess::ProcessState newState)
 
 QString CUpdateManager::settingsFilePath() const
 {
-    return QString("%1/usb/cot-update.ini").arg(COT_USB_MOUNT_POINT);
+    return QStringLiteral("%1/usb/cot-update.ini").arg(COT_USB_MOUNT_POINT);
 }
 
 QString CUpdateManager::scriptFilePath() const
 {
-    return QString("%1/usb/cot-update.sh").arg(COT_USB_MOUNT_POINT);
+    return QStringLiteral("%1/usb/cot-update.sh").arg(COT_USB_MOUNT_POINT);
 }
-

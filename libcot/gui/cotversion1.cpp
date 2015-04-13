@@ -56,5 +56,4 @@ void COTVersion1::slotUpdateClicked()
             close();
         }
     }
-
 }

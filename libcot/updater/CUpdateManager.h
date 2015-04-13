@@ -17,7 +17,6 @@ public:
     ~CUpdateManager();
 
     void init();
-
     bool isRunning() const;
 
 public slots:
