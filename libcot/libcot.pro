@@ -9,6 +9,8 @@ include( "../g++.pri" )
 DEFINES *= COTWIDGETS_BUILD_COTWIDGETS_LIB
 
 DEFINES *= "COT_JSON_FILE=\\\"$$PWD/save.json\\\""
+macx:DEFINES *= "COT_USB_MOUNT_POINT=\\\"/Volumes\\\""
+else:DEFINES *= "COT_USB_MOUNT_POINT=\\\"/media\\\""
 
 DESTDIR = ../lib
 
@@ -20,7 +22,8 @@ INCLUDEPATH *= \
     automate/com \
     automate/cycles \
     automate/actions \
-    automate/units
+    automate/units \
+    updater
 
 DEPENDPATH *= \
     . \
@@ -30,13 +33,15 @@ DEPENDPATH *= \
     automate/com \
     automate/cycles \
     automate/actions \
-    automate/units
+    automate/units \
+    updater
 
 RESOURCES *= \
     resources/cot-resources.qrc
 
 FORMS *= \
-    gui/cotversion1.ui
+    gui/cotversion1.ui \
+    updater/CUpdateDialog.ui
 
 HEADERS *= \
     automate/CAutomate.h \
@@ -97,7 +102,9 @@ HEADERS *= \
     keyboards/keyboardnormalbutton.h \
     keyboards/keyboardlayoututils.h \
     keyboards/keyboardwidget.h \
-    keyboards/numericalkeyboardwidget.h
+    keyboards/numericalkeyboardwidget.h \
+    updater/CUpdateDialog.h \
+    updater/CUpdateManager.h
 
 SOURCES *= \
     automate/CAutomate.cpp \
@@ -158,7 +165,9 @@ SOURCES *= \
     keyboards/keyboardnormalbutton.cpp \
     keyboards/keyboardlayoututils.cpp \
     keyboards/keyboardwidget.cpp \
-    keyboards/numericalkeyboardwidget.cpp
+    keyboards/numericalkeyboardwidget.cpp \
+    updater/CUpdateDialog.cpp \
+    updater/CUpdateManager.cpp
 
 DISTFILES *= \
     save.json \
