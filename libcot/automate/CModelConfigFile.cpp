@@ -47,30 +47,30 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
 	QJsonObject jsonObjectAction = m_jsonDoc->object();
 
 	//Variables
-	if(jsonObjectAction["variables"] == QJsonValue::Undefined){
+    if(jsonObjectAction[QStringLiteral("variables")] == QJsonValue::Undefined){
 		qDebug() << "jsonObject[\"variables\"] == QJsonValue::Undefined";
 	}
 	else {
-		QJsonArray jsonArrayVariables = jsonObjectAction["variables"].toArray();
+        QJsonArray jsonArrayVariables = jsonObjectAction[QStringLiteral("variables")].toArray();
 		foreach(QJsonValue jsonValueVariable, jsonArrayVariables){
 			QVariantMap mapVariable = jsonValueVariable.toVariant().toMap();
 			IVariable* var = CVariableFactory::build(mapVariable); 
 			if(var)
-				CAutomate::getInstance()->addVariable(mapVariable["name"].toString(),var);
+                CAutomate::getInstance()->addVariable(mapVariable[QStringLiteral("name")].toString(),var);
 			else 
 				qDebug() << "Variables null : map = " << mapVariable;
 		}
 	}
 	//bind variables
-	if(jsonObjectAction["variables"] == QJsonValue::Undefined){
+    if(jsonObjectAction[QStringLiteral("variables")] == QJsonValue::Undefined){
 		qDebug() << "jsonObject[\"variables\"] == QJsonValue::Undefined";
 	}
 	else {
-		QJsonArray jsonArrayBinds = jsonObjectAction["binds"].toArray();
+        QJsonArray jsonArrayBinds = jsonObjectAction[QStringLiteral("binds")].toArray();
 		foreach(QJsonValue jsonValueBind, jsonArrayBinds){
 			QVariantMap mapBind = jsonValueBind.toVariant().toMap();
-			IVariable* var = CAutomate::getInstance()->getVariable(mapBind["variable_origin_name"].toString());
-			IVariable* var_binded = CAutomate::getInstance()->getVariable(mapBind["variable_destination_name"].toString());
+            IVariable* var = CAutomate::getInstance()->getVariable(mapBind[QStringLiteral("variable_origin_name")].toString());
+            IVariable* var_binded = CAutomate::getInstance()->getVariable(mapBind[QStringLiteral("variable_destination_name")].toString());
 			if(var && var_binded)
 				var->addBind(var_binded);
 			else 
@@ -79,11 +79,11 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
 	}
 
 	//Actions
-	if(jsonObjectAction["actions"] == QJsonValue::Undefined){
+    if(jsonObjectAction[QStringLiteral("actions")] == QJsonValue::Undefined){
 		qDebug() << "jsonObject[\"actions\"] == QJsonValue::Undefined";
 	}
 	else {
-		QJsonArray jsonArrayActions = jsonObjectAction["actions"].toArray();
+        QJsonArray jsonArrayActions = jsonObjectAction[QStringLiteral("actions")].toArray();
 		foreach(QJsonValue jsonValueAction, jsonArrayActions){
 			QVariantMap mapAction = jsonValueAction.toVariant().toMap();
 			IAction* action = CActionFactory::build(mapAction); 
@@ -96,11 +96,11 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
 
 	//Cycles
 	QJsonObject jsonObjectCycle = m_jsonDoc->object();
-	if(jsonObjectCycle["cycles"] == QJsonValue::Undefined){
+    if(jsonObjectCycle[QStringLiteral("cycles")] == QJsonValue::Undefined){
 		qDebug() << "jsonObject[\"cycles\"] == QJsonValue::Undefined";
 	}
 	else {
-		QJsonArray jsonArrayCycles = jsonObjectCycle["cycles"].toArray();
+        QJsonArray jsonArrayCycles = jsonObjectCycle[QStringLiteral("cycles")].toArray();
 		foreach(QJsonValue jsonValueCycle, jsonArrayCycles){
 			QVariantMap mapCycle = jsonValueCycle.toVariant().toMap();
 			ICycle* cycle = CCycleFactory::build(mapCycle, m_mapActions); 
@@ -113,15 +113,15 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
 
 	//Séquenceur
 	QJsonObject jsonObjectSequenceur = m_jsonDoc->object();
-	if(jsonObjectSequenceur["sequenceur_measure"] == QJsonValue::Undefined){
+    if(jsonObjectSequenceur[QStringLiteral("sequenceur_measure")] == QJsonValue::Undefined){
 		qDebug() << "jsonObject[\"sequenceur_measure\"] == QJsonValue::Undefined";
 	}
 	else {
-		QJsonArray jsonArraySeqeuceur = jsonObjectSequenceur["sequenceur_measure"].toArray();
+        QJsonArray jsonArraySeqeuceur = jsonObjectSequenceur[QStringLiteral("sequenceur_measure")].toArray();
 		foreach(QJsonValue jsonValueSequence, jsonArraySeqeuceur){
 			QVariantMap mapSequence = jsonValueSequence.toVariant().toMap();
-			if(mapSequence["name_cycle"] != "")
-				m_listSequences.append(m_mapCycles[mapSequence["name_cycle"].toString()]);
+            if(mapSequence[QStringLiteral("name_cycle")] != QStringLiteral(""))
+                m_listSequences.append(m_mapCycles[mapSequence[QStringLiteral("name_cycle")].toString()]);
 			else
 				qDebug() << "Sequence name cycle null : map = " << mapSequence;
 		}
@@ -138,17 +138,17 @@ CModelConfigFile::~CModelConfigFile()
 QString CModelConfigFile::getLblAnalyser(QLocale local){
 	QJsonObject jsonObject = m_jsonDoc->object();
 	if(jsonObject[tr("FR_lbl_analyser")] == QJsonValue::Undefined)
-		return QString(tr("lbl_analyser not find see save.json file"));
+        return tr("lbl_analyser not find see save.json file");
 	else
 		return jsonObject[tr("FR_lbl_analyser")].toString();
 }
 
 int CModelConfigFile::getNumberOfStream(){
 	QJsonObject jsonObject = m_jsonDoc->object();
-	if(jsonObject["number_of_stream"] == QJsonValue::Undefined)
+    if(jsonObject[QStringLiteral("number_of_stream")] == QJsonValue::Undefined)
 		return -1;
 	else
-		return jsonObject["number_of_stream"].toInt();
+        return jsonObject[QStringLiteral("number_of_stream")].toInt();
 }
 QMap<QString, ICycle*> CModelConfigFile::getMapCycle(){
 	return m_mapCycles;

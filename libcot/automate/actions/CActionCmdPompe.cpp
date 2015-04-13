@@ -9,13 +9,13 @@ CActionCmdPompe::CActionCmdPompe(const QVariantMap &mapAction)
 	: IAction()
 {
 	m_label = mapAction[tr("FR_lbl")].toString();
-	m_ctrlContinu = mapAction["cmd_continu_pump"].toBool();
-	m_nbPasTour = mapAction["num_step_or_tour_pump"].toInt();
-	m_numero = mapAction["num_pump"].toInt();
-	m_sens = mapAction["direction_trigo_pump"].toBool();
-	m_timing = mapAction["timing"].toInt();
-	m_vitesse = mapAction["speed_pump"].toInt();
-	m_name = mapAction["name"].toString();
+    m_ctrlContinu = mapAction[QStringLiteral("cmd_continu_pump")].toBool();
+    m_nbPasTour = mapAction[QStringLiteral("num_step_or_tour_pump")].toInt();
+    m_numero = mapAction[QStringLiteral("num_pump")].toInt();
+    m_sens = mapAction[QStringLiteral("direction_trigo_pump")].toBool();
+    m_timing = mapAction[QStringLiteral("timing")].toInt();
+    m_vitesse = mapAction[QStringLiteral("speed_pump")].toInt();
+    m_name = mapAction[QStringLiteral("name")].toString();
 	 
 
 }

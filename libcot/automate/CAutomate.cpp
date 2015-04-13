@@ -52,7 +52,7 @@ IVariable* CAutomate::getVariable(QString name){
 
 	IVariable* var = m_mapVariables.value(name);
 	if(!var){
-		var = CVariableFactory::build(name + "unknow in map");
+        var = CVariableFactory::build(name + QLatin1String("unknow in map"));
 	}
 	return var;
 }

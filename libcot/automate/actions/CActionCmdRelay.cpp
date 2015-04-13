@@ -11,10 +11,10 @@ CActionCmdRelay::CActionCmdRelay(const QVariantMap &mapAction)
 	: IAction()
 {
 	m_label = mapAction[tr("FR_lbl")].toString();
-	m_num_card_output = mapAction["num_card_output"].toInt();
-	m_timing = mapAction["timing"].toInt();
-	m_card_id = mapAction["card_id"].toInt();
-	m_name = mapAction["name"].toString();
+    m_num_card_output = mapAction[QStringLiteral("num_card_output")].toInt();
+    m_timing = mapAction[QStringLiteral("timing")].toInt();
+    m_card_id = mapAction[QStringLiteral("card_id")].toInt();
+    m_name = mapAction[QStringLiteral("name")].toString();
 
 }
 CActionCmdRelay::CActionCmdRelay()

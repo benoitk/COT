@@ -15,12 +15,12 @@ CActionCmdReadInput::CActionCmdReadInput(QObject *parent)
 CActionCmdReadInput::CActionCmdReadInput(const QVariantMap &mapAction)
 	: IAction()
 {
-	m_name = mapAction["name"].toString();
+    m_name = mapAction[QStringLiteral("name")].toString();
 	m_label = mapAction[tr("FR_lbl")].toString();
-	m_extentionName = mapAction["extention_name"].toString();
-	m_organneName = mapAction["organne_name"].toString();
+    m_extentionName = mapAction[QStringLiteral("extention_name")].toString();
+    m_organneName = mapAction[QStringLiteral("organne_name")].toString();
 
-	m_variableDestination =  CAutomate::getInstance()->getVariable(mapAction["variable_destination_name"].toString());
+    m_variableDestination =  CAutomate::getInstance()->getVariable(mapAction[QStringLiteral("variable_destination_name")].toString());
 	//m_extensionCard = CAutomate::getInstance()->getExtensionCard(mapAction["extention_name"].toString());
 }
 CActionCmdReadInput::CActionCmdReadInput()
@@ -33,7 +33,7 @@ CActionCmdReadInput::~CActionCmdReadInput()
 }
 
 bool CActionCmdReadInput::runAction(){
-	qDebug()<< QString("Action lecture entrÃ©e ")
+    qDebug()<< QString::fromUtf8("Action lecture entrÃ©e ")
 			<< " label fr " << m_label
 			<< " m_card_id " << m_extentionName
 			<< " m_num_card_output " << m_organneName
