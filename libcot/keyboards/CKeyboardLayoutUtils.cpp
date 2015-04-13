@@ -18,7 +18,11 @@ QStringList CKeyboardLayoutUtils::frenchKeyboardLayout()
 
 QStringList CKeyboardLayoutUtils::russianKeyboardLayout()
 {
-    return QStringList();
+    const QStringList lst = QStringList() << QStringLiteral("1 2 3 4 5 6 7 8 9 0 _ = \\ B3")
+                                          << QStringLiteral("T3 Й ц У К Е н Г Ш Щ З Х Ъ ")
+                                          << QStringLiteral("C4Ф Ы в А П Р О Л д ж Э R3")
+                                          << QStringLiteral("S5 Я Ч С м и Т ь Б Ю . S4");
+    return lst;
 }
 
 
@@ -45,10 +49,10 @@ QStringList CKeyboardLayoutUtils::spanishKeyboardLayout()
 
 QStringList CKeyboardLayoutUtils::portugueseKeyboardLayout()
 {
-    const QStringList lst = QStringList() << QStringLiteral("")
-                                          << QStringLiteral("")
-                                          << QStringLiteral("")
-                                          << QStringLiteral("");
+    const QStringList lst = QStringList() << QStringLiteral("\\ 1 2 3 4 5 6 7 8 9 0 \" B3" )
+                                          << QStringLiteral("T3q w e r t y u i o p + ` ")
+                                          << QStringLiteral("C4a s d f g h j k l ç ~ R3")
+                                          << QStringLiteral("S5< z x c v b n m , . _ S4");
     return lst;
 }
 
@@ -89,8 +93,7 @@ QString CKeyboardLayoutUtils::frenchShiftMapping()
 
 QString CKeyboardLayoutUtils::russianShiftMapping()
 {
-    //TODO
-    return QString();
+    return QStringLiteral("1!2\"3И4;5%6:7?8*9(0)_-=+\\/");
 }
 
 
@@ -102,15 +105,13 @@ QString CKeyboardLayoutUtils::englishShiftMapping()
 
 QString CKeyboardLayoutUtils::spanishShiftMapping()
 {
-    //TODO
-    return QString();
+    return QStringLiteral("1!2\"3.4$5%6&7/8(9)0=.?");
 }
 
 
 QString CKeyboardLayoutUtils::portugueseShiftMapping()
 {
-    //TODO
-    return QString();
+    return QStringLiteral("\\|1!2\"3#4$5%6&7/8(9]0='?");
 }
 
 
