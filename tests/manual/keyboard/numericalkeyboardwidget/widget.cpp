@@ -1,5 +1,5 @@
 #include "widget.h"
-#include "../../../../cot/keyboards/numericalkeyboardwidget.h"
+#include "numericalkeyboardwidget.h"
 #include <QVBoxLayout>
 
 Widget::Widget(QWidget *parent)

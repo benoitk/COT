@@ -1,5 +1,5 @@
 TEMPLATE = subdirs
-
-SUBDIRS *= tests \
+CONFIG += ordered
+SUBDIRS *= libcot tests \
     cot-translator \
     cot \

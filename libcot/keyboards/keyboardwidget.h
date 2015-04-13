@@ -2,6 +2,7 @@
 #define KEYBOARDWIDGET_H
 
 #include "keyboardspecialbutton.h"
+#include "../../libcot/cot_global.h"
 
 #include <QWidget>
 class QGridLayout;
@@ -9,7 +10,7 @@ class QVBoxLayout;
 class QLineEdit;
 class KeyboardNormalButton;
 
-class KeyboardWidget : public QWidget
+class COTWIDGETS_EXPORT KeyboardWidget : public QWidget
 {
     Q_OBJECT
 public:

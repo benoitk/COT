@@ -1,7 +1,7 @@
 #include <qtest.h>
 #include <qtestmouse.h>
 #include <QSignalSpy>
-#include "../../../../cot/keyboards/keyboardnormalbutton.h"
+#include "keyboardnormalbutton.h"
 #include <QObject>
 class KeyboadNormalButtonTest : public QObject
 {

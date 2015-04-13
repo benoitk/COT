@@ -1,9 +1,14 @@
 TARGET = numericalkeyboardwidgettest
 QT += widgets testlib
-SOURCES  += numericalkeyboardwidgettest.cpp ../../../../cot/keyboards/numericalkeyboardwidget.cpp \
-             ../../../../cot/keyboards/keyboardnormalbutton.cpp \
-            ../../../../cot/keyboards/keyboardbuttonbase.cpp ../../../../cot/keyboards/keyboardspecialbutton.cpp
+SOURCES  += numericalkeyboardwidgettest.cpp 
+COTWIDGETS_LIBDIR = $${OUT_PWD}/../../../../lib
 
-HEADERS += ../../../../cot/keyboards/numericalkeyboardwidget.h \
-            ../../../../cot/keyboards/keyboardnormalbutton.h ../../../../cot/keyboards/keyboardspecialbutton.h \
-            ../../../../cot/keyboards/keyboardbuttonbase.h \
+
+QMAKE_RPATHDIR += $$COTWIDGETS_LIBDIR
+
+INCLUDEPATH +=  $${PWD}/../../../../libcot/keyboards/
+DEPENDPATH += $${PWD}/../../../../libcot/keyboards/
+
+
+LIBS += -L$$COTWIDGETS_LIBDIR -lcotwidgets
+

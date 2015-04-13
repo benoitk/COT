@@ -1,6 +1,6 @@
 #include "widget.h"
 
-#include "../../../../cot/keyboards/keyboardwidget.h"
+#include "keyboardwidget.h"
 #include "localcombobox.h"
 
 #include <QVBoxLayout>

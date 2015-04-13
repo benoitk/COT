@@ -1,5 +1,5 @@
 #include <qtest.h>
-#include "../../../../cot/keyboards/keyboardwidget.h"
+#include "keyboardwidget.h"
 #include <QLineEdit>
 #include <QObject>
 class KeyboadWidgetTest : public QObject

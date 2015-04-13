@@ -2,8 +2,9 @@
 #define KEYBOARDNORMALBUTTON_H
 
 #include "keyboardbuttonbase.h"
+#include "../../libcot/cot_global.h"
 
-class KeyboardNormalButton : public KeyboardButtonBase
+class COTWIDGETS_EXPORT KeyboardNormalButton : public KeyboardButtonBase
 {
     Q_OBJECT
 public:
