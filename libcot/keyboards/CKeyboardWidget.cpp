@@ -58,30 +58,40 @@ void CKeyboardWidget::initializeKeyboardLayout()
     m_keyboardLayout = new QGridLayout;
     QLocale loc = locale();
     const QStringList listLanguage = loc.uiLanguages();
-
+    qDebug()<<" listLanguage"<<listLanguage;
     QStringList keyboardLayout;
-    //TODO verify lang.
     Q_FOREACH( const QString &lang, listLanguage) {
-        if (lang == QStringLiteral("fr")) {
+        if (lang == QStringLiteral("fr-FR")) {
             keyboardLayout = CKeyboardLayoutUtils::frenchKeyboardLayout();
             m_currentLanguage = lang;
             break;
-        } else if (lang == QStringLiteral("en")) {
+        } else if (lang == QStringLiteral("en-GB")) {
             keyboardLayout = CKeyboardLayoutUtils::englishKeyboardLayout();
             m_currentLanguage = lang;
             break;
-        } else if (lang == QStringLiteral("ch")) {
+        } else if (lang == QStringLiteral("zh")) {
             keyboardLayout = CKeyboardLayoutUtils::chineseKeyboardLayout();
             m_currentLanguage = lang;
             break;
+        } else if (lang == QStringLiteral("ru")) {
+            keyboardLayout = CKeyboardLayoutUtils::russianKeyboardLayout();
+            m_currentLanguage = lang;
+            break;
+        } else if (m_currentLanguage == QStringLiteral("es")) {
+            keyboardLayout = CKeyboardLayoutUtils::spanishKeyboardLayout();
+            m_currentLanguage = lang;
+            break;
+        } else if (m_currentLanguage == QStringLiteral("pt")) {
+            keyboardLayout = CKeyboardLayoutUtils::portugueseKeyboardLayout();
+            m_currentLanguage = lang;
+            break;
         }
-        //TODO add more keyboard layout
     }
 
     //Fallback to french keyboard
     if (keyboardLayout.isEmpty()) {
         keyboardLayout = CKeyboardLayoutUtils::frenchKeyboardLayout();
-        m_currentLanguage = QStringLiteral("fr");
+        m_currentLanguage = QStringLiteral("fr-FR");
     }
 
     if (keyboardLayout.isEmpty()) {
@@ -179,12 +189,18 @@ void CKeyboardWidget::slotCapsLockToggled()
     m_capsLockOn = !m_capsLockOn;
     QString shiftMapping;
 
-    if (m_currentLanguage == QStringLiteral("fr")) {
+    if (m_currentLanguage == QStringLiteral("fr-FR")) {
         shiftMapping = CKeyboardLayoutUtils::frenchShiftMapping();
-    } else if (m_currentLanguage == QStringLiteral("en")) {
+    } else if (m_currentLanguage == QStringLiteral("en-GB")) {
         shiftMapping = CKeyboardLayoutUtils::englishShiftMapping();
-    } else if (m_currentLanguage == QStringLiteral("ch")) {
+    } else if (m_currentLanguage == QStringLiteral("zh")) {
         shiftMapping = CKeyboardLayoutUtils::chineseShiftMapping();
+    } else if (m_currentLanguage == QStringLiteral("ru")) {
+        shiftMapping = CKeyboardLayoutUtils::russianShiftMapping();
+    } else if (m_currentLanguage == QStringLiteral("es")) {
+        shiftMapping = CKeyboardLayoutUtils::spanishShiftMapping();
+    } else if (m_currentLanguage == QStringLiteral("pt")) {
+        shiftMapping = CKeyboardLayoutUtils::portugueseShiftMapping();
     } else {
         shiftMapping = CKeyboardLayoutUtils::frenchShiftMapping();
     }

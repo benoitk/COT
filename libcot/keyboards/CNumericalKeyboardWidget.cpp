@@ -68,7 +68,6 @@ void CNumericalKeyboardWidget::initializeKeyboardLayout()
     specialButton->setSpecialKey( Qt::Key_Backspace );
     connect(specialButton, &CKeyboardSpecialButton::clicked, this, &CNumericalKeyboardWidget::slotSpecialButtonClicked);
 
-    //TODO add backspace
     gridLayout->addWidget( specialButton, 0, 3 );
 
     gridLayout->addWidget( createButton( QLatin1Char('4') ), 1, 0 );
@@ -77,7 +76,7 @@ void CNumericalKeyboardWidget::initializeKeyboardLayout()
 
     specialButton = new CKeyboardSpecialButton( this );
     specialButton->setText( QChar(0x21B2) ); // "Enter" sign
-    // make Enter do the same as OK
+
     connect( specialButton, &CKeyboardSpecialButton::clicked, this, &CNumericalKeyboardWidget::returnPressed );
     gridLayout->addWidget( specialButton, 1, 3, 2, 1 );
 
