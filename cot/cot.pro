@@ -3,13 +3,20 @@ TARGET = cot
 CONFIG *= c++11
 QT *= widgets
 
+COTLIB_PWD = $${PWD}/../libcot
+
+INCLUDEPATH *=  \
+    $${COTLIB_PWD}/gui \
+    $${COTLIB_PWD}/automate/variables \
+    $${COTLIB_PWD}/automate
+
+DEPENDPATH *= \
+    $${COTLIB_PWD}/gui \
+    $${COTLIB_PWD}/automate/variables \
+    $${COTLIB_PWD}/automate
+
 COTWIDGETS_LIBDIR = $${OUT_PWD}/../lib
+QMAKE_RPATHDIR *= $$COTWIDGETS_LIBDIR
+LIBS *= -L$$COTWIDGETS_LIBDIR -lcotwidgets
 
-QMAKE_RPATHDIR += $$COTWIDGETS_LIBDIR
-
-INCLUDEPATH +=  $${PWD}/../libcot/gui/ $${PWD}/../libcot/automate/variables/ $${PWD}/../libcot/automate/
-DEPENDPATH += $${PWD}/../libcot/gui/ $${PWD}/../libcot/automate/variables/ $${PWD}/../libcot/automate/
-
-LIBS += -L$$COTWIDGETS_LIBDIR -lcotwidgets
-
-SOURCES *= main.cpp \
+SOURCES *= main.cpp

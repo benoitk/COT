@@ -168,7 +168,3 @@ SOURCES *= \
     keyboards/numericalkeyboardwidget.cpp \
     updater/CUpdateDialog.cpp \
     updater/CUpdateManager.cpp
-
-DISTFILES *= \
-    save.json \
-    utf-8-converter.sh
