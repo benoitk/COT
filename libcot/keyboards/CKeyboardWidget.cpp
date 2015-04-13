@@ -109,10 +109,8 @@ void CKeyboardWidget::initializeKeyboardLayout()
             const int cellWidth = widthValue == ' ' ? 2 : widthValue.toLatin1() - '0';
             CKeyboardButtonBase* button = 0;
             if (charValue.isUpper()) {
-                // special char
                 CKeyboardSpecialButton* specialButton = 0;
                 if( charValue == QLatin1Char( 'T' ) ) { // tab
-                    // TODO: what does Tab do? We can't enter \t into lineedits.
                     CKeyboardNormalButton* normalButton = new CKeyboardNormalButton( this );
                     normalButton->setCharacter(QLatin1Char('\t'));
                     normalButton->setText( tr( "Tab" ) );
@@ -204,8 +202,6 @@ void CKeyboardWidget::slotCapsLockToggled()
     } else {
         shiftMapping = CKeyboardLayoutUtils::frenchShiftMapping();
     }
-    //TODO add more
-
 
     Q_FOREACH(CKeyboardNormalButton *normalButton, m_normalButtons) {
         const QChar currentChar = normalButton->character();
