@@ -40,14 +40,16 @@ QString CKeyboardWidget::text() const
 
 bool CKeyboardWidget::event(QEvent *ev)
 {
-    if (ev->type() == QEvent::LocaleChange) {
-        initializeKeyboardLayout();
-        return true;
-    } else if (ev->type() == QEvent::LanguageChange) {
-        initializeKeyboardLayout();
+    if (ev->type() == QEvent::LocaleChange || ev->type() == QEvent::LanguageChange) {
+        changeKeyboardLayout();
         return true;
     }
     return QWidget::event(ev);
+}
+
+void CKeyboardWidget::changeKeyboardLayout()
+{
+    initializeKeyboardLayout();
 }
 
 void CKeyboardWidget::initializeKeyboardLayout()
@@ -71,6 +73,7 @@ void CKeyboardWidget::initializeKeyboardLayout()
         } else if (lang == QStringLiteral("ch")) {
             keyboardLayout = CKeyboardLayoutUtils::chineseKeyboardLayout();
             m_currentLanguage = lang;
+            break;
         }
         //TODO add more keyboard layout
     }

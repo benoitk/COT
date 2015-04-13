@@ -7,6 +7,7 @@
 #include <QVBoxLayout>
 #include <QApplication>
 #include <QDebug>
+#include <QDoubleValidator>
 
 CNumericalKeyboardWidget::CNumericalKeyboardWidget(QWidget *parent)
     : QWidget(parent)
@@ -14,6 +15,7 @@ CNumericalKeyboardWidget::CNumericalKeyboardWidget(QWidget *parent)
     m_mainLayout = new QVBoxLayout(this);
 
     m_lineEdit = new QLineEdit(this);
+    m_lineEdit->setValidator(new QDoubleValidator(m_lineEdit) );
     m_lineEdit->setReadOnly(true);
     m_lineEdit->setObjectName(QStringLiteral("lineedit"));
     m_mainLayout->addWidget(m_lineEdit);
@@ -110,9 +112,7 @@ void CNumericalKeyboardWidget::slotChangeSign(bool)
 
 void CNumericalKeyboardWidget::updateDigitalText()
 {
-    m_digitalButton->setCharacter(QLatin1Char('.'));
-    //Update from local
-    //TODO
+    m_digitalButton->setCharacter(QLocale::system().decimalPoint());
 }
 
 void CNumericalKeyboardWidget::slotSpecialButtonClicked(Qt::Key key)
@@ -124,5 +124,14 @@ void CNumericalKeyboardWidget::slotSpecialButtonClicked(Qt::Key key)
 
 void CNumericalKeyboardWidget::slotDigitalButtonPressed(QChar character)
 {
-    //TODO
+    QString value = m_lineEdit->text();
+    if (value.isEmpty()) {
+        return;
+    } else {
+        if (value.contains(character)) {
+            return;
+        }
+    }
+    m_lineEdit->setText(m_lineEdit->text().append(character));
+    m_lineEdit->setFocus();
 }

@@ -34,6 +34,7 @@ private Q_SLOTS:
 private:
     void keyClicked();
     void initializeKeyboardLayout();
+    void changeKeyboardLayout();
     QString m_currentLanguage;
     QLineEdit *m_lineEdit;
     QGridLayout *m_keyboardLayout;
