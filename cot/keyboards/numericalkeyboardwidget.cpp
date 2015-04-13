@@ -25,6 +25,11 @@ NumericalKeyboardWidget::~NumericalKeyboardWidget()
 
 }
 
+double NumericalKeyboardWidget::number() const
+{
+    return m_lineEdit->text().toDouble();
+}
+
 bool NumericalKeyboardWidget::event(QEvent *ev)
 {
     if (ev->type() == QEvent::LocaleChange) {

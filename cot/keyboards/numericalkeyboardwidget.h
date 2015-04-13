@@ -12,6 +12,7 @@ public:
     explicit NumericalKeyboardWidget(QWidget *parent = Q_NULLPTR);
     ~NumericalKeyboardWidget();
 
+    double number() const;
 Q_SIGNALS:
     void returnPressed();
 

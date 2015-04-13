@@ -9,6 +9,8 @@ class NumericalKeyboardDialog : public QDialog
 public:
     explicit NumericalKeyboardDialog(QWidget *parent=Q_NULLPTR);
     ~NumericalKeyboardDialog();
+
+    double number() const;
 private:
     NumericalKeyboardWidget *m_numericalKeyboardWidget;
 };

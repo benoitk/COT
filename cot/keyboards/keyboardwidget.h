@@ -16,6 +16,7 @@ public:
     explicit KeyboardWidget(QWidget *parent = Q_NULLPTR);
     ~KeyboardWidget();
 
+    QString text() const;
 Q_SIGNALS:
     void returnPressed();
 

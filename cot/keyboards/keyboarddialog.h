@@ -12,6 +12,8 @@ public:
     explicit KeyboardDialog(QWidget *parent = Q_NULLPTR);
     ~KeyboardDialog();
 
+    QString text() const;
+
 private:
     KeyboardWidget *m_keyboardWidget;
 };

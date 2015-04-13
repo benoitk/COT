@@ -18,3 +18,8 @@ NumericalKeyboardDialog::~NumericalKeyboardDialog()
 
 }
 
+double NumericalKeyboardDialog::number() const
+{
+    return m_numericalKeyboardWidget->number();
+}
+

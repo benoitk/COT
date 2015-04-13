@@ -32,6 +32,11 @@ KeyboardWidget::~KeyboardWidget()
 
 }
 
+QString KeyboardWidget::text() const
+{
+    return m_lineEdit->text();
+}
+
 bool KeyboardWidget::event(QEvent *ev)
 {
     if (ev->type() == QEvent::LocaleChange) {

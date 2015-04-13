@@ -18,3 +18,8 @@ KeyboardDialog::~KeyboardDialog()
 
 }
 
+QString KeyboardDialog::text() const
+{
+    return m_keyboardWidget->text();
+}
+
