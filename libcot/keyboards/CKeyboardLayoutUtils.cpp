@@ -1,4 +1,4 @@
-#include "keyboardlayoututils.h"
+#include "CKeyboardLayoutUtils.h"
 
 //See http://fr.wikipedia.org/wiki/Disposition_des_touches_des_claviers_informatiques
 
@@ -6,7 +6,7 @@
 // First character is the letter, second letter is the width.
 // Special letter codes: B=backspace  T=tab  C=caps  R=enter  S=shift
 // Special width codes: A space means 2, the default width.
-QStringList KeyboardLayoutUtils::frenchKeyboardLayout()
+QStringList CKeyboardLayoutUtils::frenchKeyboardLayout()
 {
     const QStringList lst = QStringList() << QStringLiteral("² & é \" ' ( - è _ ç à ) = B3" )
                                           << QStringLiteral("T3a z e r t y u i o p ^ $ " )
@@ -16,13 +16,13 @@ QStringList KeyboardLayoutUtils::frenchKeyboardLayout()
 }
 
 
-QStringList KeyboardLayoutUtils::russianKeyboardLayout()
+QStringList CKeyboardLayoutUtils::russianKeyboardLayout()
 {
     return QStringList();
 }
 
 
-QStringList KeyboardLayoutUtils::englishKeyboardLayout()
+QStringList CKeyboardLayoutUtils::englishKeyboardLayout()
 {
     const QStringList lst = QStringList() << QStringLiteral("` 1 2 3 4 5 6 7 8 9 0 - = B3" )
                                           << QStringLiteral("T3q w e r t y u i o p [ ] \\ " )
@@ -32,7 +32,7 @@ QStringList KeyboardLayoutUtils::englishKeyboardLayout()
 }
 
 
-QStringList KeyboardLayoutUtils::spanishKeyboardLayout()
+QStringList CKeyboardLayoutUtils::spanishKeyboardLayout()
 {
     const QStringList lst = QStringList() << QStringLiteral("² 1 2 3 4 5 6 7 8 9 0 ' ¡ B3")
                                           << QStringLiteral("T3q w e r t y u i o p [ ] ")
@@ -43,7 +43,7 @@ QStringList KeyboardLayoutUtils::spanishKeyboardLayout()
 }
 
 
-QStringList KeyboardLayoutUtils::portugueseKeyboardLayout()
+QStringList CKeyboardLayoutUtils::portugueseKeyboardLayout()
 {
     const QStringList lst = QStringList() << QStringLiteral("")
                                           << QStringLiteral("")
@@ -53,7 +53,7 @@ QStringList KeyboardLayoutUtils::portugueseKeyboardLayout()
 }
 
 
-QStringList KeyboardLayoutUtils::chineseKeyboardLayout()
+QStringList CKeyboardLayoutUtils::chineseKeyboardLayout()
 {
     const QStringList lst = QStringList() << QStringLiteral("")
                                           << QStringLiteral("")
@@ -62,7 +62,7 @@ QStringList KeyboardLayoutUtils::chineseKeyboardLayout()
     return lst;
 }
 
-QChar KeyboardLayoutUtils::convertToUpper(QChar currentChar, const QString &shiftMappingString)
+QChar CKeyboardLayoutUtils::convertToUpper(QChar currentChar, const QString &shiftMappingString)
 {
     for( int i = 0; i+1 < shiftMappingString.size(); i += 2 ) {
         if( shiftMappingString[i] == currentChar )
@@ -71,7 +71,7 @@ QChar KeyboardLayoutUtils::convertToUpper(QChar currentChar, const QString &shif
     return currentChar.toUpper();
 }
 
-QChar KeyboardLayoutUtils::convertToLower(QChar currentChar, const QString &shiftMappingString)
+QChar CKeyboardLayoutUtils::convertToLower(QChar currentChar, const QString &shiftMappingString)
 {
     for( int i = 0; i+1 < shiftMappingString.size(); i += 2 ) {
         if( shiftMappingString[i+1] == currentChar )
@@ -81,40 +81,40 @@ QChar KeyboardLayoutUtils::convertToLower(QChar currentChar, const QString &shif
 }
 
 
-QString KeyboardLayoutUtils::frenchShiftMapping()
+QString CKeyboardLayoutUtils::frenchShiftMapping()
 {
     return QStringLiteral("&1é2\"3'4(5-6è7_8ç9à0)°=+<>:/;.,?^¨");
 }
 
 
-QString KeyboardLayoutUtils::russianShiftMapping()
+QString CKeyboardLayoutUtils::russianShiftMapping()
 {
     //TODO
     return QString();
 }
 
 
-QString KeyboardLayoutUtils::englishShiftMapping()
+QString CKeyboardLayoutUtils::englishShiftMapping()
 {
     return QStringLiteral("1!2@3#4$5%6^7&8*9(0)-_=+[{]};:'\",<.>/?`~");
 }
 
 
-QString KeyboardLayoutUtils::spanishShiftMapping()
+QString CKeyboardLayoutUtils::spanishShiftMapping()
 {
     //TODO
     return QString();
 }
 
 
-QString KeyboardLayoutUtils::portugueseShiftMapping()
+QString CKeyboardLayoutUtils::portugueseShiftMapping()
 {
     //TODO
     return QString();
 }
 
 
-QString KeyboardLayoutUtils::chineseShiftMapping()
+QString CKeyboardLayoutUtils::chineseShiftMapping()
 {
     //TODO
     return QString();

@@ -1,5 +1,5 @@
 #include <qtest.h>
-#include "keyboardwidget.h"
+#include "CKeyboardWidget.h"
 #include <QLineEdit>
 #include <QObject>
 class KeyboadWidgetTest : public QObject
@@ -11,7 +11,7 @@ private Q_SLOTS:
 
 void KeyboadWidgetTest::shouldHaveDefaultValue()
 {
-    KeyboardWidget w;
+    CKeyboardWidget w;
     QLineEdit *lineEdit = w.findChild<QLineEdit *>(QStringLiteral("lineedit"));
     QVERIFY(lineEdit);
     QVERIFY(lineEdit->isReadOnly());

@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include <QLocale>
-class KeyboardWidget;
+class CKeyboardWidget;
 class Widget : public QWidget
 {
     Q_OBJECT
@@ -12,7 +12,7 @@ public:
 private slots:
     void slotChangeLocale(QLocale::Language local);
 private:
-    KeyboardWidget *m_keyboardWidget;
+    CKeyboardWidget *m_keyboardWidget;
 };
 
 #endif // WIDGET_H

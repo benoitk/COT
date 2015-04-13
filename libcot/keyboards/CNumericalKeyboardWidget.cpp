@@ -1,6 +1,6 @@
-#include "keyboardnormalbutton.h"
-#include "numericalkeyboardwidget.h"
-#include "keyboardspecialbutton.h"
+#include "CKeyboardNormalButton.h"
+#include "CNumericalKeyboardWidget.h"
+#include "CKeyboardSpecialButton.h"
 #include <QEvent>
 #include <QKeyEvent>
 #include <QLineEdit>
@@ -8,7 +8,7 @@
 #include <QApplication>
 #include <QDebug>
 
-NumericalKeyboardWidget::NumericalKeyboardWidget(QWidget *parent)
+CNumericalKeyboardWidget::CNumericalKeyboardWidget(QWidget *parent)
     : QWidget(parent)
 {
     m_mainLayout = new QVBoxLayout(this);
@@ -20,17 +20,17 @@ NumericalKeyboardWidget::NumericalKeyboardWidget(QWidget *parent)
     initializeKeyboardLayout();
 }
 
-NumericalKeyboardWidget::~NumericalKeyboardWidget()
+CNumericalKeyboardWidget::~CNumericalKeyboardWidget()
 {
 
 }
 
-double NumericalKeyboardWidget::number() const
+double CNumericalKeyboardWidget::number() const
 {
     return m_lineEdit->text().toDouble();
 }
 
-bool NumericalKeyboardWidget::event(QEvent *ev)
+bool CNumericalKeyboardWidget::event(QEvent *ev)
 {
     if (ev->type() == QEvent::LocaleChange) {
         updateDigitalText();
@@ -39,21 +39,21 @@ bool NumericalKeyboardWidget::event(QEvent *ev)
     return QWidget::event(ev);
 }
 
-void NumericalKeyboardWidget::slotButtonClicked(QChar character)
+void CNumericalKeyboardWidget::slotButtonClicked(QChar character)
 {
     m_lineEdit->setText(m_lineEdit->text().append(character));
     m_lineEdit->setFocus();
 }
 
-KeyboardNormalButton *NumericalKeyboardWidget::createButton(QChar character)
+CKeyboardNormalButton *CNumericalKeyboardWidget::createButton(QChar character)
 {
-    KeyboardNormalButton *normalButton = new KeyboardNormalButton(this);
+    CKeyboardNormalButton *normalButton = new CKeyboardNormalButton(this);
     normalButton->setCharacter(character);
-    connect(normalButton, &KeyboardNormalButton::clicked, this, &NumericalKeyboardWidget::slotButtonClicked);
+    connect(normalButton, &CKeyboardNormalButton::clicked, this, &CNumericalKeyboardWidget::slotButtonClicked);
     return normalButton;
 }
 
-void NumericalKeyboardWidget::initializeKeyboardLayout()
+void CNumericalKeyboardWidget::initializeKeyboardLayout()
 {
     QGridLayout* gridLayout = new QGridLayout;
     m_mainLayout->addLayout(gridLayout);
@@ -61,10 +61,10 @@ void NumericalKeyboardWidget::initializeKeyboardLayout()
     gridLayout->addWidget( createButton( QLatin1Char('7') ), 0, 0 );
     gridLayout->addWidget( createButton( QLatin1Char('8') ), 0, 1 );
     gridLayout->addWidget( createButton( QLatin1Char('9') ), 0, 2 );
-    KeyboardSpecialButton * specialButton = new KeyboardSpecialButton(this);
+    CKeyboardSpecialButton * specialButton = new CKeyboardSpecialButton(this);
     specialButton->setText( QChar(0x2190) );
     specialButton->setSpecialKey( Qt::Key_Backspace );
-    connect(specialButton, &KeyboardSpecialButton::clicked, this, &NumericalKeyboardWidget::slotSpecialButtonClicked);
+    connect(specialButton, &CKeyboardSpecialButton::clicked, this, &CNumericalKeyboardWidget::slotSpecialButtonClicked);
 
     //TODO add backspace
     gridLayout->addWidget( specialButton, 0, 3 );
@@ -73,10 +73,10 @@ void NumericalKeyboardWidget::initializeKeyboardLayout()
     gridLayout->addWidget( createButton( QLatin1Char('5') ), 1, 1 );
     gridLayout->addWidget( createButton( QLatin1Char('6') ), 1, 2 );
 
-    specialButton = new KeyboardSpecialButton( this );
+    specialButton = new CKeyboardSpecialButton( this );
     specialButton->setText( QChar(0x21B2) ); // "Enter" sign
     // make Enter do the same as OK
-    connect( specialButton, &KeyboardSpecialButton::clicked, this, &NumericalKeyboardWidget::returnPressed );
+    connect( specialButton, &CKeyboardSpecialButton::clicked, this, &CNumericalKeyboardWidget::returnPressed );
     gridLayout->addWidget( specialButton, 1, 3, 2, 1 );
 
     gridLayout->addWidget( createButton( QLatin1Char('1') ), 2, 0 );
@@ -85,11 +85,11 @@ void NumericalKeyboardWidget::initializeKeyboardLayout()
     gridLayout->addWidget( createButton( QLatin1Char('0') ), 3, 0, 1, 2  );
 
 
-    m_digitalButton = new KeyboardNormalButton(this);
-    connect(m_digitalButton, &KeyboardNormalButton::clicked, this, &NumericalKeyboardWidget::slotDigitalButtonPressed);
+    m_digitalButton = new CKeyboardNormalButton(this);
+    connect(m_digitalButton, &CKeyboardNormalButton::clicked, this, &CNumericalKeyboardWidget::slotDigitalButtonPressed);
 
     gridLayout->addWidget( m_digitalButton, 3, 2 );
-    specialButton = new KeyboardSpecialButton( this );
+    specialButton = new CKeyboardSpecialButton( this );
     specialButton->setText( QChar(0xB1) ); // "plus/minus" sign
     connect( specialButton, SIGNAL(clicked(bool)), this, SLOT(slotChangeSign(bool)) );
     gridLayout->addWidget( specialButton, 3, 3 );
@@ -98,7 +98,7 @@ void NumericalKeyboardWidget::initializeKeyboardLayout()
 
 }
 
-void NumericalKeyboardWidget::slotChangeSign(bool)
+void CNumericalKeyboardWidget::slotChangeSign(bool)
 {
     QString number = m_lineEdit->text();
     if ( number.startsWith( QLatin1Char('-') ) )
@@ -108,21 +108,21 @@ void NumericalKeyboardWidget::slotChangeSign(bool)
     m_lineEdit->setText( number );
 }
 
-void NumericalKeyboardWidget::updateDigitalText()
+void CNumericalKeyboardWidget::updateDigitalText()
 {
     m_digitalButton->setCharacter(QLatin1Char('.'));
     //Update from local
     //TODO
 }
 
-void NumericalKeyboardWidget::slotSpecialButtonClicked(Qt::Key key)
+void CNumericalKeyboardWidget::slotSpecialButtonClicked(Qt::Key key)
 {
     QKeyEvent ev( QEvent::KeyPress, key, 0 /*keyState*/, QString() );
     qApp->sendEvent( m_lineEdit, &ev );
     m_lineEdit->setFocus();
 }
 
-void NumericalKeyboardWidget::slotDigitalButtonPressed(QChar character)
+void CNumericalKeyboardWidget::slotDigitalButtonPressed(QChar character)
 {
     //TODO
 }

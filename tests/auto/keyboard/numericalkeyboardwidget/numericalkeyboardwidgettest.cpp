@@ -1,5 +1,5 @@
 #include <qtest.h>
-#include "numericalkeyboardwidget.h"
+#include "CNumericalKeyboardWidget.h"
 #include <QLineEdit>
 #include <QObject>
 class NumericalKeyboardWidgetTest : public QObject
@@ -11,7 +11,7 @@ private Q_SLOTS:
 
 void NumericalKeyboardWidgetTest::shouldHaveDefaultValue()
 {
-    NumericalKeyboardWidget w;
+    CNumericalKeyboardWidget w;
     QLineEdit *lineEdit = w.findChild<QLineEdit *>(QStringLiteral("lineedit"));
     QVERIFY(lineEdit);
 }

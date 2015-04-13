@@ -1,14 +1,14 @@
 #ifndef KEYBOARDSPECIALBUTTON_H
 #define KEYBOARDSPECIALBUTTON_H
 
-#include "keyboardbuttonbase.h"
+#include "CKeyboardButtonBase.h"
 
-class KeyboardSpecialButton : public KeyboardButtonBase
+class CKeyboardSpecialButton : public CKeyboardButtonBase
 {
     Q_OBJECT
 public:
-    explicit KeyboardSpecialButton(QWidget *parent = Q_NULLPTR);
-    ~KeyboardSpecialButton();
+    explicit CKeyboardSpecialButton(QWidget *parent = Q_NULLPTR);
+    ~CKeyboardSpecialButton();
 
     Qt::Key specialKey() const;
     void setSpecialKey(const Qt::Key &specialKey);

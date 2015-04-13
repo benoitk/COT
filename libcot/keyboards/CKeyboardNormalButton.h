@@ -1,15 +1,15 @@
 #ifndef KEYBOARDNORMALBUTTON_H
 #define KEYBOARDNORMALBUTTON_H
 
-#include "keyboardbuttonbase.h"
+#include "CKeyboardButtonBase.h"
 #include "../../libcot/cot_global.h"
 
-class COTWIDGETS_EXPORT KeyboardNormalButton : public KeyboardButtonBase
+class COTWIDGETS_EXPORT CKeyboardNormalButton : public CKeyboardButtonBase
 {
     Q_OBJECT
 public:
-    explicit KeyboardNormalButton(QWidget *parent = Q_NULLPTR);
-    ~KeyboardNormalButton();
+    explicit CKeyboardNormalButton(QWidget *parent = Q_NULLPTR);
+    ~CKeyboardNormalButton();
 
 
     QChar character() const;

@@ -1,9 +1,9 @@
 #include <QApplication>
-#include "numericalkeyboardwidget.h"
+#include "CNumericalKeyboardWidget.h"
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    NumericalKeyboardWidget *w = new NumericalKeyboardWidget();
+    CNumericalKeyboardWidget *w = new CNumericalKeyboardWidget();
     w->show();
     return a.exec();
 }

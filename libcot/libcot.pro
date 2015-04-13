@@ -101,14 +101,14 @@ HEADERS *= \
     automate/variables/IVariableInput.h \
     automate/variables/IVariableOutput.h \
     gui/cotversion1.h \
-    keyboards/keyboardbuttonbase.h \
-    keyboards/keyboarddialog.h \
-    keyboards/numericalkeyboarddialog.h \
-    keyboards/keyboardspecialbutton.h \
-    keyboards/keyboardnormalbutton.h \
-    keyboards/keyboardlayoututils.h \
-    keyboards/keyboardwidget.h \
-    keyboards/numericalkeyboardwidget.h \
+    keyboards/CKeyboardButtonBase.h \
+    keyboards/CKeyboardDialog.h \
+    keyboards/CKeyboardLayoutUtils.h \
+    keyboards/CKeyboardNormalButton.h \
+    keyboards/CKeyboardSpecialButton.h \
+    keyboards/CKeyboardWidget.h \
+    keyboards/CNumericalKeyboardDialog.h \
+    keyboards/CNumericalKeyboardWidget.h \
     updater/CUpdateDialog.h \
     updater/CUpdateManager.h
 
@@ -164,13 +164,13 @@ SOURCES *= \
     automate/variables/IVariableInput.cpp \
     automate/variables/IVariableOuput.cpp \
     gui/cotversion1.cpp \
-    keyboards/keyboardbuttonbase.cpp \
-    keyboards/keyboarddialog.cpp \
-    keyboards/numericalkeyboarddialog.cpp \
-    keyboards/keyboardspecialbutton.cpp \
-    keyboards/keyboardnormalbutton.cpp \
-    keyboards/keyboardlayoututils.cpp \
-    keyboards/keyboardwidget.cpp \
-    keyboards/numericalkeyboardwidget.cpp \
+    keyboards/CKeyboardButtonBase.cpp \
+    keyboards/CKeyboardDialog.cpp \
+    keyboards/CKeyboardLayoutUtils.cpp \
+    keyboards/CKeyboardNormalButton.cpp \
+    keyboards/CKeyboardSpecialButton.cpp \
+    keyboards/CKeyboardWidget.cpp \
+    keyboards/CNumericalKeyboardDialog.cpp \
+    keyboards/CNumericalKeyboardWidget.cpp \
     updater/CUpdateDialog.cpp \
     updater/CUpdateManager.cpp

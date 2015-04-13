@@ -1,21 +1,21 @@
 #ifndef KEYBOARDWIDGET_H
 #define KEYBOARDWIDGET_H
 
-#include "keyboardspecialbutton.h"
+#include "CKeyboardNormalButton.h"
 #include "../../libcot/cot_global.h"
 
 #include <QWidget>
 class QGridLayout;
 class QVBoxLayout;
 class QLineEdit;
-class KeyboardNormalButton;
-
-class COTWIDGETS_EXPORT KeyboardWidget : public QWidget
+class CKeyboardNormalButton;
+class CKeyboardSpecialButton;
+class COTWIDGETS_EXPORT CKeyboardWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit KeyboardWidget(QWidget *parent = Q_NULLPTR);
-    ~KeyboardWidget();
+    explicit CKeyboardWidget(QWidget *parent = Q_NULLPTR);
+    ~CKeyboardWidget();
 
     QString text() const;
 Q_SIGNALS:
@@ -38,8 +38,8 @@ private:
     QLineEdit *m_lineEdit;
     QGridLayout *m_keyboardLayout;
     QVBoxLayout *m_mainLayout;
-    QList<KeyboardSpecialButton *> m_shiftButtons;
-    QList<KeyboardNormalButton *> m_normalButtons;
+    QList<CKeyboardSpecialButton *> m_shiftButtons;
+    QList<CKeyboardNormalButton *> m_normalButtons;
     bool m_capsLockOn;
     bool m_shiftOn;
 };

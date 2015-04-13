@@ -3,12 +3,12 @@
 
 #include <QPushButton>
 
-class KeyboardButtonBase : public QPushButton
+class CKeyboardButtonBase : public QPushButton
 {
     Q_OBJECT
 public:
-    explicit KeyboardButtonBase(QWidget *parent = Q_NULLPTR);
-    ~KeyboardButtonBase();
+    explicit CKeyboardButtonBase(QWidget *parent = Q_NULLPTR);
+    ~CKeyboardButtonBase();
 };
 
 #endif // KEYBOARDBUTTONBASE_H

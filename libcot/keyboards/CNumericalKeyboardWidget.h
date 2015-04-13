@@ -5,13 +5,13 @@
 #include "../../libcot/cot_global.h"
 class QLineEdit;
 class QVBoxLayout;
-class KeyboardNormalButton;
-class COTWIDGETS_EXPORT NumericalKeyboardWidget : public QWidget
+class CKeyboardNormalButton;
+class COTWIDGETS_EXPORT CNumericalKeyboardWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit NumericalKeyboardWidget(QWidget *parent = Q_NULLPTR);
-    ~NumericalKeyboardWidget();
+    explicit CNumericalKeyboardWidget(QWidget *parent = Q_NULLPTR);
+    ~CNumericalKeyboardWidget();
 
     double number() const;
 Q_SIGNALS:
@@ -26,11 +26,11 @@ private slots:
     void slotDigitalButtonPressed(QChar character);
 private:
     void updateDigitalText();
-    KeyboardNormalButton *createButton(QChar character);
+    CKeyboardNormalButton *createButton(QChar character);
     void initializeKeyboardLayout();
     QVBoxLayout *m_mainLayout;
     QLineEdit *m_lineEdit;
-    KeyboardNormalButton *m_digitalButton;
+    CKeyboardNormalButton *m_digitalButton;
 };
 
 #endif // NUMERICALKEYBOARDWIDGET_H

@@ -1,7 +1,7 @@
 #include <qtest.h>
 #include <qtestmouse.h>
 #include <QSignalSpy>
-#include "keyboardnormalbutton.h"
+#include "CKeyboardNormalButton.h"
 #include <QObject>
 class KeyboadNormalButtonTest : public QObject
 {
@@ -19,13 +19,13 @@ private Q_SLOTS:
 
 void KeyboadNormalButtonTest::shouldHaveDefaultValue()
 {
-    KeyboardNormalButton button;
+    CKeyboardNormalButton button;
     QVERIFY(button.character().isNull());
 }
 
 void KeyboadNormalButtonTest::shouldAssignCharacter()
 {
-    KeyboardNormalButton button;
+    CKeyboardNormalButton button;
     QChar character(QLatin1Char('1'));
     button.setCharacter(character);
     QCOMPARE(button.character(), character);
@@ -37,7 +37,7 @@ void KeyboadNormalButtonTest::shouldAssignCharacter()
 
 void KeyboadNormalButtonTest::shouldEmitPressSignal()
 {
-    KeyboardNormalButton button;
+    CKeyboardNormalButton button;
     //We don't have default character.
     QSignalSpy spy(&button, SIGNAL(pressed(QChar)));
     QTest::mousePress(&button, Qt::LeftButton);
@@ -51,7 +51,7 @@ void KeyboadNormalButtonTest::shouldEmitPressSignal()
 
 void KeyboadNormalButtonTest::shouldEmitClickSignal()
 {
-    KeyboardNormalButton button;
+    CKeyboardNormalButton button;
     //We don't have default character.
     QSignalSpy spy(&button, SIGNAL(clicked(QChar)));
     QTest::mouseClick(&button, Qt::LeftButton);
@@ -67,7 +67,7 @@ void KeyboadNormalButtonTest::shouldEmitReleasedSignal()
 {
     //FIXME
     /*
-    KeyboardNormalButton button;
+    CKeyboardNormalButton button;
     //We don't have default character.
     QSignalSpy spy(&button, SIGNAL(released(QChar)));
     QTest::mouseRelease(&button, Qt::LeftButton);

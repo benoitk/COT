@@ -1,6 +1,7 @@
-#include "keyboardnormalbutton.h"
-#include "keyboardwidget.h"
-#include "keyboardlayoututils.h"
+#include "CKeyboardNormalButton.h"
+#include "CKeyboardWidget.h"
+#include "CKeyboardLayoutUtils.h"
+#include "CKeyboardSpecialButton.h"
 
 #include <QDebug>
 #include <QEvent>
@@ -10,7 +11,7 @@
 #include <qlineedit.h>
 #include <QApplication>
 
-KeyboardWidget::KeyboardWidget(QWidget *parent)
+CKeyboardWidget::CKeyboardWidget(QWidget *parent)
     : QWidget(parent),
       m_keyboardLayout(0),
       m_mainLayout(0),
@@ -27,17 +28,17 @@ KeyboardWidget::KeyboardWidget(QWidget *parent)
     initializeKeyboardLayout();
 }
 
-KeyboardWidget::~KeyboardWidget()
+CKeyboardWidget::~CKeyboardWidget()
 {
 
 }
 
-QString KeyboardWidget::text() const
+QString CKeyboardWidget::text() const
 {
     return m_lineEdit->text();
 }
 
-bool KeyboardWidget::event(QEvent *ev)
+bool CKeyboardWidget::event(QEvent *ev)
 {
     if (ev->type() == QEvent::LocaleChange) {
         initializeKeyboardLayout();
@@ -49,7 +50,7 @@ bool KeyboardWidget::event(QEvent *ev)
     return QWidget::event(ev);
 }
 
-void KeyboardWidget::initializeKeyboardLayout()
+void CKeyboardWidget::initializeKeyboardLayout()
 {
     delete m_keyboardLayout;
     m_keyboardLayout = new QGridLayout;
@@ -60,15 +61,15 @@ void KeyboardWidget::initializeKeyboardLayout()
     //TODO verify lang.
     Q_FOREACH( const QString &lang, listLanguage) {
         if (lang == QStringLiteral("fr")) {
-            keyboardLayout = KeyboardLayoutUtils::frenchKeyboardLayout();
+            keyboardLayout = CKeyboardLayoutUtils::frenchKeyboardLayout();
             m_currentLanguage = lang;
             break;
         } else if (lang == QStringLiteral("en")) {
-            keyboardLayout = KeyboardLayoutUtils::englishKeyboardLayout();
+            keyboardLayout = CKeyboardLayoutUtils::englishKeyboardLayout();
             m_currentLanguage = lang;
             break;
         } else if (lang == QStringLiteral("ch")) {
-            keyboardLayout = KeyboardLayoutUtils::chineseKeyboardLayout();
+            keyboardLayout = CKeyboardLayoutUtils::chineseKeyboardLayout();
             m_currentLanguage = lang;
         }
         //TODO add more keyboard layout
@@ -76,7 +77,7 @@ void KeyboardWidget::initializeKeyboardLayout()
 
     //Fallback to french keyboard
     if (keyboardLayout.isEmpty()) {
-        keyboardLayout = KeyboardLayoutUtils::frenchKeyboardLayout();
+        keyboardLayout = CKeyboardLayoutUtils::frenchKeyboardLayout();
         m_currentLanguage = QStringLiteral("fr");
     }
 
@@ -93,40 +94,40 @@ void KeyboardWidget::initializeKeyboardLayout()
             const QChar charValue = rowLayout[i];
             const QChar widthValue = rowLayout[i+1];
             const int cellWidth = widthValue == ' ' ? 2 : widthValue.toLatin1() - '0';
-            KeyboardButtonBase* button = 0;
+            CKeyboardButtonBase* button = 0;
             if (charValue.isUpper()) {
                 // special char
-                KeyboardSpecialButton* specialButton = 0;
+                CKeyboardSpecialButton* specialButton = 0;
                 if( charValue == QLatin1Char( 'T' ) ) { // tab
                     // TODO: what does Tab do? We can't enter \t into lineedits.
-                    KeyboardNormalButton* normalButton = new KeyboardNormalButton( this );
+                    CKeyboardNormalButton* normalButton = new CKeyboardNormalButton( this );
                     normalButton->setCharacter(QLatin1Char('\t'));
                     normalButton->setText( tr( "Tab" ) );
                     button = normalButton;
                     m_normalButtons << normalButton;
                 } else if( charValue == QLatin1Char( 'R' ) ) { // enter
-                    specialButton = new KeyboardSpecialButton( this );
+                    specialButton = new CKeyboardSpecialButton( this );
                     specialButton->setText( tr( "Enter" ) );
                     // make Enter do the same as OK
-                    connect( specialButton, &KeyboardSpecialButton::clicked, this, &KeyboardWidget::returnPressed );
+                    connect( specialButton, &CKeyboardSpecialButton::clicked, this, &CKeyboardWidget::returnPressed );
                 } else if( charValue == QLatin1Char( 'S' ) ) { // shift
-                    specialButton = new KeyboardSpecialButton( this );
+                    specialButton = new CKeyboardSpecialButton( this );
                     specialButton->setText( tr( "Shift" ) );
                     specialButton->setSpecialKey( Qt::Key_Shift );
                     specialButton->setCheckable( true );
-                    connect( specialButton, &KeyboardSpecialButton::clicked, this, &KeyboardWidget::slotShiftToggled );
+                    connect( specialButton, &CKeyboardSpecialButton::clicked, this, &CKeyboardWidget::slotShiftToggled );
                     m_shiftButtons.append( specialButton );
                 } else if( charValue == QLatin1Char( 'C' ) ) { // capslock
-                    specialButton = new KeyboardSpecialButton( this );
+                    specialButton = new CKeyboardSpecialButton( this );
                     specialButton->setText( tr( "Caps" ) );
                     specialButton->setSpecialKey( Qt::Key_CapsLock );
                     specialButton->setCheckable( true );
-                    connect( specialButton, &KeyboardSpecialButton::clicked, this, &KeyboardWidget::slotCapsLockToggled );
+                    connect( specialButton, &CKeyboardSpecialButton::clicked, this, &CKeyboardWidget::slotCapsLockToggled );
                 } else if( charValue == QLatin1Char( 'B' ) ) { // backspace
-                    specialButton = new KeyboardSpecialButton( this );
+                    specialButton = new CKeyboardSpecialButton( this );
                     specialButton->setText( QChar(0x2190) );
                     specialButton->setSpecialKey( Qt::Key_Backspace );
-                    connect(specialButton, &KeyboardSpecialButton::clicked, this, &KeyboardWidget::slotSpecialButtonClicked);
+                    connect(specialButton, &CKeyboardSpecialButton::clicked, this, &CKeyboardWidget::slotSpecialButtonClicked);
                 } else {
                     qDebug( "Unknown special char %d", charValue.toLatin1() );
                 }
@@ -134,8 +135,8 @@ void KeyboardWidget::initializeKeyboardLayout()
                     button = specialButton;
                 }
             }  else {
-                KeyboardNormalButton* normalButton = new KeyboardNormalButton( this );
-                connect(normalButton, &KeyboardNormalButton::clicked, this, &KeyboardWidget::slotButtonClicked);
+                CKeyboardNormalButton* normalButton = new CKeyboardNormalButton( this );
+                connect(normalButton, &CKeyboardNormalButton::clicked, this, &CKeyboardWidget::slotButtonClicked);
                 normalButton->setCharacter(charValue);
                 m_normalButtons << normalButton;
                 button = normalButton;
@@ -152,73 +153,73 @@ void KeyboardWidget::initializeKeyboardLayout()
     }
     if ( maxColumn > 0 ) {
         //Add Space bar.
-        KeyboardNormalButton* spaceButton = new KeyboardNormalButton( this );
-        connect(spaceButton, &KeyboardNormalButton::clicked, this, &KeyboardWidget::slotButtonClicked);
+        CKeyboardNormalButton* spaceButton = new CKeyboardNormalButton( this );
+        connect(spaceButton, &CKeyboardNormalButton::clicked, this, &CKeyboardWidget::slotButtonClicked);
         spaceButton->setCharacter(QLatin1Char(' '));
         spaceButton->setText(tr("Space"));
         m_keyboardLayout->addWidget( spaceButton, cellY, 1, 1, maxColumn - 2 );
     }
 }
 
-void KeyboardWidget::slotShiftToggled()
+void CKeyboardWidget::slotShiftToggled()
 {
     m_shiftOn = !m_shiftOn;
     //Synchronize shift button.
-    Q_FOREACH(KeyboardSpecialButton *button, m_shiftButtons) {
+    Q_FOREACH(CKeyboardSpecialButton *button, m_shiftButtons) {
         button->setChecked(m_shiftOn);
     }
     slotCapsLockToggled();
 }
 
-void KeyboardWidget::slotCapsLockToggled()
+void CKeyboardWidget::slotCapsLockToggled()
 {
     m_capsLockOn = !m_capsLockOn;
     QString shiftMapping;
 
     if (m_currentLanguage == QStringLiteral("fr")) {
-        shiftMapping = KeyboardLayoutUtils::frenchShiftMapping();
+        shiftMapping = CKeyboardLayoutUtils::frenchShiftMapping();
     } else if (m_currentLanguage == QStringLiteral("en")) {
-        shiftMapping = KeyboardLayoutUtils::englishShiftMapping();
+        shiftMapping = CKeyboardLayoutUtils::englishShiftMapping();
     } else if (m_currentLanguage == QStringLiteral("ch")) {
-        shiftMapping = KeyboardLayoutUtils::chineseShiftMapping();
+        shiftMapping = CKeyboardLayoutUtils::chineseShiftMapping();
     } else {
-        shiftMapping = KeyboardLayoutUtils::frenchShiftMapping();
+        shiftMapping = CKeyboardLayoutUtils::frenchShiftMapping();
     }
     //TODO add more
 
 
-    Q_FOREACH(KeyboardNormalButton *normalButton, m_normalButtons) {
+    Q_FOREACH(CKeyboardNormalButton *normalButton, m_normalButtons) {
         const QChar currentChar = normalButton->character();
         //We don't change tab value :)
         if ( currentChar == '\t' )
             continue;
         if ( m_capsLockOn )
-            normalButton->setCharacter( KeyboardLayoutUtils::convertToUpper(currentChar, shiftMapping) );
+            normalButton->setCharacter( CKeyboardLayoutUtils::convertToUpper(currentChar, shiftMapping) );
         else
-            normalButton->setCharacter( KeyboardLayoutUtils::convertToLower(currentChar, shiftMapping) );
+            normalButton->setCharacter( CKeyboardLayoutUtils::convertToLower(currentChar, shiftMapping) );
     }
 }
 
 
-void KeyboardWidget::slotButtonClicked(const QChar &character)
+void CKeyboardWidget::slotButtonClicked(const QChar &character)
 {
     m_lineEdit->setText(m_lineEdit->text().append(character));
     keyClicked();
     m_lineEdit->setFocus();
 }
 
-void KeyboardWidget::slotSpecialButtonClicked(Qt::Key key)
+void CKeyboardWidget::slotSpecialButtonClicked(Qt::Key key)
 {
     QKeyEvent ev( QEvent::KeyPress, key, 0 /*keyState*/, QString() );
     qApp->sendEvent( m_lineEdit, &ev );
     m_lineEdit->setFocus();
 }
 
-void KeyboardWidget::keyClicked()
+void CKeyboardWidget::keyClicked()
 {
     // Any key pressed after shift, reverts to normal
     if ( m_shiftOn ) {
-        Q_FOREACH(KeyboardNormalButton *normalButton, m_normalButtons) {
+        Q_FOREACH(CKeyboardNormalButton *normalButton, m_normalButtons) {
             normalButton->setChecked( false );
         }
         m_shiftOn = false;

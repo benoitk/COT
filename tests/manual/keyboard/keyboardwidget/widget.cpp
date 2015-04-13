@@ -1,6 +1,6 @@
 #include "widget.h"
 
-#include "keyboardwidget.h"
+#include "CKeyboardWidget.h"
 #include "localcombobox.h"
 
 #include <QVBoxLayout>
@@ -16,7 +16,7 @@ Widget::Widget(QWidget *parent)
 
     connect(combobox, &LocalComboBox::localeSelected, this, &Widget::slotChangeLocale);
     mainLayout->addWidget(combobox);
-    m_keyboardWidget = new KeyboardWidget(this);
+    m_keyboardWidget = new CKeyboardWidget(this);
     mainLayout->addWidget(m_keyboardWidget);
 }
 

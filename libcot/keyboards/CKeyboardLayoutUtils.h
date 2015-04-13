@@ -3,7 +3,7 @@
 
 #include <QStringList>
 
-namespace KeyboardLayoutUtils
+namespace CKeyboardLayoutUtils
 {
     QStringList frenchKeyboardLayout();
     QStringList russianKeyboardLayout();
