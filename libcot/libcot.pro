@@ -3,6 +3,12 @@ TARGET = cotwidgets
 CONFIG *= c++11
 QT *= widgets
 
+macx {
+    CONFIG -= lib_bundle
+    CONFIG -= shared
+    CONFIG *= static
+}
+
 include( "../outdirs.pri" )
 include( "../g++.pri" )
 
