@@ -4,6 +4,8 @@ SOURCES  += numericalkeyboardwidgettest.cpp
 COTWIDGETS_LIBDIR = $${OUT_PWD}/../../../../lib
 
 
+include( "$${PWD}/../../../../outdirs.pri" )
+
 QMAKE_RPATHDIR += $$COTWIDGETS_LIBDIR
 
 INCLUDEPATH +=  $${PWD}/../../../../libcot/keyboards/

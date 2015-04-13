@@ -3,6 +3,8 @@ TARGET = cotwidgets
 CONFIG *= c++11
 QT *= widgets
 
+include( "../outdirs.pri" )
+
 DEFINES *= COTWIDGETS_BUILD_COTWIDGETS_LIB
 
 DEFINES *= "COT_JSON_FILE=\\\"$$PWD/save.json\\\""
