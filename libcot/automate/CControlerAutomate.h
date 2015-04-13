@@ -3,7 +3,8 @@
 
 #include <QObject>
 #include <qthread.h>
-class CControlerAutomate : public QObject
+#include "../cot_global.h"
+class COTWIDGETS_EXPORT CControlerAutomate : public QObject
 {
 	Q_OBJECT
 private:

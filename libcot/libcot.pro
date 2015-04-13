@@ -4,6 +4,7 @@ CONFIG *= c++11
 QT *= widgets
 
 include( "../outdirs.pri" )
+include( "../g++.pri" )
 
 DEFINES *= COTWIDGETS_BUILD_COTWIDGETS_LIB
 

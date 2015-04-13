@@ -2,12 +2,12 @@
 #define COTVERSION1_H
 
 #include <QMainWindow>
-
+#include "../../cot_global.h"
 namespace Ui {
 class COTVersion1;
 }
 
-class COTVersion1 : public QMainWindow
+class COTWIDGETS_EXPORT COTVersion1 : public QMainWindow
 {
     Q_OBJECT
 

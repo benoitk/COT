@@ -2,10 +2,11 @@
 #define NUMERICALKEYBOARDWIDGET_H
 
 #include <QWidget>
+#include "../../libcot/cot_global.h"
 class QLineEdit;
 class QVBoxLayout;
 class KeyboardNormalButton;
-class NumericalKeyboardWidget : public QWidget
+class COTWIDGETS_EXPORT NumericalKeyboardWidget : public QWidget
 {
     Q_OBJECT
 public:
