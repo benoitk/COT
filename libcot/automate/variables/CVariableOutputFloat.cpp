@@ -26,7 +26,7 @@ QString CVariableOutputFloat::getOrganneName()const{
 	return m_organneName;
 }
 QString CVariableOutputFloat::getOrganneAddr()const{
-	return "return ADDR";
+    return QStringLiteral("return ADDR");
 }
 void CVariableOutputFloat::setOrganne(CModelExtensionCard* arg_model,QString arg_organneName){
 	m_modelExtensionCard = arg_model;
@@ -100,13 +100,13 @@ bool  CVariableOutputFloat::isStreamRelated()const{
 	return false;
 }
 QString  CVariableOutputFloat::getRelatedStreamName()const{
-	return "voie a changer";
+    return QStringLiteral("voie a changer");
 }
 bool  CVariableOutputFloat::isMeasureRelated()const{
 	return false;
 }
 QString  CVariableOutputFloat::getRelatedMeasureName()const{
-	return "mesure a changer";
+    return QStringLiteral("mesure a changer");
 }
 bool  CVariableOutputFloat::isDisplay()const{
 	return false;

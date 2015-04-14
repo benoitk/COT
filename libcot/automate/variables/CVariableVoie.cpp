@@ -58,13 +58,13 @@ bool  CVariableVoie::isStreamRelated()const{
 	return false;
 }
 QString  CVariableVoie::getRelatedStreamName()const{
-	return "voie a changer";
+    return QStringLiteral("voie a changer");
 }
 bool  CVariableVoie::isMeasureRelated()const{
 	return false;
 }
 QString  CVariableVoie::getRelatedMeasureName()const{
-	return "mesure a changer";
+    return QStringLiteral("mesure a changer");
 }
 bool  CVariableVoie::isDisplay()const{
 	return false;

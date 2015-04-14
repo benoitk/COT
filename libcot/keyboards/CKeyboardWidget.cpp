@@ -106,7 +106,7 @@ void CKeyboardWidget::initializeKeyboardLayout()
         for (int i = 0; i+1 < rowLayout.size(); i += 2) {
             const QChar charValue = rowLayout[i];
             const QChar widthValue = rowLayout[i+1];
-            const int cellWidth = widthValue == ' ' ? 2 : widthValue.toLatin1() - '0';
+            const int cellWidth = widthValue == QLatin1Char(' ') ? 2 : (widthValue.toLatin1() - '0');
             CKeyboardButtonBase* button = 0;
             if (charValue.isUpper()) {
                 CKeyboardSpecialButton* specialButton = 0;
@@ -206,7 +206,7 @@ void CKeyboardWidget::slotCapsLockToggled()
     Q_FOREACH(CKeyboardNormalButton *normalButton, m_normalButtons) {
         const QChar currentChar = normalButton->character();
         //We don't change tab value :)
-        if ( currentChar == '\t' )
+        if ( currentChar == QLatin1Char('\t') )
             continue;
         if ( m_capsLockOn )
             normalButton->setCharacter( CKeyboardLayoutUtils::convertToUpper(currentChar, shiftMapping) );

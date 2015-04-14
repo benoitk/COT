@@ -18,24 +18,24 @@
 IVariable* CVariableFactory::build(const QMap<QString, QVariant> &mapVar){
 	
 	IVariable* variable = NULL;
-	if(mapVar["type"].toString() == "integer"){
-		variable = new CVariableInt(mapVar["value"].toInt());
+    if(mapVar[QStringLiteral("type")].toString() == QStringLiteral("integer")){
+        variable = new CVariableInt(mapVar[QStringLiteral("value")].toInt());
 	}
-	else if(mapVar["type"].toString() == "float"){
-		variable = new CVariableFloat(mapVar["value"].toFloat());
+    else if(mapVar[QStringLiteral("type")].toString() == QStringLiteral("float")){
+        variable = new CVariableFloat(mapVar[QStringLiteral("value")].toFloat());
 	}
-	else if(mapVar["type"].toString() == "boolean"){
-		variable = new CVariableBool(mapVar["value"].toBool());
+    else if(mapVar[QStringLiteral("type")].toString() == QStringLiteral("boolean")){
+        variable = new CVariableBool(mapVar[QStringLiteral("value")].toBool());
 	}
-	else if(mapVar["type"].toString() == "string"){
-		variable = new CVariableString(mapVar["value"].toString());
+    else if(mapVar[QStringLiteral("type")].toString() == QStringLiteral("string")){
+        variable = new CVariableString(mapVar[QStringLiteral("value")].toString());
 	}
-	else if(mapVar["type"].toString() == "input_float"){
+    else if(mapVar[QStringLiteral("type")].toString() == QStringLiteral("input_float")){
 		variable = new CVariableInputFloat(mapVar);
 	}
 	else{
 		variable = new CVariableUnknow();
-		qDebug() << "Type variable INCONNU " << mapVar["type"].toString() ;
+        qDebug() << "Type variable INCONNU " << mapVar[QStringLiteral("type")].toString() ;
 
 	}
 	variable->setLabel(mapVar[tr("FR_lbl")].toString());
@@ -47,17 +47,17 @@ IVariable* CVariableFactory::build(const QString &arg_type){
 	IVariable* variable = NULL;
 
 	
-	if(arg_type == "integer"){
+    if(arg_type == QStringLiteral("integer")){
 		variable = new CVariableInt(0);
 	}
-	else if(arg_type == "float"){
+    else if(arg_type == QStringLiteral("float")){
 		variable = new CVariableFloat(0.0);
 	}
-	else if(arg_type == "boolean"){
+    else if(arg_type == QStringLiteral("boolean")){
 		variable = new CVariableBool(false);
 	}
-	else if(arg_type == "string"){
-		variable = new CVariableString("");
+    else if(arg_type == QStringLiteral("string")){
+        variable = new CVariableString(QStringLiteral(""));
 	}else 
 	{
 		qDebug() << "Type variable INCONNU " << arg_type;

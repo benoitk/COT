@@ -28,7 +28,7 @@ QString CVariableInputBool::getOrganneName()const{
 	return m_organneName;
 }
 QString CVariableInputBool::getOrganneAddr()const{
-	return "return ADDR";
+    return QStringLiteral("return ADDR");
 }
 void CVariableInputBool::setOrganne(CModelExtensionCard* arg_model,QString arg_organneName){
 	m_modelExtensionCard = arg_model;
@@ -109,13 +109,13 @@ bool  CVariableInputBool::isStreamRelated()const{
 	return false;
 }
 QString  CVariableInputBool::getRelatedStreamName()const{
-	return "voie a changer";
+    return QStringLiteral("voie a changer");
 }
 bool  CVariableInputBool::isMeasureRelated()const{
 	return false;
 }
 QString  CVariableInputBool::getRelatedMeasureName()const{
-	return "mesure a changer";
+    return QStringLiteral("mesure a changer");
 }
 bool  CVariableInputBool::isDisplay()const{
 	return false;

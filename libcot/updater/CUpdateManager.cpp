@@ -34,7 +34,7 @@ CUpdateManager::~CUpdateManager()
 
 void CUpdateManager::init()
 {
-    if (!m_fileSystemWatcher->addPath(COT_USB_MOUNT_POINT)) {
+    if (!m_fileSystemWatcher->addPath(QStringLiteral(COT_USB_MOUNT_POINT))) {
         qFatal("%s: Can not monitor path: %s", Q_FUNC_INFO, COT_USB_MOUNT_POINT);
     }
     else {
@@ -60,7 +60,7 @@ void CUpdateManager::slotUpdateSoftware()
 
 void CUpdateManager::slotDirectoryChanged(const QString &path)
 {
-    if (path != COT_USB_MOUNT_POINT) {
+    if (path != QStringLiteral(COT_USB_MOUNT_POINT)) {
         return;
     }
 
@@ -83,7 +83,7 @@ void CUpdateManager::slotTimeout()
     }
 
     const QSettings settings(settingsFilePath, QSettings::IniFormat);
-    const QString version = settings.value("version").toString();
+    const QString version = settings.value(QStringLiteral("version")).toString();
 
     if (version.isEmpty()) {
         qDebug("%s: No version found in settings file.", qPrintable(version));
@@ -132,10 +132,10 @@ void CUpdateManager::slotProcessStateChanged(QProcess::ProcessState newState)
 
 QString CUpdateManager::settingsFilePath() const
 {
-    return QStringLiteral("%1/usb/cot-update.ini").arg(COT_USB_MOUNT_POINT);
+    return QStringLiteral("%1/usb/cot-update.ini").arg(QStringLiteral(COT_USB_MOUNT_POINT));
 }
 
 QString CUpdateManager::scriptFilePath() const
 {
-    return QStringLiteral("%1/usb/cot-update.sh").arg(COT_USB_MOUNT_POINT);
+    return QStringLiteral("%1/usb/cot-update.sh").arg(QStringLiteral(COT_USB_MOUNT_POINT));
 }

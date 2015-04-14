@@ -78,13 +78,13 @@ bool  CVariableFloat::isStreamRelated()const{
 	return false;
 }
 QString  CVariableFloat::getRelatedStreamName()const{
-	return "voie a changer";
+    return QStringLiteral("voie a changer");
 }
 bool  CVariableFloat::isMeasureRelated()const{
 	return false;
 }
 QString  CVariableFloat::getRelatedMeasureName()const{
-	return "mesure a changer";
+    return QStringLiteral("mesure a changer");
 }
 bool  CVariableFloat::isDisplay()const{
 	return false;

@@ -62,7 +62,7 @@ variableType CVariableString::getType()const{
 void CVariableString::switchToUnit(CUnit* targetUnit){
 	QVariant var = m_unit->convert(targetUnit->getName(), QVariant(m_sValeur));
 	if(!var.isNull())
-		m_sValeur = var.toFloat();
+        m_sValeur = QString::number(var.toFloat());
 	m_unit = targetUnit;
 }
 void  CVariableString::delBind(IVariable*){
@@ -75,13 +75,13 @@ bool  CVariableString::isStreamRelated()const{
 	return false;
 }
 QString  CVariableString::getRelatedStreamName()const{
-	return "voie a changer";
+    return QStringLiteral("voie a changer");
 }
 bool  CVariableString::isMeasureRelated()const{
 	return false;
 }
 QString  CVariableString::getRelatedMeasureName()const{
-	return "mesure a changer";
+    return QStringLiteral("mesure a changer");
 }
 bool  CVariableString::isDisplay()const{
 	return false;
