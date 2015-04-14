@@ -12,10 +12,10 @@ Widget::Widget(QWidget *parent)
     : QWidget(parent)
 {
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
-    LocalComboBox *combobox = new LocalComboBox(this);
+    //LocalComboBox *combobox = new LocalComboBox(this);
 
-    connect(combobox, &LocalComboBox::localeSelected, this, &Widget::slotChangeLocale);
-    mainLayout->addWidget(combobox);
+    //connect(combobox, &LocalComboBox::localeSelected, this, &Widget::slotChangeLocale);
+    //mainLayout->addWidget(combobox);
     m_keyboardWidget = new CKeyboardWidget(this);
     mainLayout->addWidget(m_keyboardWidget);
 }

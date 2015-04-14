@@ -126,11 +126,8 @@ void CNumericalKeyboardWidget::slotDigitalButtonPressed(QChar character)
     QString value = m_lineEdit->text();
     if (value.isEmpty()) {
         return;
-    } else {
-        if (value.contains(character)) {
-            return;
-        }
+    } else if (value.contains(character)) {
+        return;
     }
-    m_lineEdit->setText(m_lineEdit->text().append(character));
-    m_lineEdit->setFocus();
+    slotButtonClicked(character);
 }

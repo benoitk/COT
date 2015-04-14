@@ -170,6 +170,7 @@ void CKeyboardWidget::initializeKeyboardLayout()
         spaceButton->setText(tr("Space"));
         m_keyboardLayout->addWidget( spaceButton, cellY, 1, 1, maxColumn - 2 );
     }
+    keyClicked();
 }
 
 void CKeyboardWidget::slotShiftToggled()
