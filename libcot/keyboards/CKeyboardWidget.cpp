@@ -61,29 +61,29 @@ void CKeyboardWidget::initializeKeyboardLayout()
     qDebug()<<" listLanguage"<<listLanguage;
     QStringList keyboardLayout;
     Q_FOREACH( const QString &lang, listLanguage) {
-        if (lang == QStringLiteral("fr-FR")) {
+        if (lang.startsWith(QLatin1String("fr"))) {
             keyboardLayout = CKeyboardLayoutUtils::frenchKeyboardLayout();
-            m_currentLanguage = lang;
+            m_currentLanguage = QStringLiteral("fr-FR");
             break;
-        } else if (lang == QStringLiteral("en-GB")) {
+        } else if (lang.startsWith(QLatin1String("en")) || lang == QLatin1String("C")) {
             keyboardLayout = CKeyboardLayoutUtils::englishKeyboardLayout();
-            m_currentLanguage = lang;
+            m_currentLanguage = QStringLiteral("en-GB");
             break;
-        } else if (lang == QStringLiteral("zh")) {
+        } else if (lang.startsWith(QLatin1String("zh"))) {
             keyboardLayout = CKeyboardLayoutUtils::chineseKeyboardLayout();
-            m_currentLanguage = lang;
+            m_currentLanguage = QStringLiteral("zh");
             break;
-        } else if (lang == QStringLiteral("ru")) {
+        } else if (lang.startsWith(QLatin1String("ru"))) {
             keyboardLayout = CKeyboardLayoutUtils::russianKeyboardLayout();
-            m_currentLanguage = lang;
+            m_currentLanguage = QStringLiteral("ru");
             break;
-        } else if (m_currentLanguage == QStringLiteral("es")) {
+        } else if (lang.startsWith(QLatin1String("es"))) {
             keyboardLayout = CKeyboardLayoutUtils::spanishKeyboardLayout();
-            m_currentLanguage = lang;
+            m_currentLanguage = QStringLiteral("es");
             break;
-        } else if (m_currentLanguage == QStringLiteral("pt")) {
+        } else if (lang.startsWith(QLatin1String("pt"))) {
             keyboardLayout = CKeyboardLayoutUtils::portugueseKeyboardLayout();
-            m_currentLanguage = lang;
+            m_currentLanguage = QStringLiteral("pt");
             break;
         }
     }
