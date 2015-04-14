@@ -110,7 +110,10 @@ HEADERS *= \
     keyboards/CNumericalKeyboardDialog.h \
     keyboards/CNumericalKeyboardWidget.h \
     updater/CUpdateDialog.h \
-    updater/CUpdateManager.h
+    updater/CUpdateManager.h \
+    gui/CGenericItemSelector.h \
+    gui/CGenericListDelegate.h \
+    gui/CGenericListModel.h
 
 SOURCES *= \
     automate/CAutomate.cpp \
@@ -173,4 +176,7 @@ SOURCES *= \
     keyboards/CNumericalKeyboardDialog.cpp \
     keyboards/CNumericalKeyboardWidget.cpp \
     updater/CUpdateDialog.cpp \
-    updater/CUpdateManager.cpp
+    updater/CUpdateManager.cpp \
+    gui/CGenericItemSelector.cpp \
+    gui/CGenericListDelegate.cpp \
+    gui/CGenericListModel.cpp
