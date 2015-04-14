@@ -26,9 +26,9 @@ public:
 
 
 	QBitArray readNBitsFunction1( int addrVar, int nbBitsToRead);
-	void writeNBitsFunction15(int addrVar, QBitArray data);
+    void writeNBitsFunction15(int addrVar, const QBitArray &data);
 	QList<char> readNWordsFunction3( int addrVar, int nbBytesToRead);
-	void writeNWordsFunction16(int addrVar, QList<char> data);
+    void writeNWordsFunction16(int addrVar, const QList<char> &data);
 
 private:
 	

@@ -21,7 +21,7 @@ QVariant CModelExtensionCard::readOrganneValue(IVariableInput* arg_varInput){
 	return m_interfaceCom->readData(arg_varInput);
 }
 
-IVariable* CModelExtensionCard::getVariable(QString addr_var)const{
+IVariable* CModelExtensionCard::getVariable(const QString &addr_var)const{
 	IVariable * temp;
 	return temp;
 }

@@ -49,7 +49,7 @@ public:
 
 	void addCycle(ICycle*);
 
-	IVariable* getVariable(QString);
+    IVariable* getVariable(const QString &);
 	void addVariable(QString, IVariable*);
 
 	CModelExtensionCard* getExtensionCard(QString);
@@ -57,7 +57,7 @@ public:
 
 
 	//IComObserver
-	IVariable* getVariable(QString addr_var)const;
+    IVariable* getVariable(const QString &addr_var)const Q_DECL_OVERRIDE;
 	void setCom(ICom*);
 
 	void initConfig();
