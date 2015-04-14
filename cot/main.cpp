@@ -8,8 +8,8 @@
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    app.setApplicationName("COT");
-    app.setApplicationVersion("1.1.0");
+    app.setApplicationName(QStringLiteral("COT"));
+    app.setApplicationVersion(QStringLiteral("1.1.0"));
 
 	CControlerAutomate controlerAutomate; //construit et execute l'automate
 

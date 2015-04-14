@@ -3,6 +3,9 @@ TARGET = cot
 CONFIG *= c++11
 QT *= widgets
 
+include( "../outdirs.pri" )
+include( "../g++.pri" )
+
 COTLIB_PWD = $${PWD}/../libcot
 
 INCLUDEPATH *=  \
