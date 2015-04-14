@@ -3,18 +3,17 @@
 #include <QApplication>
 #include <QDebug>
 
-const static int defaultButtonSize = 130;
+const static int defaultItemSize = 130;
 
 CGenericListDelegate::CGenericListDelegate(QObject *parent)
     : QStyledItemDelegate(parent),
-      m_itemSize(defaultButtonSize)
+      m_itemSize(defaultItemSize)
 {
 }
 
 void CGenericListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     QStyleOptionButton buttonOption;
-    buttonOption.initFrom(option.widget);
     buttonOption.rect = option.rect;
     buttonOption.text = option.text.isEmpty()?index.data().toString():option.text;
 
