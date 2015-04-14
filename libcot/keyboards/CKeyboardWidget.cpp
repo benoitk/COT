@@ -138,7 +138,7 @@ void CKeyboardWidget::initializeKeyboardLayout()
                     specialButton = new CKeyboardSpecialButton( this );
                     specialButton->setText( QChar(0x2190) );
                     specialButton->setSpecialKey( Qt::Key_Backspace );
-                    connect(specialButton, &CKeyboardSpecialButton::clicked, this, &CKeyboardWidget::slotSpecialButtonClicked);
+                    connect(specialButton, &CKeyboardSpecialButton::clicked, this, &CKeyboardWidget::slotBlackspaceButtonClicked);
                 } else {
                     qDebug( "Unknown special char %d", charValue.toLatin1() );
                 }
@@ -221,14 +221,21 @@ void CKeyboardWidget::slotButtonClicked(const QChar &character)
 {
     m_lineEdit->setText(m_lineEdit->text().append(character));
     keyClicked();
-    m_lineEdit->setFocus();
+}
+
+void CKeyboardWidget::slotBlackspaceButtonClicked(Qt::Key /*key*/)
+{
+    QString originalText = m_lineEdit->text();
+    if (!originalText.isEmpty()) {
+        m_lineEdit->setText(originalText.remove(originalText.length()-1, 1));
+        keyClicked();
+    }
 }
 
 void CKeyboardWidget::slotSpecialButtonClicked(Qt::Key key)
 {
     QKeyEvent ev( QEvent::KeyPress, key, 0 /*keyState*/, QString() );
     qApp->sendEvent( m_lineEdit, &ev );
-    m_lineEdit->setFocus();
 }
 
 void CKeyboardWidget::keyClicked()

@@ -24,6 +24,7 @@ private slots:
     void slotButtonClicked(QChar character);
     void slotSpecialButtonClicked(Qt::Key key);
     void slotDigitalButtonPressed(QChar character);
+    void slotBlackspaceButtonClicked(Qt::Key);
 private:
     void updateDigitalText();
     CKeyboardNormalButton *createButton(QChar character);
