@@ -1,6 +1,7 @@
 TEMPLATE = app
 TARGET = cot
 CONFIG *= c++11
+
 QT *= widgets
 
 include( "../outdirs.pri" )

@@ -33,18 +33,18 @@ bool CVariableVoie::toBool(){
 QString CVariableVoie::getLabel()const{
 	return m_label;
 }
-void CVariableVoie::setLabel(QString label){
+void CVariableVoie::setLabel(const QString & label){
 	m_label = label;
 }
 
 void CVariableVoie::setValue(int iValue){
 	m_iNumVoie = iValue;
 }
-void CVariableVoie::setValue(QVariant value){
+void CVariableVoie::setValue(const QVariant & value){
 	m_iNumVoie = value.toInt();
 }
 //Pas de récursivité dans les binds pour l'instant pour ne pas gérer les binds croisés({var1, var2}, {var2, var1})
-void CVariableVoie::setToBindedValue(QVariant value){
+void CVariableVoie::setToBindedValue(const QVariant & value){
 	
 }
 variableType CVariableVoie::getType()const{

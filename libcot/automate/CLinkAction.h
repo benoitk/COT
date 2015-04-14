@@ -13,7 +13,6 @@ public:
 	~CLinkAction();
 
 	int getNum()const;
-	QString getName();
 	IAction* getAction()const;
 
 private:

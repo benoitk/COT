@@ -9,12 +9,12 @@ class CStep : public QObject
 	Q_OBJECT
 
 public:
-	CStep(const QMap<QString, QVariant>);
+    CStep(const QMap<QString, QVariant> &);
 	~CStep();
 	
 	//use for API
 	QString getLabel()const;
-	void setLabel(QString);
+    void setLabel(const QString &);
 	QList<IAction*> getListActions()const;
 	float getNumStep()const;
 	void setNumStep(float);

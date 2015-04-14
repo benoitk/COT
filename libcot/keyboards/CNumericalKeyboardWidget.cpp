@@ -66,7 +66,7 @@ void CNumericalKeyboardWidget::initializeKeyboardLayout()
     CKeyboardSpecialButton * specialButton = new CKeyboardSpecialButton(this);
     specialButton->setText( QChar(0x2190) );
     specialButton->setSpecialKey( Qt::Key_Backspace );
-    connect(specialButton, &CKeyboardSpecialButton::clicked, this, &CNumericalKeyboardWidget::slotSpecialButtonClicked);
+    connect(specialButton, &CKeyboardSpecialButton::clicked, this, &CNumericalKeyboardWidget::slotBlackspaceButtonClicked);
 
     gridLayout->addWidget( specialButton, 0, 3 );
 
@@ -118,7 +118,6 @@ void CNumericalKeyboardWidget::slotSpecialButtonClicked(Qt::Key key)
 {
     QKeyEvent ev( QEvent::KeyPress, key, 0 /*keyState*/, QString() );
     qApp->sendEvent( m_lineEdit, &ev );
-    m_lineEdit->setFocus();
 }
 
 void CNumericalKeyboardWidget::slotDigitalButtonPressed(QChar character)
@@ -126,11 +125,16 @@ void CNumericalKeyboardWidget::slotDigitalButtonPressed(QChar character)
     QString value = m_lineEdit->text();
     if (value.isEmpty()) {
         return;
-    } else {
-        if (value.contains(character)) {
-            return;
-        }
+    } else if (value.contains(character)) {
+        return;
     }
-    m_lineEdit->setText(m_lineEdit->text().append(character));
-    m_lineEdit->setFocus();
+    slotButtonClicked(character);
+}
+
+void CNumericalKeyboardWidget::slotBlackspaceButtonClicked(Qt::Key /*key*/)
+{
+    QString originalText = m_lineEdit->text();
+    if (!originalText.isEmpty()) {
+        m_lineEdit->setText(originalText.remove(originalText.length()-1, 1));
+    }
 }

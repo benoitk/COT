@@ -29,7 +29,7 @@ public:
 	QList<CUnit*> getListUnits();
 	QMap<QString, IVariable*> getMapVariables();
 	void setMapVariables(QMap<QString, IVariable*>);
-	QMap<QString, QList<QString>> getMapStreamsMeasures();
+    QMap<QString, QList<QString>> getMapStreamsMeasures() const;
 	void getMapStreamsMeasures(QMap<QString, QList<QString>>);
 
 	//FIN API
@@ -48,16 +48,22 @@ public:
 	eStateCycle getStateCycleMaintenance();
 
 	void addCycle(ICycle*);
+<<<<<<< HEAD
 	IVariable* getVariable(const QString&);
 	void addVariable(const QString&, IVariable*);
     void addUnit(CUnit*);
+=======
+
+    IVariable* getVariable(const QString &);
+	void addVariable(QString, IVariable*);
+>>>>>>> 4457cb1e95a6492c345a58d64beb5bfede86aecb
 
 	CModelExtensionCard* getExtensionCard(QString);
 	void addExtensionCard(QString, CModelExtensionCard*); 
 
 
 	//IComObserver
-	IVariable* getVariable(QString addr_var)const;
+    IVariable* getVariable(const QString &addr_var)const Q_DECL_OVERRIDE;
 	void setCom(ICom*);
 
 	void initConfig();

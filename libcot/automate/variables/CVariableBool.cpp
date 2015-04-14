@@ -41,7 +41,7 @@ bool CVariableBool::toBool(){
 	return m_bValeur;
 }
 
-void CVariableBool::setValue(QVariant value){
+void CVariableBool::setValue(const QVariant & value){
 	setValue(value.toBool());
 }
 void CVariableBool::setValue(bool value){
@@ -55,14 +55,14 @@ void CVariableBool::setValue(bool value){
 }
 
 //Pas de récursivité dans les binds pour l'instant pour ne pas gérer les binds croisés({var1, var2}, {var2, var1})
-void CVariableBool::setToBindedValue(QVariant value){
+void CVariableBool::setToBindedValue(const QVariant & value){
 	m_bValeur = value.toBool();
 }
 
 QString CVariableBool::getLabel()const{
 	return m_label;
 }
-void CVariableBool::setLabel(QString lbl){
+void CVariableBool::setLabel(const QString & lbl){
 	m_label = lbl;
 }
 

@@ -2,6 +2,7 @@
 #define IVARIABLE_H
 
 #include <QVariant>
+#include <QList>
 
 enum variableType{
 		type_bool = 0,
@@ -12,12 +13,10 @@ enum variableType{
 		type_unknow
 };
 
-
 //Interface pour toute les variables de l'automate
 class CUnit;
 class IVariable
 {
-
 public:
 	
 	virtual QString toString()=0;
@@ -25,13 +24,19 @@ public:
 	virtual float toFloat() =0;
 	virtual bool toBool()=0;
 	virtual QString getLabel()const =0;
+<<<<<<< HEAD
 	virtual void setLabel(QString)=0;
 	virtual void setValue(QVariant)=0;
 	virtual QString getName()const=0;
 	virtual void setName(const QString&)=0;
+=======
+    virtual void setLabel(const QString &)=0;
+    virtual void setValue(const QVariant &)=0;
+	//virtual QString getName()const=0;
+>>>>>>> 4457cb1e95a6492c345a58d64beb5bfede86aecb
 	virtual void addBind(IVariable*)=0;
 	virtual void delBind(IVariable*)=0;
-	virtual void setToBindedValue(QVariant)=0;
+    virtual void setToBindedValue(const QVariant &)=0;
 	virtual variableType getType()const=0;
 	virtual void switchToUnit(CUnit*)=0;
 	virtual void getUnit()=0;
@@ -49,5 +54,9 @@ public:
 private:
 	
 };
+
+// Typedefs
+typedef IVariable* IVariablePtr;
+typedef QList<IVariablePtr> IVariablePtrList;
 
 #endif // IVARIABLE_H

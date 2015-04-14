@@ -38,7 +38,7 @@ float CVariableFloat::toFloat(){
 bool CVariableFloat::toBool(){
 	return m_fValeur;
 }
-void CVariableFloat::setValue(QVariant value){
+void CVariableFloat::setValue(const QVariant & value){
 	setValue(value.toFloat());
 }
 void CVariableFloat::setValue(float value){
@@ -51,13 +51,13 @@ void CVariableFloat::setValue(float value){
 	}
 }
 //Pas de récursivité dans les binds pour l'instant pour ne pas gérer les binds croisés({var1, var2}, {var2, var1})
-void CVariableFloat::setToBindedValue(QVariant value){
+void CVariableFloat::setToBindedValue(const QVariant & value){
 	m_fValeur = value.toFloat();
 }
 QString CVariableFloat::getLabel()const{
 	return m_label;
 }
-void CVariableFloat::setLabel(QString lbl){
+void CVariableFloat::setLabel(const QString & lbl){
 	m_label = lbl;
 }
 void CVariableFloat::addBind(IVariable* arg_var){

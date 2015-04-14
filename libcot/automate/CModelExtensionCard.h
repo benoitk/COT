@@ -24,7 +24,6 @@ public:
 	CModelExtensionCard(QObject *parent);
 	~CModelExtensionCard();
 
-	bool organneIsAvailabe(QString);
 	QString getName()const;
 	QVariant readOrganneValue(IVariableInput*);
 
@@ -32,7 +31,7 @@ public:
 
 
 	//IComObserver
-	IVariable* getVariable(QString addr_var)const;
+    IVariable* getVariable(const QString &addr_var)const Q_DECL_OVERRIDE;
 	void setCom(ICom*);
 
 

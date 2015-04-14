@@ -42,16 +42,16 @@ void CVariableInt::setValue(int value){
 	}
 }
 //Pas de récursivité dans les binds pour l'instant pour ne pas gérer les binds croisés({var1, var2}, {var2, var1})
-void CVariableInt::setToBindedValue(QVariant value){
+void CVariableInt::setToBindedValue(const QVariant & value){
 	m_iValeur = value.toInt();
 }
-void CVariableInt::setValue(QVariant value){
+void CVariableInt::setValue(const QVariant & value){
 	setValue(value.toInt());
 }
 QString CVariableInt::getLabel()const{
 	return m_label;
 }
-void CVariableInt::setLabel(QString label){
+void CVariableInt::setLabel(const QString & label){
 	m_label = label;
 }
 void CVariableInt::addBind(IVariable* arg_var){

@@ -25,7 +25,7 @@ CSequenceur::~CSequenceur()
 {
 
 }
-void CSequenceur::setSequenceMesure(QList<ICycle*> list){
+void CSequenceur::setSequenceMesure(QList<ICycle *> list){
 	m_listSequenceCyclesMesures.swap(list);
 }
 void CSequenceur::apendSequenceMesureRunCycle(ICycle* cycle, int nbMesure){
@@ -163,12 +163,12 @@ CSequenceur* CSequenceur::getInstance(){
 	return singleton;
 }
 
-void CSequenceur::initListSequenceCyclesMesures(QList<ICycle*> list){
+void CSequenceur::initListSequenceCyclesMesures(QList<ICycle *> list){
 	m_listSequenceCyclesMesures.swap(list);
 }
 QList<ICycle*>  CSequenceur::getListSequenceCyclesMesures(){
 	return m_listSequenceCyclesMesures;
 }
-void  CSequenceur::setListSequenceCyclesMesures(QList<ICycle*> listCycles){
+void  CSequenceur::setListSequenceCyclesMesures(QList<ICycle *> listCycles){
 	m_listSequenceCyclesMesures.swap(listCycles);
 }

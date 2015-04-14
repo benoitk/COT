@@ -1,7 +1,7 @@
 #ifndef INetwork_H
 #define INetwork_H
 
-typedef enum networkType{
+enum networkType{
 	eth =0,
 	uart
 

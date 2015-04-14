@@ -4,7 +4,7 @@
 #include "qvariant.h"
 #include "qmap.h"
 
-CStep::CStep(const QMap<QString, QVariant> mapStep)
+CStep::CStep(const QMap<QString, QVariant> &mapStep)
 	: QObject()
 {
 	//builder actions
@@ -18,7 +18,7 @@ CStep::~CStep()
 QString CStep::getLabel()const{
 	return m_label;
 }
-void CStep::setLabel(QString label){
+void CStep::setLabel(const QString &label){
 	m_label = label;
 }
 QList<IAction*> CStep::getListActions()const{

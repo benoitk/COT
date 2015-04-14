@@ -9,7 +9,7 @@ class IComObserver
 {
 
 public:
-	virtual IVariable* getVariable(QString addr_var)const=0;
+    virtual IVariable* getVariable(const QString &addr_var)const=0;
 	virtual void setCom(ICom*)=0;
 
 

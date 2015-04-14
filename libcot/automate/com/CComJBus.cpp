@@ -83,7 +83,7 @@ void CComJBus::writeData(IVariableOutput* arg_output){
 QBitArray CComJBus::readNBitsFunction1(int addrVar, int nbBitsToRead){
 	return QBitArray();
 }
-void CComJBus::writeNBitsFunction15(int addrVar, QBitArray data){
+void CComJBus::writeNBitsFunction15(int addrVar, const QBitArray &data){
 
 }
 QList<char> CComJBus::readNWordsFunction3( int addrVar, int nbBytesToRead){
@@ -91,7 +91,7 @@ QList<char> CComJBus::readNWordsFunction3( int addrVar, int nbBytesToRead){
 	return temp;
 
 }
-void CComJBus::writeNWordsFunction16( int addrVar, QList<char> data){
+void CComJBus::writeNWordsFunction16( int addrVar, const QList<char> &data){
 
 }
 

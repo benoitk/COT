@@ -47,7 +47,11 @@ CAutomate::~CAutomate()
 
 }
 
+<<<<<<< HEAD
 IVariable* CAutomate::getVariable(const QString& name){
+=======
+IVariable* CAutomate::getVariable(const QString &name){
+>>>>>>> 4457cb1e95a6492c345a58d64beb5bfede86aecb
 	QMutexLocker locker(&m_mutexVariablesAccess);
 
 	IVariable* var = m_mapVariables.value(name);
@@ -94,7 +98,7 @@ QMap<QString, IVariable*> CAutomate::getMapVariables(){
 void CAutomate::setMapVariables(QMap<QString, IVariable*> mapVariable){
 	m_mapVariables.swap(mapVariable);
 }
-QMap<QString, QList<QString>> CAutomate::getMapStreamsMeasures(){
+QMap<QString, QList<QString>> CAutomate::getMapStreamsMeasures() const{
 	return m_mapStreamsMeasures;
 }
 void CAutomate::getMapStreamsMeasures(QMap<QString, QList<QString>> mapStreamMeasure){
@@ -103,7 +107,7 @@ void CAutomate::getMapStreamsMeasures(QMap<QString, QList<QString>> mapStreamMea
 void CAutomate::addExtensionCard(QString, CModelExtensionCard*){
 
 }
-IVariable* CAutomate::getVariable(QString addr_var)const{
+IVariable* CAutomate::getVariable(const QString &addr_var)const{
 	IVariable* modelExtCard;
 	return modelExtCard;
 }

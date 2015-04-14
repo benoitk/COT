@@ -29,17 +29,17 @@ float CVariableUnknow::toFloat(){
 bool CVariableUnknow::toBool(){
 	return false;
 }
-void CVariableUnknow::setValue(QVariant){
+void CVariableUnknow::setValue(const QVariant &){
 }
 QString CVariableUnknow::getLabel()const{
 	return tr("Variable inconnu");
 }
-void CVariableUnknow::setLabel(QString){
+void CVariableUnknow::setLabel(const QString &){
 }
 void CVariableUnknow::addBind(IVariable* arg_var){
 }
 //Pas de récursivité dans les binds pour l'instant pour ne pas gérer les binds croisés({var1, var2}, {var2, var1})
-void CVariableUnknow::setToBindedValue(QVariant value){
+void CVariableUnknow::setToBindedValue(const QVariant & value){
 }
 variableType CVariableUnknow::getType()const{
     return type_unknow;
