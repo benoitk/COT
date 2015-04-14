@@ -1,4 +1,6 @@
 #include "CActionCmdRelay.h"
+#include "IVariable.h"
+#include "CAutomate.h"
 #include "qdebug.h"
 
 
@@ -11,11 +13,12 @@ CActionCmdRelay::CActionCmdRelay(const QVariantMap &mapAction)
 	: IAction()
 {
 	m_label = mapAction[tr("FR_lbl")].toString();
-    m_num_card_output = mapAction[QStringLiteral("num_card_output")].toInt();
-    m_timing = mapAction[QStringLiteral("timing")].toInt();
-    m_card_id = mapAction[QStringLiteral("card_id")].toInt();
     m_name = mapAction[QStringLiteral("name")].toString();
-
+   
+    CAutomate* automate = CAutomate::getInstance();
+    m_RelayVar = automate->getVariable(mapAction[QStringLiteral("num_card_output")].toString());
+  
+   
 }
 CActionCmdRelay::CActionCmdRelay()
 	: IAction()
@@ -32,33 +35,24 @@ CActionCmdRelay::~CActionCmdRelay()
 bool CActionCmdRelay::runAction(){
 	qDebug()<< "Action relay "
 			<< " label fr " << m_label
-			<< " m_card_id " << m_card_id
-			<< " m_num_card_output " << m_num_card_output;
+            << " Etat relais " << m_RelayVar->toString();
 	return true;
 }
 
-void CActionCmdRelay::setTiming(int seconde){
-	m_timing = seconde;
-}
 
-int CActionCmdRelay::getTiming(){
-	return m_timing;
-}
 QString CActionCmdRelay::getName()const{
 	return m_name; 
 }
 
 QList<IVariable*> CActionCmdRelay::getListParameters()const{
 	QList<IVariable*> listParams;
-	/*TO DO mettre tout ça en tant que IVariable qui va bien
-	m_ctrlContinu = mapAction["cmd_continu_pump"].toBool();
-	m_nbPasTour = mapAction["num_step_or_tour_pump"].toInt();
-	m_numero = mapAction["num_pump"].toInt();
-	m_sens = mapAction["direction_trigo_pump"].toBool();
-	m_timing = mapAction["timing"].toInt();
-	m_vitesse = mapAction["speed_pump"].toInt();
-	m_name = mapAction["name"].toString();
-	*/
+    listParams.append(m_RelayVar);
 
 	return listParams;
+}
+QString CActionCmdRelay::getLabel()const{
+    return m_label;
+}
+void CActionCmdRelay::setLabel(const QString& lbl){
+    m_label = lbl;
 }

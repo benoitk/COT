@@ -18,6 +18,13 @@ CVariableBool::~CVariableBool()
 
 }
 
+QString CVariableBool::getName()const{
+    return m_name;
+}
+void CVariableBool::setName(const QString& name){
+    m_name = name;
+}
+
 QString CVariableBool::toString(){
 	if(m_bValeur)
 		return tr("vrai");
@@ -103,3 +110,4 @@ QLinkedList<IVariable*>  CVariableBool::getListInBinds()const{
 	return m_listBinds;
 
 }
+

@@ -16,7 +16,12 @@ CVariableInputBool::~CVariableInputBool()
 CVariableInputBool::CVariableInputBool(const QMap<QString, QVariant> &mapVar): QObject(){
 
 }
-
+QString CVariableInputBool::getName()const{
+    return m_name;
+}
+void CVariableInputBool::setName(const QString& name){
+    m_name = name;
+}
 CModelExtensionCard* CVariableInputBool::getExtensionCard()const{
 	return m_modelExtensionCard;
 }

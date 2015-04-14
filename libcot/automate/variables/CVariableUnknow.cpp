@@ -12,7 +12,11 @@ CVariableUnknow::~CVariableUnknow()
 
 }
 
-
+QString CVariableUnknow::getName()const{
+    return QStringLiteral("unknow var");
+}
+void CVariableUnknow::setName(const QString& name){
+}
 QString CVariableUnknow::toString(){
 	return tr("Variable inconnu");
 }

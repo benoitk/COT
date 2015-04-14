@@ -47,7 +47,7 @@ CAutomate::~CAutomate()
 
 }
 
-IVariable* CAutomate::getVariable(QString name){
+IVariable* CAutomate::getVariable(const QString& name){
 	QMutexLocker locker(&m_mutexVariablesAccess);
 
 	IVariable* var = m_mapVariables.value(name);
@@ -57,10 +57,17 @@ IVariable* CAutomate::getVariable(QString name){
 	return var;
 }
 
-void CAutomate::addVariable(QString name, IVariable* var){
+void CAutomate::addVariable(const QString& name, IVariable* var){
 	QMutexLocker locker(&m_mutexVariablesAccess);
 	if(var)
 		m_mapVariables.insert(name, var);
+}
+void CAutomate::addUnit(CUnit* unit){
+    m_listUnits.append(unit);
+}
+
+QList<CUnit*> CAutomate::getListUnits(){
+    return m_listUnits; 
 }
 
 CModelExtensionCard* CAutomate::getExtensionCard(QString){

@@ -15,7 +15,12 @@ CVariableOutputFloat::~CVariableOutputFloat()
 CVariableOutputFloat::CVariableOutputFloat(const QMap<QString, QVariant> &mapVar): QObject(){
 
 }
-
+QString CVariableOutputFloat::getName()const{
+    return m_name;
+}
+void CVariableOutputFloat::setName(const QString& name){
+    m_name = name;
+}
 CModelExtensionCard* CVariableOutputFloat::getExtensionCard()const{
 	return m_modelExtensionCard;
 }

@@ -15,6 +15,7 @@ class IVariable;
 class CModelExtensionCard;
 class INetwork;
 class IAction;
+class CUnit;
 class CAutomate : public QObject, IComObserver
 {
 	Q_OBJECT
@@ -25,6 +26,7 @@ public:
 	QList<CModelExtensionCard*> getListExtensions();
 	QList<ICycle*> getListCycles();
 	QList<IAction*> getListActions();
+	QList<CUnit*> getListUnits();
 	QMap<QString, IVariable*> getMapVariables();
 	void setMapVariables(QMap<QString, IVariable*>);
 	QMap<QString, QList<QString>> getMapStreamsMeasures();
@@ -45,12 +47,10 @@ public:
 	void setStateCycleMaintenance(eStateCycle);
 	eStateCycle getStateCycleMaintenance();
 
-	
-
 	void addCycle(ICycle*);
-
-	IVariable* getVariable(QString);
-	void addVariable(QString, IVariable*);
+	IVariable* getVariable(const QString&);
+	void addVariable(const QString&, IVariable*);
+    void addUnit(CUnit*);
 
 	CModelExtensionCard* getExtensionCard(QString);
 	void addExtensionCard(QString, CModelExtensionCard*); 
@@ -84,6 +84,7 @@ private:
 	QList<ICycle*> m_listCycleMaintenances;
 	QList<ICycle*> m_listlCycleAutonomes;
 	QList<IAction*> m_listActions;
+    QList<CUnit*> m_listUnits;
 
 	QMap<QString, IVariable*> m_mapVariables;
 	QMutex m_mutexVariablesAccess;

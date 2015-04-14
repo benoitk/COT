@@ -17,38 +17,39 @@ public:
 	~CVariableInputBool();
 
 	//IVariableInput
-	CModelExtensionCard* getExtensionCard()const;
-	QString getOrganneName()const;
-	QString getOrganneAddr()const;
-	void setOrganne(CModelExtensionCard* ,QString);
-	organneInputType getTypeOrganne()const;
-	IComObserver* getComObserver()const;
-	IVariable* getIVariable();
+	CModelExtensionCard* getExtensionCard()const Q_DECL_OVERRIDE;
+	QString getOrganneName()const Q_DECL_OVERRIDE;
+	QString getOrganneAddr()const Q_DECL_OVERRIDE;
+	void setOrganne(CModelExtensionCard* ,QString) Q_DECL_OVERRIDE;
+	organneInputType getTypeOrganne()const Q_DECL_OVERRIDE;
+	IComObserver* getComObserver()const Q_DECL_OVERRIDE;
+	IVariable* getIVariable() Q_DECL_OVERRIDE;
 
 	//IVariable
-	QString toString();
-	int toInt();
-	float toFloat();
-	bool toBool();
+	QString toString() Q_DECL_OVERRIDE;
+	int toInt()Q_DECL_OVERRIDE;
+	float toFloat()Q_DECL_OVERRIDE;
+	bool toBool()Q_DECL_OVERRIDE;
 	void setValue(float);
-	void setValue(QVariant);
-	QString getLabel()const;
-	void setLabel(QString);
-	//QString getName()const;
-	void addBind(IVariable*);
-	void setToBindedValue(QVariant);
-	variableType getType()const;
-	void switchToUnit(CUnit*);
+	void setValue(QVariant)Q_DECL_OVERRIDE;
+	QString getLabel()const Q_DECL_OVERRIDE;
+	void setLabel(QString) Q_DECL_OVERRIDE;
+	QString getName()const Q_DECL_OVERRIDE;
+	void setName(const QString&)Q_DECL_OVERRIDE;
+	void addBind(IVariable*) Q_DECL_OVERRIDE;
+	void setToBindedValue(QVariant)Q_DECL_OVERRIDE;
+	variableType getType()const Q_DECL_OVERRIDE;
+	void switchToUnit(CUnit*)Q_DECL_OVERRIDE;
 	//
-	void delBind(IVariable*);
-	void getUnit();
-	bool isStreamRelated()const;
-	QString getRelatedStreamName()const;
-	bool isMeasureRelated()const;
-	QString getRelatedMeasureName()const;
-	bool isDisplay()const;
-	QLinkedList<IVariable*> getListOutBinds()const;
-	QLinkedList<IVariable*> getListInBinds()const;
+	void delBind(IVariable*)Q_DECL_OVERRIDE;
+	void getUnit()Q_DECL_OVERRIDE;
+	bool isStreamRelated()const Q_DECL_OVERRIDE;
+	QString getRelatedStreamName()const Q_DECL_OVERRIDE;
+	bool isMeasureRelated()const Q_DECL_OVERRIDE;
+	QString getRelatedMeasureName()const Q_DECL_OVERRIDE;
+	bool isDisplay()const Q_DECL_OVERRIDE;
+	QLinkedList<IVariable*> getListOutBinds()const Q_DECL_OVERRIDE;
+	QLinkedList<IVariable*> getListInBinds()const Q_DECL_OVERRIDE;
 private:
 	IVariable* readValue();
 	CModelExtensionCard* m_modelExtensionCard;
@@ -56,6 +57,7 @@ private:
 	QString m_organneAddr;
 
 	bool m_bValeur;
+    QString m_name;
 	QString m_label;
 	QLinkedList<IVariable*> m_listBinds;
 	

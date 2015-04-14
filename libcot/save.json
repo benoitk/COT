@@ -94,6 +94,7 @@
                      {"name":"actionneur_2", "fr_FR" : "sortie EV", "en_US" : "analog input 1", "type":"output_boolean",
                             "value" : 0, "extension_name":"io_card_1", "organ_name":"output_4"
                     },
+                    {"name":"absorbance", "fr_FR" : "Absorbance", "en_US" : "Absorbance", "type":"float", "format":"%f7.2","value" : 0},
                     {"name":"aff_measure_1", "fr_FR" : "measure", "en_US" : "measure", "type":"float", "format":"%f7.2",
                             "value" : 0, "extension_name":"ecran", "organ_name":"donnee_ecran_principale_measure_1"
                     },
@@ -106,7 +107,7 @@
                     {"name":"cellule_temperature", "fr_FR":"cellule de température", "type":"input_float","format":"%f7.2",
                             "value":0, "extension_name":"measure_card_1", "organ_name":"measure_temperature", "unit":"deg_cel"
                     },
-                    {"name":"coef_test", "fr_FR":"Coeff", "type":"float", "value":0.2},
+                    {"name":"coef_absorbance", "fr_FR":"Coefficient absorbance", "type":"float", "value":0.2},
                     {"name":"measure_silice", "fr_FR":"Silice", "type":"float", "value":0, "unit":"µg_l"},
                     {"name":"stream_en_cours", "fr_FR":"Silice", "type":"integer", "value":0},
                     {"name":"stream_1_state", "type":"boolean", "address":"0x00012"},
@@ -153,13 +154,13 @@
                      {"name":"tab_selecteur","variables":["selecteur_position_stream1", "selecteur_position_stream2"],"pump":"pompe_2"  }
         ],
         "options":["consigne_teperature", "nombre_cycle_avant_calib", "seuil_measure"],
-        "history":["measure_1","status"],
+        "history":["absorbance","status"],
         "alarms":["alarm_defaut_eau_stream1","alarm_defaut_eau_stream2"]
 
     },
 
     "streams" : [{"name":"stream_1", "fr_FR":"stream 1", "variables":["status", "defaut_eau"], "active_state": "stream_1_state",
-                    "measures":[{"name":"measure_1", "fr_FR":"var relative a measure 1", "variables":[{"name":"coeff", "type":"standard"}, {"name":"measure_silice", "type":"measure"}]},
+                    "measures":[{"name":"measure_1", "fr_FR":"absorbance de la measure 1", "variables":[{"name":"coeff", "type":"standard"}, {"name":"measure_silice", "type":"measure"}]},
                        {"name":"measure_2", "fr_FR":"var relative a measure 2", "variables":[{"name":"coeff_2", "type":"standard"}, {"name":"measure_silice_2", "type":"measure"}]}
                     ],
                     "cycles":["maintenance_1", "zero_1", "cycle_measure_cot_stream1"]
@@ -177,21 +178,18 @@
 
 
     "binds" : [
-        {"source":"test_entee", "target":"test_ev_A"},
-        {"source":"measure_1", "target":"aff_measure_2"},
-        {"source":"aff_measure_2", "target":"measure_1"},
-        {"source":"measure_2", "target":"aff_measure_1"}
+        {"source":"test_entee", "target":"test_ev_A"}
 
     ],
 
     "actions" : [
                 {
-                    "name":"calcul_measure_stream_1",
-                    "type":"calcul_measure",
-                    "fr_FR":"Calcul de measure stream 1",
+                    "name":"calcul_log",
+                    "type":"calcul_absorbance",
+                    "fr_FR":"Calcul de l'absorbance",
                     "variable_entre_cell":"cellule_measure",
-                    "variable_entre_coeff":"coef_test",
-                    "variable_sortie_measure":"measure_1"
+                    "variable_entre_coeff":"coef_absorbance",
+                    "variable_sortie_measure":"absorbance"
                 },
                 {
                     "name":"calcul_measure_stream_2",
@@ -215,14 +213,6 @@
                 },
                 {
                     "name" : "ouverture_ev_stream1",
-                    "type" : "cmd_relay",
-                    "fr_FR" : "Fermeture EV 1",
-                    "en_US" : "Close EV 1",
-                    "target" : "output_ev"
-
-                },
-                {
-                    "name" : "ouverture_ev_stream2",
                     "type" : "cmd_relay",
                     "fr_FR" : "Fermeture EV 1",
                     "en_US" : "Close EV 1",
@@ -278,50 +268,16 @@
             "timer" : 10
         },
         {
-            "name" : "cycle_pause_1",
-            "fr_FR" : "En pause",
-            "en_US" : "Paused",
-            "type" : "pause",
-            "timer" : 3
-        },
-        {
             "name" : "cycle_measure_cot_stream1",
             "fr_FR" : "measure de COT",
             "en_US" : "measure of TOC",
             "type" : "measure",
             "steps" : [{"name":"step_2", "step":1,"fr_FR":"Init", "actions":["ouverture_ev_stream1"]}, {"name":"step_3", "step":4, "actions":["fermeture_ev_1","4_tour_pompe_2"]}, {"step":6, "name":"6_tour_pompe_2"}, {"step":12, "name":"fermeture_ev_1"}, {"step":25, "name":"6_tour_pompe_2"}]
-        },
-        {
-            "name" : "cycle_measure_cot_stream2",
-            "fr_FR" : "measure de COT",
-            "en_US" : "measure of TOC",
-            "type" : "measure",
-            "steps" : [{"step":1,"name":"ouverture_ev_stream2"}, {"step":4, "name":"fermeture_ev_1"}, {"step":4, "name":"4_tour_pompe_2"}, {"step":6, "name":"6_tour_pompe_2"}, {"step":12, "name":"fermeture_ev_1"}, {"step":25, "name":"6_tour_pompe_2"}]
-        },
-        {
-            "name" : "cycle_measure_1",
-            "fr_FR" : "measure de COT 2",
-            "en_US" : "measure of TOC 2",
-            "type" : "measure",
-            "steps" : [{"step":1, "name":"4_tour_pompe_2"}, {"step":6, "name":"6_tour_pompe_2"}]
-        },
-        {
-            "name" : "cycle_measure_2",
-            "fr_FR" : "measure de COT 2",
-            "en_US" : "measure of TOC 2",
-            "type" : "maintenance",
-            "parameter_input":["etalon_reference"],
-            "parameter_output":["coeff_actuel", "coeff_calcule"],
-            "action_de_fin":"report_coeff_calcule",
-            "steps" : [ {"step":1, "name":"4_tour_pompe_2"}, {"step":3, "name":"6_tour_pompe_2"}]
         }
-
     ],
 
      "scheduler" : [
         {"cycle" :"cycle_measure_cot_stream1", "nb_cycle" : 2},
-        {"cycle" :"cycle_measure_1", "nb_cycle" : 1},
-        {"cycle" :"cycle_measure_cot", "nb_cycle" : 3},
         {"cycle" :"cycle_pause_0", "nb_cycle" : 1}
     ]
 

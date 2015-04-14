@@ -15,7 +15,12 @@ CVariableString::~CVariableString()
 {
 
 }
-
+QString CVariableString::getName()const{
+    return m_name;
+}
+void CVariableString::setName(const QString& name){
+    m_name = name;
+}
 QString CVariableString::toString(){
 	return m_sValeur;
 }

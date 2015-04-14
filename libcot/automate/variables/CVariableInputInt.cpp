@@ -15,7 +15,12 @@ CVariableInputInt::~CVariableInputInt()
 CVariableInputInt::CVariableInputInt(const QMap<QString, QVariant> &mapVar): QObject(){
 
 }
-
+QString CVariableInputInt::getName()const{
+    return m_name;
+}
+void CVariableInputInt::setName(const QString& name){
+    m_name = name;
+}
 CModelExtensionCard* CVariableInputInt::getExtensionCard()const{
 	return m_modelExtensionCard;
 }

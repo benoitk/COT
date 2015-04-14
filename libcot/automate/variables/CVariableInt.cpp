@@ -14,6 +14,12 @@ CVariableInt::~CVariableInt()
 {
 
 }
+QString CVariableInt::getName()const{
+    return m_name;
+}
+void CVariableInt::setName(const QString& name){
+    m_name = name;
+}
 QString CVariableInt::toString(){
 	return QString::number(m_iValeur);
 }

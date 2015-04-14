@@ -9,14 +9,9 @@ CActionUnknow::CActionUnknow(QObject *parent)
 CActionUnknow::CActionUnknow(const QVariantMap &mapAction)
 	: IAction()
 {
-	m_label = mapAction[tr("FR_lbl")].toString();
-    m_name = mapAction[QStringLiteral("name")].toString();
-	 
-
 }
 CActionUnknow::~CActionUnknow()
 {
-
 }
 
 bool CActionUnknow::runAction(){
@@ -32,13 +27,18 @@ QList<IVariable*> CActionUnknow::getListParameters()const{
 	QList<IVariable*> listParams;
 	/*TO DO mettre tout ça en tant que IVariable qui va bien
 	m_ctrlContinu = mapAction["cmd_continu_pump"].toBool();
-	m_nbPasTour = mapAction["num_step_or_tour_pump"].toInt();
+	m_stepOrTour = mapAction["num_step_or_tour_pump"].toInt();
 	m_numero = mapAction["num_pump"].toInt();
-	m_sens = mapAction["direction_trigo_pump"].toBool();
+	m_clockwise = mapAction["direction_trigo_pump"].toBool();
 	m_timing = mapAction["timing"].toInt();
-	m_vitesse = mapAction["speed_pump"].toInt();
+	m_speed = mapAction["speed_pump"].toInt();
 	m_name = mapAction["name"].toString();
 	*/
 
 	return listParams;
+}
+QString CActionUnknow::getLabel()const{
+    return QStringLiteral("unknow lbl");
+}
+void CActionUnknow::setLabel(const QString& lbl){
 }

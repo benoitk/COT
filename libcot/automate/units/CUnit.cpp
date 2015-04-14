@@ -1,12 +1,13 @@
 #include "CUnit.h"
 #include "IConverter.h"
 
-CUnit::CUnit(QObject *parent)
-	: QObject(parent)
-{
+CUnit::CUnit(QObject *parent): QObject(parent){
 
 }
-
+CUnit::CUnit(const QString& name, const QString& lbl): QObject(){
+    m_lbl = lbl;
+    m_name = name;
+}
 CUnit::~CUnit()
 {
 

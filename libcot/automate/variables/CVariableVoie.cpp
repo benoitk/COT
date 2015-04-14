@@ -12,7 +12,12 @@ CVariableVoie::~CVariableVoie()
 {
 }
 
-
+QString CVariableVoie::getName()const{
+    return m_name;
+}
+void CVariableVoie::setName(const QString& name){
+    m_name = name;
+}
 QString CVariableVoie::toString(){
 	return QString::number(m_iNumVoie);
 }

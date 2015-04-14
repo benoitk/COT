@@ -19,7 +19,12 @@ CVariableFloat::~CVariableFloat()
 {
 
 }
-
+QString CVariableFloat::getName()const{
+    return m_name;
+}
+void CVariableFloat::setName(const QString& name){
+    m_name = name;
+}
 
 QString CVariableFloat::toString(){
 	return QString::number(m_fValeur);

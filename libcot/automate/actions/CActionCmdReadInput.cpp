@@ -15,13 +15,12 @@ CActionCmdReadInput::CActionCmdReadInput(QObject *parent)
 CActionCmdReadInput::CActionCmdReadInput(const QVariantMap &mapAction)
 	: IAction()
 {
+    CAutomate* automate = CAutomate::getInstance();
     m_name = mapAction[QStringLiteral("name")].toString();
 	m_label = mapAction[tr("FR_lbl")].toString();
-    m_extentionName = mapAction[QStringLiteral("extention_name")].toString();
-    m_organneName = mapAction[QStringLiteral("organne_name")].toString();
+    m_organneVar =  automate->getVariable(mapAction[QStringLiteral("organne_var")].toString());
 
     m_variableDestination =  CAutomate::getInstance()->getVariable(mapAction[QStringLiteral("variable_destination_name")].toString());
-	//m_extensionCard = CAutomate::getInstance()->getExtensionCard(mapAction["extention_name"].toString());
 }
 CActionCmdReadInput::CActionCmdReadInput()
 	: IAction()
@@ -35,10 +34,9 @@ CActionCmdReadInput::~CActionCmdReadInput()
 bool CActionCmdReadInput::runAction(){
     qDebug()<< QString::fromUtf8("Action lecture entrÃ©e ")
 			<< " label fr " << m_label
-			<< " m_card_id " << m_extentionName
-			<< " m_num_card_output " << m_organneName
+			<< " Etat du l'entrée " << m_organneVar->toString()
 			<< " var name " << m_variableDestination->getLabel()
-			<< " value " << m_variableDestination->toString();
+			<< " value (normalement l'état de l'entrée)" << m_variableDestination->toString();
 
 	
 	return true;
@@ -51,15 +49,13 @@ QString CActionCmdReadInput::getName()const{
 
 QList<IVariable*> CActionCmdReadInput::getListParameters()const{
 	QList<IVariable*> listParams;
-	/*TO DO mettre tout ça en tant que IVariable qui va bien
-	m_ctrlContinu = mapAction["cmd_continu_pump"].toBool();
-	m_nbPasTour = mapAction["num_step_or_tour_pump"].toInt();
-	m_numero = mapAction["num_pump"].toInt();
-	m_sens = mapAction["direction_trigo_pump"].toBool();
-	m_timing = mapAction["timing"].toInt();
-	m_vitesse = mapAction["speed_pump"].toInt();
-	m_name = mapAction["name"].toString();
-	*/
-
+    listParams.append(m_organneVar);
+    listParams.append(m_variableDestination);
 	return listParams;
+}
+QString CActionCmdReadInput::getLabel()const{
+    return m_label;
+}
+void CActionCmdReadInput::setLabel(const QString& lbl){
+    m_label = lbl;
 }

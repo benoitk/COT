@@ -11,6 +11,7 @@ class CUnit : public QObject
 
 public:
 	CUnit(QObject *parent);
+	CUnit(const QString&, const QString&);
 	~CUnit();
 	QString getLbl()const;
 	QString getName()const;

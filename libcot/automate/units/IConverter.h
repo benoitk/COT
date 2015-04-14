@@ -9,6 +9,7 @@ class IConverter
 
 public:
     virtual QVariant convert(const QVariant &)=0;
+    virtual CUnit* getTarget()const=0;
 
 private:
 	

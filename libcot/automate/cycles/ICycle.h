@@ -31,9 +31,6 @@ public:
 	virtual bool isRunning()=0;
 	virtual bool isPaused()=0;
 
-	//pour la construction des cycles
-	/*static ICycle* factory(QVariantMap);
-	static ICycle* factory(QVariantMap,QMap<QString, IAction*>);*/
 
 public slots:
 	virtual void slotRunCycle()=0;

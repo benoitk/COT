@@ -1,5 +1,12 @@
 #include "CActionCmdPompe.h"
+
+#include "CVariableString.h"
+#include "CVariableFactory.h"
+#include "CAutomate.h"
+
 #include "qdebug.h"
+
+
 CActionCmdPompe::CActionCmdPompe(QObject *parent)
 	: IAction(parent)
 {
@@ -8,13 +15,14 @@ CActionCmdPompe::CActionCmdPompe(QObject *parent)
 CActionCmdPompe::CActionCmdPompe(const QVariantMap &mapAction)
 	: IAction()
 {
-	m_label = mapAction[tr("FR_lbl")].toString();
-    m_ctrlContinu = mapAction[QStringLiteral("cmd_continu_pump")].toBool();
-    m_nbPasTour = mapAction[QStringLiteral("num_step_or_tour_pump")].toInt();
-    m_numero = mapAction[QStringLiteral("num_pump")].toInt();
-    m_sens = mapAction[QStringLiteral("direction_trigo_pump")].toBool();
-    m_timing = mapAction[QStringLiteral("timing")].toInt();
-    m_vitesse = mapAction[QStringLiteral("speed_pump")].toInt();
+    CAutomate* automate = CAutomate::getInstance();
+    m_label = mapAction[tr("FR_lbl")].toString();
+    m_cmdContinu = automate->getVariable(mapAction[QStringLiteral("cmd_continu_pump")].toString());
+    m_stepOrTour = automate->getVariable(mapAction[QStringLiteral("num_step_or_tour_pump")].toString());
+    m_numPump = automate->getVariable(mapAction[QStringLiteral("num_pump")].toString());
+    m_clockwise =  automate->getVariable(mapAction[QStringLiteral("direction_trigo_pump")].toString());
+    m_speed = automate->getVariable(mapAction[QStringLiteral("speed_pump")].toString());
+    
     m_name = mapAction[QStringLiteral("name")].toString();
 	 
 
@@ -31,15 +39,11 @@ CActionCmdPompe::~CActionCmdPompe()
 }
 QList<IVariable*> CActionCmdPompe::getListParameters()const{
 	QList<IVariable*> listParams;
-	/*TO DO mettre tout ça en tant que IVariable qui va bien
-	m_ctrlContinu = mapAction["cmd_continu_pump"].toBool();
-	m_nbPasTour = mapAction["num_step_or_tour_pump"].toInt();
-	m_numero = mapAction["num_pump"].toInt();
-	m_sens = mapAction["direction_trigo_pump"].toBool();
-	m_timing = mapAction["timing"].toInt();
-	m_vitesse = mapAction["speed_pump"].toInt();
-	m_name = mapAction["name"].toString();
-	*/
+    listParams.append(m_cmdContinu);
+    listParams.append(m_stepOrTour);
+    listParams.append(m_numPump);
+    listParams.append(m_clockwise);
+    listParams.append(m_speed);
 
 	return listParams;
 }
@@ -48,15 +52,20 @@ QList<IVariable*> CActionCmdPompe::getListParameters()const{
 bool CActionCmdPompe::runAction(){
 	qDebug() <<  "Action pompe "
 			<< " label fr " << m_label
-			<< " m_numero " << m_numero
-			<< " m_vitesse " << m_vitesse
-			<< " m_sens " << m_sens
-			<< " m_nbPasTour " << m_nbPasTour
-			<< " m_ctrlContinu " << m_ctrlContinu
-			<< " m_timing " << m_timing;
+            << " m_numero " << m_numPump->toString()
+            << " m_speed " << m_speed->toString()
+            << " m_clockwise " << m_clockwise->toString()
+            << " m_stepOrTour " << m_stepOrTour->toString()
+            << " m_ctrlContinu " << m_cmdContinu->toString();
 	return true;
 }
 
 QString CActionCmdPompe::getName()const{
 	return m_name; 
+}
+QString CActionCmdPompe::getLabel()const{
+    return m_label;
+}
+void CActionCmdPompe::setLabel(const QString& lbl){
+    m_label = lbl;
 }

@@ -17,7 +17,12 @@ CVariableInputFloat::~CVariableInputFloat()
 CVariableInputFloat::CVariableInputFloat(const QMap<QString, QVariant> &mapVar): QObject(){
 
 }
-
+QString CVariableInputFloat::getName()const{
+    return m_name;
+}
+void CVariableInputFloat::setName(const QString& name){
+    m_name = name;
+}
 CModelExtensionCard* CVariableInputFloat::getExtensionCard()const{
 	return m_modelExtensionCard;
 }

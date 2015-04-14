@@ -16,7 +16,12 @@ CVariableOutputInt::~CVariableOutputInt()
 CVariableOutputInt::CVariableOutputInt(const QMap<QString, QVariant> &mapVar): QObject(){
 
 }
-
+QString CVariableOutputInt::getName()const{
+    return m_name;
+}
+void CVariableOutputInt::setName(const QString& name){
+    m_name = name;
+}
 CModelExtensionCard* CVariableOutputInt::getExtensionCard()const{
 	return m_modelExtensionCard;
 }

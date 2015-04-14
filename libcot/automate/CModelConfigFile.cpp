@@ -6,6 +6,7 @@
 #include "CActionFactory.h"
 #include "CVariableFactory.h"
 #include "CAutomate.h"
+#include "CUnit.h"
 
 #include "qfile.h"
 #include "qjsonobject.h"
@@ -44,14 +45,33 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
 		qDebug() << "jsonData " <<jsonData.mid(jsonError->offset, jsonError->offset+60) ;
 	}
 
-	QJsonObject jsonObjectAction = m_jsonDoc->object();
+	QJsonObject jsonObjectAll = m_jsonDoc->object();
+   
+    //Units
+    if(jsonObjectAll[QStringLiteral("units")] == QJsonValue::Undefined){
+		qDebug() << "jsonObject[\"units\"] == QJsonValue::Undefined";
+	}
+	else {
+        QJsonArray jsonArrayUnits = jsonObjectAll[QStringLiteral("units")].toArray();
+		foreach(QJsonValue jsonValueUnit, jsonArrayUnits){
+			QVariantMap mapUnit = jsonValueUnit.toVariant().toMap();
+            if(mapUnit[QStringLiteral("name")].isNull()) {
+                CUnit* unit = new CUnit(mapUnit[QStringLiteral("name")].toString()
+                                      , mapUnit[tr("fr_FR")].toString());
+                CAutomate::getInstance()->addUnit(unit);
+            }else{
+				qDebug() << "Unit null : map = " << mapUnit;
+
+            }
+		}
+    }
 
 	//Variables
-    if(jsonObjectAction[QStringLiteral("variables")] == QJsonValue::Undefined){
+    if(jsonObjectAll[QStringLiteral("variables")] == QJsonValue::Undefined){
 		qDebug() << "jsonObject[\"variables\"] == QJsonValue::Undefined";
 	}
 	else {
-        QJsonArray jsonArrayVariables = jsonObjectAction[QStringLiteral("variables")].toArray();
+        QJsonArray jsonArrayVariables = jsonObjectAll[QStringLiteral("variables")].toArray();
 		foreach(QJsonValue jsonValueVariable, jsonArrayVariables){
 			QVariantMap mapVariable = jsonValueVariable.toVariant().toMap();
 			IVariable* var = CVariableFactory::build(mapVariable); 
@@ -62,11 +82,11 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
 		}
 	}
 	//bind variables
-    if(jsonObjectAction[QStringLiteral("variables")] == QJsonValue::Undefined){
+    if(jsonObjectAll[QStringLiteral("variables")] == QJsonValue::Undefined){
 		qDebug() << "jsonObject[\"variables\"] == QJsonValue::Undefined";
 	}
 	else {
-        QJsonArray jsonArrayBinds = jsonObjectAction[QStringLiteral("binds")].toArray();
+        QJsonArray jsonArrayBinds = jsonObjectAll[QStringLiteral("binds")].toArray();
 		foreach(QJsonValue jsonValueBind, jsonArrayBinds){
 			QVariantMap mapBind = jsonValueBind.toVariant().toMap();
             IVariable* var = CAutomate::getInstance()->getVariable(mapBind[QStringLiteral("variable_origin_name")].toString());
@@ -79,11 +99,11 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
 	}
 
 	//Actions
-    if(jsonObjectAction[QStringLiteral("actions")] == QJsonValue::Undefined){
+    if(jsonObjectAll[QStringLiteral("actions")] == QJsonValue::Undefined){
 		qDebug() << "jsonObject[\"actions\"] == QJsonValue::Undefined";
 	}
 	else {
-        QJsonArray jsonArrayActions = jsonObjectAction[QStringLiteral("actions")].toArray();
+        QJsonArray jsonArrayActions = jsonObjectAll[QStringLiteral("actions")].toArray();
 		foreach(QJsonValue jsonValueAction, jsonArrayActions){
 			QVariantMap mapAction = jsonValueAction.toVariant().toMap();
 			IAction* action = CActionFactory::build(mapAction); 
