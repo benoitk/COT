@@ -4,7 +4,7 @@
 #include <QDialog>
 #include <QModelIndex>
 
-#include "../../libcot/cot_global.h"
+#include "cot_global.h"
 
 #include "IVariable.h"
 
@@ -15,7 +15,7 @@
 
 class QListView;
 class CGenericListModel;
-class QPushButton;
+class QToolButton;
 
 class COTWIDGETS_EXPORT CGenericItemSelector : public QDialog
 {
@@ -28,7 +28,7 @@ public:
     IVariablePtr selectedItem() const;
 
     /// selects an item (The item must be of type CVariableString)
-    void setSelectedItem(const IVariablePtr item);
+    void setSelectedItem(IVariablePtr item);
 
     /// Scroll the listview in either direction.
     /// Scroll a whole page everytime this method is called.
@@ -53,10 +53,8 @@ private:
     QListView *m_listView;
     CGenericListModel *m_model;
     IVariablePtr m_currentItem;
-    QPushButton *m_upButton;
-    QPushButton *m_downButton;
-
-    bool modelContains(const QString &itemLabel);
+    QToolButton *m_upButton;
+    QToolButton *m_downButton;
 };
 
 #endif // CGENERICITEMSELECTOR_H

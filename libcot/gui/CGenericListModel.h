@@ -1,5 +1,5 @@
-#ifndef CGenericListModel_H
-#define CGenericListModel_H
+#ifndef CGENERICLISTMODEL_H
+#define CGENERICLISTMODEL_H
 
 #include <QAbstractListModel>
 
@@ -16,6 +16,9 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
 
+    /// returns true if the stored variable list contains item
+    bool contains(IVariablePtr item);
+
     /// Returns the stored IVariable pointer using the provided index row
     IVariablePtr IVariableForIndex(const QModelIndex &index) const;
 
@@ -23,4 +26,4 @@ private:
     IVariablePtrList m_IVariableList;
 };
 
-#endif // CGenericListModel_H
+#endif // CGENERICLISTMODEL_H

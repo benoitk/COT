@@ -10,7 +10,8 @@ COTWIDGETS_SRCDIR = $${PWD}/../../../libcot
 
 QMAKE_RPATHDIR += $$COTWIDGETS_LIBDIR
 
-INCLUDEPATH +=  $${COTWIDGETS_SRCDIR}/gui/ \
+INCLUDEPATH +=  $${COTWIDGETS_SRCDIR} \
+                $${COTWIDGETS_SRCDIR}/gui/ \
                 $${COTWIDGETS_SRCDIR}/automate/ \
                 $${COTWIDGETS_SRCDIR}/automate/variables/
 

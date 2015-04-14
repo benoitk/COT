@@ -53,5 +53,5 @@ int main(int argc, char *argv[])
         msgBox.exec();
     }
 
-    return a.exec();
+    return 0;
 }

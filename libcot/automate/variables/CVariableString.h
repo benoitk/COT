@@ -6,7 +6,7 @@
 #include <qobject.h>
 #include "qlinkedlist.h"
 
-#include "../../libcot/cot_global.h"
+#include "cot_global.h"
 
 class COTWIDGETS_EXPORT CVariableString : public QObject, public IVariable
 {

@@ -14,7 +14,6 @@ CGenericListModel::~CGenericListModel()
 
 int CGenericListModel::rowCount(const QModelIndex &parent) const
 {
-    Q_UNUSED(parent);
     return parent.isValid() ? 0 : m_IVariableList.count();
 }
 
@@ -31,6 +30,11 @@ QVariant CGenericListModel::data(const QModelIndex &index, int role) const
     }
 
     return QVariant();
+}
+
+bool CGenericListModel::contains(IVariablePtr item)
+{
+    return m_IVariableList.contains(item);
 }
 
 IVariablePtr CGenericListModel::IVariableForIndex(const QModelIndex &index) const
