@@ -20,3 +20,6 @@ QVariant CConverterOffsetCoef::convert(const QVariant &valueToConvert){
 	return result;
 }
 
+CUnit* CConverterOffsetCoef::getTarget()const{
+    return m_targetUnit;
+}

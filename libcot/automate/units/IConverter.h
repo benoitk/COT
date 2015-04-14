@@ -3,6 +3,7 @@
 
 #include "qvariant.h"
 
+class CUnit;
 class IConverter
 {
 

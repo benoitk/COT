@@ -47,11 +47,7 @@ CAutomate::~CAutomate()
 
 }
 
-<<<<<<< HEAD
-IVariable* CAutomate::getVariable(const QString& name){
-=======
 IVariable* CAutomate::getVariable(const QString &name){
->>>>>>> 4457cb1e95a6492c345a58d64beb5bfede86aecb
 	QMutexLocker locker(&m_mutexVariablesAccess);
 
 	IVariable* var = m_mapVariables.value(name);

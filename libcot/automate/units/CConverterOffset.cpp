@@ -17,3 +17,6 @@ QVariant CConverterOffset::convert(const QVariant &valueToConvert){
 	return result;
 }
 
+CUnit* CConverterOffset::getTarget()const{
+    return m_targetUnit;
+}

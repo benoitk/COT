@@ -48,15 +48,11 @@ public:
 	eStateCycle getStateCycleMaintenance();
 
 	void addCycle(ICycle*);
-<<<<<<< HEAD
+
 	IVariable* getVariable(const QString&);
 	void addVariable(const QString&, IVariable*);
     void addUnit(CUnit*);
-=======
 
-    IVariable* getVariable(const QString &);
-	void addVariable(QString, IVariable*);
->>>>>>> 4457cb1e95a6492c345a58d64beb5bfede86aecb
 
 	CModelExtensionCard* getExtensionCard(QString);
 	void addExtensionCard(QString, CModelExtensionCard*); 

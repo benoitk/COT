@@ -17,3 +17,8 @@ QVariant CConverterCoef::convert(const QVariant &valueToConvert){
 	return result;
 }
 
+CUnit* CConverterCoef::getTarget()const{
+    return m_targetUnit;
+}
+
+
