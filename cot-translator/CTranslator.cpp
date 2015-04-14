@@ -199,7 +199,7 @@ void CTranslator::exportArrayObjects(const QJsonArray &jsonArray, const QString 
     for (int i = 0; i < jsonArray.count(); ++i) {
         const QStringList keys = SUPPORTED_LOCALES;
         const QJsonObject object = jsonArray.at(i).toObject();
-        const QString sourceKey = object.value(QLatin1Literal("name")).toString();
+        const QString sourceKey = object.value(QStringLiteral("name")).toString();
 
         foreach (const QString &key, keys) {
             if (QLocale(key) != QLocale::c()) {
@@ -230,12 +230,12 @@ bool CTranslator::doExport(const QJsonDocument &jsonDocument, const QString &qmO
 
     // export translatable properties from json document
     exportArrayObjects(rootArray, "root");
-    exportArrayOfObjects(jsonDocumentObject, QLatin1Literal("extensions"));
-    exportArrayOfObjects(jsonDocumentObject, QLatin1Literal("units"));
-    exportArrayOfObjects(jsonDocumentObject, QLatin1Literal("variables"));
-    exportArrayOfObjects(jsonDocumentObject, QLatin1Literal("streams"), QLatin1Literal("measures"));
-    exportArrayOfObjects(jsonDocumentObject, QLatin1Literal("actions"), QLatin1Literal("steps"));
-    exportArrayOfObjects(jsonDocumentObject, QLatin1Literal("cycles"), QLatin1Literal("steps"));
+    exportArrayOfObjects(jsonDocumentObject, QStringLiteral("extensions"));
+    exportArrayOfObjects(jsonDocumentObject, QStringLiteral("units"));
+    exportArrayOfObjects(jsonDocumentObject, QStringLiteral("variables"));
+    exportArrayOfObjects(jsonDocumentObject, QStringLiteral("streams"), QStringLiteral("measures"));
+    exportArrayOfObjects(jsonDocumentObject, QStringLiteral("actions"), QStringLiteral("steps"));
+    exportArrayOfObjects(jsonDocumentObject, QStringLiteral("cycles"), QStringLiteral("steps"));
 
     // generate files
     foreach (const Translator &translator, m_translators.values()) {
@@ -276,7 +276,7 @@ void CTranslator::importArrayObjects(QJsonArray &jsonArray, const QString &top, 
     for (int i = 0; i < jsonArray.count(); ++i) {
         const QStringList keys = SUPPORTED_LOCALES;
         QJsonObject object = jsonArray.at(i).toObject();
-        const QString sourceKey = object.value(QLatin1Literal("name")).toString();
+        const QString sourceKey = object.value(QStringLiteral("name")).toString();
 
         foreach (const QString &key, keys) {
             if (QLocale(key) != QLocale::c()) {
@@ -326,14 +326,14 @@ bool CTranslator::doImport(QJsonDocument &jsonDocument, const QString &qmOutputP
     rootArray.insert(0, jsonDocumentObject);
 
     // import translations into the json document
-    importArrayObjects(rootArray, QLatin1Literal("root"));
+    importArrayObjects(rootArray, QStringLiteral("root"));
     jsonDocumentObject = rootArray[0].toObject();
-    importArrayOfObjects(jsonDocumentObject, QLatin1Literal("extensions"));
-    importArrayOfObjects(jsonDocumentObject, QLatin1Literal("units"));
-    importArrayOfObjects(jsonDocumentObject, QLatin1Literal("variables"));
-    importArrayOfObjects(jsonDocumentObject, QLatin1Literal("streams"), QLatin1Literal("measures"));
-    importArrayOfObjects(jsonDocumentObject, QLatin1Literal("actions"), QLatin1Literal("steps"));
-    importArrayOfObjects(jsonDocumentObject, QLatin1Literal("cycles"), QLatin1Literal("steps"));
+    importArrayOfObjects(jsonDocumentObject, QStringLiteral("extensions"));
+    importArrayOfObjects(jsonDocumentObject, QStringLiteral("units"));
+    importArrayOfObjects(jsonDocumentObject, QStringLiteral("variables"));
+    importArrayOfObjects(jsonDocumentObject, QStringLiteral("streams"), QStringLiteral("measures"));
+    importArrayOfObjects(jsonDocumentObject, QStringLiteral("actions"), QStringLiteral("steps"));
+    importArrayOfObjects(jsonDocumentObject, QStringLiteral("cycles"), QStringLiteral("steps"));
     jsonDocument = QJsonDocument(jsonDocumentObject);
 
     return true;

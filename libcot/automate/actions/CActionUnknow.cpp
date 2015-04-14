@@ -10,7 +10,7 @@ CActionUnknow::CActionUnknow(const QVariantMap &mapAction)
 	: IAction()
 {
 	m_label = mapAction[tr("FR_lbl")].toString();
-	m_name = mapAction["name"].toString();
+    m_name = mapAction[QStringLiteral("name")].toString();
 	 
 
 }

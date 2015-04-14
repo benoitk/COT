@@ -45,7 +45,7 @@ bool CCycleMaintenance::isStreamRelated()const{
 	return true;
 }
 QString CCycleMaintenance::getRelatedStreamName()const{
-	return "voie 1";
+    return QStringLiteral("voie 1");
 }
 QList<CStep*> CCycleMaintenance::getListSteps()const{
 	return m_listSteps;

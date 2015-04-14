@@ -13,7 +13,7 @@ bool CCycleAutonome::isStreamRelated()const{
 	return true;
 }
 QString CCycleAutonome::getRelatedStreamName()const{
-	return "voie 1";
+    return QStringLiteral("voie 1");
 }
 QList<CStep*> CCycleAutonome::getListSteps()const{
 	return m_listSteps;

@@ -10,9 +10,9 @@ CCyclePause::CCyclePause(QObject *parent)
 CCyclePause::CCyclePause(QVariantMap mapCycle)
 	: ICycle()
 {
-	m_name = mapCycle["name"].toString();
+    m_name = mapCycle[QStringLiteral("name")].toString();
 	m_label = mapCycle[tr("FR_lbl")].toString();
-	m_iTempsCycle = mapCycle["timer"].toInt();
+    m_iTempsCycle = mapCycle[QStringLiteral("timer")].toInt();
 	
 	initTimer();
 	this->moveToThread(&m_thread);
@@ -88,7 +88,7 @@ bool CCyclePause::isStreamRelated()const{
 	return true;
 }
 QString CCyclePause::getRelatedStreamName()const{
-	return "voie 1";
+    return QStringLiteral("voie 1");
 }
 QList<CStep*> CCyclePause::getListSteps()const{
 	return m_listSteps;

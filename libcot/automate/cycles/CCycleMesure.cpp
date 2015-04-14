@@ -12,15 +12,15 @@ CCycleMesure::CCycleMesure(QObject *parent)
 CCycleMesure::CCycleMesure(const QVariantMap &mapCycle, const QMap<QString, IAction*> &mapActions): ICycle(){
 	
 	m_label = mapCycle[tr("FR_lbl")].toString();
-	m_name = mapCycle["name"].toString();
+    m_name = mapCycle[QStringLiteral("name")].toString();
 	
-	QVariantList listActions = mapCycle["actions"].toList(); 
+    QVariantList listActions = mapCycle[QStringLiteral("actions")].toList();
 	
 	foreach(QVariant varAction, listActions){
 		QVariantMap variantMap = varAction.toMap();
-		IAction* action = mapActions.value(variantMap.value("name").toString());
+        IAction* action = mapActions.value(variantMap.value(QStringLiteral("name")).toString());
 		if(action) 
-			this->addAction(variantMap.value("step").toInt() , action);
+            this->addAction(variantMap.value(QStringLiteral("step")).toInt() , action);
 	}
 	initTimer();
 	this->moveToThread(&m_thread);
@@ -30,15 +30,15 @@ CCycleMesure::CCycleMesure(const QVariantMap &mapCycle, const QMap<QString, IAct
 CCycleMesure::CCycleMesure(const QVariantMap &mapCycle): ICycle(){
 	
 	m_label = mapCycle[tr("FR_lbl")].toString();
-	m_name = mapCycle["name"].toString();
+    m_name = mapCycle[QStringLiteral("name")].toString();
 	
-	QVariantList listActions = mapCycle["actions"].toList(); 
+    QVariantList listActions = mapCycle[QStringLiteral("actions")].toList();
 	
 	foreach(QVariant varAction, listActions){
 		IAction* action = CActionFactory::build(varAction.toMap());
 		QVariantMap variantMap = varAction.toMap();
 		if(action) 
-			this->addAction(variantMap.value("step").toInt(),action);
+            this->addAction(variantMap.value(QStringLiteral("step")).toInt(),action);
 	}
 	initTimer();
 	this->moveToThread(&m_thread);
@@ -96,7 +96,7 @@ bool CCycleMesure::isStreamRelated()const{
 	return true;
 }
 QString CCycleMesure::getRelatedStreamName()const{
-	return "voie 1";
+    return QStringLiteral("voie 1");
 }
 QList<CStep*> CCycleMesure::getListSteps()const{
 	return m_listSteps;

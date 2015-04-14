@@ -12,18 +12,18 @@
 IAction* CActionFactory::build(const QVariantMap &mapAction){
 	
 	IAction* action = NULL;
-	if(mapAction["type"].toString() == "cmd_pump"){
+    if(mapAction[QStringLiteral("type")].toString() == QStringLiteral("cmd_pump")){
 		action = new CActionCmdPompe(mapAction);
 	}
-	else if(mapAction["type"].toString() == "cmd_relay"){
+    else if(mapAction[QStringLiteral("type")].toString() == QStringLiteral("cmd_relay")){
 		action = new CActionCmdRelay(mapAction);
 	}
-	else if(mapAction["type"].toString() == "cmd_read_input"){
+    else if(mapAction[QStringLiteral("type")].toString() == QStringLiteral("cmd_read_input")){
 		action = new CActionCmdReadInput(mapAction);
 	}
 	else{
 		action = new CActionUnknow(mapAction);
-		qDebug() << "Classe action INCONNUE :  " << mapAction["type"].toString();
+        qDebug() << "Classe action INCONNUE :  " << mapAction[QStringLiteral("type")].toString();
 	
 	}
 
