@@ -23,7 +23,7 @@ public:
     static bool requestUserUpdate(const QString &version);
 
 protected:
-    virtual void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
+    void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
 
 private slots:
     void slotButtonClicked(QAbstractButton *button);
