@@ -87,7 +87,7 @@ QMap<QString, IVariable*> CAutomate::getMapVariables(){
 void CAutomate::setMapVariables(QMap<QString, IVariable*> mapVariable){
 	m_mapVariables.swap(mapVariable);
 }
-QMap<QString, QList<QString>> CAutomate::getMapStreamsMeasures(){
+QMap<QString, QList<QString>> CAutomate::getMapStreamsMeasures() const{
 	return m_mapStreamsMeasures;
 }
 void CAutomate::getMapStreamsMeasures(QMap<QString, QList<QString>> mapStreamMeasure){

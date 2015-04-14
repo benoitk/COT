@@ -16,11 +16,11 @@ public:
 	CModelConfigFile(QObject *parent);
 	~CModelConfigFile();
 
-	QString getLblAnalyser(QLocale);
+    QString getLblAnalyser(const QLocale &);
 	QList<ICycle*> getListSequencesMesure();
 	QMap<QString, ICycle*> getMapCycle();
 	
-	int getNumberOfStream();
+    int getNumberOfStream() const;
 	ICycle* getCycle(int);
 
 private:

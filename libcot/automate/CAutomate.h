@@ -27,7 +27,7 @@ public:
 	QList<IAction*> getListActions();
 	QMap<QString, IVariable*> getMapVariables();
 	void setMapVariables(QMap<QString, IVariable*>);
-	QMap<QString, QList<QString>> getMapStreamsMeasures();
+    QMap<QString, QList<QString>> getMapStreamsMeasures() const;
 	void getMapStreamsMeasures(QMap<QString, QList<QString>>);
 
 	//FIN API

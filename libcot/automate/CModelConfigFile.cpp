@@ -135,7 +135,7 @@ CModelConfigFile::~CModelConfigFile()
 
 }
 
-QString CModelConfigFile::getLblAnalyser(QLocale local){
+QString CModelConfigFile::getLblAnalyser(const QLocale &local){
 	QJsonObject jsonObject = m_jsonDoc->object();
 	if(jsonObject[tr("FR_lbl_analyser")] == QJsonValue::Undefined)
         return tr("lbl_analyser not find see save.json file");
@@ -143,7 +143,7 @@ QString CModelConfigFile::getLblAnalyser(QLocale local){
 		return jsonObject[tr("FR_lbl_analyser")].toString();
 }
 
-int CModelConfigFile::getNumberOfStream(){
+int CModelConfigFile::getNumberOfStream() const {
 	QJsonObject jsonObject = m_jsonDoc->object();
     if(jsonObject[QStringLiteral("number_of_stream")] == QJsonValue::Undefined)
 		return -1;
