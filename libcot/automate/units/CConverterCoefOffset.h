@@ -9,10 +9,10 @@ class CCOnverterCoefOffset : public QObject, public IConverter
 	Q_OBJECT
 
 public:
-	CCOnverterCoefOffset(QVariantMap);
+    CCOnverterCoefOffset(const QVariantMap &);
 	~CCOnverterCoefOffset();
 
-	QVariant convert(const QVariant);
+    QVariant convert(const QVariant &) Q_DECL_OVERRIDE;
 
 private:
 	float m_offset;

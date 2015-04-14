@@ -1,6 +1,6 @@
 #include "CConverterOffsetCoef.h"
 
-CConverterOffsetCoef::CConverterOffsetCoef(QVariantMap variantMap)
+CConverterOffsetCoef::CConverterOffsetCoef(const QVariantMap &variantMap)
 	: QObject()
 {
 	m_coef = 1;
@@ -12,7 +12,7 @@ CConverterOffsetCoef::~CConverterOffsetCoef()
 
 }
 
-QVariant CConverterOffsetCoef::convert(const QVariant valueToConvert){
+QVariant CConverterOffsetCoef::convert(const QVariant &valueToConvert){
 	float value = valueToConvert.toFloat();
 	value += m_offset;
 	value *= m_coef;

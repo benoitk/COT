@@ -8,7 +8,7 @@ class IConverter
 
 
 public:
-	virtual QVariant convert(const QVariant)=0;
+    virtual QVariant convert(const QVariant &)=0;
 
 private:
 	

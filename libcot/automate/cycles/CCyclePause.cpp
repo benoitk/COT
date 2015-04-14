@@ -7,7 +7,7 @@ CCyclePause::CCyclePause(QObject *parent)
 {
 	initTimer();
 }
-CCyclePause::CCyclePause(QVariantMap mapCycle)
+CCyclePause::CCyclePause(const QVariantMap &mapCycle)
 	: ICycle()
 {
     m_name = mapCycle[QStringLiteral("name")].toString();

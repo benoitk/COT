@@ -9,10 +9,10 @@ class CConverterCoef : public QObject, public IConverter
 	Q_OBJECT
 
 public:
-	CConverterCoef(QVariantMap);
+    CConverterCoef(const QVariantMap &);
 	~CConverterCoef();
 
-	QVariant convert(const QVariant);
+    QVariant convert(const QVariant &) Q_DECL_OVERRIDE;
 
 
 private:

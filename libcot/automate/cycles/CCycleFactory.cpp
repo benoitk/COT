@@ -7,7 +7,7 @@
 #include "qdebug.h"
 #include "qvariant.h"
 
-ICycle* CCycleFactory::build(const QVariantMap &mapCycle, QMap<QString, IAction*> mapAction){
+ICycle* CCycleFactory::build(const QVariantMap &mapCycle, const QMap<QString, IAction*> &mapAction){
 	ICycle* cycle = NULL;
     if(mapCycle[QStringLiteral("type")].toString() == QStringLiteral("measure")){
 		cycle = new CCycleMesure(mapCycle, mapAction);
