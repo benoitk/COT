@@ -57,7 +57,7 @@ bool CVariableInputBool::toBool(){
 	this->readValue();
 	return m_bValeur;
 }
-void CVariableInputBool::setValue(QVariant value){
+void CVariableInputBool::setValue(const QVariant & value){
 	setValue(value.toFloat());
 }
 void CVariableInputBool::setValue(float value){
@@ -70,13 +70,13 @@ void CVariableInputBool::setValue(float value){
 	}
 }
 //Pas de récursivité dans les binds pour l'instant pour ne pas gérer les binds croisés({var1, var2}, {var2, var1})
-void CVariableInputBool::setToBindedValue(QVariant value){
+void CVariableInputBool::setToBindedValue(const QVariant & value){
 	m_bValeur = value.toFloat();
 }
 QString CVariableInputBool::getLabel()const{
 	return m_label;
 }
-void CVariableInputBool::setLabel(QString lbl){
+void CVariableInputBool::setLabel(const QString & lbl){
 	m_label = lbl;
 }
 void CVariableInputBool::addBind(IVariable* arg_var){

@@ -25,12 +25,12 @@ public:
 	virtual float toFloat() =0;
 	virtual bool toBool()=0;
 	virtual QString getLabel()const =0;
-	virtual void setLabel(QString)=0;
-	virtual void setValue(QVariant)=0;
+    virtual void setLabel(const QString &)=0;
+    virtual void setValue(const QVariant &)=0;
 	//virtual QString getName()const=0;
 	virtual void addBind(IVariable*)=0;
 	virtual void delBind(IVariable*)=0;
-	virtual void setToBindedValue(QVariant)=0;
+    virtual void setToBindedValue(const QVariant &)=0;
 	virtual variableType getType()const=0;
 	virtual void switchToUnit(CUnit*)=0;
 	virtual void getUnit()=0;

@@ -31,12 +31,12 @@ public:
     float toFloat() Q_DECL_OVERRIDE;
     bool toBool() Q_DECL_OVERRIDE;
     void setValue(float);
-    void setValue(QVariant) Q_DECL_OVERRIDE;
+    void setValue(const QVariant &) Q_DECL_OVERRIDE;
     QString getLabel()const Q_DECL_OVERRIDE;
-    void setLabel(QString) Q_DECL_OVERRIDE;
+    void setLabel(const QString &) Q_DECL_OVERRIDE;
 	//QString getName()const;
     void addBind(IVariable*) Q_DECL_OVERRIDE;
-    void setToBindedValue(QVariant) Q_DECL_OVERRIDE;
+    void setToBindedValue(const QVariant &) Q_DECL_OVERRIDE;
     variableType getType()const Q_DECL_OVERRIDE;
     void switchToUnit(CUnit*) Q_DECL_OVERRIDE;
 //
