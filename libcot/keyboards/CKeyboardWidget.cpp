@@ -246,6 +246,9 @@ void CKeyboardWidget::keyClicked()
             normalButton->setChecked( false );
         }
         m_shiftOn = false;
+        Q_FOREACH(CKeyboardSpecialButton *button, m_shiftButtons) {
+            button->setChecked(m_shiftOn);
+        }
         slotCapsLockToggled();
     }
 }
