@@ -117,6 +117,9 @@ QString CKeyboardLayoutUtils::portugueseShiftMapping()
 
 QString CKeyboardLayoutUtils::chineseShiftMapping()
 {
-    //TODO
-    return QString();
+    QString shift = QStringLiteral("1!2@3#4$5%6^7&8*9(0)_-=+\\/");
+    shift += QStringLiteral("qㄡwㄊeㄍrㄐtㄔyㄗuㄧiㄛoㄟpㄅ[{]}");
+    shift += QStringLiteral("aㄇsㄋdㄎfㄑgㄕhㄘjㄨkㄜlㄠ;:,\"");
+    shift += QStringLiteral("zㄈxㄌcㄏvㄒbㄖnㄙmㄩ,ㄝ.ㄆ/ㄙ");
+    return shift;
 }
