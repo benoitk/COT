@@ -1,4 +1,4 @@
-#include "cscrollablewidget.h"
+#include "CScrollableWidget.h"
 
 CScrollableWidget::CScrollableWidget(QWidget *parent)
     : QScrollArea(parent)

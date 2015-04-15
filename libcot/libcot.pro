@@ -114,7 +114,7 @@ HEADERS *= \
     gui/CGenericItemSelector.h \
     gui/CGenericListDelegate.h \
     gui/CGenericListModel.h \
-    gui/cscrollablewidget.h
+    gui/CScrollableWidget.h
 
 SOURCES *= \
     automate/CAutomate.cpp \
@@ -181,4 +181,4 @@ SOURCES *= \
     gui/CGenericItemSelector.cpp \
     gui/CGenericListDelegate.cpp \
     gui/CGenericListModel.cpp \
-    gui/cscrollablewidget.cpp
+    gui/CScrollableWidget.cpp
