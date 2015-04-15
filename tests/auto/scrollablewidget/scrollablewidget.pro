@@ -1,7 +1,7 @@
 TARGET = scrollablewidgettest
 QT += widgets testlib
 
-include( "$${PWD}/../../../test/test.pri" )
+include( "$$top_srcdir/tests/test.pri" )
 
 SOURCES  += scrollablewidgettest.cpp
 
