@@ -63,11 +63,11 @@ void CKeyboardWidget::initializeKeyboardLayout()
     Q_FOREACH( const QString &lang, listLanguage) {
         if (lang.startsWith(QLatin1String("fr"))) {
             keyboardLayout = CKeyboardLayoutUtils::frenchKeyboardLayout();
-            m_currentLanguage = QStringLiteral("fr-FR");
+            m_currentLanguage = QStringLiteral("fr_FR");
             break;
         } else if (lang.startsWith(QLatin1String("en")) || lang == QLatin1String("C")) {
             keyboardLayout = CKeyboardLayoutUtils::englishKeyboardLayout();
-            m_currentLanguage = QStringLiteral("en-GB");
+            m_currentLanguage = QStringLiteral("en_GB");
             break;
         } else if (lang.startsWith(QLatin1String("zh"))) {
             keyboardLayout = CKeyboardLayoutUtils::chineseKeyboardLayout();
@@ -91,7 +91,7 @@ void CKeyboardWidget::initializeKeyboardLayout()
     //Fallback to french keyboard
     if (keyboardLayout.isEmpty()) {
         keyboardLayout = CKeyboardLayoutUtils::frenchKeyboardLayout();
-        m_currentLanguage = QStringLiteral("fr-FR");
+        m_currentLanguage = QStringLiteral("fr_FR");
     }
 
     if (keyboardLayout.isEmpty()) {
@@ -188,9 +188,9 @@ void CKeyboardWidget::slotCapsLockToggled()
     m_capsLockOn = !m_capsLockOn;
     QString shiftMapping;
 
-    if (m_currentLanguage == QStringLiteral("fr-FR")) {
+    if (m_currentLanguage == QStringLiteral("fr_FR")) {
         shiftMapping = CKeyboardLayoutUtils::frenchShiftMapping();
-    } else if (m_currentLanguage == QStringLiteral("en-GB")) {
+    } else if (m_currentLanguage == QStringLiteral("en_GB")) {
         shiftMapping = CKeyboardLayoutUtils::englishShiftMapping();
     } else if (m_currentLanguage == QStringLiteral("zh")) {
         shiftMapping = CKeyboardLayoutUtils::chineseShiftMapping();
