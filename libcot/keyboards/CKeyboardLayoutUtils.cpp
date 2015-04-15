@@ -19,7 +19,7 @@ QStringList CKeyboardLayoutUtils::frenchKeyboardLayout()
 QStringList CKeyboardLayoutUtils::russianKeyboardLayout()
 {
     const QStringList lst = QStringList() << QStringLiteral("1 2 3 4 5 6 7 8 9 0 _ = \\ B3")
-                                          << QStringLiteral("T3 й ц у к е н г ш щ з х ъ ")
+                                          << QStringLiteral("T3й ц у к е н г ш щ з х ъ ")
                                           << QStringLiteral("C4ф ы в а п р о л д ж э R3")
                                           << QStringLiteral("S5я ч с м и т ь б ю . S4");
     return lst;

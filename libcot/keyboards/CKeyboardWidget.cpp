@@ -106,10 +106,9 @@ void CKeyboardWidget::initializeKeyboardLayout()
         for (int i = 0; i+1 < rowLayout.size(); i += 2) {
             const QChar charValue = rowLayout[i];
             const QChar widthValue = rowLayout[i+1];
-            const int cellWidth = widthValue == QLatin1Char(' ') ? 2 : (widthValue.toLatin1() - '0');
+            const int cellWidth = widthValue == QLatin1Char(' ') ? 2 : qMax((widthValue.toLatin1() - '0'), 2);
             CKeyboardButtonBase* button = 0;
             if (charValue.isUpper()) {
-                qDebug()<<" charValue"<<charValue;
                 CKeyboardSpecialButton* specialButton = 0;
                 if( charValue == QLatin1Char( 'T' ) ) { // tab
                     CKeyboardNormalButton* normalButton = new CKeyboardNormalButton( this );
