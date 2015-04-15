@@ -58,7 +58,7 @@ void CKeyboardWidget::initializeKeyboardLayout()
     m_keyboardLayout = new QGridLayout;
     QLocale loc = locale();
     const QStringList listLanguage = loc.uiLanguages();
-    qDebug()<<" listLanguage"<<listLanguage;
+    //qDebug()<<" listLanguage"<<listLanguage;
     QStringList keyboardLayout;
     Q_FOREACH( const QString &lang, listLanguage) {
         if (lang.startsWith(QLatin1String("fr"))) {
