@@ -15,6 +15,8 @@ public:
 
     QAction *moveUp() const;
 
+    void setScrollableWidget(QWidget *w);
+
 private Q_SLOTS:
     void slotMoveUp();
     void slotMoveDown();

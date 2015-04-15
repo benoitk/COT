@@ -1,5 +1,6 @@
 #include "CScrollableWidget.h"
 #include <QAction>
+#include <QScrollBar>
 
 CScrollableWidget::CScrollableWidget(QWidget *parent)
     : QScrollArea(parent)
@@ -25,14 +26,20 @@ QAction *CScrollableWidget::moveUp() const
     return m_moveUp;
 }
 
+void CScrollableWidget::setScrollableWidget(QWidget *w)
+{
+    setWidget(w);
+    w->show();
+}
+
 void CScrollableWidget::slotMoveUp()
 {
-
+    verticalScrollBar()->triggerAction(QAbstractSlider::SliderPageStepSub);
 }
 
 void CScrollableWidget::slotMoveDown()
 {
-
+    verticalScrollBar()->triggerAction(QAbstractSlider::SliderPageStepAdd);
 }
 
 
