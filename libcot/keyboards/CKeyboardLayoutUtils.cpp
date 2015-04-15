@@ -59,10 +59,10 @@ QStringList CKeyboardLayoutUtils::portugueseKeyboardLayout()
 
 QStringList CKeyboardLayoutUtils::chineseKeyboardLayout()
 {
-    const QStringList lst = QStringList() << QStringLiteral("")
-                                          << QStringLiteral("")
-                                          << QStringLiteral("")
-                                          << QStringLiteral("");
+    const QStringList lst = QStringList() << QStringLiteral("' 1 2 3 4 5 6 7 8 9 0 _ = \\ B3")
+                                          << QStringLiteral("T3q w e r t y u i o p [ ] ")
+                                          << QStringLiteral("C4a s d f g h j k l ; , R3")
+                                          << QStringLiteral("S5z x c v b n m , . / S4");
     return lst;
 }
 
