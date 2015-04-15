@@ -13,50 +13,49 @@
     "com_automate":[
         {"type":"tcpip", "network":"eth0", "port":533},
         {"type":"jbus_over_tcpip", "slave":2, "network":"eth0", "port":532},
-        {"name":"hart_over_tcpip", "network":"eth0", "port":658},
-        {"type":"jbus", "slave":2, "network":"uart1"}
+        {"type":"jbus", "slave":2, "network":"uart0"}
 
     ],
     "extensions" : [
         {"name" : "measure_card_1","fr_FR" : "Carte measure 1", "en_US" : "Measure card 1",
             "com" : {"type":"jbus_over_tcpip", "slave":1 , "ip":"192.168.1.5", "port":245, "network":"eth0"} ,
-            "organs" : [{"name":"measure_cell", "type":"input_float", "address_data":"0x0001"},
+            "organs" : [{"name":"measure_cell", "type":"input_float", "address_data":"0x0010"},
+                          {"name":"temperature_cell", "type":"input_float", "address_data":"0x0011"},
                           {"name":"heater", "type":"output_float", "address_data":"0x0002"},
                           {"name":"motor1", "type":"output_integer", "address_data":"0x0002"},
                           {"name":"motor2", "type":"output_integer", "address_data":"0x0002"},
                           {"name":"speed_pump2", "type":"output_integer", "address_data":"0x0003"},
-                          {"name":"conf_pump1", "type":"output_integer", "address_data":"0x0004"},
-                          {"name":"conf_pump2", "type":"output_integer", "address_data":"0x0005"},
-                          {"name":"cmd_pump1", "type":"output_bit", "address_data":"0x0006"},
-                          {"name":"cmd_pump2", "type":"output_bit", "address_data":"0x0007"}]
+                          {"name":"pump_1_speed", "type":"output_boolean", "address_data":"0x0100"},
+                          {"name":"pump_1_clockwise", "type":"output_boolean", "address_data":"0x0101"},
+                          {"name":"pump_1_step_by_step", "type":"output_boolean", "address_data":"0x0102"},
+                          {"name":"pump_1_cmd_continu", "type":"output_boolean", "address_data":"0x0103"},
+                          {"name":"pump_2_speed", "type":"output_boolean", "address_data":"0x0200"},
+                          {"name":"pump_2_clockwise", "type":"output_boolean", "address_data":"0x0201"},
+                          {"name":"pump_2_step_by_step", "type":"output_boolean", "address_data":"0x0202"},
+                          {"name":"pump_2_cmd_continu", "type":"output_boolean", "address_data":"0x0203"},
+                        ]
         },
         {"name" : "io_card_1","fr_FR" : "Carte E/S 1", "en_US" : "I/O card 1",
             "com" : {"type":"jbus_over_tcpip", "slave":2, "ip":"192.168.1.3", "port":245, "network":"eth0" },
-            "organs" : [{"name":"output_1", "type":"output_bit", "address_data":"0x0001", "passif":true},
-                       {"name":"output_2", "type":"output_bit", "address_data":"0x0002", "passif":true},
-                       {"name":"output_3", "type":"output_bit", "address_data":"0x0003", "passif":true},
-                       {"name":"output_4", "type":"output_bit", "address_data":"0x0004", "passif":true},
-                       {"name":"output_5", "type":"output_bit", "address_data":"0x0005", "passif":true},
-                       {"name":"measure_temperature", "type":"input_float", "address_data":"0x00010"},
-                       {"name":"input_2",  "type":"input_bit", "address_data":"0x0011", "passif":true},
-                       {"name":"input_3",  "type":"input_bit", "address_data":"0x0011", "passif":true},
-                       {"name":"input_4",  "type":"input_bit", "address_data":"0x0011", "passif":true}]
-        },
-        {"name" : "io_card_2","fr_FR" : "Carte E/S 2", "en_US" : "I/O card 2",
-            "com" : {"type":"jbus", "slave":3, "network":"uart0"},
-            "organs" : [{"name":"output_1", "type":"output_bit", "address_data":"0x0001"},
-                       {"name":"input_1",  "type":"input_bit", "address_data":"0x0011"}]
-        },
-        {"name" : "measure_card_2","fr_FR" : "Carte E/S 2", "en_US" : "I/O card 2",
-            "com" : {"type":"jbus", "slave":4, "network":"uart1"},
-            "organs" : [{"name":"output_1", "type":"output_bit", "address_data":"0x0001"},
-                       {"name":"input_1",  "type":"input_bit", "address_data":"0x0011"}]
+            "organs" : [{"name":"tor_input_0", "type":"input_bit", "address_data":"0x0100", "passif":true},
+                       {"name":"tor_input_1", "type":"input_bit", "address_data":"0x0101", "passif":true},
+                       {"name":"tor_input_2", "type":"input_bit", "address_data":"0x0102", "passif":true},
+                       {"name":"tor_output_0", "type":"output_bit", "address_data":"0x0200", "passif":true},
+                       {"name":"tor_output_1", "type":"output_bit", "address_data":"0x0201", "passif":true},
+                       {"name":"tor_output_2", "type":"output_bit", "address_data":"0x0202", "passif":true},
+                       {"name":"tor_output_3", "type":"output_bit", "address_data":"0x0203", "passif":true},
+                       {"name":"voltage_output_0", "type":"output_bit", "address_data":"0x0300", "passif":true},
+                       {"name":"voltage_output_1", "type":"output_bit", "address_data":"0x0301", "passif":true},
+                       {"name":"loop_0_20_data", "type":"output_integer", "address_data":"0x0400"},
+                       {"name":"loop_0_20_status", "type":"output_integer", "address_data":"0x0403"},
+                       {"name":"loop_0_20_reset", "type":"output_integer", "address_data":"0x0406"}]
         }
+       
     ],
 
-
     "units":[{"name":"g_l", "fr_FR":"g/l"}, {"name":"mg_l", "fr_FR":"mg/l"}, {"name":"µg_l", "fr_FR":"µg/l"}, {"name":"tr_min", "fr_FR":"tr/min"},
-             {"name":"deg_celsius", "fr_FR":"°C"}, {"name":"deg_fahrenheit", "fr_FR":"°F"}, {"name":"kelvin", "fr_FR":"K"}
+             {"name":"deg_celsius", "fr_FR":"°C"}, {"name":"deg_fahrenheit", "fr_FR":"°F"}, {"name":"kelvin", "fr_FR":"K"}, 
+             {"name":"pts", "fr_FR":"Points"}, {"name":"ntu", "fr_FR":"NTU"}
     ],
 
     "units_convertion":[{"source":"g_l", "target":"mg_l", "type":"coef", "coef":0.001},
@@ -65,6 +64,7 @@
                         {"source":"mg_l", "target":"µg_l", "type":"coef","coef":0.1},
                         {"source":"µg_l", "target":"g_l", "type":"coef","coef":10000},
                         {"source":"µg_l", "target":"mg_l", "type":"coef","coef":10},
+                        {"source":"ntu", "target":"mg_l", "type":"coef","coef":10},
                         {"source":"deg_fah", "target":"deg_cel", "type":"offset_coef", "offset":-32, "coef":0.555555},
                         {"source":"deg_fah", "target":"kelvin", "type":"offset_coef", "offset":458.67, "coef":0.555555},
                         {"source":"deg_cel", "target":"deg_fah", "type":"coef_offset", "offset":32, "coef":1.8},
@@ -73,80 +73,63 @@
                         {"source":"kelvin", "target":"deg_cel", "type":"offset", "offset":-273.15}
 
     ],
-
-    "variables" : [ {"name":"test_entee", "fr_FR" : "test entrée 1", "en_US" : "test input 1", "type":"boolean", "value" : 1, "unit":"mg_l"},
-                    {"name":"speed_pump_30rpm", "fr_FR" : "test entrée 1", "en_US" : "test input 1", "type":"integer", "value" : 30, "unit":"tr_min"},
-                    {"name":"direction_pump_trigo", "fr_FR" : "test entrée 1", "en_US" : "test input 1", "type":"integer", "value" : true, "unit":"tr_min"},
-                    {"name":"direction_pump_antitrigo", "fr_FR" : "test entrée 1", "en_US" : "test input 1", "type":"integer", "value" : false, "unit":"tr_min"},
-                    {"name":"test_ev_A", "fr_FR" : "entrée 1", "en_US" : "input 1", "type":"boolean", "value" : 1},
-                    {"name":"entree_ana", "fr_FR" : "entrée analogique 1", "en_US" : "analog input 1", "type":"input_float",
-                            "value" : 0, "extension_name":"measure_card_1", "organ_name":"measure_cell"
-                    },
-                    {"name":"ev_1", "fr_FR" : "sortie EV", "en_US" : "analog input 1", "type":"output_boolean",
-                            "value" : 0, "extension_name":"io_card_1", "organ_name":"output_1"
-                    },
-                    {"name":"ev_2", "fr_FR" : "sortie EV", "en_US" : "analog input 1", "type":"output_boolean",
-                            "value" : 0, "extension_name":"io_card_1", "organ_name":"output_2"
-                    },
-                    {"name":"actionneur_1", "fr_FR" : "sortie EV", "en_US" : "analog input 1", "type":"output_boolean",
-                            "value" : 0, "extension_name":"io_card_1", "organ_name":"output_3"
-                    },
-                     {"name":"actionneur_2", "fr_FR" : "sortie EV", "en_US" : "analog input 1", "type":"output_boolean",
-                            "value" : 0, "extension_name":"io_card_1", "organ_name":"output_4"
-                    },
-                    {"name":"absorbance", "fr_FR" : "Absorbance", "en_US" : "Absorbance", "type":"float", "format":"%f7.2","value" : 0},
-                    {"name":"aff_measure_1", "fr_FR" : "measure", "en_US" : "measure", "type":"float", "format":"%f7.2",
-                            "value" : 0, "extension_name":"ecran", "organ_name":"donnee_ecran_principale_measure_1"
-                    },
-                    {"name":"aff_measure_2", "fr_FR" : "measure", "en_US" : "measure", "type":"float",
-                            "value" : 0, "extension_name":"ecran", "organ_name":"donnee_ecran_principale_measure_2"
-                    },
-                    {"name":"cellule_measure", "fr_FR":"cellule de measure", "type":"input_float","format":"%f7.2",
-                            "value":0, "extension_name":"measure_card_1", "organ_name":"measure_cell"
-                    },
-                    {"name":"cellule_temperature", "fr_FR":"cellule de température", "type":"input_float","format":"%f7.2",
-                            "value":0, "extension_name":"measure_card_1", "organ_name":"measure_temperature", "unit":"deg_cel"
-                    },
-                    {"name":"coef_absorbance", "fr_FR":"Coefficient absorbance", "type":"float", "value":0.2},
-                    {"name":"measure_silice", "fr_FR":"Silice", "type":"float", "value":0, "unit":"µg_l"},
-                    {"name":"stream_en_cours", "fr_FR":"Silice", "type":"integer", "value":0},
-                    {"name":"stream_1_state", "type":"boolean", "address":"0x00012"},
-                    {"name":"num_pump1", "type":"integer", "value":3},
-                    {"name":"selecteur_position_stream1", "type":"integer", "value":18},
-                    {"name":"selecteur_position_stream2", "type":"integer", "value":48},
-                    {"name":"etalon_reference", "type":"float", "value":0.244},
-                    {"name":"etalon_precedent", "type":"float", "value":2.48},
-                    {"name":"cmd_pump1", "type":"boolean", "value":false},
-                    {"name":"stream_1_state", "type":"boolean", "value":false},
-                    {"name":"alarm_defaut_eau_stream1","fr_FR":"Defaut d'eau", "type":"boolean", "value":false},
-                    {"name":"alarm_defaut_eau_stream2","fr_FR":"Defaut d'eau", "type":"boolean", "value":false},
-                    {"name":"speed_pump1", "fr_FR":"speed_pump1", "type":"output_integer",
-                            "value":30, "extension_name":"measure_card_1", "organ_name":"cmd_pump1", "unit":"tr_min"
-                    },
-                    {"name":"conf_pump1", "fr_FR":"conf_pump1", "type":"output_integer",
-                            "value":0, "extension_name":"measure_card_1", "organ_name":"conf_pump1"
-                    },
-                    {"name":"cmd_pump2", "type":"output_boolean", "value":false},
-                    {"name":"speed_pump2", "fr_FR":"speed_pump1", "type":"output_integer",
-                            "value":30, "extension_name":"measure_card_1", "organ_name":"cmd_pump2", "unit":"tr_min"
-                    },
-                    {"name":"conf_pump2", "fr_FR":"conf_pump2", "type":"output_integer",
-                            "value":0, "extension_name":"measure_card_1", "organ_name":"conf_pump2"
-                    },
-                    {"name":"selection_stream1", "fr_FR":"selection_stream1", "type":"input_boolean",
-                            "extension_name":"measure_card_1", "organ_name":"input_2"
-                    },
-                    {"name":"arret_fin_cycle", "fr_FR":"conf_pump2", "type":"input_boolean",
-                            "extension_name":"measure_card_1", "organ_name":"input_3"
-                    },
-                    {
-                        "name":"pompe_1", "fr_FR":"Rhodol", "type":"struct_pump_step_by_step",
-                        "num_pump":"num_pump1", "speed":"speed_pump1", "conf":"conf_pump1"
+    "variables" : [{"name":"measure_cot", "fr_FR" : "COT", "en_US" : "TOC", "type":"float", "value" : 0, "unit":"mg_l"},
+                    {"name":"measure_cot_max", "fr_FR" : "Mesure max", "en_US" : "Max measure", "type":"float", "value" : 10, "unit":"mg_l"},
+                    {"name":"measure_cot_min", "fr_FR" : "Mesure min", "en_US" : "Min measure", "type":"float", "value" : 0, "unit":"mg_l"},
+                    {"name":"measure_cot_min", "fr_FR" : "Mesure min", "en_US" : "Min measure", "type":"float", "value" : 0, "unit":"mg_l"},
+                    {"name":"optical_gain", "fr_FR" : "Gain optique", "en_US" : "Optical gain", "type":"float", "value" : 0},
+                    {"name":"measure_manual", "fr_FR" : "Mesure manuelle", "en_US" : "Manual measure", "type":"float", "value" : 0, "unit":"mg_l"},
+                    {"name":"calc", "fr_FR" : "Delta", "en_US" : "Delta", "type":"float", "value" : 0, "unit":"pts"},
+                    {"name":"delta", "fr_FR" : "Delta", "en_US" : "Delta", "type":"float", "value" : 0, "unit":"pts"},
+                    {"name":"baseline", "fr_FR" : "Ligne de base", "en_US" : "Baseline", "type":"float", "value" : 1, "unit":"pts"},
+                    {"name":"absorbance_gross", "fr_FR" : "Absorbance brute", "en_US" : "Gross absorbance", "type":"float", "value" : 1, "unit":"mg_l"},
+                    {"name":"absorbance_reference", "fr_FR" : "Absorbance de référence", "en_US" : "Reference Absorbance", "type":"float", "value" : 1, "unit":"mg_l"},
+                    {"name":"absorbance_real", "fr_FR" : "Absorbance réel", "en_US" : "Real absorbance", "type":"float", "value" : 1, "unit":"mg_l"},
+                    {"name":"absorbance_corrected", "fr_FR" : "Absorbance corrigé", "en_US" : "Corrected absorbance", "type":"float", "value" : 1, "unit":"mg_l"},
+                    {"name":"turbidity", "fr_FR" : "Turbidité", "en_US" : "Turbidity", "type":"float", "value" : 1, "unit":"ntu"},
+                    {"name":"Température", "fr_FR" : "Température", "en_US" : "Temperature", "type":"float", "value" : 1, "unit":"deg_cel"},
+                    {"name":"zero_standard", "fr_FR" : "Zéro standard", "en_US" : "Standard zero", "type":"float", "value" : 1, "unit":"pts"},
+                    {"name":"coef_calculated", "fr_FR" : "Coefficient calculé", "en_US" : "Calculated coefficient", "type":"float", "value" : 1},
+                    {"name":"coef_dilution", "fr_FR" : "Coefficient de dilution", "en_US" : "Dilution coefficient", "type":"float", "value" : 1},
+                    {"name":"coef_current", "fr_FR" : "Coefficient actuel", "en_US" : "Current coefficient", "type":"float", "value" : 1},
+                    {"name":"coef_ajustement", "fr_FR" : "Coefficient d'ajustement", "en_US" : "Adjustment coefficient ", "type":"float", "value" : 1},
+                    {"name":"offset_current", "fr_FR" : "Offset actuel", "en_US" : "Current offset ", "type":"float", "value" : 1},
+                    {"name":"coeffs_linearisation", "fr_FR":"Coefficients de linéarisation", "en_US":"Linearisation coefficients", "type":"map_float_float", 
+                    "values":[{"key":0, "value":0}, {"key":0.789, "value":5}, {"key":0.921, "value":6}, {"key":1.069, "value":7}, {"key":1.163, "value":8}, {"key":1.269, "value":9}, {"key":1.362, "value":10}, {"key":1.52, "value":11}]
+                    } 
+                    {"name":"direct_measure", "fr_FR" : "Mesure direct", "en_US" : "Direct measure", "type":"input_float",
+                        "value" : 0, "extension_name":"measure_card_1", "organ_name":"measure_cell"
                     }
+                    {"name":"temperature_cell", "fr_FR" : "Température cuve", "en_US" : "Cell température", "type":"input_float",
+                        "value" : 0, "extension_name":"measure_card_1", "organ_name":"temperature_cell"
+                    }
+                    {"name":"num_tour_pump_persulfate", "fr_FR" : "Nombre de tour", "en_US" : "Tour number", "type":"integer", "value" : 4, "unit":"tr_min"},
+                    {"name":"speed_pump_persulfate", "fr_FR" : "Vitesse", "en_US" : "Speed pump", "type":"integer", "value" : 30, "unit":"tr_min"},
+                    {"name":"direction_clockwise_pump_persulfate", "fr_FR" : "Pompe en sens anti-trigo", "en_US" : "Pump set to clockwise", "type":"boolean", "value" : true, "unit":"tr_min"},
+                    {"name":"step_by_step_pump_persulfate", "fr_FR" : "Pompe en pas à pas", "en_US" : "Pump set to step by step", "type":"boolean", "value" : true, "unit":"tr_min"},
+                    {"name":"cmd_continus_pump_persulfate", "fr_FR" : "Pompe alimenté au repos", "en_US" : "Pump always powered", "type":"boolean", "value" : true, "unit":"tr_min"},
+
+                    {"name":"loop_4_20", "fr_FR" : "Sortie 4-20 mA", "en_US" : "4-20 mA output", "type":"output_float",
+                        "value" : 0, "extension_name":"measure_card_1", "organ_name":"loop_0_20_data"
+                    },
+                    {"name":"analyzer_default", "fr_FR" : "Défaut analyseur", "en_US" : "Analyzer default", "type":"output_boolean",
+                            "value" : 0, "extension_name":"io_card_1", "organ_name":"tor_output_0"
+                    },
+                    {"name":"Threshold_1", "fr_FR" : "Seuil haut", "en_US" : "High threshold", "type":"output_boolean",
+                            "value" : 8, "extension_name":"io_card_1", "organ_name":"tor_output_0"
+                    },
+                    {"name":"sample_solenoide", "fr_FR" : "EV echantillon", "en_US" : "Sample solenoid", "type":"output_boolean",
+                            "value" : false, "extension_name":"io_card_1", "organ_name":"tor_output_1"
+                    },
+                    {"name":"emptying_solenoide", "fr_FR" : "EV vidange", "en_US" : "Emptying solenoid", "type":"output_boolean",
+                            "value" : false, "extension_name":"io_card_1", "organ_name":"tor_output_2"
+                    }
+
+                    
     ],
 
     "display":{
-        "diagnostic":["cellule_measure", "cellule_temperature"],
+        "diagnostic":["direct_measure", "temperature_cell"],
         "elec_tests":[{"name":"tab_EV", "variables":["ev_1", "ev_2"]},
                      {"name":"tab_Actionneurs", "variables":["actionneur_1", "actionneur_2"]},
                      {"name":"tab_entrees", "variables":["selection_stream1", "arret_fin_cycle"]},
@@ -178,87 +161,79 @@
 
 
     "binds" : [
-        {"source":"test_entee", "target":"test_ev_A"}
+        {"source":"measure_cot", "target":"loop_4_20"}
 
     ],
 
     "actions" : [
                 {
-                    "name":"calcul_log",
-                    "type":"calcul_absorbance",
-                    "fr_FR":"Calcul de l'absorbance",
-                    "variable_entre_cell":"cellule_measure",
-                    "variable_entre_coeff":"coef_absorbance",
-                    "variable_sortie_measure":"absorbance"
+                    "name":"absorbance_corection",
+                    "type":"multiplication",
+                    "fr_FR":"Calcul de l'absorbance réel",
+                    "input_var_measure":"absorbance_gross",
+                    "input_var_coeff":"coef_ajustement",
+                    "target":"absorbance_corrected"
                 },
                 {
-                    "name":"calcul_measure_stream_2",
-                    "type":"calcul_measure",
-                    "fr_FR":"Calcul de measure",
-                    "variable_entre_cell":"cellule_measure",
-                    "variable_entre_coeff":"coef_test",
-                    "variable_sortie_measure":"measure_2"
-                },
-                {
-                    "name" : "4_tour_pompe_2",
+                    "name" : "4_tour_pompe_persulfate",
                     "type" : "cmd_pump",
-                    "fr_FR" : "4 tours de pompes 2",
-                    "en_US" : "4 tours of pumps 2",
-                    "num_pump" : 2,
-                    "speed_pump" : "speed_pump_30rpm",
-                    "direction_trigo_pump" : "direction_pump_trigo",
-                    "num_step_or_tour_pump" : 4,
-                    "cmd_step_by_step_pump" : false,
-                    "cmd_continu_pump" : false
+                    "fr_FR" : "4 tours de pompes persulfate",
+                    "en_US" : "4 tours of pumps persulfate",
+                    "speed_pump" : "speed_pump_persulfate",
+                    "direction_trigo_pump" : "direction_clockwise_pump_persulfate",
+                    "num_step_or_tour_pump" : "num_tour_pump_persulfate",
+                    "cmd_step_by_step_pump" : "step_by_step_pump_persulfate",
+                    "cmd_continu_pump" : "cmd_continus_pump_persulfate"
                 },
                 {
-                    "name" : "ouverture_ev_stream1",
-                    "type" : "cmd_relay",
-                    "fr_FR" : "Fermeture EV 1",
-                    "en_US" : "Close EV 1",
-                    "target" : "output_ev"
+                    "name" : "open_sample_solenoide",
+                    "type" : "cmd_open_relay",
+                    "fr_FR" : "Ouverture EV echantillon",
+                    "en_US" : "Open sample solenoid",
+                    "target" : "sample_solenoide"
+
+                },
+                {
+                    "name" : "close_sample_solenoide",
+                    "type" : "cmd_close_relay",
+                    "fr_FR" : "Fermeture EV echantillon",
+                    "en_US" : "Close sample solenoid",
+                    "target" : "sample_solenoide"
+
+                },
+                {
+                    "name" : "open_emptying_solenoide",
+                    "type" : "cmd_open_relay",
+                    "fr_FR" : "Ouverture EV echantillon",
+                    "en_US" : "Open sample solenoid",
+                    "target" : "emptying_solenoide"
+
+                },
+                {
+                    "name" : "close_emptying_solenoide",
+                    "type" : "cmd_close_relay",
+                    "fr_FR" : "Fermeture EV echantillon",
+                    "en_US" : "Close sample solenoid",
+                    "target" : "emptying_solenoide"
 
                 },
                 {
                     "name" : "bloc_rincage",
                     "type" : "bloc",
-                    "fr_FR" : "6 tours de pompes 2",
-                    "en_US" : "6 tours of pumps 2",
-                    "steps" : [{"step":1, "name":"read_input_1_card_io_1"}, {"step":2, "name":"read_input_2_card_io_1"}, {"step":5, "name":"read_all_input_card_io_1"}]
+                    "fr_FR" : "Rinçage en cours",
+                    "en_US" : "Cleaning in progress",
+                    "steps" : [{"step":1, "actions":["open_sample_solenoide", "open_emptying_solenoide"] }, {"step":2, "actions":["close_emptying_solenoide"] }, {"step":3, "actions":["open_sample_solenoide", "4_tour_pompe_persulfate"] }, {"step":5, "actions":["close_sample_solenoide", "open_emptying_solenoide"] }, {"step":6, "actions":["open_sample_solenoide"] }, {"step":7, "actions":["close_sample_solenoide", "close_emptying_solenoide"] }]
 
-                },
-                {
-                    "name":"read_input_1_card_io_1",
-                    "type":"cmd_read_input",
-                    "fr_FR" : "Lecture entrée 1 sur carte E/S 1",
-                    "en_US" : "Read input 1 on I/O card 1",
-                    "target" : "test_entee"
-                },
-                {
-                    "name":"calcul coef",
-                    "type":"cal_coef",
-                    "fr_FR" : "Lecture entrée 1 sur carte E/S 1",
-                    "en_US" : "Read input 1 on I/O card 1",
-                    "variable_entre_concentration_avant" : "coef_test",
-                    "variable_sortie_concentration" : "coef_actuel"
-                },
-                 {
-                    "name":"report_coeff_calcule",
-                    "type":"report_coeff",
-                    "fr_FR" : "Lecture entrée 1 sur carte E/S 1",
-                    "en_US" : "Read input 1 on I/O card 1",
-                    "variable_entre" : "coeff_calcule",
-                    "variable_sortie" : "coef_actuel"
                 }
     ],
 
     "cycles" : [
         {
-            "name" : "maintenance_1",
-            "fr_FR" : "Cycle de lecture de la carte E/S 1",
-            "en_US" : "Reading cycle on I/O card 1",
-            "type":"autonome",
-            "steps" : [{"name":"step_1", "step":1, "fr_FR":"Init", "actions":["read_input_1_card_io_1", "read_input_1_card_io_1"] }, {"step":2, "name":"read_input_2_card_io_1"}, {"step":5, "name":"read_all_input_card_io_1"},{"step":"stop", "name":"action_bidule"},{"step":"stop", "name":"action_machin"}]
+            "name" : "zero_calibration",
+            "fr_FR" : "Cycle d'étalonnage zéro",
+            "en_US" : "Zero calibration cycle",
+            "type":"maintenance",
+            "steps" : [{"name":"step_1", "step":1, "fr_FR":"Init", "actions":["bloc_rincage"]}, {"step":2, "actions":["open_sample_solenoide", "open_emptying_solenoide"]}, {"step":5, "actions":["close_emptying_solenoide"]},{"step":"stop", "actions":["bloc_rincage"]}]
         },
         {
             "name" : "cycle_pause_0",
@@ -272,7 +247,7 @@
             "fr_FR" : "measure de COT",
             "en_US" : "measure of TOC",
             "type" : "measure",
-            "steps" : [{"name":"step_2", "step":1,"fr_FR":"Init", "actions":["ouverture_ev_stream1"]}, {"name":"step_3", "step":4, "actions":["fermeture_ev_1","4_tour_pompe_2"]}, {"step":6, "name":"6_tour_pompe_2"}, {"step":12, "name":"fermeture_ev_1"}, {"step":25, "name":"6_tour_pompe_2"}]
+            "steps" : [{"name":"step_2", "step":1,"fr_FR":"Init", "actions":["bloc_rincage"]}, {"name":"step_3", "step":4, "actions":["close_sample_solenoide","4_tour_pompe_persulfate"]}, {"step":6, "actions":["close_sample_solenoide","close_emptying_solenoide"]}, {"step":12, "actions":["4_tour_pompe_persulfate"]}, {"step":25, "actions":["close_sample_solenoide","4_tour_pompe_persulfate"]}]
         }
     ],
 
