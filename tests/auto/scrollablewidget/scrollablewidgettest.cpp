@@ -1,5 +1,5 @@
 #include <qtest.h>
-//#include ".h"
+#include "CScrollableWidget.h"
 #include <QLineEdit>
 #include <QObject>
 class ScrollableWidgetTest : public QObject
@@ -11,6 +11,10 @@ private Q_SLOTS:
 
 void ScrollableWidgetTest::shouldHaveDefaultValue()
 {
+    CScrollableWidget w;
+    QVERIFY(w.moveDown());
+    QVERIFY(w.moveUp());
+    QCOMPARE(w.verticalScrollBarPolicy(), Qt::ScrollBarAlwaysOff);
 }
 
 QTEST_MAIN(ScrollableWidgetTest)
