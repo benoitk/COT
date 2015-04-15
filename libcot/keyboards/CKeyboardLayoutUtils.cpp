@@ -19,9 +19,9 @@ QStringList CKeyboardLayoutUtils::frenchKeyboardLayout()
 QStringList CKeyboardLayoutUtils::russianKeyboardLayout()
 {
     const QStringList lst = QStringList() << QStringLiteral("1 2 3 4 5 6 7 8 9 0 _ = \\ B3")
-                                          << QStringLiteral("T3 Й ц У К Е н Г Ш Щ З Х Ъ ")
-                                          << QStringLiteral("C4Ф Ы в А П Р О Л д ж Э R3")
-                                          << QStringLiteral("S5 Я Ч С м и Т ь Б Ю . S4");
+                                          << QStringLiteral("T3й ц у к е н г ш щ з х ъ ")
+                                          << QStringLiteral("C4ф ы в а п р о л д ж э R3")
+                                          << QStringLiteral("S5я ч с м и т ь б ю . S4");
     return lst;
 }
 
@@ -59,10 +59,10 @@ QStringList CKeyboardLayoutUtils::portugueseKeyboardLayout()
 
 QStringList CKeyboardLayoutUtils::chineseKeyboardLayout()
 {
-    const QStringList lst = QStringList() << QStringLiteral("")
-                                          << QStringLiteral("")
-                                          << QStringLiteral("")
-                                          << QStringLiteral("");
+    const QStringList lst = QStringList() << QStringLiteral("' 1 2 3 4 5 6 7 8 9 0 _ = \\ B3")
+                                          << QStringLiteral("T3q w e r t y u i o p [ ] ")
+                                          << QStringLiteral("C4a s d f g h j k l ; , R3")
+                                          << QStringLiteral("S5z x c v b n m , . / S4");
     return lst;
 }
 
@@ -117,6 +117,9 @@ QString CKeyboardLayoutUtils::portugueseShiftMapping()
 
 QString CKeyboardLayoutUtils::chineseShiftMapping()
 {
-    //TODO
-    return QString();
+    QString shift = QStringLiteral("1!2@3#4$5%6^7&8*9(0)_-=+\\/");
+    shift += QStringLiteral("qㄡwㄊeㄍrㄐtㄔyㄗuㄧiㄛoㄟpㄅ[{]}");
+    shift += QStringLiteral("aㄇsㄋdㄎfㄑgㄕhㄘjㄨkㄜlㄠ;:,\"");
+    shift += QStringLiteral("zㄈxㄌcㄏvㄒbㄖnㄙmㄩ,ㄝ.ㄆ/ㄙ");
+    return shift;
 }

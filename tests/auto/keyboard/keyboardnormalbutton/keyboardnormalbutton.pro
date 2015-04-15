@@ -1,17 +1,5 @@
 TARGET = keyboardnormalbuttontest
 QT += widgets testlib
-
-COTWIDGETS_LIBDIR = $${OUT_PWD}/../../../../lib
-
-include( "$${PWD}/../../../../outdirs.pri" )
-
-QMAKE_RPATHDIR += $$COTWIDGETS_LIBDIR
-
-INCLUDEPATH +=  $${PWD}/../../../../libcot/keyboards/
-DEPENDPATH += $${PWD}/../../../../libcot/keyboards/
-
-
-LIBS += -L$$COTWIDGETS_LIBDIR -lcotwidgets
-QT += widgets testlib
+include( "$$top_srcdir/tests/test.pri" )
 SOURCES  += keyboardnormalbuttontest.cpp
- 
+

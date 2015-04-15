@@ -14,7 +14,7 @@ void KeyboadWidgetTest::shouldHaveDefaultValue()
     CKeyboardWidget w;
     QLineEdit *lineEdit = w.findChild<QLineEdit *>(QStringLiteral("lineedit"));
     QVERIFY(lineEdit);
-    QVERIFY(lineEdit->isReadOnly());
+    QCOMPARE(lineEdit->focusPolicy(), Qt::NoFocus);
 }
 
 QTEST_MAIN(KeyboadWidgetTest)

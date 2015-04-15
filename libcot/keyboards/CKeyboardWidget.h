@@ -31,7 +31,6 @@ private Q_SLOTS:
 
     void slotButtonClicked(const QChar &character);
     void slotSpecialButtonClicked(Qt::Key key);
-    void slotBlackspaceButtonClicked(Qt::Key);
 private:
     void keyClicked();
     void initializeKeyboardLayout();

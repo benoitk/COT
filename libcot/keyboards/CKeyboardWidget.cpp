@@ -22,9 +22,9 @@ CKeyboardWidget::CKeyboardWidget(QWidget *parent)
     m_mainLayout->setMargin(0);
 
     m_lineEdit = new QLineEdit;
+    m_lineEdit->setFocusPolicy(Qt::NoFocus);
     m_lineEdit->setObjectName(QStringLiteral("lineedit"));
     m_mainLayout->addWidget(m_lineEdit);
-    m_lineEdit->setReadOnly(true);
     initializeKeyboardLayout();
 }
 
@@ -58,7 +58,7 @@ void CKeyboardWidget::initializeKeyboardLayout()
     m_keyboardLayout = new QGridLayout;
     QLocale loc = locale();
     const QStringList listLanguage = loc.uiLanguages();
-    qDebug()<<" listLanguage"<<listLanguage;
+    //qDebug()<<" listLanguage"<<listLanguage;
     QStringList keyboardLayout;
     Q_FOREACH( const QString &lang, listLanguage) {
         if (lang.startsWith(QLatin1String("fr"))) {
@@ -106,7 +106,7 @@ void CKeyboardWidget::initializeKeyboardLayout()
         for (int i = 0; i+1 < rowLayout.size(); i += 2) {
             const QChar charValue = rowLayout[i];
             const QChar widthValue = rowLayout[i+1];
-            const int cellWidth = widthValue == QLatin1Char(' ') ? 2 : (widthValue.toLatin1() - '0');
+            const int cellWidth = widthValue == QLatin1Char(' ') ? 2 : qMax((widthValue.toLatin1() - '0'), 2);
             CKeyboardButtonBase* button = 0;
             if (charValue.isUpper()) {
                 CKeyboardSpecialButton* specialButton = 0;
@@ -138,7 +138,7 @@ void CKeyboardWidget::initializeKeyboardLayout()
                     specialButton = new CKeyboardSpecialButton( this );
                     specialButton->setText( QChar(0x2190) );
                     specialButton->setSpecialKey( Qt::Key_Backspace );
-                    connect(specialButton, &CKeyboardSpecialButton::clicked, this, &CKeyboardWidget::slotBlackspaceButtonClicked);
+                    connect(specialButton, &CKeyboardSpecialButton::clicked, this, &CKeyboardWidget::slotSpecialButtonClicked);
                 } else {
                     qDebug( "Unknown special char %d", charValue.toLatin1() );
                 }
@@ -219,17 +219,9 @@ void CKeyboardWidget::slotCapsLockToggled()
 
 void CKeyboardWidget::slotButtonClicked(const QChar &character)
 {
-    m_lineEdit->setText(m_lineEdit->text().append(character));
+    QKeyEvent ev = QKeyEvent( QEvent::KeyPress, 0 /*key not needed*/, 0 /*keyState()*/, QString( character ) );
+    qApp->sendEvent( m_lineEdit, &ev );
     keyClicked();
-}
-
-void CKeyboardWidget::slotBlackspaceButtonClicked(Qt::Key /*key*/)
-{
-    QString originalText = m_lineEdit->text();
-    if (!originalText.isEmpty()) {
-        m_lineEdit->setText(originalText.remove(originalText.length()-1, 1));
-        keyClicked();
-    }
 }
 
 void CKeyboardWidget::slotSpecialButtonClicked(Qt::Key key)

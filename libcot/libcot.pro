@@ -113,7 +113,8 @@ HEADERS *= \
     updater/CUpdateManager.h \
     gui/CGenericItemSelector.h \
     gui/CGenericListDelegate.h \
-    gui/CGenericListModel.h
+    gui/CGenericListModel.h \
+    gui/CScrollableWidget.h
 
 SOURCES *= \
     automate/CAutomate.cpp \
@@ -179,4 +180,5 @@ SOURCES *= \
     updater/CUpdateManager.cpp \
     gui/CGenericItemSelector.cpp \
     gui/CGenericListDelegate.cpp \
-    gui/CGenericListModel.cpp
+    gui/CGenericListModel.cpp \
+    gui/CScrollableWidget.cpp
