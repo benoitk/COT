@@ -1,6 +1,7 @@
 #include "CScrollableWidget.h"
 #include <QAction>
 #include <QScrollBar>
+#include <QDebug>
 
 CScrollableWidget::CScrollableWidget(QWidget *parent)
     : QScrollArea(parent)
@@ -11,6 +12,7 @@ CScrollableWidget::CScrollableWidget(QWidget *parent)
     connect(m_moveUp, &QAction::triggered, this, &CScrollableWidget::slotMoveUp);
 
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    updateActions();
 }
 
 CScrollableWidget::~CScrollableWidget()
@@ -30,16 +32,25 @@ void CScrollableWidget::setScrollableWidget(QWidget *w)
 {
     setWidget(w);
     w->show();
+    updateActions();
 }
 
 void CScrollableWidget::slotMoveUp()
 {
     verticalScrollBar()->triggerAction(QAbstractSlider::SliderPageStepSub);
+    updateActions();
 }
 
 void CScrollableWidget::slotMoveDown()
 {
     verticalScrollBar()->triggerAction(QAbstractSlider::SliderPageStepAdd);
+    updateActions();
+}
+
+void CScrollableWidget::updateActions()
+{
+    m_moveDown->setEnabled(verticalScrollBar()->value() != verticalScrollBar()->maximum());
+    m_moveUp->setEnabled(verticalScrollBar()->value() > 0);
 }
 
 
