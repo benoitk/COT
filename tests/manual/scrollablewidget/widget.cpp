@@ -21,7 +21,7 @@ Widget::Widget(QWidget *parent)
     }
 
     CScrollableWidget *scrollablewidget = new CScrollableWidget(this);
-    scrollablewidget->setWidget(myWidget);
+    scrollablewidget->setScrollableWidget(myWidget);
     vbox->addWidget(scrollablewidget);
     bar->addAction(scrollablewidget->moveUp());
     bar->addAction(scrollablewidget->moveDown());
