@@ -1,6 +1,7 @@
 TEMPLATE = app
 TARGET = cot
 CONFIG *= c++11
+CONFIG *= depend_includepath
 
 QT *= widgets
 
@@ -10,11 +11,6 @@ include( "../g++.pri" )
 COTLIB_PWD = $${PWD}/../libcot
 
 INCLUDEPATH *=  \
-    $${COTLIB_PWD}/gui \
-    $${COTLIB_PWD}/automate/variables \
-    $${COTLIB_PWD}/automate
-
-DEPENDPATH *= \
     $${COTLIB_PWD}/gui \
     $${COTLIB_PWD}/automate/variables \
     $${COTLIB_PWD}/automate

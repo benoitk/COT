@@ -20,20 +20,12 @@ else:DEFINES *= "COT_USB_MOUNT_POINT=\\\"/media\\\""
 
 DESTDIR = ../lib
 
+CONFIG += depend_includepath
+
 INCLUDEPATH *= \
     . \
     gui \
-    automate/variables \
-    automate \
-    automate/com \
-    automate/cycles \
-    automate/actions \
-    automate/units \
-    updater
-
-DEPENDPATH *= \
-    . \
-    gui \
+    gui/keyboards \
     automate/variables \
     automate \
     automate/com \
