@@ -2,6 +2,7 @@
 #include "CScrollableWidget.h"
 #include <QLineEdit>
 #include <QObject>
+#include <QAction>
 class ScrollableWidgetTest : public QObject
 {
     Q_OBJECT
@@ -15,6 +16,10 @@ void ScrollableWidgetTest::shouldHaveDefaultValue()
     QVERIFY(w.moveDown());
     QVERIFY(w.moveUp());
     QCOMPARE(w.verticalScrollBarPolicy(), Qt::ScrollBarAlwaysOff);
+    QVERIFY(!w.moveUp()->isEnabled());
+    QVERIFY(!w.moveDown()->isEnabled());
+    QVERIFY(w.moveDown()->autoRepeat());
+    QVERIFY(w.moveUp()->autoRepeat());
 }
 
 QTEST_MAIN(ScrollableWidgetTest)

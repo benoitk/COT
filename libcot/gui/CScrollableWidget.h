@@ -22,6 +22,7 @@ private Q_SLOTS:
     void slotMoveDown();
 
 private:
+    void updateActions();
     QAction *m_moveUp;
     QAction *m_moveDown;
 };
