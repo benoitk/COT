@@ -32,6 +32,7 @@ private Q_SLOTS:
     void slotButtonClicked(const QChar &character);
     void slotSpecialButtonClicked(Qt::Key key);
 private:
+    void clearDeadKey();
     void keyClicked();
     void initializeKeyboardLayout();
     void changeKeyboardLayout();
@@ -41,6 +42,7 @@ private:
     QVBoxLayout *m_mainLayout;
     QList<CKeyboardSpecialButton *> m_shiftButtons;
     QList<CKeyboardNormalButton *> m_normalButtons;
+    QString m_deadKey;
     bool m_capsLockOn;
     bool m_shiftOn;
 };
