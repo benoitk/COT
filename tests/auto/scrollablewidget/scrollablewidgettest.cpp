@@ -18,6 +18,8 @@ void ScrollableWidgetTest::shouldHaveDefaultValue()
     QCOMPARE(w.verticalScrollBarPolicy(), Qt::ScrollBarAlwaysOff);
     QVERIFY(!w.moveUp()->isEnabled());
     QVERIFY(!w.moveDown()->isEnabled());
+    QVERIFY(w.moveDown()->autoRepeat());
+    QVERIFY(w.moveUp()->autoRepeat());
 }
 
 QTEST_MAIN(ScrollableWidgetTest)
