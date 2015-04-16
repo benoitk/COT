@@ -4,6 +4,7 @@
 #include <QToolBar>
 #include <QAction>
 #include <QLabel>
+#include <QTextEdit>
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
 {
@@ -15,9 +16,14 @@ Widget::Widget(QWidget *parent)
     QWidget *myWidget = new QWidget;
     QVBoxLayout *myWidgetLayout = new QVBoxLayout;
     myWidget->setLayout(myWidgetLayout);
-    for (int i = 0; i < 100 ; ++i) {
+    for (int i = 0; i < 100 ;) {
         QLabel *label = new QLabel(QStringLiteral("label %1").arg(i));
         myWidgetLayout->addWidget(label);
+        ++i;
+        QTextEdit *textEdit = new QTextEdit;
+        textEdit->setText(QStringLiteral("textedit %1").arg(i));
+        myWidgetLayout->addWidget(textEdit);
+        ++i;
     }
 
     CScrollableWidget *scrollablewidget = new CScrollableWidget(this);
