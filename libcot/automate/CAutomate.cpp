@@ -154,3 +154,11 @@ void CAutomate::slotRunAutomate(){
 		QThread::msleep(1000);
 	}
 }
+
+CDisplayConf* CAutomate::getDisplayConf()const{
+    return m_displayConf;
+}
+
+void CAutomate::setDisplayConf(CDisplayConf* displayConf){
+    m_displayConf = displayConf;
+}

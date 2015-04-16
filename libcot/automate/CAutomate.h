@@ -16,6 +16,7 @@ class CModelExtensionCard;
 class INetwork;
 class IAction;
 class CUnit;
+class CDisplayConf;
 class CAutomate : public QObject, IComObserver
 {
 	Q_OBJECT
@@ -31,7 +32,7 @@ public:
 	void setMapVariables(QMap<QString, IVariable*>);
     QMap<QString, QList<QString>> getMapStreamsMeasures() const;
 	void getMapStreamsMeasures(QMap<QString, QList<QString>>);
-
+    CDisplayConf* getDisplayConf()const;
 	//FIN API
 
 
@@ -46,6 +47,7 @@ public:
 	eStateCycle getStateCycleIO();
 	void setStateCycleMaintenance(eStateCycle);
 	eStateCycle getStateCycleMaintenance();
+    void setDisplayConf(CDisplayConf*);
 
 	void addCycle(ICycle*);
 
@@ -81,7 +83,7 @@ private:
 	int m_stateCycleMaintenance; //0 stoped, 1 run, 2 pause
 
 	CSequenceur* m_sequenceur;
-
+    CDisplayConf* m_displayConf;
 	QList<ICycle*> m_listCycleMesures;
 	QList<ICycle*> m_listCycleMaintenances;
 	QList<ICycle*> m_listlCycleAutonomes;

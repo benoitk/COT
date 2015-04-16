@@ -16,7 +16,7 @@ public:
 	QString getLbl()const;
 	QString getName()const;
 	QVariant convert(QString, QVariant);
-	void addConvertion(QString, IConverter*);
+	void addConverter(QString, IConverter*);
 	void setConvertion(QString, IConverter*);
 
 private:

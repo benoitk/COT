@@ -29,7 +29,7 @@ QVariant CUnit::convert(QString targetKey, QVariant sourceValue){
 	return var;
 }
 
-void CUnit::addConvertion(QString key, IConverter* converter){
+void CUnit::addConverter(QString key, IConverter* converter){
 	m_mapConverter.insert(key, converter);
 }
 void CUnit::setConvertion(QString key, IConverter* converter){

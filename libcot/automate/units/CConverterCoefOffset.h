@@ -1,17 +1,17 @@
-#ifndef CCONVERTERCOEFOFFSET_H
-#define CCONVERTERCOEFOFFSET_H
+#ifndef CConverterCoefOffset_H
+#define CConverterCoefOffset_H
 
 #include "IConverter.h"
 #include <QObject>
 
 class CUnit;
-class CCOnverterCoefOffset : public QObject, public IConverter
+class CConverterCoefOffset : public QObject, public IConverter
 {
 	Q_OBJECT
 
 public:
-    CCOnverterCoefOffset(const QVariantMap &);
-	~CCOnverterCoefOffset();
+    CConverterCoefOffset(const QVariantMap &);
+	~CConverterCoefOffset();
 
     QVariant convert(const QVariant &) Q_DECL_OVERRIDE;
     CUnit* getTarget()const Q_DECL_OVERRIDE;
@@ -22,4 +22,4 @@ private:
     CUnit* m_targetUnit;
 };
 
-#endif // CCONVERTERCOEFOFFSET_H
+#endif // CConverterCoefOffset_H

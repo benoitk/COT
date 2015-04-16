@@ -2,11 +2,14 @@
 
 #include "IAction.h"
 #include "ICycle.h"
+#include "IConverter.h"
+#include "CConverterFactory.h"
 #include "CCycleFactory.h"
 #include "CActionFactory.h"
 #include "CVariableFactory.h"
 #include "CAutomate.h"
 #include "CUnit.h"
+#include "CDisplayConf.h"
 
 #include "qfile.h"
 #include "qjsonobject.h"
@@ -48,20 +51,38 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
 	QJsonObject jsonObjectAll = m_jsonDoc->object();
    
     //Units
-    if(jsonObjectAll[QStringLiteral("units")] == QJsonValue::Undefined){
+    if(jsonObjectAll[QStringLiteral("units")] == QJsonValue::Undefined ){
 		qDebug() << "jsonObject[\"units\"] == QJsonValue::Undefined";
 	}
 	else {
-        QJsonArray jsonArrayUnits = jsonObjectAll[QStringLiteral("units")].toArray();
-		foreach(QJsonValue jsonValueUnit, jsonArrayUnits){
-			QVariantMap mapUnit = jsonValueUnit.toVariant().toMap();
-            if(mapUnit[QStringLiteral("name")].isNull()) {
-                CUnit* unit = new CUnit(mapUnit[QStringLiteral("name")].toString()
-                                      , mapUnit[tr("fr_FR")].toString());
-                CAutomate::getInstance()->addUnit(unit);
-            }else{
-				qDebug() << "Unit null : map = " << mapUnit;
+        if(jsonObjectAll[QStringLiteral("units")] == QJsonValue::Undefined ){
+		    qDebug() << "jsonObject[\"units\"] == QJsonValue::Undefined";
+	    }
+	    else {
 
+            QJsonArray jsonArrayUnits = jsonObjectAll[QStringLiteral("units")].toArray();
+            QJsonArray jsonArrayConverters = jsonObjectAll[QStringLiteral("units_convertion")].toArray();
+		    foreach(QJsonValue jsonValueUnit, jsonArrayUnits){
+			    QVariantMap mapUnit = jsonValueUnit.toVariant().toMap();
+                if(!mapUnit[QStringLiteral("name")].isNull()) {
+                    CUnit* unit = new CUnit(mapUnit[QStringLiteral("name")].toString()
+                                          , mapUnit[tr("fr_FR")].toString());
+                    CAutomate::getInstance()->addUnit(unit);
+                    foreach(QJsonValue jsonValueConverter, jsonArrayConverters){
+                        QVariantMap mapConverter = jsonValueConverter.toVariant().toMap();
+                        if(!mapConverter[QStringLiteral("source")].isNull()) {
+                            IConverter* converter = CConverterFactory::build(mapConverter);
+                            unit->addConverter(mapConverter[QStringLiteral("source")].toString(),converter);
+                            
+                        }else{
+				            qDebug() << "Converter null : map = " << mapConverter;
+
+                        }
+                    }
+                }else{
+                    qDebug() << "Unit null : map = " << mapUnit ;
+
+                }
             }
 		}
     }
@@ -81,6 +102,16 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
 				qDebug() << "Variables null : map = " << mapVariable;
 		}
 	}
+
+    //display
+    if(jsonObjectAll[QStringLiteral("display")] == QJsonValue::Undefined){
+		qDebug() << "jsonObject[\"display\"] == QJsonValue::Undefined";
+	}
+	else {
+        CDisplayConf* displayConf = new CDisplayConf(jsonObjectAll[QStringLiteral("display")].toArray(), CAutomate::getInstance());
+        CAutomate::getInstance()->setDisplayConf(displayConf);
+    }
+
 	//bind variables
     if(jsonObjectAll[QStringLiteral("variables")] == QJsonValue::Undefined){
 		qDebug() << "jsonObject[\"variables\"] == QJsonValue::Undefined";

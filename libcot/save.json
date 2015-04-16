@@ -32,7 +32,7 @@
                           {"name":"pump_2_speed", "type":"output_boolean", "address_data":"0x0200"},
                           {"name":"pump_2_clockwise", "type":"output_boolean", "address_data":"0x0201"},
                           {"name":"pump_2_step_by_step", "type":"output_boolean", "address_data":"0x0202"},
-                          {"name":"pump_2_cmd_continu", "type":"output_boolean", "address_data":"0x0203"},
+                          {"name":"pump_2_cmd_continu", "type":"output_boolean", "address_data":"0x0203"}
                         ]
         },
         {"name" : "io_card_1","fr_FR" : "Carte E/S 1", "en_US" : "I/O card 1",
@@ -96,13 +96,13 @@
                     {"name":"offset_current", "fr_FR" : "Offset actuel", "en_US" : "Current offset ", "type":"float", "value" : 1},
                     {"name":"coeffs_linearisation", "fr_FR":"Coefficients de linéarisation", "en_US":"Linearisation coefficients", "type":"map_float_float", 
                     "values":[{"key":0, "value":0}, {"key":0.789, "value":5}, {"key":0.921, "value":6}, {"key":1.069, "value":7}, {"key":1.163, "value":8}, {"key":1.269, "value":9}, {"key":1.362, "value":10}, {"key":1.52, "value":11}]
-                    } 
+                    }, 
                     {"name":"direct_measure", "fr_FR" : "Mesure direct", "en_US" : "Direct measure", "type":"input_float",
                         "value" : 0, "extension_name":"measure_card_1", "organ_name":"measure_cell"
-                    }
+                    },
                     {"name":"temperature_cell", "fr_FR" : "Température cuve", "en_US" : "Cell température", "type":"input_float",
                         "value" : 0, "extension_name":"measure_card_1", "organ_name":"temperature_cell"
-                    }
+                    },
                     {"name":"num_tour_pump_persulfate", "fr_FR" : "Nombre de tour", "en_US" : "Tour number", "type":"integer", "value" : 4, "unit":"tr_min"},
                     {"name":"speed_pump_persulfate", "fr_FR" : "Vitesse", "en_US" : "Speed pump", "type":"integer", "value" : 30, "unit":"tr_min"},
                     {"name":"direction_clockwise_pump_persulfate", "fr_FR" : "Pompe en sens anti-trigo", "en_US" : "Pump set to clockwise", "type":"boolean", "value" : true, "unit":"tr_min"},
@@ -128,19 +128,19 @@
                     
     ],
 
-    "display":{
-        "diagnostic":["direct_measure", "temperature_cell"],
-        "elec_tests":[{"name":"tab_EV", "variables":["ev_1", "ev_2"]},
+    "display":[
+        {"name":"diagnostic", "variables":["direct_measure", "temperature_cell"]},
+        {"name":"elec_tests", "map_tabs":[{"name":"tab_EV", "variables":["ev_1", "ev_2"]},
                      {"name":"tab_Actionneurs", "variables":["actionneur_1", "actionneur_2"]},
                      {"name":"tab_entrees", "variables":["selection_stream1", "arret_fin_cycle"]},
                      {"name":"tab_pump", "variables":["pompe_1", "pompe_2"]},
                      {"name":"tab_selecteur","variables":["selecteur_position_stream1", "selecteur_position_stream2"],"pump":"pompe_2"  }
-        ],
-        "options":["consigne_teperature", "nombre_cycle_avant_calib", "seuil_measure"],
-        "history":["absorbance","status"],
-        "alarms":["alarm_defaut_eau_stream1","alarm_defaut_eau_stream2"]
+        ]},
+        {"name":"options" , "variables":["consigne_teperature", "nombre_cycle_avant_calib", "seuil_measure"]},
+        {"name":"history", "variables":["absorbance","status"]},
+        {"name":"alarms", "variables":["alarm_defaut_eau_stream1","alarm_defaut_eau_stream2"]}
 
-    },
+    ],
 
     "streams" : [{"name":"stream_1", "fr_FR":"stream 1", "variables":["status", "defaut_eau"], "active_state": "stream_1_state",
                     "measures":[{"name":"measure_1", "fr_FR":"absorbance de la measure 1", "variables":[{"name":"coeff", "type":"standard"}, {"name":"measure_silice", "type":"measure"}]},
