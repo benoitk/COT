@@ -3,4 +3,4 @@ QT += widgets
 SOURCES += main.cpp widget.cpp
 
 HEADERS += widget.h
-include( "$$top_srcdir/tests/test.pri" )
+include( "$$top_srcdir/tests/tests.pri" )
