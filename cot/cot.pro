@@ -11,6 +11,7 @@ include( "../g++.pri" )
 COTLIB_PWD = $${PWD}/../libcot
 
 INCLUDEPATH *=  \
+    $${COTLIB_PWD} \
     $${COTLIB_PWD}/gui \
     $${COTLIB_PWD}/automate/variables \
     $${COTLIB_PWD}/automate

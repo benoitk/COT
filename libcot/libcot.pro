@@ -45,6 +45,7 @@ HEADERS *= \
     automate/CAutomate.h \
     automate/CControlerAutomate.h \
     automate/CControlerCycle.h \
+    automate/CDisplayConf.h \
     automate/CLinkAction.h \
     automate/CModelConfigFile.h \
     automate/CModelExtensionCard.h \
@@ -74,6 +75,8 @@ HEADERS *= \
     automate/units/CConverterCoefOffset.h \
     automate/units/CConverterOffset.h \
     automate/units/CConverterOffsetCoef.h \
+    automate/units/CConverterFactory.h \
+    automate/units/CConverterUnknow.h \
     automate/units/CUnit.h \
     automate/units/IConverter.h \
     automate/variables/CVariableBool.h \
@@ -112,6 +115,7 @@ SOURCES *= \
     automate/CAutomate.cpp \
     automate/CControlerAutomate.cpp \
     automate/CControlerCycle.cpp \
+    automate/CDisplayConf.cpp \
     automate/CLinkAction.cpp \
     automate/CModelConfigFile.cpp \
     automate/CModelExtensionCard.cpp \
@@ -141,6 +145,8 @@ SOURCES *= \
     automate/units/CConverterCoefOffset.cpp \
     automate/units/CConverterOffset.cpp \
     automate/units/CConverterOffsetCoef.cpp \
+    automate/units/CConverterFactory.cpp \
+    automate/units/CConverterUnknow.cpp \
     automate/units/CUnit.cpp \
     automate/units/IConverter.cpp \
     automate/variables/CVariableBool.cpp \
