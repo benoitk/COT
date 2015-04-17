@@ -33,10 +33,21 @@ IVariable* CVariableFactory::build(const QMap<QString, QVariant> &mapVar){
     else if(mapVar[QStringLiteral("type")].toString() == QStringLiteral("input_float")){
 		variable = new CVariableInputFloat(mapVar);
 	}
+    else if(mapVar[QStringLiteral("type")].toString() == QStringLiteral("output_float")){
+		variable = new CVariableOutputFloat(mapVar);
+	}
+    else if(mapVar[QStringLiteral("type")].toString() == QStringLiteral("output_boolean")){
+        variable = new CVariableOutputBool(mapVar);
+	}
+    /*else if(mapVar[QStringLiteral("type")].toString() == QStringLiteral("map_float_float")){
+		variable = new CVariableInputFloat(mapVar);
+	}
+    else if(mapVar[QStringLiteral("type")].toString() == QStringLiteral("output_struct")){
+		variable = new CVariableInputFloat(mapVar);
+	}*/
 	else{
 		variable = new CVariableUnknow();
         qDebug() << "Type variable INCONNU " << mapVar[QStringLiteral("type")].toString() ;
-
 	}
 	variable->setLabel(mapVar[tr("FR_lbl")].toString());
 	return variable;

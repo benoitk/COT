@@ -76,7 +76,6 @@
     "variables" : [{"name":"measure_cot", "fr_FR" : "COT", "en_US" : "TOC", "type":"float", "value" : 0, "unit":"mg_l"},
                     {"name":"measure_cot_max", "fr_FR" : "Mesure max", "en_US" : "Max measure", "type":"float", "value" : 10, "unit":"mg_l"},
                     {"name":"measure_cot_min", "fr_FR" : "Mesure min", "en_US" : "Min measure", "type":"float", "value" : 0, "unit":"mg_l"},
-                    {"name":"measure_cot_min", "fr_FR" : "Mesure min", "en_US" : "Min measure", "type":"float", "value" : 0, "unit":"mg_l"},
                     {"name":"optical_gain", "fr_FR" : "Gain optique", "en_US" : "Optical gain", "type":"float", "value" : 0},
                     {"name":"measure_manual", "fr_FR" : "Mesure manuelle", "en_US" : "Manual measure", "type":"float", "value" : 0, "unit":"mg_l"},
                     {"name":"calc", "fr_FR" : "Delta", "en_US" : "Delta", "type":"float", "value" : 0, "unit":"pts"},
@@ -94,6 +93,10 @@
                     {"name":"coef_current", "fr_FR" : "Coefficient actuel", "en_US" : "Current coefficient", "type":"float", "value" : 1},
                     {"name":"coef_ajustement", "fr_FR" : "Coefficient d'ajustement", "en_US" : "Adjustment coefficient ", "type":"float", "value" : 1},
                     {"name":"offset_current", "fr_FR" : "Offset actuel", "en_US" : "Current offset ", "type":"float", "value" : 1},
+                    {"name":"alarm_defaut_eau", "fr_FR":"Défaut d'eau", "en_US":"Water default", "type":"boolean", "value":false},
+                    {"name":"selecteur_position_stream1", "fr_FR":"Position voie 1", "en_US":"Position stream 1", "type":"integer", "value":90},
+                    {"name":"selecteur_position_stream2", "fr_FR":"Position voie 1", "en_US":"Position stream 2", "type":"integer", "value":180},
+                    
                     {"name":"coeffs_linearisation", "fr_FR":"Coefficients de linéarisation", "en_US":"Linearisation coefficients", "type":"map_float_float", 
                     "values":[{"key":0, "value":0}, {"key":0.789, "value":5}, {"key":0.921, "value":6}, {"key":1.069, "value":7}, {"key":1.163, "value":8}, {"key":1.269, "value":9}, {"key":1.362, "value":10}, {"key":1.52, "value":11}]
                     }, 
@@ -103,12 +106,7 @@
                     {"name":"temperature_cell", "fr_FR" : "Température cuve", "en_US" : "Cell température", "type":"input_float",
                         "value" : 0, "extension_name":"measure_card_1", "organ_name":"temperature_cell"
                     },
-                    {"name":"num_tour_pump_persulfate", "fr_FR" : "Nombre de tour", "en_US" : "Tour number", "type":"integer", "value" : 4, "unit":"tr_min"},
-                    {"name":"speed_pump_persulfate", "fr_FR" : "Vitesse", "en_US" : "Speed pump", "type":"integer", "value" : 30, "unit":"tr_min"},
-                    {"name":"direction_clockwise_pump_persulfate", "fr_FR" : "Pompe en sens anti-trigo", "en_US" : "Pump set to clockwise", "type":"boolean", "value" : true, "unit":"tr_min"},
-                    {"name":"step_by_step_pump_persulfate", "fr_FR" : "Pompe en pas à pas", "en_US" : "Pump set to step by step", "type":"boolean", "value" : true, "unit":"tr_min"},
-                    {"name":"cmd_continus_pump_persulfate", "fr_FR" : "Pompe alimenté au repos", "en_US" : "Pump always powered", "type":"boolean", "value" : true, "unit":"tr_min"},
-
+                   
                     {"name":"loop_4_20", "fr_FR" : "Sortie 4-20 mA", "en_US" : "4-20 mA output", "type":"output_float",
                         "value" : 0, "extension_name":"measure_card_1", "organ_name":"loop_0_20_data"
                     },
@@ -123,22 +121,37 @@
                     },
                     {"name":"emptying_solenoide", "fr_FR" : "EV vidange", "en_US" : "Emptying solenoid", "type":"output_boolean",
                             "value" : false, "extension_name":"io_card_1", "organ_name":"tor_output_2"
-                    }
+                    },
+                   
 
+                    {"name":"pump_persulfate", "fr_FR" : "Pompe persulfate", "en_US" : "Persulfate pump", "type":"output_struct", 
+                        "struct": [ {"name":"num_tour_pump", "fr_FR" : "Nombre de tour", "en_US" : "Tour number", "type":"integer", "value" : 4, "unit":"tr_min"},
+                                    {"name":"speed_pump", "fr_FR" : "Vitesse", "en_US" : "Speed pump", "type":"integer", "value" : 30, "unit":"tr_min"},
+                                    {"name":"direction_clockwise_pump", "fr_FR" : "Pompe en sens anti-trigo", "en_US" : "Pump set to clockwise", "type":"boolean", "value" : true, "unit":"tr_min"},
+                                    {"name":"step_by_step_pump", "fr_FR" : "Pompe en pas à pas", "en_US" : "Pump set to step by step", "type":"boolean", "value" : true, "unit":"tr_min"},
+                                    {"name":"cmd_continus_pump", "fr_FR" : "Pompe alimenté au repos", "en_US" : "Pump always powered", "type":"boolean", "value" : true, "unit":"tr_min"}]
+
+                    },
+
+                    {"name":"num_tour_pump_persulfate", "fr_FR" : "Nombre de tour", "en_US" : "Tour number", "type":"integer", "value" : 4, "unit":"tr_min"},
+                    {"name":"speed_pump_persulfate", "fr_FR" : "Vitesse", "en_US" : "Speed pump", "type":"integer", "value" : 30, "unit":"tr_min"},
+                    {"name":"direction_clockwise_pump_persulfate", "fr_FR" : "Pompe en sens anti-trigo", "en_US" : "Pump set to clockwise", "type":"boolean", "value" : true, "unit":"tr_min"},
+                    {"name":"step_by_step_pump_persulfate", "fr_FR" : "Pompe en pas à pas", "en_US" : "Pump set to step by step", "type":"boolean", "value" : true, "unit":"tr_min"},
+                    {"name":"cmd_continus_pump_persulfate", "fr_FR" : "Pompe alimenté au repos", "en_US" : "Pump always powered", "type":"boolean", "value" : true, "unit":"tr_min"}
                     
     ],
 
     "display":[
         {"name":"diagnostic", "variables":["direct_measure", "temperature_cell"]},
-        {"name":"elec_tests", "map_tabs":[{"name":"tab_EV", "variables":["ev_1", "ev_2"]},
+        {"name":"elec_tests", "map_tabs":[{"name":"tab_EV", "variables":["emptying_solenoide", "sample_solenoide"]},
                      {"name":"tab_Actionneurs", "variables":["actionneur_1", "actionneur_2"]},
                      {"name":"tab_entrees", "variables":["selection_stream1", "arret_fin_cycle"]},
-                     {"name":"tab_pump", "variables":["pompe_1", "pompe_2"]},
-                     {"name":"tab_selecteur","variables":["selecteur_position_stream1", "selecteur_position_stream2"],"pump":"pompe_2"  }
+                     {"name":"tab_pump", "variables":["pump_persulfate"]},
+                     {"name":"tab_selecteur","variables":["selecteur_position_stream1", "selecteur_position_stream2"],"pump":"pump_persulfate"  }
         ]},
-        {"name":"options" , "variables":["consigne_teperature", "nombre_cycle_avant_calib", "seuil_measure"]},
-        {"name":"history", "variables":["absorbance","status"]},
-        {"name":"alarms", "variables":["alarm_defaut_eau_stream1","alarm_defaut_eau_stream2"]}
+        {"name":"options" , "variables":["coef_dilution", "coef_calculated", "turbidity"]},
+        {"name":"history", "variables":["measure_cot","optical_gain"]},
+        {"name":"alarms", "variables":["alarm_defaut_eau"]}
 
     ],
 
@@ -179,6 +192,7 @@
                     "type" : "cmd_pump",
                     "fr_FR" : "4 tours de pompes persulfate",
                     "en_US" : "4 tours of pumps persulfate",
+                    "pump" : "pump_persulfate",
                     "speed_pump" : "speed_pump_persulfate",
                     "direction_trigo_pump" : "direction_clockwise_pump_persulfate",
                     "num_step_or_tour_pump" : "num_tour_pump_persulfate",

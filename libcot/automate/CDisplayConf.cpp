@@ -4,7 +4,6 @@
 #include "qvariant.h"
 #include "qjsonarray.h"
 #include "qdebug.h"
-
 CDisplayConf::CDisplayConf(const QJsonArray& jsonArray, QObject *parent)
     : QObject(parent)
 {
@@ -48,21 +47,30 @@ CDisplayConf::CDisplayConf(const QJsonArray& jsonArray, QObject *parent)
                 else qDebug() << "CDisplay Conf alarms type_unknow" << mapScreen;
             }
         }else if(mapScreen.contains(QStringLiteral("name")) && mapScreen["name"].toString() == QStringLiteral("elec_tests")){
-            QVariantMap variantMapTabs = mapScreen.value(QStringLiteral("map_tabs")).toMap();
-            QVariantList variantList = variantMapTabs.value(QStringLiteral("variables")).toList();
-            foreach(QVariant variant, variantList){
-                IVariable* var = CAutomate::getInstance()->getVariable(variant.toString());
-                if(var->getType() != type_unknow){
-                    addVariableToScreenElectricalTest(variantMapTabs.value(QStringLiteral("name")).toString(), var);
+            QVariantList variantMapTabs = mapScreen.value(QStringLiteral("map_tabs")).toList();
+            foreach(QVariant variant, variantMapTabs){
+                QVariantMap map = variant.toMap();
+                QVariantList variantList = map.value(QStringLiteral("variables")).toList();
+                addTabToScreenElectricalTest(map.value(QStringLiteral("name")).toString());
+                foreach(QVariant variant, variantList){
+                    IVariable* var = CAutomate::getInstance()->getVariable(variant.toString());
+                    //if(var->getType() != type_unknow){
+                        addVariableToScreenElectricalTest(map.value(QStringLiteral("name")).toString(), var);
+                    //}
+                    //else qDebug() << "CDisplay Conf elec_tests type_unknow" << mapScreen;
                 }
-                else qDebug() << "CDisplay Conf elec_tests type_unknow" << mapScreen;
             }
+            
         }else{ 
-            qDebug() << "display Ã©cran inconnu " << mapScreen;
-        }
-        
-			
+            qDebug() << "display écran inconnu " << mapScreen;
+        }		
 	}
+
+    qDebug() << "diagnostic" << m_listForScrenDiagnostic;
+    qDebug() << "elec_tests" << m_mapForScrenElectricalTests;
+    qDebug() << "options" << m_listForScrenOptions;
+    qDebug() << "history" << m_listForScrenHistory;
+    qDebug() << "alarms" << m_listForScrenAlarms;
 }
 
 CDisplayConf::~CDisplayConf()
