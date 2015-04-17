@@ -1,3 +1,8 @@
 <RCC>
-    <qresource prefix="/"/>
+    <qresource prefix="/">
+        <file>qss/application.qss</file>
+        <file>qss/cristal.qss</file>
+        <file>qss/cristalX86.qss</file>
+        <file>qss/cot.qss</file>
+    </qresource>
 </RCC>

@@ -2,7 +2,6 @@ TEMPLATE = app
 TARGET = cot
 CONFIG *= c++11
 CONFIG *= depend_includepath
-
 QT *= widgets
 
 include( "../outdirs.pri" )
@@ -13,6 +12,7 @@ COTLIB_PWD = $${PWD}/../libcot
 INCLUDEPATH *=  \
     $${COTLIB_PWD} \
     $${COTLIB_PWD}/gui \
+    $${COTLIB_PWD}/gui/panel \
     $${COTLIB_PWD}/automate/variables \
     $${COTLIB_PWD}/automate
 

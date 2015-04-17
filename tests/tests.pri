@@ -9,6 +9,7 @@ CONFIG += depend_includepath
 INCLUDEPATH *= \
     $$top_srcdir/libcot/keyboards/ \
     $$top_srcdir/libcot/gui/ \
+    $$top_srcdir/libcot/gui/widgets \
     $$top_srcdir/libcot/ \
     $$top_srcdir/libcot/automate/variables \
     $$top_srcdir/libcot/automate \

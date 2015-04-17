@@ -52,6 +52,3 @@ void CScrollableWidget::updateActions()
     m_moveDown->setEnabled(verticalScrollBar()->value() != verticalScrollBar()->maximum());
     m_moveUp->setEnabled(verticalScrollBar()->value() > 0);
 }
-
-
-

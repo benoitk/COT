@@ -25,7 +25,11 @@ CONFIG += depend_includepath
 INCLUDEPATH *= \
     . \
     gui \
-    gui/keyboards \
+    gui/measure \
+    gui/panel \
+    gui/tools \
+    gui/tools/electrical-tests \
+    gui/widgets \
     automate/variables \
     automate \
     automate/com \
@@ -38,8 +42,23 @@ RESOURCES *= \
     resources/cot-resources.qrc
 
 FORMS *= \
-    gui/cotversion1.ui \
-    updater/CUpdateDialog.ui
+    updater/CUpdateDialog.ui \
+    gui/widgets/CStatusWidget.ui \
+    gui/panel/CPCDiagnosticTab.ui \
+    gui/panel/CPCHistogramTab.ui \
+    gui/panel/CPCMeasureTab.ui \
+    gui/panel/CPCPlusTab.ui \
+    gui/panel/CPCToolsTab.ui \
+    gui/panel/CPCWindow.ui \
+    gui/measure/CMeasureMeasureTab.ui \
+    gui/measure/CMeasureStreamTab.ui \
+    gui/measure/CMeasureWindow.ui \
+    gui/tools/electrical-tests/CElectricalTests420Tab.ui \
+    gui/tools/electrical-tests/CElectricalTestsActuatorTab.ui \
+    gui/tools/electrical-tests/CElectricalTestsInputsTab.ui \
+    gui/tools/electrical-tests/CElectricalTestsPumpsTab.ui \
+    gui/tools/electrical-tests/CElectricalTestsRelaysTab.ui \
+    gui/tools/electrical-tests/CElectricalTestsWindow.ui
 
 HEADERS *= \
     automate/CAutomate.h \
@@ -95,7 +114,6 @@ HEADERS *= \
     automate/variables/IVariable.h \
     automate/variables/IVariableInput.h \
     automate/variables/IVariableOutput.h \
-    gui/cotversion1.h \
     keyboards/CKeyboardButtonBase.h \
     keyboards/CKeyboardDialog.h \
     keyboards/CKeyboardLayoutUtils.h \
@@ -106,10 +124,33 @@ HEADERS *= \
     keyboards/CNumericalKeyboardWidget.h \
     updater/CUpdateDialog.h \
     updater/CUpdateManager.h \
-    gui/CGenericItemSelector.h \
-    gui/CGenericListDelegate.h \
-    gui/CGenericListModel.h \
-    gui/CScrollableWidget.h
+    gui/widgets/CGenericItemSelector.h \
+    gui/widgets/CGenericListDelegate.h \
+    gui/widgets/CGenericListModel.h \
+    gui/widgets/CPushButton.h \
+    gui/widgets/CScrollableWidget.h \
+    gui/widgets/CStatusLabel.h \
+    gui/widgets/CStatusWidget.h \
+    gui/widgets/CToolButton.h \
+    gui/widgets/CVerticalButtonBar.h \
+    gui/panel/CPCDiagnosticTab.h \
+    gui/panel/CPCHistogramTab.h \
+    gui/panel/CPCMeasureTab.h \
+    gui/panel/CPCPlusTab.h \
+    gui/panel/CPCToolsTab.h \
+    gui/panel/CPCWindow.h \
+    gui/panel/IPCTab.h \
+    gui/measure/CMeasureMeasureTab.h \
+    gui/measure/CMeasureStreamTab.h \
+    gui/measure/CMeasureWindow.h \
+    gui/measure/IMeasureTab.h \
+    gui/tools/electrical-tests/CElectricalTests420Tab.h \
+    gui/tools/electrical-tests/CElectricalTestsActuatorTab.h \
+    gui/tools/electrical-tests/CElectricalTestsInputsTab.h \
+    gui/tools/electrical-tests/CElectricalTestsPumpsTab.h \
+    gui/tools/electrical-tests/CElectricalTestsRelaysTab.h \
+    gui/tools/electrical-tests/CElectricalTestsWindow.h \
+    gui/tools/electrical-tests/IElectricalTestsTab.h
 
 SOURCES *= \
     automate/CAutomate.cpp \
@@ -165,7 +206,6 @@ SOURCES *= \
     automate/variables/IVariable.cpp \
     automate/variables/IVariableInput.cpp \
     automate/variables/IVariableOuput.cpp \
-    gui/cotversion1.cpp \
     keyboards/CKeyboardButtonBase.cpp \
     keyboards/CKeyboardDialog.cpp \
     keyboards/CKeyboardLayoutUtils.cpp \
@@ -176,7 +216,27 @@ SOURCES *= \
     keyboards/CNumericalKeyboardWidget.cpp \
     updater/CUpdateDialog.cpp \
     updater/CUpdateManager.cpp \
-    gui/CGenericItemSelector.cpp \
-    gui/CGenericListDelegate.cpp \
-    gui/CGenericListModel.cpp \
-    gui/CScrollableWidget.cpp
+    gui/widgets/CGenericItemSelector.cpp \
+    gui/widgets/CGenericListDelegate.cpp \
+    gui/widgets/CGenericListModel.cpp \
+    gui/widgets/CPushButton.cpp \
+    gui/widgets/CScrollableWidget.cpp \
+    gui/widgets/CStatusLabel.cpp \
+    gui/widgets/CStatusWidget.cpp \
+    gui/widgets/CToolButton.cpp \
+    gui/widgets/CVerticalButtonBar.cpp \
+    gui/panel/CPCDiagnosticTab.cpp \
+    gui/panel/CPCHistogramTab.cpp \
+    gui/panel/CPCMeasureTab.cpp \
+    gui/panel/CPCPlusTab.cpp \
+    gui/panel/CPCToolsTab.cpp \
+    gui/panel/CPCWindow.cpp \
+    gui/measure/CMeasureMeasureTab.cpp \
+    gui/measure/CMeasureStreamTab.cpp \
+    gui/measure/CMeasureWindow.cpp \
+    gui/tools/electrical-tests/CElectricalTests420Tab.cpp \
+    gui/tools/electrical-tests/CElectricalTestsActuatorTab.cpp \
+    gui/tools/electrical-tests/CElectricalTestsInputsTab.cpp \
+    gui/tools/electrical-tests/CElectricalTestsPumpsTab.cpp \
+    gui/tools/electrical-tests/CElectricalTestsRelaysTab.cpp \
+    gui/tools/electrical-tests/CElectricalTestsWindow.cpp

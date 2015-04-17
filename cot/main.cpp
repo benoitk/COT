@@ -1,20 +1,47 @@
-#include "cotversion1.h"
-#include "CVariableInt.h"
-#include "CVariableVoie.h"
-#include "CControlerAutomate.h"
-
 #include <QApplication>
+#include <QStyleFactory>
+#include <QFile>
+
+#include "CControlerAutomate.h"
+#include "CPCWindow.h"
+
+QString applicationStyleSheet()
+{
+    QFile file("://qss/cot.qss");
+
+    if (file.open(QIODevice::ReadOnly)) {
+        return QString::fromUtf8(file.readAll());
+    }
+
+    return QString();
+}
 
 int main(int argc, char *argv[])
 {
+    // Needed for static linking of libcot
+    Q_INIT_RESOURCE(cot_resources);
+
+    // Set default uniform style
+    QApplication::setStyle(QStyleFactory::create("Fusion"));
+
+    // Create application
     QApplication app(argc, argv);
     app.setApplicationName(QStringLiteral("COT"));
     app.setApplicationVersion(QStringLiteral("1.1.0"));
+    app.setStyleSheet(applicationStyleSheet());
+    app.setQuitOnLastWindowClosed(true);
 
-	CControlerAutomate controlerAutomate; //construit et execute l'automate
+    // Create automate and run it
+    CControlerAutomate controlerAutomate;
 
-    COTVersion1 w;
-	w.show();
+    // The main PC Panel Window
+    CPCWindow w;
+#if defined(DESKTOP_BUILD)
+    w.setFixedSize(QSize(800, 600));
+    w.show();
+#else
+    w.showFullScreen();
+#endif
 
     return app.exec();
 }

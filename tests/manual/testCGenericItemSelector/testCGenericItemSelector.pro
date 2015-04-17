@@ -12,6 +12,7 @@ QMAKE_RPATHDIR += $$COTWIDGETS_LIBDIR
 
 INCLUDEPATH +=  $${COTWIDGETS_SRCDIR} \
                 $${COTWIDGETS_SRCDIR}/gui/ \
+                $${COTWIDGETS_SRCDIR}/gui/widgets \
                 $${COTWIDGETS_SRCDIR}/automate/ \
                 $${COTWIDGETS_SRCDIR}/automate/variables/
 
