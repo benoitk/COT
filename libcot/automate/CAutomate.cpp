@@ -9,6 +9,7 @@
 #include "CActionCmdPompe.h"
 #include "CModelConfigFile.h"
 #include "CVariableFactory.h"
+#include "CDisplayConf.h"
 
 #include <qdebug.h>
 #include <qthread.h>

@@ -108,8 +108,8 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
 		qDebug() << "jsonObject[\"display\"] == QJsonValue::Undefined";
 	}
 	else {
-        CDisplayConf* displayConf = new CDisplayConf(jsonObjectAll[QStringLiteral("display")].toArray(), CAutomate::getInstance());
-        CAutomate::getInstance()->setDisplayConf(displayConf);
+       CDisplayConf* displayConf = new CDisplayConf(jsonObjectAll[QStringLiteral("display")].toArray(), CAutomate::getInstance());
+       CAutomate::getInstance()->setDisplayConf(displayConf);
     }
 
 	//bind variables
