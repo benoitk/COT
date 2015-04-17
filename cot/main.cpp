@@ -18,8 +18,10 @@ QString applicationStyleSheet()
 
 int main(int argc, char *argv[])
 {
+#if defined(LIBCOT_STATIC_BUILD)
     // Needed for static linking of libcot
     Q_INIT_RESOURCE(cot_resources);
+#endif
 
     // Set default uniform style
     QApplication::setStyle(QStyleFactory::create("Fusion"));
@@ -36,11 +38,11 @@ int main(int argc, char *argv[])
 
     // The main PC Panel Window
     CPCWindow w;
-#if defined(DESKTOP_BUILD)
+#if defined(DEVICE_BUILD)
+    w.showFullScreen();
+#else
     w.setFixedSize(QSize(800, 600));
     w.show();
-#else
-    w.showFullScreen();
 #endif
 
     return app.exec();

@@ -12,7 +12,7 @@ class CPCWindow;
 class IPCTab;
 class CUpdateManager;
 
-class COTWIDGETS_EXPORT CPCWindow : public QWidget
+class LIBCOT_EXPORT CPCWindow : public QWidget
 {
     Q_OBJECT
 

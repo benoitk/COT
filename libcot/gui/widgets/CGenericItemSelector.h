@@ -17,7 +17,7 @@ class QListView;
 class CGenericListModel;
 class QToolButton;
 
-class COTWIDGETS_EXPORT CGenericItemSelector : public QDialog
+class LIBCOT_EXPORT CGenericItemSelector : public QDialog
 {
     Q_OBJECT
     Q_PROPERTY(IVariablePtr selectedItem READ selectedItem WRITE setSelectedItem NOTIFY selectedItemChanged)

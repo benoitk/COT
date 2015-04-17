@@ -6,7 +6,7 @@
 class QLineEdit;
 class QVBoxLayout;
 class CKeyboardNormalButton;
-class COTWIDGETS_EXPORT CNumericalKeyboardWidget : public QWidget
+class LIBCOT_EXPORT CNumericalKeyboardWidget : public QWidget
 {
     Q_OBJECT
 public:

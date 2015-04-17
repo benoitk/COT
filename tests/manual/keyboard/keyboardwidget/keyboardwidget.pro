@@ -1,6 +1,7 @@
 TARGET = keyboardwidget
-QT += widgets
-SOURCES += main.cpp widget.cpp localcombobox.cpp
+QT *= widgets
 
-HEADERS += widget.h localcombobox.h
-include( "$$top_srcdir/tests/tests.pri" )
+include("$${top_srcdir}/config.pri")
+
+HEADERS *= widget.h localcombobox.h
+SOURCES *= main.cpp widget.cpp localcombobox.cpp

@@ -1,6 +1,7 @@
 TARGET = scrollablewidget
-QT += widgets
-SOURCES += main.cpp widget.cpp
+QT *= widgets
 
-HEADERS += widget.h
-include( "$$top_srcdir/tests/tests.pri" )
+include("$${top_srcdir}/config.pri")
+
+HEADERS *= widget.h
+SOURCES *= main.cpp widget.cpp

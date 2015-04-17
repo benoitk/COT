@@ -3,14 +3,13 @@
 
 #include <qglobal.h>
 
-# ifdef COTWIDGETS_STATICLIB
-#  undef COTWIDGETS_SHAREDLIB
-#  define COTWIDGETS_EXPORT
+# ifdef LIBCOT_STATIC_BUILD
+#  define LIBCOT_EXPORT
 # else
-#  ifdef COTWIDGETS_BUILD_COTWIDGETS_LIB
-#   define COTWIDGETS_EXPORT Q_DECL_EXPORT
+#  ifdef LIBCOT_BUILD
+#   define LIBCOT_EXPORT Q_DECL_EXPORT
 #  else
-#   define COTWIDGETS_EXPORT Q_DECL_IMPORT
+#   define LIBCOT_EXPORT Q_DECL_IMPORT
 #  endif
 # endif
 

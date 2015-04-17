@@ -12,7 +12,7 @@ class CUpdateDialog;
 class CUpdateManager;
 class QAbstractButton;
 
-class COTWIDGETS_EXPORT CUpdateDialog : public QDialog
+class LIBCOT_EXPORT CUpdateDialog : public QDialog
 {
     Q_OBJECT
 

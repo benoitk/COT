@@ -4,7 +4,7 @@
 #include "CKeyboardButtonBase.h"
 #include "../../libcot/cot_global.h"
 
-class COTWIDGETS_EXPORT CKeyboardNormalButton : public CKeyboardButtonBase
+class LIBCOT_EXPORT CKeyboardNormalButton : public CKeyboardButtonBase
 {
     Q_OBJECT
 public:

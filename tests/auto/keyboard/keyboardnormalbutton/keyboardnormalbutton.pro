@@ -1,5 +1,7 @@
 TARGET = keyboardnormalbuttontest
-QT += widgets testlib
-include( "$$top_srcdir/tests/tests.pri" )
-SOURCES  += keyboardnormalbuttontest.cpp
+QT *= widgets testlib
+
+include("$${top_srcdir}/config.pri")
+
+SOURCES *= keyboardnormalbuttontest.cpp
 

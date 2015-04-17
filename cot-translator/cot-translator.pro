@@ -26,5 +26,5 @@ SOURCES *= main.cpp \
     3rdparty/ts.cpp \
     CTranslator.cpp
 
-DISTFILES += \
+DISTFILES *= \
     README.txt

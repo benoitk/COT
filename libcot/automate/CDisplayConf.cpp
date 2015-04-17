@@ -62,7 +62,7 @@ CDisplayConf::CDisplayConf(const QJsonArray& jsonArray, QObject *parent)
             }
             
         }else{ 
-            qDebug() << "display écran inconnu " << mapScreen;
+            qDebug() << "display Ã©cran inconnu " << mapScreen;
         }		
 	}
 

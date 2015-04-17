@@ -1,42 +1,8 @@
 TEMPLATE = lib
-TARGET = cotwidgets
-CONFIG *= c++11
+TARGET = cot
 QT *= widgets
 
-macx {
-    CONFIG -= lib_bundle
-    CONFIG -= shared
-    CONFIG *= static
-}
-
-include( "../outdirs.pri" )
-include( "../g++.pri" )
-
-DEFINES *= COTWIDGETS_BUILD_COTWIDGETS_LIB
-
-DEFINES *= "COT_JSON_FILE=\\\"$$PWD/save.json\\\""
-macx:DEFINES *= "COT_USB_MOUNT_POINT=\\\"/Volumes\\\""
-else:DEFINES *= "COT_USB_MOUNT_POINT=\\\"/media\\\""
-
-DESTDIR = ../lib
-
-CONFIG += depend_includepath
-
-INCLUDEPATH *= \
-    . \
-    gui \
-    gui/measure \
-    gui/panel \
-    gui/tools \
-    gui/tools/electrical-tests \
-    gui/widgets \
-    automate/variables \
-    automate \
-    automate/com \
-    automate/cycles \
-    automate/actions \
-    automate/units \
-    updater
+include("$${top_srcdir}/config.pri")
 
 RESOURCES *= \
     resources/cot-resources.qrc

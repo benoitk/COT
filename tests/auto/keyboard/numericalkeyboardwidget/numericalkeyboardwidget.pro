@@ -1,5 +1,7 @@
 TARGET = numericalkeyboardwidgettest
-QT += widgets testlib
-SOURCES  += numericalkeyboardwidgettest.cpp 
-include( "$$top_srcdir/tests/tests.pri" )
+QT *= widgets testlib
+
+include("$${top_srcdir}/config.pri")
+
+SOURCES *= numericalkeyboardwidgettest.cpp
 

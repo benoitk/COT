@@ -4,7 +4,7 @@
 #include <QScrollArea>
 #include "cot_global.h"
 class QAction;
-class COTWIDGETS_EXPORT CScrollableWidget : public QScrollArea
+class LIBCOT_EXPORT CScrollableWidget : public QScrollArea
 {
     Q_OBJECT
 public:

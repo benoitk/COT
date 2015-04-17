@@ -10,7 +10,7 @@ class QVBoxLayout;
 class QLineEdit;
 class CKeyboardNormalButton;
 class CKeyboardSpecialButton;
-class COTWIDGETS_EXPORT CKeyboardWidget : public QWidget
+class LIBCOT_EXPORT CKeyboardWidget : public QWidget
 {
     Q_OBJECT
 public:

@@ -9,7 +9,7 @@
 class QFileSystemWatcher;
 class QTimer;
 
-class COTWIDGETS_EXPORT CUpdateManager : public QObject
+class LIBCOT_EXPORT CUpdateManager : public QObject
 {
     Q_OBJECT
 public:

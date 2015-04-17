@@ -1,5 +1,7 @@
 TEMPLATE = subdirs
+CONFIG *= ordered
 
-SUBDIRS *= keyboardnormalbutton \
-           keyboardwidget \
-           numericalkeyboardwidget \
+SUBDIRS *= \
+    keyboardnormalbutton \
+    keyboardwidget \
+    numericalkeyboardwidget

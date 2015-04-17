@@ -6,7 +6,7 @@
 
 #include "../cot_global.h"
 
-class COTWIDGETS_EXPORT CControlerAutomate : public QObject
+class LIBCOT_EXPORT CControlerAutomate : public QObject
 {
 	Q_OBJECT
 private:

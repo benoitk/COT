@@ -3,8 +3,8 @@ CONFIG *= ordered
 
 SUBDIRS *= \
     libcot \
-    cot-translator \
     cot \
+    cot-translator \
     tests
 
 DISTFILES *= \
