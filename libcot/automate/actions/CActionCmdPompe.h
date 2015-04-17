@@ -24,7 +24,7 @@ private:
 	QString m_name;
 
     QString m_label;
-    //Rien ne nous assure les types correct dans le json (et rien ne contre indique à mettre n'importe quoi, normalement)
+    //Rien ne nous assure les types correct dans le json (et rien ne contre indique Ã  mettre n'importe quoi, normalement)
 	IVariable* m_nbStepOrTour;
 	IVariable* m_speed;
 	IVariable* m_clockwise;

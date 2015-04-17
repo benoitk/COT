@@ -8,11 +8,7 @@
 
 #include "cot_global.h"
 
-#ifndef NOT_SHAREDLIB
 class COTWIDGETS_EXPORT CVariableString : public QObject, public IVariable
-#else
-class CVariableString : public QObject, public IVariable
-#endif
 {
 	Q_OBJECT
 

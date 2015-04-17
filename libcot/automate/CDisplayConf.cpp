@@ -4,6 +4,7 @@
 #include "qvariant.h"
 #include "qjsonarray.h"
 #include "qdebug.h"
+
 CDisplayConf::CDisplayConf(const QJsonArray& jsonArray, QObject *parent)
     : QObject(parent)
 {
@@ -57,7 +58,7 @@ CDisplayConf::CDisplayConf(const QJsonArray& jsonArray, QObject *parent)
                 else qDebug() << "CDisplay Conf elec_tests type_unknow" << mapScreen;
             }
         }else{ 
-            qDebug() << "display écran inconnu " << mapScreen;
+            qDebug() << "display Ã©cran inconnu " << mapScreen;
         }
         
 			
