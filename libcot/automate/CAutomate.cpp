@@ -29,6 +29,7 @@ CAutomate::CAutomate()
 	m_stateCycleIO = 0;
 	m_stateCycleMaintenance = 0;
  }
+
 void CAutomate::initConfig(){
 	CModelConfigFile configFile(this);
 	
@@ -80,23 +81,29 @@ void CAutomate::addVariable(const QString& name, IVariable* var){
 }
 
 void CAutomate::addUnit(CUnit* unit){
+    QMutexLocker locker(&m_mutex);
     m_listUnits.append(unit);
 }
 
 QList<CUnit*> CAutomate::getListUnits(){
+    QMutexLocker locker(&m_mutex);
     return m_listUnits; 
 }
 
 CModelExtensionCard* CAutomate::getExtensionCard(QString){
+    QMutexLocker locker(&m_mutex);
 	CModelExtensionCard* modelExtCard;
+    // TODO
 	return modelExtCard;
 }
 
 QList<CModelExtensionCard*> CAutomate::getListExtensions(){
+    QMutexLocker locker(&m_mutex);
 	return m_listExtCards;
 }
 
 QList<ICycle*> CAutomate::getListCycles(){
+    QMutexLocker locker(&m_mutex);
 	QList<ICycle*> listAllCycles;
 	listAllCycles.append(m_listCycleMesures);
 	listAllCycles.append(m_listCycleMaintenances);
@@ -105,39 +112,49 @@ QList<ICycle*> CAutomate::getListCycles(){
 }
 
 QList<IAction*>  CAutomate::getListActions(){
+    QMutexLocker locker(&m_mutex);
 	return m_listActions;
 }
 
 QMap<QString, IVariable*> CAutomate::getMapVariables(){
+    QMutexLocker locker(&m_mutex);
 	return m_mapVariables;
 }
 
 void CAutomate::setMapVariables(QMap<QString, IVariable*> mapVariable){
+    QMutexLocker locker(&m_mutex);
 	m_mapVariables.swap(mapVariable);
 }
 
 QMap<QString, QList<QString>> CAutomate::getMapStreamsMeasures() const{
+    QMutexLocker locker(&m_mutex);
 	return m_mapStreamsMeasures;
 }
 
 void CAutomate::setMapStreamsMeasures(QMap<QString, QList<QString>> mapStreamMeasure){
+    QMutexLocker locker(&m_mutex);
 	m_mapStreamsMeasures.swap(mapStreamMeasure);
 }
 
 void CAutomate::addExtensionCard(QString, CModelExtensionCard*){
-
+    QMutexLocker locker(&m_mutex);
+    // TODO
 }
 
 IVariable* CAutomate::getVariable(const QString &addr_var)const{
+    QMutexLocker locker(&m_mutex);
 	IVariable* modelExtCard;
+    // TODO
 	return modelExtCard;
 }
 
 void CAutomate::setCom(ICom* arg_comObject){
-
+    QMutexLocker locker(&m_mutex);
+    // TODO
 }
 
 void CAutomate::addCycle(ICycle* cycle){
+    QMutexLocker locker(&m_mutex);
 	//CControlerCycle* controlerCycle = new CControlerCycle(this, cycle);
 	switch(cycle->getType()){
 	case CYCLE_MESURE:
@@ -152,38 +169,53 @@ void CAutomate::addCycle(ICycle* cycle){
 
 	}
 }
+
 void CAutomate::setStateCycleMesure(eStateCycle state){
-	
+    QMutexLocker locker(&m_mutex);
+    // TODO
 }
 
 void CAutomate::setStateCycleIO(eStateCycle state){
+    QMutexLocker locker(&m_mutex);
+    // TODO
 }
-void CAutomate::setStateCycleMaintenance(eStateCycle state){
 
+void CAutomate::setStateCycleMaintenance(eStateCycle state){
+    QMutexLocker locker(&m_mutex);
+    // TODO
 }
 
 CAutomate::eStateCycle CAutomate::getStateCycleMesure(){
+    QMutexLocker locker(&m_mutex);
+    // TODO
     return CAutomate::CYCLE_STOP;
 }
 
 CAutomate::eStateCycle CAutomate::getStateCycleIO( ){
+    QMutexLocker locker(&m_mutex);
+    // TODO
     return CAutomate::CYCLE_STOP;
 }
-CAutomate::eStateCycle CAutomate::getStateCycleMaintenance( ){
-    return CAutomate::CYCLE_STOP;
 
+CAutomate::eStateCycle CAutomate::getStateCycleMaintenance( ){
+    QMutexLocker locker(&m_mutex);
+    // TODO
+    return CAutomate::CYCLE_STOP;
 }
 
 void CAutomate::slotRunAutomate(){
     while(!shouldQuit()){
+        // TODO
         QThread::msleep(100);
 	}
 }
 
 CDisplayConf* CAutomate::getDisplayConf()const{
+    QMutexLocker locker(&m_mutex);
     return m_displayConf;
 }
 
 void CAutomate::setDisplayConf(CDisplayConf* displayConf){
+    QMutexLocker locker(&m_mutex);
     m_displayConf = displayConf;
 }
