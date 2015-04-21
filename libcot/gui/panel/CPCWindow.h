@@ -2,6 +2,7 @@
 #define CPCWINDOW_H
 
 #include <QWidget>
+#include <QApplication>
 
 #include "cot_global.h"
 
@@ -20,6 +21,30 @@ public:
     explicit CPCWindow(QWidget *parent = Q_NULLPTR);
     ~CPCWindow();
 
+    template <typename T>
+    static void openModal() {
+        QWidget *parent = QApplication::activeWindow();
+
+        if (!parent) {
+            Q_ASSERT(false);
+            return;
+        }
+
+        T *window = new T(parent);
+        window->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
+        window->setAttribute(Qt::WA_DeleteOnClose);
+        window->setWindowModality(Qt::ApplicationModal);
+        window->resize(parent->size());
+        window->move(parent->pos());
+        window->show();
+    }
+
+public slots:
+    void retranslate();
+
+protected:
+    virtual void changeEvent(QEvent *event);
+
 private slots:
     void slotUpdateAvailable(const QString &version);
     void slotUpdateTriggered();
@@ -30,17 +55,6 @@ private:
 
     void addTab(IPCTab *tab, const QString &title);
     bool canShowUpdatePopup() const;
-
-    template <typename T>
-    void openModal() {
-        T *window = new T(this);
-        window->setWindowFlags(Qt::Window);
-        window->setAttribute(Qt::WA_DeleteOnClose);
-        window->setWindowModality(Qt::ApplicationModal);
-        window->resize(size());
-        window->move(pos());
-        window->show();
-    }
 };
 
 #endif // CPCWINDOW_H

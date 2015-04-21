@@ -179,6 +179,12 @@ QIcon CToolButton::buttonIcon(CToolButton::Type type)
         icon.addPixmap(buttonPixmap("50x50 transfert copie actif.png"), QIcon::Selected, QIcon::Off);
         break;
 
+    case CToolButton::Quit:
+        icon.addPixmap(buttonPixmap("40x40 quitter.png"), QIcon::Normal, QIcon::Off);
+        icon.addPixmap(buttonPixmap("40x40 quitter active.png"), QIcon::Selected, QIcon::Off);
+        icon.addPixmap(buttonPixmap("40x40 quitter grisee.png"), QIcon::Disabled, QIcon::Off);
+        break;
+
     case CToolButton::Invalid:
         break;
     }

@@ -27,7 +27,8 @@ public:
         ElectricalTests,
         Options,
         History,
-        LogFiles
+        LogFiles,
+        Quit
     };
 
     explicit CToolButton(QWidget *parent = Q_NULLPTR);
