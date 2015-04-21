@@ -18,7 +18,7 @@ class CUnit;
 class IVariable
 {
 public:
-	
+	virtual ~IVariable() {}
 	virtual QString toString()=0;
 	virtual int toInt()=0;
 	virtual float toFloat() =0;

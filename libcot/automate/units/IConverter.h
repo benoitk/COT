@@ -6,9 +6,8 @@
 class CUnit;
 class IConverter
 {
-
-
 public:
+    virtual ~IConverter() {}
     virtual QVariant convert(const QVariant &)=0;
     virtual CUnit* getTarget()const=0;
 

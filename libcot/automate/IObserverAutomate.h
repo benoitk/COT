@@ -6,6 +6,7 @@
 class IObserverAutomate 
 {
 public:
+    virtual ~IObserverAutomate() {}
 
 	// DEBUT Fenêtre principale 
 

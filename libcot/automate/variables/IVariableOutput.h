@@ -17,9 +17,8 @@ class IComObserver;
 class IVariable;
 class IVariableOutput
 {
-
 public:
-	
+	virtual ~IVariableOutput() {}
 	virtual CModelExtensionCard* getExtensionCard()const=0;
 	virtual QString getOrganneName()const=0;
 	virtual void setOrganne(CModelExtensionCard* ,QString)=0;

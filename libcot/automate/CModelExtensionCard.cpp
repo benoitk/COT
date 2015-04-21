@@ -10,14 +10,13 @@ CModelExtensionCard::CModelExtensionCard(QObject *parent)
 CModelExtensionCard::~CModelExtensionCard()
 {
 
-} 
- 
+}
+
 QString CModelExtensionCard::getName()const{
 	return m_name;
 }
 
 QVariant CModelExtensionCard::readOrganneValue(IVariableInput* arg_varInput){
-	
 	return m_interfaceCom->readData(arg_varInput);
 }
 
@@ -25,8 +24,9 @@ IVariable* CModelExtensionCard::getVariable(const QString &addr_var)const{
 	IVariable * temp;
 	return temp;
 }
-void CModelExtensionCard::setCom(ICom*){
-	m_interfaceCom;
+
+void CModelExtensionCard::setCom(ICom* com){
+	m_interfaceCom = com;
 }
 
 QList<IOrgan*>  CModelExtensionCard::getListOrgans()const{
