@@ -31,6 +31,19 @@ CToolButton::CToolButton(CToolButton::Type type, QAction *action, QWidget *paren
     initialize(type, action);
 }
 
+CToolButton::Type CToolButton::type() const
+{
+    return m_type;
+}
+
+void CToolButton::setType(CToolButton::Type type)
+{
+    if (m_type != type) {
+        m_type = type;
+        setIcon(buttonIcon(type));
+    }
+}
+
 void CToolButton::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
@@ -39,7 +52,7 @@ void CToolButton::paintEvent(QPaintEvent *event)
     painter.setRenderHint(QPainter::Antialiasing);
 
     if (isEnabled()) {
-        if (isChecked()) {
+        if (isChecked() || isDown()) {
             icon().paint(&painter, rect(), Qt::AlignCenter, QIcon::Selected, QIcon::Off);
         }
         else {
@@ -49,19 +62,30 @@ void CToolButton::paintEvent(QPaintEvent *event)
     else {
         icon().paint(&painter, rect(), Qt::AlignCenter, QIcon::Disabled, QIcon::Off);
     }
+
+    // TODO_KDAB: Just for debug until all icons types are handled
+    if (icon().isNull()) {
+        painter.setPen(Qt::black);
+        painter.drawRect(rect());
+    }
 }
 
 void CToolButton::initialize(CToolButton::Type type, QAction *action)
 {
-    setFixedSize(30, 30);
+    m_type = type;
+
+    setFixedSize(50, 50);
+
+    if (action && action->icon().isNull()) {
+        action->setIcon(CToolButton::buttonIcon(type));
+    }
 
     if (action) {
         setDefaultAction(action);
         QTimer::singleShot(25, this, &CToolButton::updateVisibility);
         connect(action, &QAction::changed, this, &CToolButton::updateVisibility);
     }
-
-    if (icon().isNull()) {
+    else {
         setIcon(CToolButton::buttonIcon(type));
     }
 }
@@ -92,11 +116,26 @@ QIcon CToolButton::buttonIcon(CToolButton::Type type)
     case CToolButton::Stop:
     case CToolButton::StopEndCycle:
     case CToolButton::NextStream:
-    case CToolButton::ScrollUp:
-    case CToolButton::ScrollDown:
-    case CToolButton::Back:
     case CToolButton::Update:
         // TODO_KDAB:: Handle each icon set in picto / pictohd resources.
+        break;
+
+    case CToolButton::ScrollUp:
+        icon.addPixmap(buttonPixmap("75x75 fleche haut.png"), QIcon::Normal, QIcon::Off);
+        icon.addPixmap(buttonPixmap("75x75 fleche haut active.png"), QIcon::Selected, QIcon::Off);
+        icon.addPixmap(buttonPixmap("75x75 fleche haut grisee.png"), QIcon::Disabled, QIcon::Off);
+        break;
+
+    case CToolButton::ScrollDown:
+        icon.addPixmap(buttonPixmap("75x75 fleche bas.png"), QIcon::Normal, QIcon::Off);
+        icon.addPixmap(buttonPixmap("75x75 fleche bas active.png"), QIcon::Selected, QIcon::Off);
+        icon.addPixmap(buttonPixmap("75x75 fleche bas grisee.png"), QIcon::Disabled, QIcon::Off);
+        break;
+
+    case CToolButton::Back:
+        icon.addPixmap(buttonPixmap("40x40 quitter.png"), QIcon::Normal, QIcon::Off);
+        icon.addPixmap(buttonPixmap("40x40 quitter active.png"), QIcon::Selected, QIcon::Off);
+        icon.addPixmap(buttonPixmap("40x40 quitter grisee.png"), QIcon::Disabled, QIcon::Off);
         break;
 
     case CToolButton::On:
@@ -114,6 +153,30 @@ QIcon CToolButton::buttonIcon(CToolButton::Type type)
     case CToolButton::Led:
         icon.addPixmap(buttonPixmap("30x30 Ana-tor inactive.png"), QIcon::Normal, QIcon::Off);
         icon.addPixmap(buttonPixmap("30x30 Ana-tor active.png"), QIcon::Selected, QIcon::Off);
+        break;
+
+    case CToolButton::Maintenance:
+        icon.addPixmap(buttonPixmap("50x50 menu maintenance.png"), QIcon::Normal, QIcon::Off);
+        icon.addPixmap(buttonPixmap("50x50 menu maintenance active.png"), QIcon::Selected, QIcon::Off);
+        break;
+
+    case CToolButton::ElectricalTests:
+        icon.addPixmap(buttonPixmap("50x50 menu carte mesure.png"), QIcon::Normal, QIcon::Off);
+        icon.addPixmap(buttonPixmap("50x50 menu carte mesure active.png"), QIcon::Selected, QIcon::Off);
+        break;
+
+    case CToolButton::Options:
+        icon.addPixmap(buttonPixmap("50x50 menu sequenceur.png"), QIcon::Normal, QIcon::Off);
+        icon.addPixmap(buttonPixmap("50x50 menu sequenceur active.png"), QIcon::Selected, QIcon::Off);
+        break;
+
+    case CToolButton::History:
+        icon = QIcon(buttonPixmap("50x50 historique.png"));
+        break;
+
+    case CToolButton::LogFiles:
+        icon.addPixmap(buttonPixmap("50x50 transfert copie.png"), QIcon::Normal, QIcon::Off);
+        icon.addPixmap(buttonPixmap("50x50 transfert copie actif.png"), QIcon::Selected, QIcon::Off);
         break;
 
     case CToolButton::Invalid:

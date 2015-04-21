@@ -8,6 +8,7 @@ CVerticalButtonBar::CVerticalButtonBar(QWidget *parent)
 {
     QVBoxLayout *vl = new QVBoxLayout(this);
     vl->setMargin(0);
+    vl->addStretch();
 }
 
 CVerticalButtonBar::~CVerticalButtonBar()

@@ -142,7 +142,8 @@ HEADERS *= \
     gui/tools/maintenance/CMaintenanceDiagnosticTab.h \
     gui/tools/maintenance/CMaintenanceMaintenanceTab.h \
     gui/tools/maintenance/CMaintenanceWindow.h \
-    gui/tools/maintenance/IMaintenanceTab.h
+    gui/tools/maintenance/IMaintenanceTab.h \
+    gui/widgets/CLabelledToolButton.h
 
 SOURCES *= \
     automate/CAutomate.cpp \
@@ -244,4 +245,5 @@ SOURCES *= \
     gui/tools/history/CHistoryWindow.cpp \
     gui/tools/maintenance/CMaintenanceDiagnosticTab.cpp \
     gui/tools/maintenance/CMaintenanceMaintenanceTab.cpp \
-    gui/tools/maintenance/CMaintenanceWindow.cpp
+    gui/tools/maintenance/CMaintenanceWindow.cpp \
+    gui/widgets/CLabelledToolButton.cpp

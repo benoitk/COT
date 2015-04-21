@@ -17,6 +17,9 @@ public:
 
     void setScrollableWidget(QWidget *w);
 
+protected:
+    virtual void resizeEvent(QResizeEvent *event);
+
 private Q_SLOTS:
     void slotMoveUp();
     void slotMoveDown();

@@ -30,8 +30,19 @@ QAction *CScrollableWidget::moveUp() const
 
 void CScrollableWidget::setScrollableWidget(QWidget *w)
 {
+    // QtDesigner do create a content child, let delete it if there.
+    if (widget()) {
+        takeWidget()->deleteLater();
+    }
+
     setWidget(w);
     w->show();
+    updateActions();
+}
+
+void CScrollableWidget::resizeEvent(QResizeEvent *event)
+{
+    QScrollArea::resizeEvent(event);
     updateActions();
 }
 

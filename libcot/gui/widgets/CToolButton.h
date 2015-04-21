@@ -22,13 +22,21 @@ public:
         Update,
         On,
         Off,
-        Led
+        Led,
+        Maintenance,
+        ElectricalTests,
+        Options,
+        History,
+        LogFiles
     };
 
     explicit CToolButton(QWidget *parent = Q_NULLPTR);
     explicit CToolButton(QAction *action, QWidget *parent = Q_NULLPTR);
     explicit CToolButton(CToolButton::Type type, QWidget *parent = Q_NULLPTR);
     explicit CToolButton(CToolButton::Type type, QAction *action, QWidget *parent = Q_NULLPTR);
+
+    CToolButton::Type type() const;
+    void setType(CToolButton::Type type);
 
     static QPixmap buttonPixmap(const QString& name);
     static QIcon buttonIcon(CToolButton::Type type);
@@ -39,6 +47,9 @@ protected:
 private slots:
     void initialize(CToolButton::Type type = CToolButton::Invalid, QAction *action = Q_NULLPTR);
     void updateVisibility();
+
+private:
+    CToolButton::Type m_type;
 };
 
 #endif // CTOOLBUTTON_H
