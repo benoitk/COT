@@ -41,15 +41,30 @@ void CAutomate::initConfig(){
 	m_sequenceur->moveToThread(threadSequenceur);
 	
 	connect(threadSequenceur, &QThread::started, m_sequenceur, &CSequenceur::slotRequestPlaySequenceMesure);
-	threadSequenceur->start();
+    threadSequenceur->start();
 }
+
+void CAutomate::quit()
+{
+    QMutexLocker locker(&m_mutex);
+    m_quit = true;
+}
+
 CAutomate::~CAutomate()
 {
+    QThread* threadSequenceur = m_sequenceur->thread();
+    threadSequenceur->quit();
+    threadSequenceur->wait();
+}
 
+bool CAutomate::shouldQuit()
+{
+    QMutexLocker locker(&m_mutex);
+    return m_quit;
 }
 
 IVariable* CAutomate::getVariable(const QString &name){
-	QMutexLocker locker(&m_mutexVariablesAccess);
+    QMutexLocker locker(&m_mutex);
 
 	IVariable* var = m_mapVariables.value(name);
 	if(!var){
@@ -59,10 +74,11 @@ IVariable* CAutomate::getVariable(const QString &name){
 }
 
 void CAutomate::addVariable(const QString& name, IVariable* var){
-	QMutexLocker locker(&m_mutexVariablesAccess);
+    QMutexLocker locker(&m_mutex);
 	if(var)
 		m_mapVariables.insert(name, var);
 }
+
 void CAutomate::addUnit(CUnit* unit){
     m_listUnits.append(unit);
 }
@@ -79,6 +95,7 @@ CModelExtensionCard* CAutomate::getExtensionCard(QString){
 QList<CModelExtensionCard*> CAutomate::getListExtensions(){
 	return m_listExtCards;
 }
+
 QList<ICycle*> CAutomate::getListCycles(){
 	QList<ICycle*> listAllCycles;
 	listAllCycles.append(m_listCycleMesures);
@@ -86,28 +103,36 @@ QList<ICycle*> CAutomate::getListCycles(){
 	listAllCycles.append(m_listlCycleAutonomes);
 	return listAllCycles;
 }
+
 QList<IAction*>  CAutomate::getListActions(){
 	return m_listActions;
 }
+
 QMap<QString, IVariable*> CAutomate::getMapVariables(){
 	return m_mapVariables;
 }
+
 void CAutomate::setMapVariables(QMap<QString, IVariable*> mapVariable){
 	m_mapVariables.swap(mapVariable);
 }
+
 QMap<QString, QList<QString>> CAutomate::getMapStreamsMeasures() const{
 	return m_mapStreamsMeasures;
 }
-void CAutomate::getMapStreamsMeasures(QMap<QString, QList<QString>> mapStreamMeasure){
+
+void CAutomate::setMapStreamsMeasures(QMap<QString, QList<QString>> mapStreamMeasure){
 	m_mapStreamsMeasures.swap(mapStreamMeasure);
 }
+
 void CAutomate::addExtensionCard(QString, CModelExtensionCard*){
 
 }
+
 IVariable* CAutomate::getVariable(const QString &addr_var)const{
 	IVariable* modelExtCard;
 	return modelExtCard;
 }
+
 void CAutomate::setCom(ICom* arg_comObject){
 
 }
@@ -150,9 +175,8 @@ CAutomate::eStateCycle CAutomate::getStateCycleMaintenance( ){
 }
 
 void CAutomate::slotRunAutomate(){
-	
-	while(1){
-		QThread::msleep(1000);
+    while(!shouldQuit()){
+        QThread::msleep(100);
 	}
 }
 

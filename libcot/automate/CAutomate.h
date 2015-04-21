@@ -31,7 +31,7 @@ public:
 	QMap<QString, IVariable*> getMapVariables();
 	void setMapVariables(QMap<QString, IVariable*>);
     QMap<QString, QList<QString>> getMapStreamsMeasures() const;
-	void getMapStreamsMeasures(QMap<QString, QList<QString>>);
+    void setMapStreamsMeasures(QMap<QString, QList<QString>>);
     CDisplayConf* getDisplayConf()const;
 	//FIN API
 
@@ -65,8 +65,12 @@ public:
 	void setCom(ICom*);
 
 	void initConfig();
+    void quit();
+
 public slots:
 	void slotRunAutomate();
+    // DO NOT add any other slots here. They will never run, since the automat thread
+    // doesn't go back to the event loop.
 
 signals:
 	void signalRunCycle(int);
@@ -75,6 +79,7 @@ private:
 	static CAutomate* singleton;
 	CAutomate();
 	~CAutomate();
+    bool shouldQuit();
 
 	QList<INetwork*> m_listNetworks;
 	QList<CModelExtensionCard*> m_listExtCards;
@@ -91,10 +96,10 @@ private:
     QList<CUnit*> m_listUnits;
 
 	QMap<QString, IVariable*> m_mapVariables;
-	QMutex m_mutexVariablesAccess;
+    mutable QMutex m_mutex;
 	QMap<QString, QList<QString>> m_mapStreamsMeasures;
 
-
+    bool m_quit;
 
 	/*QList<CControlerCycle*> m_listCtrlCycleMesure;
 	QList<CControlerCycle*> m_listCtrlCycleMaintenance;
