@@ -26,6 +26,11 @@ int main(int argc, char *argv[])
     // Set default uniform style
     QApplication::setStyle(QStyleFactory::create("Fusion"));
 
+    // White background for windows
+    QPalette pal = QApplication::palette();
+    pal.setColor(QPalette::Window, QColor(Qt::white));
+    QApplication::setPalette(pal);
+
     // Create application
     QApplication app(argc, argv);
     app.setApplicationName(QStringLiteral("COT"));
