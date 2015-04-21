@@ -1,18 +1,18 @@
-#include "CMeasureStreamTab.h"
-#include "ui_CMeasureStreamTab.h"
+#include "COptionsOptionsTab.h"
+#include "ui_COptionsOptionsTab.h"
 
-CMeasureStreamTab::CMeasureStreamTab(QWidget *parent)
-    : IMeasureTab(parent)
-    , ui(new Ui::CMeasureStreamTab)
+COptionsOptionsTab::COptionsOptionsTab(QWidget *parent)
+    : IOptionsTab(parent)
+    , ui(new Ui::COptionsOptionsTab)
 {
     ui->setupUi(this);
     ui->vbbButtons->addAction(CToolButton::ScrollUp, ui->swCentral->moveUp());
     ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->swCentral->moveDown());
     connect(ui->vbbButtons->addAction(CToolButton::Back), &QAction::triggered,
-            this, &IMeasureTab::backTriggered);
+            this, &IOptionsTab::backTriggered);
 }
 
-CMeasureStreamTab::~CMeasureStreamTab()
+COptionsOptionsTab::~COptionsOptionsTab()
 {
     delete ui;
 }

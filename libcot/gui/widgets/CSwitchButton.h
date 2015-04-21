@@ -11,7 +11,7 @@ class CSwitchButton : public QWidget
     Q_OBJECT
 
 public:
-    explicit CSwitchButton(QWidget *parent = 0);
+    explicit CSwitchButton(QWidget *parent = Q_NULLPTR);
 
     bool isChecked() const;
 

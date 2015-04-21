@@ -24,7 +24,18 @@ FORMS *= \
     gui/tools/electrical-tests/CElectricalTestsInputsTab.ui \
     gui/tools/electrical-tests/CElectricalTestsPumpsTab.ui \
     gui/tools/electrical-tests/CElectricalTestsRelaysTab.ui \
-    gui/tools/electrical-tests/CElectricalTestsWindow.ui
+    gui/tools/electrical-tests/CElectricalTestsWindow.ui \
+    gui/tools/options/COptionsWindow.ui \
+    gui/tools/options/COptionsOptionsTab.ui \
+    gui/tools/options/COptionsAutoCyclesTab.ui \
+    gui/tools/options/COptionsSchedulerTab.ui \
+    gui/tools/options/COptionsThresholdTab.ui \
+    gui/tools/options/COptionsDateTimeTab.ui \
+    gui/tools/log-files/CLogFilesWindow.ui \
+    gui/tools/history/CHistoryWindow.ui \
+    gui/tools/maintenance/CMaintenanceDiagnosticTab.ui \
+    gui/tools/maintenance/CMaintenanceMaintenanceTab.ui \
+    gui/tools/maintenance/CMaintenanceWindow.ui
 
 HEADERS *= \
     automate/CAutomate.h \
@@ -118,7 +129,20 @@ HEADERS *= \
     gui/tools/electrical-tests/CElectricalTestsWindow.h \
     gui/tools/electrical-tests/IElectricalTestsTab.h \
     gui/widgets/CSwitchButton.h \
-    gui/widgets/CLedButton.h
+    gui/widgets/CLedButton.h \
+    gui/tools/options/COptionsWindow.h \
+    gui/tools/options/IOptionsTab.h \
+    gui/tools/options/COptionsOptionsTab.h \
+    gui/tools/options/COptionsAutoCyclesTab.h \
+    gui/tools/options/COptionsSchedulerTab.h \
+    gui/tools/options/COptionsThresholdTab.h \
+    gui/tools/options/COptionsDateTimeTab.h \
+    gui/tools/log-files/CLogFilesWindow.h \
+    gui/tools/history/CHistoryWindow.h \
+    gui/tools/maintenance/CMaintenanceDiagnosticTab.h \
+    gui/tools/maintenance/CMaintenanceMaintenanceTab.h \
+    gui/tools/maintenance/CMaintenanceWindow.h \
+    gui/tools/maintenance/IMaintenanceTab.h
 
 SOURCES *= \
     automate/CAutomate.cpp \
@@ -209,4 +233,15 @@ SOURCES *= \
     gui/tools/electrical-tests/CElectricalTestsRelaysTab.cpp \
     gui/tools/electrical-tests/CElectricalTestsWindow.cpp \
     gui/widgets/CSwitchButton.cpp \
-    gui/widgets/CLedButton.cpp
+    gui/widgets/CLedButton.cpp \
+    gui/tools/options/COptionsWindow.cpp \
+    gui/tools/options/COptionsOptionsTab.cpp \
+    gui/tools/options/COptionsAutoCyclesTab.cpp \
+    gui/tools/options/COptionsSchedulerTab.cpp \
+    gui/tools/options/COptionsThresholdTab.cpp \
+    gui/tools/options/COptionsDateTimeTab.cpp \
+    gui/tools/log-files/CLogFilesWindow.cpp \
+    gui/tools/history/CHistoryWindow.cpp \
+    gui/tools/maintenance/CMaintenanceDiagnosticTab.cpp \
+    gui/tools/maintenance/CMaintenanceMaintenanceTab.cpp \
+    gui/tools/maintenance/CMaintenanceWindow.cpp

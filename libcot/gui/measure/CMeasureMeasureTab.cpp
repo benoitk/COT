@@ -1,9 +1,9 @@
 #include "CMeasureMeasureTab.h"
 #include "ui_CMeasureMeasureTab.h"
 
-CMeasureMeasureTab::CMeasureMeasureTab(QWidget *parent) :
-    IMeasureTab(parent),
-    ui(new Ui::CMeasureMeasureTab)
+CMeasureMeasureTab::CMeasureMeasureTab(QWidget *parent)
+    : IMeasureTab(parent)
+    , ui(new Ui::CMeasureMeasureTab)
 {
     ui->setupUi(this);
     ui->vbbButtons->addAction(CToolButton::ScrollUp, ui->swCentral->moveUp());

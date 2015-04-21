@@ -9,7 +9,7 @@ class CLedButton : public QLabel
     Q_OBJECT
 
 public:
-    explicit CLedButton(QWidget *parent = 0);
+    explicit CLedButton(QWidget *parent = Q_NULLPTR);
 
     Qt::CheckState checkState() const;
     bool isChecked() const;
