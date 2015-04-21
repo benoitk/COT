@@ -6,8 +6,8 @@ CPCHistogramTab::CPCHistogramTab(QWidget *parent)
     , ui(new Ui::CPCHistogramTab)
 {
     ui->setupUi(this);
-    ui->vbbButtons->addAction(CVerticalButtonBar::ScrollUp, ui->swCentral->moveUp());
-    ui->vbbButtons->addAction(CVerticalButtonBar::ScrollDown, ui->swCentral->moveDown());
+    ui->vbbButtons->addAction(CToolButton::ScrollUp, ui->swCentral->moveUp());
+    ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->swCentral->moveDown());
 }
 
 CPCHistogramTab::~CPCHistogramTab()

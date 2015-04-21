@@ -116,7 +116,9 @@ HEADERS *= \
     gui/tools/electrical-tests/CElectricalTestsPumpsTab.h \
     gui/tools/electrical-tests/CElectricalTestsRelaysTab.h \
     gui/tools/electrical-tests/CElectricalTestsWindow.h \
-    gui/tools/electrical-tests/IElectricalTestsTab.h
+    gui/tools/electrical-tests/IElectricalTestsTab.h \
+    gui/widgets/CSwitchButton.h \
+    gui/widgets/CLedButton.h
 
 SOURCES *= \
     automate/CAutomate.cpp \
@@ -205,4 +207,6 @@ SOURCES *= \
     gui/tools/electrical-tests/CElectricalTestsInputsTab.cpp \
     gui/tools/electrical-tests/CElectricalTestsPumpsTab.cpp \
     gui/tools/electrical-tests/CElectricalTestsRelaysTab.cpp \
-    gui/tools/electrical-tests/CElectricalTestsWindow.cpp
+    gui/tools/electrical-tests/CElectricalTestsWindow.cpp \
+    gui/widgets/CSwitchButton.cpp \
+    gui/widgets/CLedButton.cpp

@@ -25,7 +25,7 @@ CPCWindow::CPCWindow(QWidget *parent)
     addTab(new CPCPlusTab(this), QStringLiteral("+"));
 
     CVerticalButtonBar *vbb = qobject_cast<IPCTab *>(ui->twPages->widget(0))->buttonBar();
-    vbb->addAction(CVerticalButtonBar::Update, ui->actionUpdate);
+    vbb->addAction(CToolButton::Update, ui->actionUpdate);
 
     connect(m_updateManager, &CUpdateManager::signalUpdateAvailable, this, &CPCWindow::slotUpdateAvailable);
     connect(ui->actionUpdate, &QAction::triggered, this, &CPCWindow::slotUpdateTriggered);

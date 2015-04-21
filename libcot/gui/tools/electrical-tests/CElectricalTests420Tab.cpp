@@ -6,9 +6,9 @@ CElectricalTests420Tab::CElectricalTests420Tab(QWidget *parent)
     , ui(new Ui::CElectricalTests420Tab)
 {
     ui->setupUi(this);
-    ui->vbbButtons->addAction(CVerticalButtonBar::ScrollUp, ui->swCentral->moveUp());
-    ui->vbbButtons->addAction(CVerticalButtonBar::ScrollDown, ui->swCentral->moveDown());
-    connect(ui->vbbButtons->addAction(CVerticalButtonBar::Back), &QAction::triggered,
+    ui->vbbButtons->addAction(CToolButton::ScrollUp, ui->swCentral->moveUp());
+    ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->swCentral->moveDown());
+    connect(ui->vbbButtons->addAction(CToolButton::Back), &QAction::triggered,
             this, &IElectricalTestsTab::backTriggered);
 }
 

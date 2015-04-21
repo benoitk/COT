@@ -1,5 +1,4 @@
 #include "CVerticalButtonBar.h"
-#include "CToolButton.h"
 
 #include <QVBoxLayout>
 #include <QAction>
@@ -15,29 +14,30 @@ CVerticalButtonBar::~CVerticalButtonBar()
 {
 }
 
-QAction *CVerticalButtonBar::addAction(CVerticalButtonBar::Button button, QAction *action)
+QAction *CVerticalButtonBar::addAction(CToolButton::Type type, QAction *action)
 {
-    Q_UNUSED(button);
-    QAction *act = m_actions.value(button);
+    Q_ASSERT(type != CToolButton::Invalid);
+
+    QAction *act = m_actions.value(type);
 
     if (!act) {
         act = action ? action : new QAction(this);
-        act->setText(QString::number(button));
-        CToolButton *btn = new CToolButton(act, this);
+        act->setText(QString::number(type));
+        CToolButton *btn = new CToolButton(type, act, this);
         layout()->addWidget(btn);
-        m_actions[button] = act;
-        m_buttons[button] = btn;
+        m_actions[type] = act;
+        m_buttons[type] = btn;
     }
 
     return act;
 }
 
-QAction *CVerticalButtonBar::action(CVerticalButtonBar::Button button) const
+QAction *CVerticalButtonBar::action(CToolButton::Type type) const
 {
-    return m_actions.value(button);
+    return m_actions.value(type);
 }
 
-CToolButton *CVerticalButtonBar::button(CVerticalButtonBar::Button button) const
+CToolButton *CVerticalButtonBar::button(CToolButton::Type type) const
 {
-    return m_buttons.value(button);
+    return m_buttons.value(type);
 }

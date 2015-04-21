@@ -7,18 +7,18 @@ CPCMeasureTab::CPCMeasureTab(QWidget *parent)
 {
     ui->setupUi(this);
 
-    connect(ui->vbbButtons->addAction(CVerticalButtonBar::Alarms), &QAction::triggered,
+    connect(ui->vbbButtons->addAction(CToolButton::Alarms), &QAction::triggered,
             this, &CPCMeasureTab::alarmsTriggered);
-    connect(ui->vbbButtons->addAction(CVerticalButtonBar::Play), &QAction::triggered,
+    connect(ui->vbbButtons->addAction(CToolButton::Play), &QAction::triggered,
             this, &CPCMeasureTab::playTriggered);
-    connect(ui->vbbButtons->addAction(CVerticalButtonBar::Stop), &QAction::triggered,
+    connect(ui->vbbButtons->addAction(CToolButton::Stop), &QAction::triggered,
             this, &CPCMeasureTab::stopTriggered);
-    connect(ui->vbbButtons->addAction(CVerticalButtonBar::StopEndCycle), &QAction::triggered,
+    connect(ui->vbbButtons->addAction(CToolButton::StopEndCycle), &QAction::triggered,
             this, &CPCMeasureTab::stopEndCycleTriggered);
-    connect(ui->vbbButtons->addAction(CVerticalButtonBar::NextStream), &QAction::triggered,
+    connect(ui->vbbButtons->addAction(CToolButton::NextStream), &QAction::triggered,
             this, &CPCMeasureTab::nextStreamTriggered);
-    ui->vbbButtons->addAction(CVerticalButtonBar::ScrollUp, ui->swCentral->moveUp());
-    ui->vbbButtons->addAction(CVerticalButtonBar::ScrollDown, ui->swCentral->moveDown());
+    ui->vbbButtons->addAction(CToolButton::ScrollUp, ui->swCentral->moveUp());
+    ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->swCentral->moveDown());
 }
 
 CPCMeasureTab::~CPCMeasureTab()

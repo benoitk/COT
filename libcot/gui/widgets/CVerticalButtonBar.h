@@ -3,36 +3,23 @@
 
 #include <QWidget>
 
-class QAction;
-class CToolButton;
+#include "CToolButton.h"
 
 class CVerticalButtonBar : public QWidget
 {
     Q_OBJECT
 
 public:
-    enum Button {
-        Alarms,
-        Play,
-        Stop,
-        StopEndCycle,
-        NextStream,
-        ScrollUp,
-        ScrollDown,
-        Back,
-        Update
-    };
-
     explicit CVerticalButtonBar(QWidget *parent = Q_NULLPTR);
     ~CVerticalButtonBar();
 
-    QAction *addAction(CVerticalButtonBar::Button button, QAction *action = Q_NULLPTR);
-    QAction *action(CVerticalButtonBar::Button button) const;
-    CToolButton *button(CVerticalButtonBar::Button button) const;
+    QAction *addAction(CToolButton::Type type, QAction *action = Q_NULLPTR);
+    QAction *action(CToolButton::Type type) const;
+    CToolButton *button(CToolButton::Type type) const;
 
 private:
-    QHash<CVerticalButtonBar::Button, QAction *> m_actions;
-    QHash<CVerticalButtonBar::Button, CToolButton *> m_buttons;
+    QHash<CToolButton::Type, QAction *> m_actions;
+    QHash<CToolButton::Type, CToolButton *> m_buttons;
 };
 
 #endif // CVERTICALBUTTONBAR_H
