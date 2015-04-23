@@ -74,6 +74,9 @@ public slots:
 
 signals:
 	void signalRunCycle(int);
+    // KDAB: Needed api
+    void signalStreamsMeasuresChanged(); // When the json streams section changed
+    void signalStreamMeasureChanged(const QString &measure); // when the value of a measure changed
 	
 private:
 	static CAutomate* singleton;

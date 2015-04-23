@@ -46,6 +46,8 @@ CPCMeasureTab::CPCMeasureTab(QWidget *parent)
     , m_containerLayout(Q_NULLPTR)
 {
     ui->setupUi(this);
+    ui->vbbButtons->addAction(CToolButton::ScrollUp, ui->swCentral->moveUp());
+    ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->swCentral->moveDown());
     slotUpdateStreamsMeasures();
 
     connect(ui->vbbButtons->addAction(CToolButton::Alarms), &QAction::triggered,
@@ -58,12 +60,10 @@ CPCMeasureTab::CPCMeasureTab(QWidget *parent)
             this, &CPCMeasureTab::slotStopEndCycleTriggered);
     connect(ui->vbbButtons->addAction(CToolButton::NextStream), &QAction::triggered,
             this, &CPCMeasureTab::slotNextStreamTriggered);
-    ui->vbbButtons->addAction(CToolButton::ScrollUp, ui->swCentral->moveUp());
-    ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->swCentral->moveDown());
-
-    // KDAB: Need this api
-    /*connect(CAutomate::getInstance(), &CAutomate::signalStreamsMeasuresChanged, this, &CPCMeasureTab::slotUpdateStreamsMeasures);
-    connect(CAutomate::getInstance(), &CAutomate::signalStreamMeasureChanged, this, &CPCMeasureTab::slotMeasureVariableChanged);*/
+    connect(CAutomate::getInstance(), &CAutomate::signalStreamsMeasuresChanged,
+            this, &CPCMeasureTab::slotUpdateStreamsMeasures);
+    connect(CAutomate::getInstance(), &CAutomate::signalStreamMeasureChanged,
+            this, &CPCMeasureTab::slotStreamMeasureChanged);
 }
 
 CPCMeasureTab::~CPCMeasureTab()
@@ -126,7 +126,7 @@ void CPCMeasureTab::slotUpdateStreamsMeasures()
             IVariable *ivar = automate->getVariable(variable);
             Q_ASSERT(ivar);
 
-            // KDAB: Should check type == measure type but not exists
+            // KDAB: Variable must be a measure variable
             if (!ivar->isMeasureRelated()) {
                 continue;
             }
