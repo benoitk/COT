@@ -39,6 +39,7 @@ FORMS *= \
 
 HEADERS *= \
     automate/CAutomate.h \
+    automate/CConfigurationBackup.h \
     automate/CControlerAutomate.h \
     automate/CControlerCycle.h \
     automate/CDisplayConf.h \
@@ -147,6 +148,7 @@ HEADERS *= \
 
 SOURCES *= \
     automate/CAutomate.cpp \
+    automate/CConfigurationBackup.cpp \
     automate/CControlerAutomate.cpp \
     automate/CControlerCycle.cpp \
     automate/CDisplayConf.cpp \
