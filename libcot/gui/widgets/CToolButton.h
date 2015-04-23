@@ -29,7 +29,8 @@ public:
         Options,
         History,
         LogFiles,
-        Quit
+        Quit,
+        MeasureDetails
     };
 
     explicit CToolButton(QWidget *parent = Q_NULLPTR);

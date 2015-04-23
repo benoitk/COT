@@ -199,6 +199,11 @@ QIcon CToolButton::buttonIcon(CToolButton::Type type)
         icon.addPixmap(buttonPixmap("40x40 quitter grisee.png"), QIcon::Disabled, QIcon::Off);
         break;
 
+    case CToolButton::MeasureDetails:
+        icon.addPixmap(buttonPixmap("35x35 detail mesure.png"), QIcon::Normal, QIcon::Off);
+        icon.addPixmap(buttonPixmap("35x35 detail mesure active.png"), QIcon::Selected, QIcon::Off);
+        break;
+
     case CToolButton::Invalid:
         break;
     }
