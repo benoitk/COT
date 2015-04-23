@@ -1,7 +1,9 @@
 #include "IVariableUIHandler.h"
 #include "CScrollableWidget.h"
+#include "CSwitchButton.h"
 #include "CLedButton.h"
 #include "CPushButton.h"
+#include "CToolButton.h"
 #include "CAutomate.h"
 #include "IVariable.h"
 #include "IVariableInput.h"
@@ -83,7 +85,14 @@ QWidget *IVariableUIHandler::newEditor(IVariable *ivar)
         case type_bool: {
             switch (ivar->getOrganType()) {
                 case VariableOrganTypeNone: {
-                    break;
+                    CSwitchButton *editor = new CSwitchButton(m_container);
+                    editor->setChecked(ivar->toBool());
+
+                    foreach (CToolButton *button, editor->findChildren<CToolButton *>()) {
+                        button->setFixedSize(30, 30);
+                    }
+
+                    return editor;
                 }
 
                 case VariableOrganTypeInput: {
@@ -229,7 +238,7 @@ int IVariableUIHandler::unitColumn() const
 
 void IVariableUIHandler::rowInserted(const IVariableUIHandler::Row &row)
 {
-    Q_UNUSED(row);
+    m_containerLayout->setAlignment(row.editor, Qt::AlignCenter);
 }
 
 void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariable *ivar)
@@ -238,11 +247,13 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
     row.label->setText(ivar->getLabel());
     row.unit->setText(unit ? unit->getLbl() : QString());
 
+    // Keep in synch with newEditor
     switch (ivar->getType()) {
         case type_bool: {
             switch (ivar->getOrganType()) {
                 case VariableOrganTypeNone: {
-                    break;
+                    qobject_cast<CSwitchButton *>(row.editor)->setChecked(ivar->toBool());
+                    return;
                 }
 
                 case VariableOrganTypeInput: {
@@ -255,7 +266,7 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
             }
 
             qobject_cast<CLedButton *>(row.editor)->setChecked(ivar->toBool());
-            break;
+            return;
         }
 
         case type_float: {
@@ -274,7 +285,7 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
             }
 
             qobject_cast<CPushButton *>(row.editor)->setText(ivar->toString());
-            break;
+            return;
         }
 
         case type_int: {
@@ -293,7 +304,7 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
             }
 
             qobject_cast<CPushButton *>(row.editor)->setText(ivar->toString());
-            break;
+            return;
         }
 
         case type_string: {
@@ -312,7 +323,7 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
             }
 
             qobject_cast<CPushButton *>(row.editor)->setText(ivar->toString());
-            break;
+            return;
         }
 
         case type_stream: {
@@ -331,7 +342,7 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
             }
 
             qobject_cast<CPushButton *>(row.editor)->setText(ivar->toString());
-            break;
+            return;
         }
 
         case type_unknow: {
@@ -350,7 +361,7 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
             }
 
             qobject_cast<CPushButton *>(row.editor)->setText(ivar->toString());
-            break;
+            return;
         }
     }
 }
