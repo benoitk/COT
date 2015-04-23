@@ -144,7 +144,9 @@ HEADERS *= \
     gui/tools/maintenance/CMaintenanceMaintenanceTab.h \
     gui/tools/maintenance/CMaintenanceWindow.h \
     gui/tools/maintenance/IMaintenanceTab.h \
-    gui/widgets/CLabelledToolButton.h
+    gui/widgets/CLabelledToolButton.h \
+    gui/IVariableUIHandler.h \
+    gui/IVariableMeasuresUIHandler.h
 
 SOURCES *= \
     automate/CAutomate.cpp \
@@ -248,4 +250,6 @@ SOURCES *= \
     gui/tools/maintenance/CMaintenanceDiagnosticTab.cpp \
     gui/tools/maintenance/CMaintenanceMaintenanceTab.cpp \
     gui/tools/maintenance/CMaintenanceWindow.cpp \
-    gui/widgets/CLabelledToolButton.cpp
+    gui/widgets/CLabelledToolButton.cpp \
+    gui/IVariableUIHandler.cpp \
+    gui/IVariableMeasuresUIHandler.cpp

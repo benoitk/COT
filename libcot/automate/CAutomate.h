@@ -76,7 +76,7 @@ signals:
 	void signalRunCycle(int);
     // KDAB: Needed api
     void signalStreamsMeasuresChanged(); // When the json streams section changed
-    void signalStreamMeasureChanged(const QString &measure); // when the value of a measure changed
+    void signalVariableChanged(const QString &name); // when the value of a variable changed
 	
 private:
 	static CAutomate* singleton;
