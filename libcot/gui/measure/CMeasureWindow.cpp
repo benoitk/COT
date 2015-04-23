@@ -2,6 +2,7 @@
 #include "ui_CMeasureWindow.h"
 #include "CMeasureStreamTab.h"
 #include "CMeasureMeasureTab.h"
+#include "CAutomate.h"
 
 CMeasureWindow::CMeasureWindow(const QString &stream, QWidget *parent)
     : QWidget(parent)
@@ -9,10 +10,17 @@ CMeasureWindow::CMeasureWindow(const QString &stream, QWidget *parent)
 {
     ui->setupUi(this);
 
-    // KDAB: No api to access streams yet
-    Q_UNUSED(stream);
-    addTab(new CMeasureStreamTab(this), tr("STREAM 1"));
-    addTab(new CMeasureMeasureTab(this), tr("MEASURE 1"));
+    // KDAB: Fix me when customer api ready
+    const QString theStream = stream.isEmpty() ? "stream_1" : stream;
+    CAutomate *automate = CAutomate::getInstance();
+    const QStringList variables = automate->getStreamVariables(theStream);
+    const QMap<QString, QStringList> measures = automate->getStreamMeasures(theStream);
+
+    addTab(new CMeasureStreamTab(variables, this), theStream.toUpper());
+
+    foreach (const QString &measure, measures.keys()) {
+        addTab(new CMeasureMeasureTab(measures.value(measure), this), measure.toUpper());
+    }
 }
 
 CMeasureWindow::~CMeasureWindow()
