@@ -50,8 +50,8 @@ void CVariableUnknow::switchToUnit(CUnit* targetUnit){
 void  CVariableUnknow::delBind(IVariable*){
 
 }
-void  CVariableUnknow::getUnit(){
-
+CUnit * CVariableUnknow::getUnit() const {
+    return Q_NULLPTR;
 }
 bool  CVariableUnknow::isStreamRelated()const{
 	return false;

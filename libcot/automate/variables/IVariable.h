@@ -33,7 +33,7 @@ public:
     virtual void setToBindedValue(const QVariant &)=0;
 	virtual variableType getType()const=0;
 	virtual void switchToUnit(CUnit*)=0;
-	virtual void getUnit()=0;
+    virtual CUnit *getUnit() const=0;
 	virtual bool isStreamRelated()const=0;
 	virtual QString getRelatedStreamName()const=0;
 	virtual bool isMeasureRelated()const=0;

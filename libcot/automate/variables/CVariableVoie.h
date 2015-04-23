@@ -30,7 +30,7 @@ public:
     void switchToUnit(CUnit*) Q_DECL_OVERRIDE;
 	//
     void delBind(IVariable*) Q_DECL_OVERRIDE;
-    void getUnit() Q_DECL_OVERRIDE;
+    CUnit *getUnit() const Q_DECL_OVERRIDE;
     bool isStreamRelated()const Q_DECL_OVERRIDE;
     QString getRelatedStreamName()const Q_DECL_OVERRIDE;
     bool isMeasureRelated()const Q_DECL_OVERRIDE;

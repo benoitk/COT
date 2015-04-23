@@ -99,8 +99,8 @@ bool CVariableOutputBool::toBool(){
 void  CVariableOutputBool::delBind(IVariable*){
 
 }
-void  CVariableOutputBool::getUnit(){
-
+CUnit * CVariableOutputBool::getUnit() const{
+    return Q_NULLPTR;
 }
 bool  CVariableOutputBool::isStreamRelated()const{
 	return false;

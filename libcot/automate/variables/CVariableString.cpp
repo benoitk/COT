@@ -73,8 +73,8 @@ void CVariableString::switchToUnit(CUnit* targetUnit){
 void  CVariableString::delBind(IVariable*){
 
 }
-void  CVariableString::getUnit(){
-
+CUnit *CVariableString::getUnit() const{
+    return Q_NULLPTR;
 }
 bool  CVariableString::isStreamRelated()const{
 	return false;

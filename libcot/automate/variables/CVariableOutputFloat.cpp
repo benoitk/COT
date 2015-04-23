@@ -98,8 +98,8 @@ void CVariableOutputFloat::switchToUnit(CUnit* targetUnit){
 void  CVariableOutputFloat::delBind(IVariable*){
 
 }
-void  CVariableOutputFloat::getUnit(){
-
+CUnit * CVariableOutputFloat::getUnit() const{
+    return Q_NULLPTR;
 }
 bool  CVariableOutputFloat::isStreamRelated()const{
 	return false;
