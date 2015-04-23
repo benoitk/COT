@@ -21,6 +21,14 @@ public:
     explicit CPCWindow(QWidget *parent = Q_NULLPTR);
     ~CPCWindow();
 
+    static void openModal(QWidget *widget, const QRect &geometry) {
+        widget->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
+        widget->setAttribute(Qt::WA_DeleteOnClose);
+        widget->setWindowModality(Qt::ApplicationModal);
+        widget->setGeometry(geometry);
+        widget->show();
+    }
+
     template <typename T>
     static void openModal() {
         QWidget *parent = QApplication::activeWindow();
@@ -31,12 +39,20 @@ public:
         }
 
         T *window = new T(parent);
-        window->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
-        window->setAttribute(Qt::WA_DeleteOnClose);
-        window->setWindowModality(Qt::ApplicationModal);
-        window->resize(parent->size());
-        window->move(parent->pos());
-        window->show();
+        openModal(window, QRect(parent->pos(), parent->size()));
+    }
+
+    template <typename T, typename Arg>
+    static void openModal(const Arg &arg) {
+        QWidget *parent = QApplication::activeWindow();
+
+        if (!parent) {
+            Q_ASSERT(false);
+            return;
+        }
+
+        T *window = new T(arg, parent);
+        openModal(window, QRect(parent->pos(), parent->size()));
     }
 
 public slots:
