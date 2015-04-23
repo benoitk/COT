@@ -2,6 +2,7 @@
 #define CTOOLBUTTON_H
 
 #include <QToolButton>
+#include <QVariant>
 
 // This class represente black squared tool button
 class CToolButton : public QToolButton
@@ -39,6 +40,9 @@ public:
     CToolButton::Type type() const;
     void setType(CToolButton::Type type);
 
+    QVariant userData() const;
+    void setUserData(const QVariant &userData);
+
     static QPixmap buttonPixmap(const QString& name);
     static QIcon buttonIcon(CToolButton::Type type);
 
@@ -51,6 +55,7 @@ private slots:
 
 private:
     CToolButton::Type m_type;
+    QVariant m_userData;
 };
 
 #endif // CTOOLBUTTON_H

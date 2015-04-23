@@ -44,6 +44,16 @@ void CToolButton::setType(CToolButton::Type type)
     }
 }
 
+QVariant CToolButton::userData() const
+{
+    return m_userData;
+}
+
+void CToolButton::setUserData(const QVariant &userData)
+{
+    m_userData = userData;
+}
+
 void CToolButton::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
@@ -87,6 +97,10 @@ void CToolButton::initialize(CToolButton::Type type, QAction *action)
     }
     else {
         setIcon(CToolButton::buttonIcon(type));
+    }
+
+    if (type == CToolButton::ScrollUp || type == CToolButton::ScrollDown) {
+        setAutoRepeat(true);
     }
 }
 
