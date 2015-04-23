@@ -13,12 +13,19 @@ enum variableType{
 		type_unknow
 };
 
+enum VariableOrganType {
+    VariableOrganTypeNone = 0,
+    VariableOrganTypeInput,
+    VariableOrganTypeOutput
+};
+
 //Interface pour toute les variables de l'automate
 class CUnit;
 class IVariable
 {
 public:
 	virtual ~IVariable() {}
+    virtual VariableOrganType getOrganType() const { return VariableOrganTypeNone; }
 	virtual QString toString()=0;
 	virtual int toInt()=0;
 	virtual float toFloat() =0;

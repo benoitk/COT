@@ -89,9 +89,6 @@ void CVariableInputInt::addBind(IVariable* arg_var){
 variableType CVariableInputInt::getType()const{
     return type_int;
 }
-organneInputType CVariableInputInt::getTypeOrganne()const{
-	return m_organneType;
-}
 IVariable* CVariableInputInt::getIVariable(){
 	return this;
 }

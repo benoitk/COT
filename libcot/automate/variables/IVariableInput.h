@@ -3,18 +3,11 @@
 
 #include "qstring.h"
 
-enum organneInputType{
-		type_input_bool = 0,
-		type_input_float,
-		type_input_int,
-		type_input_string,
-		type_input_stream,
-		type_input_unknow
-};
+#include "IVariable.h"
 
 class CModelExtensionCard;
 class IComObserver;
-class IVariable;
+
 class IVariableInput
 {
 public:
@@ -23,7 +16,6 @@ public:
 	virtual QString getOrganneName()const=0;
 	virtual void setOrganne(CModelExtensionCard* ,QString)=0;
 	virtual QString getOrganneAddr()const=0;
-	virtual organneInputType getTypeOrganne()const=0;
 	virtual IComObserver* getComObserver()const=0;
 	virtual IVariable* getIVariable()=0;
 

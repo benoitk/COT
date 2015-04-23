@@ -49,7 +49,8 @@ IVariable* CVariableFactory::build(const QMap<QString, QVariant> &mapVar){
 		variable = new CVariableUnknow();
         qDebug() << "Type variable INCONNU " << mapVar[QStringLiteral("type")].toString() ;
 	}
-	variable->setLabel(mapVar[tr("FR_lbl")].toString());
+    variable->setName(mapVar[QStringLiteral("name")].toString());
+    variable->setLabel(mapVar[QStringLiteral("fr_FR")].toString());
 	return variable;
 }
 

@@ -81,10 +81,6 @@ void CVariableOutputBool::addBind(IVariable* arg_var){
 variableType CVariableOutputBool::getType()const{
     return type_bool;
 }
-organneOutputType CVariableOutputBool::getTypeOrganne()const{
-	return m_organneType;
-}
-
 IVariable* CVariableOutputBool::getIVariable(){
 	return this;
 }

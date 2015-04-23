@@ -21,7 +21,6 @@ public:
     QString getOrganneName()const Q_DECL_OVERRIDE;
     QString getOrganneAddr()const Q_DECL_OVERRIDE;
     void setOrganne(CModelExtensionCard* ,QString) Q_DECL_OVERRIDE;
-    organneOutputType getTypeOrganne()const Q_DECL_OVERRIDE;
     IComObserver* getComObserver()const Q_DECL_OVERRIDE;
     IVariable* getIVariable() Q_DECL_OVERRIDE;
 
@@ -42,6 +41,7 @@ public:
     void addBind(IVariable*) Q_DECL_OVERRIDE;
     void setToBindedValue(const QVariant &) Q_DECL_OVERRIDE;
     variableType getType()const Q_DECL_OVERRIDE;
+    VariableOrganType getOrganType() const Q_DECL_OVERRIDE { return VariableOrganTypeOutput; }
     void switchToUnit(CUnit*) Q_DECL_OVERRIDE;
 	//
     void delBind(IVariable*) Q_DECL_OVERRIDE;
@@ -63,7 +63,6 @@ private:
     QString m_name;
 	QString m_label;
 	QLinkedList<IVariable*> m_listBinds;
-	organneOutputType m_organneType;
 	CUnit* m_unit;
 	
 };

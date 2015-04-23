@@ -100,9 +100,6 @@ void CVariableInputFloat::addBind(IVariable* arg_var){
 variableType CVariableInputFloat::getType()const{
     return type_float;
 }
-organneInputType CVariableInputFloat::getTypeOrganne()const{
-	return m_organneType;
-}
 IVariable* CVariableInputFloat::getIVariable(){
 	return this;
 }
