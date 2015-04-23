@@ -11,7 +11,7 @@ class CVariableBool : public QObject, public IVariable
 	Q_OBJECT
 
 public:
-	CVariableBool(QObject *parent);
+    CVariableBool(QObject *parent = Q_NULLPTR);
 	CVariableBool(bool);
 	~CVariableBool();
 

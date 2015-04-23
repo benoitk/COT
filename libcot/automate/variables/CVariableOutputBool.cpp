@@ -4,6 +4,7 @@
 
 CVariableOutputBool::CVariableOutputBool(QObject *parent)
 	: QObject(parent)
+    , m_modelExtensionCard(Q_NULLPTR)
 {
 
 }
@@ -13,7 +14,10 @@ CVariableOutputBool::~CVariableOutputBool()
 
 }
 
-CVariableOutputBool::CVariableOutputBool(const QMap<QString, QVariant> &mapVar): QObject(){
+CVariableOutputBool::CVariableOutputBool(const QMap<QString, QVariant> &mapVar)
+    : QObject()
+    , m_modelExtensionCard(Q_NULLPTR)
+{
 
 }
 QString CVariableOutputBool::getName()const{

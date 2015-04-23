@@ -12,7 +12,7 @@ class CVariableInputFloat : public QObject,public IVariable, public IVariableInp
 	Q_OBJECT
 
 public:
-	CVariableInputFloat(QObject *parent);
+    CVariableInputFloat(QObject *parent = Q_NULLPTR);
     CVariableInputFloat(const QMap<QString, QVariant> &mapVar);
 	~CVariableInputFloat();
 

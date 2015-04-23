@@ -12,7 +12,7 @@ class CVariableInputBool : public QObject, public IVariable, public IVariableInp
 	Q_OBJECT
 
 public:
-	CVariableInputBool(QObject *parent);
+    CVariableInputBool(QObject *parent = Q_NULLPTR);
     CVariableInputBool(const QMap<QString, QVariant> &mapVar);
 	~CVariableInputBool();
 

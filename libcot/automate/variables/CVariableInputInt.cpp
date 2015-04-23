@@ -3,6 +3,7 @@
 #include "CUnit.h"
 CVariableInputInt::CVariableInputInt(QObject *parent)
 	: QObject(parent)
+    , m_modelExtensionCard(Q_NULLPTR)
 {
 
 }
@@ -12,7 +13,10 @@ CVariableInputInt::~CVariableInputInt()
 
 }
 
-CVariableInputInt::CVariableInputInt(const QMap<QString, QVariant> &mapVar): QObject(){
+CVariableInputInt::CVariableInputInt(const QMap<QString, QVariant> &mapVar)
+    : QObject()
+    , m_modelExtensionCard(Q_NULLPTR)
+{
 
 }
 QString CVariableInputInt::getName()const{
@@ -39,8 +43,10 @@ void CVariableInputInt::setOrganne(CModelExtensionCard* arg_model,QString arg_or
 }
 
 IVariable* CVariableInputInt::readValue(){
-	QVariant var = m_modelExtensionCard->readOrganneValue(this);
-	this->setValue(var.toFloat());
+    if (m_modelExtensionCard) {
+        QVariant var = m_modelExtensionCard->readOrganneValue(this);
+        this->setValue(var.toFloat());
+    }
 
 	return this;
 }

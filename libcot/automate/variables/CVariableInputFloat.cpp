@@ -46,7 +46,6 @@ void CVariableInputFloat::setOrganne(CModelExtensionCard* arg_model,QString arg_
 
 IVariable* CVariableInputFloat::readValue(){
     if (m_modelExtensionCard) {
-        qDebug("%s: %i", Q_FUNC_INFO, quintptr(m_modelExtensionCard));
         QVariant var = m_modelExtensionCard->readOrganneValue(this);
         this->setValue(var.toFloat());
     }

@@ -5,6 +5,7 @@
 #include "CUnit.h"
 CVariableInputBool::CVariableInputBool(QObject *parent)
 	: QObject(parent)
+    , m_modelExtensionCard(Q_NULLPTR)
 {
 
 }
@@ -13,7 +14,10 @@ CVariableInputBool::~CVariableInputBool()
 {
 
 }
-CVariableInputBool::CVariableInputBool(const QMap<QString, QVariant> &mapVar): QObject(){
+CVariableInputBool::CVariableInputBool(const QMap<QString, QVariant> &mapVar)
+    : QObject()
+    , m_modelExtensionCard(Q_NULLPTR)
+{
 
 }
 QString CVariableInputBool::getName()const{
@@ -41,8 +45,10 @@ void CVariableInputBool::setOrganne(CModelExtensionCard* arg_model,QString arg_o
 }
 
 IVariable* CVariableInputBool::readValue(){
-	QVariant var = m_modelExtensionCard->readOrganneValue(this);
-	this->setValue(var.toFloat());
+    if (m_modelExtensionCard) {
+        QVariant var = m_modelExtensionCard->readOrganneValue(this);
+        this->setValue(var.toFloat());
+    }
 
 	return this;
 }

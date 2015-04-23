@@ -13,7 +13,7 @@ class LIBCOT_EXPORT CVariableString : public QObject, public IVariable
 	Q_OBJECT
 
 public:
-	CVariableString(QObject *parent);
+    CVariableString(QObject *parent = Q_NULLPTR);
     CVariableString(const QString&);
 	~CVariableString();
 
