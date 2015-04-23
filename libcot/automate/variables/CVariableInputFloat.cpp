@@ -5,6 +5,7 @@
 
 CVariableInputFloat::CVariableInputFloat(QObject *parent)
 	: QObject(parent)
+    , m_modelExtensionCard(Q_NULLPTR)
 {
 
 }
@@ -14,7 +15,10 @@ CVariableInputFloat::~CVariableInputFloat()
 
 }
 
-CVariableInputFloat::CVariableInputFloat(const QMap<QString, QVariant> &mapVar): QObject(){
+CVariableInputFloat::CVariableInputFloat(const QMap<QString, QVariant> &mapVar)
+    : QObject()
+    , m_modelExtensionCard(Q_NULLPTR)
+{
 
 }
 QString CVariableInputFloat::getName()const{
@@ -41,8 +45,11 @@ void CVariableInputFloat::setOrganne(CModelExtensionCard* arg_model,QString arg_
 }
 
 IVariable* CVariableInputFloat::readValue(){
-	QVariant var = m_modelExtensionCard->readOrganneValue(this);
-	this->setValue(var.toFloat());
+    if (m_modelExtensionCard) {
+        qDebug("%s: %i", Q_FUNC_INFO, quintptr(m_modelExtensionCard));
+        QVariant var = m_modelExtensionCard->readOrganneValue(this);
+        this->setValue(var.toFloat());
+    }
 
 	return this;
 }
