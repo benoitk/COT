@@ -118,6 +118,7 @@ HEADERS *= \
     gui/panel/CPCToolsTab.h \
     gui/panel/CPCWindow.h \
     gui/panel/IPCTab.h \
+    gui/panel/IWindow.h \
     gui/measure/CMeasureMeasureTab.h \
     gui/measure/CMeasureStreamTab.h \
     gui/measure/CMeasureWindow.h \
@@ -228,6 +229,7 @@ SOURCES *= \
     gui/panel/CPCPlusTab.cpp \
     gui/panel/CPCToolsTab.cpp \
     gui/panel/CPCWindow.cpp \
+    gui/panel/IWindow.cpp \
     gui/measure/CMeasureMeasureTab.cpp \
     gui/measure/CMeasureStreamTab.cpp \
     gui/measure/CMeasureWindow.cpp \
