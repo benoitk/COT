@@ -24,7 +24,7 @@ void CAlarmsWindow::updateAlarms()
 {
     CAutomate *automate = CAutomate::getInstance();
     CDisplayConf *displayConf = automate->getDisplayConf();
-    IVariablePtrList screenAlarms = displayConf->getListForScrenAlarms();
+    IVariablePtrList screenAlarms = displayConf->getListForScreenAlarms();
     m_alarmsHandler->layout(screenAlarms);
 }
 

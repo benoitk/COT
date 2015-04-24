@@ -27,11 +27,11 @@ public:
     void delVariableToScreenHistory(IVariable*);
     void delVariableToScreenAlarms(IVariable*);
 
-    QList<IVariable*> getListForScrenDiagnostic();
-    QMap<QString, QList<IVariable*> > getMapForScrenElectricalTests();
-    QList<IVariable*> getListForScrenOptions();
-    QList<IVariable*> getListForScrenHistory();
-    QList<IVariable*> getListForScrenAlarms();
+    QList<IVariable*> getListForScreenDiagnostic();
+    QMap<QString, QList<IVariable*> > getMapForScreenElectricalTests();
+    QList<IVariable*> getListForScreenOptions();
+    QList<IVariable*> getListForScreenHistory();
+    QList<IVariable*> getListForScreenAlarms();
     
 
 private:
