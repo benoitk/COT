@@ -14,6 +14,12 @@ CPCWindow::CPCWindow(QWidget *parent)
     , ui(new Ui::CPCWindow)
     , m_updateManager(new CUpdateManager(this))
 {
+
+#ifdef QT_DEBUG
+    // add windows decorations when debugging
+    setWindowFlags(Qt::Window);
+#endif
+
     m_updateManager->init();
 
     ui->setupUi(this);
