@@ -18,7 +18,7 @@ public:
     explicit CElectricalTestsActuatorTab(QWidget *parent = Q_NULLPTR);
     ~CElectricalTestsActuatorTab();
 
-protected Q_SLOTS:
+protected slots:
     void updateElecTestActuator();
 
 

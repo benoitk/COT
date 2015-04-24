@@ -17,7 +17,7 @@ public:
     explicit CElectricalTestsInputsTab(QWidget *parent = Q_NULLPTR);
     ~CElectricalTestsInputsTab();
 
-protected Q_SLOTS:
+protected slots:
     void updateElecTestInputs();
 
 private:

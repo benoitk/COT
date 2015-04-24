@@ -16,7 +16,7 @@ public:
     explicit COptionsOptionsTab(QWidget *parent = Q_NULLPTR);
     ~COptionsOptionsTab();
 
-protected Q_SLOTS:
+protected slots:
     void updateOptions();
 
 private:

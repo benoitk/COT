@@ -38,7 +38,7 @@ public:
     };
     void scroll(Direction dir);
 
-private Q_SLOTS:
+private slots:
     /// reached when the user selects an item in the view. sets the property selectedItem.
     void itemSelected(const QModelIndex &index);
 

@@ -17,7 +17,7 @@ public:
     explicit CElectricalTestsRelaysTab(QWidget *parent = Q_NULLPTR);
     ~CElectricalTestsRelaysTab();
 
-protected Q_SLOTS:
+protected slots:
     void updateElecTestRelays();
 
 private:

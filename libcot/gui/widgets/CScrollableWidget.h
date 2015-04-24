@@ -20,7 +20,7 @@ public:
 protected:
     virtual void resizeEvent(QResizeEvent *event);
 
-private Q_SLOTS:
+private slots:
     void slotMoveUp();
     void slotMoveDown();
 

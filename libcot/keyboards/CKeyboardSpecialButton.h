@@ -13,7 +13,7 @@ public:
     Qt::Key specialKey() const;
     void setSpecialKey(const Qt::Key &specialKey);
 
-private Q_SLOTS:
+private slots:
     void slotButtonPressed();
     void slotButtonReleased();
     void slotButtonClicked();

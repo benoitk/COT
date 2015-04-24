@@ -6,7 +6,7 @@
 class KeyboadNormalButtonTest : public QObject
 {
     Q_OBJECT
-private Q_SLOTS:
+private slots:
     void shouldHaveDefaultValue();
     void shouldAssignCharacter();
     void shouldEmitPressSignal();

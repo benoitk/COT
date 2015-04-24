@@ -20,7 +20,7 @@ Q_SIGNALS:
     void released(QChar);
     void clicked(QChar);
 
-private Q_SLOTS:
+private slots:
     void slotButtonPressed();
     void slotButtonReleased();
     void slotButtonClicked();

@@ -16,7 +16,7 @@ public:
     explicit CHistoryWindow(QWidget *parent = Q_NULLPTR);
     ~CHistoryWindow();
 
-protected Q_SLOTS:
+protected slots:
     void updateHistory();
 
 private slots:

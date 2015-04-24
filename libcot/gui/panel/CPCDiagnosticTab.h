@@ -21,7 +21,7 @@ public:
     explicit CPCDiagnosticTab(QWidget *parent = Q_NULLPTR);
     ~CPCDiagnosticTab();
 
-protected Q_SLOTS:
+protected slots:
     void updateDiagnostic();
 
 private:

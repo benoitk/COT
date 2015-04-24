@@ -24,7 +24,7 @@ Q_SIGNALS:
 protected:
     bool event(QEvent *event) Q_DECL_OVERRIDE;
 
-private Q_SLOTS:
+private slots:
     void slotShiftToggled();
 
     void slotCapsLockToggled();
