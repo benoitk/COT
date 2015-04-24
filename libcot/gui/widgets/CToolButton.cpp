@@ -126,6 +126,9 @@ QIcon CToolButton::buttonIcon(CToolButton::Type type)
     // enum Mode { Normal, Disabled, Selected };
     switch (type) {
     case CToolButton::Alarms:
+        // KDAB_TODO add a way to show a different icon when an alarm is active
+        icon.addPixmap(buttonPixmap("40x40 alarme mesure.png"), QIcon::Normal, QIcon::Off);
+        icon.addPixmap(buttonPixmap("40x40 alarme mesure active.png"), QIcon::Selected, QIcon::Off);
     case CToolButton::Play:
     case CToolButton::Stop:
     case CToolButton::StopEndCycle:
