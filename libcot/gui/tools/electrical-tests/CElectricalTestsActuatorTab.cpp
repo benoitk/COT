@@ -32,7 +32,7 @@ void CElectricalTestsActuatorTab::updateElecTestActuator()
     CAutomate *automate = CAutomate::getInstance();
     CDisplayConf *displayConf = automate->getDisplayConf();
     QMap<QString, QList<IVariable*> > screenElecVariables = displayConf->getMapForScreenElectricalTests();
-    IVariablePtrList screenElecActuator =  screenElecVariables.value(CDisplayConf::strElecActuator);
+    IVariablePtrList screenElecActuator =  screenElecVariables.value(CDisplayConf::STR_ELEC_ACTUATOR);
     m_elecTestActuatorHandler->layout(screenElecActuator);
 }
 

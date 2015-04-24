@@ -32,6 +32,6 @@ void CElectricalTestsRelaysTab::updateElecTestRelays()
     CAutomate *automate = CAutomate::getInstance();
     CDisplayConf *displayConf = automate->getDisplayConf();
     QMap<QString, QList<IVariable*> > screenElecVariables = displayConf->getMapForScreenElectricalTests();
-    IVariablePtrList screenElecRelays =  screenElecVariables.value(CDisplayConf::strElecRelays);
+    IVariablePtrList screenElecRelays =  screenElecVariables.value(CDisplayConf::STR_ELEC_RELAYS);
     m_elecTestRelaysHandler->layout(screenElecRelays);
 }

@@ -32,6 +32,6 @@ void CElectricalTestsPumpsTab::updateElecTestPump()
     CAutomate *automate = CAutomate::getInstance();
     CDisplayConf *displayConf = automate->getDisplayConf();
     QMap<QString, QList<IVariable*> > screenElecVariables = displayConf->getMapForScreenElectricalTests();
-    IVariablePtrList screenElecPump = screenElecVariables.value(CDisplayConf::strElecPump);
+    IVariablePtrList screenElecPump = screenElecVariables.value(CDisplayConf::STR_ELEC_PUMP);
     m_elecTestPumpHandler->layout(screenElecPump);
 }

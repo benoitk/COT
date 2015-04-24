@@ -31,6 +31,6 @@ void CElectricalTests420Tab::updateElecTest420()
     CAutomate *automate = CAutomate::getInstance();
     CDisplayConf *displayConf = automate->getDisplayConf();
     QMap<QString, QList<IVariable*> > screenElecVariables = displayConf->getMapForScreenElectricalTests();
-    IVariablePtrList screenElec420 =  screenElecVariables.value(CDisplayConf::strElec420);
+    IVariablePtrList screenElec420 =  screenElecVariables.value(CDisplayConf::STR_ELEC_420);
     m_elecTest420Handler->layout(screenElec420);
 }
