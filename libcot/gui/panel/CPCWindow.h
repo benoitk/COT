@@ -22,7 +22,12 @@ public:
     ~CPCWindow();
 
     static void openModal(QWidget *widget, const QRect &geometry) {
+#ifdef QT_DEBUG
+        // add windows decorations when debugging
+        widget->setWindowFlags(Qt::Window);
+#else
         widget->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
+#endif
         widget->setAttribute(Qt::WA_DeleteOnClose);
         widget->setWindowModality(Qt::ApplicationModal);
         widget->setGeometry(geometry);
