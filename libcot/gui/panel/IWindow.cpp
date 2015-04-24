@@ -15,7 +15,7 @@ IWindow::IWindow(QWidget *parent) :
     m_buttonBar->addAction(CToolButton::ScrollUp, m_scrollableWidget->moveUp());
     m_buttonBar->addAction(CToolButton::ScrollDown, m_scrollableWidget->moveDown());
     QAction *returnAction = m_buttonBar->addAction(CToolButton::Back);
-    connect(returnAction, SIGNAL(triggered()), this, SLOT(hide()));
+    connect(returnAction, SIGNAL(triggered()), this, SLOT(close()));
 
     QGridLayout *gridLayout = new QGridLayout(this);
     gridLayout->addWidget(m_scrollableWidget, 1, 0);
