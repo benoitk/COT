@@ -6,6 +6,7 @@
 namespace Ui {
 class COptionsOptionsTab;
 }
+class IVariableUIHandler;
 
 class COptionsOptionsTab : public IOptionsTab
 {
@@ -15,8 +16,12 @@ public:
     explicit COptionsOptionsTab(QWidget *parent = Q_NULLPTR);
     ~COptionsOptionsTab();
 
+protected Q_SLOTS:
+    void updateOptions();
+
 private:
     Ui::COptionsOptionsTab *ui;
+    IVariableUIHandler *m_optionHandler;
 };
 
 #endif // COPTIONSOPTIONSTAB_H
