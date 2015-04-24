@@ -13,6 +13,7 @@ public:
     enum Type {
         Invalid = -1,
         Alarms,
+        AlarmsActive,
         Play,
         Stop,
         StopEndCycle,

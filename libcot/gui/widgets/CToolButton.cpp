@@ -82,6 +82,7 @@ void CToolButton::paintEvent(QPaintEvent *event)
 
 void CToolButton::initialize(CToolButton::Type type, QAction *action)
 {
+    Q_ASSERT(type != CToolButton::AlarmsActive); // That's not a real button but a state.
     m_type = type;
 
     setFixedSize(50, 50);
@@ -114,9 +115,8 @@ QPixmap CToolButton::buttonPixmap(const QString &name)
     // TODO_KDAB: To be computed
     const bool isHd = true;
     return QPixmap(isHd
-            ? QString(":/hd-icons/pictohd/%1").arg(name)
-            : QString(":/icons/picto/%1").arg(name)
-    );
+                   ? QString(":/hd-icons/pictohd/%1").arg(name)
+                   : QString(":/icons/picto/%1").arg(name));
 }
 
 QIcon CToolButton::buttonIcon(CToolButton::Type type)
@@ -125,90 +125,96 @@ QIcon CToolButton::buttonIcon(CToolButton::Type type)
 
     // enum Mode { Normal, Disabled, Selected };
     switch (type) {
-    case CToolButton::Alarms:
-        // KDAB_TODO add a way to show a different icon when an alarm is active
-        icon.addPixmap(buttonPixmap("40x40 alarme mesure.png"), QIcon::Normal, QIcon::Off);
-        icon.addPixmap(buttonPixmap("40x40 alarme mesure active.png"), QIcon::Selected, QIcon::Off);
-    case CToolButton::Play:
-    case CToolButton::Stop:
-    case CToolButton::StopEndCycle:
-    case CToolButton::NextStream:
-    case CToolButton::Update:
-        // TODO_KDAB:: Handle each icon set in picto / pictohd resources.
-        break;
+        case CToolButton::Play:
+        case CToolButton::Stop:
+        case CToolButton::StopEndCycle:
+        case CToolButton::NextStream:
+        case CToolButton::Update:
+            // TODO_KDAB:: Handle each icon set in picto / pictohd resources.
+            break;
 
-    case CToolButton::ScrollUp:
-        icon.addPixmap(buttonPixmap("75x75 fleche haut.png"), QIcon::Normal, QIcon::Off);
-        icon.addPixmap(buttonPixmap("75x75 fleche haut active.png"), QIcon::Selected, QIcon::Off);
-        icon.addPixmap(buttonPixmap("75x75 fleche haut grisee.png"), QIcon::Disabled, QIcon::Off);
-        break;
+        case CToolButton::Alarms:
+            icon.addPixmap(buttonPixmap("40x40 alarme mesure.png"), QIcon::Normal, QIcon::Off);
+            icon.addPixmap(buttonPixmap("40x40 alarme mesure active.png"), QIcon::Selected, QIcon::Off);
+            break;
 
-    case CToolButton::ScrollDown:
-        icon.addPixmap(buttonPixmap("75x75 fleche bas.png"), QIcon::Normal, QIcon::Off);
-        icon.addPixmap(buttonPixmap("75x75 fleche bas active.png"), QIcon::Selected, QIcon::Off);
-        icon.addPixmap(buttonPixmap("75x75 fleche bas grisee.png"), QIcon::Disabled, QIcon::Off);
-        break;
+        case CToolButton::AlarmsActive:
+            icon.addPixmap(buttonPixmap("40x40 alarme mesure gif.png"), QIcon::Normal, QIcon::Off);
+            icon.addPixmap(buttonPixmap("40x40 alarme mesure active.png"), QIcon::Selected, QIcon::Off);
+            break;
 
-    case CToolButton::Back:
-        icon.addPixmap(buttonPixmap("40x40 quitter.png"), QIcon::Normal, QIcon::Off);
-        icon.addPixmap(buttonPixmap("40x40 quitter active.png"), QIcon::Selected, QIcon::Off);
-        icon.addPixmap(buttonPixmap("40x40 quitter grisee.png"), QIcon::Disabled, QIcon::Off);
-        break;
+        case CToolButton::ScrollUp:
+            icon.addPixmap(buttonPixmap("75x75 fleche haut.png"), QIcon::Normal, QIcon::Off);
+            icon.addPixmap(buttonPixmap("75x75 fleche haut active.png"), QIcon::Selected, QIcon::Off);
+            icon.addPixmap(buttonPixmap("75x75 fleche haut grisee.png"), QIcon::Disabled, QIcon::Off);
+            break;
 
-    case CToolButton::On:
-        icon.addPixmap(buttonPixmap("30x30 on.png"), QIcon::Normal, QIcon::Off);
-        icon.addPixmap(buttonPixmap("30x30 on active.png"), QIcon::Selected, QIcon::Off);
-        icon.addPixmap(buttonPixmap("30x30 on grisee.png"), QIcon::Disabled, QIcon::Off);
-        break;
+        case CToolButton::ScrollDown:
+            icon.addPixmap(buttonPixmap("75x75 fleche bas.png"), QIcon::Normal, QIcon::Off);
+            icon.addPixmap(buttonPixmap("75x75 fleche bas active.png"), QIcon::Selected, QIcon::Off);
+            icon.addPixmap(buttonPixmap("75x75 fleche bas grisee.png"), QIcon::Disabled, QIcon::Off);
+            break;
 
-    case CToolButton::Off:
-        icon.addPixmap(buttonPixmap("30x30 off.png"), QIcon::Normal, QIcon::Off);
-        icon.addPixmap(buttonPixmap("30x30 off active.png"), QIcon::Selected, QIcon::Off);
-        icon.addPixmap(buttonPixmap("30x30 off grisee.png"), QIcon::Disabled, QIcon::Off);
-        break;
+        case CToolButton::Back:
+            icon.addPixmap(buttonPixmap("40x40 quitter.png"), QIcon::Normal, QIcon::Off);
+            icon.addPixmap(buttonPixmap("40x40 quitter active.png"), QIcon::Selected, QIcon::Off);
+            icon.addPixmap(buttonPixmap("40x40 quitter grisee.png"), QIcon::Disabled, QIcon::Off);
+            break;
 
-    case CToolButton::Led:
-        icon.addPixmap(buttonPixmap("30x30 Ana-tor inactive.png"), QIcon::Normal, QIcon::Off);
-        icon.addPixmap(buttonPixmap("30x30 Ana-tor active.png"), QIcon::Selected, QIcon::Off);
-        break;
+        case CToolButton::On:
+            icon.addPixmap(buttonPixmap("30x30 on.png"), QIcon::Normal, QIcon::Off);
+            icon.addPixmap(buttonPixmap("30x30 on active.png"), QIcon::Selected, QIcon::Off);
+            icon.addPixmap(buttonPixmap("30x30 on grisee.png"), QIcon::Disabled, QIcon::Off);
+            break;
 
-    case CToolButton::Maintenance:
-        icon.addPixmap(buttonPixmap("50x50 menu maintenance.png"), QIcon::Normal, QIcon::Off);
-        icon.addPixmap(buttonPixmap("50x50 menu maintenance active.png"), QIcon::Selected, QIcon::Off);
-        break;
+        case CToolButton::Off:
+            icon.addPixmap(buttonPixmap("30x30 off.png"), QIcon::Normal, QIcon::Off);
+            icon.addPixmap(buttonPixmap("30x30 off active.png"), QIcon::Selected, QIcon::Off);
+            icon.addPixmap(buttonPixmap("30x30 off grisee.png"), QIcon::Disabled, QIcon::Off);
+            break;
 
-    case CToolButton::ElectricalTests:
-        icon.addPixmap(buttonPixmap("50x50 menu carte mesure.png"), QIcon::Normal, QIcon::Off);
-        icon.addPixmap(buttonPixmap("50x50 menu carte mesure active.png"), QIcon::Selected, QIcon::Off);
-        break;
+        case CToolButton::Led:
+            icon.addPixmap(buttonPixmap("30x30 Ana-tor inactive.png"), QIcon::Normal, QIcon::Off);
+            icon.addPixmap(buttonPixmap("30x30 Ana-tor active.png"), QIcon::Selected, QIcon::Off);
+            break;
 
-    case CToolButton::Options:
-        icon.addPixmap(buttonPixmap("50x50 menu sequenceur.png"), QIcon::Normal, QIcon::Off);
-        icon.addPixmap(buttonPixmap("50x50 menu sequenceur active.png"), QIcon::Selected, QIcon::Off);
-        break;
+        case CToolButton::Maintenance:
+            icon.addPixmap(buttonPixmap("50x50 menu maintenance.png"), QIcon::Normal, QIcon::Off);
+            icon.addPixmap(buttonPixmap("50x50 menu maintenance active.png"), QIcon::Selected, QIcon::Off);
+            break;
 
-    case CToolButton::History:
-        icon = QIcon(buttonPixmap("50x50 historique.png"));
-        break;
+        case CToolButton::ElectricalTests:
+            icon.addPixmap(buttonPixmap("50x50 menu carte mesure.png"), QIcon::Normal, QIcon::Off);
+            icon.addPixmap(buttonPixmap("50x50 menu carte mesure active.png"), QIcon::Selected, QIcon::Off);
+            break;
 
-    case CToolButton::LogFiles:
-        icon.addPixmap(buttonPixmap("50x50 transfert copie.png"), QIcon::Normal, QIcon::Off);
-        icon.addPixmap(buttonPixmap("50x50 transfert copie actif.png"), QIcon::Selected, QIcon::Off);
-        break;
+        case CToolButton::Options:
+            icon.addPixmap(buttonPixmap("50x50 menu sequenceur.png"), QIcon::Normal, QIcon::Off);
+            icon.addPixmap(buttonPixmap("50x50 menu sequenceur active.png"), QIcon::Selected, QIcon::Off);
+            break;
 
-    case CToolButton::Quit:
-        icon.addPixmap(buttonPixmap("40x40 quitter.png"), QIcon::Normal, QIcon::Off);
-        icon.addPixmap(buttonPixmap("40x40 quitter active.png"), QIcon::Selected, QIcon::Off);
-        icon.addPixmap(buttonPixmap("40x40 quitter grisee.png"), QIcon::Disabled, QIcon::Off);
-        break;
+        case CToolButton::History:
+            icon = QIcon(buttonPixmap("50x50 historique.png"));
+            break;
 
-    case CToolButton::MeasureDetails:
-        icon.addPixmap(buttonPixmap("35x35 detail mesure.png"), QIcon::Normal, QIcon::Off);
-        icon.addPixmap(buttonPixmap("35x35 detail mesure active.png"), QIcon::Selected, QIcon::Off);
-        break;
+        case CToolButton::LogFiles:
+            icon.addPixmap(buttonPixmap("50x50 transfert copie.png"), QIcon::Normal, QIcon::Off);
+            icon.addPixmap(buttonPixmap("50x50 transfert copie actif.png"), QIcon::Selected, QIcon::Off);
+            break;
 
-    case CToolButton::Invalid:
-        break;
+        case CToolButton::Quit:
+            icon.addPixmap(buttonPixmap("40x40 quitter.png"), QIcon::Normal, QIcon::Off);
+            icon.addPixmap(buttonPixmap("40x40 quitter active.png"), QIcon::Selected, QIcon::Off);
+            icon.addPixmap(buttonPixmap("40x40 quitter grisee.png"), QIcon::Disabled, QIcon::Off);
+            break;
+
+        case CToolButton::MeasureDetails:
+            icon.addPixmap(buttonPixmap("35x35 detail mesure.png"), QIcon::Normal, QIcon::Off);
+            icon.addPixmap(buttonPixmap("35x35 detail mesure active.png"), QIcon::Selected, QIcon::Off);
+            break;
+
+        case CToolButton::Invalid:
+            break;
     }
 
     return icon;

@@ -4,6 +4,7 @@
 #include "CAutomate.h"
 #include "CPCWindow.h"
 #include "CAlarmsWindow.h"
+#include "CDisplayConf.h"
 
 CPCMeasureTab::CPCMeasureTab(QWidget *parent)
     : IPCTab(parent)
@@ -27,6 +28,8 @@ CPCMeasureTab::CPCMeasureTab(QWidget *parent)
     ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->swCentral->moveDown());
     connect(CAutomate::getInstance(), &CAutomate::signalStreamsMeasuresChanged,
             this, &CPCMeasureTab::slotUpdateStreamsMeasures);
+    connect(CAutomate::getInstance(), &CAutomate::signalVariableChanged,
+            this, &CPCMeasureTab::slotUpdateAlarmsIcon);
 }
 
 CPCMeasureTab::~CPCMeasureTab()
@@ -80,4 +83,25 @@ void CPCMeasureTab::slotUpdateStreamsMeasures()
     variables << streams.value("stream_1");
     variables << streams.value("stream_2");
     m_measuresHandler->layout(variables);
+}
+
+void CPCMeasureTab::slotUpdateAlarmsIcon(const QString &name)
+{
+    CAutomate *automate = CAutomate::getInstance();
+    IVariablePtrList ivars = automate->getDisplayConf()->getListForScreenAlarms();
+    IVariable *var = automate->getVariable(name);
+    bool alarmActive = false;
+
+    if (ivars.contains(var)) {
+        foreach (IVariable *ivar, ivars) {
+            if (ivar->toBool()) {
+                alarmActive = true;
+            }
+        }
+
+        QAction *action = ui->vbbButtons->action(CToolButton::Alarms);
+        action->setIcon(alarmActive
+                        ? CToolButton::buttonIcon(CToolButton::AlarmsActive)
+                        : CToolButton::buttonIcon(CToolButton::Alarms));
+    }
 }
