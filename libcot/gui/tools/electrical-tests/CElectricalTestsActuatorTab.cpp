@@ -17,7 +17,7 @@ CElectricalTestsActuatorTab::CElectricalTestsActuatorTab(QWidget *parent)
 
     m_elecTestActuatorHandler = new IVariableUIHandler(ui->swCentral, this);
     updateElecTestActuator();
-    connect(CAutomate::getInstance(), &CAutomate::signalDisplayconfChanged,
+    connect(CAutomate::getInstance(), &CAutomate::signalDisplayConfChanged,
             this, &CElectricalTestsActuatorTab::updateElecTestActuator);
 }
 

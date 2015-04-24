@@ -17,7 +17,7 @@ CElectricalTests420Tab::CElectricalTests420Tab(QWidget *parent)
 
     m_elecTest420Handler = new IVariableUIHandler(ui->swCentral, this);
     updateElecTest420();
-    connect(CAutomate::getInstance(), &CAutomate::signalDisplayconfChanged,
+    connect(CAutomate::getInstance(), &CAutomate::signalDisplayConfChanged,
             this, &CElectricalTests420Tab::updateElecTest420);
 }
 

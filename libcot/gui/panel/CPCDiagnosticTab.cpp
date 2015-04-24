@@ -15,7 +15,7 @@ CPCDiagnosticTab::CPCDiagnosticTab(QWidget *parent)
 
     m_diagnosticHandler = new IVariableUIHandler(ui->swCentral, this);
     updateDiagnostic();
-    connect(CAutomate::getInstance(), &CAutomate::signalDisplayconfChanged,
+    connect(CAutomate::getInstance(), &CAutomate::signalDisplayConfChanged,
             this, &CPCDiagnosticTab::updateDiagnostic);
 }
 
