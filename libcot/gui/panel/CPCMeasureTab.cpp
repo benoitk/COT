@@ -2,6 +2,8 @@
 #include "ui_CPCMeasureTab.h"
 #include "IVariableMeasuresUIHandler.h"
 #include "CAutomate.h"
+#include "CPCWindow.h"
+#include "CAlarmsWindow.h"
 
 CPCMeasureTab::CPCMeasureTab(QWidget *parent)
     : IPCTab(parent)
@@ -34,7 +36,7 @@ CPCMeasureTab::~CPCMeasureTab()
 
 void CPCMeasureTab::slotAlarmsTriggered()
 {
-
+    CPCWindow::openModal<CAlarmsWindow>();
 }
 
 void CPCMeasureTab::slotPlayTriggered()

@@ -111,6 +111,7 @@ HEADERS *= \
     gui/widgets/CStatusWidget.h \
     gui/widgets/CToolButton.h \
     gui/widgets/CVerticalButtonBar.h \
+    gui/panel/CAlarmsWindow.h \
     gui/panel/CPCDiagnosticTab.h \
     gui/panel/CPCHistogramTab.h \
     gui/panel/CPCMeasureTab.h \
@@ -130,8 +131,9 @@ HEADERS *= \
     gui/tools/electrical-tests/CElectricalTestsRelaysTab.h \
     gui/tools/electrical-tests/CElectricalTestsWindow.h \
     gui/tools/electrical-tests/IElectricalTestsTab.h \
-    gui/widgets/CSwitchButton.h \
+    gui/widgets/CLabelledToolButton.h \
     gui/widgets/CLedButton.h \
+    gui/widgets/CSwitchButton.h \
     gui/tools/options/COptionsWindow.h \
     gui/tools/options/IOptionsTab.h \
     gui/tools/options/COptionsOptionsTab.h \
@@ -145,9 +147,8 @@ HEADERS *= \
     gui/tools/maintenance/CMaintenanceMaintenanceTab.h \
     gui/tools/maintenance/CMaintenanceWindow.h \
     gui/tools/maintenance/IMaintenanceTab.h \
-    gui/widgets/CLabelledToolButton.h \
-    gui/IVariableUIHandler.h \
-    gui/IVariableMeasuresUIHandler.h
+    gui/IVariableMeasuresUIHandler.h \
+    gui/IVariableUIHandler.h
 
 SOURCES *= \
     automate/CAutomate.cpp \
@@ -217,12 +218,14 @@ SOURCES *= \
     gui/widgets/CGenericItemSelector.cpp \
     gui/widgets/CGenericListDelegate.cpp \
     gui/widgets/CGenericListModel.cpp \
+    gui/widgets/CLabelledToolButton.cpp \
     gui/widgets/CPushButton.cpp \
     gui/widgets/CScrollableWidget.cpp \
     gui/widgets/CStatusLabel.cpp \
     gui/widgets/CStatusWidget.cpp \
     gui/widgets/CToolButton.cpp \
     gui/widgets/CVerticalButtonBar.cpp \
+    gui/panel/CAlarmsWindow.cpp \
     gui/panel/CPCDiagnosticTab.cpp \
     gui/panel/CPCHistogramTab.cpp \
     gui/panel/CPCMeasureTab.cpp \
@@ -252,6 +255,6 @@ SOURCES *= \
     gui/tools/maintenance/CMaintenanceDiagnosticTab.cpp \
     gui/tools/maintenance/CMaintenanceMaintenanceTab.cpp \
     gui/tools/maintenance/CMaintenanceWindow.cpp \
-    gui/widgets/CLabelledToolButton.cpp \
-    gui/IVariableUIHandler.cpp \
-    gui/IVariableMeasuresUIHandler.cpp
+    gui/IVariableMeasuresUIHandler.cpp \
+    gui/IVariableUIHandler.cpp
+
