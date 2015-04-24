@@ -17,7 +17,7 @@ CHistoryWindow::CHistoryWindow(QWidget *parent)
 
     m_historyHandler = new IVariableUIHandler(ui->swCentral, this);
     updateHistory();
-    connect(CAutomate::getInstance(), &CAutomate::signalVariableChanged,
+    connect(CAutomate::getInstance(), &CAutomate::signalDisplayconfChanged,
             this, &CHistoryWindow::updateHistory);
 }
 
