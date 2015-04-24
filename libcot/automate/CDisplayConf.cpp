@@ -4,6 +4,17 @@
 #include "qvariant.h"
 #include "qjsonarray.h"
 #include "qdebug.h"
+
+
+// JSON names for elec_tests, they are used to retrieve the correct IVariable array in a map.
+// the strings are coming from save.json
+// see getMapForScreenElectricalTests()
+const QString CDisplayConf::strElec420 = QString("tab_EV");
+const QString CDisplayConf::strElecRelays = QString("tab_Actionneurs");
+const QString CDisplayConf::strElecInputs = QString("tab_entrees");
+const QString CDisplayConf::strElecPump = QString("tab_pump");
+const QString CDisplayConf::strElecActuator = QString("tab_selecteur");
+
 CDisplayConf::CDisplayConf(const QJsonArray& jsonArray, QObject *parent)
     : QObject(parent)
 {

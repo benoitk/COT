@@ -33,6 +33,11 @@ public:
     QList<IVariable*> getListForScreenHistory();
     QList<IVariable*> getListForScreenAlarms();
     
+    static const QString strElec420;
+    static const QString strElecRelays;
+    static const QString strElecInputs;
+    static const QString strElecPump;
+    static const QString strElecActuator;
 
 private:
     QList<IVariable*> m_listForScrenDiagnostic;
