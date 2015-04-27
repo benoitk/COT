@@ -19,8 +19,8 @@ protected:
     virtual int editorColumn() const Q_DECL_OVERRIDE;
     virtual int unitColumn() const Q_DECL_OVERRIDE;
 
-    virtual void rowInserted(const Row &row);
-    virtual void rowChanged(const Row &row, IVariable *ivar);
+    virtual void rowInserted(const Row &row) Q_DECL_OVERRIDE;
+    virtual void rowChanged(const Row &row, IVariable *ivar) Q_DECL_OVERRIDE;
 
 private slots:
     void slotButtonMeasureDetailsClicked();

@@ -4,6 +4,10 @@
 #include "CLedButton.h"
 #include "CPushButton.h"
 #include "CToolButton.h"
+#include "CKeyboardDialog.h"
+#include "CNumericalKeyboardDialog.h"
+#include "CGenericItemSelector.h"
+#include "CPCWindow.h"
 #include "CAutomate.h"
 #include "IVariable.h"
 #include "IVariableInput.h"
@@ -12,6 +16,15 @@
 
 #include <QGridLayout>
 #include <QLabel>
+
+/*
+// Read / Write
+VariableOrganTypeNone
+// Write Only
+VariableOrganTypeOutput
+//Read Only
+VariableOrganTypeInput
+*/
 
 IVariableUIHandler::IVariableUIHandler(CScrollableWidget *scrollable, QObject *parent)
     : QObject(parent)
@@ -59,15 +72,7 @@ void IVariableUIHandler::layout(const QList<IVariable *> &variables)
 void IVariableUIHandler::layout(const QStringList &variables)
 {
     CAutomate *automate = CAutomate::getInstance();
-    QList<IVariable *> ivars;
-
-    foreach (const QString &variable, variables) {
-        IVariable *ivar = automate->getVariable(variable);
-        Q_ASSERT(ivar);
-        ivars << ivar;
-    }
-
-    layout(ivars);
+    layout(automate->getVariables(variables));
 }
 
 QLabel *IVariableUIHandler::newLabel(IVariable *ivar)
@@ -84,127 +89,125 @@ QWidget *IVariableUIHandler::newEditor(IVariable *ivar)
     switch (ivar->getType()) {
         case type_bool: {
             switch (ivar->getOrganType()) {
-                case VariableOrganTypeNone: {
+                case VariableOrganTypeNone:
+                case VariableOrganTypeOutput: {
                     CSwitchButton *editor = new CSwitchButton(m_container);
+                    editor->setUserData(ivar->getName());
                     editor->setChecked(ivar->toBool());
 
                     foreach (CToolButton *button, editor->findChildren<CToolButton *>()) {
                         button->setFixedSize(30, 30);
                     }
 
+                    connect(editor, &CSwitchButton::clicked, this, &IVariableUIHandler::slotSwitchClicked);
                     return editor;
                 }
 
                 case VariableOrganTypeInput: {
                     break;
                 }
-
-                case VariableOrganTypeOutput: {
-                    break;
-                }
             }
 
             CLedButton *editor = new CLedButton(m_container);
+            editor->setUserData(ivar->getName());
             editor->setChecked(ivar->toBool());
             return editor;
         }
 
         case type_float: {
+            CPushButton *editor = new CPushButton(m_container);
+            editor->setUserData(ivar->getName());
+            editor->setText(ivar->toString());
+
             switch (ivar->getOrganType()) {
-                case VariableOrganTypeNone: {
+                case VariableOrganTypeNone:
+                case VariableOrganTypeOutput: {
+                    connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestDoubleValue);
                     break;
                 }
 
                 case VariableOrganTypeInput: {
                     break;
                 }
-
-                case VariableOrganTypeOutput: {
-                    break;
-                }
             }
 
-            CPushButton *editor = new CPushButton(m_container);
-            editor->setText(ivar->toString());
             return editor;
         }
 
         case type_int: {
+            CPushButton *editor = new CPushButton(m_container);
+            editor->setUserData(ivar->getName());
+            editor->setText(ivar->toString());
+
             switch (ivar->getOrganType()) {
-                case VariableOrganTypeNone: {
+                case VariableOrganTypeNone:
+                case VariableOrganTypeOutput: {
+                    connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestIntegerValue);
                     break;
                 }
 
                 case VariableOrganTypeInput: {
                     break;
                 }
-
-                case VariableOrganTypeOutput: {
-                    break;
-                }
             }
 
-            CPushButton *editor = new CPushButton(m_container);
-            editor->setText(ivar->toString());
             return editor;
         }
 
         case type_string: {
+            CPushButton *editor = new CPushButton(m_container);
+            editor->setUserData(ivar->getName());
+            editor->setText(ivar->toString());
+
             switch (ivar->getOrganType()) {
-                case VariableOrganTypeNone: {
+                case VariableOrganTypeNone:
+                case VariableOrganTypeOutput: {
+                    connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestStringValue);
                     break;
                 }
 
                 case VariableOrganTypeInput: {
                     break;
                 }
-
-                case VariableOrganTypeOutput: {
-                    break;
-                }
             }
 
-            CPushButton *editor = new CPushButton(m_container);
-            editor->setText(ivar->toString());
             return editor;
         }
 
         case type_stream: {
+            CPushButton *editor = new CPushButton(m_container);
+            editor->setUserData(ivar->getName());
+            editor->setText(ivar->toString());
+
             switch (ivar->getOrganType()) {
-                case VariableOrganTypeNone: {
+                case VariableOrganTypeNone:
+                case VariableOrganTypeOutput: {
+                    connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestStream);
                     break;
                 }
 
                 case VariableOrganTypeInput: {
                     break;
                 }
-
-                case VariableOrganTypeOutput: {
-                    break;
-                }
             }
 
-            CPushButton *editor = new CPushButton(m_container);
-            editor->setText(ivar->toString());
             return editor;
         }
 
         case type_unknow: {
             switch (ivar->getOrganType()) {
-                case VariableOrganTypeNone: {
+                case VariableOrganTypeNone:
+                case VariableOrganTypeOutput: {
                     break;
                 }
 
                 case VariableOrganTypeInput: {
                     break;
                 }
-
-                case VariableOrganTypeOutput: {
-                    break;
-                }
             }
 
             CPushButton *editor = new CPushButton(m_container);
+            editor->setUserData(ivar->getName());
             editor->setText(ivar->toString());
             return editor;
         }
@@ -251,16 +254,13 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
     switch (ivar->getType()) {
         case type_bool: {
             switch (ivar->getOrganType()) {
-                case VariableOrganTypeNone: {
+                case VariableOrganTypeNone:
+                case VariableOrganTypeOutput: {
                     qobject_cast<CSwitchButton *>(row.editor)->setChecked(ivar->toBool());
                     return;
                 }
 
                 case VariableOrganTypeInput: {
-                    break;
-                }
-
-                case VariableOrganTypeOutput: {
                     break;
                 }
             }
@@ -271,15 +271,12 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
 
         case type_float: {
             switch (ivar->getOrganType()) {
-                case VariableOrganTypeNone: {
+                case VariableOrganTypeNone:
+                case VariableOrganTypeOutput: {
                     break;
                 }
 
                 case VariableOrganTypeInput: {
-                    break;
-                }
-
-                case VariableOrganTypeOutput: {
                     break;
                 }
             }
@@ -290,15 +287,12 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
 
         case type_int: {
             switch (ivar->getOrganType()) {
-                case VariableOrganTypeNone: {
+                case VariableOrganTypeNone:
+                case VariableOrganTypeOutput: {
                     break;
                 }
 
                 case VariableOrganTypeInput: {
-                    break;
-                }
-
-                case VariableOrganTypeOutput: {
                     break;
                 }
             }
@@ -309,15 +303,12 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
 
         case type_string: {
             switch (ivar->getOrganType()) {
-                case VariableOrganTypeNone: {
+                case VariableOrganTypeNone:
+                case VariableOrganTypeOutput: {
                     break;
                 }
 
                 case VariableOrganTypeInput: {
-                    break;
-                }
-
-                case VariableOrganTypeOutput: {
                     break;
                 }
             }
@@ -328,15 +319,12 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
 
         case type_stream: {
             switch (ivar->getOrganType()) {
-                case VariableOrganTypeNone: {
+                case VariableOrganTypeNone:
+                case VariableOrganTypeOutput: {
                     break;
                 }
 
                 case VariableOrganTypeInput: {
-                    break;
-                }
-
-                case VariableOrganTypeOutput: {
                     break;
                 }
             }
@@ -347,15 +335,12 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
 
         case type_unknow: {
             switch (ivar->getOrganType()) {
-                case VariableOrganTypeNone: {
+                case VariableOrganTypeNone:
+                case VariableOrganTypeOutput: {
                     break;
                 }
 
                 case VariableOrganTypeInput: {
-                    break;
-                }
-
-                case VariableOrganTypeOutput: {
                     break;
                 }
             }
@@ -369,7 +354,6 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
 void IVariableUIHandler::slotVariableChanged(const QString &name)
 {
     if (!m_rows.contains(name)) {
-        Q_ASSERT(false);
         return;
     }
 
@@ -378,4 +362,59 @@ void IVariableUIHandler::slotVariableChanged(const QString &name)
     Q_ASSERT(ivar);
 
     rowChanged(row, ivar);
+}
+
+void IVariableUIHandler::slotSwitchClicked()
+{
+    CSwitchButton *editor = qobject_cast<CSwitchButton *>(sender());
+    IVariable *ivar = CAutomate::getInstance()->getVariable(editor->userData().toString());
+    ivar->setValue(editor->isChecked());
+}
+
+void IVariableUIHandler::slotRequestIntegerValue()
+{
+    CPushButton *editor = qobject_cast<CPushButton *>(sender());
+    IVariable *ivar = CAutomate::getInstance()->getVariable(editor->userData().toString());
+    CNumericalKeyboardDialog dlg(CNumericalKeyboardWidget::Integer);
+
+    if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
+        ivar->setValue(dlg.integerValue());
+    }
+}
+
+void IVariableUIHandler::slotRequestDoubleValue()
+{
+    CPushButton *editor = qobject_cast<CPushButton *>(sender());
+    IVariable *ivar = CAutomate::getInstance()->getVariable(editor->userData().toString());
+    CNumericalKeyboardDialog dlg(CNumericalKeyboardWidget::Double);
+
+    if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
+        ivar->setValue(dlg.doubleValue());
+    }
+}
+
+void IVariableUIHandler::slotRequestStringValue()
+{
+    CPushButton *editor = qobject_cast<CPushButton *>(sender());
+    IVariable *ivar = CAutomate::getInstance()->getVariable(editor->userData().toString());
+    CKeyboardDialog dlg;
+
+    if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
+        ivar->setValue(dlg.stringValue());
+    }
+}
+
+void IVariableUIHandler::slotRequestStream()
+{
+    CAutomate *automate = CAutomate::getInstance();
+    CPushButton *editor = qobject_cast<CPushButton *>(sender());
+    IVariable *ivar = automate->getVariable(editor->userData().toString());
+    IVariablePtrList streams = automate->getVariables(automate->getStreams());
+    CGenericItemSelector dlg(streams);
+
+    if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
+        ivar->setValue(dlg.selectedItem()->getName());
+    }
+
+    qDeleteAll(streams);
 }

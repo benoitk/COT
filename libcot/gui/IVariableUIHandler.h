@@ -44,8 +44,13 @@ protected:
     virtual void rowInserted(const Row &row);
     virtual void rowChanged(const Row &row, IVariable *ivar);
 
-protected slots:
+private slots:
     void slotVariableChanged(const QString &name);
+    void slotSwitchClicked();
+    void slotRequestIntegerValue();
+    void slotRequestDoubleValue();
+    void slotRequestStringValue();
+    void slotRequestStream();
 };
 
 #endif // IVARIABLEUIHANDLER_H
