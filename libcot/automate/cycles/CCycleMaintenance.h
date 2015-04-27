@@ -14,7 +14,7 @@ public:
 
     void setType(eTypeCycle) Q_DECL_OVERRIDE;
     eTypeCycle getType()const Q_DECL_OVERRIDE;
-	void addAction(IAction*);
+    void addAction(int arg_step, IAction* action) Q_DECL_OVERRIDE;
     QString getName()const Q_DECL_OVERRIDE;
     void setName(const QString&) Q_DECL_OVERRIDE;
     bool isRunning() Q_DECL_OVERRIDE;
