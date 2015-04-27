@@ -4,5 +4,6 @@ CONFIG *= ordered
 SUBDIRS *= \
     keyboard \
     scrollablewidget \
-    JSON
+    JSON \
+    graphicswidget \ 
 

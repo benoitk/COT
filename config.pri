@@ -49,6 +49,7 @@ INCLUDEPATH *= \
     $${LIBCOT_SRC_PWD}/automate/units \
     $${LIBCOT_SRC_PWD}/updater \
     $${LIBCOT_SRC_PWD}/keyboards \
+    $${LIBCOT_SRC_PWD}/graphics \
     $${KPLOTTING_SRC_PWD}/src \
 
 isEqual(TEMPLATE, "app") {

@@ -2,7 +2,7 @@
 #define KEYBOARDWIDGET_H
 
 #include "CKeyboardNormalButton.h"
-#include "../../libcot/cot_global.h"
+#include "cot_global.h"
 #include "CKeyboardLayoutUtils.h"
 
 #include <QWidget>

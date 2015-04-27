@@ -2,7 +2,7 @@
 #define KEYBOARDNORMALBUTTON_H
 
 #include "CKeyboardButtonBase.h"
-#include "../../libcot/cot_global.h"
+#include "cot_global.h"
 
 class LIBCOT_EXPORT CKeyboardNormalButton : public CKeyboardButtonBase
 {
