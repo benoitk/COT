@@ -213,6 +213,16 @@ QIcon CToolButton::buttonIcon(CToolButton::Type type)
             icon.addPixmap(buttonPixmap("35x35 detail mesure active.png"), QIcon::Selected, QIcon::Off);
             break;
 
+        case CToolButton::Ok:
+            icon.addPixmap(buttonPixmap("40x40 appliquer.png"), QIcon::Normal, QIcon::Off);
+            icon.addPixmap(buttonPixmap("40x40 appliquer active.png"), QIcon::Selected, QIcon::Off);
+            icon.addPixmap(buttonPixmap("40x40 appliquer grisee.png"), QIcon::Disabled, QIcon::Off);
+            break;
+
+        case CToolButton::Cancel:
+            icon.addPixmap(buttonPixmap("50x50 annule.png"), QIcon::Normal, QIcon::Off);
+            break;
+
         case CToolButton::Invalid:
             break;
     }
