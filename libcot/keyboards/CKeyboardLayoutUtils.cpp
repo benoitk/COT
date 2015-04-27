@@ -7,7 +7,31 @@
 // First character is the letter, second letter is the width.
 // Special letter codes: B=backspace  T=tab  C=caps  R=enter  S=shift
 // Special width codes: A space means 2, the default width.
-QStringList CKeyboardLayoutUtils::frenchKeyboardLayout()
+CKeyboardLayoutUtils::CKeyboardLayoutUtils()
+{
+    QHash<QString, QString> trema;
+    trema.insert(QLatin1Literal("e"), QString::fromUtf8("ë"));
+    trema.insert(QLatin1Literal("o"), QString::fromUtf8("ö"));
+    trema.insert(QLatin1Literal("u"), QString::fromUtf8("ü"));
+    trema.insert(QLatin1Literal("y"), QString::fromUtf8("ÿ"));
+    hashKeys.insert(QString::fromUtf8("¨"), trema);
+
+    QHash<QString, QString> caret;
+    caret.insert(QLatin1Literal("e"), QString::fromUtf8("ê"));
+    caret.insert(QLatin1Literal("o"), QString::fromUtf8("ô"));
+    caret.insert(QLatin1Literal("u"), QString::fromUtf8("û"));
+    caret.insert(QLatin1Literal("y"), QString::fromUtf8("ŷ"));
+    hashKeys.insert(QLatin1Literal("^"), caret);
+
+    QHash<QString, QString> tilde;
+    tilde.insert(QLatin1Literal("o"), QString::fromUtf8("õ"));
+    tilde.insert(QLatin1Literal("n"), QString::fromUtf8("ñ"));
+    tilde.insert(QLatin1Literal("a"), QString::fromUtf8("ã"));
+    hashKeys.insert(QLatin1Literal("~"), tilde);
+
+}
+
+QStringList CKeyboardLayoutUtils::frenchKeyboardLayout() const
 {
     const QStringList lst = QStringList() << QStringLiteral("² & é \" ' ( - è _ ç à ) = B3" )
                                           << QStringLiteral("T3a z e r t y u i o p ^ $ " )
@@ -17,7 +41,7 @@ QStringList CKeyboardLayoutUtils::frenchKeyboardLayout()
 }
 
 
-QStringList CKeyboardLayoutUtils::russianKeyboardLayout()
+QStringList CKeyboardLayoutUtils::russianKeyboardLayout() const
 {
     const QStringList lst = QStringList() << QStringLiteral("1 2 3 4 5 6 7 8 9 0 _ = \\ B3")
                                           << QStringLiteral("T3й ц у к е н г ш щ з х ъ ")
@@ -27,7 +51,7 @@ QStringList CKeyboardLayoutUtils::russianKeyboardLayout()
 }
 
 
-QStringList CKeyboardLayoutUtils::englishKeyboardLayout()
+QStringList CKeyboardLayoutUtils::englishKeyboardLayout() const
 {
     const QStringList lst = QStringList() << QStringLiteral("` 1 2 3 4 5 6 7 8 9 0 - = B3" )
                                           << QStringLiteral("T3q w e r t y u i o p [ ] \\ " )
@@ -37,7 +61,7 @@ QStringList CKeyboardLayoutUtils::englishKeyboardLayout()
 }
 
 
-QStringList CKeyboardLayoutUtils::spanishKeyboardLayout()
+QStringList CKeyboardLayoutUtils::spanishKeyboardLayout() const
 {
     const QStringList lst = QStringList() << QStringLiteral("² 1 2 3 4 5 6 7 8 9 0 ' ¡ B3")
                                           << QStringLiteral("T3q w e r t y u i o p [ ] ")
@@ -48,7 +72,7 @@ QStringList CKeyboardLayoutUtils::spanishKeyboardLayout()
 }
 
 
-QStringList CKeyboardLayoutUtils::portugueseKeyboardLayout()
+QStringList CKeyboardLayoutUtils::portugueseKeyboardLayout() const
 {
     const QStringList lst = QStringList() << QStringLiteral("\\ 1 2 3 4 5 6 7 8 9 0 \" B3" )
                                           << QStringLiteral("T3q w e r t y u i o p + ` ")
@@ -58,7 +82,7 @@ QStringList CKeyboardLayoutUtils::portugueseKeyboardLayout()
 }
 
 
-QStringList CKeyboardLayoutUtils::chineseKeyboardLayout()
+QStringList CKeyboardLayoutUtils::chineseKeyboardLayout() const
 {
     const QStringList lst = QStringList() << QStringLiteral("' 1 2 3 4 5 6 7 8 9 0 _ = \\ B3")
                                           << QStringLiteral("T3q w e r t y u i o p [ ] ")
@@ -86,37 +110,37 @@ QChar CKeyboardLayoutUtils::convertToLower(QChar currentChar, const QString &shi
 }
 
 
-QString CKeyboardLayoutUtils::frenchShiftMapping()
+QString CKeyboardLayoutUtils::frenchShiftMapping() const
 {
     return QStringLiteral("&1é2\"3'4(5-6è7_8ç9à0)°=+<>:/;.,?^¨");
 }
 
 
-QString CKeyboardLayoutUtils::russianShiftMapping()
+QString CKeyboardLayoutUtils::russianShiftMapping() const
 {
     return QStringLiteral("1!2\"3И4;5%6:7?8*9(0)_-=+\\/");
 }
 
 
-QString CKeyboardLayoutUtils::englishShiftMapping()
+QString CKeyboardLayoutUtils::englishShiftMapping() const
 {
     return QStringLiteral("1!2@3#4$5%6^7&8*9(0)-_=+[{]};:'\",<.>/?`~");
 }
 
 
-QString CKeyboardLayoutUtils::spanishShiftMapping()
+QString CKeyboardLayoutUtils::spanishShiftMapping() const
 {
     return QStringLiteral("1!2\"3.4$5%6&7/8(9)0=.?");
 }
 
 
-QString CKeyboardLayoutUtils::portugueseShiftMapping()
+QString CKeyboardLayoutUtils::portugueseShiftMapping() const
 {
     return QStringLiteral("\\|1!2\"3#4$5%6&7/8(9]0='?");
 }
 
 
-QString CKeyboardLayoutUtils::chineseShiftMapping()
+QString CKeyboardLayoutUtils::chineseShiftMapping() const
 {
     QString shift = QStringLiteral("1!2@3#4$5%6^7&8*9(0)_-=+\\/");
     shift += QStringLiteral("qㄡwㄊeㄍrㄐtㄔyㄗuㄧiㄛoㄟpㄅ[{]}");
@@ -127,23 +151,6 @@ QString CKeyboardLayoutUtils::chineseShiftMapping()
 
 QString CKeyboardLayoutUtils::convertDeadKey(const QString &deadKey, const QString &newChar)
 {
-    //           dead key,QHash<old character, convert caracter>
-    static QHash<QString, QHash<QString, QString> >hashKeys;
-    if (hashKeys.isEmpty()) {
-        QHash<QString, QString> trema;
-        trema.insert(QLatin1Literal("e"), QString::fromUtf8("ë"));
-        trema.insert(QLatin1Literal("o"), QString::fromUtf8("ö"));
-        trema.insert(QLatin1Literal("u"), QString::fromUtf8("ü"));
-        trema.insert(QLatin1Literal("y"), QString::fromUtf8("ÿ"));
-        hashKeys.insert(QString::fromUtf8("¨"), trema);
-
-        QHash<QString, QString> caret;
-        caret.insert(QLatin1Literal("e"), QString::fromUtf8("ê"));
-        caret.insert(QLatin1Literal("o"), QString::fromUtf8("ô"));
-        caret.insert(QLatin1Literal("u"), QString::fromUtf8("û"));
-        caret.insert(QLatin1Literal("y"), QString::fromUtf8("ŷ"));
-        hashKeys.insert(QLatin1Literal("^"), caret);
-    }
     if (hashKeys.contains(deadKey)) {
         const QHash<QString, QString> valueDeadKey = hashKeys.value(deadKey);
         const QString convertedString = valueDeadKey.value(newChar);
@@ -155,4 +162,9 @@ QString CKeyboardLayoutUtils::convertDeadKey(const QString &deadKey, const QStri
     } else {
         return deadKey;
     }
+}
+
+bool CKeyboardLayoutUtils::isADeadKey(const QString &key)
+{
+    return hashKeys.contains(key);
 }

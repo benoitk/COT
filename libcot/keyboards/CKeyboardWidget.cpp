@@ -1,6 +1,5 @@
 #include "CKeyboardNormalButton.h"
 #include "CKeyboardWidget.h"
-#include "CKeyboardLayoutUtils.h"
 #include "CKeyboardSpecialButton.h"
 
 #include <QDebug>
@@ -63,27 +62,27 @@ void CKeyboardWidget::initializeKeyboardLayout()
     QStringList keyboardLayout;
     Q_FOREACH( const QString &lang, listLanguage) {
         if (lang.startsWith(QLatin1String("fr"))) {
-            keyboardLayout = CKeyboardLayoutUtils::frenchKeyboardLayout();
+            keyboardLayout = utils.frenchKeyboardLayout();
             m_currentLanguage = QStringLiteral("fr_FR");
             break;
         } else if (lang.startsWith(QLatin1String("en")) || lang == QLatin1String("C")) {
-            keyboardLayout = CKeyboardLayoutUtils::englishKeyboardLayout();
+            keyboardLayout = utils.englishKeyboardLayout();
             m_currentLanguage = QStringLiteral("en_GB");
             break;
         } else if (lang.startsWith(QLatin1String("zh"))) {
-            keyboardLayout = CKeyboardLayoutUtils::chineseKeyboardLayout();
+            keyboardLayout = utils.chineseKeyboardLayout();
             m_currentLanguage = QStringLiteral("zh");
             break;
         } else if (lang.startsWith(QLatin1String("ru"))) {
-            keyboardLayout = CKeyboardLayoutUtils::russianKeyboardLayout();
+            keyboardLayout = utils.russianKeyboardLayout();
             m_currentLanguage = QStringLiteral("ru");
             break;
         } else if (lang.startsWith(QLatin1String("es"))) {
-            keyboardLayout = CKeyboardLayoutUtils::spanishKeyboardLayout();
+            keyboardLayout = utils.spanishKeyboardLayout();
             m_currentLanguage = QStringLiteral("es");
             break;
         } else if (lang.startsWith(QLatin1String("pt"))) {
-            keyboardLayout = CKeyboardLayoutUtils::portugueseKeyboardLayout();
+            keyboardLayout = utils.portugueseKeyboardLayout();
             m_currentLanguage = QStringLiteral("pt");
             break;
         }
@@ -91,7 +90,7 @@ void CKeyboardWidget::initializeKeyboardLayout()
 
     //Fallback to french keyboard
     if (keyboardLayout.isEmpty()) {
-        keyboardLayout = CKeyboardLayoutUtils::frenchKeyboardLayout();
+        keyboardLayout = utils.frenchKeyboardLayout();
         m_currentLanguage = QStringLiteral("fr_FR");
     }
 
@@ -190,19 +189,19 @@ void CKeyboardWidget::slotCapsLockToggled()
     QString shiftMapping;
 
     if (m_currentLanguage == QStringLiteral("fr_FR")) {
-        shiftMapping = CKeyboardLayoutUtils::frenchShiftMapping();
+        shiftMapping = utils.frenchShiftMapping();
     } else if (m_currentLanguage == QStringLiteral("en_GB")) {
-        shiftMapping = CKeyboardLayoutUtils::englishShiftMapping();
+        shiftMapping = utils.englishShiftMapping();
     } else if (m_currentLanguage == QStringLiteral("zh")) {
-        shiftMapping = CKeyboardLayoutUtils::chineseShiftMapping();
+        shiftMapping = utils.chineseShiftMapping();
     } else if (m_currentLanguage == QStringLiteral("ru")) {
-        shiftMapping = CKeyboardLayoutUtils::russianShiftMapping();
+        shiftMapping = utils.russianShiftMapping();
     } else if (m_currentLanguage == QStringLiteral("es")) {
-        shiftMapping = CKeyboardLayoutUtils::spanishShiftMapping();
+        shiftMapping = utils.spanishShiftMapping();
     } else if (m_currentLanguage == QStringLiteral("pt")) {
-        shiftMapping = CKeyboardLayoutUtils::portugueseShiftMapping();
+        shiftMapping = utils.portugueseShiftMapping();
     } else {
-        shiftMapping = CKeyboardLayoutUtils::frenchShiftMapping();
+        shiftMapping = utils.frenchShiftMapping();
     }
 
     Q_FOREACH(CKeyboardNormalButton *normalButton, m_normalButtons) {
@@ -211,9 +210,9 @@ void CKeyboardWidget::slotCapsLockToggled()
         if ( currentChar == QLatin1Char('\t') )
             continue;
         if ( m_capsLockOn )
-            normalButton->setCharacter( CKeyboardLayoutUtils::convertToUpper(currentChar, shiftMapping) );
+            normalButton->setCharacter( utils.convertToUpper(currentChar, shiftMapping) );
         else
-            normalButton->setCharacter( CKeyboardLayoutUtils::convertToLower(currentChar, shiftMapping) );
+            normalButton->setCharacter( utils.convertToLower(currentChar, shiftMapping) );
     }
 }
 
@@ -226,15 +225,15 @@ void CKeyboardWidget::slotButtonClicked(const QChar &character)
 {
     QString newCharacter = QString(character);
     // trema is a QString not a unique charactere.
-    if ((m_deadKey != QLatin1Literal("¨") && m_deadKey != QLatin1Literal("^")) && (character == (QString(QLatin1String("¨")).at(1)) || newCharacter == QLatin1Literal("^"))) {
+    if ((!utils.isADeadKey(m_deadKey)) && (character == (QString(QLatin1String("¨")).at(1)) || utils.isADeadKey(character))) {
         m_deadKey = newCharacter;
         return;
     } else {
         if (!m_deadKey.isEmpty()) {
             if (m_deadKey.at(0) == QString(QLatin1Literal("¨")).at(1)) {
-                newCharacter = CKeyboardLayoutUtils::convertDeadKey(m_deadKey.at(0), newCharacter);
+                newCharacter = utils.convertDeadKey(m_deadKey.at(0), newCharacter);
             } else {
-                newCharacter = CKeyboardLayoutUtils::convertDeadKey(m_deadKey, newCharacter);
+                newCharacter = utils.convertDeadKey(m_deadKey, newCharacter);
             }
         }
         clearDeadKey();

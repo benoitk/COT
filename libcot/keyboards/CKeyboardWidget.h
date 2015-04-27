@@ -3,6 +3,7 @@
 
 #include "CKeyboardNormalButton.h"
 #include "../../libcot/cot_global.h"
+#include "CKeyboardLayoutUtils.h"
 
 #include <QWidget>
 class QGridLayout;
@@ -37,6 +38,7 @@ private:
     void initializeKeyboardLayout();
     void changeKeyboardLayout();
     QString m_currentLanguage;
+    CKeyboardLayoutUtils utils;
     QLineEdit *m_lineEdit;
     QGridLayout *m_keyboardLayout;
     QVBoxLayout *m_mainLayout;
