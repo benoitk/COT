@@ -45,8 +45,19 @@ void CSwitchButton::setChecked(bool checked)
     m_buttonGroup->button(checked ? Qt::Checked : Qt::Unchecked)->setChecked(true);
 }
 
+QVariant CSwitchButton::userData() const
+{
+    return m_userData;
+}
+
+void CSwitchButton::setUserData(const QVariant &userData)
+{
+    m_userData = userData;
+}
+
 void CSwitchButton::buttonClicked()
 {
+    emit clicked();
     emit checkedChanged(isChecked());
 }
 

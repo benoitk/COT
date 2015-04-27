@@ -33,3 +33,14 @@ void CPushButton::paintEvent(QPaintEvent *event)
     painter.setBrush(Qt::NoBrush);
     painter.drawText(rect(), Qt::AlignCenter | Qt::TextHideMnemonic, text());
 }
+
+QVariant CPushButton::userData() const
+{
+    return m_userData;
+}
+
+void CPushButton::setUserData(const QVariant &userData)
+{
+    m_userData = userData;
+}
+

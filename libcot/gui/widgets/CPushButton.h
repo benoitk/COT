@@ -2,6 +2,7 @@
 #define CPUSHBUTTON_H
 
 #include <QPushButton>
+#include <QVariant>
 
 // This class represent rounded rect gray push button
 class CPushButton : public QPushButton
@@ -12,8 +13,14 @@ public:
     explicit CPushButton(QWidget *parent = Q_NULLPTR);
     ~CPushButton();
 
+    QVariant userData() const;
+    void setUserData(const QVariant &userData);
+
 protected:
     virtual void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
+
+private:
+    QVariant m_userData;
 };
 
 #endif // CPUSHBUTTON_H

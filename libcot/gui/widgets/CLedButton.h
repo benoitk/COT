@@ -3,6 +3,7 @@
 
 #include <QLabel>
 #include <QIcon>
+#include <QVariant>
 
 class CLedButton : public QLabel
 {
@@ -14,6 +15,9 @@ public:
     Qt::CheckState checkState() const;
     bool isChecked() const;
 
+    QVariant userData() const;
+    void setUserData(const QVariant &userData);
+
 public slots:
     void setCheckState(Qt::CheckState state);
     void setChecked(bool checked);
@@ -21,6 +25,7 @@ public slots:
 private:
     Qt::CheckState m_checkState;
     QIcon m_icon;
+    QVariant m_userData;
 
     void updateIcon();
 };

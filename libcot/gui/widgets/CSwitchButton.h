@@ -2,6 +2,7 @@
 #define CSWITCHBUTTON_H
 
 #include <QWidget>
+#include <QVariant>
 
 class QButtonGroup;
 class CToolButton;
@@ -15,6 +16,9 @@ public:
 
     bool isChecked() const;
 
+    QVariant userData() const;
+    void setUserData(const QVariant &userData);
+
 public slots:
     void setChecked(bool checked);
 
@@ -22,11 +26,13 @@ private:
     QButtonGroup *m_buttonGroup;
     CToolButton *m_onButton;
     CToolButton *m_offButton;
+    QVariant m_userData;
 
 private slots:
     void buttonClicked();
 
 signals:
+    void clicked();
     void checkedChanged(bool checked);
 };
 
