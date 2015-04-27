@@ -1,4 +1,6 @@
 #include <qtest.h>
+#include "CGraphicsWidget.h"
+#include "kplotwidget.h"
 #include <QObject>
 class GraphicsWidgetTest : public QObject
 {
@@ -9,6 +11,9 @@ private slots:
 
 void GraphicsWidgetTest::shouldHaveDefaultValue()
 {
+    CGraphicsWidget w;
+    KPlotWidget *plot = w.findChild<KPlotWidget *>(QStringLiteral("plotwidget"));
+    QVERIFY(plot);
 }
 
 QTEST_MAIN(GraphicsWidgetTest)
