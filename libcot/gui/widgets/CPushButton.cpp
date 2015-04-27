@@ -31,5 +31,5 @@ void CPushButton::paintEvent(QPaintEvent *event)
 
     painter.setPen(palette().color(foregroundRole()));
     painter.setBrush(Qt::NoBrush);
-    painter.drawText(rect(), Qt::AlignCenter, text());
+    painter.drawText(rect(), Qt::AlignCenter | Qt::TextHideMnemonic, text());
 }
