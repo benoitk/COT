@@ -1,5 +1,6 @@
 #include "CKeyboardLayoutUtils.h"
-
+#include <QHash>
+#include <QDebug>
 //See http://fr.wikipedia.org/wiki/Disposition_des_touches_des_claviers_informatiques
 
 // Keyboard layout: one string per row.
@@ -122,4 +123,36 @@ QString CKeyboardLayoutUtils::chineseShiftMapping()
     shift += QStringLiteral("aㄇsㄋdㄎfㄑgㄕhㄘjㄨkㄜlㄠ;:,\"");
     shift += QStringLiteral("zㄈxㄌcㄏvㄒbㄖnㄙmㄩ,ㄝ.ㄆ/ㄙ");
     return shift;
+}
+
+QString CKeyboardLayoutUtils::convertDeadKey(const QString &deadKey, const QString &newChar)
+{
+    //           dead key,QHash<old character, convert caracter>
+    static QHash<QString, QHash<QString, QString> >hashKeys;
+    if (hashKeys.isEmpty()) {
+        QHash<QString, QString> trema;
+        trema.insert(QLatin1Literal("e"), QString::fromUtf8("ë"));
+        trema.insert(QLatin1Literal("o"), QString::fromUtf8("ö"));
+        trema.insert(QLatin1Literal("u"), QString::fromUtf8("ü"));
+        trema.insert(QLatin1Literal("y"), QString::fromUtf8("ÿ"));
+        hashKeys.insert(QString::fromUtf8("¨"), trema);
+
+        QHash<QString, QString> caret;
+        caret.insert(QLatin1Literal("e"), QString::fromUtf8("ê"));
+        caret.insert(QLatin1Literal("o"), QString::fromUtf8("ô"));
+        caret.insert(QLatin1Literal("u"), QString::fromUtf8("û"));
+        caret.insert(QLatin1Literal("y"), QString::fromUtf8("ŷ"));
+        hashKeys.insert(QLatin1Literal("^"), caret);
+    }
+    if (hashKeys.contains(deadKey)) {
+        QHash<QString, QString> valueDeadKey = hashKeys.value(deadKey);
+        QString convertedString = valueDeadKey.value(newChar);
+        if (convertedString.isEmpty()) {
+            return deadKey;
+        } else {
+            return convertedString;
+        }
+    } else {
+        return deadKey;
+    }
 }

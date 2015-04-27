@@ -22,6 +22,8 @@ namespace CKeyboardLayoutUtils
 
     QChar convertToLower(QChar currentChar, const QString &shiftMappingString);
     QChar convertToUpper(QChar currentChar, const QString &shiftMappingString);
+
+    QString convertDeadKey(const QString &deadKey, const QString &newChar);
 }
 
 #endif // KEYBOARDLAYOUTUTILS_H

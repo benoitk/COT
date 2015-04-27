@@ -232,30 +232,9 @@ void CKeyboardWidget::slotButtonClicked(const QChar &character)
     } else {
         if (!m_deadKey.isEmpty()) {
             if (m_deadKey.at(0) == QString(QLatin1Literal("¨")).at(1)) {
-
-                if (newCharacter == QLatin1Literal("e")) {
-                    newCharacter = QString::fromUtf8("ë");
-                } else if (newCharacter == QLatin1Literal("o")) {
-                    newCharacter = QString::fromUtf8("ö");
-                } else if (newCharacter == QLatin1Literal("u")) {
-                    newCharacter = QString::fromUtf8("ü");
-                } else if (newCharacter == QLatin1Literal("y")) {
-                    newCharacter = QString::fromUtf8("ÿ");
-                } else {
-                    newCharacter = m_deadKey;
-                }
+                newCharacter = CKeyboardLayoutUtils::convertDeadKey(m_deadKey.at(0), newCharacter);
             } else if (m_deadKey == QLatin1Literal("^")) {
-                if (newCharacter == QLatin1Literal("e")) {
-                    newCharacter = QString::fromUtf8("ê");
-                } else if (newCharacter == QLatin1Literal("o")) {
-                    newCharacter = QString::fromUtf8("ô");
-                } else if (newCharacter == QLatin1Literal("u")) {
-                    newCharacter = QString::fromUtf8("û");
-                } else if (newCharacter == QLatin1Literal("y")) {
-                    newCharacter = QString::fromUtf8("ŷ");
-                } else {
-                    newCharacter = m_deadKey;
-                }
+                newCharacter = CKeyboardLayoutUtils::convertDeadKey(m_deadKey, newCharacter);
             }
         }
         clearDeadKey();
