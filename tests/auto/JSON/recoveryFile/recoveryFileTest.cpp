@@ -9,56 +9,86 @@
  * @brief automated test to see if the backup/restore of the JSON file works correctly.
  * CConfigurationBackup is tested here.
  */
+
+static const QString SAVE_FILE("save.json");
+static const QString RECOVERY_FILE("save-recovery.json");
+
 class recoveryFileTest : public QObject
 {
     Q_OBJECT
 private slots:
     void initTestCase();
-    void test();
+    void testRecovery();
 
 private:
-    QFile m_jsonExampleFile;
-    QByteArray fileContents(QFile &file);
+    QByteArray fileContents(const QString &fileName);
 };
 
 void recoveryFileTest::initTestCase()
 {
     // check that we have the JSon file available and ready to read
     QVERIFY(!QStringLiteral(COT_JSON_FILE_PATH).isEmpty());
-    QFile originalSaveFile(QStringLiteral(COT_JSON_FILE_PATH));
-    QVERIFY(originalSaveFile.exists());
-    QVERIFY(originalSaveFile.open(QIODevice::ReadOnly | QIODevice::Text));
 
     // put save.json in the current directory for the tests.
-    QByteArray exampleJSONContents = fileContents(originalSaveFile);
-    m_jsonExampleFile.setFileName(QStringLiteral("save.json"));
-    QVERIFY(m_jsonExampleFile.open(QIODevice::ReadWrite | QIODevice::Text));
-    QCOMPARE(m_jsonExampleFile.write(exampleJSONContents), exampleJSONContents.length());
-    QVERIFY(m_jsonExampleFile.seek(0));
+    QByteArray exampleJSONContents = fileContents(QStringLiteral(COT_JSON_FILE_PATH));
+    QFile jsonExampleFile(SAVE_FILE);
+    QVERIFY(jsonExampleFile.exists());
+    QVERIFY(jsonExampleFile.open(QIODevice::ReadWrite | QIODevice::Text));
+    QCOMPARE(jsonExampleFile.write(exampleJSONContents), exampleJSONContents.length());
 }
 
-void recoveryFileTest::test()
+void recoveryFileTest::testRecovery()
 {
-    QByteArray exampleJSONContents = fileContents(m_jsonExampleFile);
+    QByteArray exampleJSONContents = fileContents(SAVE_FILE);
     QVERIFY(!exampleJSONContents.isEmpty());
 
+    // * create save-recovery.json
+    // * Create a backup of save.json with timestamp
+    // * Overwtire save.json with contents from save-recovery.json
     CConfigurationBackup backup;
+    QString backupFileName;
     QVERIFY(backup.createRecoveryFile(exampleJSONContents));
-    QVERIFY(backup.overwriteConfigurationFile());
+    QVERIFY(backup.overwriteConfigurationFile(&backupFileName));
+
+    // let's see if the files are here and populated with the expected data
+    QByteArray saveFileContents = fileContents(SAVE_FILE);
+    QVERIFY(!saveFileContents.isEmpty());
+    QByteArray recoveryFileContents = fileContents(RECOVERY_FILE);
+    QVERIFY(!recoveryFileContents.isEmpty());
+    QByteArray backupFileContents = fileContents(backupFileName);
+    QVERIFY(!backupFileContents.isEmpty());
+
+    QCOMPARE(saveFileContents, recoveryFileContents);
+    QCOMPARE(saveFileContents, backupFileContents);
+    QCOMPARE(recoveryFileContents, backupFileContents);
+
+
+    // test updating the contents of the save.json file
+    QByteArray updatedContents(QString("this would be the new contents").toLatin1());
+    QVERIFY(backup.writeToConfigurationFile(updatedContents));
+    saveFileContents = fileContents(SAVE_FILE);
+    QVERIFY(!saveFileContents.isEmpty());
+    QCOMPARE(saveFileContents, updatedContents);
+
 }
 
-QByteArray recoveryFileTest::fileContents(QFile &file)
-{
-    if (!file.isOpen() && !file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+QByteArray recoveryFileTest::fileContents(const QString &fileName)
+{   
+    QFile file(fileName);
+    if (!file.exists()) {
+        return QByteArray();
+    } else if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         return QByteArray();
     }
 
-    QByteArray exampleJSONContents;
+
+    QByteArray contents;
     while (!file.atEnd()) {
-        exampleJSONContents.append(file.readLine());
+        contents.append(file.readLine());
     }
-    return exampleJSONContents;
+    return contents;
 }
+
 
 QTEST_MAIN(recoveryFileTest)
 

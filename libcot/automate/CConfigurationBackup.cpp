@@ -6,7 +6,8 @@
 namespace {
 static const QString recoveryFileName = QStringLiteral("save-recovery.json");
 static const QString saveFileName = QStringLiteral("save.json");
-static const QDir jsonDirectory(QStringLiteral("./"));
+static const QDir jsonDirectory(QStringLiteral("./")); // KDAB_TODO: Use correct path once it have been choosen.
+
 }
 
 CConfigurationBackup::CConfigurationBackup(QObject *parent)
@@ -25,22 +26,15 @@ QString CConfigurationBackup::jsonSaveFile() const
 
 bool CConfigurationBackup::createRecoveryFile(const QByteArray &contents)
 {
-    QFile file(jsonRecoveryFile());
-
-    if (file.exists()) {
-        file.remove();
+    // remove the file if it exists
+    if (QFile::exists(jsonRecoveryFile()) && !QFile::remove(jsonRecoveryFile())) {
+        return false;
     }
 
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
-        return false;
-
-    qint64 writtenBytes = file.write(contents);
-    const bool correctAmountOfBytesWritten = writtenBytes == contents.size();
-
-    return correctAmountOfBytesWritten;
+    return createFile(jsonRecoveryFile(), contents);
 }
 
-bool CConfigurationBackup::overwriteConfigurationFile()
+bool CConfigurationBackup::overwriteConfigurationFile(QString *generatedBackupFileName)
 {
     QFile recoveryFile(jsonRecoveryFile());
     QFile saveFile(jsonSaveFile());
@@ -51,6 +45,12 @@ bool CConfigurationBackup::overwriteConfigurationFile()
 
     // make a backup of save.json
     QString backupFileName(QDateTime::currentDateTime().toString("dd:MM:yyyy:hh:mm:ss-") + saveFileName);
+
+    if (generatedBackupFileName != Q_NULLPTR) {
+        *generatedBackupFileName = backupFileName;
+    }
+
+
     if (QFile::exists(backupFileName)) {
         return false;
     }
@@ -60,13 +60,43 @@ bool CConfigurationBackup::overwriteConfigurationFile()
     }
 
     // copy recovery-save.json into save.json
-    if (!saveFile.remove()) {
-        return false;
-    }
-    else if (!recoveryFile.copy(saveFile.fileName())) {
+    if (!recoveryFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
         return false;
     }
 
+    writeToConfigurationFile(recoveryFile.readAll());
     return true;
+}
+
+bool CConfigurationBackup::writeToConfigurationFile(const QByteArray &newContents)
+{
+    if (newContents.isEmpty()) {
+        return false;
+    }
+
+    // remove save,json and create a new one
+    if (!QFile::remove(jsonSaveFile())) {
+        return false;
+    }
+
+    return createFile(jsonSaveFile(), newContents);
+
+}
+
+bool CConfigurationBackup::createFile(const QString &fileName, const QByteArray &contents)
+{
+    QFile file(fileName);
+
+    if (file.exists()) {
+        return false;
+    }
+
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+        return false;
+
+    qint64 writtenBytes = file.write(contents);
+    const bool correctAmountOfBytesWritten = writtenBytes == contents.size();
+
+    return correctAmountOfBytesWritten && file.flush();
 }
 

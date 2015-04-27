@@ -33,8 +33,25 @@ public:
     /**
      * @brief Overwrite save.json with save-recovery.json
      * @return true if the file was successfully overwritten
+     * @param generatedBackupFileName, a way to get the generated backup file.
      */
-    bool overwriteConfigurationFile();
+    bool overwriteConfigurationFile(QString *generatedBackupFileName = Q_NULLPTR);
+
+public slots:
+    /**
+     * @brief rewriteConfigurationFile writes the passed QByteArray into save.json.
+     * @return true if the file was successfully written (Also checks the integrity of newContents to some extend)
+     */
+    bool writeToConfigurationFile(const QByteArray &newContents);
+
+private:
+
+    /**
+     * @brief Creates a file  with the name "filename" and the contents "contents"
+     * @return
+     */
+    bool createFile(const QString &fileName, const QByteArray &contents);
+
 
 
 };
