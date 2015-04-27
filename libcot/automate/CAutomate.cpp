@@ -71,7 +71,23 @@ IVariable* CAutomate::getVariable(const QString &name){
 	if(!var){
         var = CVariableFactory::build(name + QLatin1String("unknow in map"));
 	}
-	return var;
+    return var;
+}
+
+QList<IVariable *> CAutomate::getVariables(const QStringList &names)
+{
+    QMutexLocker locker(&m_mutex);
+    QList<IVariable *> ivars;
+
+    foreach (const QString &name, names) {
+        IVariable *ivar = m_mapVariables.value(name, 0);
+        if(!ivar){
+            ivar = CVariableFactory::build(name + QLatin1String("unknow in map"));
+        }
+        ivars << ivar;
+    }
+
+    return ivars;
 }
 
 void CAutomate::addVariable(const QString& name, IVariable* var){

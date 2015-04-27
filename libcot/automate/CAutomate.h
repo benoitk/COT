@@ -125,6 +125,7 @@ public:
 	void addCycle(ICycle*);
 
 	IVariable* getVariable(const QString&);
+    QList<IVariable *> getVariables(const QStringList&);
 	void addVariable(const QString&, IVariable*);
     void addUnit(CUnit*);
 
