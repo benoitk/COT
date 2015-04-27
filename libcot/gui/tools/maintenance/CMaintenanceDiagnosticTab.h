@@ -19,7 +19,7 @@ public:
 
 private:
     Ui::CMaintenanceDiagnosticTab *ui;
-    IVariableUIHandler *m_variableHandler;
+    IVariableUIHandler *m_diagnosticHandler;
 
 private slots:
     void slotUpdateLayout();
