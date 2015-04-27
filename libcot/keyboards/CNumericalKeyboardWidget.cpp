@@ -11,6 +11,21 @@
 
 CNumericalKeyboardWidget::CNumericalKeyboardWidget(QWidget *parent)
     : QWidget(parent)
+    , m_mode(CNumericalKeyboardWidget::Double)
+{
+    m_mainLayout = new QVBoxLayout(this);
+
+    m_lineEdit = new QLineEdit(this);
+    m_lineEdit->setValidator(new QDoubleValidator(m_lineEdit) );
+    m_lineEdit->setReadOnly(true);
+    m_lineEdit->setObjectName(QStringLiteral("lineedit"));
+    m_mainLayout->addWidget(m_lineEdit);
+    initializeKeyboardLayout();
+}
+
+CNumericalKeyboardWidget::CNumericalKeyboardWidget(CNumericalKeyboardWidget::Mode mode, QWidget *parent)
+    : QWidget(parent)
+    , m_mode(mode)
 {
     m_mainLayout = new QVBoxLayout(this);
 
@@ -85,11 +100,16 @@ void CNumericalKeyboardWidget::initializeKeyboardLayout()
     gridLayout->addWidget( createButton( QLatin1Char('3') ), 2, 2 );
     gridLayout->addWidget( createButton( QLatin1Char('0') ), 3, 0, 1, 2  );
 
+    if (m_mode == CNumericalKeyboardWidget::Double) {
+        m_digitalButton = new CKeyboardNormalButton(this);
+        connect(m_digitalButton, &CKeyboardNormalButton::clicked, this, &CNumericalKeyboardWidget::slotDigitalButtonPressed);
 
-    m_digitalButton = new CKeyboardNormalButton(this);
-    connect(m_digitalButton, &CKeyboardNormalButton::clicked, this, &CNumericalKeyboardWidget::slotDigitalButtonPressed);
+        gridLayout->addWidget( m_digitalButton, 3, 2 );
+    }
+    else {
+        m_digitalButton = Q_NULLPTR;
+    }
 
-    gridLayout->addWidget( m_digitalButton, 3, 2 );
     specialButton = new CKeyboardSpecialButton( this );
     specialButton->setText( QChar(0xB1) ); // "plus/minus" sign
     connect( specialButton, SIGNAL(clicked(bool)), this, SLOT(slotChangeSign(bool)) );
@@ -111,7 +131,9 @@ void CNumericalKeyboardWidget::slotChangeSign(bool)
 
 void CNumericalKeyboardWidget::updateDigitalText()
 {
-    m_digitalButton->setCharacter(QLocale::system().decimalPoint());
+    if (m_digitalButton) {
+        m_digitalButton->setCharacter(QLocale::system().decimalPoint());
+    }
 }
 
 void CNumericalKeyboardWidget::slotSpecialButtonClicked(Qt::Key key)

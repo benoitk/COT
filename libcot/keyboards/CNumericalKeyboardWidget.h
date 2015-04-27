@@ -10,7 +10,13 @@ class LIBCOT_EXPORT CNumericalKeyboardWidget : public QWidget
 {
     Q_OBJECT
 public:
+    enum Mode {
+        Integer = 0,
+        Double
+    };
+
     explicit CNumericalKeyboardWidget(QWidget *parent = Q_NULLPTR);
+    explicit CNumericalKeyboardWidget(CNumericalKeyboardWidget::Mode mode, QWidget *parent = Q_NULLPTR);
     ~CNumericalKeyboardWidget();
 
     double number() const;
@@ -32,6 +38,7 @@ private:
     QVBoxLayout *m_mainLayout;
     QLineEdit *m_lineEdit;
     CKeyboardNormalButton *m_digitalButton;
+    CNumericalKeyboardWidget::Mode m_mode;
 };
 
 #endif // NUMERICALKEYBOARDWIDGET_H
