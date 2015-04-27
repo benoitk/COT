@@ -233,7 +233,7 @@ void CKeyboardWidget::slotButtonClicked(const QChar &character)
         if (!m_deadKey.isEmpty()) {
             if (m_deadKey.at(0) == QString(QLatin1Literal("¨")).at(1)) {
                 newCharacter = CKeyboardLayoutUtils::convertDeadKey(m_deadKey.at(0), newCharacter);
-            } else if (m_deadKey == QLatin1Literal("^")) {
+            } else {
                 newCharacter = CKeyboardLayoutUtils::convertDeadKey(m_deadKey, newCharacter);
             }
         }
