@@ -145,8 +145,8 @@ QString CKeyboardLayoutUtils::convertDeadKey(const QString &deadKey, const QStri
         hashKeys.insert(QLatin1Literal("^"), caret);
     }
     if (hashKeys.contains(deadKey)) {
-        QHash<QString, QString> valueDeadKey = hashKeys.value(deadKey);
-        QString convertedString = valueDeadKey.value(newChar);
+        const QHash<QString, QString> valueDeadKey = hashKeys.value(deadKey);
+        const QString convertedString = valueDeadKey.value(newChar);
         if (convertedString.isEmpty()) {
             return deadKey;
         } else {
