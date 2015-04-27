@@ -17,7 +17,7 @@ CElectricalTestsInputsTab::CElectricalTestsInputsTab(QWidget *parent)
 
     m_elecTestInputsHandler = new IVariableUIHandler(ui->swCentral, this);
     updateElecTestInputs();
-    connect(CAutomate::getInstance(), &CAutomate::signalDisplayConfChanged,
+    connect(CAutomate::getInstance(), &CAutomate::signalDisplayChanged,
             this, &CElectricalTestsInputsTab::updateElecTestInputs);
 }
 
