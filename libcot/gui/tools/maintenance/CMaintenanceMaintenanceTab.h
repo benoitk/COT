@@ -7,6 +7,8 @@ namespace Ui {
 class CMaintenanceMaintenanceTab;
 }
 
+class IVariableUIHandler;
+
 class CMaintenanceMaintenanceTab : public IMaintenanceTab
 {
     Q_OBJECT
@@ -17,6 +19,10 @@ public:
 
 private:
     Ui::CMaintenanceMaintenanceTab *ui;
+    IVariableUIHandler *m_variableHandler;
+
+private slots:
+    void slotUpdateLayout();
 };
 
 #endif // CMAINTENANCEMAINTENANCETAB_H
