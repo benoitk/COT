@@ -48,6 +48,8 @@ public:
     void setMapStreamsMeasures(QMap<QString, QList<QString>>);
     CDisplayConf* getDisplayConf()const;
 
+    static QString formatHistoryEntry(const QString &name, const QDateTime &dateTime);
+
     // KDAB: Needed api
     template <typename T, typename Val>
     void createVariable(const QString &name, const Val &val) {

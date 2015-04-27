@@ -231,6 +231,17 @@ CDisplayConf* CAutomate::getDisplayConf()const{
     return m_displayConf;
 }
 
+QString CAutomate::formatHistoryEntry(const QString &name, const QDateTime &dateTime)
+{
+    IVariable *ivar = getInstance()->getVariable(name);
+    Q_ASSERT(ivar);
+    return tr("%1: %2 (%3) updated to value %4")
+            .arg(dateTime.toString())
+            .arg(ivar->getLabel())
+            .arg(ivar->getName())
+            .arg(ivar->toString());
+}
+
 void CAutomate::setDisplayConf(CDisplayConf* displayConf){
     QMutexLocker locker(&m_mutex);
     m_displayConf = displayConf;
