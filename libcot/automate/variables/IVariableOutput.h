@@ -14,7 +14,7 @@ public:
 	virtual ~IVariableOutput() {}
 	virtual CModelExtensionCard* getExtensionCard()const=0;
 	virtual QString getOrganneName()const=0;
-	virtual void setOrganne(CModelExtensionCard* ,QString)=0;
+    virtual void setOrganne(CModelExtensionCard* ,const QString &)=0;
 	virtual QString getOrganneAddr()const=0;
 	virtual IComObserver* getComObserver()const=0;
 	virtual IVariable* getIVariable()=0;

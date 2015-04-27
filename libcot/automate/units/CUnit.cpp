@@ -20,7 +20,7 @@ QString CUnit::getName()const{
 	return m_name;
 }
 
-QVariant CUnit::convert(QString targetKey, QVariant sourceValue){
+QVariant CUnit::convert(const QString &targetKey, const QVariant &sourceValue){
 	IConverter* converter = m_mapConverter.value(targetKey);
 	QVariant var;
 	if(converter)
@@ -29,10 +29,10 @@ QVariant CUnit::convert(QString targetKey, QVariant sourceValue){
 	return var;
 }
 
-void CUnit::addConverter(QString key, IConverter* converter){
+void CUnit::addConverter(const QString &key, IConverter* converter){
 	m_mapConverter.insert(key, converter);
 }
-void CUnit::setConvertion(QString key, IConverter* converter){
+void CUnit::setConvertion(const QString &key, IConverter* converter){
 	m_mapConverter.insert(key, converter);
 
 }

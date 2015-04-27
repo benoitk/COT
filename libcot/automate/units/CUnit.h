@@ -15,9 +15,9 @@ public:
 	~CUnit();
 	QString getLbl()const;
 	QString getName()const;
-	QVariant convert(QString, QVariant);
-	void addConverter(QString, IConverter*);
-	void setConvertion(QString, IConverter*);
+    QVariant convert(const QString &, const QVariant &);
+    void addConverter(const QString &, IConverter*);
+    void setConvertion(const QString &, IConverter*);
 
 private:
 	QString m_lbl;
