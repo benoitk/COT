@@ -17,6 +17,7 @@
 
 #include <QObject>
 #include <QStringList>
+#include <QDateTime>
 #include "qmap.h"
 #include "qmutex.h"
 
@@ -149,7 +150,7 @@ signals:
     // KDAB: Needed api
     void signalStreamsChanged(); // When the streams section changed
     void signalDisplayChanged(); // When the display section is changed
-    void signalVariableChanged(const QString &name); // when the value of a variable changed
+    void signalVariableChanged(const QString &name, const QDateTime &dateTime = QDateTime()); // when the value of a variable changed
 
 private:
 	static CAutomate* singleton;
