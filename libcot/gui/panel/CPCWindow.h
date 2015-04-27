@@ -1,6 +1,7 @@
 #ifndef CPCWINDOW_H
 #define CPCWINDOW_H
 
+#include <QDialog>
 #include <QWidget>
 #include <QApplication>
 
@@ -20,6 +21,27 @@ class LIBCOT_EXPORT CPCWindow : public QWidget
 public:
     explicit CPCWindow(QWidget *parent = Q_NULLPTR);
     ~CPCWindow();
+
+    static int openExec(QDialog *dialog) {
+        QWidget *parent = QApplication::activeWindow();
+
+        if (!parent) {
+            Q_ASSERT(false);
+            return QDialog::Rejected;
+        }
+
+#ifdef QT_DEBUG
+        // add windows decorations when debugging
+        dialog->setWindowFlags(Qt::Dialog);
+#else
+        widget->setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint);
+#endif
+        dialog->adjustSize();
+        QRect rect = QRect(QPoint(), dialog->minimumSize());
+        rect.moveCenter(parent->geometry().center());
+        dialog->setGeometry(rect);
+        return dialog->exec();
+    }
 
     static void openModal(QWidget *widget, const QRect &geometry) {
 #ifdef QT_DEBUG
