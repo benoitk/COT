@@ -1,6 +1,7 @@
 # $$top_builddir
 # $$top_srcdir
 
+KPLOTTING_SRC_PWD = $${top_srcdir}/3rd_party/kplotting/
 LIBCOT_SRC_PWD = $${top_srcdir}/libcot
 LIBCOT_BUILD_PWD = $${top_builddir}/lib
 
@@ -47,7 +48,8 @@ INCLUDEPATH *= \
     $${LIBCOT_SRC_PWD}/automate/actions \
     $${LIBCOT_SRC_PWD}/automate/units \
     $${LIBCOT_SRC_PWD}/updater \
-    $${LIBCOT_SRC_PWD}/keyboards
+    $${LIBCOT_SRC_PWD}/keyboards \
+    $${KPLOTTING_SRC_PWD}/src \
 
 isEqual(TEMPLATE, "app") {
     QMAKE_RPATHDIR *= $${LIBCOT_BUILD_PWD}

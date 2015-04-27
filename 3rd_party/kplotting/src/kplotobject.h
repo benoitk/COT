@@ -21,7 +21,8 @@
 #ifndef KPLOTOBJECT_H
 #define KPLOTOBJECT_H
 
-#include <kplotting_export.h>
+//#include "cot_global.h"
+#include "cot_global.h"
 
 #include <QString>
 #include <QColor>
@@ -50,7 +51,7 @@ class KPlotPoint;
  * @author Jason Harris
  * @version 1.1
  */
-class KPLOTTING_EXPORT KPlotObject
+class LIBCOT_EXPORT KPlotObject
 {
 public:
     /**

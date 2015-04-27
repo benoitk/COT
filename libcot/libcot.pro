@@ -148,7 +148,11 @@ HEADERS *= \
     gui/tools/maintenance/CMaintenanceWindow.h \
     gui/tools/maintenance/IMaintenanceTab.h \
     gui/IVariableMeasuresUIHandler.h \
-    gui/IVariableUIHandler.h
+    gui/IVariableUIHandler.h \
+    $$KPLOTTING_SRC_PWD/src/kplotaxis.h \ 
+    $$KPLOTTING_SRC_PWD/src/kplotobject.h \ 
+    $$KPLOTTING_SRC_PWD/src/kplotpoint.h \
+    $$KPLOTTING_SRC_PWD/src/kplotwidget.h \
 
 SOURCES *= \
     automate/CAutomate.cpp \
@@ -256,5 +260,8 @@ SOURCES *= \
     gui/tools/maintenance/CMaintenanceMaintenanceTab.cpp \
     gui/tools/maintenance/CMaintenanceWindow.cpp \
     gui/IVariableMeasuresUIHandler.cpp \
-    gui/IVariableUIHandler.cpp
-
+    gui/IVariableUIHandler.cpp \
+    $$KPLOTTING_SRC_PWD/src/kplotaxis.cpp \ 
+    $$KPLOTTING_SRC_PWD/src/kplotobject.cpp \ 
+    $$KPLOTTING_SRC_PWD/src/kplotpoint.cpp \
+    $$KPLOTTING_SRC_PWD/src/kplotwidget.cpp \

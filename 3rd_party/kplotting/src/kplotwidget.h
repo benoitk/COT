@@ -21,7 +21,7 @@
 #ifndef KPLOTWIDGET_H
 #define KPLOTWIDGET_H
 
-#include <kplotting_export.h>
+#include "cot_global.h"
 
 #include <QFrame>
 #include <QList>
@@ -77,7 +77,7 @@ kpw->addPlotObject( kpo );
  *@author Jason Harris
  *@version 1.1
  */
-class KPLOTTING_EXPORT KPlotWidget : public QFrame
+class LIBCOT_EXPORT KPlotWidget : public QFrame
 {
     Q_OBJECT
     Q_PROPERTY(int leftPadding READ leftPadding)
