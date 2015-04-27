@@ -13,7 +13,7 @@ class LIBCOT_EXPORT CUpdateManager : public QObject
 {
     Q_OBJECT
 public:
-    explicit CUpdateManager(QObject *parent = 0);
+    explicit CUpdateManager(QObject *parent = Q_NULLPTR);
     ~CUpdateManager();
 
     void init();
