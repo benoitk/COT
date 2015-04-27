@@ -16,7 +16,7 @@ class LIBCOT_EXPORT CAlarmsWindow : public IWindow
     Q_OBJECT
 
 public:
-    explicit CAlarmsWindow(QWidget *parent = 0);
+    explicit CAlarmsWindow(QWidget *parent = Q_NULLPTR);
 
 protected slots:
     void updateAlarms();

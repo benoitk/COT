@@ -17,7 +17,7 @@ class LIBCOT_EXPORT CUpdateDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit CUpdateDialog(CUpdateManager *updateManager, QWidget *parent = 0);
+    explicit CUpdateDialog(CUpdateManager *updateManager, QWidget *parent = Q_NULLPTR);
     ~CUpdateDialog();
 
     static bool requestUserUpdate(const QString &version);

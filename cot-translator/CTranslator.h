@@ -12,7 +12,7 @@ class CTranslator : public QObject
     Q_OBJECT
 
 public:
-    explicit CTranslator(QObject *parent = 0);
+    explicit CTranslator(QObject *parent = Q_NULLPTR);
 
     bool exportFrom(const QJsonDocument &jsonDocument, const QString &qmOutputPath);
     bool exportFrom(const QString &jsonFilePath, const QString &qmOutputPath);

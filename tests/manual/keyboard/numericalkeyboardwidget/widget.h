@@ -7,7 +7,7 @@ class Widget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit Widget(QWidget *parent = 0);
+    explicit Widget(QWidget *parent = Q_NULLPTR);
 private:
     CNumericalKeyboardWidget *m_keyboardWidget;
 };
