@@ -92,7 +92,7 @@ QList<CUnit*> CAutomate::getListUnits(){
 
 CModelExtensionCard* CAutomate::getExtensionCard(QString){
     QMutexLocker locker(&m_mutex);
-	CModelExtensionCard* modelExtCard;
+	CModelExtensionCard* modelExtCard = 0;
     // TODO
 	return modelExtCard;
 }
