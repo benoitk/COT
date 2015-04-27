@@ -34,7 +34,7 @@ public:
         // add windows decorations when debugging
         dialog->setWindowFlags(Qt::Dialog);
 #else
-        widget->setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint);
+        dialog->setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint);
 #endif
         dialog->adjustSize();
         QRect rect = QRect(QPoint(), dialog->minimumSize());
