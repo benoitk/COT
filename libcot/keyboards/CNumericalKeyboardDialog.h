@@ -1,25 +1,18 @@
-#include "CNumericalKeyboardDialog.h"
-#include "CNumericalKeyboardWidget.h"
+#ifndef NUMERICALKEYBOARDDIALOG_H
+#define NUMERICALKEYBOARDDIALOG_H
 
-#include <QVBoxLayout>
-
-CNumericalKeyboardDialog::NumericalKeyboardDialog(QWidget *parent)
-    : QDialog(parent)
+#include <QDialog>
+class CNumericalKeyboardWidget;
+class CNumericalKeyboardDialog : public QDialog
 {
-    QHBoxLayout *mainLayout = new QHBoxLayout(this);
-    m_numericalKeyboardWidget = new CNumericalKeyboardWidget(this);
-    connect(m_numericalKeyboardWidget, &CNumericalKeyboardWidget::returnPressed, this, &NumericalKeyboardDialog::accept);
-    m_numericalKeyboardWidget->setObjectName(QStringLiteral("numericalkeyboard"));
-    mainLayout->addWidget(m_numericalKeyboardWidget);
-}
+    Q_OBJECT
+public:
+    explicit CNumericalKeyboardDialog(QWidget *parent=Q_NULLPTR);
+    ~CNumericalKeyboardDialog();
 
-NumericalKeyboardDialog::~NumericalKeyboardDialog()
-{
+    double number() const;
+private:
+    CNumericalKeyboardWidget *m_numericalKeyboardWidget;
+};
 
-}
-
-double NumericalKeyboardDialog::number() const
-{
-    return m_numericalKeyboardWidget->number();
-}
-
+#endif // NUMERICALKEYBOARDDIALOG_H
