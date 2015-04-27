@@ -6,26 +6,23 @@
 namespace Ui {
 class CHistoryWindow;
 }
-class IVariableUIHandler;
+
+class QTextDocument;
 
 class CHistoryWindow : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit CHistoryWindow(QWidget *parent = Q_NULLPTR);
+    explicit CHistoryWindow(QTextDocument *history, QWidget *parent = Q_NULLPTR);
     ~CHistoryWindow();
-
-protected slots:
-    void updateHistory();
-
-private slots:
-    void backTriggered();
 
 private:
     Ui::CHistoryWindow *ui;
-    IVariableUIHandler *m_historyHandler;
 
+private slots:
+    void backTriggered();
+    void slotVariableChanged(const QString &name);
 };
 
 #endif // CHISTORYWINDOW_H

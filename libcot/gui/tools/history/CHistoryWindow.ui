@@ -12,26 +12,16 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <widget class="CScrollableWidget" name="swCentral">
-     <property name="frameShape">
-      <enum>QFrame::NoFrame</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Plain</enum>
-     </property>
-     <property name="widgetResizable">
+    <widget class="CScrollablePlainTextEdit" name="pteHistory">
+     <property name="tabChangesFocus">
       <bool>true</bool>
      </property>
-     <widget class="QWidget" name="swCentralContents">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>356</width>
-        <height>276</height>
-       </rect>
-      </property>
-     </widget>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+     <property name="tabStopWidth">
+      <number>40</number>
+     </property>
     </widget>
    </item>
    <item>
@@ -47,10 +37,9 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>CScrollableWidget</class>
-   <extends>QScrollArea</extends>
+   <class>CScrollablePlainTextEdit</class>
+   <extends>QPlainTextEdit</extends>
    <header>CScrollableWidget.h</header>
-   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

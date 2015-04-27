@@ -9,6 +9,7 @@ class CPCToolsTab;
 }
 
 class CLabelledToolButton;
+class QTextDocument;
 
 class CPCToolsTab : public IPCTab
 {
@@ -27,9 +28,12 @@ protected:
 private:
     Ui::CPCToolsTab *ui;
     QHash<CToolButton::Type, CLabelledToolButton *> m_buttons;
+    QTextDocument *m_history;
 
 private slots:
-    void buttonClicked();
+    void slotButtonClicked();
+    void slotInitializeHistoryDocument();
+    void slotVariableChanged(const QString &name, const QDateTime &dateTime);
 };
 
 #endif // CPCTOOLSTAB_H

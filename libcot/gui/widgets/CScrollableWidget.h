@@ -2,6 +2,7 @@
 #define CSCROLLABLEWIDGET_H
 
 #include <QScrollArea>
+#include <QPlainTextEdit>
 #include "cot_global.h"
 class QAction;
 class LIBCOT_EXPORT CScrollableWidget : public QScrollArea
@@ -16,6 +17,32 @@ public:
     QAction *moveUp() const;
 
     void setScrollableWidget(QWidget *w);
+
+protected:
+    virtual void resizeEvent(QResizeEvent *event);
+
+private slots:
+    void slotMoveUp();
+    void slotMoveDown();
+
+private:
+    void updateActions();
+    QAction *m_moveUp;
+    QAction *m_moveDown;
+};
+
+// CScrollablePlainTextEdit
+
+class LIBCOT_EXPORT CScrollablePlainTextEdit : public QPlainTextEdit
+{
+    Q_OBJECT
+public:
+    explicit CScrollablePlainTextEdit(QWidget *parent = Q_NULLPTR);
+    ~CScrollablePlainTextEdit();
+
+    QAction *moveDown() const;
+
+    QAction *moveUp() const;
 
 protected:
     virtual void resizeEvent(QResizeEvent *event);
