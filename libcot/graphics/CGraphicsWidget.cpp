@@ -30,6 +30,7 @@ void CGraphicsWidget::initializeGraphic()
     m_plotWidget->setBackgroundColor(palette().background().color());
     m_plotWidget->setForegroundColor(Qt::black);
     m_plotWidget->axis(KPlotWidget::RightAxis)->setTickLabelsShown(true);
+    //m_plotWidget->axis(KPlotWidget::BottomAxis)->setTickLabelFormat('t');
     m_plotWidget->setObjectToolTipShown(true);
 }
 
