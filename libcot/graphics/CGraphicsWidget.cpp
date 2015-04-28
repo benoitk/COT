@@ -44,7 +44,19 @@ void CGraphicsWidget::changeLimits(double x1, double x2, double y1, double y2)
     m_plotWidget->setLimits(x1, x2, y1, y2);
 }
 
-KPlotObject *CGraphicsWidget::addCurves(const QList<QPointF> &listPoints, const QString &mesureName, const QColor &col)
+void CGraphicsWidget::addOrUpdateCurve(const QList<QPointF> &listPoints, const QString &mesureName)
+{
+    if (m_plotObjectHash.contains(mesureName)) {
+        //Update plotting.
+        //TODO
+    } else {
+        KPlotObject *plot = addCurve(listPoints, mesureName, createNewColor());
+        m_plotObjectHash.insert(mesureName, plot);
+    }
+}
+
+
+KPlotObject *CGraphicsWidget::addCurve(const QList<QPointF> &listPoints, const QString &mesureName, const QColor &col)
 {
     KPlotObject *curve = new KPlotObject();
     if (col.isValid()) {

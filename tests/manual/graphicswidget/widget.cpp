@@ -11,11 +11,11 @@ Widget::Widget(QWidget *parent)
     for (int i = 0; i < 50; ++i) {
         lst << QPointF(i*10, i+10);
     }
-    graph->addCurves(lst, QStringLiteral("curve1"), CGraphicsWidget::createNewColor());
+    graph->addCurve(lst, QStringLiteral("curve1"), CGraphicsWidget::createNewColor());
     lst.clear();
     for (int i = 0; i < 50; ++i) {
         lst << QPointF(i*30, i*15);
     }
-    graph->addCurves(lst, QStringLiteral("curve2"), CGraphicsWidget::createNewColor());
+    graph->addCurve(lst, QStringLiteral("curve2"), CGraphicsWidget::createNewColor());
 }
 
