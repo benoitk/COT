@@ -12,6 +12,8 @@ public:
     explicit CGraphicsWidget(QWidget *parent = Q_NULLPTR);
     ~CGraphicsWidget();
 
+    void clear();
+    void changeLimits(double x1, double x2, double y1, double y2);
 private:
     void initializeGraphic();
     KPlotWidget *m_plotWidget;
