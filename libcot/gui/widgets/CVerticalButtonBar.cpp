@@ -23,11 +23,14 @@ QAction *CVerticalButtonBar::addAction(CToolButton::Type type, QAction *action)
 
     if (!act) {
         act = action ? action : new QAction(this);
-        act->setText(QString::number(type));
         CToolButton *btn = new CToolButton(type, act, this);
         layout()->addWidget(btn);
         m_actions[type] = act;
         m_buttons[type] = btn;
+
+        if (btn->icon().isNull()) {
+            act->setText(QString::number(type));
+        }
     }
 
     return act;

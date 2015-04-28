@@ -125,12 +125,21 @@ QIcon CToolButton::buttonIcon(CToolButton::Type type)
 
     // enum Mode { Normal, Disabled, Selected };
     switch (type) {
-        case CToolButton::Play:
-        case CToolButton::Stop:
         case CToolButton::StopEndCycle:
         case CToolButton::NextStream:
         case CToolButton::Update:
             // TODO_KDAB:: Handle each icon set in picto / pictohd resources.
+            break;
+
+        case CToolButton::Play:
+            icon.addPixmap(buttonPixmap("30x30 lancer maintenance.png"), QIcon::Normal, QIcon::Off);
+            icon.addPixmap(buttonPixmap("30x30 lancer maintenance active.png"), QIcon::Selected, QIcon::Off);
+            icon.addPixmap(buttonPixmap("30x30 lancer maintenance grisee.png"), QIcon::Disabled, QIcon::Off);
+            break;
+
+        case CToolButton::Stop:
+            icon.addPixmap(buttonPixmap("40x40 stop mesure.png"), QIcon::Normal, QIcon::Off);
+            icon.addPixmap(buttonPixmap("40x40 stop mesure active.png"), QIcon::Selected, QIcon::Off);
             break;
 
         case CToolButton::Alarms:
