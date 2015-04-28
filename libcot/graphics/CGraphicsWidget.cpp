@@ -9,10 +9,8 @@ CGraphicsWidget::CGraphicsWidget(QWidget *parent)
     layout->setMargin(0);
     m_plotWidget = new KPlotWidget(this);
     m_plotWidget->setObjectName(QStringLiteral("plotwidget"));
-    m_plotWidget->setLimits(0, 300, 0, 300);
     layout->addWidget(m_plotWidget);
-    m_plotWidget->axis(KPlotWidget::RightAxis)->setVisible(false);
-    m_plotWidget->axis(KPlotWidget::TopAxis)->setVisible(false);
+    initializeGraphic();
 }
 
 CGraphicsWidget::~CGraphicsWidget()
@@ -20,3 +18,9 @@ CGraphicsWidget::~CGraphicsWidget()
 
 }
 
+void CGraphicsWidget::initializeGraphic()
+{
+    m_plotWidget->setLimits(0, 300, 0, 300);
+    m_plotWidget->axis(KPlotWidget::RightAxis)->setVisible(false);
+    m_plotWidget->axis(KPlotWidget::TopAxis)->setVisible(false);
+}

@@ -13,6 +13,7 @@ public:
     ~CGraphicsWidget();
 
 private:
+    void initializeGraphic();
     KPlotWidget *m_plotWidget;
 };
 
