@@ -116,11 +116,13 @@ void CKeyboardWidget::initializeKeyboardLayout()
                     normalButton->setText( tr( "Tab" ) );
                     button = normalButton;
                     m_normalButtons << normalButton;
+#if 0
                 } else if( charValue == QLatin1Char( 'R' ) ) { // enter
                     specialButton = new CKeyboardSpecialButton( this );
                     specialButton->setText( tr( "Enter" ) );
                     // make Enter do the same as OK
                     connect( specialButton, &CKeyboardSpecialButton::clicked, this, &CKeyboardWidget::returnPressed );
+#endif
                 } else if( charValue == QLatin1Char( 'S' ) ) { // shift
                     specialButton = new CKeyboardSpecialButton( this );
                     specialButton->setText( tr( "Shift" ) );
