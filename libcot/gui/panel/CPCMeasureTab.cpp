@@ -117,7 +117,7 @@ void CPCMeasureTab::slotUpdatePlotting(const QString &name)
     CAutomate *automate = CAutomate::getInstance();
     IVariable *var = automate->getVariable(name);
     if (var->isMeasureRelated()) {
-        //ui->graphicsWidget->
+        //ui->graphicsWidget->addOrUpdateCurve(...);
         //TODO
     }
 }

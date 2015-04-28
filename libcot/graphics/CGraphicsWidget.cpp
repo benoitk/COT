@@ -37,6 +37,7 @@ void CGraphicsWidget::initializeGraphic()
 void CGraphicsWidget::clear()
 {
     m_plotWidget->removeAllPlotObjects();
+    m_plotObjectHash.clear();
 }
 
 void CGraphicsWidget::changeLimits(double x1, double x2, double y1, double y2)
