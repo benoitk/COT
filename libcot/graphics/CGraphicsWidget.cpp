@@ -1,7 +1,9 @@
 #include "CGraphicsWidget.h"
 #include "kplotwidget.h"
+#include "kplotobject.h"
 #include "kplotaxis.h"
 #include <QVBoxLayout>
+#include <QPen>
 CGraphicsWidget::CGraphicsWidget(QWidget *parent)
     : QWidget(parent)
 {
@@ -38,4 +40,21 @@ void CGraphicsWidget::clear()
 void CGraphicsWidget::changeLimits(double x1, double x2, double y1, double y2)
 {
     m_plotWidget->setLimits(x1, x2, y1, y2);
+}
+
+KPlotObject *CGraphicsWidget::addCurves(const QList<QPointF> &listPoints, const QColor &col)
+{
+    KPlotObject *curve = new KPlotObject();
+    if (col.isValid()) {
+        QPen pen = curve->linePen();
+        pen.setColor(col);
+        curve->setLinePen(pen);
+    }
+    curve->setShowLines(true);
+    curve->setShowPoints(false);
+    Q_FOREACH(const QPointF &point, listPoints) {
+        curve->addPoint(point);
+    }
+    m_plotWidget->addPlotObject(curve);
+    return curve;
 }
