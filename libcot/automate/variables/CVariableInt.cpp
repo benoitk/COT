@@ -1,7 +1,7 @@
 #include "CVariableInt.h"
 #include "CUnit.h"
 
-CVariableInt::CVariableInt(QObject *parent):QObject(parent)
+CVariableInt::CVariableInt(QObject *parent):QObject(parent),m_iValeur(-1)
 {
 	
 }
