@@ -4,6 +4,8 @@ QT *= widgets
 
 include("$${top_srcdir}/config.pri")
 
+RC_FILE *= cot-version.rc
+
 RESOURCES *= \
     resources/cot-resources.qrc
 
@@ -35,7 +37,8 @@ FORMS *= \
     gui/tools/history/CHistoryWindow.ui \
     gui/tools/maintenance/CMaintenanceDiagnosticTab.ui \
     gui/tools/maintenance/CMaintenanceMaintenanceTab.ui \
-    gui/tools/maintenance/CMaintenanceWindow.ui
+    gui/tools/maintenance/CMaintenanceWindow.ui \
+    gui/panel/CAboutWindow.ui
 
 HEADERS *= \
     automate/CAutomate.h \
@@ -155,7 +158,8 @@ HEADERS *= \
     $$KPLOTTING_SRC_PWD/src/kplotwidget.h \
     graphics/CGraphicsWidget.h \
     gui/IVariableMaintenanceUIHandler.h \
-    gui/widgets/CLabelledToolButtonGrid.h
+    gui/widgets/CLabelledToolButtonGrid.h \
+    gui/panel/CAboutWindow.h
 
 SOURCES *= \
     automate/CAutomate.cpp \
@@ -270,4 +274,5 @@ SOURCES *= \
     $$KPLOTTING_SRC_PWD/src/kplotwidget.cpp \
     graphics/CGraphicsWidget.cpp \
     gui/IVariableMaintenanceUIHandler.cpp \
-    gui/widgets/CLabelledToolButtonGrid.cpp
+    gui/widgets/CLabelledToolButtonGrid.cpp \
+    gui/panel/CAboutWindow.cpp
