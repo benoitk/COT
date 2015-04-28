@@ -11,6 +11,12 @@
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="1" rowspan="3">
+    <widget class="CVerticalButtonBar" name="vbbButtons" native="true"/>
+   </item>
+   <item row="2" column="0">
+    <widget class="CStatusWidget" name="swStatus" native="true"/>
+   </item>
    <item row="0" column="0">
     <widget class="CScrollableWidget" name="swCentral">
      <property name="frameShape">
@@ -27,18 +33,15 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>356</width>
-        <height>256</height>
+        <width>366</width>
+        <height>250</height>
        </rect>
       </property>
      </widget>
     </widget>
    </item>
-   <item row="0" column="1" rowspan="2">
-    <widget class="CVerticalButtonBar" name="vbbButtons" native="true"/>
-   </item>
    <item row="1" column="0">
-    <widget class="CStatusWidget" name="swStatus" native="true"/>
+    <widget class="CGraphicsWidget" name="widget" native="true"/>
    </item>
   </layout>
  </widget>
@@ -59,6 +62,12 @@
    <class>CScrollableWidget</class>
    <extends>QScrollArea</extends>
    <header>CScrollableWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>CGraphicsWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">CGraphicsWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

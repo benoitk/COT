@@ -55,7 +55,7 @@ KPlotObject *CGraphicsWidget::addCurves(const QList<QPointF> &listPoints, const 
     curve->setShowLines(true);
     //curve->setShowPoints(false);
     Q_FOREACH(const QPointF &point, listPoints) {
-        curve->addPoint(point, mesureName);
+        curve->addPoint(point, QStringLiteral("%1\n%2-%3").arg(mesureName).arg(point.x()).arg(point.y()));
     }
     m_plotWidget->addPlotObject(curve);
     return curve;
