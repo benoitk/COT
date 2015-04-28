@@ -46,15 +46,30 @@ void CGraphicsWidget::changeLimits(double x1, double x2, double y1, double y2)
 
 void CGraphicsWidget::addOrUpdateCurve(const QList<QPointF> &listPoints, const QString &mesureName)
 {
-    if (m_plotObjectHash.contains(mesureName)) {
-        //Update plotting.
-        //TODO
+    KPlotObject *searchPlot = m_plotObjectHash.value(mesureName);
+    if (searchPlot) {
+        int i = 0;
+        Q_FOREACH(KPlotObject *plot, m_plotWidget->plotObjects()) {
+            if (searchPlot == plot) {
+                break;
+            }
+            ++i;
+        }
+        addPoints(listPoints, mesureName, searchPlot);
+        m_plotWidget->replacePlotObject(i, searchPlot);
     } else {
         KPlotObject *plot = addCurve(listPoints, mesureName, createNewColor());
         m_plotObjectHash.insert(mesureName, plot);
     }
+    m_plotWidget->update();
 }
 
+void CGraphicsWidget::addPoints(const QList<QPointF> &listPoints, const QString &mesureName, KPlotObject *curve )
+{
+    Q_FOREACH(const QPointF &point, listPoints) {
+        curve->addPoint(point, QStringLiteral("%1\n%2-%3").arg(mesureName).arg(point.x()).arg(point.y()));
+    }
+}
 
 KPlotObject *CGraphicsWidget::addCurve(const QList<QPointF> &listPoints, const QString &mesureName, const QColor &col)
 {
@@ -66,9 +81,7 @@ KPlotObject *CGraphicsWidget::addCurve(const QList<QPointF> &listPoints, const Q
     }
     curve->setShowLines(true);
     //curve->setShowPoints(false);
-    Q_FOREACH(const QPointF &point, listPoints) {
-        curve->addPoint(point, QStringLiteral("%1\n%2-%3").arg(mesureName).arg(point.x()).arg(point.y()));
-    }
+    addPoints(listPoints, mesureName, curve);
     m_plotWidget->addPlotObject(curve);
     return curve;
 }

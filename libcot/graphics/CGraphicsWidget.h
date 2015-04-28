@@ -20,6 +20,7 @@ public:
     static QColor createNewColor();
     void addOrUpdateCurve(const QList<QPointF> &listPoints, const QString &mesureName);
 private:
+    void addPoints(const QList<QPointF> &listPoints, const QString &mesureName, KPlotObject *curve);
     void initializeGraphic();
     KPlotWidget *m_plotWidget;
     QHash<QString, KPlotObject *> m_plotObjectHash;
