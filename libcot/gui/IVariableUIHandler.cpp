@@ -52,7 +52,7 @@ void IVariableUIHandler::layout(const QList<IVariable *> &variables)
     foreach (IVariable *ivar, variables) {
         Row &row = m_rows[ivar->getName()];
 
-        for (int x = 0; x < columnCount(); x++) {
+        for (int x = 0; x < columnCount(); ++x) {
             QWidget *widget = createWidget(x, ivar);
             row.widgets << widget;
             m_containerLayout->addWidget(widget, y, x);

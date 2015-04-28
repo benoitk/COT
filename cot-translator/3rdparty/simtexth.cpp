@@ -152,7 +152,7 @@ CoMatrix::CoMatrix(const QString &str)
 static inline int worth(const CoMatrix &m)
 {
     int w = 0;
-    for (int i = 0; i < 50; i++)
+    for (int i = 0; i < 50; ++i)
         w += bitCount[m.b[i]];
     return w;
 }
@@ -210,7 +210,7 @@ CandidateList similarTextHeuristicCandidates(const Translator *tor,
             Candidate cand( s, mtm.translation() );
 
             int i;
-            for (i = 0; i < candidates.size(); i++) {
+            for (i = 0; i < candidates.size(); ++i) {
                 if (score >= scores.at(i)) {
                     if (score == scores.at(i)) {
                         if (candidates.at(i) == cand)
