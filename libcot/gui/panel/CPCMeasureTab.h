@@ -23,7 +23,9 @@ private slots:
     void slotStopEndCycleTriggered();
     void slotNextStreamTriggered();
     void slotUpdateStreamsMeasures();
+    void slotVariableChanged(const QString &name);
     void slotUpdateAlarmsIcon(const QString &name);
+    void slotUpdatePlotting(const QString &name);
 
 private:
     Ui::CPCMeasureTab *ui;

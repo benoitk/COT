@@ -29,7 +29,7 @@ CPCMeasureTab::CPCMeasureTab(QWidget *parent)
     connect(CAutomate::getInstance(), &CAutomate::signalStreamsChanged,
             this, &CPCMeasureTab::slotUpdateStreamsMeasures);
     connect(CAutomate::getInstance(), &CAutomate::signalVariableChanged,
-            this, &CPCMeasureTab::slotUpdateAlarmsIcon);
+            this, &CPCMeasureTab::slotVariableChanged);
 }
 
 CPCMeasureTab::~CPCMeasureTab()
@@ -85,6 +85,12 @@ void CPCMeasureTab::slotUpdateStreamsMeasures()
     m_measuresHandler->layout(variables);
 }
 
+void CPCMeasureTab::slotVariableChanged(const QString &name)
+{
+    slotUpdateAlarmsIcon(name);
+    slotUpdatePlotting(name);
+}
+
 void CPCMeasureTab::slotUpdateAlarmsIcon(const QString &name)
 {
     CAutomate *automate = CAutomate::getInstance();
@@ -104,4 +110,9 @@ void CPCMeasureTab::slotUpdateAlarmsIcon(const QString &name)
                         ? CToolButton::buttonIcon(CToolButton::AlarmsActive)
                         : CToolButton::buttonIcon(CToolButton::Alarms));
     }
+}
+
+void CPCMeasureTab::slotUpdatePlotting(const QString &name)
+{
+
 }
