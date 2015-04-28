@@ -4,7 +4,7 @@
 #include <QObject>
 
 
-enum eTypeCycle{CYCLE_MESURE, CYCLE_AUTONOME, CYCLE_MAINTENANCE, CYCLE_PAUSE};
+enum eTypeCycle{CYCLE_ALL = 0, CYCLE_MESURE, CYCLE_AUTONOME, CYCLE_MAINTENANCE, CYCLE_PAUSE};
 
 class IAction;
 class CStep;
@@ -30,6 +30,9 @@ public:
 	virtual CStep* getStepStop()const=0;
 	virtual bool isRunning()=0;
 	virtual bool isPaused()=0;
+    virtual int getCurrentStepIndex() const = 0;
+
+    CStep *getStep(int index) const;
 
 
 public slots:

@@ -12,6 +12,8 @@ public:
 	~CCycleIO();
 
     eTypeCycle getType()const Q_DECL_OVERRIDE;
+    int getCurrentStepIndex() const Q_DECL_OVERRIDE;
+
 public slots:
     void slotRunCycle() Q_DECL_OVERRIDE;
     void slotPauseCycle() Q_DECL_OVERRIDE;

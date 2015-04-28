@@ -94,5 +94,10 @@ QList<CStep*> CCyclePause::getListSteps()const{
 	return m_listSteps;
 }
 CStep* CCyclePause::getStepStop()const{
-	return m_stepStop;
+    return m_stepStop;
+}
+
+int CCyclePause::getCurrentStepIndex() const
+{
+    return -1;
 }

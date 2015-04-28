@@ -39,7 +39,7 @@ public:
 	
 	//use for API 
 	QList<CModelExtensionCard*> getListExtensions();
-	QList<ICycle*> getListCycles();
+    QList<ICycle*> getListCycles(int cycleType = 0);
 	QList<IAction*> getListActions();
 	QList<CUnit*> getListUnits();
 	QMap<QString, IVariable*> getMapVariables();
@@ -110,8 +110,7 @@ public:
     }
 	//FIN API
 
-
-	enum eStateCycle{CYCLE_RUN, CYLE_PAUSE, CYCLE_STOP};
+    enum eStateCycle{CYCLE_STATE_RUN = 1, CYCLE_STATE_PAUSE = 2, CYCLE_STATE_STOP = 0};
 	enum eStateAutomate{GENERAL_DEFAULT, RUNNING};
 	enum eStateStream{STREAM_DEFAULT, WATER_DEFAULT, ACTIVE, INACTIVE};
 	static CAutomate* getInstance();
@@ -125,6 +124,7 @@ public:
     void setDisplayConf(CDisplayConf*);
 
 	void addCycle(ICycle*);
+    ICycle *getCycle(const QString &name, int type) const;
 
 	IVariable* getVariable(const QString&);
     QList<IVariable *> getVariables(const QStringList&);
@@ -151,9 +151,18 @@ public slots:
 signals:
 	void signalRunCycle(int);
     // KDAB: Needed api
-    void signalStreamsChanged(); // When the streams section changed
-    void signalDisplayChanged(); // When the display section is changed
-    void signalVariableChanged(const QString &name, const QDateTime &dateTime = QDateTime()); // when the value of a variable changed
+    // When the streams section changed
+    void signalStreamsChanged();
+    // When the display section is changed
+    void signalDisplayChanged();
+    // When the cycles section is changed
+    void signalCyclesChanged();
+    // When the value of a variable changed
+    void signalVariableChanged(const QString &name, const QDateTime &dateTime = QDateTime());
+    // When internal state of a general cycle changed
+    void signalCycleChanged(const QString &name);
+    // When internal state of the current running maintenance cycle changed
+    void signalCurrentMaintenanceCycleChanged(const QString &name);
 
 private:
 	static CAutomate* singleton;
@@ -163,15 +172,15 @@ private:
 
 	QList<INetwork*> m_listNetworks;
 	QList<CModelExtensionCard*> m_listExtCards;
-	int m_stateCycleMesure; //0 stoped, 1 run, 2 pause
-	int m_stateCycleIO; //0 stoped, 1 run, 2 pause
-	int m_stateCycleMaintenance; //0 stoped, 1 run, 2 pause
+    eStateCycle m_stateCycleMesure; //0 stoped, 1 run, 2 pause
+    eStateCycle m_stateCycleIO; //0 stoped, 1 run, 2 pause
+    eStateCycle m_stateCycleMaintenance; //0 stoped, 1 run, 2 pause
 
 	CSequenceur* m_sequenceur;
     CDisplayConf* m_displayConf;
-	QList<ICycle*> m_listCycleMesures;
-	QList<ICycle*> m_listCycleMaintenances;
-	QList<ICycle*> m_listlCycleAutonomes;
+    QMap<QString, ICycle*> m_listCycleMesures;
+    QMap<QString, ICycle*> m_listCycleMaintenances;
+    QMap<QString, ICycle*> m_listlCycleAutonomes;
 	QList<IAction*> m_listActions;
     QList<CUnit*> m_listUnits;
 

@@ -19,7 +19,12 @@ QList<CStep*> CCycleAutonome::getListSteps()const{
 	return m_listSteps;
 }
 CStep* CCycleAutonome::getStepStop()const{
-	return m_stepStop;
+    return m_stepStop;
+}
+
+int CCycleAutonome::getCurrentStepIndex() const
+{
+    return -1;
 }
 //CCycleAutonome::CCycleAutonome(QObject *parent)
 //	: ICycle(parent)

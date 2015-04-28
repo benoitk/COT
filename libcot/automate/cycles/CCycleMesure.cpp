@@ -102,7 +102,12 @@ QList<CStep*> CCycleMesure::getListSteps()const{
 	return m_listSteps;
 }
 CStep* CCycleMesure::getStepStop()const{
-	return m_stepStop;
+    return m_stepStop;
+}
+
+int CCycleMesure::getCurrentStepIndex() const
+{
+    return -1;
 }
 QString CCycleMesure::getLbl()const{ return m_label;}
 void CCycleMesure::setLbl(const QString &lbl){ m_label = lbl;}

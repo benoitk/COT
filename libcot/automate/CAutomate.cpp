@@ -25,9 +25,9 @@ CAutomate* CAutomate::getInstance(){
 
 CAutomate::CAutomate()
 {
-	m_stateCycleMesure = 0;
-	m_stateCycleIO = 0;
-	m_stateCycleMaintenance = 0;
+    m_stateCycleMesure = CYCLE_STATE_STOP;
+    m_stateCycleIO = CYCLE_STATE_STOP;
+    m_stateCycleMaintenance = CYCLE_STATE_STOP;
  }
 
 void CAutomate::initConfig(){
@@ -118,12 +118,38 @@ QList<CModelExtensionCard*> CAutomate::getListExtensions(){
 	return m_listExtCards;
 }
 
-QList<ICycle*> CAutomate::getListCycles(){
+QList<ICycle*> CAutomate::getListCycles(int cycleType){
     QMutexLocker locker(&m_mutex);
 	QList<ICycle*> listAllCycles;
-	listAllCycles.append(m_listCycleMesures);
-	listAllCycles.append(m_listCycleMaintenances);
-	listAllCycles.append(m_listlCycleAutonomes);
+
+    switch (static_cast<eTypeCycle>(cycleType)) {
+        case CYCLE_ALL: {
+            listAllCycles << m_listCycleMesures.values();
+            listAllCycles << m_listCycleMaintenances.values();
+            listAllCycles << m_listlCycleAutonomes.values();
+            break;
+        }
+
+        case CYCLE_MESURE: {
+            listAllCycles << m_listCycleMesures.values();
+            break;
+        }
+
+        case CYCLE_AUTONOME: {
+            listAllCycles << m_listlCycleAutonomes.values();
+            break;
+        }
+
+        case CYCLE_MAINTENANCE: {
+            listAllCycles << m_listCycleMaintenances.values();
+            break;
+        }
+
+        case CYCLE_PAUSE: {
+            break;
+        }
+    }
+
 	return listAllCycles;
 }
 
@@ -174,16 +200,38 @@ void CAutomate::addCycle(ICycle* cycle){
 	//CControlerCycle* controlerCycle = new CControlerCycle(this, cycle);
 	switch(cycle->getType()){
 	case CYCLE_MESURE:
-		m_listCycleMesures.append(cycle);
+        m_listCycleMesures[cycle->getName()] = cycle;
 		break;
 	case CYCLE_MAINTENANCE :
-		m_listCycleMaintenances.append(cycle);
+        m_listCycleMaintenances[cycle->getName()] = cycle;
 		break;
 	case CYCLE_AUTONOME:
-		m_listlCycleAutonomes.append(cycle); 
+        m_listlCycleAutonomes[cycle->getName()] = cycle;
 		break;
 
-	}
+    case CYCLE_PAUSE:
+    case CYCLE_ALL:
+            break;
+    }
+}
+
+ICycle *CAutomate::getCycle(const QString &name, int type) const
+{
+    QMutexLocker locker(&m_mutex);
+
+    switch(static_cast<eTypeCycle>(type)){
+    case CYCLE_MESURE:
+        return m_listCycleMesures.value(name, Q_NULLPTR);
+    case CYCLE_MAINTENANCE :
+        return m_listCycleMaintenances.value(name, Q_NULLPTR);
+    case CYCLE_AUTONOME:
+        return m_listlCycleAutonomes.value(name, Q_NULLPTR);
+    case CYCLE_PAUSE:
+    case CYCLE_ALL:
+            break;
+    }
+
+    return Q_NULLPTR;
 }
 
 void CAutomate::setStateCycleMesure(eStateCycle state){
@@ -204,19 +252,19 @@ void CAutomate::setStateCycleMaintenance(eStateCycle state){
 CAutomate::eStateCycle CAutomate::getStateCycleMesure(){
     QMutexLocker locker(&m_mutex);
     // TODO
-    return CAutomate::CYCLE_STOP;
+    return CAutomate::CYCLE_STATE_STOP;
 }
 
 CAutomate::eStateCycle CAutomate::getStateCycleIO( ){
     QMutexLocker locker(&m_mutex);
     // TODO
-    return CAutomate::CYCLE_STOP;
+    return CAutomate::CYCLE_STATE_STOP;
 }
 
 CAutomate::eStateCycle CAutomate::getStateCycleMaintenance( ){
     QMutexLocker locker(&m_mutex);
     // TODO
-    return CAutomate::CYCLE_STOP;
+    return CAutomate::CYCLE_STATE_STOP;
 }
 
 void CAutomate::slotRunAutomate(){

@@ -27,7 +27,7 @@ public: //acces multithread possible sur tout les get, penser au mutex sur tous 
     QString getRelatedStreamName()const Q_DECL_OVERRIDE;
     QList<CStep*> getListSteps()const Q_DECL_OVERRIDE;
     CStep* getStepStop()const Q_DECL_OVERRIDE;
-
+    int getCurrentStepIndex() const Q_DECL_OVERRIDE;
 
     bool isRunning() Q_DECL_OVERRIDE;
     bool isPaused() Q_DECL_OVERRIDE;

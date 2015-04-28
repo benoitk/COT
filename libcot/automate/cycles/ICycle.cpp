@@ -27,6 +27,11 @@ ICycle::~ICycle()
 
 }
 
+CStep *ICycle::getStep(int index) const
+{
+    return getListSteps().at(index);
+}
+
 //ICycle* ICycle::factory(QVariantMap mapCycle){
 //	qDebug() << "Pas la bonne factory !!!" ;
 //	ICycle* cycle = NULL;

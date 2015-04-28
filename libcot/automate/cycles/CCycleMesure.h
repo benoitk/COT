@@ -33,6 +33,7 @@ public:
     QString getRelatedStreamName()const Q_DECL_OVERRIDE;
     QList<CStep*> getListSteps()const Q_DECL_OVERRIDE;
     CStep* getStepStop()const Q_DECL_OVERRIDE;
+    int getCurrentStepIndex() const Q_DECL_OVERRIDE;
 
 public slots:
     void slotRunCycle() Q_DECL_OVERRIDE;

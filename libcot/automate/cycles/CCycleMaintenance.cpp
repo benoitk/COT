@@ -51,8 +51,14 @@ QList<CStep*> CCycleMaintenance::getListSteps()const{
 	return m_listSteps;
 }
 CStep* CCycleMaintenance::getStepStop()const{
-	return m_stepStop;
+    return m_stepStop;
 }
+
+int CCycleMaintenance::getCurrentStepIndex() const
+{
+    return -1;
+}
+
 bool CCycleMaintenance::isRunning(){return true;}
 bool CCycleMaintenance::isPaused(){return true;}
 void CCycleMaintenance::slotUnPauseCycle(){}
