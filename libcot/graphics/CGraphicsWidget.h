@@ -17,7 +17,7 @@ public:
     void changeLimits(double x1, double x2, double y1, double y2);
 
     KPlotObject *addCurves(const QList<QPointF> &listPoints, const QString &mesureName = QString(), const QColor &col = QColor());
-    void createNewColor(QColor &defColor);
+    static QColor createNewColor();
 private:
     void initializeGraphic();
     KPlotWidget *m_plotWidget;

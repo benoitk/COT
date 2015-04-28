@@ -61,8 +61,8 @@ KPlotObject *CGraphicsWidget::addCurves(const QList<QPointF> &listPoints, const 
     return curve;
 }
 
-void CGraphicsWidget::createNewColor(QColor &defColor)
+QColor CGraphicsWidget::createNewColor()
 {
     const QColor col = QColor(qrand() % 256, qrand() % 256, qrand() % 256);
-    defColor = col;
+    return col;
 }
