@@ -21,11 +21,14 @@ public:
 
 protected:
     struct Row {
-        Row() : label(Q_NULLPTR), editor(Q_NULLPTR), unit(Q_NULLPTR) { }
+        Row() { }
 
-        QLabel *label;
-        QWidget *editor;
-        QLabel *unit;
+        template <typename T>
+        T widgetAt(int index) const {
+            return qobject_cast<T>(widgets.at(index));
+        }
+
+        QList<QWidget *> widgets;
     };
 
     CScrollableWidget *m_scrollable;
@@ -33,16 +36,15 @@ protected:
     QGridLayout *m_containerLayout;
     QHash<QString, Row> m_rows;
 
-    virtual QLabel *newLabel(IVariable *ivar);
-    virtual QWidget *newEditor(IVariable *ivar);
-    virtual QLabel *newUnit(IVariable *ivar);
-
-    virtual int labelColumn() const;
-    virtual int editorColumn() const;
-    virtual int unitColumn() const;
-
+    virtual int columnCount() const;
+    virtual QWidget *createWidget(int index, IVariable *ivar);
     virtual void rowInserted(const Row &row);
     virtual void rowChanged(const Row &row, IVariable *ivar);
+
+private:
+    QLabel *newLabel(IVariable *ivar);
+    QWidget *newEditor(IVariable *ivar);
+    QLabel *newUnit(IVariable *ivar);
 
 private slots:
     void slotVariableChanged(const QString &name);

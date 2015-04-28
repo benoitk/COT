@@ -51,13 +51,13 @@ void IVariableUIHandler::layout(const QList<IVariable *> &variables)
     int y = 0;
     foreach (IVariable *ivar, variables) {
         Row &row = m_rows[ivar->getName()];
-        row.label = newLabel(ivar);
-        row.editor = newEditor(ivar);
-        row.unit = newUnit(ivar);
 
-        m_containerLayout->addWidget(row.label, y, labelColumn());
-        m_containerLayout->addWidget(row.editor, y, editorColumn());
-        m_containerLayout->addWidget(row.unit, y, unitColumn());
+        for (int x = 0; x < columnCount(); x++) {
+            QWidget *widget = createWidget(x, ivar);
+            row.widgets << widget;
+            m_containerLayout->addWidget(widget, y, x);
+        }
+
         rowChanged(row, ivar);
         rowInserted(row);
         y++;
@@ -73,6 +73,28 @@ void IVariableUIHandler::layout(const QStringList &variables)
 {
     CAutomate *automate = CAutomate::getInstance();
     layout(automate->getVariables(variables));
+}
+
+int IVariableUIHandler::columnCount() const
+{
+    return 3;
+}
+
+QWidget *IVariableUIHandler::createWidget(int index, IVariable *ivar)
+{
+    switch (index) {
+        case 0:
+            return newLabel(ivar);
+
+        case 1:
+            return newEditor(ivar);
+
+        case 2:
+            return newUnit(ivar);
+    }
+
+    Q_ASSERT(false);
+    return Q_NULLPTR;
 }
 
 QLabel *IVariableUIHandler::newLabel(IVariable *ivar)
@@ -224,31 +246,19 @@ QLabel *IVariableUIHandler::newUnit(IVariable *ivar)
     return label;
 }
 
-int IVariableUIHandler::labelColumn() const
-{
-    return 0;
-}
-
-int IVariableUIHandler::editorColumn() const
-{
-    return 1;
-}
-
-int IVariableUIHandler::unitColumn() const
-{
-    return 2;
-}
-
 void IVariableUIHandler::rowInserted(const IVariableUIHandler::Row &row)
 {
-    m_containerLayout->setAlignment(row.editor, Qt::AlignCenter);
+    m_containerLayout->setAlignment(row.widgets[1], Qt::AlignCenter);
 }
 
 void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariable *ivar)
 {
+    QLabel *label = row.widgetAt<QLabel *>(0);
+    QWidget *editor = row.widgetAt<QWidget *>(1);
+    QLabel *labelUnit = row.widgetAt<QLabel *>(2);
     CUnit *unit = ivar->getUnit();
-    row.label->setText(ivar->getLabel());
-    row.unit->setText(unit ? unit->getLbl() : QString());
+    label->setText(ivar->getLabel());
+    labelUnit->setText(unit ? unit->getLbl() : QString());
 
     // Keep in synch with newEditor
     switch (ivar->getType()) {
@@ -256,7 +266,7 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
             switch (ivar->getOrganType()) {
                 case VariableOrganTypeNone:
                 case VariableOrganTypeOutput: {
-                    qobject_cast<CSwitchButton *>(row.editor)->setChecked(ivar->toBool());
+                    qobject_cast<CSwitchButton *>(editor)->setChecked(ivar->toBool());
                     return;
                 }
 
@@ -265,7 +275,7 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
                 }
             }
 
-            qobject_cast<CLedButton *>(row.editor)->setChecked(ivar->toBool());
+            qobject_cast<CLedButton *>(editor)->setChecked(ivar->toBool());
             return;
         }
 
@@ -281,7 +291,7 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
                 }
             }
 
-            qobject_cast<CPushButton *>(row.editor)->setText(ivar->toString());
+            qobject_cast<CPushButton *>(editor)->setText(ivar->toString());
             return;
         }
 
@@ -297,7 +307,7 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
                 }
             }
 
-            qobject_cast<CPushButton *>(row.editor)->setText(ivar->toString());
+            qobject_cast<CPushButton *>(editor)->setText(ivar->toString());
             return;
         }
 
@@ -313,7 +323,7 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
                 }
             }
 
-            qobject_cast<CPushButton *>(row.editor)->setText(ivar->toString());
+            qobject_cast<CPushButton *>(editor)->setText(ivar->toString());
             return;
         }
 
@@ -329,7 +339,7 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
                 }
             }
 
-            qobject_cast<CPushButton *>(row.editor)->setText(ivar->toString());
+            qobject_cast<CPushButton *>(editor)->setText(ivar->toString());
             return;
         }
 
@@ -345,7 +355,7 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
                 }
             }
 
-            qobject_cast<CPushButton *>(row.editor)->setText(ivar->toString());
+            qobject_cast<CPushButton *>(editor)->setText(ivar->toString());
             return;
         }
     }

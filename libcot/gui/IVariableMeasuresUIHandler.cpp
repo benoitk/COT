@@ -21,6 +21,50 @@ IVariableMeasuresUIHandler::IVariableMeasuresUIHandler(CScrollableWidget *scroll
 {
 }
 
+int IVariableMeasuresUIHandler::columnCount() const
+{
+    return 3;
+}
+
+QWidget *IVariableMeasuresUIHandler::createWidget(int index, IVariable *ivar)
+{
+    switch (index) {
+        case 0:
+            return newEditor(ivar);
+
+        case 1:
+            return newLabel(ivar);
+
+        case 2:
+            return newUnit(ivar);
+    }
+
+    Q_ASSERT(false);
+    return Q_NULLPTR;
+}
+
+void IVariableMeasuresUIHandler::rowInserted(const IVariableUIHandler::Row &row)
+{
+    connect(row.widgetAt<CToolButton *>(0), &CToolButton::clicked,
+            this, &IVariableMeasuresUIHandler::slotButtonMeasureDetailsClicked);
+}
+
+void IVariableMeasuresUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariable *ivar)
+{
+    row.widgetAt<QLabel *>(1)->setText(ivar->getLabel());
+    // KDAB: Fix me - use proper way to get stream name
+    row.widgetAt<CToolButton *>(0)->setUserData(ivar->getRelatedStreamName());
+    row.widgetAt<QLabel *>(2)->setText(valueAndUnit(ivar));
+}
+
+QWidget *IVariableMeasuresUIHandler::newEditor(IVariable *ivar)
+{
+    Q_UNUSED(ivar);
+    CToolButton *button = new CToolButton(CToolButton::MeasureDetails, m_container);
+    button->setFixedSize(30, 30);
+    return button;
+}
+
 QLabel *IVariableMeasuresUIHandler::newLabel(IVariable *ivar)
 {
     Q_UNUSED(ivar);
@@ -32,49 +76,12 @@ QLabel *IVariableMeasuresUIHandler::newLabel(IVariable *ivar)
     return label;
 }
 
-QWidget *IVariableMeasuresUIHandler::newEditor(IVariable *ivar)
-{
-    Q_UNUSED(ivar);
-    CToolButton *button = new CToolButton(CToolButton::MeasureDetails, m_container);
-    button->setFixedSize(30, 30);
-    return button;
-}
-
 QLabel *IVariableMeasuresUIHandler::newUnit(IVariable *ivar)
 {
     Q_UNUSED(ivar);
     QLabel *label = new QLabel(m_container);
     label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
     return label;
-}
-
-int IVariableMeasuresUIHandler::labelColumn() const
-{
-    return 1;
-}
-
-int IVariableMeasuresUIHandler::editorColumn() const
-{
-    return 0;
-}
-
-int IVariableMeasuresUIHandler::unitColumn() const
-{
-    return 2;
-}
-
-void IVariableMeasuresUIHandler::rowInserted(const IVariableUIHandler::Row &row)
-{
-    connect(qobject_cast<CToolButton *>(row.editor), &CToolButton::clicked,
-            this, &IVariableMeasuresUIHandler::slotButtonMeasureDetailsClicked);
-}
-
-void IVariableMeasuresUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariable *ivar)
-{
-    row.label->setText(ivar->getLabel());
-    // KDAB: Fix me - use proper way to get stream name
-    qobject_cast<CToolButton *>(row.editor)->setUserData(ivar->getRelatedStreamName());
-    row.unit->setText(valueAndUnit(ivar));
 }
 
 void IVariableMeasuresUIHandler::slotButtonMeasureDetailsClicked()
