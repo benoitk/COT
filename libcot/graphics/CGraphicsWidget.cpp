@@ -30,6 +30,7 @@ void CGraphicsWidget::initializeGraphic()
     m_plotWidget->setBackgroundColor(palette().background().color());
     m_plotWidget->setForegroundColor(Qt::black);
     m_plotWidget->axis(KPlotWidget::RightAxis)->setTickLabelsShown(true);
+    m_plotWidget->setObjectToolTipShown(true);
 }
 
 void CGraphicsWidget::clear()
@@ -42,7 +43,7 @@ void CGraphicsWidget::changeLimits(double x1, double x2, double y1, double y2)
     m_plotWidget->setLimits(x1, x2, y1, y2);
 }
 
-KPlotObject *CGraphicsWidget::addCurves(const QList<QPointF> &listPoints, const QColor &col)
+KPlotObject *CGraphicsWidget::addCurves(const QList<QPointF> &listPoints, const QString &mesureName, const QColor &col)
 {
     KPlotObject *curve = new KPlotObject();
     if (col.isValid()) {
@@ -51,9 +52,9 @@ KPlotObject *CGraphicsWidget::addCurves(const QList<QPointF> &listPoints, const 
         curve->setLinePen(pen);
     }
     curve->setShowLines(true);
-    curve->setShowPoints(false);
+    //curve->setShowPoints(false);
     Q_FOREACH(const QPointF &point, listPoints) {
-        curve->addPoint(point);
+        curve->addPoint(point, mesureName);
     }
     m_plotWidget->addPlotObject(curve);
     return curve;
