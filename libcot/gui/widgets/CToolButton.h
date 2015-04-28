@@ -33,7 +33,9 @@ public:
         Quit,
         MeasureDetails,
         Ok,
-        Cancel
+        Cancel,
+        Informations,
+        Recovery
     };
 
     explicit CToolButton(QWidget *parent = Q_NULLPTR);

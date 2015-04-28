@@ -232,6 +232,16 @@ QIcon CToolButton::buttonIcon(CToolButton::Type type)
             icon.addPixmap(buttonPixmap("50x50 annule.png"), QIcon::Normal, QIcon::Off);
             break;
 
+        case CToolButton::Informations:
+            icon.addPixmap(buttonPixmap("50x50 menu information.png"), QIcon::Normal, QIcon::Off);
+            icon.addPixmap(buttonPixmap("50x50 menu information active.png"), QIcon::Selected, QIcon::Off);
+            break;
+
+        case CToolButton::Recovery:
+            icon.addPixmap(buttonPixmap("50x50 menu sauvegarde.png"), QIcon::Normal, QIcon::Off);
+            icon.addPixmap(buttonPixmap("50x50 menu sauvegarde active.png"), QIcon::Selected, QIcon::Off);
+            break;
+
         case CToolButton::Invalid:
             break;
     }

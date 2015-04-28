@@ -154,7 +154,8 @@ HEADERS *= \
     $$KPLOTTING_SRC_PWD/src/kplotpoint.h \
     $$KPLOTTING_SRC_PWD/src/kplotwidget.h \
     graphics/CGraphicsWidget.h \
-    gui/IVariableMaintenanceUIHandler.h
+    gui/IVariableMaintenanceUIHandler.h \
+    gui/widgets/CLabelledToolButtonGrid.h
 
 SOURCES *= \
     automate/CAutomate.cpp \
@@ -268,4 +269,5 @@ SOURCES *= \
     $$KPLOTTING_SRC_PWD/src/kplotpoint.cpp \
     $$KPLOTTING_SRC_PWD/src/kplotwidget.cpp \
     graphics/CGraphicsWidget.cpp \
-    gui/IVariableMaintenanceUIHandler.cpp
+    gui/IVariableMaintenanceUIHandler.cpp \
+    gui/widgets/CLabelledToolButtonGrid.cpp
