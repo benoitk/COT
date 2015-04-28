@@ -1,5 +1,6 @@
 #include "CPCToolsTab.h"
 #include "ui_CPCToolsTab.h"
+#include "CLabelledToolButtonGrid.h"
 #include "CLabelledToolButton.h"
 #include "CPCWindow.h"
 #include "CMaintenanceWindow.h"
@@ -10,7 +11,6 @@
 #include "CAutomate.h"
 #include "CDisplayConf.h"
 
-#include <QGridLayout>
 #include <QTextDocument>
 #include <QTextOption>
 #include <QTextBlock>
@@ -19,44 +19,26 @@
 CPCToolsTab::CPCToolsTab(QWidget *parent)
     : IPCTab(parent)
     , ui(new Ui::CPCToolsTab)
+    , m_buttons(new CLabelledToolButtonGrid(2, this))
     , m_history(new QTextDocument(this))
 {
+    m_buttons->setButtons(QList<CToolButton::Type>()
+                          << CToolButton::Maintenance
+                          << CToolButton::ElectricalTests
+                          << CToolButton::Options
+                          << CToolButton::History
+                          << CToolButton::LogFiles);
+
     ui->setupUi(this);
+    ui->swCentral->setScrollableWidget(m_buttons);
     ui->vbbButtons->addAction(CToolButton::ScrollUp, ui->swCentral->moveUp());
     ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->swCentral->moveDown());
 
-    QList<CLabelledToolButton *> buttons;
-    buttons << new CLabelledToolButton(CToolButton::Maintenance, this);
-    buttons << new CLabelledToolButton(CToolButton::ElectricalTests, this);
-    buttons << new CLabelledToolButton(CToolButton::Options, this);
-    buttons << new CLabelledToolButton(CToolButton::History, this);
-    buttons << new CLabelledToolButton(CToolButton::LogFiles, this);
-
-    const int layoutWidth = 2;
-    QWidget *widget = new QWidget(this);
-    QGridLayout *gl = new QGridLayout(widget);
-    int x = 0;
-    int y = 0;
-
-    gl->setMargin(0);
-
-    foreach (CLabelledToolButton *button, buttons) {
-        m_buttons[button->type()] = button;
-        gl->addWidget(button, y, x, Qt::AlignCenter);
-        connect(button, &CLabelledToolButton::clicked, this, &CPCToolsTab::slotButtonClicked);
-
-        x++;
-        if (x == layoutWidth) {
-            x = 0;
-            y++;
-        }
-    }
-
-    ui->swCentral->setScrollableWidget(widget);
     slotInitializeHistoryDocument();
     retranslate();
 
     connect(CAutomate::getInstance(), &CAutomate::signalVariableChanged, this, &CPCToolsTab::slotVariableChanged);
+    connect(m_buttons, &CLabelledToolButtonGrid::clicked, this, &CPCToolsTab::slotButtonClicked);
 }
 
 CPCToolsTab::~CPCToolsTab()
@@ -66,11 +48,11 @@ CPCToolsTab::~CPCToolsTab()
 
 void CPCToolsTab::retranslate()
 {
-    m_buttons[CToolButton::Maintenance]->setText(tr("Maintenance"));
-    m_buttons[CToolButton::ElectricalTests]->setText(tr("Electrical test"));
-    m_buttons[CToolButton::Options]->setText(tr("Options"));
-    m_buttons[CToolButton::History]->setText(tr("History"));
-    m_buttons[CToolButton::LogFiles]->setText(tr("Log files copy"));
+    m_buttons->button(CToolButton::Maintenance)->setText(tr("Maintenance"));
+    m_buttons->button(CToolButton::ElectricalTests)->setText(tr("Electrical test"));
+    m_buttons->button(CToolButton::Options)->setText(tr("Options"));
+    m_buttons->button(CToolButton::History)->setText(tr("History"));
+    m_buttons->button(CToolButton::LogFiles)->setText(tr("Log files copy"));
 }
 
 void CPCToolsTab::changeEvent(QEvent *event)
@@ -82,34 +64,32 @@ void CPCToolsTab::changeEvent(QEvent *event)
     IPCTab::changeEvent(event);
 }
 
-void CPCToolsTab::slotButtonClicked()
+void CPCToolsTab::slotButtonClicked(CLabelledToolButton *button)
 {
-    CLabelledToolButton *button = qobject_cast<CLabelledToolButton *>(sender());
-
     switch (button->type()) {
-    case CToolButton::Maintenance:
-        CPCWindow::openModal<CMaintenanceWindow>();
-        break;
+        case CToolButton::Maintenance:
+            CPCWindow::openModal<CMaintenanceWindow>();
+            break;
 
-    case CToolButton::ElectricalTests:
-        CPCWindow::openModal<CElectricalTestsWindow>();
-        break;
+        case CToolButton::ElectricalTests:
+            CPCWindow::openModal<CElectricalTestsWindow>();
+            break;
 
-    case CToolButton::Options:
-        CPCWindow::openModal<COptionsWindow>();
-        break;
+        case CToolButton::Options:
+            CPCWindow::openModal<COptionsWindow>();
+            break;
 
-    case CToolButton::History:
-        CPCWindow::openModal<CHistoryWindow>(m_history);
-        break;
+        case CToolButton::History:
+            CPCWindow::openModal<CHistoryWindow>(m_history);
+            break;
 
-    case CToolButton::LogFiles:
-        CPCWindow::openModal<CLogFilesWindow>();
-        break;
+        case CToolButton::LogFiles:
+            CPCWindow::openModal<CLogFilesWindow>();
+            break;
 
-    default:
-        Q_ASSERT(false);
-        break;
+        default:
+            Q_ASSERT(false);
+            break;
     }
 }
 

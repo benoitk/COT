@@ -2,13 +2,13 @@
 #define CPCTOOLSTAB_H
 
 #include "IPCTab.h"
-#include "CToolButton.h"
 
 namespace Ui {
 class CPCToolsTab;
 }
 
 class CLabelledToolButton;
+class CLabelledToolButtonGrid;
 class QTextDocument;
 
 class CPCToolsTab : public IPCTab
@@ -23,15 +23,15 @@ public slots:
     void retranslate();
 
 protected:
-    virtual void changeEvent(QEvent *event);
+    virtual void changeEvent(QEvent *event) Q_DECL_OVERRIDE;
 
 private:
     Ui::CPCToolsTab *ui;
-    QHash<CToolButton::Type, CLabelledToolButton *> m_buttons;
+    CLabelledToolButtonGrid *m_buttons;
     QTextDocument *m_history;
 
 private slots:
-    void slotButtonClicked();
+    void slotButtonClicked(CLabelledToolButton *button);
     void slotInitializeHistoryDocument();
     void slotVariableChanged(const QString &name, const QDateTime &dateTime);
 };
