@@ -5,7 +5,7 @@
 #define NUM_VERSION_5 "N/C"
 
 CAboutWindow::CAboutWindow(QWidget *parent)
-    : QWidget(parent)
+    : QDialog(parent)
     , ui(new Ui::CAboutWindow)
 {
     ui->setupUi(this);

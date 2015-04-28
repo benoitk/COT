@@ -48,7 +48,7 @@ void CPCPlusTab::slotButtonClicked(CLabelledToolButton *button)
 {
     switch (button->type()) {
         case CToolButton::Informations:
-            CPCWindow::openModal<CAboutWindow>();
+            CPCWindow::openExec<CAboutWindow>();
             break;
 
         case CToolButton::Recovery:

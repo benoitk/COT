@@ -43,6 +43,19 @@ public:
         return dialog->exec();
     }
 
+    template <typename T>
+    static void openExec() {
+        QWidget *parent = QApplication::activeWindow();
+
+        if (!parent) {
+            Q_ASSERT(false);
+            return;
+        }
+
+        T *window = new T(parent);
+        openExec(window);
+    }
+
     static void openModal(QWidget *widget, const QRect &geometry) {
 #ifdef QT_DEBUG
         // add windows decorations when debugging

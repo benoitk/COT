@@ -1,13 +1,13 @@
 #ifndef CABOUTWINDOW_H
 #define CABOUTWINDOW_H
 
-#include <QWidget>
+#include <QDialog>
 
 namespace Ui {
     class CAboutWindow;
 }
 
-class CAboutWindow : public QWidget
+class CAboutWindow : public QDialog
 {
     Q_OBJECT
 public:
