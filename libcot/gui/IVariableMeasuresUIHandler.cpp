@@ -43,8 +43,9 @@ QWidget *IVariableMeasuresUIHandler::createWidget(int index, IVariable *ivar)
     return Q_NULLPTR;
 }
 
-void IVariableMeasuresUIHandler::rowInserted(const IVariableUIHandler::Row &row)
+void IVariableMeasuresUIHandler::rowInserted(const IVariableUIHandler::Row &row, IVariable *ivar)
 {
+    Q_UNUSED(ivar);
     connect(row.widgetAt<CToolButton *>(0), &CToolButton::clicked,
             this, &IVariableMeasuresUIHandler::slotButtonMeasureDetailsClicked);
 }

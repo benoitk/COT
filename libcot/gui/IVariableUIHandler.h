@@ -38,7 +38,7 @@ protected:
 
     virtual int columnCount() const;
     virtual QWidget *createWidget(int index, IVariable *ivar);
-    virtual void rowInserted(const Row &row);
+    virtual void rowInserted(const Row &row, IVariable *ivar);
     virtual void rowChanged(const Row &row, IVariable *ivar);
 
 private:

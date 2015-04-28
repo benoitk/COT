@@ -59,7 +59,7 @@ void IVariableUIHandler::layout(const QList<IVariable *> &variables)
         }
 
         rowChanged(row, ivar);
-        rowInserted(row);
+        rowInserted(row, ivar);
         y++;
     }
 
@@ -246,8 +246,9 @@ QLabel *IVariableUIHandler::newUnit(IVariable *ivar)
     return label;
 }
 
-void IVariableUIHandler::rowInserted(const IVariableUIHandler::Row &row)
+void IVariableUIHandler::rowInserted(const IVariableUIHandler::Row &row, IVariable *ivar)
 {
+    Q_UNUSED(ivar);
     m_containerLayout->setAlignment(row.widgets[1], Qt::AlignCenter);
 }
 
