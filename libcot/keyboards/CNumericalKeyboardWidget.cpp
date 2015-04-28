@@ -89,12 +89,13 @@ void CNumericalKeyboardWidget::initializeKeyboardLayout()
     gridLayout->addWidget( createButton( QLatin1Char('5') ), 1, 1 );
     gridLayout->addWidget( createButton( QLatin1Char('6') ), 1, 2 );
 
+#if 0
     specialButton = new CKeyboardSpecialButton( this );
     specialButton->setText( QChar(0x21B2) ); // "Enter" sign
 
     connect( specialButton, &CKeyboardSpecialButton::clicked, this, &CNumericalKeyboardWidget::returnPressed );
     gridLayout->addWidget( specialButton, 1, 3, 2, 1 );
-
+#endif
     gridLayout->addWidget( createButton( QLatin1Char('1') ), 2, 0 );
     gridLayout->addWidget( createButton( QLatin1Char('2') ), 2, 1 );
     gridLayout->addWidget( createButton( QLatin1Char('3') ), 2, 2 );
