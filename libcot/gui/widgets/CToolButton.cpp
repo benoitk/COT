@@ -237,7 +237,8 @@ QIcon CToolButton::buttonIcon(CToolButton::Type type)
             icon.addPixmap(buttonPixmap("50x50 menu information active.png"), QIcon::Selected, QIcon::Off);
             break;
 
-        case CToolButton::Recovery:
+        case CToolButton::CreateRecovery:
+        case CToolButton::RestoreConfig:
             icon.addPixmap(buttonPixmap("50x50 menu sauvegarde.png"), QIcon::Normal, QIcon::Off);
             icon.addPixmap(buttonPixmap("50x50 menu sauvegarde active.png"), QIcon::Selected, QIcon::Off);
             break;

@@ -4,6 +4,8 @@
 #include "CLabelledToolButton.h"
 #include "CPCWindow.h"
 #include "CAboutWindow.h"
+#include "CMessageBox.h"
+#include "CConfigurationBackup.h"
 
 CPCPlusTab::CPCPlusTab(QWidget *parent)
     : IPCTab(parent)
@@ -12,7 +14,8 @@ CPCPlusTab::CPCPlusTab(QWidget *parent)
 {
     m_buttons->setButtons(QList<CToolButton::Type>()
                           << CToolButton::Informations
-                          << CToolButton::Recovery);
+                          << CToolButton::CreateRecovery
+                          << CToolButton::RestoreConfig);
 
     ui->setupUi(this);
     ui->swCentral->setScrollableWidget(m_buttons);
@@ -32,7 +35,8 @@ CPCPlusTab::~CPCPlusTab()
 void CPCPlusTab::retranslate()
 {
     m_buttons->button(CToolButton::Informations)->setText(tr("Informations"));
-    m_buttons->button(CToolButton::Recovery)->setText(tr("Recovery"));
+    m_buttons->button(CToolButton::CreateRecovery)->setText(tr("Create recovery file"));
+    m_buttons->button(CToolButton::RestoreConfig)->setText(tr("Recover configuration file"));
 }
 
 void CPCPlusTab::changeEvent(QEvent *event)
@@ -47,15 +51,35 @@ void CPCPlusTab::changeEvent(QEvent *event)
 void CPCPlusTab::slotButtonClicked(CLabelledToolButton *button)
 {
     switch (button->type()) {
-        case CToolButton::Informations:
-            CPCWindow::openExec<CAboutWindow>();
-            break;
+    case CToolButton::Informations:
+        CPCWindow::openExec<CAboutWindow>();
+        break;
 
-        case CToolButton::Recovery:
-            break;
+    case CToolButton::CreateRecovery: {
+        CConfigurationBackup bckp;
+        const bool success = bckp.createRecoveryFile(QString("hello world").toLatin1());
+        if (success) {
+            CPCWindow::openModal<CMessageBox>(tr("Backup file successfully created."));
+        } else {
+            CPCWindow::openModal<CMessageBox>(tr("ERROR: The backup file couldn't be created."));
+        }
+        break;
+    }
 
-        default:
-            Q_ASSERT(false);
-            break;
+    case CToolButton::RestoreConfig: {
+        QString backupFile;
+        CConfigurationBackup bckp;
+        const bool success = bckp.overwriteConfigurationFile(&backupFile);
+        if (success) {
+            CPCWindow::openModal<CMessageBox>(tr("Configuration file successfully overwritten. The previous configuration file wa ssaved under the name %1").arg(backupFile));
+        } else {
+            CPCWindow::openModal<CMessageBox>(tr("ERROR: The configuration file couldn't be overwritten."));
+        }
+        break;
+    }
+
+    default:
+        Q_ASSERT(false);
+        break;
     }
 }

@@ -159,7 +159,8 @@ HEADERS *= \
     graphics/CGraphicsWidget.h \
     gui/IVariableMaintenanceUIHandler.h \
     gui/widgets/CLabelledToolButtonGrid.h \
-    gui/panel/CAboutWindow.h
+    gui/panel/CAboutWindow.h \
+    gui/widgets/CMessageBox.h
 
 SOURCES *= \
     automate/CAutomate.cpp \
@@ -275,4 +276,5 @@ SOURCES *= \
     graphics/CGraphicsWidget.cpp \
     gui/IVariableMaintenanceUIHandler.cpp \
     gui/widgets/CLabelledToolButtonGrid.cpp \
-    gui/panel/CAboutWindow.cpp
+    gui/panel/CAboutWindow.cpp \
+    gui/widgets/CMessageBox.cpp
