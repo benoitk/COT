@@ -77,11 +77,11 @@ void CGraphicsWidget::addPoint(float value, const QString &mesureName, KPlotObje
     const QDateTime dt = QDateTime::currentDateTime();
     const qint64 diffDtMinutes = m_initDateTime.msecsTo(dt) * 1000 * 60;
     bool needToChangeGraphicLimit = false;
-    if (diffDtMinutes > m_horizontalMaximumValue) {
+    if (diffDtMinutes >= m_horizontalMaximumValue) {
         needToChangeGraphicLimit = true;
         m_horizontalMaximumValue += INCREMENT;
     }
-    if (value > m_verticalMaximumValue) {
+    if (value >= m_verticalMaximumValue) {
         needToChangeGraphicLimit = true;
         m_verticalMaximumValue += INCREMENT;
     }
