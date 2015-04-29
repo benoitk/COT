@@ -1,6 +1,6 @@
 TARGET = recoveryFileTest
 QT += testlib
-
+CONFIG += testcase
 
 include("$${top_srcdir}/config.pri")
 
