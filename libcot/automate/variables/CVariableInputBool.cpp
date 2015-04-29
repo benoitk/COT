@@ -39,7 +39,7 @@ QString CVariableInputBool::getOrganneName()const{
 QString CVariableInputBool::getOrganneAddr()const{
     return QStringLiteral("return ADDR");
 }
-void CVariableInputBool::setOrganne(CModelExtensionCard* arg_model,QString arg_organneName){
+void CVariableInputBool::setOrganne(CModelExtensionCard* arg_model,const QString &arg_organneName){
 	m_modelExtensionCard = arg_model;
 	m_organneName = arg_organneName;
 }
