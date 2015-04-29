@@ -2,6 +2,7 @@
 #include <qtestmouse.h>
 #include <QSignalSpy>
 #include <QObject>
+#include <QFileInfo>
 
 #include "CConfigurationBackup.h"
 
@@ -16,6 +17,8 @@ static const QString RECOVERY_FILE("save-recovery.json");
 class recoveryFileTest : public QObject
 {
     Q_OBJECT
+private:
+    QString jsonFilePath() const;
 private slots:
     void initTestCase();
     void testRecovery();
@@ -24,6 +27,14 @@ private:
     QByteArray fileContents(const QString &fileName);
 };
 
+QString recoveryFileTest::jsonFilePath() const
+{
+    QFileInfo file(QStringLiteral(COT_JSON_FILE_PATH));
+    QString path = file.absolutePath();
+    path += QLatin1Char('/') + SAVE_FILE;
+    return path;
+}
+
 void recoveryFileTest::initTestCase()
 {
     // check that we have the JSon file available and ready to read
@@ -31,7 +42,7 @@ void recoveryFileTest::initTestCase()
 
     // put save.json in the current directory for the tests.
     QByteArray exampleJSONContents = fileContents(QStringLiteral(COT_JSON_FILE_PATH));
-    QFile jsonExampleFile(SAVE_FILE);
+    QFile jsonExampleFile(jsonFilePath());
     QVERIFY(jsonExampleFile.exists());
     QVERIFY(jsonExampleFile.open(QIODevice::ReadWrite | QIODevice::Text));
     QCOMPARE(jsonExampleFile.write(exampleJSONContents), exampleJSONContents.length());
@@ -39,7 +50,7 @@ void recoveryFileTest::initTestCase()
 
 void recoveryFileTest::testRecovery()
 {
-    QByteArray exampleJSONContents = fileContents(SAVE_FILE);
+    QByteArray exampleJSONContents = fileContents(jsonFilePath());
     QVERIFY(!exampleJSONContents.isEmpty());
 
     // * create save-recovery.json
@@ -51,7 +62,7 @@ void recoveryFileTest::testRecovery()
     QVERIFY(backup.overwriteConfigurationFile(&backupFileName));
 
     // let's see if the files are here and populated with the expected data
-    QByteArray saveFileContents = fileContents(SAVE_FILE);
+    QByteArray saveFileContents = fileContents(jsonFilePath());
     QVERIFY(!saveFileContents.isEmpty());
     QByteArray recoveryFileContents = fileContents(RECOVERY_FILE);
     QVERIFY(!recoveryFileContents.isEmpty());
@@ -66,7 +77,7 @@ void recoveryFileTest::testRecovery()
     // test updating the contents of the save.json file
     QByteArray updatedContents(QString("this would be the new contents").toLatin1());
     QVERIFY(backup.writeToConfigurationFile(updatedContents));
-    saveFileContents = fileContents(SAVE_FILE);
+    saveFileContents = fileContents(jsonFilePath());
     QVERIFY(!saveFileContents.isEmpty());
     QCOMPARE(saveFileContents, updatedContents);
 
