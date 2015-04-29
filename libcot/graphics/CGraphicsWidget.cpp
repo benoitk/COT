@@ -145,7 +145,6 @@ KPlotObject *CGraphicsWidget::addCurve(const QList<QPointF> &listPoints, const Q
         curve->setPen(pen);
     }
     curve->setShowLines(true);
-    //curve->setShowPoints(false);
     addPoints(listPoints, mesureName, curve);
     m_plotWidget->addPlotObject(curve);
     return curve;
