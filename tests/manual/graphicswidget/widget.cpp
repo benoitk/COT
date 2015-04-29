@@ -1,6 +1,7 @@
 #include "widget.h"
 #include "CGraphicsWidget.h"
 #include <QVBoxLayout>
+#include <QDebug>
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
 {

@@ -367,7 +367,7 @@ void KPlotObject::draw(QPainter *painter, KPlotWidget *pw)
             }
         }
     }
-
+#if 0
     //Draw labels
     painter->setPen(labelPen());
 
@@ -377,5 +377,6 @@ void KPlotObject::draw(QPainter *painter, KPlotWidget *pw)
             pw->placeLabel(painter, pp);
         }
     }
+#endif
 
 }

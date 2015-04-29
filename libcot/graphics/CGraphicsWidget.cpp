@@ -4,6 +4,7 @@
 #include "kplotaxis.h"
 #include <QVBoxLayout>
 #include <QPen>
+#include <QDebug>
 
 static int INCREMENT = 350;
 
@@ -23,7 +24,7 @@ CGraphicsWidget::CGraphicsWidget(QWidget *parent)
 
 CGraphicsWidget::~CGraphicsWidget()
 {
-
+   m_plotObjectHash.clear();
 }
 
 void CGraphicsWidget::initializeGraphic()
@@ -97,6 +98,7 @@ KPlotObject *CGraphicsWidget::addCurve(double value, const QString &mesureName, 
         QPen pen = curve->linePen();
         pen.setColor(col);
         curve->setLinePen(pen);
+        curve->setPen(pen);
     }
     curve->setShowLines(true);
     //curve->setShowPoints(false);
@@ -140,6 +142,7 @@ KPlotObject *CGraphicsWidget::addCurve(const QList<QPointF> &listPoints, const Q
         QPen pen = curve->linePen();
         pen.setColor(col);
         curve->setLinePen(pen);
+        curve->setPen(pen);
     }
     curve->setShowLines(true);
     //curve->setShowPoints(false);
