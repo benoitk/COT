@@ -1,5 +1,6 @@
 TEMPLATE = app
 TARGET = cot-translator
+include("$${top_srcdir}/config.pri")
 macx:CONFIG -= app_bundle
 QT *= core-private
 

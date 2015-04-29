@@ -53,3 +53,4 @@ tests/manual/keyboard/numericalkeyboardwidget/numericalkeyboardwidget
 tests/manual/scrollablewidget/scrollablewidget
 tests/manual/testCGenericItemSelector/testCGenericItemSelector
 /lib
+qrc_*.cpp
