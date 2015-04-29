@@ -22,8 +22,8 @@ public:
     void addOrUpdateCurve(const QList<QPointF> &listPoints, const QString &mesureName);
     void addOrUpdateCurve(float value, const QString &mesureName);
 private:
-    KPlotObject *addCurve(double value, const QString &mesureName, const QColor &col);
-    void addPoint(float value, const QString &mesureName, KPlotObject *curve);
+    KPlotObject *addCurve(double value, const QString &measureName, const QColor &col);
+    void addPoint(float value, const QString &measureName, KPlotObject *curve);
     void addPoints(const QList<QPointF> &listPoints, const QString &mesureName, KPlotObject *curve);
     void initializeGraphic();
     QDateTime m_initDateTime;

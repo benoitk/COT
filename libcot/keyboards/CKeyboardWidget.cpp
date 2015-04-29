@@ -60,7 +60,7 @@ void CKeyboardWidget::initializeKeyboardLayout()
     const QStringList listLanguage = loc.uiLanguages();
     //qDebug()<<" listLanguage"<<listLanguage;
     QStringList keyboardLayout;
-    Q_FOREACH( const QString &lang, listLanguage) {
+    foreach( const QString &lang, listLanguage) {
         if (lang.startsWith(QLatin1String("fr"))) {
             keyboardLayout = utils.frenchKeyboardLayout();
             m_currentLanguage = QStringLiteral("fr_FR");
@@ -101,7 +101,7 @@ void CKeyboardWidget::initializeKeyboardLayout()
     m_mainLayout->addLayout(m_keyboardLayout);
     int cellY = 0;
     int maxColumn = 0;
-    Q_FOREACH(const QString &rowLayout, keyboardLayout) {
+    foreach(const QString &rowLayout, keyboardLayout) {
         int cellX = 0;
         for (int i = 0; i+1 < rowLayout.size(); i += 2) {
             const QChar charValue = rowLayout[i];
@@ -179,7 +179,7 @@ void CKeyboardWidget::slotShiftToggled()
 {
     m_shiftOn = !m_shiftOn;
     //Synchronize shift button.
-    Q_FOREACH(CKeyboardSpecialButton *button, m_shiftButtons) {
+    foreach(CKeyboardSpecialButton *button, m_shiftButtons) {
         button->setChecked(m_shiftOn);
     }
     slotCapsLockToggled();
@@ -206,7 +206,7 @@ void CKeyboardWidget::slotCapsLockToggled()
         shiftMapping = utils.frenchShiftMapping();
     }
 
-    Q_FOREACH(CKeyboardNormalButton *normalButton, m_normalButtons) {
+    foreach(CKeyboardNormalButton *normalButton, m_normalButtons) {
         const QChar currentChar = normalButton->character();
         //We don't change tab value :)
         if ( currentChar == QLatin1Char('\t') )
@@ -255,11 +255,11 @@ void CKeyboardWidget::keyClicked()
 {
     // Any key pressed after shift, reverts to normal
     if ( m_shiftOn ) {
-        Q_FOREACH(CKeyboardNormalButton *normalButton, m_normalButtons) {
+        foreach(CKeyboardNormalButton *normalButton, m_normalButtons) {
             normalButton->setChecked( false );
         }
         m_shiftOn = false;
-        Q_FOREACH(CKeyboardSpecialButton *button, m_shiftButtons) {
+        foreach(CKeyboardSpecialButton *button, m_shiftButtons) {
             button->setChecked(m_shiftOn);
         }
         slotCapsLockToggled();
