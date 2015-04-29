@@ -5,7 +5,7 @@
 #include "qstring.h"
 #include "qlist.h"
 
-typedef enum organType{
+enum organType{
 		output_bool = 0,
 		output_float,
 		output_int,
@@ -19,6 +19,7 @@ class IOrgan
 {
 
 public:
+    virtual ~IOrgan() {}
 	virtual QString getName()const=0;
     virtual void setName(const QString &)const=0;
 	virtual organType getType()const=0;

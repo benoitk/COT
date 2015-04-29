@@ -32,7 +32,7 @@ public:
 
 	//IComObserver
     IVariable* getVariable(const QString &addr_var)const Q_DECL_OVERRIDE;
-	void setCom(ICom*);
+    void setCom(ICom*) Q_DECL_OVERRIDE;
 
 
 private:

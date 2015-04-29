@@ -15,8 +15,6 @@ signals:
 	void signalRunCycle();
 	void signalPauseCycle();
 	void signalStopCycle();
-private:
-	
 };
 
 #endif // CCONTROLERCYCLE_H

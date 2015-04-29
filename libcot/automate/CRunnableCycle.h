@@ -11,7 +11,7 @@ public:
 	CRunnableCycle(ICycle *cycle);
 	~CRunnableCycle();
 
-	void run();
+    void run() Q_DECL_OVERRIDE;
 
 private :
 	ICycle* m_cycle;
