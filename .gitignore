@@ -32,3 +32,24 @@
 
 # Shadow build
 /build
+
+#obj
+.moc
+.ui
+Makefile
+
+#binary
+cot-translator/cot-translator
+cot/cot
+tests/auto/JSON/recoveryFile/recoveryFileTest
+tests/auto/graphicswidget/graphicswidgettest
+tests/auto/keyboard/keyboardnormalbutton/keyboardnormalbuttontest
+tests/auto/keyboard/keyboardwidget/keyboardwidgettest
+tests/auto/keyboard/numericalkeyboardwidget/numericalkeyboardwidgettest
+tests/auto/scrollablewidget/scrollablewidgettest
+tests/manual/graphicswidget/graphicswidget
+tests/manual/keyboard/keyboardwidget/keyboardwidget
+tests/manual/keyboard/numericalkeyboardwidget/numericalkeyboardwidget
+tests/manual/scrollablewidget/scrollablewidget
+tests/manual/testCGenericItemSelector/testCGenericItemSelector
+/lib
