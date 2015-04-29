@@ -101,7 +101,6 @@ KPlotObject *CGraphicsWidget::addCurve(double value, const QString &mesureName, 
         curve->setPen(pen);
     }
     curve->setShowLines(true);
-    //curve->setShowPoints(false);
     addPoint(value, mesureName, curve);
     m_plotWidget->addPlotObject(curve);
     return curve;
