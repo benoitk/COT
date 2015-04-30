@@ -10,6 +10,7 @@
 #include "CLogFilesWindow.h"
 #include "CAutomate.h"
 #include "CDisplayConf.h"
+#include "CConfiguratorWindow.h"
 
 #include <QTextDocument>
 #include <QTextOption>
@@ -27,7 +28,8 @@ CPCToolsTab::CPCToolsTab(QWidget *parent)
                           << CToolButton::ElectricalTests
                           << CToolButton::Options
                           << CToolButton::History
-                          << CToolButton::LogFiles);
+                          << CToolButton::LogFiles
+                          << CToolButton::Configure);
 
     ui->setupUi(this);
     ui->swCentral->setScrollableWidget(m_buttons);
@@ -53,6 +55,7 @@ void CPCToolsTab::retranslate()
     m_buttons->button(CToolButton::Options)->setText(tr("Options"));
     m_buttons->button(CToolButton::History)->setText(tr("History"));
     m_buttons->button(CToolButton::LogFiles)->setText(tr("Log files copy"));
+    m_buttons->button(CToolButton::Configure)->setText(tr("Configurator"));
 }
 
 void CPCToolsTab::changeEvent(QEvent *event)
@@ -86,7 +89,9 @@ void CPCToolsTab::slotButtonClicked(CLabelledToolButton *button)
         case CToolButton::LogFiles:
             CPCWindow::openModal<CLogFilesWindow>();
             break;
-
+        case CToolButton::Configure:
+            CPCWindow::openModal<CConfiguratorWindow>();
+            break;
         default:
             Q_ASSERT(false);
             break;

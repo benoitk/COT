@@ -40,6 +40,7 @@ INCLUDEPATH *= \
     $${LIBCOT_SRC_PWD}/gui/tools/log-files \
     $${LIBCOT_SRC_PWD}/gui/tools/maintenance \
     $${LIBCOT_SRC_PWD}/gui/tools/options \
+    $${LIBCOT_SRC_PWD}/gui/tools/configurator \
     $${LIBCOT_SRC_PWD}/gui/widgets \
     $${LIBCOT_SRC_PWD}/automate/variables \
     $${LIBCOT_SRC_PWD}/automate \

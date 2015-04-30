@@ -36,7 +36,8 @@ public:
         Cancel,
         Informations,
         CreateRecovery,
-        RestoreConfig
+        RestoreConfig,
+        Configure
     };
 
     explicit CToolButton(QWidget *parent = Q_NULLPTR);

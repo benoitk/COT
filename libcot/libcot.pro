@@ -38,7 +38,18 @@ FORMS *= \
     gui/tools/maintenance/CMaintenanceDiagnosticTab.ui \
     gui/tools/maintenance/CMaintenanceMaintenanceTab.ui \
     gui/tools/maintenance/CMaintenanceWindow.ui \
-    gui/panel/CAboutWindow.ui
+    gui/panel/CAboutWindow.ui \
+    gui/tools/configurator/CConfiguratorWindow.ui \
+    gui/tools/configurator/CConfiguratorCycleTab.ui \
+    gui/tools/configurator/CConfiguratorActionsTab.ui \
+    gui/tools/configurator/CConfiguratorVariablesTab.ui \
+    gui/tools/configurator/CConfiguratorSequencerTab.ui \
+    gui/tools/configurator/CConfiguratorStreamsTab.ui \
+    gui/tools/configurator/CConfiguratorExtensionsTab.ui \
+    gui/tools/configurator/CConfiguratorDisplayTab.ui \
+    gui/tools/configurator/CConfiguratorHardwareTab.ui \
+
+
 
 HEADERS *= \
     automate/CAutomate.h \
@@ -160,7 +171,17 @@ HEADERS *= \
     gui/IVariableMaintenanceUIHandler.h \
     gui/widgets/CLabelledToolButtonGrid.h \
     gui/panel/CAboutWindow.h \
-    gui/widgets/CMessageBox.h
+    gui/widgets/CMessageBox.h \
+    gui/tools/configurator/CConfiguratorWindow.h \
+    gui/tools/configurator/IConfiguratorTab.h \
+    gui/tools/configurator/CConfiguratorCycleTab.h \
+    gui/tools/configurator/CConfiguratorActionsTab.h \
+    gui/tools/configurator/CConfiguratorVariablesTab.h \
+    gui/tools/configurator/CConfiguratorSequencerTab.h \
+    gui/tools/configurator/CConfiguratorStreamsTab.h \
+    gui/tools/configurator/CConfiguratorExtensionsTab.h \
+    gui/tools/configurator/CConfiguratorDisplayTab.h \
+    gui/tools/configurator/CConfiguratorHardwareTab.h \
 
 SOURCES *= \
     automate/CAutomate.cpp \
@@ -277,4 +298,14 @@ SOURCES *= \
     gui/IVariableMaintenanceUIHandler.cpp \
     gui/widgets/CLabelledToolButtonGrid.cpp \
     gui/panel/CAboutWindow.cpp \
-    gui/widgets/CMessageBox.cpp
+    gui/widgets/CMessageBox.cpp \
+    gui/tools/configurator/CConfiguratorWindow.cpp \
+    gui/tools/configurator/CConfiguratorCycleTab.cpp \
+    gui/tools/configurator/CConfiguratorActionsTab.cpp \
+    gui/tools/configurator/CConfiguratorVariablesTab.cpp \
+    gui/tools/configurator/CConfiguratorSequencerTab.cpp \
+    gui/tools/configurator/CConfiguratorStreamsTab.cpp \
+    gui/tools/configurator/CConfiguratorExtensionsTab.cpp \
+    gui/tools/configurator/CConfiguratorDisplayTab.cpp \
+    gui/tools/configurator/CConfiguratorHardwareTab.cpp \
+

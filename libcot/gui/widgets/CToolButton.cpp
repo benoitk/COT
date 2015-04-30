@@ -128,6 +128,7 @@ QIcon CToolButton::buttonIcon(CToolButton::Type type)
         case CToolButton::StopEndCycle:
         case CToolButton::NextStream:
         case CToolButton::Update:
+        case CToolButton::Configure:
             // TODO_KDAB:: Handle each icon set in picto / pictohd resources.
             break;
 
