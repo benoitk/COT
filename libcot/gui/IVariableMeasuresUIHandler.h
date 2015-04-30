@@ -8,7 +8,7 @@ class IVariableMeasuresUIHandler : public IVariableUIHandler
     Q_OBJECT
 
 public:
-    explicit IVariableMeasuresUIHandler(CScrollableWidget *scrollable, QObject *parent = Q_NULLPTR);
+    explicit IVariableMeasuresUIHandler(CScrollableWidget *scrollable = Q_NULLPTR, QObject *parent = Q_NULLPTR);
 
 protected:
     virtual int columnCount() const Q_DECL_OVERRIDE;

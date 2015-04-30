@@ -14,10 +14,12 @@ class IVariableUIHandler : public QObject
     Q_OBJECT
 
 public:
-    explicit IVariableUIHandler(CScrollableWidget *scrollable, QObject *parent = Q_NULLPTR);
+    explicit IVariableUIHandler(CScrollableWidget *scrollable = Q_NULLPTR, QObject *parent = Q_NULLPTR);
 
     void layout(const QList<IVariable *> &variables);
     void layout(const QStringList &variables);
+
+    void setScrollableWidget(CScrollableWidget *scrollable);
 
 protected:
     struct Row {

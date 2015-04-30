@@ -184,6 +184,7 @@ HEADERS *= \
     gui/tools/configurator/CConfiguratorDisplayTab.h \
     gui/tools/configurator/CConfiguratorHardwareTab.h \
     gui/tools/configurator/CConfiguratorNetworkTab.h \
+    gui/widgets/CGenericVariableUIHandler.h
 
 SOURCES *= \
     automate/CAutomate.cpp \
@@ -311,4 +312,5 @@ SOURCES *= \
     gui/tools/configurator/CConfiguratorDisplayTab.cpp \
     gui/tools/configurator/CConfiguratorHardwareTab.cpp \
     gui/tools/configurator/CConfiguratorNetworkTab.cpp \
+    gui/widgets/CGenericVariableUIHandler.cpp
 

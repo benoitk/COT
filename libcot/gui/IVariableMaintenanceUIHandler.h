@@ -10,7 +10,7 @@ class IVariableMaintenanceUIHandler : public IVariableUIHandler
     Q_OBJECT
 
 public:
-    explicit IVariableMaintenanceUIHandler(CScrollableWidget *scrollable, QObject *parent = Q_NULLPTR);
+    explicit IVariableMaintenanceUIHandler(CScrollableWidget *scrollable = Q_NULLPTR, QObject *parent = Q_NULLPTR);
 
     void layout();
 

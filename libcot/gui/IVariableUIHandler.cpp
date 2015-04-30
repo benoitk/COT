@@ -16,6 +16,7 @@
 
 #include <QGridLayout>
 #include <QLabel>
+#include <QDebug>
 
 /*
 // Read / Write
@@ -73,6 +74,14 @@ void IVariableUIHandler::layout(const QStringList &variables)
 {
     CAutomate *automate = CAutomate::getInstance();
     layout(automate->getVariables(variables));
+}
+
+void IVariableUIHandler::setScrollableWidget(CScrollableWidget *scrollable)
+{
+    if (m_scrollable) {
+        qDebug() <<" we already have a scrollablewidget";
+    }
+    m_scrollable = scrollable;
 }
 
 int IVariableUIHandler::columnCount() const
