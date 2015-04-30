@@ -9,6 +9,7 @@
 #include "CConfiguratorExtensionsTab.h"
 #include "CConfiguratorDisplayTab.h"
 #include "CConfiguratorHardwareTab.h"
+#include "CConfiguratorNetworkTab.h"
 
 CConfiguratorWindow::CConfiguratorWindow(QWidget *parent)
     : QWidget(parent)
@@ -23,6 +24,7 @@ CConfiguratorWindow::CConfiguratorWindow(QWidget *parent)
     addTab(new CConfiguratorExtensionsTab(this), tr("Extensions"));
     addTab(new CConfiguratorDisplayTab(this), tr("Display"));
     addTab(new CConfiguratorHardwareTab(this), tr("Hardware"));
+    addTab(new CConfiguratorNetworkTab(this), tr("Network"));
 }
 
 CConfiguratorWindow::~CConfiguratorWindow()

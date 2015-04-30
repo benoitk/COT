@@ -48,6 +48,7 @@ FORMS *= \
     gui/tools/configurator/CConfiguratorExtensionsTab.ui \
     gui/tools/configurator/CConfiguratorDisplayTab.ui \
     gui/tools/configurator/CConfiguratorHardwareTab.ui \
+    gui/tools/configurator/CConfiguratorNetworkTab.ui \
 
 
 
@@ -182,6 +183,7 @@ HEADERS *= \
     gui/tools/configurator/CConfiguratorExtensionsTab.h \
     gui/tools/configurator/CConfiguratorDisplayTab.h \
     gui/tools/configurator/CConfiguratorHardwareTab.h \
+    gui/tools/configurator/CConfiguratorNetworkTab.h \
 
 SOURCES *= \
     automate/CAutomate.cpp \
@@ -308,4 +310,5 @@ SOURCES *= \
     gui/tools/configurator/CConfiguratorExtensionsTab.cpp \
     gui/tools/configurator/CConfiguratorDisplayTab.cpp \
     gui/tools/configurator/CConfiguratorHardwareTab.cpp \
+    gui/tools/configurator/CConfiguratorNetworkTab.cpp \
 
