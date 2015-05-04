@@ -47,7 +47,3 @@ void CGenericVariableUIHandler::setIVariableUIHandler(IVariableUIHandler *iVaria
     m_iVariableUIHandler = iVariableUIHandler;
     m_iVariableUIHandler->setScrollableWidget(this);
 }
-
-
-
-
