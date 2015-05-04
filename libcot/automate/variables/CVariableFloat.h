@@ -44,6 +44,7 @@ public:
     QLinkedList<IVariable*> getListOutBinds()const Q_DECL_OVERRIDE;
     QLinkedList<IVariable*> getListInBinds()const Q_DECL_OVERRIDE;
 
+	QVariantMap serialise() Q_DECL_OVERRIDE;
 protected:
 	float m_fValeur;
     QString m_name;

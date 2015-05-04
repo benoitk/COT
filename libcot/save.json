@@ -74,6 +74,8 @@
 
     ],
     "variables" : [{"name":"measure_cot", "fr_FR" : "COT", "en_US" : "TOC", "type":"float", "value" : 0, "unit":"mg_l"},
+                    {"name":"azote", "fr_FR" : "azote", "en_US" : "azote", "type":"float", "value" : 0, "unit":"mg_l"},
+                    {"name":"phosphore", "fr_FR" : "phosphore", "en_US" : "phosphore", "type":"float", "value" : 0, "unit":"mg_l"},
                     {"name":"measure_cot_max", "fr_FR" : "Mesure max", "en_US" : "Max measure", "type":"float", "value" : 10, "unit":"mg_l"},
                     {"name":"measure_cot_min", "fr_FR" : "Mesure min", "en_US" : "Min measure", "type":"float", "value" : 0, "unit":"mg_l"},
                     {"name":"optical_gain", "fr_FR" : "Gain optique", "en_US" : "Optical gain", "type":"float", "value" : 0},
@@ -94,6 +96,8 @@
                     {"name":"coef_ajustement", "fr_FR" : "Coefficient d'ajustement", "en_US" : "Adjustment coefficient ", "type":"float", "value" : 1},
                     {"name":"offset_current", "fr_FR" : "Offset actuel", "en_US" : "Current offset ", "type":"float", "value" : 1},
                     {"name":"alarm_defaut_eau", "fr_FR":"Défaut d'eau", "en_US":"Water default", "type":"boolean", "value":false},
+                    {"name":"stream_1_state", "fr_FR":"Status voie COT", "en_US":"NaN", "type":"boolean", "value":true},
+                    {"name":"stream_2_state", "fr_FR":"Status voie COV", "en_US":"NaA", "type":"boolean", "value":false},
                     {"name":"selecteur_position_stream1", "fr_FR":"Position voie 1", "en_US":"Position stream 1", "type":"integer", "value":90},
                     {"name":"selecteur_position_stream2", "fr_FR":"Position voie 1", "en_US":"Position stream 2", "type":"integer", "value":180},
                     
@@ -155,22 +159,7 @@
 
     ],
 
-    "streams" : [{"name":"stream_1", "fr_FR":"stream 1", "variables":["status", "defaut_eau"], "active_state": "stream_1_state",
-                    "measures":[{"name":"measure_1", "fr_FR":"absorbance de la measure 1", "variables":[{"name":"coeff", "type":"standard"}, {"name":"measure_silice", "type":"measure"}]},
-                       {"name":"measure_2", "fr_FR":"var relative a measure 2", "variables":[{"name":"coeff_2", "type":"standard"}, {"name":"measure_silice_2", "type":"measure"}]}
-                    ],
-                    "cycles":["maintenance_1", "zero_1", "cycle_measure_cot_stream1"]
-
-                },
-            {"name":"stream_2", "fr_FR":"stream 2", "variables":["var_stream", "measure"],
-            "measures":[{"name":"measure_3","fr_FR":"measure 1", "variables":["var_measure", "var_measure"]},
-                       {"name":"measure_4","fr_FR":"measure 2", "variables":["var_measure", "var_measure"]}
-
-            ],
-            "cycles":["maintenance_2"]
-
-            }
-    ],
+    
 
 
     "binds" : [
@@ -250,6 +239,13 @@
             "steps" : [{"name":"step_1", "step":1, "fr_FR":"Init", "actions":["bloc_rincage"]}, {"step":2, "actions":["open_sample_solenoide", "open_emptying_solenoide"]}, {"step":5, "actions":["close_emptying_solenoide"]},{"step":"stop", "actions":["bloc_rincage"]}]
         },
         {
+            "name" : "azote_calibration",
+            "fr_FR" : "Cycle d'étalonnage zéro",
+            "en_US" : "Zero calibration cycle",
+            "type":"maintenance",
+            "steps" : [{"name":"step_1", "step":1, "fr_FR":"Init", "actions":["bloc_rincage"]}, {"step":2, "actions":["open_sample_solenoide", "open_emptying_solenoide"]}, {"step":5, "actions":["close_emptying_solenoide"]},{"step":"stop", "actions":["bloc_rincage"]}]
+        },
+        {
             "name" : "cycle_pause_0",
             "fr_FR" : "En pause",
             "en_US" : "Paused",
@@ -262,12 +258,34 @@
             "en_US" : "measure of TOC",
             "type" : "measure",
             "steps" : [{"name":"step_2", "step":1,"fr_FR":"Init", "actions":["bloc_rincage"]}, {"name":"step_3", "step":4, "actions":["close_sample_solenoide","4_tour_pompe_persulfate"]}, {"step":6, "actions":["close_sample_solenoide","close_emptying_solenoide"]}, {"step":12, "actions":["4_tour_pompe_persulfate"]}, {"step":25, "actions":["close_sample_solenoide","4_tour_pompe_persulfate"]}]
+        },
+        {
+            "name" : "cycle_measure_azote",
+            "fr_FR" : "measure de COT",
+            "en_US" : "measure of TOC",
+            "type" : "measure",
+            "steps" : [{"name":"step_2", "step":1,"fr_FR":"Init", "actions":["bloc_rincage"]}, {"name":"step_3", "step":4, "actions":["close_sample_solenoide","4_tour_pompe_persulfate"]}, {"step":6, "actions":["close_sample_solenoide","close_emptying_solenoide"]}, {"step":12, "actions":["4_tour_pompe_persulfate"]}, {"step":25, "actions":["close_sample_solenoide","4_tour_pompe_persulfate"]}]
         }
     ],
 
      "scheduler" : [
         {"cycle" :"cycle_measure_cot_stream1", "nb_cycle" : 2},
         {"cycle" :"cycle_pause_0", "nb_cycle" : 1}
+    ],
+
+    "streams" :[{"name":"stream_1", "fr_FR":"stream 1", "variables":["status", "defaut_eau"], "active_state": "stream_1_state",
+                    "measures":[{"name":"measure_1", "fr_FR":"absorbance de la measure 1", "variable_measure":"measure_cot", "variables":["coef_calculated", "zero_standard"]},
+                                {"name":"measure_2", "fr_FR":"var relative a measure 2", "variable_measure":"phosphore", "variables":["coef_calculated", "zero_standard"]}
+                    ],
+                    "cycles":["zero_calibration", "cycle_measure_cot_stream1"]
+
+                }
+                {"name":"stream_2", "fr_FR":"stream 2", "variables":["turbidity", "coef_current"], "active_state": "stream_2_state",
+                    "measures":[{"name":"measure_1", "fr_FR":"Mesure d'azote", "variable_measure":"azote", "variables":["coef_calculated", "zero_standard"]}
+                    ],
+                    "cycles":["cycle_measure_azote", "azote_calibration"]
+
+                }
     ]
 
 

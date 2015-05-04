@@ -2,6 +2,7 @@
 #define IVARIABLE_H
 
 #include <QVariant>
+#include <QVariantMap>
 #include <QList>
 
 enum variableType{
@@ -10,6 +11,7 @@ enum variableType{
 		type_int,
 		type_string,
 		type_stream,
+		type_measure,
 		type_unknow
 };
 
@@ -49,7 +51,8 @@ public:
 	virtual QLinkedList<IVariable*> getListOutBinds()const=0;
 	virtual QLinkedList<IVariable*> getListInBinds()const=0;
 
-	
+    //qvariantmap can be converted to a json object
+	virtual QVariantMap serialise()=0;
 	
 	
 private:

@@ -1,17 +1,62 @@
 #include "CVariableVoie.h"
 #include "CUnit.h"
+#include "IVariable.h"
+#include "ICycle.h"
+#include "CAutomate.h"
+#include "CVariableFactory.h"
+
 #include "qlinkedlist.h"
 CVariableVoie::CVariableVoie(QObject *parent):QObject(parent)
 {	
 }
-CVariableVoie::CVariableVoie(QObject * parent, int iNumVoie):QObject(parent){
-	m_iNumVoie = iNumVoie;	 
+CVariableVoie::CVariableVoie(const QMap<QString, QVariant> &mapVar):QObject(){
+    if(mapVar.contains(QStringLiteral("name")))
+        m_name = mapVar.value(QStringLiteral("name")).toString();
+    else m_name = QStringLiteral("Stream unamed");
+    
+    if(mapVar.contains(tr("fr_FR")))
+        m_label = mapVar.value(tr("fr_FR")).toString();
+    else m_name = QStringLiteral("Stream no label");
+    
+    m_activeState = CAutomate::getInstance()->getVariable(mapVar.value(tr("active_state")).toString());
+    
+    if(mapVar.contains(QStringLiteral("variables"))){
+        QVariantList listVariable = mapVar.value(QStringLiteral("variables")).toList();
+        foreach(QVariant variant, listVariable){
+            m_listVariables.append(CAutomate::getInstance()->getVariable(variant.toString()));
+        }
+    }
+
+    if(mapVar.contains(QStringLiteral("cycles"))){
+        QVariantList listVariable = mapVar.value(QStringLiteral("cycles")).toList();
+        foreach(QVariant variant, listVariable){
+            m_listCycles.append(CAutomate::getInstance()->getCycle(variant.toString(), CYCLE_MESURE));
+        }
+    }
+
+    if(mapVar.contains(QStringLiteral("measures"))){
+        QVariantList listVariable = mapVar.value(QStringLiteral("measures")).toList();
+        foreach(QVariant variant, listVariable){
+            IVariable* var = CVariableFactory::build(variant.toMap()); 
+            m_listMeasures.append(var);
+        }
+    }
+
+
 }
 
 CVariableVoie::~CVariableVoie()
 {
 }
-
+QList<IVariable*> CVariableVoie::getListMeasures(){
+    return m_listMeasures;
+}
+QList<ICycle*> CVariableVoie::getListCycles(){
+    return m_listCycles;
+}
+IVariable* CVariableVoie::getActiveState(){
+    return m_activeState;
+}
 QString CVariableVoie::getName()const{
     return m_name;
 }
@@ -19,13 +64,13 @@ void CVariableVoie::setName(const QString& name){
     m_name = name;
 }
 QString CVariableVoie::toString(){
-	return QString::number(m_iNumVoie);
+    return m_label;
 }
 int CVariableVoie::toInt(){
-	return m_iNumVoie;
+	return 0;
 }
 float CVariableVoie::toFloat(){
-	return m_iNumVoie;
+	return 0;
 }
 bool CVariableVoie::toBool(){
 	return false;
@@ -38,10 +83,8 @@ void CVariableVoie::setLabel(const QString & label){
 }
 
 void CVariableVoie::setValue(int iValue){
-	m_iNumVoie = iValue;
 }
 void CVariableVoie::setValue(const QVariant & value){
-	m_iNumVoie = value.toInt();
 }
 //Pas de récursivité dans les binds pour l'instant pour ne pas gérer les binds croisés({var1, var2}, {var2, var1})
 void CVariableVoie::setToBindedValue(const QVariant & value){
@@ -54,6 +97,9 @@ void CVariableVoie::switchToUnit(CUnit* targetUnit){
 
 }
 void  CVariableVoie::delBind(IVariable*){
+
+}
+void  CVariableVoie::addBind(IVariable*){
 
 }
 CUnit * CVariableVoie::getUnit() const{
@@ -82,4 +128,9 @@ QLinkedList<IVariable*>  CVariableVoie::getListInBinds()const{
 	QLinkedList<IVariable*> list;
 	return list;
 
+}
+QVariantMap CVariableVoie::serialise(){
+    QVariantMap mapSerialise;
+    mapSerialise.insert(QStringLiteral("unserialized"), QStringLiteral("CVariableVoie"));
+    return mapSerialise;
 }

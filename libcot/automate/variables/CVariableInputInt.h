@@ -54,6 +54,7 @@ public:
     bool isDisplay()const Q_DECL_OVERRIDE;
     QLinkedList<IVariable*> getListOutBinds()const Q_DECL_OVERRIDE;
     QLinkedList<IVariable*> getListInBinds()const Q_DECL_OVERRIDE;
+	QVariantMap serialise() Q_DECL_OVERRIDE;
 private:
     IVariable* readValue() Q_DECL_OVERRIDE;
 	CModelExtensionCard* m_modelExtensionCard;

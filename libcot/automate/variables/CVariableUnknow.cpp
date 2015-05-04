@@ -77,3 +77,8 @@ QLinkedList<IVariable*>  CVariableUnknow::getListInBinds()const{
 	return list;
 
 }
+QVariantMap CVariableUnknow::serialise(){
+    QVariantMap mapSerialise;
+    mapSerialise.insert(QStringLiteral("unserialized"), QStringLiteral("CVariableUnknow"));
+    return mapSerialise;
+}

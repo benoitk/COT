@@ -132,3 +132,8 @@ QLinkedList<IVariable*>  CVariableInputInt::getListInBinds()const{
 	return m_listBinds;
 
 }
+QVariantMap CVariableInputInt::serialise(){
+    QVariantMap mapSerialise;
+    mapSerialise.insert(QStringLiteral("unserialized"), QStringLiteral("CVariableInputInt"));
+    return mapSerialise;
+}

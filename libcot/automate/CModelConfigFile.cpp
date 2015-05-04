@@ -103,6 +103,8 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
 		}
 	}
 
+   
+
     //display
     if(jsonObjectAll[QStringLiteral("display")] == QJsonValue::Undefined){
 		qDebug() << "jsonObject[\"display\"] == QJsonValue::Undefined";
@@ -178,6 +180,23 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
 		}
 	}
 	qDebug() << "FIN CModelConfigFile(QObject *parent)";
+
+     //Streams : 
+     if(jsonObjectAll[QStringLiteral("streams")] == QJsonValue::Undefined){
+		qDebug() << "jsonObject[\"streams\"] == QJsonValue::Undefined";
+	}
+	else {
+        QJsonArray jsonArrayStreams = jsonObjectAll[QStringLiteral("streams")].toArray();
+		foreach(QJsonValue jsonValueStream, jsonArrayStreams){
+			QVariantMap mapStream = jsonValueStream.toVariant().toMap();
+            mapStream.insert(QStringLiteral("type"), QStringLiteral("stream"));
+			IVariable* var = CVariableFactory::build(mapStream); 
+			if(var)
+                CAutomate::getInstance()->addStream(mapStream[QStringLiteral("name")].toString(),var);
+			else 
+				qDebug() << "Streams null : map = " << mapStream;
+		}
+	}
 
 }
 

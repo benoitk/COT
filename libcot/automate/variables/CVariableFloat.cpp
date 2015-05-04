@@ -101,3 +101,8 @@ QLinkedList<IVariable*>  CVariableFloat::getListInBinds()const{
 	return m_listBinds;
 
 }
+QVariantMap CVariableFloat::serialise(){
+    QVariantMap mapSerialise;
+    mapSerialise.insert(QStringLiteral("unserialized"), QStringLiteral("CVariableFloat"));
+    return mapSerialise;
+}
