@@ -10,7 +10,7 @@ class IConfiguratorTab : public QWidget
     Q_OBJECT
 
 public:
-    IConfiguratorTab(QWidget *parent = Q_NULLPTR) : QWidget(parent) { }
+    explicit IConfiguratorTab(QWidget *parent = Q_NULLPTR) : QWidget(parent) { }
 
     CVerticalButtonBar *buttonBar() const { return findChild<CVerticalButtonBar *>(); }
 

@@ -10,7 +10,7 @@ class IMaintenanceTab : public QWidget
     Q_OBJECT
 
 public:
-    IMaintenanceTab(QWidget *parent = Q_NULLPTR) : QWidget(parent) { }
+    explicit IMaintenanceTab(QWidget *parent = Q_NULLPTR) : QWidget(parent) { }
 
     CVerticalButtonBar *buttonBar() const { return findChild<CVerticalButtonBar *>(); }
 

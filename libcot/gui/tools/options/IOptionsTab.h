@@ -10,7 +10,7 @@ class IOptionsTab : public QWidget
     Q_OBJECT
 
 public:
-    IOptionsTab(QWidget *parent = Q_NULLPTR) : QWidget(parent) { }
+    explicit IOptionsTab(QWidget *parent = Q_NULLPTR) : QWidget(parent) { }
 
     CVerticalButtonBar *buttonBar() const { return findChild<CVerticalButtonBar *>(); }
 

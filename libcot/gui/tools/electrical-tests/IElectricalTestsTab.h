@@ -10,7 +10,7 @@ class IElectricalTestsTab : public QWidget
     Q_OBJECT
 
 public:
-    IElectricalTestsTab(QWidget *parent = Q_NULLPTR) : QWidget(parent) { }
+    explicit IElectricalTestsTab(QWidget *parent = Q_NULLPTR) : QWidget(parent) { }
 
     CVerticalButtonBar *buttonBar() const { return findChild<CVerticalButtonBar *>(); }
 

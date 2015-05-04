@@ -1,16 +1,15 @@
-#ifndef ICONFIGURATORTAB_H
-#define ICONFIGURATORTAB_H
+#ifndef CEDITVARIABLETAB_H
+#define CEDITVARIABLETAB_H
 
 #include <QWidget>
 
 #include "CVerticalButtonBar.h"
 
-class IConfiguratorTab : public QWidget
+class CEditVariableTab : public QWidget
 {
     Q_OBJECT
-
 public:
-    IConfiguratorTab(QWidget *parent = Q_NULLPTR) : QWidget(parent) { }
+    explicit CEditVariableTab(QWidget *parent = Q_NULLPTR) : QWidget(parent) { }
 
     CVerticalButtonBar *buttonBar() const { return findChild<CVerticalButtonBar *>(); }
 
@@ -18,4 +17,4 @@ signals:
     void backTriggered();
 };
 
-#endif // ICONFIGURATORTAB_H
+#endif // CEDITVARIABLETAB_H
