@@ -2,11 +2,11 @@
 #define CONFIGURATORUIHANDLER_H
 
 #include <QObject>
-
+#include "cot_global.h"
 #include "IVariable.h"
 #include "ICycle.h"
 
-class ConfiguratorUIHandler : public QObject
+class LIBCOT_EXPORT ConfiguratorUIHandler : public QObject
 {
     Q_OBJECT
 
