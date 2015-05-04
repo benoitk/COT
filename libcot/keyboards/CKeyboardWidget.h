@@ -19,6 +19,8 @@ public:
     ~CKeyboardWidget();
 
     QString text() const;
+    void setText(const QString &text);
+
 Q_SIGNALS:
     void returnPressed();
 

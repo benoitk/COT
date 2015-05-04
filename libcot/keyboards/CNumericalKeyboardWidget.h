@@ -19,7 +19,15 @@ public:
     explicit CNumericalKeyboardWidget(CNumericalKeyboardWidget::Mode mode, QWidget *parent = Q_NULLPTR);
     ~CNumericalKeyboardWidget();
 
-    double number() const;
+    CNumericalKeyboardWidget::Mode mode() const;
+    void setMode(const CNumericalKeyboardWidget::Mode &mode);
+
+    int integerNumber() const;
+    void setIntegerNumber(int number);
+
+    double doubleNumber() const;
+    void setDoubleNumber(double number);
+
 Q_SIGNALS:
     void returnPressed();
 

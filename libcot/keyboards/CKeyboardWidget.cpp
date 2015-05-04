@@ -37,6 +37,11 @@ QString CKeyboardWidget::text() const
     return m_lineEdit->text();
 }
 
+void CKeyboardWidget::setText(const QString &text)
+{
+    m_lineEdit->setText(text);
+}
+
 bool CKeyboardWidget::event(QEvent *ev)
 {
     if (ev->type() == QEvent::LocaleChange || ev->type() == QEvent::LanguageChange) {

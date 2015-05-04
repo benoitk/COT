@@ -42,9 +42,37 @@ CNumericalKeyboardWidget::~CNumericalKeyboardWidget()
 
 }
 
-double CNumericalKeyboardWidget::number() const
+CNumericalKeyboardWidget::Mode CNumericalKeyboardWidget::mode() const
+{
+    return m_mode;
+}
+
+void CNumericalKeyboardWidget::setMode(const CNumericalKeyboardWidget::Mode &mode)
+{
+    if (m_mode != mode) {
+        m_mode = mode;
+        m_digitalButton->setVisible(m_mode == CNumericalKeyboardWidget::Double);
+    }
+}
+
+int CNumericalKeyboardWidget::integerNumber() const
+{
+    return m_lineEdit->text().toInt();
+}
+
+void CNumericalKeyboardWidget::setIntegerNumber(int number)
+{
+    m_lineEdit->setText(QString::number(number));
+}
+
+double CNumericalKeyboardWidget::doubleNumber() const
 {
     return m_lineEdit->text().toDouble();
+}
+
+void CNumericalKeyboardWidget::setDoubleNumber(double number)
+{
+    m_lineEdit->setText(QString::number(number));
 }
 
 bool CNumericalKeyboardWidget::event(QEvent *ev)
@@ -101,15 +129,10 @@ void CNumericalKeyboardWidget::initializeKeyboardLayout()
     gridLayout->addWidget( createButton( QLatin1Char('3') ), 2, 2 );
     gridLayout->addWidget( createButton( QLatin1Char('0') ), 3, 0, 1, 2  );
 
-    if (m_mode == CNumericalKeyboardWidget::Double) {
-        m_digitalButton = new CKeyboardNormalButton(this);
-        connect(m_digitalButton, &CKeyboardNormalButton::clicked, this, &CNumericalKeyboardWidget::slotDigitalButtonPressed);
-
-        gridLayout->addWidget( m_digitalButton, 3, 2 );
-    }
-    else {
-        m_digitalButton = Q_NULLPTR;
-    }
+    m_digitalButton = new CKeyboardNormalButton(this);
+    connect(m_digitalButton, &CKeyboardNormalButton::clicked, this, &CNumericalKeyboardWidget::slotDigitalButtonPressed);
+    gridLayout->addWidget( m_digitalButton, 3, 2 );
+    m_digitalButton->setVisible(m_mode == CNumericalKeyboardWidget::Double);
 
     specialButton = new CKeyboardSpecialButton( this );
     specialButton->setText( QChar(0xB1) ); // "plus/minus" sign

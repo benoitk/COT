@@ -2,9 +2,13 @@
 #define NUMERICALKEYBOARDDIALOG_H
 
 #include <QDialog>
+
 #include "CNumericalKeyboardWidget.h"
-class CNumericalKeyboardWidget;
-class CVerticalButtonBar;
+
+namespace Ui {
+class CNumericalKeyboardDialog;
+}
+
 class CNumericalKeyboardDialog : public QDialog
 {
     Q_OBJECT
@@ -13,11 +17,16 @@ public:
     explicit CNumericalKeyboardDialog(CNumericalKeyboardWidget::Mode mode, QWidget *parent=Q_NULLPTR);
     ~CNumericalKeyboardDialog();
 
+    void setTitle(const QString &title);
+
     int integerValue() const;
+    void setIntegerValue(int value);
+
     double doubleValue() const;
+    void setDoubleValue(double value);
+
 private:
-    CNumericalKeyboardWidget *m_numericalKeyboardWidget;
-    CVerticalButtonBar *m_buttonBar;
+    Ui::CNumericalKeyboardDialog *ui;
 
     void initialize(CNumericalKeyboardWidget::Mode mode);
 };

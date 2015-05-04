@@ -1,32 +1,35 @@
 #include "CKeyboardDialog.h"
-#include "CKeyboardWidget.h"
-#include "CVerticalButtonBar.h"
-#include <QGridLayout>
-#include <QLocale>
-#include <QLineEdit>
-#include <QAction>
+#include "ui_CKeyboardDialog.h"
 
 CKeyboardDialog::CKeyboardDialog(QWidget *parent)
     : QDialog(parent)
+    , ui(new Ui::CKeyboardDialog)
 {
-    QHBoxLayout *mainLayout = new QHBoxLayout(this);
-    m_keyboardWidget = new CKeyboardWidget(this);
-    m_buttonBar = new CVerticalButtonBar(this);
-    mainLayout->addWidget(m_keyboardWidget);
-    mainLayout->addWidget(m_buttonBar);
-    connect(m_buttonBar->addAction(CToolButton::Ok), &QAction::triggered,
+    ui->setupUi(this);
+
+    connect(ui->vbbButtons->addAction(CToolButton::Ok), &QAction::triggered,
             this, &CKeyboardDialog::accept);
-    connect(m_buttonBar->addAction(CToolButton::Cancel), &QAction::triggered,
+    connect(ui->vbbButtons->addAction(CToolButton::Cancel), &QAction::triggered,
             this, &CKeyboardDialog::reject);
 }
 
 CKeyboardDialog::~CKeyboardDialog()
 {
+    delete ui;
+}
 
+void CKeyboardDialog::setTitle(const QString &title)
+{
+    ui->twPages->setTabText(0, title);
 }
 
 QString CKeyboardDialog::stringValue() const
 {
-    return m_keyboardWidget->text();
+    return ui->kwKeyboard->text();
+}
+
+void CKeyboardDialog::setStringValue(const QString &value)
+{
+    ui->kwKeyboard->setText(value);
 }
 
