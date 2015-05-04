@@ -3,4 +3,7 @@ CONFIG *= ordered
 
 SUBDIRS *= \
     testCGenericItemSelector \
-    keyboard scrollablewidget graphicswidget
+    keyboard \
+    scrollablewidget \
+    graphicswidget \
+    selectors
