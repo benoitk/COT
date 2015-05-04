@@ -19,10 +19,12 @@ CScrollableWidget::~CScrollableWidget()
 {
 
 }
+
 QAction *CScrollableWidget::moveDown() const
 {
     return m_moveDown;
 }
+
 QAction *CScrollableWidget::moveUp() const
 {
     return m_moveUp;
@@ -82,10 +84,12 @@ CScrollablePlainTextEdit::~CScrollablePlainTextEdit()
 {
 
 }
+
 QAction *CScrollablePlainTextEdit::moveDown() const
 {
     return m_moveDown;
 }
+
 QAction *CScrollablePlainTextEdit::moveUp() const
 {
     return m_moveUp;

@@ -11,7 +11,8 @@ CLinkAction::~CLinkAction()
 
 }
 
-IAction* CLinkAction::getAction()const{
+IAction* CLinkAction::getAction()const
+{
 	return m_action;
 }
 
