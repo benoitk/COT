@@ -5,13 +5,17 @@
 namespace Ui {
 class CConfiguratorVariablesTab;
 }
+class IVariableUIHandler;
 class CConfiguratorVariablesTab : public IConfiguratorTab
 {
     Q_OBJECT
 public:
     explicit CConfiguratorVariablesTab(QWidget *parent = Q_NULLPTR);
     ~CConfiguratorVariablesTab();
+private slots:
+    void addVariable();
 private:
+    IVariableUIHandler *m_ivariableUIHandler;
     Ui::CConfiguratorVariablesTab *ui;
 };
 
