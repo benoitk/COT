@@ -39,6 +39,7 @@ private:
     Ui::UISelectTest *ui;
     ConfiguratorUIHandler *handler;
 
+    QVariant rowLabel(QObject* row) const;
     void setRowLabel(QObject* row, const QVariant &label);
 };
 
