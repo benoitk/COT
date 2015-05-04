@@ -67,7 +67,7 @@ void CNumericalKeyboardWidget::setIntegerNumber(int number)
 
 double CNumericalKeyboardWidget::doubleNumber() const
 {
-    return m_lineEdit->text().toDouble();
+    return QLocale().toDouble(m_lineEdit->text());
 }
 
 void CNumericalKeyboardWidget::setDoubleNumber(double number)
