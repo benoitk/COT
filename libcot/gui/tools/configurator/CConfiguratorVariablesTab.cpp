@@ -27,3 +27,8 @@ void CConfiguratorVariablesTab::addVariable()
 {
     CPCWindow::openModal<CEditvariableWindow>();
 }
+
+void CConfiguratorVariablesTab::editVariable()
+{
+    CPCWindow::openModal<CEditvariableWindow>();
+}

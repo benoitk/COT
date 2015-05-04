@@ -14,6 +14,8 @@ public:
     ~CConfiguratorVariablesTab();
 private slots:
     void addVariable();
+    void editVariable();
+
 private:
     IVariableUIHandler *m_ivariableUIHandler;
     Ui::CConfiguratorVariablesTab *ui;
