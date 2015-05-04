@@ -27,11 +27,11 @@ public:
     void delVariableToScreenHistory(IVariable*);
     void delVariableToScreenAlarms(IVariable*);
 
-    QList<IVariable*> getListForScreenDiagnostic();
-    QMap<QString, QList<IVariable*> > getMapForScreenElectricalTests();
-    QList<IVariable*> getListForScreenOptions();
-    QList<IVariable*> getListForScreenHistory();
-    QList<IVariable*> getListForScreenAlarms();
+    QList<IVariable*> getListForScreenDiagnostic() const;
+    QMap<QString, QList<IVariable*> > getMapForScreenElectricalTests() const;
+    QList<IVariable*> getListForScreenOptions() const;
+    QList<IVariable*> getListForScreenHistory() const;
+    QList<IVariable*> getListForScreenAlarms() const;
     
     static const QString STR_ELEC_420;
     static const QString STR_ELEC_RELAYS;

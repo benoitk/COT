@@ -167,18 +167,18 @@ void CDisplayConf::delVariableToScreenAlarms(IVariable* var){
         i++;
     }
 }
-QList<IVariable*> CDisplayConf::getListForScreenDiagnostic(){
+QList<IVariable*> CDisplayConf::getListForScreenDiagnostic() const{
     return m_listForScrenDiagnostic;
 }
-QMap<QString, QList<IVariable*> > CDisplayConf::getMapForScreenElectricalTests(){
+QMap<QString, QList<IVariable*> > CDisplayConf::getMapForScreenElectricalTests() const{
     return m_mapForScrenElectricalTests;
 }
-QList<IVariable*> CDisplayConf::getListForScreenOptions(){
+QList<IVariable*> CDisplayConf::getListForScreenOptions() const{
     return m_listForScrenOptions;
 }
-QList<IVariable*> CDisplayConf::getListForScreenHistory(){
+QList<IVariable*> CDisplayConf::getListForScreenHistory() const{
     return m_listForScrenHistory;
 }
-QList<IVariable*> CDisplayConf::getListForScreenAlarms(){
+QList<IVariable*> CDisplayConf::getListForScreenAlarms() const{
     return m_listForScrenAlarms;
 }
