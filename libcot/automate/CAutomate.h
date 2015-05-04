@@ -43,6 +43,7 @@ public:
 	QList<IAction*> getListActions();
 	QList<CUnit*> getListUnits();
 	QMap<QString, IVariable*> getMapVariables();
+	QMap<QString, IVariable*> getMapStreams();
 	void setMapVariables(QMap<QString, IVariable*>);
     QMap<QString, QList<QString>> getMapStreamsMeasures() const;
     void setMapStreamsMeasures(QMap<QString, QList<QString>>);
@@ -64,6 +65,7 @@ public:
         return QStringList() << "stream_1" << "stream_2";
     }
 
+    //use CVariableVoie::getVariables()
     QStringList getStreamVariables(const QString &stream) {
         static QMap<QString, QStringList> variables;
 
@@ -83,6 +85,7 @@ public:
         return variables.value(stream);
     }
 
+    //use getMapStream
     QMap<QString, QStringList> getStreamMeasures(const QString &stream) {
         QMap<QString, QMap<QString, QStringList>> measures;
 
@@ -129,6 +132,7 @@ public:
 	IVariable* getVariable(const QString&);
     QList<IVariable *> getVariables(const QStringList&);
 	void addVariable(const QString&, IVariable*);
+	void addStream(const QString&, IVariable*);
     void addUnit(CUnit*);
 
 
@@ -185,6 +189,7 @@ private:
     QList<CUnit*> m_listUnits;
 
 	QMap<QString, IVariable*> m_mapVariables;
+	QMap<QString, IVariable*> m_mapStreams;
     mutable QMutex m_mutex;
 	QMap<QString, QList<QString>> m_mapStreamsMeasures;
 

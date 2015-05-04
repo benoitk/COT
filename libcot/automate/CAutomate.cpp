@@ -92,8 +92,13 @@ QList<IVariable *> CAutomate::getVariables(const QStringList &names)
 
 void CAutomate::addVariable(const QString& name, IVariable* var){
     QMutexLocker locker(&m_mutex);
-	if(var)
+    if(var && var->getType() != type_unknow)
 		m_mapVariables.insert(name, var);
+}
+void CAutomate::addStream(const QString& name, IVariable* var){
+    QMutexLocker locker(&m_mutex);
+	if(var && var->getType() != type_unknow)
+		m_mapStreams.insert(name, var);
 }
 
 void CAutomate::addUnit(CUnit* unit){
@@ -166,7 +171,10 @@ QMap<QString, IVariable*> CAutomate::getMapVariables(){
     QMutexLocker locker(&m_mutex);
 	return m_mapVariables;
 }
-
+QMap<QString, IVariable*> CAutomate::getMapStreams(){
+    QMutexLocker locker(&m_mutex);
+    return m_mapStreams;
+}
 void CAutomate::setMapVariables(QMap<QString, IVariable*> mapVariable){
     QMutexLocker locker(&m_mutex);
 	m_mapVariables.swap(mapVariable);
