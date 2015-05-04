@@ -92,7 +92,7 @@ void CNumericalKeyboardWidget::slotButtonClicked(QChar character)
         text.append(character);
     } else if (text.contains(QLocale::system().decimalPoint())) {
         text.append(character);
-    } else if (qFuzzyCompare(m_lineEdit->locale().toDouble(text),0) ) {
+    } else if (qFuzzyCompare(m_lineEdit->locale().toDouble(text) + 1.0 ,1.0) ) {
         text = character;
     } else {
         text.append(character);
