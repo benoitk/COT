@@ -50,7 +50,10 @@ FORMS *= \
     gui/tools/configurator/CConfiguratorHardwareTab.ui \
     gui/tools/configurator/CConfiguratorNetworkTab.ui \
     gui/tools/configurator/variables/CEditVariableWindow.ui \
-    gui/widgets/CGenericItemSelector.ui
+    gui/widgets/CGenericItemSelector.ui \
+    gui/tools/configurator/variables/CEditVariableTab.ui \
+    gui/tools/configurator/variables/CEditInBindsTab.ui \
+    gui/tools/configurator/variables/CEditOutBindsTab.ui \
 
 
 
@@ -187,8 +190,12 @@ HEADERS *= \
     gui/tools/configurator/CConfiguratorHardwareTab.h \
     gui/tools/configurator/CConfiguratorNetworkTab.h \
     gui/tools/configurator/variables/CEditVariableWindow.h \
+    gui/tools/configurator/variables/IEditVariableTab.h \
 	gui/widgets/CGenericVariableUIHandler.h \
-	gui/ConfiguratorUIHandler.h
+	gui/ConfiguratorUIHandler.h \
+    gui/tools/configurator/variables/CEditVariableTab.h \
+    gui/tools/configurator/variables/CEditInBindsTab.h \
+    gui/tools/configurator/variables/CEditOutBindsTab.h \
 
 SOURCES *= \
     automate/CAutomate.cpp \
@@ -319,3 +326,7 @@ SOURCES *= \
     gui/tools/configurator/variables/CEditVariableWindow.cpp \
 	gui/widgets/CGenericVariableUIHandler.cpp \
     gui/ConfiguratorUIHandler.cpp \
+    gui/tools/configurator/variables/CEditVariableTab.cpp \
+    gui/tools/configurator/variables/CEditInBindsTab.cpp \
+    gui/tools/configurator/variables/CEditOutBindsTab.cpp \
+

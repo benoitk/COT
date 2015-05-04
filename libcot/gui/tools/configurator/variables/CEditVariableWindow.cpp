@@ -1,21 +1,18 @@
 #include "CEditVariableWindow.h"
 #include "ui_CEditVariableWindow.h"
-#include "IConfiguratorTab.h"
-#include "CConfiguratorCycleTab.h"
-#include "CConfiguratorActionsTab.h"
-#include "CConfiguratorVariablesTab.h"
-#include "CConfiguratorSequencerTab.h"
-#include "CConfiguratorStreamsTab.h"
-#include "CConfiguratorExtensionsTab.h"
-#include "CConfiguratorDisplayTab.h"
-#include "CConfiguratorHardwareTab.h"
-#include "CConfiguratorNetworkTab.h"
+#include "IEditVariableTab.h"
+#include "CEditInBindsTab.h"
+#include "CEditOutBindsTab.h"
+#include "CEditVariableTab.h"
 
 CEditvariableWindow::CEditvariableWindow(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::CEditVariableWindow)
 {
     ui->setupUi(this);
+    addTab(new CEditVariableTab(this), QString());
+    addTab(new CEditOutBindsTab(this), QString());
+    addTab(new CEditInBindsTab(this), QString());
     retranslate();
 }
 
@@ -24,10 +21,12 @@ CEditvariableWindow::~CEditvariableWindow()
     delete ui;
 }
 
-
 void CEditvariableWindow::retranslate()
 {
     ui->retranslateUi(this);
+    ui->twPages->setTabText(0, tr("Variables"));
+    ui->twPages->setTabText(1, tr("Out Binds"));
+    ui->twPages->setTabText(2, tr("In Binds"));
 }
 
 void CEditvariableWindow::changeEvent(QEvent *event)
