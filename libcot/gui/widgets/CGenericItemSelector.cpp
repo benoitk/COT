@@ -13,6 +13,7 @@ CGenericItemSelector::CGenericItemSelector(const IVariablePtrList &list, QWidget
     , m_currentItem(Q_NULLPTR)
 {
     ui->setupUi(this);
+    ui->lvItems->setMouseTracking(true);
     ui->lvItems->setModel(m_model);
     ui->lvItems->setItemDelegate(new CGenericListDelegate(this));
     ui->vbbButtons->addAction(CToolButton::ScrollUp);

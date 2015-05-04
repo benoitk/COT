@@ -16,8 +16,12 @@ CGenericListDelegate::CGenericListDelegate(QObject *parent)
 
 void CGenericListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
+    QStyleOptionViewItem opt = option;
+    initStyleOption(&opt, index);
+
     QStyleOptionButton buttonOption;
     buttonOption.initFrom(option.widget);
+    buttonOption.state = opt.state;
     buttonOption.rect = option.rect;
     buttonOption.text = index.data().toString();
 
