@@ -18,9 +18,12 @@ public:
 
     /// returns true if the stored variable list contains item
     bool contains(IVariablePtr item);
+    QModelIndex indexForIVariable(IVariablePtr variable) const;
 
     /// Returns the stored IVariable pointer using the provided index row
     IVariablePtr IVariableForIndex(const QModelIndex &index) const;
+    IVariablePtr IVAriableForName(const QString &name) const;
+    IVariablePtr IVAriableForValue(const QString &value) const;
 
 private:
     IVariablePtrList m_IVariableList;

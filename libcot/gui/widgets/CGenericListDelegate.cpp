@@ -5,7 +5,7 @@
 
 
 namespace {
-    static const int DEFAULT_ITEM_SIZE = 130;
+    static const int DEFAULT_ITEM_SIZE = 90;
 }
 
 CGenericListDelegate::CGenericListDelegate(QObject *parent)

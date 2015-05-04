@@ -3,9 +3,9 @@
 
 #include <QDialog>
 #include <QModelIndex>
+#include <QVariant>
 
 #include "cot_global.h"
-
 #include "IVariable.h"
 
 /**
@@ -13,9 +13,11 @@
  *  It is connected to a model that contains a list of IVariables. Clicked item can be retrieved via the "Item" property.
  */
 
-class QListView;
+namespace Ui {
+class CGenericItemSelector;
+}
+
 class CGenericListModel;
-class QToolButton;
 
 class LIBCOT_EXPORT CGenericItemSelector : public QDialog
 {
@@ -24,11 +26,18 @@ class LIBCOT_EXPORT CGenericItemSelector : public QDialog
 
 public:
     explicit CGenericItemSelector(const IVariablePtrList &list, QWidget *parent = Q_NULLPTR);
+    ~CGenericItemSelector();
+
+    void setTitle(const QString &title);
 
     IVariablePtr selectedItem() const;
 
     /// selects an item (The item must be of type CVariableString)
     void setSelectedItem(IVariablePtr item);
+
+    // Select a variable by its nama
+    void setSelectedName(const QString &name);
+    void setSelectedValue(const QVariant &value);
 
     /// Scroll the listview in either direction.
     /// Scroll a whole page everytime this method is called.
@@ -37,6 +46,9 @@ public:
         ScrollDown
     };
     void scroll(Direction dir);
+
+protected:
+    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
 
 private slots:
     /// reached when the user selects an item in the view. sets the property selectedItem.
@@ -50,11 +62,11 @@ Q_SIGNALS:
     void selectedItemChanged(IVariablePtr newItem);
 
 private:
-    QListView *m_listView;
+    Ui::CGenericItemSelector *ui;
     CGenericListModel *m_model;
     IVariablePtr m_currentItem;
-    QToolButton *m_upButton;
-    QToolButton *m_downButton;
+
+    void updateScrollButtons();
 };
 
 #endif // CGENERICITEMSELECTOR_H

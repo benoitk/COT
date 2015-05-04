@@ -1,66 +1,38 @@
 #include "CGenericItemSelector.h"
+#include "ui_CGenericItemSelector.h"
 #include "CGenericListModel.h"
 #include "CGenericListDelegate.h"
 
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QListView>
-#include <QToolButton>
-#include <QPushButton>
+#include <QTimer>
 #include <QScrollBar>
 
-#include <QDebug>
+CGenericItemSelector::CGenericItemSelector(const IVariablePtrList &list, QWidget *parent)
+    : QDialog(parent)
+    , ui(new Ui::CGenericItemSelector)
+    , m_model(new CGenericListModel(list, this))
+    , m_currentItem(Q_NULLPTR)
+{
+    ui->setupUi(this);
+    ui->lvItems->setModel(m_model);
+    ui->lvItems->setItemDelegate(new CGenericListDelegate(this));
+    ui->vbbButtons->addAction(CToolButton::ScrollUp);
+    ui->vbbButtons->addAction(CToolButton::ScrollDown);
+    ui->vbbButtons->addAction(CToolButton::Cancel);
 
-namespace {
-    static const int BUTTONS_HEIGHT = 50;
+    connect(ui->lvItems, &QListView::clicked, this, &CGenericItemSelector::itemSelected);
+    connect(ui->vbbButtons->action(CToolButton::ScrollUp), &QAction::triggered, this, &CGenericItemSelector::scrollUp);
+    connect(ui->vbbButtons->action(CToolButton::ScrollDown), &QAction::triggered, this, &CGenericItemSelector::scrollDown);
+    connect(ui->vbbButtons->action(CToolButton::Cancel), &QAction::triggered, this, &CGenericItemSelector::reject);
 }
 
-CGenericItemSelector::CGenericItemSelector(const IVariablePtrList &list, QWidget *parent)
-    : QDialog(parent),
-      m_model(new CGenericListModel(list, this)),
-      m_currentItem(Q_NULLPTR)
+CGenericItemSelector::~CGenericItemSelector()
 {
-    m_listView = new QListView(this);
-    m_listView->setViewMode(QListView::IconMode);
-    m_listView->setModel(m_model);
-    m_listView->setResizeMode(QListView::Adjust);
-    m_listView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    m_listView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    delete ui;
+}
 
-    CGenericListDelegate *delegate = new CGenericListDelegate(this);
-    m_listView->setItemDelegate(delegate);
-
-    QPushButton *cancelButton = new QPushButton(this);
-    cancelButton->setText(tr("Cancel"));
-    cancelButton->setFixedHeight(BUTTONS_HEIGHT);
-
-    m_upButton = new QToolButton(this);
-    m_upButton->setArrowType(Qt::UpArrow);
-    m_upButton->setFixedSize(cancelButton->width(), BUTTONS_HEIGHT);
-    m_upButton->setEnabled(false); // we're on top of the list atm
-    m_upButton->setAutoRepeat(true);
-
-    m_downButton = new QToolButton(this);
-    m_downButton->setArrowType(Qt::DownArrow);
-    m_downButton->setFixedSize(cancelButton->width(), BUTTONS_HEIGHT);
-    m_downButton->setAutoRepeat(true);
-
-    QVBoxLayout *vLayout = new QVBoxLayout();
-    vLayout->addWidget(m_upButton);
-    vLayout->addWidget(m_downButton);
-    vLayout->addWidget(cancelButton);
-    vLayout->setContentsMargins(0, 0, 0, 0);
-
-    QHBoxLayout *hLayout = new QHBoxLayout(this);
-    hLayout->addWidget(m_listView);
-    hLayout->addLayout(vLayout);
-    hLayout->setContentsMargins(0, 0, 0, 0);
-
-    connect(m_listView, SIGNAL(clicked(QModelIndex)), this, SLOT(itemSelected(QModelIndex)));
-
-    connect(m_upButton, SIGNAL(clicked()), this, SLOT(scrollUp()));
-    connect(m_downButton, SIGNAL(clicked()), this, SLOT(scrollDown()));
-    connect(cancelButton, SIGNAL(clicked()), this, SLOT(reject()));
+void CGenericItemSelector::setTitle(const QString &title)
+{
+    ui->twPages->setTabText(0, title);
 }
 
 IVariablePtr CGenericItemSelector::selectedItem() const
@@ -85,17 +57,44 @@ void CGenericItemSelector::scrollDown()
     scroll(ScrollDown);
 }
 
+void CGenericItemSelector::updateScrollButtons()
+{
+    QScrollBar *bar = ui->lvItems->verticalScrollBar();
+    ui->vbbButtons->button(CToolButton::ScrollDown)->setDisabled(bar->value() >= bar->maximum());
+    ui->vbbButtons->button(CToolButton::ScrollUp)->setDisabled(bar->value() <= bar->minimum());
+}
+
 void CGenericItemSelector::setSelectedItem(IVariablePtr item)
 {
-    if (item && m_model->contains(item)) {
+    const QModelIndex index = m_model->indexForIVariable(item);
+
+    if (index.isValid()) {
+        const bool locked = ui->lvItems->blockSignals(true);
+
+        if (ui->lvItems->currentIndex() != index) {
+            ui->lvItems->setCurrentIndex(index);
+        }
+
+        ui->lvItems->blockSignals(locked);
+        ui->lvItems->scrollTo(index);
         m_currentItem = item;
-        Q_EMIT selectedItemChanged(m_currentItem);
+        emit selectedItemChanged(m_currentItem);
     }
+}
+
+void CGenericItemSelector::setSelectedName(const QString &name)
+{
+    setSelectedItem(m_model->IVAriableForName(name));
+}
+
+void CGenericItemSelector::setSelectedValue(const QVariant &value)
+{
+    setSelectedItem(m_model->IVAriableForValue(value.toString()));
 }
 
 void CGenericItemSelector::scroll(CGenericItemSelector::Direction dir)
 {
-    QScrollBar *bar = m_listView->verticalScrollBar();
+    QScrollBar *bar = ui->lvItems->verticalScrollBar();
 
     if (dir == ScrollUp) {
         bar->triggerAction(QAbstractSlider::SliderSingleStepSub);
@@ -103,6 +102,11 @@ void CGenericItemSelector::scroll(CGenericItemSelector::Direction dir)
         bar->triggerAction(QAbstractSlider::SliderSingleStepAdd);
     }
 
-    m_downButton->setDisabled(bar->value() >= bar->maximum());
-    m_upButton->setDisabled(bar->value() <= bar->minimum());
+    updateScrollButtons();
+}
+
+void CGenericItemSelector::resizeEvent(QResizeEvent *event)
+{
+    QDialog::resizeEvent(event);
+    QTimer::singleShot(25, this, &CGenericItemSelector::updateScrollButtons);
 }
