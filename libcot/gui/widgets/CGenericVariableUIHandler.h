@@ -11,11 +11,9 @@ class CGenericVariableUIHandler : public CScrollableWidget
 public:
     explicit CGenericVariableUIHandler(QWidget *parent = Q_NULLPTR);
     ~CGenericVariableUIHandler();
-    QAction *addVariable() const;
-    void setAddVariable(QAction *addVariable);
 
+    QAction *addVariable() const;
     QAction *removeVariable() const;
-    void setRemoveVariable(QAction *removeVariable);
 
     void setIVariableUIHandler(IVariableUIHandler *iVariableUIHandler);
 

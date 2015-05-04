@@ -27,19 +27,9 @@ QAction *CGenericVariableUIHandler::addVariable() const
     return m_addVariable;
 }
 
-void CGenericVariableUIHandler::setAddVariable(QAction *addVariable)
-{
-    m_addVariable = addVariable;
-}
-
 QAction *CGenericVariableUIHandler::removeVariable() const
 {
     return m_removeVariable;
-}
-
-void CGenericVariableUIHandler::setRemoveVariable(QAction *removeVariable)
-{
-    m_removeVariable = removeVariable;
 }
 
 void CGenericVariableUIHandler::slotAddVariable()
