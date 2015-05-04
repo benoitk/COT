@@ -318,5 +318,4 @@ SOURCES *= \
     gui/tools/configurator/CConfiguratorNetworkTab.cpp \
     gui/tools/configurator/variables/CEditVariableWindow.cpp \
 	gui/widgets/CGenericVariableUIHandler.cpp \
-	gui/ConfiguratorUIHandler.h
-
+    gui/ConfiguratorUIHandler.cpp \
