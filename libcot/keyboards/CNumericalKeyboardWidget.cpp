@@ -86,7 +86,13 @@ bool CNumericalKeyboardWidget::event(QEvent *ev)
 
 void CNumericalKeyboardWidget::slotButtonClicked(QChar character)
 {
-    m_lineEdit->setText(m_lineEdit->text().append(character));
+    QString text = m_lineEdit->text();
+    if (text == QLatin1String("0")) {
+        text = character;
+    } else {
+        text.append(character);
+    }
+    m_lineEdit->setText(text);
     m_lineEdit->setFocus();
 }
 
