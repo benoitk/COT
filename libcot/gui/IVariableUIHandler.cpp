@@ -79,8 +79,9 @@ void IVariableUIHandler::layout(const QStringList &variables)
 void IVariableUIHandler::setScrollableWidget(CScrollableWidget *scrollable)
 {
     if (m_scrollable) {
-        qDebug() <<" we already have a scrollablewidget";
+        Q_ASSERT(false);
     }
+
     m_scrollable = scrollable;
 }
 
