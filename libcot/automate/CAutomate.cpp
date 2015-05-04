@@ -148,6 +148,10 @@ QList<ICycle*> CAutomate::getListCycles(int cycleType){
         case CYCLE_PAUSE: {
             break;
         }
+
+        case CYCLE_INVALID:
+            Q_ASSERT(false);
+            break;
     }
 
 	return listAllCycles;

@@ -21,7 +21,7 @@ QVariant CModelExtensionCard::readOrganneValue(IVariableInput* arg_varInput){
 }
 
 IVariable* CModelExtensionCard::getVariable(const QString &addr_var)const{
-	IVariable * temp;
+    IVariable * temp = Q_NULLPTR;
 	return temp;
 }
 
@@ -30,7 +30,13 @@ void CModelExtensionCard::setCom(ICom* com){
 }
 
 QList<IOrgan*>  CModelExtensionCard::getListOrgans()const{
-	return m_listOrgans;
+    return m_listOrgans;
+}
+
+QString CModelExtensionCard::getLabel() const
+{
+   // CUSTOMER: Fix me
+    return getName();
 }
 
 
