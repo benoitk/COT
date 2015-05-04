@@ -62,7 +62,7 @@ int CNumericalKeyboardWidget::integerNumber() const
 
 void CNumericalKeyboardWidget::setIntegerNumber(int number)
 {
-    m_lineEdit->setText(QString::number(number));
+    m_lineEdit->setText(m_lineEdit->locale().toString(number));
 }
 
 double CNumericalKeyboardWidget::doubleNumber() const
@@ -72,7 +72,7 @@ double CNumericalKeyboardWidget::doubleNumber() const
 
 void CNumericalKeyboardWidget::setDoubleNumber(double number)
 {
-    m_lineEdit->setText(QString::number(number));
+    m_lineEdit->setText(m_lineEdit->locale().toString(number));
 }
 
 bool CNumericalKeyboardWidget::event(QEvent *ev)
