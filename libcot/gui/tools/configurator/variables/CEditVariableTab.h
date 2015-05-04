@@ -5,6 +5,7 @@
 namespace Ui {
 class CEditVariableTab;
 }
+class ConfiguratorUIHandler;
 class CEditVariableTab : public IEditVariableTab
 {
     Q_OBJECT
@@ -13,6 +14,7 @@ public:
     ~CEditVariableTab();
 private:
     Ui::CEditVariableTab *ui;
+    ConfiguratorUIHandler *m_configuratorUIHandler;
 };
 
 #endif // CEDITVARIABLETAB_H
