@@ -16,6 +16,12 @@ public:
     explicit CMaintenanceWindow(QWidget *parent = Q_NULLPTR);
     ~CMaintenanceWindow();
 
+public slots:
+    void retranslate();
+
+protected:
+    void changeEvent(QEvent *event) Q_DECL_OVERRIDE;
+
 private slots:
     void backTriggered();
 
