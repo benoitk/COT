@@ -4,15 +4,13 @@
 #include <QWidget>
 #include <QVariant>
 
-#include "cot_global.h"
-
 namespace Ui {
 class UISelectTest;
 }
 
 class ConfiguratorUIHandler;
 
-class LIBCOT_EXPORT UISelectTest : public QWidget
+class UISelectTest : public QWidget
 {
     Q_OBJECT
 
