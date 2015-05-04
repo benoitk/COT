@@ -187,7 +187,8 @@ HEADERS *= \
     gui/tools/configurator/CConfiguratorHardwareTab.h \
     gui/tools/configurator/CConfiguratorNetworkTab.h \
     gui/tools/configurator/variables/CEditVariableWindow.h \
-	gui/widgets/CGenericVariableUIHandler.h
+	gui/widgets/CGenericVariableUIHandler.h \
+	gui/ConfiguratorUIHandler.h
 
 SOURCES *= \
     automate/CAutomate.cpp \
@@ -316,5 +317,6 @@ SOURCES *= \
     gui/tools/configurator/CConfiguratorHardwareTab.cpp \
     gui/tools/configurator/CConfiguratorNetworkTab.cpp \
     gui/tools/configurator/variables/CEditVariableWindow.cpp \
-	gui/widgets/CGenericVariableUIHandler.cpp
+	gui/widgets/CGenericVariableUIHandler.cpp \
+	gui/ConfiguratorUIHandler.h
 
