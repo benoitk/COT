@@ -11,6 +11,8 @@ RESOURCES *= \
 
 FORMS *= \
     updater/CUpdateDialog.ui \
+    keyboards/CKeyboardDialog.ui \
+    keyboards/CNumericalKeyboardDialog.ui \
     gui/widgets/CStatusWidget.ui \
     gui/panel/CPCDiagnosticTab.ui \
     gui/panel/CPCHistogramTab.ui \
