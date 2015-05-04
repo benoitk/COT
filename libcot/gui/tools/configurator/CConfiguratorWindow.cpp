@@ -16,21 +16,47 @@ CConfiguratorWindow::CConfiguratorWindow(QWidget *parent)
     , ui(new Ui::CConfiguratorWindow)
 {
     ui->setupUi(this);
-    addTab(new CConfiguratorCycleTab(this), tr("Cycles"));
-    addTab(new CConfiguratorActionsTab(this), tr("Actions"));
-    addTab(new CConfiguratorVariablesTab(this), tr("Variables"));
-    addTab(new CConfiguratorSequencerTab(this), tr("Sequencer"));
-    addTab(new CConfiguratorStreamsTab(this), tr("Streams / Measures"));
-    addTab(new CConfiguratorExtensionsTab(this), tr("Extensions"));
-    addTab(new CConfiguratorDisplayTab(this), tr("Display"));
-    addTab(new CConfiguratorHardwareTab(this), tr("Hardware"));
-    addTab(new CConfiguratorNetworkTab(this), tr("Network"));
+    addTab(new CConfiguratorCycleTab(this), QString());
+    addTab(new CConfiguratorActionsTab(this), QString());
+    addTab(new CConfiguratorVariablesTab(this), QString());
+    addTab(new CConfiguratorSequencerTab(this), QString());
+    addTab(new CConfiguratorStreamsTab(this), QString());
+    addTab(new CConfiguratorExtensionsTab(this), QString());
+    addTab(new CConfiguratorDisplayTab(this), QString());
+    addTab(new CConfiguratorHardwareTab(this), QString());
+    addTab(new CConfiguratorNetworkTab(this), QString());
+    retranslate();
 }
 
 CConfiguratorWindow::~CConfiguratorWindow()
 {
     delete ui;
 }
+
+
+void CConfiguratorWindow::retranslate()
+{
+    ui->retranslateUi(this);
+    ui->twPages->setTabText(0, tr("Cycles"));
+    ui->twPages->setTabText(1, tr("Actions"));
+    ui->twPages->setTabText(2, tr("Variables"));
+    ui->twPages->setTabText(3, tr("Sequencer"));
+    ui->twPages->setTabText(4, tr("Streams / Measures"));
+    ui->twPages->setTabText(5, tr("Extensions"));
+    ui->twPages->setTabText(6, tr("Display"));
+    ui->twPages->setTabText(7, tr("Hardware"));
+    ui->twPages->setTabText(8, tr("Network"));
+}
+
+void CConfiguratorWindow::changeEvent(QEvent *event)
+{
+    if (event->type() == QEvent::LanguageChange) {
+        retranslate();
+    }
+
+    QWidget::changeEvent(event);
+}
+
 
 void CConfiguratorWindow::backTriggered()
 {

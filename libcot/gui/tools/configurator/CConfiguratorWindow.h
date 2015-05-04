@@ -13,8 +13,15 @@ public:
     explicit CConfiguratorWindow(QWidget *parent = Q_NULLPTR);
     ~CConfiguratorWindow();
 
+public slots:
+    void retranslate();
+
+protected:
+    void changeEvent(QEvent *event) Q_DECL_OVERRIDE;
+
 private slots:
     void backTriggered();
+
 private:
     void addTab(IConfiguratorTab *tab, const QString &title);
     Ui::CConfiguratorWindow *ui;
