@@ -120,6 +120,7 @@ void CNumericalKeyboardWidget::initializeKeyboardLayout()
     CKeyboardSpecialButton * specialButton = new CKeyboardSpecialButton(this);
     specialButton->setText( QChar(0x2190) );
     specialButton->setSpecialKey( Qt::Key_Backspace );
+    specialButton->setAutoRepeat(true);
     connect(specialButton, &CKeyboardSpecialButton::clicked, this, &CNumericalKeyboardWidget::slotBlackspaceButtonClicked);
 
     gridLayout->addWidget( specialButton, 0, 3 );
