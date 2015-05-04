@@ -1,6 +1,7 @@
 #include "CConfiguratorVariablesTab.h"
 #include "ui_CConfiguratorVariablesTab.h"
-
+#include "CPCWindow.h"
+#include "CEditVariableWindow.h"
 #include <IVariableUIHandler.h>
 
 CConfiguratorVariablesTab::CConfiguratorVariablesTab(QWidget *parent)
@@ -24,5 +25,5 @@ CConfiguratorVariablesTab::~CConfiguratorVariablesTab()
 
 void CConfiguratorVariablesTab::addVariable()
 {
-    //TODO
+    CPCWindow::openModal<CEditvariableWindow>();
 }

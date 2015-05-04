@@ -44,8 +44,8 @@ void CEditvariableWindow::backTriggered()
     close();
 }
 
-void CEditvariableWindow::addTab(IConfiguratorTab *tab, const QString &title)
+void CEditvariableWindow::addTab(IEditVariableTab *tab, const QString &title)
 {
     ui->twPages->addTab(tab, title);
-    connect(tab, &IConfiguratorTab::backTriggered, this, &CEditvariableWindow::backTriggered);
+    connect(tab, &IEditVariableTab::backTriggered, this, &CEditvariableWindow::backTriggered);
 }

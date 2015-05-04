@@ -5,7 +5,7 @@
 namespace Ui {
 class CEditVariableWindow;
 }
-class IConfiguratorTab;
+class IEditVariableTab;
 class CEditvariableWindow : public QWidget
 {
     Q_OBJECT
@@ -23,7 +23,7 @@ private slots:
     void backTriggered();
 
 private:
-    void addTab(IConfiguratorTab *tab, const QString &title);
+    void addTab(IEditVariableTab *tab, const QString &title);
     Ui::CEditVariableWindow *ui;
 };
 
