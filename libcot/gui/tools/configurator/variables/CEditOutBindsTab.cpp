@@ -8,7 +8,7 @@ CEditOutBindsTab::CEditOutBindsTab(QWidget *parent)
     , ui(new Ui::CEditOutBindsTab)
 {
     ui->setupUi(this);
-    m_configuratorUIHandler = new ConfiguratorUIHandler(this);
+    m_configuratorUIHandler = new ConfiguratorUIHandler(ui->swCentral, this);
     ui->vbbButtons->addAction(CToolButton::ScrollUp, ui->swCentral->moveUp());
     ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->swCentral->moveDown());
     connect(ui->vbbButtons->addAction(CToolButton::Back), &QAction::triggered,

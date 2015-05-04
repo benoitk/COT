@@ -8,7 +8,7 @@ CEditVariableTab::CEditVariableTab(QWidget *parent)
     , ui(new Ui::CEditVariableTab)
 {
     ui->setupUi(this);
-    m_configuratorUIHandler = new ConfiguratorUIHandler;
+    m_configuratorUIHandler = new ConfiguratorUIHandler(ui->swCentral, this);
     ui->vbbButtons->addAction(CToolButton::ScrollUp, ui->swCentral->moveUp());
     ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->swCentral->moveDown());
     connect(ui->vbbButtons->addAction(CToolButton::Back), &QAction::triggered,

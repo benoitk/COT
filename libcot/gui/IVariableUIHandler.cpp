@@ -85,6 +85,17 @@ void IVariableUIHandler::setScrollableWidget(CScrollableWidget *scrollable)
     m_scrollable = scrollable;
 }
 
+int IVariableUIHandler::layoutRow(QWidget *widget) const
+{
+    int i = m_containerLayout->indexOf(widget);
+    int r;
+    int c;
+    int rs;
+    int cs;
+    m_containerLayout->getItemPosition(i, &r, &c, &rs, &cs);
+    return r;
+}
+
 int IVariableUIHandler::columnCount() const
 {
     return 3;

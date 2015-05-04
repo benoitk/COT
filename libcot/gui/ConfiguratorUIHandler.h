@@ -1,19 +1,18 @@
 #ifndef CONFIGURATORUIHANDLER_H
 #define CONFIGURATORUIHANDLER_H
 
-#include <QObject>
 #include "cot_global.h"
+#include "IVariableUIHandler.h"
 #include "IVariable.h"
 #include "ICycle.h"
 
-class LIBCOT_EXPORT ConfiguratorUIHandler : public QObject
+class LIBCOT_EXPORT ConfiguratorUIHandler : public IVariableUIHandler
 {
     Q_OBJECT
 
 public:
-    explicit ConfiguratorUIHandler(QObject *parent = Q_NULLPTR);
+    explicit ConfiguratorUIHandler(CScrollableWidget *scrollable = Q_NULLPTR, QObject *parent = Q_NULLPTR);
 
-//protected:
     // return an action type: calc_coef, cal_rien, bloc
     int selectActionType(int defaultValue = -1);
     // Select a variable type (float, int, string)

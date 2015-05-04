@@ -187,8 +187,8 @@ void free(IVariablePtrList& ivars) {
 }
 }
 
-ConfiguratorUIHandler::ConfiguratorUIHandler(QObject *parent)
-    : QObject(parent)
+ConfiguratorUIHandler::ConfiguratorUIHandler(CScrollableWidget *scrollable, QObject *parent)
+    : IVariableUIHandler(scrollable, parent)
 {
 }
 

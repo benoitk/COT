@@ -38,6 +38,8 @@ protected:
     QGridLayout *m_containerLayout;
     QHash<QString, Row> m_rows;
 
+    int layoutRow(QWidget *widget) const;
+
     virtual int columnCount() const;
     virtual QWidget *createWidget(int index, IVariable *ivar);
     virtual void rowInserted(const Row &row, IVariable *ivar);

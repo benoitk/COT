@@ -5,7 +5,7 @@
 UISelectTest::UISelectTest(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::UISelectTest)
-    , handler(new ConfiguratorUIHandler(this))
+    , handler(new ConfiguratorUIHandler(0, this))
 {
     ui->setupUi(this);
 }
