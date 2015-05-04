@@ -23,7 +23,7 @@ public slots:
     void retranslate();
 
 protected:
-    virtual void changeEvent(QEvent *event) Q_DECL_OVERRIDE;
+    void changeEvent(QEvent *event) Q_DECL_OVERRIDE;
 
 private:
     Ui::CPCToolsTab *ui;

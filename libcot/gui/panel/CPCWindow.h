@@ -99,7 +99,7 @@ public slots:
     void retranslate();
 
 protected:
-    virtual void changeEvent(QEvent *event);
+    void changeEvent(QEvent *event) Q_DECL_OVERRIDE;
 
 private slots:
     void slotUpdateAvailable(const QString &version);
