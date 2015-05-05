@@ -42,11 +42,16 @@ public:
 
     QList<IVariable*> getListVariables();  
     IVariable* getMeasureVariable();
+    IVariable * getMeasureMax();
+    IVariable * getMeasureMin();
 
 private:
     QString m_name;
 	QString m_label;
     IVariable * m_measure;
+    IVariable * m_measureMax;
+    IVariable * m_measureMin;
+
     QList<IVariable*> m_listVariables;
     
 };

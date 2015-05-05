@@ -18,6 +18,8 @@ CVariableMeasure::CVariableMeasure(const QMap<QString, QVariant> &mapVar):QObjec
     else m_name = QStringLiteral("Stream no label");
     
     m_measure = CAutomate::getInstance()->getVariable(mapVar.value(tr("variable_measure")).toString());
+    m_measureMax = CAutomate::getInstance()->getVariable(mapVar.value(tr("variable_range_max")).toString());
+    m_measureMin = CAutomate::getInstance()->getVariable(mapVar.value(tr("variable_range_min")).toString());
     
     if(mapVar.contains(QStringLiteral("variables"))){
         QVariantList listVariable = mapVar.value(QStringLiteral("variables")).toList();
@@ -25,6 +27,12 @@ CVariableMeasure::CVariableMeasure(const QMap<QString, QVariant> &mapVar):QObjec
             m_listVariables.append(CAutomate::getInstance()->getVariable(variant.toString()));
         }
     }
+}
+IVariable* CVariableMeasure::getMeasureMax(){
+    return m_measureMax;
+}
+IVariable* CVariableMeasure::getMeasureMin(){
+    return m_measureMin;
 }
 QList<IVariable*>  CVariableMeasure::getListVariables(){
     return m_listVariables;
