@@ -180,12 +180,6 @@ void CAutomate::setMapVariables(QMap<QString, IVariable*> mapVariable){
     m_mapVariables.swap(mapVariable);
 }
 
-QMap<QString, QStringList> CAutomate::getMapStreamsMeasures() const
-{
-    qDebug()<<" QMap<QString, QStringList> CAutomate::getMapStreamsMeasures() const no implemented";
-    return QMap<QString, QStringList>();
-}
-
 void CAutomate::addExtensionCard(QString, CModelExtensionCard*){
     QMutexLocker locker(&m_mutex);
     // TODO

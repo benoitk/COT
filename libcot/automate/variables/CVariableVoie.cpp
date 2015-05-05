@@ -50,6 +50,10 @@ CVariableVoie::CVariableVoie(const QMap<QString, QVariant> &mapVar):QObject(){
 CVariableVoie::~CVariableVoie()
 {
 }
+QList<IVariable*> CVariableVoie::getListVariables()
+{
+    return m_listVariables;
+}
 QList<IVariable*> CVariableVoie::getListMeasures(){
     return m_listMeasures;
 }

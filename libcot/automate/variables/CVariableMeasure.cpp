@@ -92,7 +92,7 @@ bool  CVariableMeasure::isStreamRelated()const{
 	return false;
 }
 QString  CVariableMeasure::getRelatedStreamName()const{
-    return QStringLiteral("mesure a changer");
+    return QStringLiteral("stream_1");
 }
 bool  CVariableMeasure::isMeasureRelated()const{
 	return false;
