@@ -143,6 +143,7 @@ void CKeyboardWidget::initializeKeyboardLayout()
                     connect( specialButton, &CKeyboardSpecialButton::clicked, this, &CKeyboardWidget::slotCapsLockToggled );
                 } else if( charValue == QLatin1Char( 'B' ) ) { // backspace
                     specialButton = new CKeyboardSpecialButton( this );
+                    specialButton->setAutoRepeat(true);
                     specialButton->setText( QChar(0x2190) );
                     specialButton->setSpecialKey( Qt::Key_Backspace );
                     connect(specialButton, &CKeyboardSpecialButton::clicked, this, &CKeyboardWidget::slotSpecialButtonClicked);
