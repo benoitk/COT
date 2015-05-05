@@ -8,6 +8,7 @@ enum comType{
 		type_tcp = 0,
 		type_jbus,
 		type_jbus_over_tcpip,
+        type_com_unknow
 		
 };
 
@@ -20,6 +21,7 @@ class ICom : public QObject
 
 public:
 	ICom(QObject *parent);
+	ICom();
 	~ICom();
 
 	virtual QVariant readData()=0;
@@ -30,8 +32,9 @@ public:
 	virtual void addVariableOnDataTable(IVariableOutput*)=0;
 
 	virtual void triggerUpdateAllData()=0;
-	virtual ICom* getType()const=0;
-	virtual QList<IVariable*> getParameters()const=0;
+	//virtual QList<IVariable*> getParameters()const=0;
+    virtual QString getName()const =0;
+	virtual comType getType()const=0;
 
 private:
 	

@@ -3,6 +3,8 @@
 #include "IAction.h"
 #include "ICycle.h"
 #include "IConverter.h"
+#include "ICom.h"
+#include "CComFactory.h"
 #include "CConverterFactory.h"
 #include "CCycleFactory.h"
 #include "CActionFactory.h"
@@ -54,6 +56,30 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
 
 	QJsonObject jsonObjectAll = m_jsonDoc->object();
    
+    //com_automate
+     if(jsonObjectAll[QStringLiteral("com_automate")] == QJsonValue::Undefined){
+		qDebug() << "jsonObject[\"com_automate\"] == QJsonValue::Undefined";
+	}
+	else {
+        QJsonArray jsonArrayComs = jsonObjectAll[QStringLiteral("com_automate")].toArray();
+        foreach(QJsonValue jsonValueCom, jsonArrayComs){
+            QVariantMap mapCom = jsonValueCom.toVariant().toMap();
+            ICom* com = CComFactory::build(mapCom);
+            if(com->getType() != type_com_unknow)
+                CAutomate::getInstance()->addCom(com);
+        }   
+        qDebug() << "mapComs " << CAutomate::getInstance()->getMapComs();
+    }
+
+    //extension
+    if(jsonObjectAll[QStringLiteral("extensions")] == QJsonValue::Undefined){
+		qDebug() << "jsonObject[\"extensions\"] == QJsonValue::Undefined";
+	}
+	else {
+       CDisplayConf* displayConf = new CDisplayConf(jsonObjectAll[QStringLiteral("extensions")].toArray(), CAutomate::getInstance());
+       CAutomate::getInstance()->setDisplayConf(displayConf);
+    }
+
     //Units
     if(jsonObjectAll[QStringLiteral("units")] == QJsonValue::Undefined ){
 		qDebug() << "jsonObject[\"units\"] == QJsonValue::Undefined";
@@ -157,15 +183,12 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
 		qDebug() << "jsonObject[\"cycles\"] == QJsonValue::Undefined";
 	}
 	else {
-        CAutomate *automate = CAutomate::getInstance();
         QJsonArray jsonArrayCycles = jsonObjectCycle[QStringLiteral("cycles")].toArray();
 		foreach(QJsonValue jsonValueCycle, jsonArrayCycles){
 			QVariantMap mapCycle = jsonValueCycle.toVariant().toMap();
 			ICycle* cycle = CCycleFactory::build(mapCycle, m_mapActions); 
-            if(cycle) {
+			if(cycle)
 				m_mapCycles.insert(cycle->getName(),cycle);
-                automate->addCycle(cycle);
-            }
 			else
 				qDebug() << "Cycle null : map = " << mapCycle;
 		}

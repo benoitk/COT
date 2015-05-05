@@ -39,6 +39,7 @@ public:
 	
 	//use for API 
 	QList<CModelExtensionCard*> getListExtensions();
+    QMap<QString, ICom*> getMapComs();
     QList<ICycle*> getListCycles(int cycleType = 0);
 	QList<IAction*> getListActions();
 	QList<CUnit*> getListUnits();
@@ -65,13 +66,16 @@ public:
     void setDisplayConf(CDisplayConf*);
 
 	void addCycle(ICycle*);
+
     ICycle *getCycle(const QString &name, int type = 0) const;
+    ICom* getCom(const QString &arg_name);
 
 	IVariable* getVariable(const QString&);
     QList<IVariable *> getVariables(const QStringList&);
 	void addVariable(const QString&, IVariable*);
 	void addStream(const QString&, IVariable*);
     void addUnit(CUnit*);
+    void addCom(ICom*);
 
 
 	CModelExtensionCard* getExtensionCard(QString);
@@ -178,6 +182,7 @@ private:
     QMap<QString, ICycle*> m_listlCycleAutonomes;
 	QList<IAction*> m_listActions;
     QList<CUnit*> m_listUnits;
+    QMap<QString, ICom*> m_mapComs;
 
 	QMap<QString, IVariable*> m_mapVariables;
 	QMap<QString, IVariable*> m_mapStreams;

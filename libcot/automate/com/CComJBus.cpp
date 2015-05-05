@@ -10,6 +10,13 @@ CComJBus::CComJBus(QObject *parent)
 {
 
 }
+CComJBus::CComJBus(const QVariantMap& mapCom): ICom(){
+    if(mapCom.contains(QStringLiteral("name")))
+        m_name = mapCom.value(QStringLiteral("name")).toString();
+    else m_name = QStringLiteral("Com not named");
+
+    //TO DO : fill datas
+}
 CComJBus::~CComJBus()
 {
 
@@ -105,6 +112,13 @@ void CComJBus::addVariableOnDataTable(IVariableInput* arg_varInput){
 }
 void CComJBus::addVariableOnDataTable(IVariableOutput* arg_varOutput){
 	m_mapOutputTable.insert(arg_varOutput->getOrganneAddr().toInt(), arg_varOutput);
+}
+
+QString CComJBus::getName()const{
+    return m_name;
+}
+comType CComJBus::getType()const{
+    return m_type; //typer slave et master ? 
 }
 
 

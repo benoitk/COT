@@ -5,7 +5,7 @@
 
 #include "qlist.h"
 #include "qbitarray.h"
-
+#include "qvariant.h"
 class INetwork;
 class CComJBus : public ICom
 {
@@ -13,7 +13,9 @@ class CComJBus : public ICom
 
 public:
 	CComJBus(QObject *parent);
+    CComJBus(const QVariantMap&);
 	~CComJBus();
+
 
 
     QVariant readData() Q_DECL_OVERRIDE;
@@ -30,12 +32,18 @@ public:
 	QList<char> readNWordsFunction3( int addrVar, int nbBytesToRead);
     void writeNWordsFunction16(int addrVar, const QList<char> &data);
 
+    QString getName()const Q_DECL_OVERRIDE;
+	comType getType()const Q_DECL_OVERRIDE;
+
 private:
 	
 	INetwork* m_uart;
 	int m_numSlave;
 	QMap<int, IVariableInput*> m_mapInputTable;
 	QMap<int, IVariableOutput*> m_mapOutputTable;
+
+    QString m_name;
+    comType m_type;
 };
 
 #endif // CComJBus_H

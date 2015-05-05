@@ -12,6 +12,7 @@
 #include "CVariableOutputInt.h"
 #include "CVariableVoie.h"
 #include "CVariableMeasure.h"
+#include "CVariableOutputListVariables.h"
 
 #include "qvariant.h"
 #include "qdebug.h"
@@ -23,10 +24,10 @@ IVariable* CVariableFactory::build(const QMap<QString, QVariant> &mapVar){
     if(mapVar.contains(QStringLiteral("address")))
          address = mapVar[QStringLiteral("address")].toInt();
 
-    variableAccess access = read;
+    variableAccess access = access_read;
     if(mapVar.contains(QStringLiteral("access"))){
-        if(mapVar[QStringLiteral("access")].toString() == QStringLiteral("write")) access = write;
-        if(mapVar[QStringLiteral("access")].toString() == QStringLiteral("read_write")) access = read_write;
+        if(mapVar[QStringLiteral("access")].toString() == QStringLiteral("write")) access = access_write;
+        if(mapVar[QStringLiteral("access")].toString() == QStringLiteral("read_write")) access = access_read_write;
     }
 
     if(mapVar[QStringLiteral("type")].toString() == QStringLiteral("integer")){
@@ -49,6 +50,9 @@ IVariable* CVariableFactory::build(const QMap<QString, QVariant> &mapVar){
 	}
     else if(mapVar[QStringLiteral("type")].toString() == QStringLiteral("output_boolean")){
         variable = new CVariableOutputBool(mapVar);
+	}
+    else if(mapVar[QStringLiteral("type")].toString() == QStringLiteral("output_list_variables")){
+        variable = new CVariableOutputListVariables(mapVar);
 	}
     else if(mapVar[QStringLiteral("type")].toString() == QStringLiteral("stream")){
         variable = new CVariableVoie(mapVar);

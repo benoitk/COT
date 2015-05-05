@@ -12,7 +12,7 @@ class CVariableFloat : public QObject, public IVariable
 
 public:
 	CVariableFloat(QObject *parent);
-	CVariableFloat(float, int = 0, variableAccess =read);
+	CVariableFloat(float, int = 0, variableAccess =access_read);
 	CVariableFloat();
 	~CVariableFloat();
 

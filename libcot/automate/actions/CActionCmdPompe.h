@@ -25,8 +25,11 @@ private:
 
     QString m_label;
     //Rien ne nous assure les types correct dans le json (et rien ne contre indique à mettre n'importe quoi, normalement)
+    
+    IVariable* m_pump; //valeur par défaut de la pompe
+	//valeur spécifique à l'action :
+    IVariable* m_speed; 
 	IVariable* m_nbStepOrTour;
-	IVariable* m_speed;
 	IVariable* m_clockwise;
 	IVariable* m_stepOrTour;
 	IVariable* m_cmdContinu;

@@ -12,19 +12,20 @@ enum variableType{
 		type_string,
 		type_stream,
 		type_measure,
+        type_list_variables,
 		type_unknow
 };
 
 enum variableAccess{
-        read = 0,
-        write,
-        read_write
+        access_read = 0,
+        access_write,
+        access_read_write
 };
 
 enum VariableOrganType {
     VariableOrganTypeNone = 0,
     VariableOrganTypeInput,
-    VariableOrganTypeOutput
+    VariableOrganTypeOutput,
 };
 
 //Interface pour toute les variables de l'automate

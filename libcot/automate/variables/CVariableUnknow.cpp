@@ -83,7 +83,7 @@ QVariantMap CVariableUnknow::serialise(){
     return mapSerialise;
 }
 variableAccess CVariableUnknow::getAccess()const{
-    return read;
+    return access_read;
 }
 int CVariableUnknow::getAddress()const{
     return 0;

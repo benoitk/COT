@@ -16,16 +16,25 @@ CActionCmdPompe::CActionCmdPompe(const QVariantMap &mapAction)
 	: IAction()
 {
     CAutomate* automate = CAutomate::getInstance();
-    m_label = mapAction[tr("FR_lbl")].toString();
-    m_cmdContinu = automate->getVariable(mapAction[QStringLiteral("cmd_continu_pump")].toString());
-    m_stepOrTour = automate->getVariable(mapAction[QStringLiteral("num_step_or_tour_pump")].toString());
-    m_nbStepOrTour = automate->getVariable(mapAction[QStringLiteral("num_pump")].toString());
-    m_clockwise =  automate->getVariable(mapAction[QStringLiteral("direction_trigo_pump")].toString());
-    m_speed = automate->getVariable(mapAction[QStringLiteral("speed_pump")].toString());
-    
     m_name = mapAction[QStringLiteral("name")].toString();
-	 
+    m_label = mapAction[tr("fr_FR")].toString();
+    if(mapAction.contains(QStringLiteral("pump")))  
+        m_pump = automate->getVariable(mapAction[QStringLiteral("pump")].toString());
+    if(mapAction.contains(QStringLiteral("pump")))
+        m_cmdContinu = automate->getVariable(mapAction[QStringLiteral("cmd_continu_pump")].toString());
+    else
+    {
 
+    }
+    if(mapAction.contains(QStringLiteral("pump")))
+        m_stepOrTour = automate->getVariable(mapAction[QStringLiteral("num_step_or_tour_pump")].toString());
+    if(mapAction.contains(QStringLiteral("pump")))
+        m_nbStepOrTour = automate->getVariable(mapAction[QStringLiteral("num_pump")].toString());
+    if(mapAction.contains(QStringLiteral("pump")))
+        m_clockwise =  automate->getVariable(mapAction[QStringLiteral("direction_trigo_pump")].toString());
+    if(mapAction.contains(QStringLiteral("pump")))
+        m_speed = automate->getVariable(mapAction[QStringLiteral("speed_pump")].toString());
+    
 }
 CActionCmdPompe::CActionCmdPompe()
 	: IAction()

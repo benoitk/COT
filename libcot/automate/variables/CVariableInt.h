@@ -12,7 +12,7 @@ class CVariableInt : public QObject, public IVariable
 
 public:
 	CVariableInt(QObject *parent);
-	CVariableInt(int, int = 0, variableAccess =read);
+	CVariableInt(int, int = 0, variableAccess =access_read);
 	~CVariableInt();
 
 	

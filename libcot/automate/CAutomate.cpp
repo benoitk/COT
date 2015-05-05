@@ -10,7 +10,8 @@
 #include "CModelConfigFile.h"
 #include "CVariableFactory.h"
 #include "CDisplayConf.h"
-
+#include "ICom.h"
+#include "CComFactory.h"
 #include <qdebug.h>
 #include <qthread.h>
 
@@ -122,7 +123,30 @@ QList<CModelExtensionCard*> CAutomate::getListExtensions(){
     QMutexLocker locker(&m_mutex);
 	return m_listExtCards;
 }
-
+QMap<QString, ICom*> CAutomate::getMapComs(){
+    QMutexLocker locker(&m_mutex);
+    return m_mapComs;
+}
+void CAutomate::addCom(ICom* com){
+    QMutexLocker locker(&m_mutex);
+    if(com)    
+        m_mapComs.insert(com->getName(), com);
+}
+ICom* CAutomate::getCom(const QString &arg_name){
+    QMutexLocker locker(&m_mutex);
+    ICom* com = Q_NULLPTR;
+    if(m_mapComs.contains(arg_name))
+        com = m_mapComs.value(arg_name);
+    else{
+        if(m_mapComs.contains(QStringLiteral("unknow_com")))
+            com = m_mapComs.value(QStringLiteral("unknow_com"));
+        else{
+            com = CComFactory::build(QVariantMap());
+            m_mapComs.insert(QStringLiteral("unknow_com"), com);
+        }
+    }
+    return com;
+}
 QList<ICycle*> CAutomate::getListCycles(int cycleType){
     QMutexLocker locker(&m_mutex);
 	QList<ICycle*> listAllCycles;

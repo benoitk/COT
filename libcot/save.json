@@ -11,14 +11,15 @@
     ],
 
     "com_automate":[
-        {"type":"tcpip", "network":"eth0", "port":533},
-        {"type":"jbus_over_tcpip", "slave":2, "network":"eth0", "port":532},
-        {"type":"jbus", "slave":2, "network":"uart0"}
+        {"name":"com_tcp_externe", "type":"tcpip", "network":"eth0", "port":533},
+        {"name":"com_jbus_tcp_master","type":"jbus_over_tcpip", "network":"eth0", "port":532},
+        {"name":"com_jbus_tcp_slave","type":"jbus_over_tcpip", "slave":2, "network":"eth0", "port":532},
+        {"name":"com_jbus_rs_slave", "type":"jbus", "slave":2, "network":"uart0"}
 
     ],
     "extensions" : [
         {"name" : "measure_card_1","fr_FR" : "Carte measure 1", "en_US" : "Measure card 1",
-            "com" : {"type":"jbus_over_tcpip", "slave":1 , "ip":"192.168.1.5", "port":245, "network":"eth0"} ,
+            "com" : {"name":"com_jbus_tcp_master", "slave":1 , "ip":"192.168.1.5", "port":245, "network":"eth0"} ,
             "organs" : [{"name":"measure_cell", "type":"input_float", "address_data":"0x0010"},
                           {"name":"temperature_cell", "type":"input_float", "address_data":"0x0011"},
                           {"name":"heater", "type":"output_float", "address_data":"0x0002"},
@@ -36,7 +37,7 @@
                         ]
         },
         {"name" : "io_card_1","fr_FR" : "Carte E/S 1", "en_US" : "I/O card 1",
-            "com" : {"type":"jbus_over_tcpip", "slave":2, "ip":"192.168.1.3", "port":245, "network":"eth0" },
+            "com" : {"name":"com_jbus_tcp_master", "slave":2, "ip":"192.168.1.3", "port":245, "network":"eth0" },
             "organs" : [{"name":"tor_input_0", "type":"input_bit", "address_data":"0x0100", "passif":true},
                        {"name":"tor_input_1", "type":"input_bit", "address_data":"0x0101", "passif":true},
                        {"name":"tor_input_2", "type":"input_bit", "address_data":"0x0102", "passif":true},
@@ -73,10 +74,10 @@
                         {"source":"kelvin", "target":"deg_cel", "type":"offset", "offset":-273.15}
 
     ],
-    "variables" : [{"name":"measure_cot", "fr_FR" : "COT", "en_US" : "TOC", "type":"float", "value" : 2.3, "unit":"mg_l", "address":"0x0100", "access":"read"},
-                    {"name":"azote", "fr_FR" : "azote", "en_US" : "azote", "type":"float", "value" : 16.5, "unit":"mg_l", "address":"0x0102", "access":"read"},
-                    {"name":"phosphore", "fr_FR" : "phosphore", "en_US" : "phosphore", "type":"float", "value" : 58.5, "unit":"mg_l", "address":"0x0104", "access":"read_write"},
-                    {"name":"measure_cot_max", "fr_FR" : "Mesure max", "en_US" : "Max measure", "type":"float", "value" : 10, "unit":"mg_l", "address":"0x0106", "access":"read_write"},
+    "variables" : [{"name":"measure_cot", "fr_FR" : "COT", "en_US" : "TOC", "type":"float", "value" : 2.3, "unit":"mg_l", "address":"0x0100", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"azote", "fr_FR" : "azote", "en_US" : "azote", "type":"float", "value" : 16.5, "unit":"mg_l", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"phosphore", "fr_FR" : "phosphore", "en_US" : "phosphore", "type":"float", "value" : 58.5, "unit":"mg_l", "address":"0x0104", "access":"read_write", "com_name":"com_jbus_rs_slave"},
+                    {"name":"measure_cot_max", "fr_FR" : "Mesure max", "en_US" : "Max measure", "type":"float", "value" : 10, "unit":"mg_l", "address":"0x0106", "access":"read_write", "com_name":"com_jbus_rs_slave"},
                     {"name":"measure_cot_min", "fr_FR" : "Mesure min", "en_US" : "Min measure", "type":"float", "value" : 0, "unit":"mg_l"},
                     {"name":"optical_gain", "fr_FR" : "Gain optique", "en_US" : "Optical gain", "type":"float", "value" : 0},
                     {"name":"measure_manual", "fr_FR" : "Mesure manuelle", "en_US" : "Manual measure", "type":"float", "value" : 0, "unit":"mg_l"},
@@ -126,14 +127,13 @@
                     {"name":"emptying_solenoide", "fr_FR" : "EV vidange", "en_US" : "Emptying solenoid", "type":"output_boolean",
                             "value" : false, "extension_name":"io_card_1", "organ_name":"tor_output_2"
                     },
-                   
-
-                    {"name":"pump_persulfate", "fr_FR" : "Pompe persulfate", "en_US" : "Persulfate pump", "type":"output_struct", 
-                        "struct": [ {"name":"num_tour_pump", "fr_FR" : "Nombre de tour", "en_US" : "Tour number", "type":"integer", "value" : 4, "unit":"tr_min"},
-                                    {"name":"speed_pump", "fr_FR" : "Vitesse", "en_US" : "Speed pump", "type":"integer", "value" : 30, "unit":"tr_min"},
-                                    {"name":"direction_clockwise_pump", "fr_FR" : "Pompe en sens anti-trigo", "en_US" : "Pump set to clockwise", "type":"boolean", "value" : true, "unit":"tr_min"},
-                                    {"name":"step_by_step_pump", "fr_FR" : "Pompe en pas à pas", "en_US" : "Pump set to step by step", "type":"boolean", "value" : true, "unit":"tr_min"},
-                                    {"name":"cmd_continus_pump", "fr_FR" : "Pompe alimenté au repos", "en_US" : "Pump always powered", "type":"boolean", "value" : true, "unit":"tr_min"}]
+                
+                    {"name":"pump_persulfate", "fr_FR" : "Pompe persulfate", "en_US" : "Persulfate pump", "type":"output_list_variables", 
+                        "variables": [  {"name":"num_tour_pump", "fr_FR" : "Nombre de tour", "en_US" : "Tour number", "type":"integer", "value" : 4, "unit":"tr_min"},
+                                        {"name":"speed_pump", "fr_FR" : "Vitesse", "en_US" : "Speed pump", "type":"integer", "value" : 30, "unit":"tr_min"},
+                                        {"name":"direction_clockwise_pump", "fr_FR" : "Pompe en sens anti-trigo", "en_US" : "Pump set to clockwise", "type":"boolean", "value" : true, "unit":"tr_min"},
+                                        {"name":"step_by_step_pump", "fr_FR" : "Pompe en pas à pas", "en_US" : "Pump set to step by step", "type":"boolean", "value" : true, "unit":"tr_min"},
+                                        {"name":"cmd_continus_pump", "fr_FR" : "Pompe alimenté au repos", "en_US" : "Pump always powered", "type":"boolean", "value" : true, "unit":"tr_min"}]
 
                     },
 

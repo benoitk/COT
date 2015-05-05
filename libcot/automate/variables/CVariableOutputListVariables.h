@@ -1,27 +1,38 @@
-#ifndef CVARIABLEBOOL_H
-#define CVARIABLEBOOL_H
+﻿#ifndef CVARIABLEOUTPUTLISTVARIABLES_H
+#define CVARIABLEOUTPUTLISTVARIABLES_H
 
 #include "IVariable.h"
+#include "IVariableOutput.h"
 
 #include <qobject.h>
 #include "qlinkedlist.h"
 
-class CVariableBool : public QObject, public IVariable
+class CVariableOutputListVariables : public QObject, public IVariable, public IVariableOutput
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-    CVariableBool(QObject *parent = Q_NULLPTR);
-    CVariableBool(bool, int = 0, variableAccess =access_read);
-	~CVariableBool();
+    CVariableOutputListVariables(QObject *parent);
+    CVariableOutputListVariables(const QMap<QString, QVariant> &mapVar);
+    ~CVariableOutputListVariables();
 
+    //IVariableOutput
+    CModelExtensionCard* getExtensionCard()const Q_DECL_OVERRIDE;
+    QString getOrganneName()const Q_DECL_OVERRIDE;
+    QString getOrganneAddr()const Q_DECL_OVERRIDE;
+    void setOrganne(CModelExtensionCard* , const QString &) Q_DECL_OVERRIDE;
+    IComObserver* getComObserver()const Q_DECL_OVERRIDE;
+    IVariable* getIVariable() Q_DECL_OVERRIDE;
+
+	//IVariable
 	QString getName()const Q_DECL_OVERRIDE;
 	void setName(const QString&)Q_DECL_OVERRIDE;
+	
     QString toString() Q_DECL_OVERRIDE;
     int toInt() Q_DECL_OVERRIDE;
     float toFloat() Q_DECL_OVERRIDE;
     bool toBool() Q_DECL_OVERRIDE;
-    void setValue(bool);
+    void setValue(float);
     void setValue(const QVariant &) Q_DECL_OVERRIDE;
     QString getLabel()const Q_DECL_OVERRIDE;
     void setLabel(const QString &) Q_DECL_OVERRIDE;
@@ -29,6 +40,7 @@ public:
     void addBind(IVariable*) Q_DECL_OVERRIDE;
     void setToBindedValue(const QVariant &) Q_DECL_OVERRIDE;
     variableType getType()const Q_DECL_OVERRIDE;
+    VariableOrganType getOrganType() const Q_DECL_OVERRIDE { return VariableOrganTypeOutput; }
     void switchToUnit(CUnit*) Q_DECL_OVERRIDE;
 	//
     void delBind(IVariable*) Q_DECL_OVERRIDE;
@@ -40,21 +52,30 @@ public:
     bool isDisplay()const Q_DECL_OVERRIDE;
     QLinkedList<IVariable*> getListOutBinds()const Q_DECL_OVERRIDE;
     QLinkedList<IVariable*> getListInBinds()const Q_DECL_OVERRIDE;
-
 	QVariantMap serialise() Q_DECL_OVERRIDE;
-
     variableAccess getAccess()const Q_DECL_OVERRIDE;
     int getAddress()const Q_DECL_OVERRIDE;
+
+    IVariable* getVariable(const QString&);
+    void addVaraiable(IVariable*);
 
 private:
 
     int m_address;
     variableAccess m_access;
+	void writeValue();
+	CModelExtensionCard* m_modelExtensionCard;
+	QString m_organneName;
+	QString m_organneAddr;
 
-	bool m_bValeur;
     QString m_name;
 	QString m_label;
 	QLinkedList<IVariable*> m_listBinds;
 	CUnit* m_unit;
+
+    QList<IVariable*> m_listVariables;
+	
+    
 };
-#endif // CVARIABLEBOOL_H
+
+#endif // CVARIABLEOUTPUTLISTVARIABLES_H
