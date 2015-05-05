@@ -130,7 +130,6 @@ QIcon CToolButton::buttonIcon(CToolButton::Type type)
         case CToolButton::Update:
         case CToolButton::Configure:
         case CToolButton::AddVariable:
-        case CToolButton::Delete:
             // TODO_KDAB:: Handle each icon set in picto / pictohd resources.
             break;
 
@@ -244,6 +243,10 @@ QIcon CToolButton::buttonIcon(CToolButton::Type type)
         case CToolButton::RestoreConfig:
             icon.addPixmap(buttonPixmap("50x50 menu sauvegarde.png"), QIcon::Normal, QIcon::Off);
             icon.addPixmap(buttonPixmap("50x50 menu sauvegarde active.png"), QIcon::Selected, QIcon::Off);
+            break;
+
+        case CToolButton::Delete:
+            icon.addPixmap(buttonPixmap("50x50 annule.png"), QIcon::Normal, QIcon::Off);
             break;
 
         case CToolButton::Invalid:
