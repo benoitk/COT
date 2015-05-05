@@ -15,6 +15,12 @@ enum variableType{
 		type_unknow
 };
 
+enum variableAccess{
+        read = 0,
+        write,
+        read_write
+};
+
 enum VariableOrganType {
     VariableOrganTypeNone = 0,
     VariableOrganTypeInput,
@@ -50,7 +56,8 @@ public:
 	virtual bool isDisplay()const=0;
 	virtual QLinkedList<IVariable*> getListOutBinds()const=0;
 	virtual QLinkedList<IVariable*> getListInBinds()const=0;
-
+    virtual variableAccess getAccess()const =0;
+    virtual int getAddress()const =0;
     //qvariantmap can be converted to a json object
 	virtual QVariantMap serialise()=0;
 	

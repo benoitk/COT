@@ -46,7 +46,13 @@ public:
     QLinkedList<IVariable*> getListInBinds()const Q_DECL_OVERRIDE;
 
 	QVariantMap serialise() Q_DECL_OVERRIDE;
+    variableAccess getAccess()const Q_DECL_OVERRIDE;
+    int getAddress()const Q_DECL_OVERRIDE;
+
 private:
+
+    int m_address;
+    variableAccess m_access;
 	QString m_sValeur;
     QString m_name;
 	QString m_label;

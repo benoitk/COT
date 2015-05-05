@@ -6,10 +6,12 @@ CVariableBool::CVariableBool(QObject *parent)
 
 }
 
-CVariableBool::CVariableBool(bool arg_value)
+CVariableBool::CVariableBool(bool arg_value, int arg_address, variableAccess arg_access)
 	: QObject()
 {
 	m_bValeur = arg_value;
+    m_access = arg_access;
+    m_address = arg_address;
 }
 
 
@@ -117,4 +119,10 @@ QVariantMap CVariableBool::serialise(){
     mapSerialise.insert(QStringLiteral("type"), QStringLiteral("boolean"));
     mapSerialise.insert(QStringLiteral("value"), m_bValeur);
     return mapSerialise;
+}
+variableAccess CVariableBool::getAccess()const{
+    return m_access;
+}
+int CVariableBool::getAddress()const{
+    return m_address;
 }

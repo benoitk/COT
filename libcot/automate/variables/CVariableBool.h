@@ -12,7 +12,7 @@ class CVariableBool : public QObject, public IVariable
 
 public:
     CVariableBool(QObject *parent = Q_NULLPTR);
-	CVariableBool(bool);
+    CVariableBool(bool, int, variableAccess);
 	~CVariableBool();
 
 	QString getName()const Q_DECL_OVERRIDE;
@@ -43,8 +43,14 @@ public:
 
 	QVariantMap serialise() Q_DECL_OVERRIDE;
 
+    variableAccess getAccess()const Q_DECL_OVERRIDE;
+    int getAddress()const Q_DECL_OVERRIDE;
 
 private:
+
+    int m_address;
+    variableAccess m_access;
+
 	bool m_bValeur;
     QString m_name;
 	QString m_label;

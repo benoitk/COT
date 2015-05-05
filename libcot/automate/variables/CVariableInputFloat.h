@@ -15,13 +15,7 @@ public:
     CVariableInputFloat(QObject *parent = Q_NULLPTR);
     CVariableInputFloat(const QMap<QString, QVariant> &mapVar);
 	~CVariableInputFloat();
-
-	
-
-
-	
-	
-	
+    	
     //IVariableInput
     CModelExtensionCard* getExtensionCard()const Q_DECL_OVERRIDE;
     QString getOrganneName()const Q_DECL_OVERRIDE;
@@ -59,7 +53,13 @@ public:
 
 	QVariantMap serialise() Q_DECL_OVERRIDE;
 
+    variableAccess getAccess()const Q_DECL_OVERRIDE;
+    int getAddress()const Q_DECL_OVERRIDE;
+
 private:
+
+    int m_address;
+    variableAccess m_access;
     IVariable* readValue() Q_DECL_OVERRIDE;
 
 	CModelExtensionCard* m_modelExtensionCard;

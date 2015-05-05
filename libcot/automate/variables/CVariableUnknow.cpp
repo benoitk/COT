@@ -82,3 +82,9 @@ QVariantMap CVariableUnknow::serialise(){
     mapSerialise.insert(QStringLiteral("unserialized"), QStringLiteral("CVariableUnknow"));
     return mapSerialise;
 }
+variableAccess CVariableUnknow::getAccess()const{
+    return read;
+}
+int CVariableUnknow::getAddress()const{
+    return 0;
+}

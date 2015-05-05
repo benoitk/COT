@@ -146,3 +146,9 @@ QVariantMap CVariableInputFloat::serialise(){
     mapSerialise.insert(QStringLiteral("organ_name"), m_organneName);
     return mapSerialise;
 }
+variableAccess CVariableInputFloat::getAccess()const{
+    return m_access;
+}
+int CVariableInputFloat::getAddress()const{
+    return m_address;
+}

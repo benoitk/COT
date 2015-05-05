@@ -106,3 +106,9 @@ QVariantMap CVariableString::serialise(){
     mapSerialise.insert(QStringLiteral("value"), m_sValeur);
     return mapSerialise;
 }
+variableAccess CVariableString::getAccess()const{
+    return m_access;
+}
+int CVariableString::getAddress()const{
+    return m_address;
+}

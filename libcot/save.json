@@ -73,10 +73,10 @@
                         {"source":"kelvin", "target":"deg_cel", "type":"offset", "offset":-273.15}
 
     ],
-    "variables" : [{"name":"measure_cot", "fr_FR" : "COT", "en_US" : "TOC", "type":"float", "value" : 2.3, "unit":"mg_l"},
-                    {"name":"azote", "fr_FR" : "azote", "en_US" : "azote", "type":"float", "value" : 16.5, "unit":"mg_l"},
-                    {"name":"phosphore", "fr_FR" : "phosphore", "en_US" : "phosphore", "type":"float", "value" : 58.5, "unit":"mg_l"},
-                    {"name":"measure_cot_max", "fr_FR" : "Mesure max", "en_US" : "Max measure", "type":"float", "value" : 10, "unit":"mg_l"},
+    "variables" : [{"name":"measure_cot", "fr_FR" : "COT", "en_US" : "TOC", "type":"float", "value" : 2.3, "unit":"mg_l", "address":"0x0100", "access":"read"},
+                    {"name":"azote", "fr_FR" : "azote", "en_US" : "azote", "type":"float", "value" : 16.5, "unit":"mg_l", "address":"0x0102", "access":"read"},
+                    {"name":"phosphore", "fr_FR" : "phosphore", "en_US" : "phosphore", "type":"float", "value" : 58.5, "unit":"mg_l", "address":"0x0104", "access":"read_write"},
+                    {"name":"measure_cot_max", "fr_FR" : "Mesure max", "en_US" : "Max measure", "type":"float", "value" : 10, "unit":"mg_l", "address":"0x0106", "access":"read_write"},
                     {"name":"measure_cot_min", "fr_FR" : "Mesure min", "en_US" : "Min measure", "type":"float", "value" : 0, "unit":"mg_l"},
                     {"name":"optical_gain", "fr_FR" : "Gain optique", "en_US" : "Optical gain", "type":"float", "value" : 0},
                     {"name":"measure_manual", "fr_FR" : "Mesure manuelle", "en_US" : "Manual measure", "type":"float", "value" : 0, "unit":"mg_l"},
@@ -274,14 +274,14 @@
     ],
 
     "streams" :[{"name":"stream_1", "fr_FR":"stream 1", "variables":["status", "defaut_eau"], "active_state": "stream_1_state",
-                    "measures":[{"name":"measure_1", "fr_FR":"absorbance de la measure 1", "variable_measure":"measure_cot", "variables":["coef_calculated", "zero_standard"]},
-                                {"name":"measure_2", "fr_FR":"var relative a measure 2", "variable_measure":"phosphore", "variables":["coef_calculated", "zero_standard"]}
+                    "measures":[{"name":"measure_1", "fr_FR":"absorbance de la measure 1", "variable_measure":"measure_cot", "variable_range_max":"measure_cot_max" , "variable_range_min":"measure_cot_min", "variables":["coef_calculated", "zero_standard"]},
+                                {"name":"measure_2", "fr_FR":"var relative a measure 2", "variable_measure":"phosphore", "variable_range_max":"measure_cot_max", "variable_range_min":"measure_cot_min", "variables":["coef_calculated", "zero_standard"]}
                     ],
                     "cycles":["zero_calibration", "cycle_measure_cot_stream1"]
 
                 },
                 {"name":"stream_2", "fr_FR":"stream 2", "variables":["turbidity", "coef_current"], "active_state": "stream_2_state",
-                    "measures":[{"name":"measure_1", "fr_FR":"Mesure d'azote", "variable_measure":"azote", "variables":["coef_calculated", "zero_standard"]}
+                    "measures":[{"name":"measure_1", "fr_FR":"Mesure d'azote", "variable_measure":"azote", "variable_range_max":"measure_cot_max", "variable_range_min":"measure_cot_min", "variables":["coef_calculated", "zero_standard"]}
                     ],
                     "cycles":["cycle_measure_azote", "azote_calibration"]
 

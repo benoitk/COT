@@ -12,7 +12,7 @@ class CVariableInt : public QObject, public IVariable
 
 public:
 	CVariableInt(QObject *parent);
-	CVariableInt(int);
+	CVariableInt(int, int, variableAccess);
 	~CVariableInt();
 
 	
@@ -43,7 +43,13 @@ public:
     QLinkedList<IVariable*> getListOutBinds()const Q_DECL_OVERRIDE;
     QLinkedList<IVariable*> getListInBinds()const Q_DECL_OVERRIDE;
 	QVariantMap serialise() Q_DECL_OVERRIDE;
+    variableAccess getAccess()const Q_DECL_OVERRIDE;
+    int getAddress()const Q_DECL_OVERRIDE;
+
 private:
+
+    int m_address;
+    variableAccess m_access;
 	int m_iValeur;
     QString m_name;
 	QString m_label;

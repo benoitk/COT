@@ -19,14 +19,24 @@
 IVariable* CVariableFactory::build(const QMap<QString, QVariant> &mapVar){
 	
 	IVariable* variable = NULL;
+    int address = 0;
+    if(mapVar.contains(QStringLiteral("address")))
+         address = mapVar[QStringLiteral("address")].toInt();
+
+    variableAccess access = read;
+    if(mapVar.contains(QStringLiteral("access"))){
+        if(mapVar[QStringLiteral("access")].toString() == QStringLiteral("write")) access = write;
+        if(mapVar[QStringLiteral("access")].toString() == QStringLiteral("read_write")) access = read_write;
+    }
+
     if(mapVar[QStringLiteral("type")].toString() == QStringLiteral("integer")){
-        variable = new CVariableInt(mapVar[QStringLiteral("value")].toInt());
+        variable = new CVariableInt(mapVar[QStringLiteral("value")].toInt(), address, access);
 	}
     else if(mapVar[QStringLiteral("type")].toString() == QStringLiteral("float")){
-        variable = new CVariableFloat(mapVar[QStringLiteral("value")].toFloat());
+        variable = new CVariableFloat(mapVar[QStringLiteral("value")].toFloat(), address, access);
 	}
     else if(mapVar[QStringLiteral("type")].toString() == QStringLiteral("boolean")){
-        variable = new CVariableBool(mapVar[QStringLiteral("value")].toBool());
+        variable = new CVariableBool(mapVar[QStringLiteral("value")].toBool(), address, access);
 	}
     else if(mapVar[QStringLiteral("type")].toString() == QStringLiteral("string")){
         variable = new CVariableString(mapVar[QStringLiteral("value")].toString());
@@ -86,6 +96,7 @@ IVariable* CVariableFactory::build(const QString &arg_type){
 	
 	return variable;
 }
+<<<<<<< Updated upstream
 
 IVariablePtr CVariableFactory::buildTemporaryString(const QString& name) {
     IVariable *ivar = new CVariableString;
@@ -124,3 +135,5 @@ void CVariableFactory::deleteTemporaryStringList(IVariablePtrList &ivars)
     qDeleteAll(ivars);
     ivars.clear();
 }
+=======
+>>>>>>> Stashed changes

@@ -12,7 +12,7 @@ class CVariableFloat : public QObject, public IVariable
 
 public:
 	CVariableFloat(QObject *parent);
-	CVariableFloat(float);
+	CVariableFloat(float, int, variableAccess);
 	CVariableFloat();
 	~CVariableFloat();
 
@@ -45,7 +45,13 @@ public:
     QLinkedList<IVariable*> getListInBinds()const Q_DECL_OVERRIDE;
 
 	QVariantMap serialise() Q_DECL_OVERRIDE;
-protected:
+    variableAccess getAccess()const Q_DECL_OVERRIDE;
+    int getAddress()const Q_DECL_OVERRIDE;
+
+private:
+
+    int m_address;
+    variableAccess m_access;
 	float m_fValeur;
     QString m_name;
 	QString m_label;

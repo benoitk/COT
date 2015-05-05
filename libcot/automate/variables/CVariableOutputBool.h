@@ -55,7 +55,13 @@ public:
     QLinkedList<IVariable*> getListInBinds()const Q_DECL_OVERRIDE;
 
 	QVariantMap serialise() Q_DECL_OVERRIDE;
+    variableAccess getAccess()const Q_DECL_OVERRIDE;
+    int getAddress()const Q_DECL_OVERRIDE;
+
 private:
+
+    int m_address;
+    variableAccess m_access;
     void writeValue() Q_DECL_OVERRIDE;
 	CModelExtensionCard* m_modelExtensionCard;
 	QString m_organneName;

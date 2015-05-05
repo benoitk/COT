@@ -48,7 +48,13 @@ public:
     QList<ICycle*> getListCycles();
     IVariable* getActiveState();
 
+    variableAccess getAccess()const Q_DECL_OVERRIDE;
+    int getAddress()const Q_DECL_OVERRIDE;
+
 private:
+
+    int m_address;
+    variableAccess m_access;
     QString m_name;
 	QString m_label;
 

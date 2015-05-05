@@ -10,10 +10,12 @@ CVariableFloat::CVariableFloat()
 {
 
 }
-CVariableFloat::CVariableFloat(float arg_value)
+CVariableFloat::CVariableFloat(float arg_value, int arg_address, variableAccess arg_access)
 	: QObject()
 {
 	m_fValeur = arg_value;
+    m_access = arg_access;
+    m_address = arg_address;
 }
 CVariableFloat::~CVariableFloat()
 {
@@ -108,4 +110,10 @@ QVariantMap CVariableFloat::serialise(){
     mapSerialise.insert(QStringLiteral("type"), QStringLiteral("float"));
     mapSerialise.insert(QStringLiteral("value"), m_fValeur);
     return mapSerialise;
+}
+variableAccess CVariableFloat::getAccess()const{
+    return m_access;
+}
+int CVariableFloat::getAddress()const{
+    return m_address;
 }

@@ -5,9 +5,11 @@ CVariableInt::CVariableInt(QObject *parent):QObject(parent),m_iValeur(-1)
 {
 	
 }
-CVariableInt::CVariableInt(int arg_int):QObject()
+CVariableInt::CVariableInt(int arg_int, int arg_address, variableAccess arg_access):QObject()
 {
 	m_iValeur = arg_int;
+    m_access = arg_access;
+    m_address = arg_address;
 }
 
 CVariableInt::~CVariableInt()
@@ -102,4 +104,10 @@ QVariantMap CVariableInt::serialise(){
     mapSerialise.insert(QStringLiteral("type"), QStringLiteral("integer"));
     mapSerialise.insert(QStringLiteral("value"), m_iValeur);
     return mapSerialise;
+}
+variableAccess CVariableInt::getAccess()const{
+    return m_access;
+}
+int CVariableInt::getAddress()const{
+    return m_address;
 }

@@ -117,6 +117,8 @@ QVariantMap CVariableMeasure::serialise(){
     mapSerialise.insert(QStringLiteral("name"), m_name);
     mapSerialise.insert(tr("fr_FR"), m_label);
     mapSerialise.insert(tr("variable_measure"), m_measure->getName());
+    mapSerialise.insert(tr("variable_range_max"), m_measureMax->getName());
+    mapSerialise.insert(tr("variable_range_min"), m_measureMin->getName());
     mapSerialise.insert(QStringLiteral("type"), QStringLiteral("measure"));
     QList<QVariant> listVars;
     foreach(IVariable* var, m_listVariables){
@@ -124,4 +126,10 @@ QVariantMap CVariableMeasure::serialise(){
     }
     
     return mapSerialise;
+}
+variableAccess CVariableMeasure::getAccess()const{
+    return m_access;
+}
+int CVariableMeasure::getAddress()const{
+    return m_address;
 }

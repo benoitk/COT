@@ -180,16 +180,6 @@ void CAutomate::setMapVariables(QMap<QString, IVariable*> mapVariable){
 	m_mapVariables.swap(mapVariable);
 }
 
-QMap<QString, QStringList> CAutomate::getMapStreamsMeasures() const{
-    QMutexLocker locker(&m_mutex);
-    return m_mapStreamsMeasures;
-}
-
-void CAutomate::setMapStreamsMeasures(QMap<QString, QStringList> mapStreamMeasure){
-    QMutexLocker locker(&m_mutex);
-	m_mapStreamsMeasures.swap(mapStreamMeasure);
-}
-
 void CAutomate::addExtensionCard(QString, CModelExtensionCard*){
     QMutexLocker locker(&m_mutex);
     // TODO
@@ -239,17 +229,8 @@ ICycle *CAutomate::getCycle(const QString &name, int type) const
     case CYCLE_AUTONOME:
         return m_listlCycleAutonomes.value(name, Q_NULLPTR);
     case CYCLE_PAUSE:
+    case CYCLE_ALL:
             break;
-
-    case CYCLE_ALL: {
-            ICycle *cycle = Q_NULLPTR;
-
-            if (!cycle) cycle = m_listCycleMesures.value(name, Q_NULLPTR);
-            if (!cycle) cycle = m_listCycleMaintenances.value(name, Q_NULLPTR);
-            if (!cycle) cycle = m_listlCycleAutonomes.value(name, Q_NULLPTR);
-
-            return cycle;
-        }
     }
 
     return Q_NULLPTR;

@@ -45,8 +45,13 @@ public:
 	QMap<QString, IVariable*> getMapVariables();
 	QMap<QString, IVariable*> getMapStreams();
 	void setMapVariables(QMap<QString, IVariable*>);
+<<<<<<< Updated upstream
     QMap<QString, QStringList> getMapStreamsMeasures() const;
     void setMapStreamsMeasures(QMap<QString, QStringList>);
+=======
+    QMap<QString, QList<QString>> getMapStreamsMeasures() const;
+    void setMapStreamsMeasures(QMap<QString, QList<QString>>);
+>>>>>>> Stashed changes
     CDisplayConf* getDisplayConf()const;
 
     static QString formatHistoryEntry(const QString &name, const QDateTime &dateTime);
@@ -91,8 +96,8 @@ public:
 
         if (measures.isEmpty()) {
             QMap<QString, QStringList> &stream1 = measures["stream_1"];
-            stream1["measure_1"] = QStringList() << "coeff" << "measure_silice";
-            stream1["measure_2"] = QStringList() << "coeff_2" << "measure_silice_2";
+            stream1["measure_1"] = QList<QString>() << "coeff" << "measure_silice";
+            stream1["measure_2"] = QList<QString>() << "coeff_2" << "measure_silice_2";
 
             createVariable<CVariableFloat, double>("coeff", 6.00);
             createVariable<CVariableFloat, double>("measure_silice", 6.00);
@@ -100,8 +105,8 @@ public:
             createVariable<CVariableFloat, double>("measure_silice_2", 2.00);
 
             QMap<QString, QStringList> &stream2 = measures["stream_2"];
-            stream2["measure_3"] = QStringList() << "coeff_3" << "measure_silice_3";
-            stream2["measure_4"] = QStringList() << "coeff_4" << "measure_silice_4";
+            stream2["measure_3"] = QList<QString>() << "coeff_3" << "measure_silice_3";
+            stream2["measure_4"] = QList<QString>() << "coeff_4" << "measure_silice_4";
 
             createVariable<CVariableFloat, double>("coeff_3", 6.00);
             createVariable<CVariableFloat, double>("measure_silice_3", 6.00);
@@ -127,7 +132,7 @@ public:
     void setDisplayConf(CDisplayConf*);
 
 	void addCycle(ICycle*);
-    ICycle *getCycle(const QString &name, int type = 0) const;
+    ICycle *getCycle(const QString &name, int type) const;
 
 	IVariable* getVariable(const QString&);
     QList<IVariable *> getVariables(const QStringList&);
@@ -224,9 +229,6 @@ private:
 	~CAutomate();
     bool shouldQuit();
 
-    mutable QMutex m_mutex;
-    bool m_quit;
-
 	QList<INetwork*> m_listNetworks;
 	QList<CModelExtensionCard*> m_listExtCards;
     eStateCycle m_stateCycleMesure; //0 stoped, 1 run, 2 pause
@@ -243,8 +245,11 @@ private:
 
 	QMap<QString, IVariable*> m_mapVariables;
 	QMap<QString, IVariable*> m_mapStreams;
-    QMap<QString, QStringList> m_mapStreamsMeasures;
 
+    mutable QMutex m_mutex;
+	QMap<QString, QList<QString>> m_mapStreamsMeasures;
+
+    bool m_quit;
 
 	/*QList<CControlerCycle*> m_listCtrlCycleMesure;
 	QList<CControlerCycle*> m_listCtrlCycleMaintenance;

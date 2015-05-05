@@ -154,3 +154,9 @@ QVariantMap CVariableVoie::serialise(){
     mapSerialise.insert(QStringLiteral("measures"), listMeasures);
     return mapSerialise;
 }
+variableAccess CVariableVoie::getAccess()const{
+    return m_access;
+}
+int CVariableVoie::getAddress()const{
+    return m_address;
+}

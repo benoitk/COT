@@ -45,7 +45,13 @@ public:
     IVariable * getMeasureMax();
     IVariable * getMeasureMin();
 
+    variableAccess getAccess()const Q_DECL_OVERRIDE;
+    int getAddress()const Q_DECL_OVERRIDE;
+
 private:
+
+    int m_address;
+    variableAccess m_access;
     QString m_name;
 	QString m_label;
     IVariable * m_measure;
