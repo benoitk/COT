@@ -15,6 +15,7 @@ class IVariableUIHandler : public QObject
 
 public:
     explicit IVariableUIHandler(CScrollableWidget *scrollable = Q_NULLPTR, QObject *parent = Q_NULLPTR);
+    virtual ~IVariableUIHandler();
 
     void layout(const QList<IVariable *> &variables);
     void layout(const QStringList &variables);

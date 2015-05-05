@@ -37,6 +37,10 @@ IVariableUIHandler::IVariableUIHandler(CScrollableWidget *scrollable, QObject *p
             this, &IVariableUIHandler::slotVariableChanged);
 }
 
+IVariableUIHandler::~IVariableUIHandler()
+{
+}
+
 void IVariableUIHandler::layout(const QList<IVariable *> &variables)
 {
     // Clean old widgets
