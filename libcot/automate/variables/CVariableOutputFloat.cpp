@@ -124,3 +124,9 @@ QLinkedList<IVariable*>  CVariableOutputFloat::getListInBinds()const{
 	return m_listBinds;
 
 }
+
+QVariantMap CVariableOutputFloat::serialise()
+{
+    //TODO implement it.
+    return QVariantMap();
+}
