@@ -10,7 +10,8 @@
 #include "CVariableOutputBool.h"
 #include "CVariableOutputFloat.h"
 #include "CVariableOutputInt.h"
-
+#include "CVariableVoie.h"
+#include "CVariableMeasure.h"
 
 #include "qvariant.h"
 #include "qdebug.h"
@@ -38,6 +39,12 @@ IVariable* CVariableFactory::build(const QMap<QString, QVariant> &mapVar){
 	}
     else if(mapVar[QStringLiteral("type")].toString() == QStringLiteral("output_boolean")){
         variable = new CVariableOutputBool(mapVar);
+	}
+    else if(mapVar[QStringLiteral("type")].toString() == QStringLiteral("stream")){
+        variable = new CVariableVoie(mapVar);
+	}
+    else if(mapVar[QStringLiteral("type")].toString() == QStringLiteral("measure")){
+        variable = new CVariableMeasure(mapVar);
 	}
     /*else if(mapVar[QStringLiteral("type")].toString() == QStringLiteral("map_float_float")){
 		variable = new CVariableInputFloat(mapVar);

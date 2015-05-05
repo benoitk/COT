@@ -279,7 +279,7 @@
                     ],
                     "cycles":["zero_calibration", "cycle_measure_cot_stream1"]
 
-                }
+                },
                 {"name":"stream_2", "fr_FR":"stream 2", "variables":["turbidity", "coef_current"], "active_state": "stream_2_state",
                     "measures":[{"name":"measure_1", "fr_FR":"Mesure d'azote", "variable_measure":"azote", "variables":["coef_calculated", "zero_standard"]}
                     ],
