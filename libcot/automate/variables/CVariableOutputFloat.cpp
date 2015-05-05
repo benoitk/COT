@@ -1,6 +1,7 @@
 #include "CVariableOutputFloat.h"
 #include "CModelExtensionCard.h"
 #include "CUnit.h"
+#include <QDebug>
 CVariableOutputFloat::CVariableOutputFloat(QObject *parent)
 	: QObject(parent)
     , m_modelExtensionCard(Q_NULLPTR)
@@ -127,6 +128,7 @@ QLinkedList<IVariable*>  CVariableOutputFloat::getListInBinds()const{
 
 QVariantMap CVariableOutputFloat::serialise()
 {
+    qDebug() << "CVariableOutputFloat::serialise unimplemented";
     //TODO implement it.
     return QVariantMap();
 }
