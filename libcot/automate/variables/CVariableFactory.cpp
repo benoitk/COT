@@ -86,3 +86,41 @@ IVariable* CVariableFactory::build(const QString &arg_type){
 	
 	return variable;
 }
+
+IVariablePtr CVariableFactory::buildTemporaryString(const QString& name) {
+    IVariable *ivar = new CVariableString;
+    ivar->setName(name);
+    ivar->setLabel(name);
+    return ivar;
+}
+
+IVariablePtr CVariableFactory::buildTemporaryString(const QString& name, const QString &label) {
+    IVariable *ivar = new CVariableString;
+    ivar->setName(name);
+    ivar->setLabel(label);
+    return ivar;
+}
+
+IVariablePtr CVariableFactory::buildTemporaryString(const QString& name, const QString &label, const QVariant &value) {
+    IVariable *ivar = new CVariableString;
+    ivar->setName(name);
+    ivar->setLabel(label);
+    ivar->setValue(value);
+    return ivar;
+}
+
+IVariablePtrList CVariableFactory::buildTemporaryString(const QStringList& names) {
+    IVariablePtrList ivars;
+
+    foreach (const QString& name, names) {
+        ivars << buildTemporaryString(name);
+    }
+
+    return ivars;
+}
+
+void CVariableFactory::deleteTemporaryStringList(IVariablePtrList &ivars)
+{
+    qDeleteAll(ivars);
+    ivars.clear();
+}

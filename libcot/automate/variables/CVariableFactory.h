@@ -14,6 +14,12 @@ public:
     static IVariable* build(const QMap<QString, QVariant> &);
     static IVariable* build(const QString&);
 
+    static IVariablePtr buildTemporaryString(const QString& name);
+    static IVariablePtr buildTemporaryString(const QString& name, const QString &label);
+    static IVariablePtr buildTemporaryString(const QString& name, const QString &label, const QVariant &value);
+    static IVariablePtrList buildTemporaryString(const QStringList& names);
+    static void deleteTemporaryStringList(IVariablePtrList& ivars);
+
 private:
 	
 };
