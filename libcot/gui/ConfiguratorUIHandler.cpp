@@ -418,7 +418,7 @@ void ConfiguratorUIHandler::slotDeleteClicked()
         return;
     }
 
-    IVariable *ivar = CAutomate::getInstance()->getVariable(name);
+    IVariable *ivar = getVariable(name);
     Q_ASSERT(ivar);
 
     const Row &row = m_rows[name];
