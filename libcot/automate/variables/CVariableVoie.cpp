@@ -37,7 +37,9 @@ CVariableVoie::CVariableVoie(const QMap<QString, QVariant> &mapVar):QObject(){
     if(mapVar.contains(QStringLiteral("measures"))){
         QVariantList listVariable = mapVar.value(QStringLiteral("measures")).toList();
         foreach(QVariant variant, listVariable){
-            IVariable* var = CVariableFactory::build(variant.toMap()); 
+            QVariantMap map = variant.toMap();
+            map.insert(QStringLiteral("type"), QStringLiteral("measure"));
+            IVariable* var = CVariableFactory::build(map); 
             m_listMeasures.append(var);
         }
     }

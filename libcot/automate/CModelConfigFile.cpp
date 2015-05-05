@@ -22,6 +22,10 @@
 #include "qmap.h"
 #include "qfileinfo.h"
 
+//à suppirmer
+#include "CVariableVoie.h"
+#include "CVariableMeasure.h"
+//
 
 CModelConfigFile::CModelConfigFile(QObject *parent)
 	: QObject(parent)
@@ -196,6 +200,27 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
 			else 
 				qDebug() << "Streams null : map = " << mapStream;
 		}
+
+        CAutomate* a = CAutomate::getInstance();
+        foreach(IVariable* varStream, a->getMapStreams()){
+            CVariableVoie* stream = (CVariableVoie*)varStream;
+            qDebug() << "-stream label : " << stream->getLabel(); 
+            qDebug() << "-stream active : " << stream->getActiveState()->getLabel() << " " << stream->getActiveState()->toBool(); 
+            foreach(IVariable* varMeasure, stream->getListMeasures()){
+                if(varMeasure->getType() == type_measure){
+                    CVariableMeasure* measure = (CVariableMeasure*)varMeasure;
+                    qDebug() << "--measure label : " << measure->getLabel();
+                    qDebug() << "--measure value : " << measure->getMeasureVariable()->getLabel() << " " << measure->getMeasureVariable()->toFloat(); 
+                    foreach(IVariable* var, measure->getListVariables()){
+                        qDebug() << "---var label : " << var->getLabel();
+
+                    }
+                }else{
+                    qDebug() << "Pas de type measure ???!! "<<varMeasure->getLabel();
+                }
+
+            }
+        }
 	}
 
 }
