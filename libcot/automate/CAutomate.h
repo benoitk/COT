@@ -168,6 +168,44 @@ signals:
     // When internal state of the current running maintenance cycle changed
     void signalCurrentMaintenanceCycleChanged(const QString &name);
 
+   
+    //desc : nouvelle ligne d'alarme 
+	//entrées : identifiant(pour acquitement), date, heure et descriptif  
+    void signalUpdateAlarms(int, const QDateTime &, const QString &);
+	//desc : Nouvelle ligne d'historique de mesure
+	//entrées : date, heure, descriptif
+    void signalUpdateHistory(const QDateTime&, const QString&);
+	//desc : Etat changé : En court, en pause, en arrêt
+	//entrées : enum de l'état du cycle en cours
+	void signalUpdateStateCycle(CAutomate::eStateCycle); 
+	//desc : Etat changé : En défaut, en cycle, en maintenance
+	//entrées : enum de l'état de l'automate
+	void signalUpdateStateAutomoate(CAutomate::eStateAutomate); 
+	//desc : Pas en cours changé 
+	//entrées : pas en cours; label du pas 
+    void signalUpdateCurrentStep(float, const QString &);
+	//desc : Nombre total de pas changé 
+	//entrées : Nombre de pas total
+	void signalUpdateCountStep(int); 
+	//desc : Voie en court changé 
+	//entrées : numéro, Label voie 
+    void signalUpdateCurrentStream(int, const QString &);
+	//desc : Nombre total de voie changée 
+	//entrées : Nombre de voie total
+	void signalUpdateCountStream(int); 
+	//desc : Statue de voie changée : Active, en défeau d'eau...
+	//entrées : enum de l'état de la voie 
+	void signalUpdateStateStream(CAutomate::eStateStream); 
+	//desc : Valeur des variables de mesures affichable sur l'écran principale  (JSon : champ "streams->variables->type = measure)
+	//entrées : identifiant et valeur de la variable de mesure, 
+    void signalUpdateMeasureValues(int, const QVariant &);
+	//desc : Label et unité des variables de mesures affichable sur l'écran principale
+	//entrées : identifiant, label et unité de la variable
+    void signalUpdateMeasureLabels(int, const QString &);
+    void signalVariablesUpdated();
+    void signalUnitsUpdated();
+
+
 private:
 	static CAutomate* singleton;
 	CAutomate();
