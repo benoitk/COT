@@ -130,6 +130,7 @@ QIcon CToolButton::buttonIcon(CToolButton::Type type)
         case CToolButton::Update:
         case CToolButton::Configure:
         case CToolButton::AddVariable:
+        case CToolButton::Delete:
             // TODO_KDAB:: Handle each icon set in picto / pictohd resources.
             break;
 

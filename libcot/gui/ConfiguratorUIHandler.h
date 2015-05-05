@@ -44,6 +44,13 @@ public:
     int enterInteger(int defaultValue = 0);
     // Ask user to enter a double value
     double enterDouble(double defaultValue = 0);
+
+protected:
+    QWidget *newDeletor(IVariable *ivar);
+    virtual void rowAboutToBeDeleted(const Row &row, IVariable *ivar);
+
+protected slots:
+    void slotDeletorClicked();
 };
 
 #endif // CONFIGURATORUIHANDLER_H

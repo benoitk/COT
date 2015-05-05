@@ -2,6 +2,8 @@
 #include "CGenericItemSelector.h"
 #include "CKeyboardDialog.h"
 #include "CNumericalKeyboardDialog.h"
+#include "CToolButton.h"
+#include "CPCWindow.h"
 #include "CAutomate.h"
 #include "CModelExtensionCard.h"
 #include "CVariableString.h"
@@ -200,7 +202,7 @@ int ConfiguratorUIHandler::selectActionType(int defaultValue)
     dlg.setSelectedValue(defaultValue);
     int result = -1;
 
-    if (dlg.exec()) {
+    if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
         result = dlg.selectedItem()->toInt();
     }
 
@@ -216,7 +218,7 @@ variableType ConfiguratorUIHandler::selectVariableType(variableType defaultValue
     dlg.setSelectedValue(defaultValue);
     variableType result = defaultValue;
 
-    if (dlg.exec()) {
+    if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
         result = variableType(dlg.selectedItem()->toInt());
     }
 
@@ -232,7 +234,7 @@ VariableOrganType ConfiguratorUIHandler::selectOrganType(VariableOrganType defau
     dlg.setSelectedValue(defaultValue);
     VariableOrganType result = defaultValue;
 
-    if (dlg.exec()) {
+    if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
         result = VariableOrganType(dlg.selectedItem()->toInt());
     }
 
@@ -248,7 +250,7 @@ eTypeCycle ConfiguratorUIHandler::selectCycleType(eTypeCycle defaultValue)
     dlg.setSelectedValue(defaultValue);
     eTypeCycle result = defaultValue;
 
-    if (dlg.exec()) {
+    if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
         result = eTypeCycle(dlg.selectedItem()->toInt());
     }
 
@@ -265,7 +267,7 @@ QString ConfiguratorUIHandler::selectVariable(const QString &defaultName)
     dlg.setSelectedValue(defaultName);
     QString result = defaultName;
 
-    if (dlg.exec()) {
+    if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
         result = dlg.selectedItem()->getName();
     }
 
@@ -280,7 +282,7 @@ QString ConfiguratorUIHandler::selectStream(const QString &defaultName)
     dlg.setSelectedValue(defaultName);
     QString result = defaultName;
 
-    if (dlg.exec()) {
+    if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
         result = dlg.selectedItem()->getName();
     }
 
@@ -296,7 +298,7 @@ QString ConfiguratorUIHandler::selectMeasure(const QString &defaultName)
     dlg.setSelectedValue(defaultName);
     QString result = defaultName;
 
-    if (dlg.exec()) {
+    if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
         result = dlg.selectedItem()->getName();
     }
 
@@ -312,7 +314,7 @@ QString ConfiguratorUIHandler::selectCycle(const QString &defaultName)
     dlg.setSelectedValue(defaultName);
     QString result = defaultName;
 
-    if (dlg.exec()) {
+    if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
         result = dlg.selectedItem()->getName();
     }
 
@@ -328,7 +330,7 @@ QString ConfiguratorUIHandler::selectAction(const QString &defaultName)
     dlg.setSelectedValue(defaultName);
     QString result = defaultName;
 
-    if (dlg.exec()) {
+    if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
         result = dlg.selectedItem()->getName();
     }
 
@@ -344,7 +346,7 @@ QString ConfiguratorUIHandler::selectStreamOrMeasure(const QString &defaultName)
     dlg.setSelectedValue(defaultName);
     QString result = defaultName;
 
-    if (dlg.exec()) {
+    if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
         result = dlg.selectedItem()->getName();
     }
 
@@ -360,7 +362,7 @@ QString ConfiguratorUIHandler::selectExtension(const QString &defaultName)
     dlg.setSelectedValue(defaultName);
     QString result = defaultName;
 
-    if (dlg.exec()) {
+    if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
         result = dlg.selectedItem()->getName();
     }
 
@@ -376,7 +378,7 @@ QString ConfiguratorUIHandler::selectOrgan(const QString &defaultName)
     dlg.setSelectedValue(defaultName);
     QString result = defaultName;
 
-    if (dlg.exec()) {
+    if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
         result = dlg.selectedItem()->getName();
     }
 
@@ -391,7 +393,7 @@ QString ConfiguratorUIHandler::enterText(const QString &defaultValue)
     dlg.setStringValue(defaultValue);
     QString result = defaultValue;
 
-    if (dlg.exec()) {
+    if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
         result = dlg.stringValue();
     }
 
@@ -405,7 +407,7 @@ int ConfiguratorUIHandler::enterInteger(int defaultValue)
     dlg.setIntegerValue(defaultValue);
     int result = defaultValue;
 
-    if (dlg.exec()) {
+    if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
         result = dlg.integerValue();
     }
 
@@ -419,9 +421,44 @@ double ConfiguratorUIHandler::enterDouble(double defaultValue)
     dlg.setDoubleValue(defaultValue);
     double result = defaultValue;
 
-    if (dlg.exec()) {
+    if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
         result = dlg.doubleValue();
     }
 
     return result;
+}
+
+QWidget *ConfiguratorUIHandler::newDeletor(IVariable *ivar)
+{
+    CToolButton *editor = new CToolButton(CToolButton::Delete);
+    editor->setUserData(ivar->getName());
+    editor->setText(ivar->toString());
+    connect(editor, &CToolButton::clicked, this, &ConfiguratorUIHandler::slotDeletorClicked);
+    return editor;
+}
+
+void ConfiguratorUIHandler::rowAboutToBeDeleted(const Row &row, IVariable *ivar)
+{
+    Q_UNUSED(row);
+    Q_UNUSED(ivar);
+}
+
+void ConfiguratorUIHandler::slotDeletorClicked()
+{
+    CToolButton *editor = qobject_cast<CToolButton *>(sender());
+    const QString name = editor->userData().toString();
+
+    if (!m_rows.contains(name)) {
+        Q_ASSERT(false);
+        return;
+    }
+
+    IVariable *ivar = CAutomate::getInstance()->getVariable(name);
+    Q_ASSERT(ivar);
+
+    const Row &row = m_rows[name];
+    rowAboutToBeDeleted(row, ivar);
+
+    qDeleteAll(row.widgets);
+    m_rows.remove(name);
 }
