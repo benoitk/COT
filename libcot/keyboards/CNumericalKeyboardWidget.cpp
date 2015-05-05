@@ -88,7 +88,7 @@ void CNumericalKeyboardWidget::slotButtonClicked(QChar character)
 {
 
     QString text = m_lineEdit->text();
-    if (character == QLocale::system().decimalPoint()) {
+    if ((character == QLocale::system().decimalPoint()) || text.startsWith(QStringLiteral("-"))) {
         text.append(character);
     } else if (text.contains(QLocale::system().decimalPoint())) {
         text.append(character);
