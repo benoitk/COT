@@ -270,7 +270,8 @@ QString ConfiguratorUIHandler::selectVariable(const QString &defaultName)
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
         result = dlg.selectedItem()->getName();
     }
-    free(ivars);
+    //Don't add free(ivars). Variables are not created here. We get from automate directly.
+    //not the same as selectStreams etc where we create them.
     return result;
 }
 
