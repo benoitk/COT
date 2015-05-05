@@ -69,7 +69,7 @@ void CVariableMeasure::setValue(int iValue){
 }
 void CVariableMeasure::setValue(const QVariant & value){
 }
-//Pas de récursivité dans les binds pour l'instant pour ne pas gérer les binds croisés({var1, var2}, {var2, var1})
+//Pas de rÃ©cursivitÃ© dans les binds pour l'instant pour ne pas gÃ©rer les binds croisÃ©s({var1, var2}, {var2, var1})
 void CVariableMeasure::setToBindedValue(const QVariant & value){
 	
 }
