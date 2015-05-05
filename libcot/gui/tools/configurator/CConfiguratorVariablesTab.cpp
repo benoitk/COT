@@ -26,10 +26,10 @@ CConfiguratorVariablesTab::~CConfiguratorVariablesTab()
 
 void CConfiguratorVariablesTab::addVariable()
 {
-    CPCWindow::openModal<CEditvariableWindow>();
+    //CPCWindow::openModal<CEditvariableWindow>("" /* variable name */    );
 }
 
 void CConfiguratorVariablesTab::editVariable()
 {
-    CPCWindow::openModal<CEditvariableWindow>();
+    CPCWindow::openModal<CEditvariableWindow>("" /* variable name */);
 }

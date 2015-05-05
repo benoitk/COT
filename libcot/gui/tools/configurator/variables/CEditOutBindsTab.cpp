@@ -1,6 +1,6 @@
 #include "CEditOutBindsTab.h"
 #include "ui_CEditOutBindsTab.h"
-
+#include "CAutomate.h"
 #include <ConfiguratorUIHandler.h>
 
 CEditOutBindsTab::CEditOutBindsTab(QWidget *parent)
@@ -20,8 +20,11 @@ CEditOutBindsTab::~CEditOutBindsTab()
     delete ui;
 }
 
-void CEditOutBindsTab::setVariables(const QList<IVariable *> &variables)
+void CEditOutBindsTab::setVariables(const QString &variableName)
 {
-    m_configuratorUIHandler->layout(variables, true);
+    IVariable *ivar = CAutomate::getInstance()->getVariable(variableName);
+    Q_ASSERT(ivar);
+    //ivar->getListInBinds();
+    //m_configuratorUIHandler->layout(variables, true);
 }
 

@@ -20,8 +20,8 @@ CEditVariableTab::~CEditVariableTab()
     delete ui;
 }
 
-void CEditVariableTab::setVariables(const QList<IVariable *> &variables)
+void CEditVariableTab::setVariables(const QString &variableName)
 {
-    m_configuratorUIHandler->layout(variables);
+    //m_configuratorUIHandler->layout(variables);
 }
 
