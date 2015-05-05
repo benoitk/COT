@@ -24,7 +24,7 @@ void CEditOutBindsTab::setVariables(const QString &variableName)
 {
     IVariable *ivar = CAutomate::getInstance()->getVariable(variableName);
     Q_ASSERT(ivar);
-    //ivar->getListInBinds();
+    const QLinkedList<IVariable *> listOutBinds = ivar->getListOutBinds();
     //m_configuratorUIHandler->layout(variables, true);
 }
 
