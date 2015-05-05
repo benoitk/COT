@@ -2,20 +2,21 @@
 #include "ui_CConfiguratorVariablesTab.h"
 #include "CPCWindow.h"
 #include "CEditVariableWindow.h"
-#include <IVariableUIHandler.h>
+
+#include <ConfiguratorVariablesUIHandler.h>
 
 CConfiguratorVariablesTab::CConfiguratorVariablesTab(QWidget *parent)
     : IConfiguratorTab(parent)
     , ui(new Ui::CConfiguratorVariablesTab)
 {
     ui->setupUi(this);
+    m_ivariableUIHandler = new ConfiguratorVariablesUIHandler(ui->swCentral, this);
     connect(ui->vbbButtons->addAction(CToolButton::AddVariable), &QAction::triggered,
             this, &CConfiguratorVariablesTab::addVariable);
     ui->vbbButtons->addAction(CToolButton::ScrollUp, ui->swCentral->moveUp());
     ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->swCentral->moveDown());
     connect(ui->vbbButtons->addAction(CToolButton::Back), &QAction::triggered,
             this, &IConfiguratorTab::backTriggered);
-    m_ivariableUIHandler = new IVariableUIHandler(ui->swCentral, this);
 }
 
 CConfiguratorVariablesTab::~CConfiguratorVariablesTab()

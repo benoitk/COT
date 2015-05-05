@@ -5,7 +5,7 @@
 namespace Ui {
 class CConfiguratorVariablesTab;
 }
-class IVariableUIHandler;
+class ConfiguratorVariablesUIHandler;
 class CConfiguratorVariablesTab : public IConfiguratorTab
 {
     Q_OBJECT
@@ -17,8 +17,8 @@ private slots:
     void editVariable();
 
 private:
-    IVariableUIHandler *m_ivariableUIHandler;
     Ui::CConfiguratorVariablesTab *ui;
+    ConfiguratorVariablesUIHandler *m_ivariableUIHandler;
 };
 
 #endif // CCONFIGURATORVARIABLESTAB_H

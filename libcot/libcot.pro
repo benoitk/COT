@@ -201,6 +201,7 @@ HEADERS *= \
     gui/tools/configurator/variables/CEditVariableTab.h \
     gui/tools/configurator/variables/CEditInBindsTab.h \
     gui/tools/configurator/variables/CEditOutBindsTab.h \
+    gui/ConfiguratorVariablesUIHandler.h \
 
 SOURCES *= \
     automate/CAutomate.cpp \
@@ -335,4 +336,5 @@ SOURCES *= \
     gui/tools/configurator/variables/CEditVariableTab.cpp \
     gui/tools/configurator/variables/CEditInBindsTab.cpp \
     gui/tools/configurator/variables/CEditOutBindsTab.cpp \
+    gui/ConfiguratorVariablesUIHandler.cpp \
 
