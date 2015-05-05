@@ -11,6 +11,10 @@ class CConfiguratorActionsTab : public IConfiguratorTab
 public:
     explicit CConfiguratorActionsTab(QWidget *parent = Q_NULLPTR);
     ~CConfiguratorActionsTab();
+
+private slots:
+    void addAction();
+
 private:
     Ui::CConfiguratorActionsTab *ui;
 };

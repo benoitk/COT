@@ -6,6 +6,8 @@ CConfiguratorActionsTab::CConfiguratorActionsTab(QWidget *parent)
     , ui(new Ui::CConfiguratorActionsTab)
 {
     ui->setupUi(this);
+    connect(ui->vbbButtons->addAction(CToolButton::Add), &QAction::triggered,
+            this, &CConfiguratorActionsTab::addAction);
     ui->vbbButtons->addAction(CToolButton::ScrollUp, ui->swCentral->moveUp());
     ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->swCentral->moveDown());
     connect(ui->vbbButtons->addAction(CToolButton::Back), &QAction::triggered,
@@ -15,5 +17,10 @@ CConfiguratorActionsTab::CConfiguratorActionsTab(QWidget *parent)
 CConfiguratorActionsTab::~CConfiguratorActionsTab()
 {
     delete ui;
+}
+
+void CConfiguratorActionsTab::addAction()
+{
+
 }
 
