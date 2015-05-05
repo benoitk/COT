@@ -6,6 +6,11 @@ namespace Ui {
 class CEditVariableWindow;
 }
 class IEditVariableTab;
+class IVariable;
+class CEditVariableTab;
+class CEditOutBindsTab;
+class CEditInBindsTab;
+
 class CEditvariableWindow : public QWidget
 {
     Q_OBJECT
@@ -13,6 +18,7 @@ public:
     explicit CEditvariableWindow(QWidget *parent = Q_NULLPTR);
     ~CEditvariableWindow();
 
+    void setVariables(const QList<IVariable *> &variables);
 public slots:
     void retranslate();
 
@@ -25,6 +31,9 @@ private slots:
 private:
     void addTab(IEditVariableTab *tab, const QString &title);
     Ui::CEditVariableWindow *ui;
+    CEditVariableTab *m_ceditVariableTab;
+    CEditOutBindsTab *m_ceditOutBindsTab;
+    CEditInBindsTab *m_ceditInBindsTab;
 };
 
 #endif // CEDITVARIABLEWINDOW_H

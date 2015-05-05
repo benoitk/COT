@@ -6,12 +6,14 @@ namespace Ui {
 class CEditOutBindsTab;
 }
 class ConfiguratorUIHandler;
+class IVariable;
 class CEditOutBindsTab : public IEditVariableTab
 {
     Q_OBJECT
 public:
     explicit CEditOutBindsTab(QWidget *parent = Q_NULLPTR);
     ~CEditOutBindsTab();
+    void setVariables(const QList<IVariable *> &variables);
 private:
     Ui::CEditOutBindsTab *ui;
     ConfiguratorUIHandler *m_configuratorUIHandler;

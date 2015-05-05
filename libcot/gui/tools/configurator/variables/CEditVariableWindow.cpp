@@ -5,20 +5,33 @@
 #include "CEditOutBindsTab.h"
 #include "CEditVariableTab.h"
 
+#include <IVariable.h>
+
 CEditvariableWindow::CEditvariableWindow(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::CEditVariableWindow)
 {
     ui->setupUi(this);
-    addTab(new CEditVariableTab(this), QString());
-    addTab(new CEditOutBindsTab(this), QString());
-    addTab(new CEditInBindsTab(this), QString());
+    m_ceditVariableTab = new CEditVariableTab(this);
+    m_ceditOutBindsTab = new CEditOutBindsTab(this);
+    m_ceditInBindsTab = new CEditInBindsTab(this);
+
+    addTab(m_ceditVariableTab, QString());
+    addTab(m_ceditOutBindsTab, QString());
+    addTab(m_ceditInBindsTab, QString());
     retranslate();
 }
 
 CEditvariableWindow::~CEditvariableWindow()
 {
     delete ui;
+}
+
+void CEditvariableWindow::setVariables(const QList<IVariable *> &variables)
+{
+    m_ceditVariableTab->setVariables(variables);
+    m_ceditOutBindsTab->setVariables(variables);
+    m_ceditInBindsTab->setVariables(variables);
 }
 
 void CEditvariableWindow::retranslate()

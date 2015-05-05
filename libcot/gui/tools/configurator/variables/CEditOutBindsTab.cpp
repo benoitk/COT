@@ -20,3 +20,8 @@ CEditOutBindsTab::~CEditOutBindsTab()
     delete ui;
 }
 
+void CEditOutBindsTab::setVariables(const QList<IVariable *> &variables)
+{
+    m_configuratorUIHandler->layout(variables, true);
+}
+
