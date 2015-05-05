@@ -17,8 +17,8 @@ public:
     explicit IVariableUIHandler(CScrollableWidget *scrollable = Q_NULLPTR, QObject *parent = Q_NULLPTR);
     virtual ~IVariableUIHandler();
 
-    void layout(const QList<IVariable *> &variables);
-    void layout(const QStringList &variables);
+    void layout(const QList<IVariable *> &variables, bool addDeleteButton = false);
+    void layout(const QStringList &variables, bool addDeleteButton = false);
 
     void setScrollableWidget(CScrollableWidget *scrollable);
 
@@ -45,6 +45,7 @@ protected:
     virtual QWidget *createWidget(int index, IVariable *ivar);
     virtual void rowInserted(const Row &row, IVariable *ivar);
     virtual void rowChanged(const Row &row, IVariable *ivar);
+    virtual QWidget *newDeleteButton(IVariable *ivar);
 
 private:
     QLabel *newLabel(IVariable *ivar);
