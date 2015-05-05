@@ -54,6 +54,7 @@ public:
 
         T *window = new T(parent);
         openExec(window);
+        delete window;
     }
 
     static void openModal(QWidget *widget, const QRect &geometry) {
