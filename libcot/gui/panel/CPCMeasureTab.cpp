@@ -65,7 +65,7 @@ void CPCMeasureTab::slotNextStreamTriggered()
 void CPCMeasureTab::slotUpdateStreamsMeasures()
 {
     CAutomate *automate = CAutomate::getInstance();
-    QMap<QString, QList<QString>> streams = automate->getMapStreamsMeasures();
+    QMap<QString, QStringList> streams = automate->getMapStreamsMeasures();
     QStringList variables;
 
     // KDAB: Remove me once customer api is ready

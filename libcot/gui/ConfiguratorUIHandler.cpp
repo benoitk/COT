@@ -6,7 +6,7 @@
 #include "CPCWindow.h"
 #include "CAutomate.h"
 #include "CModelExtensionCard.h"
-#include "CVariableString.h"
+#include "CVariableFactory.h"
 #include "IOrgan.h"
 #include "IAction.h"
 
@@ -15,43 +15,11 @@ typedef QPair<QString, QVariant> PairStringString;
 typedef QPair<QString, PairStringString> PairPairStringString;
 typedef QList<PairPairStringString> PairPairStringStringList;
 
-IVariablePtr build(const QString& name) {
-    IVariable *ivar = new CVariableString;
-    ivar->setName(name);
-    ivar->setLabel(name);
-    return ivar;
-}
-
-IVariablePtr build(const QString& name, const QString &label) {
-    IVariable *ivar = new CVariableString;
-    ivar->setName(name);
-    ivar->setLabel(label);
-    return ivar;
-}
-
-IVariablePtr build(const QString& name, const QString &label, const QVariant &value) {
-    IVariable *ivar = new CVariableString;
-    ivar->setName(name);
-    ivar->setLabel(label);
-    ivar->setValue(value);
-    return ivar;
-}
-
-IVariablePtrList build(const QStringList& names) {
-    IVariablePtrList ivars;
-
-    foreach (const QString& name, names) {
-        ivars << build(name);
-    }
-
-    return ivars;
-}
-
-IVariablePtrList build(const PairPairStringStringList& pairs) {
+IVariablePtrList buildTemporaryString(const PairPairStringStringList& pairs) {
     IVariablePtrList ivars;
 
     foreach (const PairPairStringString& pair, pairs) {
-        ivars << build(pair.first, pair.second.first, pair.second.second);
+        ivars << CVariableFactory::buildTemporaryString(pair.first, pair.second.first, pair.second.second);
     }
 
     return ivars;
@@ -59,7 +27,7 @@ IVariablePtrList build(const PairPairStringStringList& pairs) {
 
 IVariablePtrList buildActionType() {
     // KDAB_TODO: No customer api so let fake
-    return build({
+    return buildTemporaryString({
                      {"calc_coef", qMakePair(ConfiguratorUIHandler::tr("Calc Coef"), 1)},
                      {"calc_rien", qMakePair(ConfiguratorUIHandler::tr("Calc Rien"), 2)},
                      {"bloc", qMakePair(ConfiguratorUIHandler::tr("Bloc"), 1000)}
@@ -67,7 +35,7 @@ IVariablePtrList buildActionType() {
 }
 
 IVariablePtrList buildVariableTypes() {
-    return build({
+    return buildTemporaryString({
                      {"type_bool", qMakePair(ConfiguratorUIHandler::tr("Boolean"), type_bool)},
                      {"type_float", qMakePair(ConfiguratorUIHandler::tr("Float"), type_float)},
                      {"type_int", qMakePair(ConfiguratorUIHandler::tr("Integer"), type_int)},
@@ -78,7 +46,7 @@ IVariablePtrList buildVariableTypes() {
 }
 
 IVariablePtrList buildOrganTypes() {
-    return build({
+    return buildTemporaryString({
                      {"VariableOrganTypeNone", qMakePair(ConfiguratorUIHandler::tr("None"), VariableOrganTypeNone)},
                      {"VariableOrganTypeInput", qMakePair(ConfiguratorUIHandler::tr("Input"), VariableOrganTypeInput)},
                      {"VariableOrganTypeOutput", qMakePair(ConfiguratorUIHandler::tr("Output"), VariableOrganTypeOutput)}
@@ -86,7 +54,7 @@ IVariablePtrList buildOrganTypes() {
 }
 
 IVariablePtrList buildCycleTypes() {
-    return build({
+    return buildTemporaryString({
                      {"CYCLE_MESURE", qMakePair(ConfiguratorUIHandler::tr("Measure"), CYCLE_MESURE)},
                      {"CYCLE_AUTONOME", qMakePair(ConfiguratorUIHandler::tr("Autonome"), CYCLE_AUTONOME)},
                      {"CYCLE_MAINTENANCE", qMakePair(ConfiguratorUIHandler::tr("Maintenance"), CYCLE_MAINTENANCE)},
@@ -97,18 +65,18 @@ IVariablePtrList buildCycleTypes() {
 IVariablePtrList buildStreams() {
     // KDAB_TODO: No customer api so let fake
     CAutomate *automate = CAutomate::getInstance();
-    return build(automate->getMapStreamsMeasures().keys());
+    return CVariableFactory::buildTemporaryString(automate->getMapStreamsMeasures().keys());
 }
 
 IVariablePtrList buildMeasures() {
     // KDAB_TODO: No customer api so let fake
     CAutomate *automate = CAutomate::getInstance();
-    const QMap<QString, QList<QString>> streams = automate->getMapStreamsMeasures();
+    const QMap<QString, QStringList> streams = automate->getMapStreamsMeasures();
     IVariablePtrList ivars;
 
     foreach (const QString &stream, streams.keys()) {
         foreach (const QString &measure, streams[stream]) {
-            ivars << build(measure);
+            ivars << CVariableFactory::buildTemporaryString(measure);
         }
     }
 
@@ -121,7 +89,7 @@ IVariablePtrList buildCycles() {
     IVariablePtrList ivars;
 
     foreach (ICycle *cycle, cycles) {
-        ivars << build(cycle->getName(), cycle->getLbl());
+        ivars << CVariableFactory::buildTemporaryString(cycle->getName(), cycle->getLbl());
     }
 
     return ivars;
@@ -133,7 +101,7 @@ IVariablePtrList buildActions() {
     IVariablePtrList ivars;
 
     foreach (IAction *action, actions) {
-        ivars << build(action->getName(), action->getLabel());
+        ivars << CVariableFactory::buildTemporaryString(action->getName(), action->getLabel());
     }
 
     return ivars;
@@ -142,14 +110,14 @@ IVariablePtrList buildActions() {
 IVariablePtrList buildStreamsMeasures() {
     // KDAB_TODO: No customer api so let fake
     CAutomate *automate = CAutomate::getInstance();
-    const QMap<QString, QList<QString>> streams = automate->getMapStreamsMeasures();
+    const QMap<QString, QStringList> streams = automate->getMapStreamsMeasures();
     IVariablePtrList ivars;
 
     foreach (const QString &stream, streams.keys()) {
-        ivars << build(stream);
+        ivars << CVariableFactory::buildTemporaryString(stream);
 
         foreach (const QString &measure, streams[stream]) {
-            ivars << build(measure, QString("%1 > %2").arg(stream).arg(measure));
+            ivars << CVariableFactory::buildTemporaryString(measure, QString("%1 > %2").arg(stream).arg(measure));
         }
     }
 
@@ -162,7 +130,7 @@ IVariablePtrList buildExtensions() {
     IVariablePtrList ivars;
 
     foreach (CModelExtensionCard *card, cards) {
-        ivars << build(card->getName(), card->getLabel());
+        ivars << CVariableFactory::buildTemporaryString(card->getName(), card->getLabel());
     }
 
     return ivars;
@@ -176,16 +144,11 @@ IVariablePtrList buildOrgans() {
 
     foreach (CModelExtensionCard *card, cards) {
         foreach (IOrgan *organ, card->getListOrgans()) {
-            ivars << build(organ->getName());
+            ivars << CVariableFactory::buildTemporaryString(organ->getName());
         }
     }
 
     return ivars;
-}
-
-void free(IVariablePtrList& ivars) {
-    qDeleteAll(ivars);
-    ivars.clear();
 }
 }
 
@@ -206,7 +169,7 @@ int ConfiguratorUIHandler::selectActionType(int defaultValue)
         result = dlg.selectedItem()->toInt();
     }
 
-    free(ivars);
+    CVariableFactory::deleteTemporaryStringList(ivars);
     return result;
 }
 
@@ -222,7 +185,7 @@ variableType ConfiguratorUIHandler::selectVariableType(variableType defaultValue
         result = variableType(dlg.selectedItem()->toInt());
     }
 
-    free(ivars);
+    CVariableFactory::deleteTemporaryStringList(ivars);
     return result;
 }
 
@@ -238,7 +201,7 @@ VariableOrganType ConfiguratorUIHandler::selectOrganType(VariableOrganType defau
         result = VariableOrganType(dlg.selectedItem()->toInt());
     }
 
-    free(ivars);
+    CVariableFactory::deleteTemporaryStringList(ivars);
     return result;
 }
 
@@ -254,7 +217,7 @@ eTypeCycle ConfiguratorUIHandler::selectCycleType(eTypeCycle defaultValue)
         result = eTypeCycle(dlg.selectedItem()->toInt());
     }
 
-    free(ivars);
+    CVariableFactory::deleteTemporaryStringList(ivars);
     return result;
 }
 
@@ -287,7 +250,7 @@ QString ConfiguratorUIHandler::selectStream(const QString &defaultName)
         result = dlg.selectedItem()->getName();
     }
 
-    free(ivars);
+    CVariableFactory::deleteTemporaryStringList(ivars);
     return result;
 }
 
@@ -303,7 +266,7 @@ QString ConfiguratorUIHandler::selectMeasure(const QString &defaultName)
         result = dlg.selectedItem()->getName();
     }
 
-    free(ivars);
+    CVariableFactory::deleteTemporaryStringList(ivars);
     return result;
 }
 
@@ -319,7 +282,7 @@ QString ConfiguratorUIHandler::selectCycle(const QString &defaultName)
         result = dlg.selectedItem()->getName();
     }
 
-    free(ivars);
+    CVariableFactory::deleteTemporaryStringList(ivars);
     return result;
 }
 
@@ -335,7 +298,7 @@ QString ConfiguratorUIHandler::selectAction(const QString &defaultName)
         result = dlg.selectedItem()->getName();
     }
 
-    free(ivars);
+    CVariableFactory::deleteTemporaryStringList(ivars);
     return result;
 }
 
@@ -351,7 +314,7 @@ QString ConfiguratorUIHandler::selectStreamOrMeasure(const QString &defaultName)
         result = dlg.selectedItem()->getName();
     }
 
-    free(ivars);
+    CVariableFactory::deleteTemporaryStringList(ivars);
     return result;
 }
 
@@ -367,7 +330,7 @@ QString ConfiguratorUIHandler::selectExtension(const QString &defaultName)
         result = dlg.selectedItem()->getName();
     }
 
-    free(ivars);
+    CVariableFactory::deleteTemporaryStringList(ivars);
     return result;
 }
 
@@ -383,7 +346,7 @@ QString ConfiguratorUIHandler::selectOrgan(const QString &defaultName)
         result = dlg.selectedItem()->getName();
     }
 
-    free(ivars);
+    CVariableFactory::deleteTemporaryStringList(ivars);
     return result;
 }
 

@@ -96,7 +96,7 @@ bool CCycleMesure::isStreamRelated()const{
 	return true;
 }
 QString CCycleMesure::getRelatedStreamName()const{
-    return QStringLiteral("voie 1");
+    return QStringLiteral("stream_1");
 }
 QList<CStep*> CCycleMesure::getListSteps()const{
 	return m_listSteps;
