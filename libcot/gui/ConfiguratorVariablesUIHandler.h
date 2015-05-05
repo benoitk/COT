@@ -1,9 +1,10 @@
 #ifndef CONFIGURATORVARIABLESUIHANDLER_H
 #define CONFIGURATORVARIABLESUIHANDLER_H
 
+#include "cot_global.h"
 #include "ConfiguratorUIHandler.h"
 
-class ConfiguratorVariablesUIHandler : public ConfiguratorUIHandler
+class LIBCOT_EXPORT ConfiguratorVariablesUIHandler : public ConfiguratorUIHandler
 {
     Q_OBJECT
 public:
