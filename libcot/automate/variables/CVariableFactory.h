@@ -19,6 +19,7 @@ public:
     static IVariablePtr buildTemporaryString(const QString& name, const QString &label, const QVariant &value);
     static IVariablePtrList buildTemporaryString(const QStringList& names);
     static void deleteTemporaryStringList(IVariablePtrList& ivars);
+    static void deleteTemporaryStringList(QHash<QString, IVariablePtr>& ivars);
 
 private:
 	

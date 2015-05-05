@@ -136,3 +136,8 @@ void CVariableFactory::deleteTemporaryStringList(IVariablePtrList &ivars)
     ivars.clear();
 }
 
+void CVariableFactory::deleteTemporaryStringList(QHash<QString, IVariablePtr> &ivars)
+{
+    qDeleteAll(ivars.values());
+    ivars.clear();
+}

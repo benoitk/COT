@@ -59,6 +59,25 @@ QList<ICycle*> CVariableVoie::getListCycles(){
 IVariable* CVariableVoie::getActiveState(){
     return m_activeState;
 }
+
+void CVariableVoie::delCycle(const QString &name)
+{
+    for (int i = 0; i < m_listCycles.count(); i++) {
+        ICycle *cycle = m_listCycles[i];
+
+        if (!cycle) {
+            // KDAB_TODO: Uncomment when using final api
+            //Q_ASSERT(false);
+            continue;
+        }
+
+        if (cycle->getName() == name) {
+            m_listCycles.removeAt(i);
+            // Customer - should inform automat about change ?
+            break;
+        }
+    }
+}
 QString CVariableVoie::getName()const{
     return m_name;
 }
