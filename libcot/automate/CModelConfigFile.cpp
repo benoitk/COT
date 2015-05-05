@@ -12,6 +12,7 @@
 #include "CAutomate.h"
 #include "CUnit.h"
 #include "CDisplayConf.h"
+#include "CModelExtensionCard.h"
 
 #include "qfile.h"
 #include "qjsonobject.h"
@@ -76,8 +77,15 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
 		qDebug() << "jsonObject[\"extensions\"] == QJsonValue::Undefined";
 	}
 	else {
-       CDisplayConf* displayConf = new CDisplayConf(jsonObjectAll[QStringLiteral("extensions")].toArray(), CAutomate::getInstance());
-       CAutomate::getInstance()->setDisplayConf(displayConf);
+       QJsonArray jsonArrayExts = jsonObjectAll[QStringLiteral("extensions")].toArray();
+        foreach(QJsonValue jsonValueExt, jsonArrayExts){
+            QVariantMap mapExt = jsonValueExt.toVariant().toMap();
+            if(mapExt.contains(QStringLiteral("name"))){
+                CModelExtensionCard* ext = new CModelExtensionCard(mapExt);
+                CAutomate::getInstance()->addExtensionCard(mapExt.value(QStringLiteral("name")).toString(), ext);
+            }
+        }   
+        qDebug() << "mapExtCard " << CAutomate::getInstance()->getMapExtensions();
     }
 
     //Units

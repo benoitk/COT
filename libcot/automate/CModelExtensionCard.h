@@ -22,6 +22,7 @@ public:
 
 	//
 	CModelExtensionCard(QObject *parent);
+    CModelExtensionCard(const QVariantMap& mapExt);
 	~CModelExtensionCard();
 
 	QString getName()const;

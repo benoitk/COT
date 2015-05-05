@@ -38,7 +38,7 @@ class CAutomate : public QObject, IComObserver
 public:
 	
 	//use for API 
-	QList<CModelExtensionCard*> getListExtensions();
+	QMap<QString, CModelExtensionCard*> getMapExtensions();
     QMap<QString, ICom*> getMapComs();
     QList<ICycle*> getListCycles(int cycleType = 0);
 	QList<IAction*> getListActions();
@@ -78,8 +78,8 @@ public:
     void addCom(ICom*);
 
 
-	CModelExtensionCard* getExtensionCard(QString);
-	void addExtensionCard(QString, CModelExtensionCard*); 
+	CModelExtensionCard* getExtensionCard(const QString&);
+	void addExtensionCard(const QString&, CModelExtensionCard*); 
 
 
 	//IComObserver
@@ -170,7 +170,6 @@ private:
     bool m_quit;
 
 	QList<INetwork*> m_listNetworks;
-	QList<CModelExtensionCard*> m_listExtCards;
     eStateCycle m_stateCycleMesure; //0 stoped, 1 run, 2 pause
     eStateCycle m_stateCycleIO; //0 stoped, 1 run, 2 pause
     eStateCycle m_stateCycleMaintenance; //0 stoped, 1 run, 2 pause
@@ -186,6 +185,7 @@ private:
 
 	QMap<QString, IVariable*> m_mapVariables;
 	QMap<QString, IVariable*> m_mapStreams;
+	QMap<QString, CModelExtensionCard*> m_mapExtCards;
 
 	/*QList<CControlerCycle*> m_listCtrlCycleMesure;
 	QList<CControlerCycle*> m_listCtrlCycleMaintenance;

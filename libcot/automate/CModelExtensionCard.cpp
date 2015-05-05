@@ -7,6 +7,16 @@ CModelExtensionCard::CModelExtensionCard(QObject *parent)
 
 }
 
+CModelExtensionCard::CModelExtensionCard(const QVariantMap& mapExt)
+	: QObject()
+{
+    if(mapExt.contains(QStringLiteral("name")))
+        m_name = mapExt.value(QStringLiteral("name")).toString();
+    else
+        m_name = QStringLiteral("unamed_extension_card");
+
+    //TO DO : feed objects
+}
 CModelExtensionCard::~CModelExtensionCard()
 {
 

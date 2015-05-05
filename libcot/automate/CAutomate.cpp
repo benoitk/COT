@@ -12,6 +12,7 @@
 #include "CDisplayConf.h"
 #include "ICom.h"
 #include "CComFactory.h"
+#include "CModelExtensionCard.h"
 #include <qdebug.h>
 #include <qthread.h>
 
@@ -112,16 +113,27 @@ QList<CUnit*> CAutomate::getListUnits(){
     return m_listUnits; 
 }
 
-CModelExtensionCard* CAutomate::getExtensionCard(QString){
+CModelExtensionCard* CAutomate::getExtensionCard(const QString& name){
     QMutexLocker locker(&m_mutex);
-	CModelExtensionCard* modelExtCard = 0;
-    // TODO
-	return modelExtCard;
+    CModelExtensionCard* extCard = Q_NULLPTR;
+    if(m_mapExtCards.contains(name))
+        extCard = m_mapExtCards.value(name);
+    else{
+        if(m_mapExtCards.contains(QStringLiteral("unknown_extension_card")))
+            extCard = m_mapExtCards.value(QStringLiteral("unknown_extension_card"));
+        else{
+            QVariantMap map;
+            map.insert(QStringLiteral("name"),QStringLiteral("unknown_extension_card"));
+            extCard = new CModelExtensionCard(map);
+            m_mapExtCards.insert(QStringLiteral("unknown_extension_card"), extCard);
+        }
+    }
+	return extCard;
 }
 
-QList<CModelExtensionCard*> CAutomate::getListExtensions(){
+QMap<QString, CModelExtensionCard*> CAutomate::getMapExtensions(){
     QMutexLocker locker(&m_mutex);
-	return m_listExtCards;
+	return m_mapExtCards;
 }
 QMap<QString, ICom*> CAutomate::getMapComs(){
     QMutexLocker locker(&m_mutex);
@@ -204,9 +216,10 @@ void CAutomate::setMapVariables(QMap<QString, IVariable*> mapVariable){
     m_mapVariables.swap(mapVariable);
 }
 
-void CAutomate::addExtensionCard(QString, CModelExtensionCard*){
+void CAutomate::addExtensionCard(const QString& name, CModelExtensionCard* extCard){
     QMutexLocker locker(&m_mutex);
-    // TODO
+    if(extCard && name != QStringLiteral(""))
+        m_mapExtCards.insert(name, extCard);
 }
 
 IVariable* CAutomate::getVariable(const QString &addr_var)const{
