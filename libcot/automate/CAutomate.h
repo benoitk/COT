@@ -209,6 +209,7 @@ signals:
     void signalExtensionsUpdated();
     void signalUnitsUpdated(); //et Units_convertion
     void signalVariablesUpdated();
+    void signalVariableUpdated(const QString &name);
     void signalDisplayUpdated();
     void signalBindsUpdated();
     void signalActionsUpdated();

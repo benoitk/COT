@@ -106,6 +106,14 @@ QLinkedList<IVariable*>  CVariableMeasure::getListInBinds()const{
 }
 QVariantMap CVariableMeasure::serialise(){
     QVariantMap mapSerialise;
-    mapSerialise.insert(QStringLiteral("unserialized"), QStringLiteral("CVariableMeasure"));
+    mapSerialise.insert(QStringLiteral("name"), m_name);
+    mapSerialise.insert(tr("fr_FR"), m_label);
+    mapSerialise.insert(tr("variable_measure"), m_measure->getName());
+    mapSerialise.insert(QStringLiteral("type"), QStringLiteral("measure"));
+    QList<QVariant> listVars;
+    foreach(IVariable* var, m_listVariables){
+        listVars.append(var->getName());
+    }
+    
     return mapSerialise;
 }

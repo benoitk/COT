@@ -131,8 +131,26 @@ QLinkedList<IVariable*>  CVariableVoie::getListInBinds()const{
 	return list;
 
 }
+//TO DO : change name to CVariableStream()
 QVariantMap CVariableVoie::serialise(){
     QVariantMap mapSerialise;
-    mapSerialise.insert(QStringLiteral("unserialized"), QStringLiteral("CVariableVoie"));
+    mapSerialise.insert(QStringLiteral("name"), m_name);
+    mapSerialise.insert(tr("fr_FR"), m_label);
+    mapSerialise.insert(QStringLiteral("type"), QStringLiteral("stream"));
+    QList<QVariant> listVars;
+    foreach(IVariable* var, m_listVariables){
+        listVars.append(var->getName());
+    }
+    mapSerialise.insert(QStringLiteral("variables"), listVars);
+    QList<QVariant> listMeasures;
+    foreach(IVariable* var, m_listMeasures){
+        listMeasures.append(var->serialise());
+    }
+    mapSerialise.insert(QStringLiteral("measures"), listMeasures);
+    QList<QVariant> listCycles;
+    foreach(IVariable* cycle, m_listMeasures){
+        listCycles.append(cycle->getName());
+    }
+    mapSerialise.insert(QStringLiteral("measures"), listMeasures);
     return mapSerialise;
 }

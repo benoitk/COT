@@ -97,6 +97,9 @@ QLinkedList<IVariable*>  CVariableInt::getListInBinds()const{
 }
 QVariantMap CVariableInt::serialise(){
     QVariantMap mapSerialise;
-    mapSerialise.insert(QStringLiteral("unserialized"), QStringLiteral("CVariableInt"));
+    mapSerialise.insert(QStringLiteral("name"), m_name);
+    mapSerialise.insert(tr("fr_FR"), m_label);
+    mapSerialise.insert(QStringLiteral("type"), QStringLiteral("integer"));
+    mapSerialise.insert(QStringLiteral("value"), m_iValeur);
     return mapSerialise;
 }

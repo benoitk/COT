@@ -112,6 +112,9 @@ QLinkedList<IVariable*>  CVariableBool::getListInBinds()const{
 }
 QVariantMap CVariableBool::serialise(){
     QVariantMap mapSerialise;
-    mapSerialise.insert(QStringLiteral("unserialized"), QStringLiteral("CVariableBool"));
+    mapSerialise.insert(QStringLiteral("name"), m_name);
+    mapSerialise.insert(tr("fr_FR"), m_label);
+    mapSerialise.insert(QStringLiteral("type"), QStringLiteral("boolean"));
+    mapSerialise.insert(QStringLiteral("value"), m_bValeur);
     return mapSerialise;
 }

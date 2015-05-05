@@ -128,7 +128,12 @@ QLinkedList<IVariable*>  CVariableOutputFloat::getListInBinds()const{
 
 QVariantMap CVariableOutputFloat::serialise()
 {
-    qDebug() << "CVariableOutputFloat::serialise unimplemented";
-    //TODO implement it.
-    return QVariantMap();
+    QVariantMap mapSerialise;
+    mapSerialise.insert(QStringLiteral("name"), m_name);
+    mapSerialise.insert(tr("fr_FR"), m_label);
+    mapSerialise.insert(QStringLiteral("type"), QStringLiteral("output_float"));
+    mapSerialise.insert(QStringLiteral("value"), m_fValeur);
+    mapSerialise.insert(QStringLiteral("extension_name"), m_modelExtensionCard->getName());
+    mapSerialise.insert(QStringLiteral("organ_name"), m_organneName);
+    return mapSerialise;
 }
