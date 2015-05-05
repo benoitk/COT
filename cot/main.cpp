@@ -1,6 +1,7 @@
 #include <QApplication>
 #include <QStyleFactory>
 #include <QFile>
+#include <QDesktopWidget>
 
 #include "CControlerAutomate.h"
 #include "CPCWindow.h"
@@ -49,6 +50,16 @@ int main(int argc, char *argv[])
 #else
     w.setFixedSize(QSize(800, 600));
     w.show();
+
+#if defined(Q_OS_OSX)
+    // Specific to Filipe secondary screen, can be removed at the end
+    const QDesktopWidget *desktop = qApp->desktop();
+    const QRect availableRect = desktop->availableGeometry(1);
+    QRect windowGeometry = w.geometry();
+
+    windowGeometry.moveCenter(availableRect.center());
+    w.setGeometry(windowGeometry);
+#endif
 #endif
 
     return app.exec();
