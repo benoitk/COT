@@ -7,14 +7,18 @@ namespace Ui {
 class CMeasureStreamTab;
 }
 
+class IVariable;
 class IVariableUIHandler;
+
+typedef IVariable* IVariablePtr;
+typedef QList<IVariablePtr> IVariablePtrList;
 
 class CMeasureStreamTab : public IMeasureTab
 {
     Q_OBJECT
 
 public:
-    explicit CMeasureStreamTab(const QStringList &variables, QWidget *parent = Q_NULLPTR);
+    explicit CMeasureStreamTab(const IVariablePtrList &variables, QWidget *parent = Q_NULLPTR);
     ~CMeasureStreamTab();
 
 private:

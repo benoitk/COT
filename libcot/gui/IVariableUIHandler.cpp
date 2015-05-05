@@ -468,12 +468,10 @@ void IVariableUIHandler::slotRequestStream()
     CAutomate *automate = CAutomate::getInstance();
     CPushButton *editor = qobject_cast<CPushButton *>(sender());
     IVariable *ivar = getVariable(editor->userData().toString());
-    IVariablePtrList streams = automate->getVariables(automate->getStreams());
+    IVariablePtrList streams = automate->getMapStreams().values();
     CGenericItemSelector dlg(streams);
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
         ivar->setValue(dlg.selectedItem()->getName());
     }
-
-    qDeleteAll(streams);
 }

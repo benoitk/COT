@@ -3,23 +3,24 @@
 #include "CMeasureStreamTab.h"
 #include "CMeasureMeasureTab.h"
 #include "CAutomate.h"
+#include "CVariableVoie.h"
+#include "CVariableMeasure.h"
 
-CMeasureWindow::CMeasureWindow(const QString &stream, QWidget *parent)
+CMeasureWindow::CMeasureWindow(IVariablePtr stream, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::CMeasureWindow)
 {
+    Q_ASSERT(stream);
+
     ui->setupUi(this);
 
-    // KDAB: Fix me when customer api ready
-    const QString theStream = stream.isEmpty() ? "stream_1" : stream;
-    CAutomate *automate = CAutomate::getInstance();
-    const QStringList variables = automate->getStreamVariables(theStream);
-    const QMap<QString, QStringList> measures = automate->getStreamMeasures(theStream);
+    CVariableVoie *streamVar = static_cast<CVariableVoie *>(stream);
 
-    addTab(new CMeasureStreamTab(variables, this), theStream.toUpper());
+    addTab(new CMeasureStreamTab(streamVar->getListVariables(), this), streamVar->getLabel().toUpper());
 
-    foreach (const QString &measure, measures.keys()) {
-        addTab(new CMeasureMeasureTab(measures.value(measure), this), measure.toUpper());
+    foreach (IVariable *measure, streamVar->getListMeasures()) {
+        CVariableMeasure *measureVar = static_cast<CVariableMeasure *>(measure);
+        addTab(new CMeasureMeasureTab(measureVar->getListVariables(), this), measureVar->getLabel().toUpper());
     }
 }
 

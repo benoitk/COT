@@ -2,7 +2,7 @@
 #include "ui_CMeasureMeasureTab.h"
 #include "IVariableUIHandler.h"
 
-CMeasureMeasureTab::CMeasureMeasureTab(const QStringList &variables, QWidget *parent)
+CMeasureMeasureTab::CMeasureMeasureTab(const IVariablePtrList &variables, QWidget *parent)
     : IMeasureTab(parent)
     , ui(new Ui::CMeasureMeasureTab)
 {

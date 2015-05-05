@@ -3,7 +3,10 @@
 #include "CToolButton.h"
 #include "CPCWindow.h"
 #include "CMeasureWindow.h"
+#include "CAutomate.h"
 #include "IVariable.h"
+#include "CVariableVoie.h"
+#include "CVariableMeasure.h"
 #include "CUnit.h"
 
 #include <QLabel>
@@ -11,8 +14,26 @@
 namespace {
 QString valueAndUnit(IVariable *ivar) {
     const CUnit *unit = ivar->getUnit();
-    // KDAB: remove custom mg/l
-    return QString("%1%2").arg(ivar->toString()).arg(unit ? unit->getLbl() : QString("mg/l"));
+    return QString("%1%2").arg(ivar->toString()).arg(unit ? unit->getLbl() : QString());
+}
+
+IVariable *findMeasureStream(const QString &measureName) {
+    CAutomate *automate = CAutomate::getInstance();
+
+    foreach (IVariable *stream, automate->getMapStreams().values()) {
+        CVariableVoie *streamVar = static_cast<CVariableVoie *>(stream);
+
+        foreach (IVariable *measure, streamVar->getListMeasures()) {
+            CVariableMeasure *measureVar = static_cast<CVariableMeasure *>(measure);
+            IVariable *measureMeasureVariable = measureVar->getMeasureVariable();
+
+            if (measureMeasureVariable && measureMeasureVariable->getName() == measureName) {
+                return stream;
+            }
+        }
+    }
+
+    return Q_NULLPTR;
 }
 }
 
@@ -53,8 +74,7 @@ void IVariableMeasuresUIHandler::rowInserted(const IVariableUIHandler::Row &row,
 void IVariableMeasuresUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariable *ivar)
 {
     row.widgetAt<QLabel *>(1)->setText(ivar->getLabel());
-    // KDAB: Fix me - use proper way to get stream name
-    row.widgetAt<CToolButton *>(0)->setUserData(ivar->getRelatedStreamName());
+    row.widgetAt<CToolButton *>(0)->setUserData(ivar->getName());
     row.widgetAt<QLabel *>(2)->setText(valueAndUnit(ivar));
 }
 
@@ -88,7 +108,7 @@ QLabel *IVariableMeasuresUIHandler::newUnit(IVariable *ivar)
 void IVariableMeasuresUIHandler::slotButtonMeasureDetailsClicked()
 {
     const CToolButton *button = qobject_cast<CToolButton *>(sender());
-    const QString stream = button->userData().toString();
-    // KDAB: Fix me when api working from customer
-    CPCWindow::openModal<CMeasureWindow>(/*stream*/"");
+    const QString measureName = button->userData().toString();
+    IVariable *streamVar = findMeasureStream(measureName);
+    CPCWindow::openModal<CMeasureWindow>(streamVar);
 }

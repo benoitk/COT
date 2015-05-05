@@ -5,13 +5,15 @@
 #include "CPCWindow.h"
 #include "CAlarmsWindow.h"
 #include "CDisplayConf.h"
+#include "CVariableVoie.h"
+#include "CVariableMeasure.h"
 
 CPCMeasureTab::CPCMeasureTab(QWidget *parent)
     : IPCTab(parent)
     , ui(new Ui::CPCMeasureTab)
 {
     ui->setupUi(this);
-    m_measuresHandler =new IVariableMeasuresUIHandler(ui->swCentral, this);
+    m_measuresHandler = new IVariableMeasuresUIHandler(ui->swCentral, this);
     slotUpdateStreamsMeasures();
 
     connect(ui->vbbButtons->addAction(CToolButton::Alarms), &QAction::triggered,
@@ -65,24 +67,19 @@ void CPCMeasureTab::slotNextStreamTriggered()
 void CPCMeasureTab::slotUpdateStreamsMeasures()
 {
     CAutomate *automate = CAutomate::getInstance();
-    QMap<QString, QStringList> streams = automate->getMapStreamsMeasures();
-    QStringList variables;
+    const IVariablePtrList streams = automate->getMapStreams().values();
+    IVariablePtrList ivars;
 
-    // KDAB: Remove me once customer api is ready
-    if (streams.isEmpty()) {
-        // create vars in automate
-        automate->getStreams();
-        automate->getStreamVariables("");
-        automate->getStreamMeasures("");
+    foreach (IVariable *stream, streams) {
+        CVariableVoie *streamVar = static_cast<CVariableVoie *>(stream);
 
-        // fake list
-        streams["stream_1"] << "measure_silice" << "measure_silice_2";
-        streams["stream_2"] << "measure_silice_3" << "measure_silice_4";
+        foreach (IVariable *measure, streamVar->getListMeasures()) {
+            CVariableMeasure *measureVar = static_cast<CVariableMeasure *>(measure);
+            ivars << measureVar->getMeasureVariable();
+        }
     }
 
-    variables << streams.value("stream_1");
-    variables << streams.value("stream_2");
-    m_measuresHandler->layout(variables);
+    m_measuresHandler->layout(ivars);
 }
 
 void CPCMeasureTab::slotVariableChanged(const QString &name)

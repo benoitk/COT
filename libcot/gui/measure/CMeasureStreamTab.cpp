@@ -2,7 +2,7 @@
 #include "ui_CMeasureStreamTab.h"
 #include "IVariableUIHandler.h"
 
-CMeasureStreamTab::CMeasureStreamTab(const QStringList &variables, QWidget *parent)
+CMeasureStreamTab::CMeasureStreamTab(const IVariablePtrList &variables, QWidget *parent)
     : IMeasureTab(parent)
     , ui(new Ui::CMeasureStreamTab)
 {

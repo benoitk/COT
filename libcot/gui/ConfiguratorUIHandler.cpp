@@ -7,6 +7,8 @@
 #include "CAutomate.h"
 #include "CModelExtensionCard.h"
 #include "CVariableFactory.h"
+#include "CVariableVoie.h"
+#include "CVariableMeasure.h"
 #include "IOrgan.h"
 #include "IAction.h"
 
@@ -62,21 +64,26 @@ IVariablePtrList buildCycleTypes() {
                  });
 }
 
-IVariablePtrList buildStreams() {
-    // KDAB_TODO: No customer api so let fake
+IVariablePtrList buildVariables() {
     CAutomate *automate = CAutomate::getInstance();
-    return CVariableFactory::buildTemporaryString(automate->getMapStreamsMeasures().keys());
+    return automate->getMapVariables().values();
+}
+
+IVariablePtrList buildStreams() {
+    CAutomate *automate = CAutomate::getInstance();
+    return automate->getMapStreams().values();
 }
 
 IVariablePtrList buildMeasures() {
-    // KDAB_TODO: No customer api so let fake
-    CAutomate *automate = CAutomate::getInstance();
-    const QMap<QString, QStringList> streams = automate->getMapStreamsMeasures();
+    const IVariablePtrList streams = buildStreams();
     IVariablePtrList ivars;
 
-    foreach (const QString &stream, streams.keys()) {
-        foreach (const QString &measure, streams[stream]) {
-            ivars << CVariableFactory::buildTemporaryString(measure);
+    foreach (IVariable *stream, streams) {
+        CVariableVoie *streamVar = static_cast<CVariableVoie *>(stream);
+
+        foreach (IVariable *measure, streamVar->getListMeasures()) {
+            CVariableMeasure *measureVar = static_cast<CVariableMeasure *>(measure);
+            ivars << measureVar->getListVariables();
         }
     }
 
@@ -108,16 +115,19 @@ IVariablePtrList buildActions() {
 }
 
 IVariablePtrList buildStreamsMeasures() {
-    // KDAB_TODO: No customer api so let fake
     CAutomate *automate = CAutomate::getInstance();
-    const QMap<QString, QStringList> streams = automate->getMapStreamsMeasures();
+    const QMap<QString, IVariable *> streams = automate->getMapStreams();
     IVariablePtrList ivars;
 
-    foreach (const QString &stream, streams.keys()) {
-        ivars << CVariableFactory::buildTemporaryString(stream);
+    foreach (IVariable *stream, streams.values()) {
+        CVariableVoie *streamVar = static_cast<CVariableVoie *>(stream);
 
-        foreach (const QString &measure, streams[stream]) {
-            ivars << CVariableFactory::buildTemporaryString(measure, QString("%1 > %2").arg(stream).arg(measure));
+        ivars << stream;
+
+        foreach (IVariable *measure, streamVar->getListMeasures()) {
+            CVariableMeasure *measureVar = static_cast<CVariableMeasure *>(measure);
+
+            ivars << measureVar->getMeasureVariable();
         }
     }
 
@@ -223,8 +233,7 @@ eTypeCycle ConfiguratorUIHandler::selectCycleType(eTypeCycle defaultValue)
 
 QString ConfiguratorUIHandler::selectVariable(const QString &defaultName)
 {
-    CAutomate *automate = CAutomate::getInstance();
-    IVariablePtrList ivars = automate->getMapVariables().values();
+    IVariablePtrList ivars = buildVariables();
     CGenericItemSelector dlg(ivars);
     dlg.setTitle(tr("Select a variable"));
     dlg.setSelectedValue(defaultName);
@@ -233,8 +242,8 @@ QString ConfiguratorUIHandler::selectVariable(const QString &defaultName)
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
         result = dlg.selectedItem()->getName();
     }
-    //Don't add free(ivars). Variables are not created here. We get from automate directly.
-    //not the same as selectStreams etc where we create them.
+
+    //Don't add free(ivars) as variables comes directly from automate
     return result;
 }
 
@@ -250,7 +259,7 @@ QString ConfiguratorUIHandler::selectStream(const QString &defaultName)
         result = dlg.selectedItem()->getName();
     }
 
-    CVariableFactory::deleteTemporaryStringList(ivars);
+    //Don't add free(ivars) as variables comes directly from automate
     return result;
 }
 
@@ -266,7 +275,7 @@ QString ConfiguratorUIHandler::selectMeasure(const QString &defaultName)
         result = dlg.selectedItem()->getName();
     }
 
-    CVariableFactory::deleteTemporaryStringList(ivars);
+    //Don't add free(ivars) as variables comes directly from automate
     return result;
 }
 
@@ -314,7 +323,7 @@ QString ConfiguratorUIHandler::selectStreamOrMeasure(const QString &defaultName)
         result = dlg.selectedItem()->getName();
     }
 
-    CVariableFactory::deleteTemporaryStringList(ivars);
+    //Don't add free(ivars) as variables comes directly from automate
     return result;
 }
 
