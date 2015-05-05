@@ -47,8 +47,6 @@ public:
 	void setMapVariables(QMap<QString, IVariable*>);
     QMap<QString, QStringList> getMapStreamsMeasures() const;
     void setMapStreamsMeasures(QMap<QString, QStringList>);
-    QMap<QString, QStringList> getMapStreamsCycles() const;
-    void setMapStreamsCycles(QMap<QString, QStringList>);
     CDisplayConf* getDisplayConf()const;
 
     static QString formatHistoryEntry(const QString &name, const QDateTime &dateTime);
@@ -172,40 +170,40 @@ signals:
 
    
     //desc : nouvelle ligne d'alarme 
-	//entrÈes : identifiant(pour acquitement), date, heure et descriptif  
+	//entr√©es : identifiant(pour acquitement), date, heure et descriptif  
     void signalUpdateAlarms(int, const QDateTime &, const QString &);
 	//desc : Nouvelle ligne d'historique de mesure
-	//entrÈes : date, heure, descriptif
+	//entr√©es : date, heure, descriptif
     void signalUpdateHistory(const QDateTime&, const QString&);
-	//desc : Etat changÈ : En court, en pause, en arrÍt
-	//entrÈes : enum de l'Ètat du cycle en cours
+	//desc : Etat chang√© : En court, en pause, en arr√™t
+	//entr√©es : enum de l'√©tat du cycle en cours
 	void signalUpdateStateCycle(CAutomate::eStateCycle); 
-	//desc : Etat changÈ : En dÈfaut, en cycle, en maintenance
-	//entrÈes : enum de l'Ètat de l'automate
+	//desc : Etat chang√© : En d√©faut, en cycle, en maintenance
+	//entr√©es : enum de l'√©tat de l'automate
 	void signalUpdateStateAutomoate(CAutomate::eStateAutomate); 
-	//desc : Pas en cours changÈ 
-	//entrÈes : pas en cours; label du pas 
+	//desc : Pas en cours chang√© 
+	//entr√©es : pas en cours; label du pas 
     void signalUpdateCurrentStep(float, const QString &);
-	//desc : Nombre total de pas changÈ 
-	//entrÈes : Nombre de pas total
+	//desc : Nombre total de pas chang√© 
+	//entr√©es : Nombre de pas total
 	void signalUpdateCountStep(int); 
-	//desc : Voie en court changÈ 
-	//entrÈes : numÈro, Label voie 
+	//desc : Voie en court chang√© 
+	//entr√©es : num√©ro, Label voie 
     void signalUpdateCurrentStream(int, const QString &);
-	//desc : Nombre total de voie changÈe 
-	//entrÈes : Nombre de voie total
+	//desc : Nombre total de voie chang√©e 
+	//entr√©es : Nombre de voie total
 	void signalUpdateCountStream(int); 
-	//desc : Statue de voie changÈe : Active, en dÈfeau d'eau...
-	//entrÈes : enum de l'Ètat de la voie 
+	//desc : Statue de voie chang√©e : Active, en d√©feau d'eau...
+	//entr√©es : enum de l'√©tat de la voie 
 	void signalUpdateStateStream(CAutomate::eStateStream); 
-	//desc : Valeur des variables de mesures affichable sur l'Ècran principale  (JSon : champ "streams->variables->type = measure)
-	//entrÈes : identifiant et valeur de la variable de mesure, 
+	//desc : Valeur des variables de mesures affichable sur l'√©cran principale  (JSon : champ "streams->variables->type = measure)
+	//entr√©es : identifiant et valeur de la variable de mesure, 
     void signalUpdateMeasureValues(int, const QVariant &);
-	//desc : Label et unitÈ des variables de mesures affichable sur l'Ècran principale
-	//entrÈes : identifiant, label et unitÈ de la variable
+	//desc : Label et unit√© des variables de mesures affichable sur l'√©cran principale
+	//entr√©es : identifiant, label et unit√© de la variable
     void signalUpdateMeasureLabels(int, const QString &);
 
-    //1 signal par section du json, dËs qu'une valeur est modifiÈ
+    //1 signal par section du json, d√®s qu'une valeur est modifi√©
     void signalNetworkUpdated();
     void signalComAutomateUpdated();
     void signalExtensionsUpdated();
@@ -246,7 +244,6 @@ private:
 	QMap<QString, IVariable*> m_mapVariables;
 	QMap<QString, IVariable*> m_mapStreams;
     QMap<QString, QStringList> m_mapStreamsMeasures;
-    QMap<QString, QStringList> m_mapStreamsCycles;
 
 
 	/*QList<CControlerCycle*> m_listCtrlCycleMesure;

@@ -190,18 +190,6 @@ void CAutomate::setMapStreamsMeasures(QMap<QString, QStringList> mapStreamMeasur
 	m_mapStreamsMeasures.swap(mapStreamMeasure);
 }
 
-QMap<QString, QStringList > CAutomate::getMapStreamsCycles() const
-{
-    QMutexLocker locker(&m_mutex);
-    return m_mapStreamsCycles;
-}
-
-void CAutomate::setMapStreamsCycles(QMap<QString, QStringList> mapStreamCycles)
-{
-    QMutexLocker locker(&m_mutex);
-    m_mapStreamsCycles.swap(mapStreamCycles);
-}
-
 void CAutomate::addExtensionCard(QString, CModelExtensionCard*){
     QMutexLocker locker(&m_mutex);
     // TODO
@@ -237,8 +225,6 @@ void CAutomate::addCycle(ICycle* cycle){
     case CYCLE_ALL:
             break;
     }
-
-    m_mapStreamsCycles[cycle->getRelatedStreamName()] << cycle->getName();
 }
 
 ICycle *CAutomate::getCycle(const QString &name, int type) const
