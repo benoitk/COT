@@ -41,13 +41,13 @@ protected:
 
     int layoutRow(QWidget *widget) const;
 
+    virtual IVariable *getVariable(const QString &name);
     virtual int columnCount() const;
-    virtual QWidget *createWidget(int index, IVariable *ivar);
+    virtual QWidget *createWidget(int column, IVariable *ivar);
     virtual void rowInserted(const Row &row, IVariable *ivar);
     virtual void rowChanged(const Row &row, IVariable *ivar);
-    virtual QWidget *newDeleteButton(IVariable *ivar);
 
-private:
+    virtual QWidget *newDeleteButton(IVariable *ivar);
     QLabel *newLabel(IVariable *ivar);
     QWidget *newEditor(IVariable *ivar);
     QLabel *newUnit(IVariable *ivar);

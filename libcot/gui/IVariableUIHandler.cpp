@@ -53,15 +53,17 @@ void IVariableUIHandler::layout(const QList<IVariable *> &variables, bool addDel
     m_containerLayout = new QGridLayout(m_container);
     m_containerLayout->setMargin(0);
 
+    const int numberOfColumn = addDeleteButton ? (columnCount() + 1) : columnCount();
     int y = 0;
     foreach (IVariable *ivar, variables) {
         Row &row = m_rows[ivar->getName()];
 
-        const int numberOfColumn = addDeleteButton ? (columnCount() + 1) : columnCount();
         for (int x = 0; x < numberOfColumn; ++x) {
             QWidget *widget = createWidget(x, ivar);
+            // it intentional to put possible null entry in list, so we can still rely on column to get correct widget.
+            row.widgets << widget;
+
             if (widget) {
-                row.widgets << widget;
                 m_containerLayout->addWidget(widget, y, x);
             }
         }
@@ -71,8 +73,11 @@ void IVariableUIHandler::layout(const QList<IVariable *> &variables, bool addDel
         y++;
     }
 
-    QSpacerItem *spacer = new QSpacerItem(8, 8, QSizePolicy::Expanding, QSizePolicy::Expanding);
-    m_containerLayout->addItem(spacer, y, 0, 1, 3);
+    QSpacerItem *vspacer = new QSpacerItem(8, 8, QSizePolicy::Expanding, QSizePolicy::Expanding);
+    m_containerLayout->addItem(vspacer, y, 0, 1, numberOfColumn);
+
+    QSpacerItem *hspacer = new QSpacerItem(8, 8, QSizePolicy::Expanding, QSizePolicy::Expanding);
+    m_containerLayout->addItem(hspacer, 0, numberOfColumn, y, 1);
 
     m_scrollable->setScrollableWidget(m_container);
 }
@@ -103,14 +108,19 @@ int IVariableUIHandler::layoutRow(QWidget *widget) const
     return r;
 }
 
+IVariable *IVariableUIHandler::getVariable(const QString &name)
+{
+    return CAutomate::getInstance()->getVariable(name);
+}
+
 int IVariableUIHandler::columnCount() const
 {
     return 3;
 }
 
-QWidget *IVariableUIHandler::createWidget(int index, IVariable *ivar)
+QWidget *IVariableUIHandler::createWidget(int column, IVariable *ivar)
 {
-    switch (index) {
+    switch (column) {
         case 0:
             return newLabel(ivar);
 
@@ -132,7 +142,7 @@ QWidget *IVariableUIHandler::createWidget(int index, IVariable *ivar)
 QWidget *IVariableUIHandler::newDeleteButton(IVariable *ivar)
 {
     Q_UNUSED(ivar);
-    return 0;
+    return Q_NULLPTR;
 }
 
 QLabel *IVariableUIHandler::newLabel(IVariable *ivar)
@@ -407,7 +417,7 @@ void IVariableUIHandler::slotVariableChanged(const QString &name)
     }
 
     const Row &row = m_rows[name];
-    IVariable *ivar = CAutomate::getInstance()->getVariable(name);
+    IVariable *ivar = getVariable(name);
     Q_ASSERT(ivar);
 
     rowChanged(row, ivar);
@@ -416,14 +426,14 @@ void IVariableUIHandler::slotVariableChanged(const QString &name)
 void IVariableUIHandler::slotSwitchClicked()
 {
     CSwitchButton *editor = qobject_cast<CSwitchButton *>(sender());
-    IVariable *ivar = CAutomate::getInstance()->getVariable(editor->userData().toString());
+    IVariable *ivar = getVariable(editor->userData().toString());
     ivar->setValue(editor->isChecked());
 }
 
 void IVariableUIHandler::slotRequestIntegerValue()
 {
     CPushButton *editor = qobject_cast<CPushButton *>(sender());
-    IVariable *ivar = CAutomate::getInstance()->getVariable(editor->userData().toString());
+    IVariable *ivar = getVariable(editor->userData().toString());
     CNumericalKeyboardDialog dlg(CNumericalKeyboardWidget::Integer);
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
@@ -434,7 +444,7 @@ void IVariableUIHandler::slotRequestIntegerValue()
 void IVariableUIHandler::slotRequestDoubleValue()
 {
     CPushButton *editor = qobject_cast<CPushButton *>(sender());
-    IVariable *ivar = CAutomate::getInstance()->getVariable(editor->userData().toString());
+    IVariable *ivar = getVariable(editor->userData().toString());
     CNumericalKeyboardDialog dlg(CNumericalKeyboardWidget::Double);
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
@@ -445,7 +455,7 @@ void IVariableUIHandler::slotRequestDoubleValue()
 void IVariableUIHandler::slotRequestStringValue()
 {
     CPushButton *editor = qobject_cast<CPushButton *>(sender());
-    IVariable *ivar = CAutomate::getInstance()->getVariable(editor->userData().toString());
+    IVariable *ivar = getVariable(editor->userData().toString());
     CKeyboardDialog dlg;
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
@@ -457,7 +467,7 @@ void IVariableUIHandler::slotRequestStream()
 {
     CAutomate *automate = CAutomate::getInstance();
     CPushButton *editor = qobject_cast<CPushButton *>(sender());
-    IVariable *ivar = automate->getVariable(editor->userData().toString());
+    IVariable *ivar = getVariable(editor->userData().toString());
     IVariablePtrList streams = automate->getVariables(automate->getStreams());
     CGenericItemSelector dlg(streams);
 
