@@ -392,12 +392,13 @@ double ConfiguratorUIHandler::enterDouble(double defaultValue)
     return result;
 }
 
-QWidget *ConfiguratorUIHandler::newDeletor(IVariable *ivar)
+QWidget *ConfiguratorUIHandler::newDeleteButton(IVariable *ivar)
 {
     CToolButton *editor = new CToolButton(CToolButton::Delete);
+    editor->setFixedSize(21, 21);
     editor->setUserData(ivar->getName());
     editor->setText(ivar->toString());
-    connect(editor, &CToolButton::clicked, this, &ConfiguratorUIHandler::slotDeletorClicked);
+    connect(editor, &CToolButton::clicked, this, &ConfiguratorUIHandler::slotDeleteClicked);
     return editor;
 }
 
@@ -407,12 +408,7 @@ void ConfiguratorUIHandler::rowAboutToBeDeleted(const Row &row, IVariable *ivar)
     Q_UNUSED(ivar);
 }
 
-QWidget *ConfiguratorUIHandler::newDeleteButton(IVariable *ivar)
-{
-    return newDeletor(ivar);
-}
-
-void ConfiguratorUIHandler::slotDeletorClicked()
+void ConfiguratorUIHandler::slotDeleteClicked()
 {
     CToolButton *editor = qobject_cast<CToolButton *>(sender());
     const QString name = editor->userData().toString();

@@ -46,13 +46,12 @@ public:
     double enterDouble(double defaultValue = 0);
 
 protected:
-    QWidget *newDeletor(IVariable *ivar);
+    virtual QWidget *newDeleteButton(IVariable *ivar);
     virtual void rowAboutToBeDeleted(const Row &row, IVariable *ivar);
 
-    virtual QWidget *newDeleteButton(IVariable *ivar);
 
 protected slots:
-    void slotDeletorClicked();
+    void slotDeleteClicked();
 };
 
 #endif // CONFIGURATORUIHANDLER_H
