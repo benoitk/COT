@@ -443,6 +443,11 @@ void ConfiguratorUIHandler::rowAboutToBeDeleted(const Row &row, IVariable *ivar)
     Q_UNUSED(ivar);
 }
 
+QWidget *ConfiguratorUIHandler::newDeleteButton(IVariable *ivar)
+{
+    return newDeletor(ivar);
+}
+
 void ConfiguratorUIHandler::slotDeletorClicked()
 {
     CToolButton *editor = qobject_cast<CToolButton *>(sender());

@@ -41,7 +41,7 @@ IVariableUIHandler::~IVariableUIHandler()
 {
 }
 
-void IVariableUIHandler::layout(const QList<IVariable *> &variables)
+void IVariableUIHandler::layout(const QList<IVariable *> &variables, bool addDeleteButton)
 {
     // Clean old widgets
     delete m_containerLayout;
@@ -57,10 +57,13 @@ void IVariableUIHandler::layout(const QList<IVariable *> &variables)
     foreach (IVariable *ivar, variables) {
         Row &row = m_rows[ivar->getName()];
 
-        for (int x = 0; x < columnCount(); ++x) {
+        const int numberOfColumn = addDeleteButton ? (columnCount() + 1) : columnCount();
+        for (int x = 0; x < numberOfColumn; ++x) {
             QWidget *widget = createWidget(x, ivar);
-            row.widgets << widget;
-            m_containerLayout->addWidget(widget, y, x);
+            if (widget) {
+                row.widgets << widget;
+                m_containerLayout->addWidget(widget, y, x);
+            }
         }
 
         rowChanged(row, ivar);
@@ -74,10 +77,10 @@ void IVariableUIHandler::layout(const QList<IVariable *> &variables)
     m_scrollable->setScrollableWidget(m_container);
 }
 
-void IVariableUIHandler::layout(const QStringList &variables)
+void IVariableUIHandler::layout(const QStringList &variables, bool addDeleteButton)
 {
     CAutomate *automate = CAutomate::getInstance();
-    layout(automate->getVariables(variables));
+    layout(automate->getVariables(variables), addDeleteButton);
 }
 
 void IVariableUIHandler::setScrollableWidget(CScrollableWidget *scrollable)
@@ -116,10 +119,20 @@ QWidget *IVariableUIHandler::createWidget(int index, IVariable *ivar)
 
         case 2:
             return newUnit(ivar);
+
+        case 3:
+            return newDeleteButton(ivar);
+
     }
 
     Q_ASSERT(false);
     return Q_NULLPTR;
+}
+
+QWidget *IVariableUIHandler::newDeleteButton(IVariable *ivar)
+{
+    Q_UNUSED(ivar);
+    return 0;
 }
 
 QLabel *IVariableUIHandler::newLabel(IVariable *ivar)

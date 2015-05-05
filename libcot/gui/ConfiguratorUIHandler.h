@@ -49,6 +49,8 @@ protected:
     QWidget *newDeletor(IVariable *ivar);
     virtual void rowAboutToBeDeleted(const Row &row, IVariable *ivar);
 
+    virtual QWidget *newDeleteButton(IVariable *ivar);
+
 protected slots:
     void slotDeletorClicked();
 };
