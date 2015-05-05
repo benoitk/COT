@@ -270,7 +270,7 @@ QString ConfiguratorUIHandler::selectVariable(const QString &defaultName)
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
         result = dlg.selectedItem()->getName();
     }
-
+    free(ivars);
     return result;
 }
 
