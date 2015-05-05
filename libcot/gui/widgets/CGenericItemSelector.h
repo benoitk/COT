@@ -49,6 +49,7 @@ public:
 
 protected:
     void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
+    void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
 
 private slots:
     /// reached when the user selects an item in the view. sets the property selectedItem.

@@ -5,6 +5,7 @@
 
 #include <QTimer>
 #include <QScrollBar>
+#include <QDebug>
 
 CGenericItemSelector::CGenericItemSelector(const IVariablePtrList &list, QWidget *parent)
     : QDialog(parent)
@@ -109,5 +110,11 @@ void CGenericItemSelector::scroll(CGenericItemSelector::Direction dir)
 void CGenericItemSelector::resizeEvent(QResizeEvent *event)
 {
     QDialog::resizeEvent(event);
+    QTimer::singleShot(25, this, &CGenericItemSelector::updateScrollButtons);
+}
+
+void CGenericItemSelector::wheelEvent(QWheelEvent *event)
+{
+    QDialog::wheelEvent(event);
     QTimer::singleShot(25, this, &CGenericItemSelector::updateScrollButtons);
 }

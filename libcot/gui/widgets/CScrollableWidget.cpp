@@ -48,6 +48,12 @@ void CScrollableWidget::resizeEvent(QResizeEvent *event)
     updateActions();
 }
 
+void CScrollableWidget::wheelEvent(QWheelEvent *event)
+{
+    QScrollArea::wheelEvent(event);
+    updateActions();
+}
+
 void CScrollableWidget::slotMoveUp()
 {
     verticalScrollBar()->triggerAction(QAbstractSlider::SliderPageStepSub);

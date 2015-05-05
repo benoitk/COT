@@ -19,7 +19,8 @@ public:
     void setScrollableWidget(QWidget *w);
 
 protected:
-    virtual void resizeEvent(QResizeEvent *event);
+    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
+    void wheelEvent(QWheelEvent *) Q_DECL_OVERRIDE;
 
 private slots:
     void slotMoveUp();
