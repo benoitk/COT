@@ -88,7 +88,7 @@ bool CCyclePause::isStreamRelated()const{
 	return true;
 }
 QString CCyclePause::getRelatedStreamName()const{
-    return QStringLiteral("voie 1");
+    return QStringLiteral("stream_1");
 }
 QList<CStep*> CCyclePause::getListSteps()const{
 	return m_listSteps;

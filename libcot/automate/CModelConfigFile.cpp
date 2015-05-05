@@ -157,12 +157,15 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
 		qDebug() << "jsonObject[\"cycles\"] == QJsonValue::Undefined";
 	}
 	else {
+        CAutomate *automate = CAutomate::getInstance();
         QJsonArray jsonArrayCycles = jsonObjectCycle[QStringLiteral("cycles")].toArray();
 		foreach(QJsonValue jsonValueCycle, jsonArrayCycles){
 			QVariantMap mapCycle = jsonValueCycle.toVariant().toMap();
 			ICycle* cycle = CCycleFactory::build(mapCycle, m_mapActions); 
-			if(cycle)
+            if(cycle) {
 				m_mapCycles.insert(cycle->getName(),cycle);
+                automate->addCycle(cycle);
+            }
 			else
 				qDebug() << "Cycle null : map = " << mapCycle;
 		}
