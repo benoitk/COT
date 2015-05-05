@@ -139,24 +139,25 @@ IVariablePtrList buildStreamsMeasures() {
 
 IVariablePtrList buildExtensions() {
     CAutomate *automate = CAutomate::getInstance();
-    const QList<CModelExtensionCard *> cards = automate->getListExtensions();
+    QMap<QString, CModelExtensionCard*> cards = automate->getMapExtensions();
     IVariablePtrList ivars;
-
-    foreach (CModelExtensionCard *card, cards) {
-        ivars << CVariableFactory::buildTemporaryString(card->getName(), card->getLabel());
+    QMapIterator<QString, CModelExtensionCard*> i(cards);
+    while (i.hasNext()) {
+        i.next();
+        ivars << CVariableFactory::buildTemporaryString(i.value()->getName(), i.value()->getLabel());
     }
-
     return ivars;
 }
 
 IVariablePtrList buildOrgans() {
     // KDAB_TODO: No customer api so let fake
     CAutomate *automate = CAutomate::getInstance();
-    QList<CModelExtensionCard *> cards = automate->getListExtensions();
+    QMap<QString, CModelExtensionCard*> cards = automate->getMapExtensions();
     IVariablePtrList ivars;
-
-    foreach (CModelExtensionCard *card, cards) {
-        foreach (IOrgan *organ, card->getListOrgans()) {
+    QMapIterator<QString, CModelExtensionCard*> i(cards);
+    while (i.hasNext()) {
+        i.next();
+        foreach (IOrgan *organ, i.value()->getListOrgans()) {
             ivars << CVariableFactory::buildTemporaryString(organ->getName());
         }
     }
