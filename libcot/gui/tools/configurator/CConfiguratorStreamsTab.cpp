@@ -8,7 +8,7 @@ CConfiguratorStreamsTab::CConfiguratorStreamsTab(QWidget *parent)
     , ui(new Ui::CConfiguratorStreamsTab)
 {
     ui->setupUi(this);
-    connect(ui->vbbButtons->addAction(CToolButton::AddVariable), &QAction::triggered,
+    connect(ui->vbbButtons->addAction(CToolButton::Add), &QAction::triggered,
             this, &CConfiguratorStreamsTab::addVariable);
     ui->vbbButtons->addAction(CToolButton::ScrollUp, ui->swCentral->moveUp());
     ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->swCentral->moveDown());

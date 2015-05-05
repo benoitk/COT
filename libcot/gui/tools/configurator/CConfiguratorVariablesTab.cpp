@@ -11,7 +11,7 @@ CConfiguratorVariablesTab::CConfiguratorVariablesTab(QWidget *parent)
 {
     ui->setupUi(this);
     m_ivariableUIHandler = new ConfiguratorVariablesUIHandler(ui->swCentral, this);
-    connect(ui->vbbButtons->addAction(CToolButton::AddVariable), &QAction::triggered,
+    connect(ui->vbbButtons->addAction(CToolButton::Add), &QAction::triggered,
             this, &CConfiguratorVariablesTab::addVariable);
     ui->vbbButtons->addAction(CToolButton::ScrollUp, ui->swCentral->moveUp());
     ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->swCentral->moveDown());

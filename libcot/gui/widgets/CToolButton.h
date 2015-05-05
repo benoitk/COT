@@ -38,7 +38,8 @@ public:
         CreateRecovery,
         RestoreConfig,
         Configure,
-        AddVariable,
+        Add,
+        Remove,
         Delete
     };
 
@@ -53,7 +54,6 @@ public:
     QVariant userData() const;
     void setUserData(const QVariant &userData);
 
-    static QPixmap buttonPixmap(const QString& name);
     static QIcon buttonIcon(CToolButton::Type type);
 
 protected:
@@ -62,6 +62,10 @@ protected:
 private slots:
     void initialize(CToolButton::Type type = CToolButton::Invalid, QAction *action = Q_NULLPTR);
     void updateVisibility();
+
+private:
+    static QIcon iconFromPixmaps(const QString &baseName);
+    static QString pixmapFilePath(const QString& name);
 
 private:
     CToolButton::Type m_type;

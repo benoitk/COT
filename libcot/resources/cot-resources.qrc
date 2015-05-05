@@ -7,7 +7,7 @@
     </qresource>
     <qresource prefix="/hd-icons">
         <file>pictohd/30x30 Ana-tor active.png</file>
-        <file>pictohd/30x30 Ana-tor inactive.png</file>
+        <file>pictohd/30x30 Ana-tor.png</file>
         <file>pictohd/30x30 lancer maintenance active.png</file>
         <file>pictohd/30x30 lancer maintenance grisee.png</file>
         <file>pictohd/30x30 lancer maintenance.png</file>
@@ -25,6 +25,12 @@
         <file>pictohd/30x30 rotation horaire.png</file>
         <file>pictohd/30x30 rotation mvt active.png</file>
         <file>pictohd/30x30 rotation mvt.png</file>
+        <file>pictohd/30x30 Plus active.png</file>
+        <file>pictohd/30x30 Plus grisee.png</file>
+        <file>pictohd/30x30 Plus.png</file>
+        <file>pictohd/30x30 moins active.png</file>
+        <file>pictohd/30x30 moins grisee.png</file>
+        <file>pictohd/30x30 moins.png</file>
         <file>pictohd/35x35 detail mesure active.png</file>
         <file>pictohd/35x35 detail mesure.png</file>
         <file>pictohd/40x40 alarme mesure active.png</file>
@@ -79,7 +85,7 @@
         <file>pictohd/50x50 menu sequenceur active.png</file>
         <file>pictohd/50x50 menu sequenceur.png</file>
         <file>pictohd/50x50 off active.png</file>
-        <file>pictohd/50x50 transfert copie actif.png</file>
+        <file>pictohd/50x50 transfert copie active.png</file>
         <file>pictohd/50x50 transfert copie.png</file>
         <file>pictohd/75x75 fleche bas active.png</file>
         <file>pictohd/75x75 fleche bas grisee.png</file>
@@ -96,7 +102,7 @@
         <file>picto/25x25flechehautactive.png</file>
         <file>picto/25x25flechehautgrisee.png</file>
         <file>picto/30x30 Ana-tor active.png</file>
-        <file>picto/30x30 Ana-tor inactive.png</file>
+        <file>picto/30x30 Ana-tor.png</file>
         <file>picto/30x30 chargement active.png</file>
         <file>picto/30x30 chargement grisee.png</file>
         <file>picto/30x30 chargement.png</file>
