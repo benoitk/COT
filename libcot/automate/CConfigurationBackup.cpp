@@ -4,24 +4,27 @@
 #include <QDateTime>
 
 namespace {
-static const QString recoveryFileName = QStringLiteral("save-recovery.json");
-static const QString saveFileName = QStringLiteral("save.json");
-static const QDir jsonDirectory(QStringLiteral("./")); // KDAB_TODO: Use correct path once it have been choosen.
-
+static const QString RECOVERY_FILE_NAME = QStringLiteral("save-recovery.json");
+static const QString SAVE_FILE_NAME = QStringLiteral("save.json");
 }
 
 CConfigurationBackup::CConfigurationBackup(QObject *parent)
-    : QObject(parent)
+    : QObject(parent),
+      m_jsonDirectory(JSON_DIRECTORY)
 {}
 
 QString CConfigurationBackup::jsonRecoveryFile() const
 {
-    return jsonDirectory.absolutePath() + '/' + recoveryFileName;
+    QString path(m_jsonDirectory);
+    path += QLatin1Char('/') + RECOVERY_FILE_NAME;
+    return path;
 }
 
 QString CConfigurationBackup::jsonSaveFile() const
 {
-    return jsonDirectory.absolutePath() + '/' + saveFileName;
+    QString path(m_jsonDirectory);
+    path += QLatin1Char('/') + SAVE_FILE_NAME;
+    return path;
 }
 
 bool CConfigurationBackup::createRecoveryFile(const QByteArray &contents)
@@ -44,7 +47,7 @@ bool CConfigurationBackup::overwriteConfigurationFile(QString *generatedBackupFi
     }
 
     // make a backup of save.json
-    QString backupFileName(QDateTime::currentDateTime().toString("dd:MM:yyyy:hh:mm:ss-") + saveFileName);
+    QString backupFileName(QDateTime::currentDateTime().toString("dd:MM:yyyy:hh:mm:ss-") + SAVE_FILE_NAME);
 
     if (generatedBackupFileName != Q_NULLPTR) {
         *generatedBackupFileName = backupFileName;
@@ -66,6 +69,18 @@ bool CConfigurationBackup::overwriteConfigurationFile(QString *generatedBackupFi
 
     writeToConfigurationFile(recoveryFile.readAll());
     return true;
+}
+
+void CConfigurationBackup::setJsonDirectory(const QString &directory)
+{
+    if (!directory.isEmpty()) {
+        m_jsonDirectory = directory;
+    }
+}
+
+QString CConfigurationBackup::jsonDirectory() const
+{
+    return m_jsonDirectory;
 }
 
 bool CConfigurationBackup::writeToConfigurationFile(const QByteArray &newContents)

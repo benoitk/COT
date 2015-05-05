@@ -6,6 +6,8 @@ include("$${top_srcdir}/config.pri")
 
 RC_FILE *= cot-version.rc
 
+DEFINES += JSON_DIRECTORY=\"\\\"$${top_srcdir}/libcot/\\\"\"
+
 RESOURCES *= \
     resources/cot-resources.qrc
 

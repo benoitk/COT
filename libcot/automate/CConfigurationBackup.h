@@ -37,6 +37,10 @@ public:
      */
     bool overwriteConfigurationFile(QString *generatedBackupFileName = Q_NULLPTR);
 
+    void setJsonDirectory(const QString &directory);
+    QString jsonDirectory() const;
+
+
 public slots:
     /**
      * @brief rewriteConfigurationFile writes the passed QByteArray into save.json.
@@ -51,6 +55,8 @@ private:
      * @return
      */
     bool createFile(const QString &fileName, const QByteArray &contents);
+
+    QString m_jsonDirectory;
 
 
 
