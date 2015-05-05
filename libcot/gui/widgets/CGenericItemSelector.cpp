@@ -13,6 +13,8 @@ CGenericItemSelector::CGenericItemSelector(const IVariablePtrList &list, QWidget
     , m_model(new CGenericListModel(list, this))
     , m_currentItem(Q_NULLPTR)
 {
+    setMinimumSize(640, 480);
+
     ui->setupUi(this);
     ui->lvItems->setMouseTracking(true);
     ui->lvItems->setModel(m_model);
