@@ -13,7 +13,7 @@ class CEditOutBindsTab : public IEditVariableTab
 public:
     explicit CEditOutBindsTab(QWidget *parent = Q_NULLPTR);
     ~CEditOutBindsTab();
-    void setVariables(const QList<IVariable *> &variables);
+    void setVariables(const QString &variableName);
 private:
     Ui::CEditOutBindsTab *ui;
     ConfiguratorUIHandler *m_configuratorUIHandler;

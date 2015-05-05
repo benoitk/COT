@@ -7,7 +7,7 @@
 
 #include <IVariable.h>
 
-CEditvariableWindow::CEditvariableWindow(QWidget *parent)
+CEditvariableWindow::CEditvariableWindow(const QString &variableName, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::CEditVariableWindow)
 {
@@ -20,6 +20,7 @@ CEditvariableWindow::CEditvariableWindow(QWidget *parent)
     addTab(m_ceditOutBindsTab, QString());
     addTab(m_ceditInBindsTab, QString());
     retranslate();
+    setVariables(variableName);
 }
 
 CEditvariableWindow::~CEditvariableWindow()
@@ -27,11 +28,11 @@ CEditvariableWindow::~CEditvariableWindow()
     delete ui;
 }
 
-void CEditvariableWindow::setVariables(const QList<IVariable *> &variables)
+void CEditvariableWindow::setVariables(const QString &name)
 {
-    m_ceditVariableTab->setVariables(variables);
-    m_ceditOutBindsTab->setVariables(variables);
-    m_ceditInBindsTab->setVariables(variables);
+    m_ceditVariableTab->setVariables(name);
+    m_ceditOutBindsTab->setVariables(name);
+    m_ceditInBindsTab->setVariables(name);
 }
 
 void CEditvariableWindow::retranslate()
