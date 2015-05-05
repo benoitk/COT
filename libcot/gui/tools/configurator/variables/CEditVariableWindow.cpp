@@ -20,7 +20,9 @@ CEditvariableWindow::CEditvariableWindow(const QString &variableName, QWidget *p
     addTab(m_ceditOutBindsTab, QString());
     addTab(m_ceditInBindsTab, QString());
     retranslate();
-    setVariables(variableName);
+    if (!variableName.isEmpty()) {
+        setVariables(variableName);
+    }
 }
 
 CEditvariableWindow::~CEditvariableWindow()
