@@ -1,6 +1,6 @@
 #include "CEditVariableTab.h"
 #include "ui_CEditVariableTab.h"
-
+#include "CAutomate.h"
 #include <ConfiguratorUIHandler.h>
 
 CEditVariableTab::CEditVariableTab(QWidget *parent)

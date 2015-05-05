@@ -89,10 +89,10 @@ QString  CVariableInt::getRelatedMeasureName()const{
 bool  CVariableInt::isDisplay()const{
 	return false;
 }
-QLinkedList<IVariable*>  CVariableInt::getListOutBinds()const{
+QList<IVariable*>  CVariableInt::getListOutBinds()const{
 	return m_listBinds;
 }
-QLinkedList<IVariable*>  CVariableInt::getListInBinds()const{
+QList<IVariable*>  CVariableInt::getListInBinds()const{
 	return m_listBinds;
 
 }

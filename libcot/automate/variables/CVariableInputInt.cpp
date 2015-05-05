@@ -125,10 +125,10 @@ QString  CVariableInputInt::getRelatedMeasureName()const{
 bool  CVariableInputInt::isDisplay()const{
 	return false;
 }
-QLinkedList<IVariable*>  CVariableInputInt::getListOutBinds()const{
+QList<IVariable*>  CVariableInputInt::getListOutBinds()const{
 	return m_listBinds;
 }
-QLinkedList<IVariable*>  CVariableInputInt::getListInBinds()const{
+QList<IVariable*>  CVariableInputInt::getListInBinds()const{
 	return m_listBinds;
 
 }

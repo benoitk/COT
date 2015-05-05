@@ -53,8 +53,8 @@ private:
 	int m_idCycle;
 	QString m_name;
 	eTypeCycle m_typeCycle;
-	QLinkedList<CLinkAction*> m_ListActions;
-	QLinkedList<CLinkAction*>::iterator m_itListActionsPasEnCours;
+	QList<CLinkAction*> m_ListActions;
+	QList<CLinkAction*>::iterator m_itListActionsPasEnCours;
 
 	QTimer* m_timer;
 	int m_iTimer;

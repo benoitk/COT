@@ -24,7 +24,7 @@ void CEditInBindsTab::setVariables(const QString &variableName)
 {
     IVariable *ivar = CAutomate::getInstance()->getVariable(variableName);
     Q_ASSERT(ivar);
-    const QLinkedList<IVariable *> listInBinds = ivar->getListInBinds();
+    const QList<IVariable *> listInBinds = ivar->getListInBinds();
     //m_configuratorUIHandler->layout(variables);
 }
 

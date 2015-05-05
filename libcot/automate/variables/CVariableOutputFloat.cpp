@@ -118,10 +118,10 @@ QString  CVariableOutputFloat::getRelatedMeasureName()const{
 bool  CVariableOutputFloat::isDisplay()const{
 	return false;
 }
-QLinkedList<IVariable*>  CVariableOutputFloat::getListOutBinds()const{
+QList<IVariable*>  CVariableOutputFloat::getListOutBinds()const{
 	return m_listBinds;
 }
-QLinkedList<IVariable*>  CVariableOutputFloat::getListInBinds()const{
+QList<IVariable*>  CVariableOutputFloat::getListInBinds()const{
 	return m_listBinds;
 
 }

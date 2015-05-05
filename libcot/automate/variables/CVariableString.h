@@ -42,8 +42,8 @@ public:
     bool isMeasureRelated()const Q_DECL_OVERRIDE;
     QString getRelatedMeasureName()const Q_DECL_OVERRIDE;
     bool isDisplay()const Q_DECL_OVERRIDE;
-    QLinkedList<IVariable*> getListOutBinds()const Q_DECL_OVERRIDE;
-    QLinkedList<IVariable*> getListInBinds()const Q_DECL_OVERRIDE;
+    QList<IVariable*> getListOutBinds()const Q_DECL_OVERRIDE;
+    QList<IVariable*> getListInBinds()const Q_DECL_OVERRIDE;
 
 	QVariantMap serialise() Q_DECL_OVERRIDE;
     variableAccess getAccess()const Q_DECL_OVERRIDE;
@@ -56,7 +56,7 @@ private:
 	QString m_sValeur;
     QString m_name;
 	QString m_label;
-	QLinkedList<IVariable*> m_listBinds;
+	QList<IVariable*> m_listBinds;
 	CUnit* m_unit;
 };
 

@@ -68,12 +68,12 @@ QString  CVariableUnknow::getRelatedMeasureName()const{
 bool  CVariableUnknow::isDisplay()const{
 	return false;
 }
-QLinkedList<IVariable*>  CVariableUnknow::getListOutBinds()const{
-	QLinkedList<IVariable*> list;
+QList<IVariable*>  CVariableUnknow::getListOutBinds()const{
+    QList<IVariable*> list;
 	return list;
 }
-QLinkedList<IVariable*>  CVariableUnknow::getListInBinds()const{
-	QLinkedList<IVariable*> list;
+QList<IVariable*>  CVariableUnknow::getListInBinds()const{
+    QList<IVariable*> list;
 	return list;
 
 }

@@ -145,12 +145,12 @@ QString  CVariableVoie::getRelatedMeasureName()const{
 bool  CVariableVoie::isDisplay()const{
 	return false;
 }
-QLinkedList<IVariable*>  CVariableVoie::getListOutBinds()const{
-	QLinkedList<IVariable*> list;
+QList<IVariable*>  CVariableVoie::getListOutBinds()const{
+	QList<IVariable*> list;
 	return list;
 }
-QLinkedList<IVariable*>  CVariableVoie::getListInBinds()const{
-	QLinkedList<IVariable*> list;
+QList<IVariable*>  CVariableVoie::getListInBinds()const{
+	QList<IVariable*> list;
 	return list;
 
 }

@@ -114,7 +114,7 @@ void CCycleMesure::setLbl(const QString &lbl){ m_label = lbl;}
 void CCycleMesure::addAction(int arg_step, IAction* action){
 	if(action){
 		CLinkAction* linkAction = new CLinkAction(arg_step, action);
-		QLinkedList<CLinkAction*>::iterator it = m_ListActions.begin();
+		QList<CLinkAction*>::iterator it = m_ListActions.begin();
 		bool bSortie= false;
 		while(!bSortie && it != m_ListActions.end()){
 			//if((*it)->getStep() > linkAction->getStep()){

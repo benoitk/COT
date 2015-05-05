@@ -103,12 +103,12 @@ QString  CVariableMeasure::getRelatedMeasureName()const{
 bool  CVariableMeasure::isDisplay()const{
 	return false;
 }
-QLinkedList<IVariable*>  CVariableMeasure::getListOutBinds()const{
-	QLinkedList<IVariable*> list;
+QList<IVariable*>  CVariableMeasure::getListOutBinds()const{
+	QList<IVariable*> list;
 	return list;
 }
-QLinkedList<IVariable*>  CVariableMeasure::getListInBinds()const{
-	QLinkedList<IVariable*> list;
+QList<IVariable*>  CVariableMeasure::getListInBinds()const{
+	QList<IVariable*> list;
 	return list;
 
 }

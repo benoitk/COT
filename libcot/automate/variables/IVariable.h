@@ -55,8 +55,8 @@ public:
 	virtual bool isMeasureRelated()const=0;
 	virtual QString getRelatedMeasureName()const=0;
 	virtual bool isDisplay()const=0;
-	virtual QLinkedList<IVariable*> getListOutBinds()const=0;
-	virtual QLinkedList<IVariable*> getListInBinds()const=0;
+    virtual QList<IVariable*> getListOutBinds()const=0;
+    virtual QList<IVariable*> getListInBinds()const=0;
     virtual variableAccess getAccess()const =0;
     virtual int getAddress()const =0;
     //qvariantmap can be converted to a json object
