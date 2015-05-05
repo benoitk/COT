@@ -12,6 +12,7 @@ class CConfiguratorVariablesTab : public IConfiguratorTab
 public:
     explicit CConfiguratorVariablesTab(QWidget *parent = Q_NULLPTR);
     ~CConfiguratorVariablesTab();
+
 private slots:
     void addVariable();
     void editVariable();
