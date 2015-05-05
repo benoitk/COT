@@ -96,7 +96,7 @@ IVariable* CVariableFactory::build(const QString &arg_type){
 	
 	return variable;
 }
-<<<<<<< Updated upstream
+
 
 IVariablePtr CVariableFactory::buildTemporaryString(const QString& name) {
     IVariable *ivar = new CVariableString;
@@ -135,5 +135,4 @@ void CVariableFactory::deleteTemporaryStringList(IVariablePtrList &ivars)
     qDeleteAll(ivars);
     ivars.clear();
 }
-=======
->>>>>>> Stashed changes
+

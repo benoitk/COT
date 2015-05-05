@@ -45,13 +45,10 @@ public:
 	QMap<QString, IVariable*> getMapVariables();
 	QMap<QString, IVariable*> getMapStreams();
 	void setMapVariables(QMap<QString, IVariable*>);
-<<<<<<< Updated upstream
+
     QMap<QString, QStringList> getMapStreamsMeasures() const;
     void setMapStreamsMeasures(QMap<QString, QStringList>);
-=======
-    QMap<QString, QList<QString>> getMapStreamsMeasures() const;
-    void setMapStreamsMeasures(QMap<QString, QList<QString>>);
->>>>>>> Stashed changes
+
     CDisplayConf* getDisplayConf()const;
 
     static QString formatHistoryEntry(const QString &name, const QDateTime &dateTime);

@@ -12,7 +12,7 @@ class CVariableBool : public QObject, public IVariable
 
 public:
     CVariableBool(QObject *parent = Q_NULLPTR);
-    CVariableBool(bool, int, variableAccess);
+    CVariableBool(bool, int = 0, variableAccess =read);
 	~CVariableBool();
 
 	QString getName()const Q_DECL_OVERRIDE;

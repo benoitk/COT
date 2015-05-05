@@ -11,7 +11,6 @@ CVariableInt::CVariableInt(int arg_int, int arg_address, variableAccess arg_acce
     m_access = arg_access;
     m_address = arg_address;
 }
-
 CVariableInt::~CVariableInt()
 {
 
