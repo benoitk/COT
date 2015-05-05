@@ -4,6 +4,7 @@
 #include "CAutomate.h"
 
  //Use CAutomate signals instead of IObserverAutomate (IObserverAutomate will be deleted)
+
 class IObserverAutomate 
 {
 public:

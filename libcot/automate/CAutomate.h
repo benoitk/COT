@@ -202,8 +202,19 @@ signals:
 	//desc : Label et unité des variables de mesures affichable sur l'écran principale
 	//entrées : identifiant, label et unité de la variable
     void signalUpdateMeasureLabels(int, const QString &);
+
+    //1 signal par section du json, dès qu'une valeur est modifié
+    void signalNetworkUpdated();
+    void signalComAutomateUpdated();
+    void signalExtensionsUpdated();
+    void signalUnitsUpdated(); //et Units_convertion
     void signalVariablesUpdated();
-    void signalUnitsUpdated();
+    void signalDisplayUpdated();
+    void signalBindsUpdated();
+    void signalActionsUpdated();
+    void signalCyclesUpdated();
+    void signalShcedulerUpdated();
+    void signalStreamsUpdated();
 
 
 private:
