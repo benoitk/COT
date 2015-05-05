@@ -13,7 +13,7 @@ class LIBCOT_EXPORT ConfiguratorUIHandler : public IVariableUIHandler
 public:
     explicit ConfiguratorUIHandler(CScrollableWidget *scrollable = Q_NULLPTR, QObject *parent = Q_NULLPTR);
 
-    // return an action type: calc_coef, cal_rien, bloc
+    // return an action type: calc_coef, calc_rien, bloc, etc.
     int selectActionType(int defaultValue = -1);
     // Select a variable type (float, int, string)
     variableType selectVariableType(variableType defaultValue = type_unknow);

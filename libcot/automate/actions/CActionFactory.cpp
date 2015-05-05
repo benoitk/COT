@@ -2,6 +2,7 @@
 #include "CActionCmdPompe.h"
 #include "CActionCmdRelay.h"
 #include "CActionCmdReadInput.h"
+#include "CActionBlock.h"
 #include "CActionUnknow.h"
 
 #include "qvariant.h"
@@ -12,19 +13,22 @@
 IAction* CActionFactory::build(const QVariantMap &mapAction){
 	
 	IAction* action = NULL;
-    if(mapAction[QStringLiteral("type")].toString() == QStringLiteral("cmd_pump")){
+    const QString type = mapAction[QStringLiteral("type")].toString();
+    if(type == QStringLiteral("cmd_pump")){
 		action = new CActionCmdPompe(mapAction);
 	}
-    else if(mapAction[QStringLiteral("type")].toString() == QStringLiteral("cmd_relay")){
+    else if(type == QStringLiteral("cmd_relay")){
 		action = new CActionCmdRelay(mapAction);
 	}
-    else if(mapAction[QStringLiteral("type")].toString() == QStringLiteral("cmd_read_input")){
+    else if(type == QStringLiteral("cmd_read_input")){
 		action = new CActionCmdReadInput(mapAction);
 	}
-	else{
+    else if(type == QStringLiteral("block")){
+        action = new CActionBlock(mapAction);
+    }
+    else{
 		action = new CActionUnknow(mapAction);
-        qDebug() << "Classe action INCONNUE :  " << mapAction[QStringLiteral("type")].toString();
-	
+        qDebug() << "Classe action INCONNUE :" << type;
 	}
 
 	return action;

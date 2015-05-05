@@ -32,11 +32,10 @@ CCycleMesure::CCycleMesure(const QVariantMap &mapCycle): ICycle(){
 	m_label = mapCycle[tr("FR_lbl")].toString();
     m_name = mapCycle[QStringLiteral("name")].toString();
 	
-    QVariantList listActions = mapCycle[QStringLiteral("actions")].toList();
-	
-	foreach(QVariant varAction, listActions){
-		IAction* action = CActionFactory::build(varAction.toMap());
-		QVariantMap variantMap = varAction.toMap();
+    const QVariantList listActions = mapCycle[QStringLiteral("actions")].toList();
+    foreach(const QVariant &varAction, listActions){
+        const QVariantMap variantMap = varAction.toMap();
+        IAction* action = CActionFactory::build(variantMap);
 		if(action) 
             this->addAction(variantMap.value(QStringLiteral("step")).toInt(),action);
 	}

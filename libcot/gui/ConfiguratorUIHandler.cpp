@@ -29,10 +29,13 @@ IVariablePtrList buildTemporaryString(const PairPairStringStringList& pairs) {
 
 IVariablePtrList buildActionType() {
     // KDAB_TODO: No customer api so let fake
+    // Note: this relates to CActionFactory::build()
     return buildTemporaryString({
                      {"calc_coef", qMakePair(ConfiguratorUIHandler::tr("Calc Coef"), 1)},
                      {"calc_rien", qMakePair(ConfiguratorUIHandler::tr("Calc Rien"), 2)},
-                     {"bloc", qMakePair(ConfiguratorUIHandler::tr("Bloc"), 1000)}
+                     {"cmd_pump", qMakePair(ConfiguratorUIHandler::tr("Pump"), 3)},
+                     {"cmd_relay", qMakePair(ConfiguratorUIHandler::tr("Relay"), 3)},
+                     {"block", qMakePair(ConfiguratorUIHandler::tr("Block"), 1000)}
                  });
 }
 

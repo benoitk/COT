@@ -79,6 +79,7 @@ HEADERS *= \
     automate/actions/CActionCmdPompe.h \
     automate/actions/CActionCmdReadInput.h \
     automate/actions/CActionCmdRelay.h \
+    automate/actions/CActionBlock.h \
     automate/actions/CActionFactory.h \
     automate/actions/CActionUnknow.h \
     automate/actions/IAction.h \
@@ -221,6 +222,7 @@ SOURCES *= \
     automate/actions/CActionCmdPompe.cpp \
     automate/actions/CActionCmdReadInput.cpp \
     automate/actions/CActionCmdRelay.cpp \
+    automate/actions/CActionBlock.cpp \
     automate/actions/CActionFactory.cpp \
     automate/actions/CActionUnknow.cpp \
     automate/actions/IAction.cpp \
