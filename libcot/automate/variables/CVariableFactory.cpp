@@ -97,14 +97,14 @@ IVariablePtr CVariableFactory::buildTemporaryString(const QString& name) {
 IVariablePtr CVariableFactory::buildTemporaryString(const QString& name, const QString &label) {
     IVariable *ivar = new CVariableString;
     ivar->setName(name);
-    ivar->setLabel(label);
+    ivar->setLabel(label.isEmpty() ? name : label);
     return ivar;
 }
 
 IVariablePtr CVariableFactory::buildTemporaryString(const QString& name, const QString &label, const QVariant &value) {
     IVariable *ivar = new CVariableString;
     ivar->setName(name);
-    ivar->setLabel(label);
+    ivar->setLabel(label.isEmpty() ? name : label);
     ivar->setValue(value);
     return ivar;
 }
