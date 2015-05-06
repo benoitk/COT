@@ -27,7 +27,7 @@ class CVariableICycleDescriber : public IVariableObjectDescriber
 {
 public:
     CVariableICycleDescriber(QObject *parent = Q_NULLPTR);
-    virtual void describe(const QVariant &object) Q_DECL_OVERRIDE;
+    void describe(const QVariant &object) Q_DECL_OVERRIDE;
 };
 
 #endif // IVARIABLEOBJECTDESCRIBER_H
