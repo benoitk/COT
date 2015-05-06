@@ -51,6 +51,7 @@ public:
     variableAccess getAccess()const Q_DECL_OVERRIDE;
     int getAddress()const Q_DECL_OVERRIDE;
 
+    void addCycle(ICycle *cycle);
     void delCycle(const QString &name);
 
 private:

@@ -183,3 +183,10 @@ variableAccess CVariableVoie::getAccess()const{
 int CVariableVoie::getAddress()const{
     return m_address;
 }
+
+void CVariableVoie::addCycle(ICycle *cycle)
+{
+    if (!m_listCycles.contains(cycle)) {
+        m_listCycles << cycle;
+    }
+}
