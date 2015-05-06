@@ -12,7 +12,7 @@ class CVariableVoie : public QObject, public IVariable
 	Q_OBJECT
 
 public:
-	CVariableVoie(QObject *parent);
+    CVariableVoie(QObject *parent = Q_NULLPTR);
     CVariableVoie(const QMap<QString, QVariant> &mapVar);
 	~CVariableVoie();
 

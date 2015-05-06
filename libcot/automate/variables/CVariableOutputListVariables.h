@@ -12,7 +12,7 @@ class CVariableOutputListVariables : public QObject, public IVariable, public IV
     Q_OBJECT
 
 public:
-    CVariableOutputListVariables(QObject *parent);
+    CVariableOutputListVariables(QObject *parent = Q_NULLPTR);
     CVariableOutputListVariables(const QMap<QString, QVariant> &mapVar);
     ~CVariableOutputListVariables();
 

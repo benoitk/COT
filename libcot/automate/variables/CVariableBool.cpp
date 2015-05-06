@@ -126,3 +126,13 @@ variableAccess CVariableBool::getAccess()const{
 int CVariableBool::getAddress()const{
     return m_address;
 }
+
+void CVariableBool::setAccess(variableAccess access)
+{
+    m_access = access;
+}
+
+void CVariableBool::setAddress(int address)
+{
+    m_address = address;
+}

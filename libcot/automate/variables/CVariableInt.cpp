@@ -110,3 +110,13 @@ variableAccess CVariableInt::getAccess()const{
 int CVariableInt::getAddress()const{
     return m_address;
 }
+
+void CVariableInt::setAccess(variableAccess access)
+{
+    m_access = access;
+}
+
+void CVariableInt::setAddress(int address)
+{
+    m_address = address;
+}

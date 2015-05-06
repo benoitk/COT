@@ -10,7 +10,7 @@ class CVariableMeasure : public QObject, public IVariable
     Q_OBJECT
 
 public:
-    CVariableMeasure(QObject *parent);
+    CVariableMeasure(QObject *parent = Q_NULLPTR);
     CVariableMeasure(const QMap<QString, QVariant> &mapVar);
 
     QString getName()const Q_DECL_OVERRIDE;

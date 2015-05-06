@@ -9,10 +9,11 @@
 class CVariableInt : public QObject, public IVariable
 {
 	Q_OBJECT
+    friend class CVariableFactory;
 
 public:
-	CVariableInt(QObject *parent);
-	CVariableInt(int, int = 0, variableAccess =access_read);
+    CVariableInt(QObject *parent = Q_NULLPTR);
+    CVariableInt(int, int address = 0, variableAccess =access_read);
 	~CVariableInt();
 
 	
@@ -55,6 +56,9 @@ private:
 	QString m_label;
 	QList<IVariable*> m_listBinds;
 	CUnit* m_unit;
+
+    void setAccess(variableAccess access);
+    void setAddress(int address);
 };
 
 #endif // CInt_H

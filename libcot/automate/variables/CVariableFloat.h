@@ -9,6 +9,7 @@
 class CVariableFloat : public QObject, public IVariable
 {
 	Q_OBJECT
+    friend class CVariableFactory;
 
 public:
 	CVariableFloat(QObject *parent);
@@ -57,6 +58,9 @@ private:
 	QString m_label;
 	QList<IVariable*> m_listBinds;
 	CUnit* m_unit;
+
+    void setAccess(variableAccess access);
+    void setAddress(int address);
 };
 
 

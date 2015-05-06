@@ -12,7 +12,7 @@ class CVariableOutputFloat : public QObject, public IVariable, public IVariableO
 	Q_OBJECT
 
 public:
-	CVariableOutputFloat(QObject *parent);
+    CVariableOutputFloat(QObject *parent = Q_NULLPTR);
     CVariableOutputFloat(const QMap<QString, QVariant> &mapVar);
 	~CVariableOutputFloat();
 

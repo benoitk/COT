@@ -9,6 +9,7 @@
 class CVariableBool : public QObject, public IVariable
 {
 	Q_OBJECT
+    friend class CVariableFactory;
 
 public:
     CVariableBool(QObject *parent = Q_NULLPTR);
@@ -56,5 +57,8 @@ private:
 	QString m_label;
     QList<IVariable*> m_listBinds;
 	CUnit* m_unit;
+
+    void setAccess(variableAccess access);
+    void setAddress(int address);
 };
 #endif // CVARIABLEBOOL_H

@@ -13,7 +13,7 @@ class CVariableInputInt : public QObject, public IVariable, public IVariableInpu
 	Q_OBJECT
 
 public:
-	CVariableInputInt(QObject *parent);
+    CVariableInputInt(QObject *parent = Q_NULLPTR);
     CVariableInputInt(const QMap<QString, QVariant> &mapVar);
 	~CVariableInputInt();
 

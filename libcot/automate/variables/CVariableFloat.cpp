@@ -117,3 +117,13 @@ variableAccess CVariableFloat::getAccess()const{
 int CVariableFloat::getAddress()const{
     return m_address;
 }
+
+void CVariableFloat::setAccess(variableAccess access)
+{
+    m_access = access;
+}
+
+void CVariableFloat::setAddress(int address)
+{
+    m_address = address;
+}
