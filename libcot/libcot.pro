@@ -202,7 +202,7 @@ HEADERS *= \
     gui/tools/configurator/variables/CEditVariableTab.h \
     gui/tools/configurator/variables/CEditInBindsTab.h \
     gui/tools/configurator/variables/CEditOutBindsTab.h \
-    gui/ConfiguratorVariablesUIHandler.h \
+    gui/tools/configurator/ConfiguratorVariablesUIHandler.h \
     automate/variables/CVariableOutputListVariables.h \
     automate/com/CComFactory.h \
     automate/com/CComUnknow.h \
@@ -341,7 +341,7 @@ SOURCES *= \
     gui/tools/configurator/variables/CEditVariableTab.cpp \
     gui/tools/configurator/variables/CEditInBindsTab.cpp \
     gui/tools/configurator/variables/CEditOutBindsTab.cpp \
-    gui/ConfiguratorVariablesUIHandler.cpp \
+    gui/tools/configurator/ConfiguratorVariablesUIHandler.cpp \
     automate/variables/CVariableOutputListVariables.cpp \
     automate/com/CComFactory.cpp \
     automate/com/CComUnknow.cpp \
