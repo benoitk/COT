@@ -20,7 +20,7 @@ public:
     void setConvertion(const QString &, IConverter*);
 
 private:
-	QString m_lbl;
+	QString m_label;
 	QString m_name;
 	QMap<QString, IConverter*> m_mapConverter;
 

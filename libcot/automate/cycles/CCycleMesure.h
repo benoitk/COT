@@ -15,7 +15,6 @@ class CCycleMesure : public ICycle
 public:
     CCycleMesure(QObject *parent = Q_NULLPTR);
     CCycleMesure(const QVariantMap&);
-    CCycleMesure(const QVariantMap&, const QMap<QString, IAction*>&);
 	~CCycleMesure();
 
     void setType(eTypeCycle) Q_DECL_OVERRIDE;
@@ -52,8 +51,6 @@ private:
 	int m_idCycle;
 	QString m_name;
 	eTypeCycle m_typeCycle;
-	QList<CLinkAction*> m_ListActions;
-	QList<CLinkAction*>::iterator m_itListActionsPasEnCours;
 
 	QTimer* m_timer;
 	int m_iTimer;
@@ -64,5 +61,6 @@ private:
 
 	CStep* m_stepStop;
 	QList<CStep*> m_listSteps;
+	QList<CStep*>::iterator m_itListStepsPasEnCours;
 };
 #endif // CCYCLEMESURE_H

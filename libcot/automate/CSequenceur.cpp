@@ -50,6 +50,7 @@ void CSequenceur::apendSequenceMesurePause(int minute){
 }
 
 void CSequenceur::setSequenceMesure(){
+    qDebug() << "void CSequenceur::setSequenceMesure()";
 	if(m_cycleMaintenanceEnCours){
 		this->signalStopCycleMaintenance();
 		while(m_cycleMaintenanceEnCours->isRunning()){
@@ -138,12 +139,14 @@ void CSequenceur::slotRequestPlaySequenceMesure(){
 	emit signalGetReadyForPlayCycleMesure();
 }
 void CSequenceur::slotPlaySequenceMesure(){
+    qDebug() << "CSequenceur::slotPlaySequenceMesure()" << m_cycleMesureEnCours;
 	if(!m_cycleMesureEnCours || (m_cycleMesureEnCours && !m_cycleMesureEnCours->isRunning()))
 	{
 		m_itListSequenceCyclesMesures = m_listSequenceCyclesMesures.begin();
 		this->setSequenceMesure();
 		emit signalRunCycleMesure();
 	}
+    qDebug() << "FIN CSequenceur::slotPlaySequenceMesure()";
 
 }
 //fin play cycle Mesure

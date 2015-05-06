@@ -11,8 +11,9 @@ class CCycleFactory : public QObject
 	Q_OBJECT
 
 public:
-    static ICycle* build(const QVariantMap &mapCycle, const QMap<QString, IAction *> &mapAction);
     static ICycle* build(eTypeCycle type);
+    static ICycle* build(const QVariantMap &mapCycle);
+	
 
 private:
 	

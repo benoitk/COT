@@ -5,7 +5,7 @@ CUnit::CUnit(QObject *parent): QObject(parent){
 
 }
 CUnit::CUnit(const QString& name, const QString& lbl): QObject(){
-    m_lbl = lbl;
+    m_label = lbl;
     m_name = name;
 }
 CUnit::~CUnit()
@@ -14,7 +14,7 @@ CUnit::~CUnit()
 }
 
 QString CUnit::getLbl()const{
-	return m_lbl;
+	return m_label;
 }
 QString CUnit::getName()const{
 	return m_name;

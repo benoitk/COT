@@ -6,7 +6,7 @@ CCycleAutonome::CCycleAutonome(QObject *parent)
 CCycleAutonome::CCycleAutonome(const QVariantMap &variantMap)
 	:CCycleMesure(variantMap){}
 CCycleAutonome::CCycleAutonome(const QVariantMap &variantMap, const QMap<QString, IAction *> &actionMap)
-	:CCycleMesure(variantMap, actionMap){}
+	:CCycleMesure(variantMap){}
 CCycleAutonome::~CCycleAutonome(){}
 
 bool CCycleAutonome::isStreamRelated()const{

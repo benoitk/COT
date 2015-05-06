@@ -41,7 +41,8 @@ public:
 	QMap<QString, CModelExtensionCard*> getMapExtensions();
     QMap<QString, ICom*> getMapComs();
     QList<ICycle*> getListCycles(int cycleType = 0);
-	QList<IAction*> getListActions();
+	QList<IAction*> getListActions();//en redondance avec getMapActions pour ne pas refaire niveau IHM
+	QMap<QString, IAction*> getMapActions();
 	QList<CUnit*> getListUnits();
 	QMap<QString, IVariable*> getMapVariables();
 	QMap<QString, IVariable*> getMapStreams();
@@ -69,6 +70,7 @@ public:
 
     ICycle *getCycle(const QString &name, int type = 0) const;
     ICom* getCom(const QString &arg_name);
+    IAction* getAction(const QString &arg_name);
 
 	IVariable* getVariable(const QString&);
     QList<IVariable *> getVariables(const QStringList&);
@@ -76,6 +78,7 @@ public:
 	void addStream(const QString&, IVariable*);
     void addUnit(CUnit*);
     void addCom(ICom*);
+    void addAction(IAction*);
 
 
 	CModelExtensionCard* getExtensionCard(const QString&);
@@ -179,10 +182,11 @@ private:
     QMap<QString, ICycle*> m_listCycleMesures;
     QMap<QString, ICycle*> m_listCycleMaintenances;
     QMap<QString, ICycle*> m_listlCycleAutonomes;
-	QList<IAction*> m_listActions;
     QList<CUnit*> m_listUnits;
     QMap<QString, ICom*> m_mapComs;
 
+	QMap<QString, IAction*> m_mapActions;
+	QList<IAction*> m_listActions; //en redondance avec m_mapActions pour ne pas refaire niveau IHM
 	QMap<QString, IVariable*> m_mapVariables;
 	QMap<QString, IVariable*> m_mapStreams;
 	QMap<QString, CModelExtensionCard*> m_mapExtCards;

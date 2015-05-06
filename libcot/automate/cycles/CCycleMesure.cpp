@@ -4,40 +4,29 @@
 #include "qlist.h"
 #include "CLinkAction.h"
 #include "CActionFactory.h"
+#include "CAutomate.h"
+#include "IAction.h"
+#include "CStep.h"
+
 CCycleMesure::CCycleMesure(QObject *parent)
 	: ICycle(parent)
 {
 	initTimer();
 }
-CCycleMesure::CCycleMesure(const QVariantMap &mapCycle, const QMap<QString, IAction*> &mapActions): ICycle(){
-	
-	m_label = mapCycle[tr("FR_lbl")].toString();
-    m_name = mapCycle[QStringLiteral("name")].toString();
-	
-    QVariantList listActions = mapCycle[QStringLiteral("actions")].toList();
-	
-	foreach(QVariant varAction, listActions){
-		QVariantMap variantMap = varAction.toMap();
-        IAction* action = mapActions.value(variantMap.value(QStringLiteral("name")).toString());
-		if(action) 
-            this->addAction(variantMap.value(QStringLiteral("step")).toInt() , action);
-	}
-	initTimer();
-	this->moveToThread(&m_thread);
-	m_thread.start();
-	
-}
+
 CCycleMesure::CCycleMesure(const QVariantMap &mapCycle): ICycle(){
+    qDebug() << "constructor CCycleMesure(const QVariantMap &mapCycle) mapCycle:" << mapCycle; 
+    if(mapCycle.contains(QStringLiteral("name")))
+        m_name = mapCycle[QStringLiteral("name")].toString();
+    else
+        m_name = QStringLiteral("Action not named");
+	m_label = mapCycle[tr("fr_FR")].toString();
 	
-	m_label = mapCycle[tr("FR_lbl")].toString();
-    m_name = mapCycle[QStringLiteral("name")].toString();
-	
-    const QVariantList listActions = mapCycle[QStringLiteral("actions")].toList();
-    foreach(const QVariant &varAction, listActions){
-        const QVariantMap variantMap = varAction.toMap();
-        IAction* action = CActionFactory::build(variantMap);
-		if(action) 
-            this->addAction(variantMap.value(QStringLiteral("step")).toInt(),action);
+    const QVariantList listSteps = mapCycle[QStringLiteral("steps")].toList();
+    foreach(const QVariant &varStep, listSteps){
+        const QVariantMap mapStep = varStep.toMap();
+        CStep* step = new CStep(mapStep);	
+        m_listSteps.append(step);
 	}
 	initTimer();
 	this->moveToThread(&m_thread);
@@ -58,27 +47,29 @@ eTypeCycle CCycleMesure::getType()const{
 	return CYCLE_MESURE;
 }
 void CCycleMesure::slotExecNextStep(){	
-	//qDebug() << "CCycleMesure slotExecNextStep. Setp : " << m_iTimer << " Next step : " << (*m_itListActionsPasEnCours)->getStep();
-	if(m_itListActionsPasEnCours != m_ListActions.end()){
+    qDebug() << "CCycleMesure slotExecNextStep. Setp : " << m_iTimer << " Next step : " << (*m_itListStepsPasEnCours)->getNumStep();
+    if(m_itListStepsPasEnCours != m_listSteps.end()){
 		/*while(	  m_itListActionPasEnCours != m_ListActions.end() 
 			  && (*m_itListActionsPasEnCours)->getStep() == m_iTimer){
 			(*m_itListActionsPasEnCours++)->getAction()->runAction();
 		}*/
 	}
 	
-	if(m_itListActionsPasEnCours == m_ListActions.end()) { //fin du cycle
+	if(m_itListStepsPasEnCours == m_listSteps.end()) { //fin du cycle
 		m_timer->stop();
 		emit signalReadyForPlayNextCycle();
 	}
 	m_iTimer++;
 }
 void CCycleMesure::slotRunCycle(){
-
-	if(!m_ListActions.isEmpty()){
-		m_itListActionsPasEnCours = m_ListActions.begin(); 
+    qDebug() << "CCycleMesure::slotRunCycle()";
+	if(!m_listSteps.isEmpty()){
+		m_itListStepsPasEnCours = m_listSteps.begin(); 
 		m_iTimer = 0;
 		m_timer->start();
 	}
+    qDebug() << "FIN CCycleMesure::slotRunCycle()";
+
 }
 void CCycleMesure::slotPauseCycle(){
 	
@@ -107,7 +98,8 @@ QString CCycleMesure::getLbl()const{ return m_label;}
 void CCycleMesure::setLbl(const QString &lbl){ m_label = lbl;}
 	
 void CCycleMesure::addAction(int arg_step, IAction* action){
-	if(action){
+    qDebug() << "CCycleMesure::addAction(int arg_step, IAction* action) NE DOIT PLUS ETRE APPELE" ;
+	/*if(action){
 		CLinkAction* linkAction = new CLinkAction(arg_step, action);
 		QList<CLinkAction*>::iterator it = m_ListActions.begin();
 		bool bSortie= false;
@@ -119,7 +111,7 @@ void CCycleMesure::addAction(int arg_step, IAction* action){
 			it++;
 		}
 		if(!bSortie) m_ListActions.append(linkAction); 
-	}
+	}*/
 
 }
 void CCycleMesure::setType(eTypeCycle){}

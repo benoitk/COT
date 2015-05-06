@@ -178,11 +178,14 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
 		foreach(QJsonValue jsonValueAction, jsonArrayActions){
 			QVariantMap mapAction = jsonValueAction.toVariant().toMap();
 			IAction* action = CActionFactory::build(mapAction); 
-			if(action)
+			if(action){
 				m_mapActions.insert(action->getName(),action);
-			else 
+                CAutomate::getInstance()->addAction(action);
+            }else 
 				qDebug() << "Action null : map = " << mapAction;
 		}
+        qDebug() << "ACTIONS : " << m_mapActions;
+
 	}
 
 	//Cycles
@@ -195,30 +198,36 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
         QJsonArray jsonArrayCycles = jsonObjectCycle[QStringLiteral("cycles")].toArray();
 		foreach(QJsonValue jsonValueCycle, jsonArrayCycles){
 			QVariantMap mapCycle = jsonValueCycle.toVariant().toMap();
-			ICycle* cycle = CCycleFactory::build(mapCycle, m_mapActions); 
+			ICycle* cycle = CCycleFactory::build(mapCycle); 
             if(cycle) {
 				m_mapCycles.insert(cycle->getName(),cycle);
                 automate->addCycle(cycle);
             }
 			else
 				qDebug() << "Cycle null : map = " << mapCycle;
+
+            if(cycle)
+            qDebug() << "INFO CYCLE : " << cycle->getListSteps();
 		}
+        qDebug() << "CYCLES : " << m_mapCycles;
 	}
 
 	//Séquenceur
 	QJsonObject jsonObjectSequenceur = m_jsonDoc->object();
-    if(jsonObjectSequenceur[QStringLiteral("sequenceur_measure")] == QJsonValue::Undefined){
-		qDebug() << "jsonObject[\"sequenceur_measure\"] == QJsonValue::Undefined";
+    if(jsonObjectSequenceur[QStringLiteral("scheduler")] == QJsonValue::Undefined){
+		qDebug() << "jsonObject[\"scheduler\"] == QJsonValue::Undefined";
 	}
 	else {
-        QJsonArray jsonArraySeqeuceur = jsonObjectSequenceur[QStringLiteral("sequenceur_measure")].toArray();
+        QJsonArray jsonArraySeqeuceur = jsonObjectSequenceur[QStringLiteral("scheduler")].toArray();
 		foreach(QJsonValue jsonValueSequence, jsonArraySeqeuceur){
 			QVariantMap mapSequence = jsonValueSequence.toVariant().toMap();
-            if(mapSequence[QStringLiteral("name_cycle")] != QStringLiteral(""))
-                m_listSequences.append(m_mapCycles[mapSequence[QStringLiteral("name_cycle")].toString()]);
+            if(mapSequence[QStringLiteral("cycle")] != QStringLiteral(""))
+                m_listSequences.append(m_mapCycles[mapSequence[QStringLiteral("cycle")].toString()]);
 			else
 				qDebug() << "Sequence name cycle null : map = " << mapSequence;
 		}
+        qDebug() << "SEQUENCEUR : " << m_listSequences;
+
 	}
 	qDebug() << "FIN CModelConfigFile(QObject *parent)";
 

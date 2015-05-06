@@ -12,6 +12,7 @@
 #include "CDisplayConf.h"
 #include "ICom.h"
 #include "CComFactory.h"
+#include "CActionFactory.h"
 #include "CModelExtensionCard.h"
 #include <qdebug.h>
 #include <qthread.h>
@@ -144,6 +145,13 @@ void CAutomate::addCom(ICom* com){
     if(com)    
         m_mapComs.insert(com->getName(), com);
 }
+void CAutomate::addAction(IAction* action){
+    QMutexLocker locker(&m_mutex);
+    if(action){
+        m_mapActions.insert(action->getName(), action);
+        m_listActions.append(action);// en redondance avec m_mapActions pour ne pas casser l'API
+    }
+}
 ICom* CAutomate::getCom(const QString &arg_name){
     QMutexLocker locker(&m_mutex);
     ICom* com = Q_NULLPTR;
@@ -159,6 +167,22 @@ ICom* CAutomate::getCom(const QString &arg_name){
     }
     return com;
 }
+IAction* CAutomate::getAction(const QString &arg_name){
+    QMutexLocker locker(&m_mutex);
+    IAction* action = Q_NULLPTR;
+    if(m_mapActions.contains(arg_name))
+        action = m_mapActions.value(arg_name);
+    else{
+        if(m_mapActions.contains(QStringLiteral("unknow_action")))
+            action = m_mapActions.value(QStringLiteral("unknow_action"));
+        else{
+            action = CActionFactory::build(QVariantMap());
+            m_mapActions.insert(QStringLiteral("unknow_action"), action);
+        }
+    }
+    return action;
+}
+
 QList<ICycle*> CAutomate::getListCycles(int cycleType){
     QMutexLocker locker(&m_mutex);
 	QList<ICycle*> listAllCycles;
@@ -201,6 +225,10 @@ QList<ICycle*> CAutomate::getListCycles(int cycleType){
 QList<IAction*>  CAutomate::getListActions(){
     QMutexLocker locker(&m_mutex);
 	return m_listActions;
+}
+QMap<QString, IAction*> CAutomate::getMapActions(){
+    QMutexLocker locker(&m_mutex);
+	return m_mapActions;
 }
 
 QMap<QString, IVariable*> CAutomate::getMapVariables(){

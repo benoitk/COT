@@ -20,12 +20,12 @@ public:
 	void setNumStep(float);
 	CStep* getNextStep()const;
 	void setNextStep(CStep*);
-
 	//FIN API
+    void execStep();
 
 private:
 	
-	QList<IAction*> m_lisActions;
+	QList<IAction*> m_listActions;
 	float m_numStep; //peut gérer des pas flotant pour affiner le timming
 	CStep* m_nextStep;
 	QString m_label;

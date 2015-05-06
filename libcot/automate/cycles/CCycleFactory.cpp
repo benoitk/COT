@@ -7,10 +7,11 @@
 #include "qdebug.h"
 #include "qvariant.h"
 
-ICycle* CCycleFactory::build(const QVariantMap &mapCycle, const QMap<QString, IAction*> &mapAction){
+ICycle* CCycleFactory::build(const QVariantMap &mapCycle){
+    qDebug() << "CCycleFactory::build mapCycle:"<< mapCycle;
 	ICycle* cycle = NULL;
     if(mapCycle[QStringLiteral("type")].toString() == QStringLiteral("measure")){
-		cycle = new CCycleMesure(mapCycle, mapAction);
+		cycle = new CCycleMesure(mapCycle);
     }else if(mapCycle[QStringLiteral("type")].toString() == QStringLiteral("pause")){
 		cycle = new CCyclePause(mapCycle);
     }else if(mapCycle[QStringLiteral("type")].toString() == QStringLiteral("autonome")){

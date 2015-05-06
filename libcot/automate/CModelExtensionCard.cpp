@@ -1,6 +1,10 @@
 #include "CModelExtensionCard.h"
+#include "CAutomate.h"
 #include "ICom.h"
+#include "IOrgan.h"
+#include "COrganFactory.h"
 
+#include "qvariant.h"
 CModelExtensionCard::CModelExtensionCard(QObject *parent)
 	: QObject(parent)
 {
@@ -15,13 +19,54 @@ CModelExtensionCard::CModelExtensionCard(const QVariantMap& mapExt)
     else
         m_name = QStringLiteral("unamed_extension_card");
 
-    //TO DO : feed objects
+    if(mapExt.contains(QStringLiteral("fr_FR")))
+        m_label = mapExt.value(QStringLiteral("fr_FR")).toString();
+    else
+        m_label = m_name;
+
+    QString nameCom(QStringLiteral(""));
+    if(mapExt.contains(QStringLiteral("com"))){
+        QVariantMap mapCom = mapExt.value(QStringLiteral("com")).toMap();
+        if(mapCom.contains(QStringLiteral("name"))){
+            nameCom = mapCom.value(QStringLiteral("name")).toString();
+        }
+    }
+    m_interfaceCom = CAutomate::getInstance()->getCom(nameCom);
+
+    if(mapExt.contains(QStringLiteral("organs"))){
+        QVariantList listOrgans = mapExt.value(QStringLiteral("organs")).toList();
+        foreach(QVariant variantOrgan, listOrgans){
+            QVariantMap mapOrgan = variantOrgan.toMap();
+            IOrgan* organ = COrganFactory::build(mapOrgan);
+            if(organ)
+                m_mapOrgans.insert(organ->getName(), organ);
+        }
+        
+    }
 }
 CModelExtensionCard::~CModelExtensionCard()
 {
 
 }
-
+IOrgan* CModelExtensionCard::getOrgan(const QString& arg_name){
+    IOrgan* organ;
+    if(m_mapOrgans.contains(arg_name))
+        organ = m_mapOrgans.value(arg_name);
+    else{
+        if(m_mapOrgans.contains(QStringLiteral("unknown_organ")))
+            organ = m_mapOrgans.value(QStringLiteral("unknown_organ"));
+        else{
+            QVariantMap map;
+            map.insert(QStringLiteral("name"),QStringLiteral("unknown_organ")); 
+            organ = COrganFactory::build(map);
+            m_mapOrgans.insert(organ->getName(), organ);
+        }
+    }
+    return organ;
+}
+QMap<QString, IOrgan*> CModelExtensionCard::getMapOrgans(){
+    return m_mapOrgans;
+}
 QString CModelExtensionCard::getName()const{
 	return m_name;
 }
@@ -37,10 +82,6 @@ IVariable* CModelExtensionCard::getVariable(const QString &addr_var)const{
 
 void CModelExtensionCard::setCom(ICom* com){
 	m_interfaceCom = com;
-}
-
-QList<IOrgan*>  CModelExtensionCard::getListOrgans()const{
-    return m_listOrgans;
 }
 
 QString CModelExtensionCard::getLabel() const

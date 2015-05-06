@@ -38,15 +38,15 @@
         },
         {"name" : "io_card_1","fr_FR" : "Carte E/S 1", "en_US" : "I/O card 1",
             "com" : {"name":"com_jbus_tcp_master", "slave":2, "ip":"192.168.1.3", "port":245, "network":"eth0" },
-            "organs" : [{"name":"tor_input_0", "type":"input_bit", "address_data":"0x0100", "passif":true},
-                       {"name":"tor_input_1", "type":"input_bit", "address_data":"0x0101", "passif":true},
-                       {"name":"tor_input_2", "type":"input_bit", "address_data":"0x0102", "passif":true},
-                       {"name":"tor_output_0", "type":"output_bit", "address_data":"0x0200", "passif":true},
-                       {"name":"tor_output_1", "type":"output_bit", "address_data":"0x0201", "passif":true},
-                       {"name":"tor_output_2", "type":"output_bit", "address_data":"0x0202", "passif":true},
-                       {"name":"tor_output_3", "type":"output_bit", "address_data":"0x0203", "passif":true},
-                       {"name":"voltage_output_0", "type":"output_bit", "address_data":"0x0300", "passif":true},
-                       {"name":"voltage_output_1", "type":"output_bit", "address_data":"0x0301", "passif":true},
+            "organs" : [{"name":"tor_input_0", "type":"input_bit", "address_data":"0x0100"},
+                       {"name":"tor_input_1", "type":"input_bit", "address_data":"0x0101"},
+                       {"name":"tor_input_2", "type":"input_bit", "address_data":"0x0102"},
+                       {"name":"tor_output_0", "type":"output_bit", "address_data":"0x0200"},
+                       {"name":"tor_output_1", "type":"output_bit", "address_data":"0x0201"},
+                       {"name":"tor_output_2", "type":"output_bit", "address_data":"0x0202"},
+                       {"name":"tor_output_3", "type":"output_bit", "address_data":"0x0203"},
+                       {"name":"voltage_output_0", "type":"output_bit", "address_data":"0x0300"},
+                       {"name":"voltage_output_1", "type":"output_bit", "address_data":"0x0301"},
                        {"name":"loop_0_20_data", "type":"output_integer", "address_data":"0x0400"},
                        {"name":"loop_0_20_status", "type":"output_integer", "address_data":"0x0403"},
                        {"name":"loop_0_20_reset", "type":"output_integer", "address_data":"0x0406"}]
@@ -112,8 +112,8 @@
                         "value" : 0, "extension_name":"measure_card_1", "organ_name":"temperature_cell"
                     },
                    
-                    {"name":"loop_4_20", "fr_FR" : "Sortie 4-20 mA", "en_US" : "4-20 mA output", "type":"output_float",
-                        "value" : 0, "extension_name":"measure_card_1", "organ_name":"loop_0_20_data"
+                    {"name":"loop_4_20", "fr_FR" : "Sortie 4-20 mA", "en_US" : "4-20 mA output", "type":"output_integer_point",
+                        "value" : 0, "extension_name":"measure_card_1", "organ_name":"loop_0_20_data", "range_min":0, "range_point_min":0, "range_max":20, "range_point_max":4695  
                     },
                     {"name":"analyzer_default", "fr_FR" : "Défaut analyseur", "en_US" : "Analyzer default", "type":"output_boolean",
                             "value" : 0, "extension_name":"io_card_1", "organ_name":"tor_output_0"
@@ -122,10 +122,10 @@
                             "value" : 8, "extension_name":"io_card_1", "organ_name":"tor_output_0"
                     },
                     {"name":"sample_solenoide", "fr_FR" : "EV echantillon", "en_US" : "Sample solenoid", "type":"output_boolean",
-                            "value" : false, "extension_name":"io_card_1", "organ_name":"tor_output_1"
+                            "value" : false, "extension_name":"io_card_1", "organ_name":"tor_output_1", "passive":true
                     },
                     {"name":"emptying_solenoide", "fr_FR" : "EV vidange", "en_US" : "Emptying solenoid", "type":"output_boolean",
-                            "value" : false, "extension_name":"io_card_1", "organ_name":"tor_output_2"
+                            "value" : false, "extension_name":"io_card_1", "organ_name":"tor_output_2", "passive":false
                     },
                 
                     {"name":"pump_persulfate", "fr_FR" : "Pompe persulfate", "en_US" : "Persulfate pump", "type":"output_list_variables", 
@@ -222,7 +222,7 @@
                 },
                 {
                     "name" : "bloc_rincage",
-                    "type" : "bloc",
+                    "type" : "block",
                     "fr_FR" : "Rinçage en cours",
                     "en_US" : "Cleaning in progress",
                     "steps" : [{"step":1, "actions":["open_sample_solenoide", "open_emptying_solenoide"] }, {"step":2, "actions":["close_emptying_solenoide"] }, {"step":3, "actions":["open_sample_solenoide", "4_tour_pompe_persulfate"] }, {"step":5, "actions":["close_sample_solenoide", "open_emptying_solenoide"] }, {"step":6, "actions":["open_sample_solenoide"] }, {"step":7, "actions":["close_sample_solenoide", "close_emptying_solenoide"] }]

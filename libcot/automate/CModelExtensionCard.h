@@ -19,7 +19,8 @@ public:
 	QList<IOrgan*>  getListOrgans()const;
 	QString getLabel()const;
 	ICom* getICom()const;
-
+    IOrgan* getOrgan(const QString& arg_name);
+    QMap<QString, IOrgan*> getMapOrgans();
 	//
 	CModelExtensionCard(QObject *parent);
     CModelExtensionCard(const QVariantMap& mapExt);
@@ -40,10 +41,10 @@ private:
 	
 	//qmap<name, type>
 
-	QList<IOrgan*> m_listOrgans;
+	QMap<QString, IOrgan*> m_mapOrgans;
 	ICom* m_interfaceCom;
 	
-	QString m_lbl;
+	QString m_label;
 	QString m_name;
 
 };
