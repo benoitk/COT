@@ -17,73 +17,85 @@ UISelectTest::~UISelectTest()
 
 void UISelectTest::on_pbActionType_clicked()
 {
-    int r = handler->selectActionType(rowLabel(sender()).toInt());
+    int r = rowLabel(sender()).toInt();
+    handler->selectActionType(r);
     setRowLabel(sender(), r);
 }
 
 void UISelectTest::on_pbVariableType_clicked()
 {
-    int r = handler->selectVariableType(variableType(rowLabel(sender()).toInt()));
+    variableType r = variableType(rowLabel(sender()).toInt());
+    handler->selectVariableType(r);
     setRowLabel(sender(), r);
 }
 
 void UISelectTest::on_pbOrganType_clicked()
 {
-    int r = handler->selectOrganType(VariableOrganType(rowLabel(sender()).toInt()));
+    VariableOrganType r = VariableOrganType(rowLabel(sender()).toInt());
+    handler->selectOrganType(r);
     setRowLabel(sender(), r);
 }
 
 void UISelectTest::on_pbCycleType_clicked()
 {
-    int r = handler->selectCycleType(eTypeCycle(rowLabel(sender()).toInt()));
+    eTypeCycle r = eTypeCycle(rowLabel(sender()).toInt());
+    handler->selectCycleType(r);
     setRowLabel(sender(), r);
 }
 
 void UISelectTest::on_pbVariable_clicked()
 {
-    QString r = handler->selectVariable(rowLabel(sender()).toString());
+    QString r = rowLabel(sender()).toString();
+    handler->selectVariable(r);
     setRowLabel(sender(), r);
 }
 
 void UISelectTest::on_pbStream_clicked()
 {
-    QString r = handler->selectStream(rowLabel(sender()).toString());
+    QString r = rowLabel(sender()).toString();
+    handler->selectStream(r);
     setRowLabel(sender(), r);
 }
 
 void UISelectTest::on_pbMeasure_clicked()
 {
-    QString r = handler->selectMeasure(rowLabel(sender()).toString());
+    QString r = rowLabel(sender()).toString();
+    handler->selectMeasure(r);
     setRowLabel(sender(), r);
 }
 
 void UISelectTest::on_pbCycle_clicked()
 {
-    QString r = handler->selectCycle(rowLabel(sender()).toString());
+    QString r = rowLabel(sender()).toString();
+    handler->selectCycle(r);
     setRowLabel(sender(), r);
 }
 
 void UISelectTest::on_pbAction_clicked()
 {
-    QString r = handler->selectAction(rowLabel(sender()).toString());
+    QString r = rowLabel(sender()).toString();
+    handler->selectAction(r);
     setRowLabel(sender(), r);
 }
 
 void UISelectTest::on_pbStreamMeasure_clicked()
 {
-    QString r = handler->selectStreamOrMeasure(rowLabel(sender()).toString());
+    QString r = rowLabel(sender()).toString();
+    handler->selectStreamOrMeasure(r);
     setRowLabel(sender(), r);
 }
 
 void UISelectTest::on_pbExtension_clicked()
 {
-    QString r = handler->selectExtension(rowLabel(sender()).toString());
+    QString r = rowLabel(sender()).toString();
+    handler->selectExtension(r);
     setRowLabel(sender(), r);
 }
 
 void UISelectTest::on_pbOrgan_clicked()
 {
-    QString r = handler->selectOrgan(rowLabel(sender()).toString());
+    QString r = rowLabel(sender()).toString();
+    handler->selectOrgan(r);
     setRowLabel(sender(), r);
 }
 

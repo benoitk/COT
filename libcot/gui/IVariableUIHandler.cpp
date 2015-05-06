@@ -38,6 +38,16 @@ typedef QPair<QString, QVariant> PairStringString;
 typedef QPair<QString, PairStringString> PairPairStringString;
 typedef QList<PairPairStringString> PairPairStringStringList;
 
+class ScopedIVariablePtrList
+{
+public:
+    ScopedIVariablePtrList(IVariablePtrList *list) : m_list(list) {}
+    ~ScopedIVariablePtrList() { CVariableFactory::deleteVariables(*m_list); }
+
+private:
+    IVariablePtrList *m_list;
+};
+
 IVariablePtrList buildTemporaryString(const PairPairStringStringList& pairs) {
     IVariablePtrList ivars;
 
@@ -52,40 +62,40 @@ IVariablePtrList buildActionType() {
     // KDAB_TODO: No customer api so let fake
     // Note: this relates to CActionFactory::build()
     return buildTemporaryString({
-                     {"calc_coef", qMakePair(IVariableUIHandler::tr("Calc Coef"), 1)},
-                     {"calc_rien", qMakePair(IVariableUIHandler::tr("Calc Rien"), 2)},
-                     {"cmd_pump", qMakePair(IVariableUIHandler::tr("Pump"), 3)},
-                     {"cmd_relay", qMakePair(IVariableUIHandler::tr("Relay"), 3)},
-                     {"block", qMakePair(IVariableUIHandler::tr("Block"), 1000)}
-                 });
+                                    {"calc_coef", qMakePair(IVariableUIHandler::tr("Calc Coef"), 1)},
+                                    {"calc_rien", qMakePair(IVariableUIHandler::tr("Calc Rien"), 2)},
+                                    {"cmd_pump", qMakePair(IVariableUIHandler::tr("Pump"), 3)},
+                                    {"cmd_relay", qMakePair(IVariableUIHandler::tr("Relay"), 3)},
+                                    {"block", qMakePair(IVariableUIHandler::tr("Block"), 1000)}
+                                });
 }
 
 IVariablePtrList buildVariableTypes() {
     return buildTemporaryString({
-                     {"type_bool", qMakePair(IVariableUIHandler::tr("Boolean"), type_bool)},
-                     {"type_float", qMakePair(IVariableUIHandler::tr("Float"), type_float)},
-                     {"type_int", qMakePair(IVariableUIHandler::tr("Integer"), type_int)},
-                     {"type_string", qMakePair(IVariableUIHandler::tr("String"), type_string)},
-                     {"type_stream", qMakePair(IVariableUIHandler::tr("Stream"), type_stream)},
-                     {"type_unknow", qMakePair(IVariableUIHandler::tr("Unknown"), type_unknow)}
-                 });
+                                    {"type_bool", qMakePair(IVariableUIHandler::tr("Boolean"), type_bool)},
+                                    {"type_float", qMakePair(IVariableUIHandler::tr("Float"), type_float)},
+                                    {"type_int", qMakePair(IVariableUIHandler::tr("Integer"), type_int)},
+                                    {"type_string", qMakePair(IVariableUIHandler::tr("String"), type_string)},
+                                    {"type_stream", qMakePair(IVariableUIHandler::tr("Stream"), type_stream)},
+                                    {"type_unknow", qMakePair(IVariableUIHandler::tr("Unknown"), type_unknow)}
+                                });
 }
 
 IVariablePtrList buildOrganTypes() {
     return buildTemporaryString({
-                     {"VariableOrganTypeNone", qMakePair(IVariableUIHandler::tr("None"), VariableOrganTypeNone)},
-                     {"VariableOrganTypeInput", qMakePair(IVariableUIHandler::tr("Input"), VariableOrganTypeInput)},
-                     {"VariableOrganTypeOutput", qMakePair(IVariableUIHandler::tr("Output"), VariableOrganTypeOutput)}
-                 });
+                                    {"VariableOrganTypeNone", qMakePair(IVariableUIHandler::tr("None"), VariableOrganTypeNone)},
+                                    {"VariableOrganTypeInput", qMakePair(IVariableUIHandler::tr("Input"), VariableOrganTypeInput)},
+                                    {"VariableOrganTypeOutput", qMakePair(IVariableUIHandler::tr("Output"), VariableOrganTypeOutput)}
+                                });
 }
 
 IVariablePtrList buildCycleTypes() {
     return buildTemporaryString({
-                     {"CYCLE_MESURE", qMakePair(IVariableUIHandler::tr("Measure"), CYCLE_MESURE)},
-                     {"CYCLE_AUTONOME", qMakePair(IVariableUIHandler::tr("Autonome"), CYCLE_AUTONOME)},
-                     {"CYCLE_MAINTENANCE", qMakePair(IVariableUIHandler::tr("Maintenance"), CYCLE_MAINTENANCE)},
-                     {"CYCLE_PAUSE", qMakePair(IVariableUIHandler::tr("Pause"), CYCLE_PAUSE)}
-                 });
+                                    {"CYCLE_MESURE", qMakePair(IVariableUIHandler::tr("Measure"), CYCLE_MESURE)},
+                                    {"CYCLE_AUTONOME", qMakePair(IVariableUIHandler::tr("Autonome"), CYCLE_AUTONOME)},
+                                    {"CYCLE_MAINTENANCE", qMakePair(IVariableUIHandler::tr("Maintenance"), CYCLE_MAINTENANCE)},
+                                    {"CYCLE_PAUSE", qMakePair(IVariableUIHandler::tr("Pause"), CYCLE_PAUSE)}
+                                });
 }
 
 IVariablePtrList buildVariables() {
@@ -301,196 +311,192 @@ bool IVariableUIHandler::enterDouble(double &value)
     return false;
 }
 
-int  IVariableUIHandler::selectActionType(int defaultValue)
+bool IVariableUIHandler::selectActionType(int &value)
 {
     IVariablePtrList ivars = buildActionType();
+    ScopedIVariablePtrList scoped(&ivars);
     CGenericItemSelector dlg(ivars);
     dlg.setTitle(tr("Select an action type"));
-    dlg.setSelectedValue(defaultValue);
-    int result = -1;
+    dlg.setSelectedValue(value);
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
-        result = dlg.selectedItem()->toInt();
+        value = dlg.selectedItem()->toInt();
+        return true;
     }
 
-    CVariableFactory::deleteVariables(ivars);
-    return result;
+    return false;
 }
 
-variableType  IVariableUIHandler::selectVariableType(variableType defaultValue)
+bool IVariableUIHandler::selectVariableType(variableType &value)
 {
     IVariablePtrList ivars = buildVariableTypes();
+    ScopedIVariablePtrList scoped(&ivars);
     CGenericItemSelector dlg(ivars);
     dlg.setTitle(tr("Select a variable type"));
-    dlg.setSelectedValue(defaultValue);
-    variableType result = defaultValue;
+    dlg.setSelectedValue(value);
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
-        result = variableType(dlg.selectedItem()->toInt());
+        value = variableType(dlg.selectedItem()->toInt());
+        return true;
     }
 
-    CVariableFactory::deleteVariables(ivars);
-    return result;
+    return false;
 }
 
-VariableOrganType  IVariableUIHandler::selectOrganType(VariableOrganType defaultValue)
+bool IVariableUIHandler::selectOrganType(VariableOrganType &value)
 {
     IVariablePtrList ivars = buildOrganTypes();
+    ScopedIVariablePtrList scoped(&ivars);
     CGenericItemSelector dlg(ivars);
     dlg.setTitle(tr("Select an organ type type"));
-    dlg.setSelectedValue(defaultValue);
-    VariableOrganType result = defaultValue;
+    dlg.setSelectedValue(value);
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
-        result = VariableOrganType(dlg.selectedItem()->toInt());
+        value = VariableOrganType(dlg.selectedItem()->toInt());
+        return true;
     }
 
-    CVariableFactory::deleteVariables(ivars);
-    return result;
+    return false;
 }
 
-eTypeCycle  IVariableUIHandler::selectCycleType(eTypeCycle defaultValue)
+bool IVariableUIHandler::selectCycleType(eTypeCycle &value)
 {
     IVariablePtrList ivars = buildCycleTypes();
+    ScopedIVariablePtrList scoped(&ivars);
     CGenericItemSelector dlg(ivars);
     dlg.setTitle(tr("Select a cycle type"));
-    dlg.setSelectedValue(defaultValue);
-    eTypeCycle result = defaultValue;
+    dlg.setSelectedValue(value);
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
-        result = eTypeCycle(dlg.selectedItem()->toInt());
+        value = eTypeCycle(dlg.selectedItem()->toInt());
+        return true;
     }
 
-    CVariableFactory::deleteVariables(ivars);
-    return result;
+    return false;
 }
 
-QString  IVariableUIHandler::selectVariable(const QString &defaultName)
+bool IVariableUIHandler::selectVariable(QString &value)
 {
-    IVariablePtrList ivars = buildVariables();
+    IVariablePtrList ivars = buildVariables(); // don't free, hold by automate
     CGenericItemSelector dlg(ivars);
     dlg.setTitle(tr("Select a variable"));
-    dlg.setSelectedValue(defaultName);
-    QString result = defaultName;
+    dlg.setSelectedValue(value);
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
-        result = dlg.selectedItem()->getName();
+        value = dlg.selectedItem()->getName();
+        return true;
     }
 
-    //Don't add free(ivars) as variables comes directly from automate
-    return result;
+    return false;
 }
 
-QString  IVariableUIHandler::selectStream(const QString &defaultName)
+bool IVariableUIHandler::selectStream(QString &value)
 {
-    IVariablePtrList ivars = buildStreams();
+    IVariablePtrList ivars = buildStreams(); // don't free, hold by automate
     CGenericItemSelector dlg(ivars);
     dlg.setTitle(tr("Select a stream"));
-    dlg.setSelectedValue(defaultName);
-    QString result = defaultName;
+    dlg.setSelectedValue(value);
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
-        result = dlg.selectedItem()->getName();
+        value = dlg.selectedItem()->getName();
+        return true;
     }
 
-    //Don't add free(ivars) as variables comes directly from automate
-    return result;
+    return false;
 }
 
-QString  IVariableUIHandler::selectMeasure(const QString &defaultName)
+bool IVariableUIHandler::selectMeasure(QString &value)
 {
-    IVariablePtrList ivars = buildMeasures();
+    IVariablePtrList ivars = buildMeasures(); // don't free, hold by automate
     CGenericItemSelector dlg(ivars);
     dlg.setTitle(tr("Select a measure"));
-    dlg.setSelectedValue(defaultName);
-    QString result = defaultName;
+    dlg.setSelectedValue(value);
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
-        result = dlg.selectedItem()->getName();
+        value = dlg.selectedItem()->getName();
+        return true;
     }
 
-    //Don't add free(ivars) as variables comes directly from automate
-    return result;
+    return false;
 }
 
-QString  IVariableUIHandler::selectCycle(const QString &defaultName)
+bool IVariableUIHandler::selectCycle(QString &value)
 {
     IVariablePtrList ivars = buildCycles();
     CGenericItemSelector dlg(ivars);
     dlg.setTitle(tr("Select a cycle"));
-    dlg.setSelectedValue(defaultName);
-    QString result = defaultName;
+    dlg.setSelectedValue(value);
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
-        result = dlg.selectedItem()->getName();
+        value = dlg.selectedItem()->getName();
+        return true;
     }
 
     CVariableFactory::deleteVariables(ivars);
-    return result;
+    return false;
 }
 
-QString  IVariableUIHandler::selectAction(const QString &defaultName)
+bool IVariableUIHandler::selectAction(QString &value)
 {
     IVariablePtrList ivars = buildActions();
+    ScopedIVariablePtrList scoped(&ivars);
     CGenericItemSelector dlg(ivars);
     dlg.setTitle(tr("Select an action"));
-    dlg.setSelectedValue(defaultName);
-    QString result = defaultName;
+    dlg.setSelectedValue(value);
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
-        result = dlg.selectedItem()->getName();
+        value = dlg.selectedItem()->getName();
+        return true;
     }
 
-    CVariableFactory::deleteVariables(ivars);
-    return result;
+    return false;
 }
 
-QString  IVariableUIHandler::selectStreamOrMeasure(const QString &defaultName)
+bool IVariableUIHandler::selectStreamOrMeasure(QString &value)
 {
-    IVariablePtrList ivars = buildStreamsMeasures();
+    IVariablePtrList ivars = buildStreamsMeasures(); // don't free, hold by automate
     CGenericItemSelector dlg(ivars);
     dlg.setTitle(tr("Select a measure or measure"));
-    dlg.setSelectedValue(defaultName);
-    QString result = defaultName;
+    dlg.setSelectedValue(value);
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
-        result = dlg.selectedItem()->getName();
+        value = dlg.selectedItem()->getName();
+        return true;
     }
 
-    //Don't add free(ivars) as variables comes directly from automate
-    return result;
+    return false;
 }
 
-QString  IVariableUIHandler::selectExtension(const QString &defaultName)
+bool IVariableUIHandler::selectExtension(QString &value)
 {
     IVariablePtrList ivars = buildExtensions();
+    ScopedIVariablePtrList scoped(&ivars);
     CGenericItemSelector dlg(ivars);
     dlg.setTitle(tr("Select an extension"));
-    dlg.setSelectedValue(defaultName);
-    QString result = defaultName;
+    dlg.setSelectedValue(value);
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
-        result = dlg.selectedItem()->getName();
+        value = dlg.selectedItem()->getName();
+        return true;
     }
 
-    CVariableFactory::deleteVariables(ivars);
-    return result;
+    return false;
 }
 
-QString  IVariableUIHandler::selectOrgan(const QString &defaultName)
+bool IVariableUIHandler::selectOrgan(QString &value)
 {
     IVariablePtrList ivars = buildOrgans();
+    ScopedIVariablePtrList scoped(&ivars);
     CGenericItemSelector dlg(ivars);
     dlg.setTitle(tr("Select an organ"));
-    dlg.setSelectedValue(defaultName);
-    QString result = defaultName;
+    dlg.setSelectedValue(value);
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
-        result = dlg.selectedItem()->getName();
+        value = dlg.selectedItem()->getName();
+        return true;
     }
 
-    CVariableFactory::deleteVariables(ivars);
-    return result;
+    return false;
 }
 
 int IVariableUIHandler::layoutRow(QWidget *widget) const
@@ -598,7 +604,7 @@ QWidget *IVariableUIHandler::newEditor(IVariable *ivar)
             switch (ivar->getOrganType()) {
                 case VariableOrganTypeNone:
                 case VariableOrganTypeOutput: {
-                    connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestDoubleValue);
+                    connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestDouble);
                     break;
                 }
 
@@ -618,7 +624,7 @@ QWidget *IVariableUIHandler::newEditor(IVariable *ivar)
             switch (ivar->getOrganType()) {
                 case VariableOrganTypeNone:
                 case VariableOrganTypeOutput: {
-                    connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestIntegerValue);
+                    connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestInteger);
                     break;
                 }
 
@@ -638,7 +644,7 @@ QWidget *IVariableUIHandler::newEditor(IVariable *ivar)
             switch (ivar->getOrganType()) {
                 case VariableOrganTypeNone:
                 case VariableOrganTypeOutput: {
-                    connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestStringValue);
+                    connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestString);
                     break;
                 }
 
@@ -836,29 +842,7 @@ void IVariableUIHandler::slotSwitchClicked()
     ivar->setValue(editor->isChecked());
 }
 
-void IVariableUIHandler::slotRequestIntegerValue()
-{
-    CPushButton *editor = qobject_cast<CPushButton *>(sender());
-    IVariable *ivar = getVariable(editor->userData().toString());
-    int value = ivar->toInt();
-
-    if (enterInteger(value)) {
-        ivar->setValue(value);
-    }
-}
-
-void IVariableUIHandler::slotRequestDoubleValue()
-{
-    CPushButton *editor = qobject_cast<CPushButton *>(sender());
-    IVariable *ivar = getVariable(editor->userData().toString());
-    double value = ivar->toFloat();
-
-    if (enterDouble(value)) {
-        ivar->setValue(value);
-    }
-}
-
-void IVariableUIHandler::slotRequestStringValue()
+void IVariableUIHandler::slotRequestString()
 {
     CPushButton *editor = qobject_cast<CPushButton *>(sender());
     IVariable *ivar = getVariable(editor->userData().toString());
@@ -869,15 +853,156 @@ void IVariableUIHandler::slotRequestStringValue()
     }
 }
 
-void IVariableUIHandler::slotRequestStream()
+void IVariableUIHandler::slotRequestInteger()
 {
-    CAutomate *automate = CAutomate::getInstance();
     CPushButton *editor = qobject_cast<CPushButton *>(sender());
     IVariable *ivar = getVariable(editor->userData().toString());
-    IVariablePtrList streams = automate->getMapStreams().values();
-    CGenericItemSelector dlg(streams);
+    int value = ivar->toInt();
 
-    if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
-        ivar->setValue(dlg.selectedItem()->getName());
+    if (enterInteger(value)) {
+        ivar->setValue(value);
+    }
+}
+
+void IVariableUIHandler::slotRequestDouble()
+{
+    CPushButton *editor = qobject_cast<CPushButton *>(sender());
+    IVariable *ivar = getVariable(editor->userData().toString());
+    double value = ivar->toFloat();
+
+    if (enterDouble(value)) {
+        ivar->setValue(value);
+    }
+}
+
+void IVariableUIHandler::slotRequestActionType()
+{
+    CPushButton *editor = qobject_cast<CPushButton *>(sender());
+    IVariable *ivar = getVariable(editor->userData().toString());
+    int value = ivar->toInt();
+
+    if (selectActionType(value)) {
+        ivar->setValue(value);
+    }
+}
+
+void IVariableUIHandler::slotRequestVariableType()
+{
+    CPushButton *editor = qobject_cast<CPushButton *>(sender());
+    IVariable *ivar = getVariable(editor->userData().toString());
+    variableType value = variableType(ivar->toInt());
+
+    if (selectVariableType(value)) {
+        ivar->setValue(value);
+    }
+}
+
+void IVariableUIHandler::slotRequestOrganType()
+{
+    CPushButton *editor = qobject_cast<CPushButton *>(sender());
+    IVariable *ivar = getVariable(editor->userData().toString());
+    VariableOrganType value = VariableOrganType(ivar->toInt());
+
+    if (selectOrganType(value)) {
+        ivar->setValue(value);
+    }
+}
+
+void IVariableUIHandler::slotRequestCycleType()
+{
+    CPushButton *editor = qobject_cast<CPushButton *>(sender());
+    IVariable *ivar = getVariable(editor->userData().toString());
+    eTypeCycle value = eTypeCycle(ivar->toInt());
+
+    if (selectCycleType(value)) {
+        ivar->setValue(value);
+    }
+}
+
+void IVariableUIHandler::slotRequestVariable()
+{
+    CPushButton *editor = qobject_cast<CPushButton *>(sender());
+    IVariable *ivar = getVariable(editor->userData().toString());
+    QString value = ivar->toString();
+
+    if (selectVariable(value)) {
+        ivar->setValue(value);
+    }
+}
+
+void IVariableUIHandler::slotRequestStream()
+{
+    CPushButton *editor = qobject_cast<CPushButton *>(sender());
+    IVariable *ivar = getVariable(editor->userData().toString());
+    QString value = ivar->toString();
+
+    if (selectStream(value)) {
+        ivar->setValue(value);
+    }
+}
+
+void IVariableUIHandler::slotRequestMeasure()
+{
+    CPushButton *editor = qobject_cast<CPushButton *>(sender());
+    IVariable *ivar = getVariable(editor->userData().toString());
+    QString value = ivar->toString();
+
+    if (selectMeasure(value)) {
+        ivar->setValue(value);
+    }
+}
+
+void IVariableUIHandler::slotRequestCycle()
+{
+    CPushButton *editor = qobject_cast<CPushButton *>(sender());
+    IVariable *ivar = getVariable(editor->userData().toString());
+    QString value = ivar->toString();
+
+    if (selectCycle(value)) {
+        ivar->setValue(value);
+    }
+}
+
+void IVariableUIHandler::slotRequestAction()
+{
+    CPushButton *editor = qobject_cast<CPushButton *>(sender());
+    IVariable *ivar = getVariable(editor->userData().toString());
+    QString value = ivar->toString();
+
+    if (selectAction(value)) {
+        ivar->setValue(value);
+    }
+}
+
+void IVariableUIHandler::slotRequestStreamOrMeasure()
+{
+    CPushButton *editor = qobject_cast<CPushButton *>(sender());
+    IVariable *ivar = getVariable(editor->userData().toString());
+    QString value = ivar->toString();
+
+    if (selectStreamOrMeasure(value)) {
+        ivar->setValue(value);
+    }
+}
+
+void IVariableUIHandler::slotRequestExtension()
+{
+    CPushButton *editor = qobject_cast<CPushButton *>(sender());
+    IVariable *ivar = getVariable(editor->userData().toString());
+    QString value = ivar->toString();
+
+    if (selectExtension(value)) {
+        ivar->setValue(value);
+    }
+}
+
+void IVariableUIHandler::slotRequestOrgan()
+{
+    CPushButton *editor = qobject_cast<CPushButton *>(sender());
+    IVariable *ivar = getVariable(editor->userData().toString());
+    QString value = ivar->toString();
+
+    if (selectOrgan(value)) {
+        ivar->setValue(value);
     }
 }

@@ -27,8 +27,9 @@ CConfiguratorVariablesTab::~CConfiguratorVariablesTab()
 
 void CConfiguratorVariablesTab::addVariable()
 {
-    const QString streamname = m_ivariableUIHandler->selectStream();
-    if (!streamname.isEmpty()) {
+    QString streamname;
+
+    if (m_ivariableUIHandler->selectStream(streamname) && !streamname.isEmpty()) {
         //TODO add it
     }
 }

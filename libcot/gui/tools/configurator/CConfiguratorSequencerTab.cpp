@@ -24,8 +24,9 @@ CConfiguratorSequencerTab::~CConfiguratorSequencerTab()
 
 void CConfiguratorSequencerTab::slotAddSequencer()
 {
-    const QString newCycleName = m_isequencerUIHandler->selectCycle();
-    if (!newCycleName.isEmpty()) {
+    QString newCycleName;
+
+    if (m_isequencerUIHandler->selectCycle(newCycleName) && !newCycleName.isEmpty()) {
         //TODO add new cycle.
     }
 }

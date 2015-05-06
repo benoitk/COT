@@ -34,29 +34,29 @@ public:
     bool enterDouble(double &value);
 
     // return an action type: calc_coef, calc_rien, bloc, etc.
-    int selectActionType(int defaultValue = -1);
+    bool selectActionType(int &value);
     // Select a variable type (float, int, string)
-    variableType selectVariableType(variableType defaultValue = type_unknow);
+    bool selectVariableType(variableType &value);
     // Select a variable organ type (input, output, none)
-    VariableOrganType selectOrganType(VariableOrganType defaultValue = VariableOrganTypeNone);
+    bool selectOrganType(VariableOrganType &value);
     // Select a cycle type (maintenance, autonome, pause...)
-    eTypeCycle selectCycleType(eTypeCycle defaultValue = CYCLE_INVALID);
+    bool selectCycleType(eTypeCycle &value);
     // Select a variable
-    QString selectVariable(const QString &defaultName = QString());
+    bool selectVariable(QString &value);
     // Select a stream name
-    QString selectStream(const QString &defaultName = QString());
+    bool selectStream(QString &value);
     // Select a measure
-    QString selectMeasure(const QString &defaultName = QString());
+    bool selectMeasure(QString &value);
     // Select a cycle
-    QString selectCycle(const QString &defaultName = QString());
+    bool selectCycle(QString &value);
     // Select an action
-    QString selectAction(const QString &defaultName = QString());
+    bool selectAction(QString &value);
     // Select a stream and/or measure
-    QString selectStreamOrMeasure(const QString &defaultName = QString());
+    bool selectStreamOrMeasure(QString &value);
     // Select extension
-    QString selectExtension(const QString &defaultName = QString());
+    bool selectExtension(QString &value);
     // Select organ
-    QString selectOrgan(const QString &defaultName = QString());
+    bool selectOrgan(QString &value);
 
 protected:
     struct Row {
@@ -92,10 +92,21 @@ protected:
 private slots:
     void slotVariableChanged(const QString &name);
     void slotSwitchClicked();
-    void slotRequestIntegerValue();
-    void slotRequestDoubleValue();
-    void slotRequestStringValue();
+    void slotRequestString();
+    void slotRequestInteger();
+    void slotRequestDouble();
+    void slotRequestActionType();
+    void slotRequestVariableType();
+    void slotRequestOrganType();
+    void slotRequestCycleType();
+    void slotRequestVariable();
     void slotRequestStream();
+    void slotRequestMeasure();
+    void slotRequestCycle();
+    void slotRequestAction();
+    void slotRequestStreamOrMeasure();
+    void slotRequestExtension();
+    void slotRequestOrgan();
 };
 
 #endif // IVARIABLEUIHANDLER_H
