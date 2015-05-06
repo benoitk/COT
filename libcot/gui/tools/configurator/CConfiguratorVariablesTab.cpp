@@ -11,6 +11,7 @@ CConfiguratorVariablesTab::CConfiguratorVariablesTab(QWidget *parent)
 {
     ui->setupUi(this);
     m_ivariableUIHandler = new ConfiguratorVariablesUIHandler(ui->swCentral, this);
+    connect(m_ivariableUIHandler, &ConfiguratorVariablesUIHandler::editVariable, this, &CConfiguratorVariablesTab::editVariable);
     connect(ui->vbbButtons->addAction(CToolButton::Add), &QAction::triggered,
             this, &CConfiguratorVariablesTab::addVariable);
     ui->vbbButtons->addAction(CToolButton::ScrollUp, ui->swCentral->moveUp());
@@ -30,7 +31,7 @@ void CConfiguratorVariablesTab::addVariable()
     CPCWindow::openModal<CEditvariableWindow>("" /* variable name */    );
 }
 
-void CConfiguratorVariablesTab::editVariable()
+void CConfiguratorVariablesTab::editVariable(const QString &variableName)
 {
-    CPCWindow::openModal<CEditvariableWindow>("" /* variable name */);
+    CPCWindow::openModal<CEditvariableWindow>(variableName);
 }

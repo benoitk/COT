@@ -15,7 +15,7 @@ public:
 
 private slots:
     void addVariable();
-    void editVariable();
+    void editVariable(const QString &variableName);
 
 private:
     Ui::CConfiguratorVariablesTab *ui;
