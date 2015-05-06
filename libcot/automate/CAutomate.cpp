@@ -236,20 +236,23 @@ void CAutomate::setCom(ICom* arg_comObject){
 
 void CAutomate::addCycle(ICycle* cycle){
     QMutexLocker locker(&m_mutex);
-	//CControlerCycle* controlerCycle = new CControlerCycle(this, cycle);
-	switch(cycle->getType()){
-	case CYCLE_MESURE:
-        m_listCycleMesures[cycle->getName()] = cycle;
-		break;
-	case CYCLE_MAINTENANCE :
-        m_listCycleMaintenances[cycle->getName()] = cycle;
-		break;
-	case CYCLE_AUTONOME:
-        m_listlCycleAutonomes[cycle->getName()] = cycle;
-		break;
+    //CControlerCycle* controlerCycle = new CControlerCycle(this, cycle);
+    switch(cycle->getType()){
+        case CYCLE_MESURE:
+            Q_ASSERT(!m_listCycleMesures.contains(cycle->getName()));
+            m_listCycleMesures[cycle->getName()] = cycle;
+            break;
+        case CYCLE_MAINTENANCE :
+            Q_ASSERT(!m_listCycleMaintenances.contains(cycle->getName()));
+            m_listCycleMaintenances[cycle->getName()] = cycle;
+            break;
+        case CYCLE_AUTONOME:
+            Q_ASSERT(!m_listlCycleAutonomes.contains(cycle->getName()));
+            m_listlCycleAutonomes[cycle->getName()] = cycle;
+            break;
 
-    case CYCLE_PAUSE:
-    case CYCLE_ALL:
+        case CYCLE_PAUSE:
+        case CYCLE_ALL:
             break;
     }
 }
