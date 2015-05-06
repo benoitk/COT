@@ -33,6 +33,11 @@ void IVariableObjectDescriber::clear() {
 
 // ICycle Describer
 
+IVariableICycleDescriber::IVariableICycleDescriber(QObject *parent)
+    : IVariableObjectDescriber(parent)
+{
+}
+
 void IVariableICycleDescriber::describe(const QVariant &object)
 {
     ICycle *cycle = object.value<ICycle *>();

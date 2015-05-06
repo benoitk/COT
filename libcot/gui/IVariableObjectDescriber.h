@@ -26,6 +26,7 @@ protected:
 class IVariableICycleDescriber : public IVariableObjectDescriber
 {
 public:
+    IVariableICycleDescriber(QObject *parent = Q_NULLPTR);
     virtual void describe(const QVariant &object) Q_DECL_OVERRIDE;
 };
 

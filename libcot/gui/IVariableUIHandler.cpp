@@ -41,6 +41,7 @@ IVariableUIHandler::IVariableUIHandler(CScrollableWidget *scrollable, QObject *p
 
 IVariableUIHandler::~IVariableUIHandler()
 {
+    delete m_describer;
 }
 
 void IVariableUIHandler::layout(const QList<IVariable *> &variables, bool addDeleteButton)
