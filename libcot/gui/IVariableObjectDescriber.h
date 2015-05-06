@@ -5,6 +5,12 @@
 
 #include "CVariableFactory.h"
 
+/*
+ * This class is responsable to generate a list of IVariable representing the properties
+ * of an editable object like ICycle, IAction...
+ * It do track variable for you and will delete them itself.
+ * That's usefull to give or append to variables passed to an IVariableUIHandler.
+ * */
 class IVariableObjectDescriber : public QObject
 {
 public:
