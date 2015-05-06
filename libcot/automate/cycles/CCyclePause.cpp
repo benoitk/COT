@@ -18,7 +18,7 @@ CCyclePause::CCyclePause(const QVariantMap &mapCycle)
 	this->moveToThread(&m_thread);
 	m_thread.start();
 }
-CCyclePause::CCyclePause(QObject* parent, int temps): ICycle(parent){
+CCyclePause::CCyclePause(int temps, QObject* parent): ICycle(parent){
 	m_iTempsCycle = temps;
 	initTimer();
 }

@@ -20,3 +20,33 @@ ICycle* CCycleFactory::build(const QVariantMap &mapCycle, const QMap<QString, IA
 	}
 	return cycle;
 }
+
+ICycle *CCycleFactory::build(eTypeCycle type)
+{
+    ICycle *cycle = Q_NULLPTR;
+
+    switch (type) {
+        case CYCLE_MESURE:
+            cycle = new CCycleMesure;
+            break;
+
+        case CYCLE_AUTONOME:
+            cycle = new CCycleAutonome;
+            break;
+
+        case CYCLE_MAINTENANCE:
+            cycle = new CCycleMaintenance;
+            break;
+
+        case CYCLE_PAUSE:
+            cycle = new CCyclePause;
+            break;
+
+        case CYCLE_ALL:
+        case CYCLE_INVALID:
+            Q_ASSERT(false);
+            break;
+    }
+
+    return cycle;
+}

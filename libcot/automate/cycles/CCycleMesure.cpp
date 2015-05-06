@@ -44,11 +44,6 @@ CCycleMesure::CCycleMesure(const QVariantMap &mapCycle): ICycle(){
 	m_thread.start();
 
 }
-
-CCycleMesure::CCycleMesure():ICycle()
-{
-	initTimer();
-}
 void CCycleMesure::initTimer(){
 	m_periode = 500;
 	m_timer = new QTimer(this);

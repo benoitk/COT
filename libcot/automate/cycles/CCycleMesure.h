@@ -13,10 +13,9 @@ class CCycleMesure : public ICycle
 	Q_OBJECT
 
 public:
-	CCycleMesure(QObject *parent);
+    CCycleMesure(QObject *parent = Q_NULLPTR);
     CCycleMesure(const QVariantMap&);
     CCycleMesure(const QVariantMap&, const QMap<QString, IAction*>&);
-	CCycleMesure();
 	~CCycleMesure();
 
     void setType(eTypeCycle) Q_DECL_OVERRIDE;

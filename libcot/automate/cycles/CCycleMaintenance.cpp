@@ -6,7 +6,7 @@ CCycleMaintenance::CCycleMaintenance(QObject *parent)
 {
 
 }
-CCycleMaintenance::CCycleMaintenance(QObject* parent, eTypeCycle typeCycle): ICycle(parent){
+CCycleMaintenance::CCycleMaintenance(eTypeCycle typeCycle, QObject* parent): ICycle(parent){
 	m_typeCycle = typeCycle;
 }
 CCycleMaintenance::~CCycleMaintenance()

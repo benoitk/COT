@@ -8,8 +8,8 @@ class CCycleMaintenance : public ICycle
 	Q_OBJECT
 
 public:
-	CCycleMaintenance(QObject *parent);
-	CCycleMaintenance(QObject *parent, eTypeCycle);
+    CCycleMaintenance(QObject *parent = Q_NULLPTR);
+    CCycleMaintenance(eTypeCycle type, QObject *parent = Q_NULLPTR);
 	~CCycleMaintenance();
 
     void setType(eTypeCycle) Q_DECL_OVERRIDE;

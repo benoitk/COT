@@ -3,7 +3,8 @@
 
 #include <QObject>
 
-class ICycle;
+#include "ICycle.h"
+
 class IAction;
 class CCycleFactory : public QObject
 {
@@ -11,7 +12,7 @@ class CCycleFactory : public QObject
 
 public:
     static ICycle* build(const QVariantMap &mapCycle, const QMap<QString, IAction *> &mapAction);
-	
+    static ICycle* build(eTypeCycle type);
 
 private:
 	

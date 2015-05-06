@@ -44,7 +44,7 @@ void CSequenceur::apendSequenceMesureRunCycle(ICycle* cycle, int nbMesure){
 	}
 }*/
 void CSequenceur::apendSequenceMesurePause(int minute){
-	CCyclePause* cyclePause = new CCyclePause(this, minute);
+    CCyclePause* cyclePause = new CCyclePause(minute, this);
 	//CControlerCycle* ctrlCycle = new CControlerCycle(this, cyclePause);
 	m_listSequenceCyclesMesures.append(cyclePause);
 }
