@@ -12,6 +12,8 @@ class CConfiguratorSequencerTab : public IConfiguratorTab
 public:
     explicit CConfiguratorSequencerTab(QWidget *parent = Q_NULLPTR);
     ~CConfiguratorSequencerTab();
+private slots:
+    void slotAddSequencer();
 private:
     Ui::CConfiguratorSequencerTab *ui;
     ConfiguratorSequencerUIHandler *m_isequencerUIHandler;
