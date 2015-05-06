@@ -119,6 +119,8 @@ HEADERS *= \
     automate/variables/IVariableInput.h \
     automate/variables/IVariableOutput.h \
     automate/variables/CVariableMutable.h \
+	automate/organs/COrgan.h \
+	automate/organs/CCOrganFactory.h \
     keyboards/CKeyboardButtonBase.h \
     keyboards/CKeyboardDialog.h \
     keyboards/CKeyboardLayoutUtils.h \
@@ -269,6 +271,8 @@ SOURCES *= \
     automate/variables/IVariableInput.cpp \
     automate/variables/IVariableOuput.cpp \
     automate/variables/CVariableMutable.cpp \
+	automate/organs/COrgan.cpp \
+	automate/organs/CCOrganFactory.cpp \
     keyboards/CKeyboardButtonBase.cpp \
     keyboards/CKeyboardDialog.cpp \
     keyboards/CKeyboardLayoutUtils.cpp \
