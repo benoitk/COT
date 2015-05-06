@@ -207,6 +207,7 @@ HEADERS *= \
     automate/com/CComFactory.h \
     automate/com/CComUnknow.h \
     gui/tools/configurator/ConfiguratorSequencerUIHandler.h \
+    gui/tools/configurator/ConfiguratorStreamsUIHandler.h
 
 SOURCES *= \
     automate/CAutomate.cpp \
@@ -347,3 +348,4 @@ SOURCES *= \
     automate/com/CComFactory.cpp \
     automate/com/CComUnknow.cpp \
     gui/tools/configurator/ConfiguratorSequencerUIHandler.cpp \
+    gui/tools/configurator/ConfiguratorStreamsUIHandler.cpp

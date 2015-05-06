@@ -1,4 +1,5 @@
 #include "CConfiguratorStreamsTab.h"
+#include "ConfiguratorStreamsUIHandler.h"
 #include "ui_CConfiguratorStreamsTab.h"
 
 #include <IVariableUIHandler.h>
@@ -9,12 +10,12 @@ CConfiguratorStreamsTab::CConfiguratorStreamsTab(QWidget *parent)
 {
     ui->setupUi(this);
     connect(ui->vbbButtons->addAction(CToolButton::Add), &QAction::triggered,
-            this, &CConfiguratorStreamsTab::addVariable);
+            this, &CConfiguratorStreamsTab::slotAddStreams);
     ui->vbbButtons->addAction(CToolButton::ScrollUp, ui->swCentral->moveUp());
     ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->swCentral->moveDown());
     connect(ui->vbbButtons->addAction(CToolButton::Back), &QAction::triggered,
             this, &IConfiguratorTab::backTriggered);
-    m_ivariableUIHandler = new IVariableUIHandler(ui->swCentral, this);
+    m_istreamUIHandler = new ConfiguratorStreamsUIHandler(ui->swCentral, this);
 }
 
 CConfiguratorStreamsTab::~CConfiguratorStreamsTab()
@@ -22,7 +23,7 @@ CConfiguratorStreamsTab::~CConfiguratorStreamsTab()
     delete ui;
 }
 
-void CConfiguratorStreamsTab::addVariable()
+void CConfiguratorStreamsTab::slotAddStreams()
 {
 
 }

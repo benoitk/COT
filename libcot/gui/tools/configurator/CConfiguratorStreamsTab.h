@@ -5,7 +5,7 @@
 namespace Ui {
 class CConfiguratorStreamsTab;
 }
-class IVariableUIHandler;
+class ConfiguratorStreamsUIHandler;
 class CConfiguratorStreamsTab : public IConfiguratorTab
 {
     Q_OBJECT
@@ -13,9 +13,9 @@ public:
     explicit CConfiguratorStreamsTab(QWidget *parent = Q_NULLPTR);
     ~CConfiguratorStreamsTab();
 private slots:
-    void addVariable();
+    void slotAddStreams();
 private:
-    IVariableUIHandler *m_ivariableUIHandler;
+    ConfiguratorStreamsUIHandler *m_istreamUIHandler;
     Ui::CConfiguratorStreamsTab *ui;
 };
 
