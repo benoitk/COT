@@ -1,7 +1,7 @@
 #include "ConfiguratorSequencerUIHandler.h"
 
 ConfiguratorSequencerUIHandler::ConfiguratorSequencerUIHandler(CScrollableWidget *scrollable, QObject *parent)
-    : ConfiguratorUIHandler(scrollable, parent)
+    : IConfiguratorUIHandler(scrollable, parent)
 {
 
 }

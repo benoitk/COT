@@ -3,9 +3,9 @@
 
 #include "cot_global.h"
 
-#include <ConfiguratorUIHandler.h>
+#include <IConfiguratorUIHandler.h>
 
-class LIBCOT_EXPORT ConfiguratorStreamsUIHandler : public ConfiguratorUIHandler
+class LIBCOT_EXPORT ConfiguratorStreamsUIHandler : public IConfiguratorUIHandler
 {
     Q_OBJECT
 public:

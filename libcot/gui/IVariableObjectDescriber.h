@@ -23,10 +23,10 @@ protected:
 };
 
 // ICycle Describer
-class IVariableICycleDescriber : public IVariableObjectDescriber
+class CVariableICycleDescriber : public IVariableObjectDescriber
 {
 public:
-    IVariableICycleDescriber(QObject *parent = Q_NULLPTR);
+    CVariableICycleDescriber(QObject *parent = Q_NULLPTR);
     virtual void describe(const QVariant &object) Q_DECL_OVERRIDE;
 };
 

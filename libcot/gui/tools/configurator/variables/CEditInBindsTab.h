@@ -5,7 +5,7 @@
 namespace Ui {
 class CEditInBindsTab;
 }
-class ConfiguratorUIHandler;
+class IConfiguratorUIHandler;
 class IVariable;
 class CEditInBindsTab : public IEditVariableTab
 {
@@ -17,7 +17,7 @@ public:
     void setVariables(const QString &variableName);
 private:
     Ui::CEditInBindsTab *ui;
-    ConfiguratorUIHandler *m_configuratorUIHandler;
+    IConfiguratorUIHandler *m_configuratorUIHandler;
 };
 
 #endif // CEDITINBINDSTAB_H

@@ -2,9 +2,9 @@
 #define CONFIGURATORVARIABLESUIHANDLER_H
 
 #include "cot_global.h"
-#include "ConfiguratorUIHandler.h"
+#include "IConfiguratorUIHandler.h"
 class CPushButton;
-class LIBCOT_EXPORT ConfiguratorVariablesUIHandler : public ConfiguratorUIHandler
+class LIBCOT_EXPORT ConfiguratorVariablesUIHandler : public IConfiguratorUIHandler
 {
     Q_OBJECT
 public:

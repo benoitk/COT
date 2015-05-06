@@ -1,17 +1,17 @@
-#ifndef CONFIGURATORUIHANDLER_H
-#define CONFIGURATORUIHANDLER_H
+#ifndef ICONFIGURATORUIHANDLER_H
+#define ICONFIGURATORUIHANDLER_H
 
 #include "cot_global.h"
 #include "IVariableUIHandler.h"
 #include "IVariable.h"
 #include "ICycle.h"
 
-class LIBCOT_EXPORT ConfiguratorUIHandler : public IVariableUIHandler
+class LIBCOT_EXPORT IConfiguratorUIHandler : public IVariableUIHandler
 {
     Q_OBJECT
 
 public:
-    explicit ConfiguratorUIHandler(CScrollableWidget *scrollable = Q_NULLPTR, QObject *parent = Q_NULLPTR);
+    explicit IConfiguratorUIHandler(CScrollableWidget *scrollable = Q_NULLPTR, QObject *parent = Q_NULLPTR);
 
     // return an action type: calc_coef, calc_rien, bloc, etc.
     int selectActionType(int defaultValue = -1);
@@ -54,4 +54,4 @@ protected slots:
     void slotDeleteClicked();
 };
 
-#endif // CONFIGURATORUIHANDLER_H
+#endif // ICONFIGURATORUIHANDLER_H

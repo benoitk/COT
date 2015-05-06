@@ -1,9 +1,9 @@
 #ifndef CONFIGURATORSEQUENCERUIHANDLER_H
 #define CONFIGURATORSEQUENCERUIHANDLER_H
 
-#include <ConfiguratorUIHandler.h>
+#include <IConfiguratorUIHandler.h>
 #include "cot_global.h"
-class LIBCOT_EXPORT ConfiguratorSequencerUIHandler : public ConfiguratorUIHandler
+class LIBCOT_EXPORT ConfiguratorSequencerUIHandler : public IConfiguratorUIHandler
 {
     Q_OBJECT
 public:

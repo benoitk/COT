@@ -1,4 +1,4 @@
-#include "ConfiguratorUIHandler.h"
+#include "IConfiguratorUIHandler.h"
 #include "CGenericItemSelector.h"
 #include "CKeyboardDialog.h"
 #include "CNumericalKeyboardDialog.h"
@@ -31,39 +31,39 @@ IVariablePtrList buildActionType() {
     // KDAB_TODO: No customer api so let fake
     // Note: this relates to CActionFactory::build()
     return buildTemporaryString({
-                     {"calc_coef", qMakePair(ConfiguratorUIHandler::tr("Calc Coef"), 1)},
-                     {"calc_rien", qMakePair(ConfiguratorUIHandler::tr("Calc Rien"), 2)},
-                     {"cmd_pump", qMakePair(ConfiguratorUIHandler::tr("Pump"), 3)},
-                     {"cmd_relay", qMakePair(ConfiguratorUIHandler::tr("Relay"), 3)},
-                     {"block", qMakePair(ConfiguratorUIHandler::tr("Block"), 1000)}
+                     {"calc_coef", qMakePair(IConfiguratorUIHandler::tr("Calc Coef"), 1)},
+                     {"calc_rien", qMakePair(IConfiguratorUIHandler::tr("Calc Rien"), 2)},
+                     {"cmd_pump", qMakePair(IConfiguratorUIHandler::tr("Pump"), 3)},
+                     {"cmd_relay", qMakePair(IConfiguratorUIHandler::tr("Relay"), 3)},
+                     {"block", qMakePair(IConfiguratorUIHandler::tr("Block"), 1000)}
                  });
 }
 
 IVariablePtrList buildVariableTypes() {
     return buildTemporaryString({
-                     {"type_bool", qMakePair(ConfiguratorUIHandler::tr("Boolean"), type_bool)},
-                     {"type_float", qMakePair(ConfiguratorUIHandler::tr("Float"), type_float)},
-                     {"type_int", qMakePair(ConfiguratorUIHandler::tr("Integer"), type_int)},
-                     {"type_string", qMakePair(ConfiguratorUIHandler::tr("String"), type_string)},
-                     {"type_stream", qMakePair(ConfiguratorUIHandler::tr("Stream"), type_stream)},
-                     {"type_unknow", qMakePair(ConfiguratorUIHandler::tr("Unknown"), type_unknow)}
+                     {"type_bool", qMakePair(IConfiguratorUIHandler::tr("Boolean"), type_bool)},
+                     {"type_float", qMakePair(IConfiguratorUIHandler::tr("Float"), type_float)},
+                     {"type_int", qMakePair(IConfiguratorUIHandler::tr("Integer"), type_int)},
+                     {"type_string", qMakePair(IConfiguratorUIHandler::tr("String"), type_string)},
+                     {"type_stream", qMakePair(IConfiguratorUIHandler::tr("Stream"), type_stream)},
+                     {"type_unknow", qMakePair(IConfiguratorUIHandler::tr("Unknown"), type_unknow)}
                  });
 }
 
 IVariablePtrList buildOrganTypes() {
     return buildTemporaryString({
-                     {"VariableOrganTypeNone", qMakePair(ConfiguratorUIHandler::tr("None"), VariableOrganTypeNone)},
-                     {"VariableOrganTypeInput", qMakePair(ConfiguratorUIHandler::tr("Input"), VariableOrganTypeInput)},
-                     {"VariableOrganTypeOutput", qMakePair(ConfiguratorUIHandler::tr("Output"), VariableOrganTypeOutput)}
+                     {"VariableOrganTypeNone", qMakePair(IConfiguratorUIHandler::tr("None"), VariableOrganTypeNone)},
+                     {"VariableOrganTypeInput", qMakePair(IConfiguratorUIHandler::tr("Input"), VariableOrganTypeInput)},
+                     {"VariableOrganTypeOutput", qMakePair(IConfiguratorUIHandler::tr("Output"), VariableOrganTypeOutput)}
                  });
 }
 
 IVariablePtrList buildCycleTypes() {
     return buildTemporaryString({
-                     {"CYCLE_MESURE", qMakePair(ConfiguratorUIHandler::tr("Measure"), CYCLE_MESURE)},
-                     {"CYCLE_AUTONOME", qMakePair(ConfiguratorUIHandler::tr("Autonome"), CYCLE_AUTONOME)},
-                     {"CYCLE_MAINTENANCE", qMakePair(ConfiguratorUIHandler::tr("Maintenance"), CYCLE_MAINTENANCE)},
-                     {"CYCLE_PAUSE", qMakePair(ConfiguratorUIHandler::tr("Pause"), CYCLE_PAUSE)}
+                     {"CYCLE_MESURE", qMakePair(IConfiguratorUIHandler::tr("Measure"), CYCLE_MESURE)},
+                     {"CYCLE_AUTONOME", qMakePair(IConfiguratorUIHandler::tr("Autonome"), CYCLE_AUTONOME)},
+                     {"CYCLE_MAINTENANCE", qMakePair(IConfiguratorUIHandler::tr("Maintenance"), CYCLE_MAINTENANCE)},
+                     {"CYCLE_PAUSE", qMakePair(IConfiguratorUIHandler::tr("Pause"), CYCLE_PAUSE)}
                  });
 }
 
@@ -166,12 +166,12 @@ IVariablePtrList buildOrgans() {
 }
 }
 
-ConfiguratorUIHandler::ConfiguratorUIHandler(CScrollableWidget *scrollable, QObject *parent)
+IConfiguratorUIHandler::IConfiguratorUIHandler(CScrollableWidget *scrollable, QObject *parent)
     : IVariableUIHandler(scrollable, parent)
 {
 }
 
-int ConfiguratorUIHandler::selectActionType(int defaultValue)
+int IConfiguratorUIHandler::selectActionType(int defaultValue)
 {
     IVariablePtrList ivars = buildActionType();
     CGenericItemSelector dlg(ivars);
@@ -187,7 +187,7 @@ int ConfiguratorUIHandler::selectActionType(int defaultValue)
     return result;
 }
 
-variableType ConfiguratorUIHandler::selectVariableType(variableType defaultValue)
+variableType IConfiguratorUIHandler::selectVariableType(variableType defaultValue)
 {
     IVariablePtrList ivars = buildVariableTypes();
     CGenericItemSelector dlg(ivars);
@@ -203,7 +203,7 @@ variableType ConfiguratorUIHandler::selectVariableType(variableType defaultValue
     return result;
 }
 
-VariableOrganType ConfiguratorUIHandler::selectOrganType(VariableOrganType defaultValue)
+VariableOrganType IConfiguratorUIHandler::selectOrganType(VariableOrganType defaultValue)
 {
     IVariablePtrList ivars = buildOrganTypes();
     CGenericItemSelector dlg(ivars);
@@ -219,7 +219,7 @@ VariableOrganType ConfiguratorUIHandler::selectOrganType(VariableOrganType defau
     return result;
 }
 
-eTypeCycle ConfiguratorUIHandler::selectCycleType(eTypeCycle defaultValue)
+eTypeCycle IConfiguratorUIHandler::selectCycleType(eTypeCycle defaultValue)
 {
     IVariablePtrList ivars = buildCycleTypes();
     CGenericItemSelector dlg(ivars);
@@ -235,7 +235,7 @@ eTypeCycle ConfiguratorUIHandler::selectCycleType(eTypeCycle defaultValue)
     return result;
 }
 
-QString ConfiguratorUIHandler::selectVariable(const QString &defaultName)
+QString IConfiguratorUIHandler::selectVariable(const QString &defaultName)
 {
     IVariablePtrList ivars = buildVariables();
     CGenericItemSelector dlg(ivars);
@@ -251,7 +251,7 @@ QString ConfiguratorUIHandler::selectVariable(const QString &defaultName)
     return result;
 }
 
-QString ConfiguratorUIHandler::selectStream(const QString &defaultName)
+QString IConfiguratorUIHandler::selectStream(const QString &defaultName)
 {
     IVariablePtrList ivars = buildStreams();
     CGenericItemSelector dlg(ivars);
@@ -267,7 +267,7 @@ QString ConfiguratorUIHandler::selectStream(const QString &defaultName)
     return result;
 }
 
-QString ConfiguratorUIHandler::selectMeasure(const QString &defaultName)
+QString IConfiguratorUIHandler::selectMeasure(const QString &defaultName)
 {
     IVariablePtrList ivars = buildMeasures();
     CGenericItemSelector dlg(ivars);
@@ -283,7 +283,7 @@ QString ConfiguratorUIHandler::selectMeasure(const QString &defaultName)
     return result;
 }
 
-QString ConfiguratorUIHandler::selectCycle(const QString &defaultName)
+QString IConfiguratorUIHandler::selectCycle(const QString &defaultName)
 {
     IVariablePtrList ivars = buildCycles();
     CGenericItemSelector dlg(ivars);
@@ -299,7 +299,7 @@ QString ConfiguratorUIHandler::selectCycle(const QString &defaultName)
     return result;
 }
 
-QString ConfiguratorUIHandler::selectAction(const QString &defaultName)
+QString IConfiguratorUIHandler::selectAction(const QString &defaultName)
 {
     IVariablePtrList ivars = buildActions();
     CGenericItemSelector dlg(ivars);
@@ -315,7 +315,7 @@ QString ConfiguratorUIHandler::selectAction(const QString &defaultName)
     return result;
 }
 
-QString ConfiguratorUIHandler::selectStreamOrMeasure(const QString &defaultName)
+QString IConfiguratorUIHandler::selectStreamOrMeasure(const QString &defaultName)
 {
     IVariablePtrList ivars = buildStreamsMeasures();
     CGenericItemSelector dlg(ivars);
@@ -331,7 +331,7 @@ QString ConfiguratorUIHandler::selectStreamOrMeasure(const QString &defaultName)
     return result;
 }
 
-QString ConfiguratorUIHandler::selectExtension(const QString &defaultName)
+QString IConfiguratorUIHandler::selectExtension(const QString &defaultName)
 {
     IVariablePtrList ivars = buildExtensions();
     CGenericItemSelector dlg(ivars);
@@ -347,7 +347,7 @@ QString ConfiguratorUIHandler::selectExtension(const QString &defaultName)
     return result;
 }
 
-QString ConfiguratorUIHandler::selectOrgan(const QString &defaultName)
+QString IConfiguratorUIHandler::selectOrgan(const QString &defaultName)
 {
     IVariablePtrList ivars = buildOrgans();
     CGenericItemSelector dlg(ivars);
@@ -363,7 +363,7 @@ QString ConfiguratorUIHandler::selectOrgan(const QString &defaultName)
     return result;
 }
 
-QString ConfiguratorUIHandler::enterText(const QString &defaultValue)
+QString IConfiguratorUIHandler::enterText(const QString &defaultValue)
 {
     CKeyboardDialog dlg;
     dlg.setTitle(tr("Enter a new value"));
@@ -377,7 +377,7 @@ QString ConfiguratorUIHandler::enterText(const QString &defaultValue)
     return result;
 }
 
-int ConfiguratorUIHandler::enterInteger(int defaultValue)
+int IConfiguratorUIHandler::enterInteger(int defaultValue)
 {
     CNumericalKeyboardDialog dlg(CNumericalKeyboardWidget::Integer);
     dlg.setTitle(tr("Enter a new value"));
@@ -391,7 +391,7 @@ int ConfiguratorUIHandler::enterInteger(int defaultValue)
     return result;
 }
 
-double ConfiguratorUIHandler::enterDouble(double defaultValue)
+double IConfiguratorUIHandler::enterDouble(double defaultValue)
 {
     CNumericalKeyboardDialog dlg(CNumericalKeyboardWidget::Double);
     dlg.setTitle(tr("Enter a new value"));
@@ -405,23 +405,23 @@ double ConfiguratorUIHandler::enterDouble(double defaultValue)
     return result;
 }
 
-QWidget *ConfiguratorUIHandler::newDeleteButton(IVariable *ivar)
+QWidget *IConfiguratorUIHandler::newDeleteButton(IVariable *ivar)
 {
     CToolButton *editor = new CToolButton(CToolButton::Delete);
     editor->setFixedSize(21, 21);
     editor->setUserData(ivar->getName());
     editor->setText(ivar->toString());
-    connect(editor, &CToolButton::clicked, this, &ConfiguratorUIHandler::slotDeleteClicked);
+    connect(editor, &CToolButton::clicked, this, &IConfiguratorUIHandler::slotDeleteClicked);
     return editor;
 }
 
-void ConfiguratorUIHandler::rowAboutToBeDeleted(const Row &row, IVariable *ivar)
+void IConfiguratorUIHandler::rowAboutToBeDeleted(const Row &row, IVariable *ivar)
 {
     Q_UNUSED(row);
     Q_UNUSED(ivar);
 }
 
-void ConfiguratorUIHandler::slotDeleteClicked()
+void IConfiguratorUIHandler::slotDeleteClicked()
 {
     CToolButton *editor = qobject_cast<CToolButton *>(sender());
     const QString name = editor->userData().toString();

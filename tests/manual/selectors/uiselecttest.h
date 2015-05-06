@@ -8,7 +8,7 @@ namespace Ui {
 class UISelectTest;
 }
 
-class ConfiguratorUIHandler;
+class IConfiguratorUIHandler;
 
 class UISelectTest : public QWidget
 {
@@ -37,7 +37,7 @@ private slots:
 
 private:
     Ui::UISelectTest *ui;
-    ConfiguratorUIHandler *handler;
+    IConfiguratorUIHandler *handler;
 
     QVariant rowLabel(QObject* row) const;
     void setRowLabel(QObject* row, const QVariant &label);

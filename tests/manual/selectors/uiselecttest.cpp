@@ -1,11 +1,11 @@
 #include "uiselecttest.h"
 #include "ui_uiselecttest.h"
-#include "ConfiguratorUIHandler.h"
+#include "IConfiguratorUIHandler.h"
 
 UISelectTest::UISelectTest(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::UISelectTest)
-    , handler(new ConfiguratorUIHandler(0, this))
+    , handler(new IConfiguratorUIHandler(0, this))
 {
     ui->setupUi(this);
 }

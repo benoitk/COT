@@ -6,7 +6,7 @@
 #include <QLabel>
 
 ConfiguratorVariablesUIHandler::ConfiguratorVariablesUIHandler(CScrollableWidget *scrollable, QObject *parent)
-    : ConfiguratorUIHandler(scrollable, parent)
+    : IConfiguratorUIHandler(scrollable, parent)
 {
 
 }

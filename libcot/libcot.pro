@@ -177,6 +177,7 @@ HEADERS *= \
     gui/IVariableMeasuresUIHandler.h \
     gui/IVariableUIHandler.h \
     gui/IVariableObjectDescriber.h \
+    gui/IConfiguratorUIHandler.h \
     $$KPLOTTING_SRC_PWD/src/kplotaxis.h \ 
     $$KPLOTTING_SRC_PWD/src/kplotobject.h \ 
     $$KPLOTTING_SRC_PWD/src/kplotpoint.h \
@@ -200,7 +201,6 @@ HEADERS *= \
     gui/tools/configurator/variables/CEditVariableWindow.h \
     gui/tools/configurator/variables/IEditVariableTab.h \
 	gui/widgets/CGenericVariableUIHandler.h \
-	gui/ConfiguratorUIHandler.h \
     gui/tools/configurator/variables/CEditVariableTab.h \
     gui/tools/configurator/variables/CEditInBindsTab.h \
     gui/tools/configurator/variables/CEditOutBindsTab.h \
@@ -322,6 +322,7 @@ SOURCES *= \
     gui/IVariableMeasuresUIHandler.cpp \
     gui/IVariableUIHandler.cpp \
     gui/IVariableObjectDescriber.cpp \
+    gui/IConfiguratorUIHandler.cpp \
     $$KPLOTTING_SRC_PWD/src/kplotaxis.cpp \ 
     $$KPLOTTING_SRC_PWD/src/kplotobject.cpp \ 
     $$KPLOTTING_SRC_PWD/src/kplotpoint.cpp \
@@ -343,7 +344,6 @@ SOURCES *= \
     gui/tools/configurator/CConfiguratorNetworkTab.cpp \
     gui/tools/configurator/variables/CEditVariableWindow.cpp \
 	gui/widgets/CGenericVariableUIHandler.cpp \
-    gui/ConfiguratorUIHandler.cpp \
     gui/tools/configurator/variables/CEditVariableTab.cpp \
     gui/tools/configurator/variables/CEditInBindsTab.cpp \
     gui/tools/configurator/variables/CEditOutBindsTab.cpp \
