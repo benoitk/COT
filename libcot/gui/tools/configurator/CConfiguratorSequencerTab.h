@@ -5,6 +5,7 @@
 namespace Ui {
 class CConfiguratorSequencerTab;
 }
+class ConfiguratorSequencerUIHandler;
 class CConfiguratorSequencerTab : public IConfiguratorTab
 {
     Q_OBJECT
@@ -13,6 +14,7 @@ public:
     ~CConfiguratorSequencerTab();
 private:
     Ui::CConfiguratorSequencerTab *ui;
+    ConfiguratorSequencerUIHandler *m_isequencerUIHandler;
 };
 
 #endif // CCONFIGURATORSEQUENCERTAB_H

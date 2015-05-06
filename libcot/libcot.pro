@@ -206,6 +206,7 @@ HEADERS *= \
     automate/variables/CVariableOutputListVariables.h \
     automate/com/CComFactory.h \
     automate/com/CComUnknow.h \
+    gui/tools/configurator/ConfiguratorSequencerUIHandler.h \
 
 SOURCES *= \
     automate/CAutomate.cpp \
@@ -345,3 +346,4 @@ SOURCES *= \
     automate/variables/CVariableOutputListVariables.cpp \
     automate/com/CComFactory.cpp \
     automate/com/CComUnknow.cpp \
+    gui/tools/configurator/ConfiguratorSequencerUIHandler.cpp \
