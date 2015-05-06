@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QHash>
+#include "cot_global.h"
 
 class CScrollableWidget;
 class IVariable;
@@ -10,7 +11,7 @@ class IVariableObjectDescriber;
 class QLabel;
 class QGridLayout;
 
-class IVariableUIHandler : public QObject
+class LIBCOT_EXPORT IVariableUIHandler : public QObject
 {
     Q_OBJECT
 
