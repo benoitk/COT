@@ -1,4 +1,5 @@
 #include "IVariableUIHandler.h"
+#include "IVariableObjectDescriber.h"
 #include "CScrollableWidget.h"
 #include "CSwitchButton.h"
 #include "CLedButton.h"
@@ -29,6 +30,7 @@ VariableOrganTypeInput
 
 IVariableUIHandler::IVariableUIHandler(CScrollableWidget *scrollable, QObject *parent)
     : QObject(parent)
+    , m_describer(Q_NULLPTR)
     , m_scrollable(scrollable)
     , m_container(Q_NULLPTR)
     , m_containerLayout(Q_NULLPTR)
@@ -110,7 +112,17 @@ int IVariableUIHandler::layoutRow(QWidget *widget) const
 
 IVariable *IVariableUIHandler::getVariable(const QString &name)
 {
-    return CAutomate::getInstance()->getVariable(name);
+    IVariable *ivar = Q_NULLPTR;
+
+    if (m_describer) {
+        ivar = m_describer->getVariable(name);
+    }
+
+    if (!ivar) {
+        ivar = CAutomate::getInstance()->getVariable(name);
+    }
+
+    return ivar;
 }
 
 int IVariableUIHandler::columnCount() const

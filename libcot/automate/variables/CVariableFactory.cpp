@@ -13,6 +13,7 @@
 #include "CVariableVoie.h"
 #include "CVariableMeasure.h"
 #include "CVariableOutputListVariables.h"
+#include "CVariableMutable.h"
 
 #include "qvariant.h"
 #include "qdebug.h"
@@ -91,6 +92,9 @@ IVariable *CVariableFactory::build(variableType type, VariableOrganType organTyp
 
                 case type_unknow:
                     return new CVariableUnknow;
+
+                case type_mutable:
+                    return new CVariableMutable(data.toMap());
             }
 
             break;

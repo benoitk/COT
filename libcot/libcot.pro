@@ -118,6 +118,7 @@ HEADERS *= \
     automate/variables/IVariable.h \
     automate/variables/IVariableInput.h \
     automate/variables/IVariableOutput.h \
+    automate/variables/CVariableMutable.h \
     keyboards/CKeyboardButtonBase.h \
     keyboards/CKeyboardDialog.h \
     keyboards/CKeyboardLayoutUtils.h \
@@ -175,6 +176,7 @@ HEADERS *= \
     gui/tools/maintenance/IMaintenanceTab.h \
     gui/IVariableMeasuresUIHandler.h \
     gui/IVariableUIHandler.h \
+    gui/IVariableObjectDescriber.h \
     $$KPLOTTING_SRC_PWD/src/kplotaxis.h \ 
     $$KPLOTTING_SRC_PWD/src/kplotobject.h \ 
     $$KPLOTTING_SRC_PWD/src/kplotpoint.h \
@@ -266,6 +268,7 @@ SOURCES *= \
     automate/variables/IVariable.cpp \
     automate/variables/IVariableInput.cpp \
     automate/variables/IVariableOuput.cpp \
+    automate/variables/CVariableMutable.cpp \
     keyboards/CKeyboardButtonBase.cpp \
     keyboards/CKeyboardDialog.cpp \
     keyboards/CKeyboardLayoutUtils.cpp \
@@ -318,6 +321,7 @@ SOURCES *= \
     gui/tools/maintenance/CMaintenanceWindow.cpp \
     gui/IVariableMeasuresUIHandler.cpp \
     gui/IVariableUIHandler.cpp \
+    gui/IVariableObjectDescriber.cpp \
     $$KPLOTTING_SRC_PWD/src/kplotaxis.cpp \ 
     $$KPLOTTING_SRC_PWD/src/kplotobject.cpp \ 
     $$KPLOTTING_SRC_PWD/src/kplotpoint.cpp \

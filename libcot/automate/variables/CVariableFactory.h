@@ -10,8 +10,7 @@ class CVariableFactory : public QObject
 
 public:
     static IVariable* build(const QMap<QString, QVariant> &);
-    static IVariable* build(variableType type, VariableOrganType organType = VariableOrganTypeNone,
-                            const QVariant &data = QVariant());
+    static IVariable* build(variableType type, VariableOrganType organType = VariableOrganTypeNone, const QVariant &data = QVariant());
     static IVariable* build(const QString& type, const QVariantMap &data = QVariantMap());
 
     static IVariablePtr buildTemporary(const QString& name, variableType type);
@@ -21,6 +20,11 @@ public:
     static void deleteVariables(IVariablePtrList& ivars);
     static void deleteVariables(QHash<QString, IVariablePtr>& ivars);
     static void deleteVariables(QMap<QString, IVariablePtr>& ivars);
+
+    template <typename T>
+    static T castedBuild(variableType type, VariableOrganType organType = VariableOrganTypeNone, const QVariant &data = QVariant()) {
+        return static_cast<T>(build(type, organType, data));
+    }
 
 private:
 	

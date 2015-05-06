@@ -13,7 +13,9 @@ enum variableType{
 		type_stream,
 		type_measure,
         type_list_variables,
-		type_unknow
+        type_unknow,
+        // Internal to GUI
+        type_mutable // a special variable used in gui which has an internal mutable custom type.
 };
 
 enum variableAccess{

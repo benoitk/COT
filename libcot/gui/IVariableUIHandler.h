@@ -6,6 +6,7 @@
 
 class CScrollableWidget;
 class IVariable;
+class IVariableObjectDescriber;
 class QLabel;
 class QGridLayout;
 
@@ -34,6 +35,7 @@ protected:
         QList<QWidget *> widgets;
     };
 
+    IVariableObjectDescriber *m_describer;
     CScrollableWidget *m_scrollable;
     QWidget *m_container;
     QGridLayout *m_containerLayout;
