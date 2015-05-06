@@ -7,7 +7,7 @@
 #include <qobject.h>
 #include "qlinkedlist.h"
 
-class CVariableOutputBool : public QObject, public IVariable, public IVariableOutput
+class CVariableOutputBool : public IVariable, public IVariableOutput
 {
 	Q_OBJECT
 

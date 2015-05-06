@@ -32,9 +32,12 @@ enum VariableOrganType {
 
 //Interface pour toute les variables de l'automate
 class CUnit;
-class IVariable
+class IVariable : public QObject
 {
+    Q_OBJECT
 public:
+    IVariable(QObject *parent);
+    IVariable() {}
 	virtual ~IVariable() {}
     virtual VariableOrganType getOrganType() const { return VariableOrganTypeNone; }
 	virtual QString toString()=0;

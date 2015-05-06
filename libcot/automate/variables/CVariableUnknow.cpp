@@ -2,7 +2,7 @@
 #include "CUnit.h"
 #include "qlinkedlist.h"
 CVariableUnknow::CVariableUnknow()
-	: QObject()
+    : IVariable()
 {
 
 }

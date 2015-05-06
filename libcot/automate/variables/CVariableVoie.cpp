@@ -6,10 +6,10 @@
 #include "CVariableFactory.h"
 
 #include "qlinkedlist.h"
-CVariableVoie::CVariableVoie(QObject *parent):QObject(parent)
+CVariableVoie::CVariableVoie(QObject *parent):IVariable(parent)
 {	
 }
-CVariableVoie::CVariableVoie(const QMap<QString, QVariant> &mapVar):QObject(){
+CVariableVoie::CVariableVoie(const QMap<QString, QVariant> &mapVar):IVariable(){
     if(mapVar.contains(QStringLiteral("name")))
         m_name = mapVar.value(QStringLiteral("name")).toString();
     else m_name = QStringLiteral("Stream unamed");

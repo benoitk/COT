@@ -7,7 +7,7 @@
 
 class ICycle;
 class CVariableMeasure;
-class CVariableVoie : public QObject, public IVariable
+class CVariableVoie : public IVariable
 {
 	Q_OBJECT
 

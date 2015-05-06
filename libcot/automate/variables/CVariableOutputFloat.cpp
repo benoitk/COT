@@ -3,7 +3,7 @@
 #include "CUnit.h"
 #include <QDebug>
 CVariableOutputFloat::CVariableOutputFloat(QObject *parent)
-	: QObject(parent)
+    : IVariable(parent)
     , m_modelExtensionCard(Q_NULLPTR)
 {
 
@@ -15,7 +15,7 @@ CVariableOutputFloat::~CVariableOutputFloat()
 }
 
 CVariableOutputFloat::CVariableOutputFloat(const QMap<QString, QVariant> &mapVar)
-    : QObject()
+    : IVariable()
     , m_modelExtensionCard(Q_NULLPTR)
 {
 

@@ -5,7 +5,7 @@
 #include <QObject>
 
 class ICycle;
-class CVariableMeasure : public QObject, public IVariable
+class CVariableMeasure : public IVariable
 {
     Q_OBJECT
 

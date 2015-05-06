@@ -3,7 +3,7 @@
 #include "CUnit.h"
 
 CVariableOutputInt::CVariableOutputInt(QObject *parent)
-	: QObject(parent)
+    : IVariable(parent)
     , m_modelExtensionCard(Q_NULLPTR)
 {
 
@@ -15,7 +15,7 @@ CVariableOutputInt::~CVariableOutputInt()
 }
 
 CVariableOutputInt::CVariableOutputInt(const QMap<QString, QVariant> &mapVar)
-    : QObject()
+    : IVariable()
     , m_modelExtensionCard(Q_NULLPTR)
 {
 

@@ -1,17 +1,17 @@
 #include "CVariableFloat.h"
 #include "CUnit.h"
 CVariableFloat::CVariableFloat(QObject *parent)
-	: QObject(parent)
+    : IVariable(parent)
 {
 
 }
 CVariableFloat::CVariableFloat()
-	: QObject()
+    : IVariable()
 {
 
 }
 CVariableFloat::CVariableFloat(float arg_value, int arg_address, variableAccess arg_access)
-	: QObject()
+    : IVariable()
 {
 	m_fValeur = arg_value;
     m_access = arg_access;

@@ -1,13 +1,13 @@
 #include "CVariableBool.h"
 #include "CUnit.h"
 CVariableBool::CVariableBool(QObject *parent)
-	: QObject(parent)
+    : IVariable(parent)
 {
 
 }
 
 CVariableBool::CVariableBool(bool arg_value, int arg_address, variableAccess arg_access)
-	: QObject()
+    : IVariable()
 {
 	m_bValeur = arg_value;
     m_access = arg_access;

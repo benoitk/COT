@@ -4,7 +4,7 @@
 #include "IVariable.h"
 #include "CUnit.h"
 CVariableInputBool::CVariableInputBool(QObject *parent)
-	: QObject(parent)
+    : IVariable(parent)
     , m_modelExtensionCard(Q_NULLPTR)
 {
 
@@ -15,7 +15,7 @@ CVariableInputBool::~CVariableInputBool()
 
 }
 CVariableInputBool::CVariableInputBool(const QMap<QString, QVariant> &mapVar)
-    : QObject()
+    : IVariable()
     , m_modelExtensionCard(Q_NULLPTR)
 {
 

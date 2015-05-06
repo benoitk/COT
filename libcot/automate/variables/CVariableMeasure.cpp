@@ -4,10 +4,10 @@
 
 #include "CUnit.h"
 #include "qlinkedlist.h"
-CVariableMeasure::CVariableMeasure(QObject *parent):QObject(parent)
+CVariableMeasure::CVariableMeasure(QObject *parent):IVariable(parent)
 {	
 }
-CVariableMeasure::CVariableMeasure(const QMap<QString, QVariant> &mapVar):QObject(){
+CVariableMeasure::CVariableMeasure(const QMap<QString, QVariant> &mapVar):IVariable(){
 
     if(mapVar.contains(QStringLiteral("name")))
         m_name = mapVar.value(QStringLiteral("name")).toString();

@@ -4,7 +4,7 @@
 #include "CUnit.h"
 
 CVariableInputFloat::CVariableInputFloat(QObject *parent)
-	: QObject(parent)
+    : IVariable(parent)
     , m_modelExtensionCard(Q_NULLPTR)
 {
 
@@ -16,7 +16,7 @@ CVariableInputFloat::~CVariableInputFloat()
 }
 
 CVariableInputFloat::CVariableInputFloat(const QMap<QString, QVariant> &mapVar)
-    : QObject()
+    : IVariable()
     , m_modelExtensionCard(Q_NULLPTR)
 {
 

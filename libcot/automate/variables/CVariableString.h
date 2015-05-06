@@ -8,7 +8,7 @@
 
 #include "cot_global.h"
 
-class LIBCOT_EXPORT CVariableString : public QObject, public IVariable
+class LIBCOT_EXPORT CVariableString : public IVariable
 {
 	Q_OBJECT
 

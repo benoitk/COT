@@ -2,12 +2,12 @@
 #include "CUnit.h"
 
 CVariableString::CVariableString(QObject *parent)
-	: QObject(parent)
+    : IVariable(parent)
 {
 
 }
 CVariableString::CVariableString(const QString &arg_value)
-	: QObject()
+    : IVariable()
 {
 	m_sValeur = arg_value;
 }

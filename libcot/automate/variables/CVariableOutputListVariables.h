@@ -7,7 +7,7 @@
 #include <qobject.h>
 #include "qlist.h"
 
-class CVariableOutputListVariables : public QObject, public IVariable, public IVariableOutput
+class CVariableOutputListVariables : public IVariable, public IVariableOutput
 {
     Q_OBJECT
 

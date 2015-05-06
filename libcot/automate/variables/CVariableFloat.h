@@ -6,7 +6,7 @@
 #include <qobject.h>
 #include "qlinkedlist.h"
 
-class CVariableFloat : public QObject, public IVariable
+class CVariableFloat : public IVariable
 {
 	Q_OBJECT
     friend class CVariableFactory;

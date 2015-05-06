@@ -6,7 +6,7 @@
 
 #include "IVariable.h"
 
-class CVariableMutable : public QObject, public IVariable
+class CVariableMutable : public IVariable
 {
     Q_OBJECT
 

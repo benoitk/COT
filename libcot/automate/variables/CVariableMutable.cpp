@@ -1,16 +1,16 @@
 #include "CVariableMutable.h"
 
 CVariableMutable::CVariableMutable(QObject *parent)
-    : QObject(parent)
+    : IVariable(parent)
 {}
 
 CVariableMutable::CVariableMutable(const QVariantMap &data, QObject *parent)
-    : QObject(parent)
+    : IVariable(parent)
     , m_data(data)
 {}
 
 CVariableMutable::CVariableMutable(const QVariant &data, QObject *parent)
-    : QObject(parent)
+    : IVariable(parent)
 {
     if (data.type() == QVariant::Map) {
         m_data = data.toMap();

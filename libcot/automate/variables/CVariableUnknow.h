@@ -5,7 +5,7 @@
 
 #include <qobject.h>
 
-class CVariableUnknow : public QObject, public IVariable
+class CVariableUnknow : public IVariable
 {
 	Q_OBJECT
 

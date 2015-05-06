@@ -30,4 +30,13 @@ public:
     void describe(const QVariant &object) Q_DECL_OVERRIDE;
 };
 
+
+// IVariable Describer
+class CVariableTabDescriber : public IVariableObjectDescriber
+{
+public:
+    CVariableTabDescriber(QObject *parent = Q_NULLPTR);
+    void describe(const QVariant &object) Q_DECL_OVERRIDE;
+};
+
 #endif // IVARIABLEOBJECTDESCRIBER_H

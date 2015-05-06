@@ -1,11 +1,11 @@
 #include "CVariableInt.h"
 #include "CUnit.h"
 
-CVariableInt::CVariableInt(QObject *parent):QObject(parent),m_iValeur(-1)
+CVariableInt::CVariableInt(QObject *parent):IVariable(parent),m_iValeur(-1)
 {
 	
 }
-CVariableInt::CVariableInt(int arg_int, int arg_address, variableAccess arg_access):QObject()
+CVariableInt::CVariableInt(int arg_int, int arg_address, variableAccess arg_access):IVariable()
 {
 	m_iValeur = arg_int;
     m_access = arg_access;
