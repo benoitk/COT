@@ -21,7 +21,7 @@ IVariablePtrList buildTemporaryString(const PairPairStringStringList& pairs) {
     IVariablePtrList ivars;
 
     foreach (const PairPairStringString& pair, pairs) {
-        ivars << CVariableFactory::buildTemporaryString(pair.first, pair.second.first, pair.second.second);
+        ivars << CVariableFactory::buildTemporary(pair.first, pair.second.first, pair.second.second, type_string);
     }
 
     return ivars;
@@ -99,7 +99,7 @@ IVariablePtrList buildCycles() {
     IVariablePtrList ivars;
 
     foreach (ICycle *cycle, cycles) {
-        ivars << CVariableFactory::buildTemporaryString(cycle->getName(), cycle->getLbl());
+        ivars << CVariableFactory::buildTemporary(cycle->getName(), cycle->getLbl(), type_string);
     }
 
     return ivars;
@@ -111,7 +111,7 @@ IVariablePtrList buildActions() {
     IVariablePtrList ivars;
 
     foreach (IAction *action, actions) {
-        ivars << CVariableFactory::buildTemporaryString(action->getName(), action->getLabel());
+        ivars << CVariableFactory::buildTemporary(action->getName(), action->getLabel(), type_string);
     }
 
     return ivars;
@@ -144,7 +144,7 @@ IVariablePtrList buildExtensions() {
     QMapIterator<QString, CModelExtensionCard*> i(cards);
     while (i.hasNext()) {
         i.next();
-        ivars << CVariableFactory::buildTemporaryString(i.value()->getName(), i.value()->getLabel());
+        ivars << CVariableFactory::buildTemporary(i.value()->getName(), i.value()->getLabel(), type_string);
     }
     return ivars;
 }
@@ -158,7 +158,7 @@ IVariablePtrList buildOrgans() {
     while (i.hasNext()) {
         i.next();
         foreach (IOrgan *organ, i.value()->getListOrgans()) {
-            ivars << CVariableFactory::buildTemporaryString(organ->getName());
+            ivars << CVariableFactory::buildTemporary(organ->getName(), type_string);
         }
     }
 
@@ -183,7 +183,7 @@ int ConfiguratorUIHandler::selectActionType(int defaultValue)
         result = dlg.selectedItem()->toInt();
     }
 
-    CVariableFactory::deleteTemporaryStringList(ivars);
+    CVariableFactory::deleteVariables(ivars);
     return result;
 }
 
@@ -199,7 +199,7 @@ variableType ConfiguratorUIHandler::selectVariableType(variableType defaultValue
         result = variableType(dlg.selectedItem()->toInt());
     }
 
-    CVariableFactory::deleteTemporaryStringList(ivars);
+    CVariableFactory::deleteVariables(ivars);
     return result;
 }
 
@@ -215,7 +215,7 @@ VariableOrganType ConfiguratorUIHandler::selectOrganType(VariableOrganType defau
         result = VariableOrganType(dlg.selectedItem()->toInt());
     }
 
-    CVariableFactory::deleteTemporaryStringList(ivars);
+    CVariableFactory::deleteVariables(ivars);
     return result;
 }
 
@@ -231,7 +231,7 @@ eTypeCycle ConfiguratorUIHandler::selectCycleType(eTypeCycle defaultValue)
         result = eTypeCycle(dlg.selectedItem()->toInt());
     }
 
-    CVariableFactory::deleteTemporaryStringList(ivars);
+    CVariableFactory::deleteVariables(ivars);
     return result;
 }
 
@@ -295,7 +295,7 @@ QString ConfiguratorUIHandler::selectCycle(const QString &defaultName)
         result = dlg.selectedItem()->getName();
     }
 
-    CVariableFactory::deleteTemporaryStringList(ivars);
+    CVariableFactory::deleteVariables(ivars);
     return result;
 }
 
@@ -311,7 +311,7 @@ QString ConfiguratorUIHandler::selectAction(const QString &defaultName)
         result = dlg.selectedItem()->getName();
     }
 
-    CVariableFactory::deleteTemporaryStringList(ivars);
+    CVariableFactory::deleteVariables(ivars);
     return result;
 }
 
@@ -343,7 +343,7 @@ QString ConfiguratorUIHandler::selectExtension(const QString &defaultName)
         result = dlg.selectedItem()->getName();
     }
 
-    CVariableFactory::deleteTemporaryStringList(ivars);
+    CVariableFactory::deleteVariables(ivars);
     return result;
 }
 
@@ -359,7 +359,7 @@ QString ConfiguratorUIHandler::selectOrgan(const QString &defaultName)
         result = dlg.selectedItem()->getName();
     }
 
-    CVariableFactory::deleteTemporaryStringList(ivars);
+    CVariableFactory::deleteVariables(ivars);
     return result;
 }
 
