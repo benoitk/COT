@@ -3,6 +3,10 @@
 #include "IAction.h"
 
 class IVariable;
+/**
+ * @brief The CActionBlock class is an action that contains a list of other actions.
+ * This allows to reuse lists of actions in multiple contexts.
+ */
 class CActionBlock : public IAction
 {
 	Q_OBJECT
