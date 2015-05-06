@@ -17,6 +17,11 @@ public:
         Cycle,
         VariableType,
         VariableUnit,
+        VariableExtension,
+        VariableOrgan,
+        VariableStream,
+        VariableFormat,
+        VariableMeasure
     };
 
     explicit CVariableMutable(QObject *parent = 0);

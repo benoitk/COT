@@ -5,6 +5,8 @@
 #include "CVariableMutable.h"
 #include "ICycle.h"
 
+#include <CVariableMeasure.h>
+
 IVariableObjectDescriber::IVariableObjectDescriber(QObject *parent)
     : QObject(parent)
 {
@@ -88,14 +90,26 @@ void CVariableIVariableDescriber::describe(const QVariant &object)
     type->setLabel(CVariableMutable::tr("Type"));
     type->setMutableType(CVariableMutable::VariableType);
 
-#if 0
-    CVariableMutable *unit = CVariableFactory::castedBuild<CVariableMutable *>(type_mutable, VariableOrganTypeNone, ivar->getUnit());
+    //TODO store unit.
+    CVariableMutable *unit = CVariableFactory::castedBuild<CVariableMutable *>(type_mutable, VariableOrganTypeNone);
     unit->setName(QStringLiteral("unit"));
     unit->setLabel(CVariableMutable::tr("Unit"));
     unit->setMutableType(CVariableMutable::VariableUnit);
 
-#endif
+    switch (ivar->getType()) {
+    case type_float: {
+    }
+        break;
+    case type_int:
+        break;
+    case type_bool:
+        break;
+    default:
+        break;
+    }
 
+
+    CVariableMeasure *measure = CVariableFactory::castedBuild<CVariableMeasure *>(type_measure, VariableOrganTypeNone);
     m_variables << label << type
                #if 0
                 << unit
