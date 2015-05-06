@@ -32,10 +32,10 @@ public:
 
 
 // IVariable Describer
-class CVariableTabDescriber : public IVariableObjectDescriber
+class CVariableIVariableDescriber : public IVariableObjectDescriber
 {
 public:
-    CVariableTabDescriber(QObject *parent = Q_NULLPTR);
+    CVariableIVariableDescriber(QObject *parent = Q_NULLPTR);
     void describe(const QVariant &object) Q_DECL_OVERRIDE;
 };
 

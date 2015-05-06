@@ -15,6 +15,8 @@ public:
         Undefined = -1,
         CycleType,
         Cycle,
+        VariableType,
+        VariableUnit,
     };
 
     explicit CVariableMutable(QObject *parent = 0);

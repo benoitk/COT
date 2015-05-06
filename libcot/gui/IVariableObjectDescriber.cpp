@@ -67,13 +67,13 @@ void CVariableICycleDescriber::describe(const QVariant &object)
 }
 
 
-CVariableTabDescriber::CVariableTabDescriber(QObject *parent)
+CVariableIVariableDescriber::CVariableIVariableDescriber(QObject *parent)
     : IVariableObjectDescriber(parent)
 {
 
 }
 
-void CVariableTabDescriber::describe(const QVariant &object)
+void CVariableIVariableDescriber::describe(const QVariant &object)
 {
     IVariable *ivar = object.value<IVariable *>();
     Q_ASSERT(ivar);
@@ -86,10 +86,21 @@ void CVariableTabDescriber::describe(const QVariant &object)
     CVariableMutable *type = CVariableFactory::castedBuild<CVariableMutable *>(type_mutable, VariableOrganTypeNone, ivar->getType());
     type->setName(QStringLiteral("type"));
     type->setLabel(CVariableMutable::tr("Type"));
-    type->setMutableType(CVariableMutable::CycleType);
+    type->setMutableType(CVariableMutable::VariableType);
 
+#if 0
+    CVariableMutable *unit = CVariableFactory::castedBuild<CVariableMutable *>(type_mutable, VariableOrganTypeNone, ivar->getUnit());
+    unit->setName(QStringLiteral("unit"));
+    unit->setLabel(CVariableMutable::tr("Unit"));
+    unit->setMutableType(CVariableMutable::VariableUnit);
 
-    m_variables << label << type;
+#endif
+
+    m_variables << label << type
+               #if 0
+                << unit
+               #endif
+                   ;
 
     foreach (IVariable *ivar, m_variables) {
         m_variablesHash[ivar->getName()] = ivar;
