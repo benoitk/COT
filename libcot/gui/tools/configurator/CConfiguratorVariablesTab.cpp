@@ -27,8 +27,10 @@ CConfiguratorVariablesTab::~CConfiguratorVariablesTab()
 
 void CConfiguratorVariablesTab::addVariable()
 {
-    //TODO add name ?
-    CPCWindow::openModal<CEditvariableWindow>("" /* variable name */    );
+    const QString streamname = m_ivariableUIHandler->selectStream();
+    if (!streamname.isEmpty()) {
+        //TODO add it
+    }
 }
 
 void CConfiguratorVariablesTab::editVariable(const QString &variableName)
