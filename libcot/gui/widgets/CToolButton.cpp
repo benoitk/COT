@@ -146,7 +146,6 @@ QIcon CToolButton::buttonIcon(CToolButton::Type type)
         case CToolButton::StopEndCycle:
         case CToolButton::NextStream:
         case CToolButton::Update:
-        case CToolButton::Configure:
             // TODO_KDAB:: Handle each icon set in picto / pictohd resources.
             break;
 
@@ -220,6 +219,7 @@ QIcon CToolButton::buttonIcon(CToolButton::Type type)
             break;
 
         case CToolButton::MeasureDetails:
+        case CToolButton::Configure: // TODO: need a different icon for this one
             icon = iconFromPixmaps("35x35 detail mesure");
             break;
 
