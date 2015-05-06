@@ -5,8 +5,10 @@
 #include <QHash>
 #include "cot_global.h"
 
+#include "IVariable.h"
+#include "ICycle.h"
+
 class CScrollableWidget;
-class IVariable;
 class IVariableObjectDescriber;
 class QLabel;
 class QGridLayout;
@@ -30,6 +32,31 @@ public:
     bool enterInteger(int &value);
     // Ask user to enter a double value
     bool enterDouble(double &value);
+
+    // return an action type: calc_coef, calc_rien, bloc, etc.
+    int selectActionType(int defaultValue = -1);
+    // Select a variable type (float, int, string)
+    variableType selectVariableType(variableType defaultValue = type_unknow);
+    // Select a variable organ type (input, output, none)
+    VariableOrganType selectOrganType(VariableOrganType defaultValue = VariableOrganTypeNone);
+    // Select a cycle type (maintenance, autonome, pause...)
+    eTypeCycle selectCycleType(eTypeCycle defaultValue = CYCLE_INVALID);
+    // Select a variable
+    QString selectVariable(const QString &defaultName = QString());
+    // Select a stream name
+    QString selectStream(const QString &defaultName = QString());
+    // Select a measure
+    QString selectMeasure(const QString &defaultName = QString());
+    // Select a cycle
+    QString selectCycle(const QString &defaultName = QString());
+    // Select an action
+    QString selectAction(const QString &defaultName = QString());
+    // Select a stream and/or measure
+    QString selectStreamOrMeasure(const QString &defaultName = QString());
+    // Select extension
+    QString selectExtension(const QString &defaultName = QString());
+    // Select organ
+    QString selectOrgan(const QString &defaultName = QString());
 
 protected:
     struct Row {
