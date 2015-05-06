@@ -363,48 +363,6 @@ QString IConfiguratorUIHandler::selectOrgan(const QString &defaultName)
     return result;
 }
 
-QString IConfiguratorUIHandler::enterText(const QString &defaultValue)
-{
-    CKeyboardDialog dlg;
-    dlg.setTitle(tr("Enter a new value"));
-    dlg.setStringValue(defaultValue);
-    QString result = defaultValue;
-
-    if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
-        result = dlg.stringValue();
-    }
-
-    return result;
-}
-
-int IConfiguratorUIHandler::enterInteger(int defaultValue)
-{
-    CNumericalKeyboardDialog dlg(CNumericalKeyboardWidget::Integer);
-    dlg.setTitle(tr("Enter a new value"));
-    dlg.setIntegerValue(defaultValue);
-    int result = defaultValue;
-
-    if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
-        result = dlg.integerValue();
-    }
-
-    return result;
-}
-
-double IConfiguratorUIHandler::enterDouble(double defaultValue)
-{
-    CNumericalKeyboardDialog dlg(CNumericalKeyboardWidget::Double);
-    dlg.setTitle(tr("Enter a new value"));
-    dlg.setDoubleValue(defaultValue);
-    double result = defaultValue;
-
-    if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
-        result = dlg.doubleValue();
-    }
-
-    return result;
-}
-
 QWidget *IConfiguratorUIHandler::newDeleteButton(IVariable *ivar)
 {
     CToolButton *editor = new CToolButton(CToolButton::Delete);

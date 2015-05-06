@@ -38,13 +38,6 @@ public:
     // Select organ
     QString selectOrgan(const QString &defaultName = QString());
 
-    // Ask user to enter a text value
-    QString enterText(const QString &defaultValue = QString());
-    // Ask user to enter an int value
-    int enterInteger(int defaultValue = 0);
-    // Ask user to enter a double value
-    double enterDouble(double defaultValue = 0);
-
 protected:
     virtual QWidget *newDeleteButton(IVariable *ivar);
     virtual void rowAboutToBeDeleted(const Row &row, IVariable *ivar);

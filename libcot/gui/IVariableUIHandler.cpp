@@ -100,6 +100,48 @@ void IVariableUIHandler::setScrollableWidget(CScrollableWidget *scrollable)
     m_scrollable = scrollable;
 }
 
+bool IVariableUIHandler::enterText(QString &value)
+{
+    CKeyboardDialog dlg;
+    dlg.setTitle(tr("Enter a new value"));
+    dlg.setStringValue(value);
+
+    if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
+        value = dlg.stringValue();
+        return true;
+    }
+
+    return false;
+}
+
+bool IVariableUIHandler::enterInteger(int &value)
+{
+    CNumericalKeyboardDialog dlg(CNumericalKeyboardWidget::Integer);
+    dlg.setTitle(tr("Enter a new value"));
+    dlg.setIntegerValue(value);
+
+    if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
+        value = dlg.integerValue();
+        return true;
+    }
+
+    return false;
+}
+
+bool IVariableUIHandler::enterDouble(double &value)
+{
+    CNumericalKeyboardDialog dlg(CNumericalKeyboardWidget::Double);
+    dlg.setTitle(tr("Enter a new value"));
+    dlg.setDoubleValue(value);
+
+    if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
+        value = dlg.doubleValue();
+        return true;
+    }
+
+    return false;
+}
+
 int IVariableUIHandler::layoutRow(QWidget *widget) const
 {
     int i = m_containerLayout->indexOf(widget);
@@ -447,10 +489,10 @@ void IVariableUIHandler::slotRequestIntegerValue()
 {
     CPushButton *editor = qobject_cast<CPushButton *>(sender());
     IVariable *ivar = getVariable(editor->userData().toString());
-    CNumericalKeyboardDialog dlg(CNumericalKeyboardWidget::Integer);
+    int value = ivar->toInt();
 
-    if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
-        ivar->setValue(dlg.integerValue());
+    if (enterInteger(value)) {
+        ivar->setValue(value);
     }
 }
 
@@ -458,10 +500,10 @@ void IVariableUIHandler::slotRequestDoubleValue()
 {
     CPushButton *editor = qobject_cast<CPushButton *>(sender());
     IVariable *ivar = getVariable(editor->userData().toString());
-    CNumericalKeyboardDialog dlg(CNumericalKeyboardWidget::Double);
+    double value = ivar->toFloat();
 
-    if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
-        ivar->setValue(dlg.doubleValue());
+    if (enterDouble(value)) {
+        ivar->setValue(value);
     }
 }
 
@@ -469,10 +511,10 @@ void IVariableUIHandler::slotRequestStringValue()
 {
     CPushButton *editor = qobject_cast<CPushButton *>(sender());
     IVariable *ivar = getVariable(editor->userData().toString());
-    CKeyboardDialog dlg;
+    QString value = ivar->toString();
 
-    if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
-        ivar->setValue(dlg.stringValue());
+    if (enterText(value)) {
+        ivar->setValue(value);
     }
 }
 

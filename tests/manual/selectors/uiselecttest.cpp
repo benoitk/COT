@@ -89,19 +89,22 @@ void UISelectTest::on_pbOrgan_clicked()
 
 void UISelectTest::on_pbText_clicked()
 {
-    QString r = handler->enterText(rowLabel(sender()).toString());
+    QString r = rowLabel(sender()).toString();
+    handler->enterText(r);
     setRowLabel(sender(), r);
 }
 
 void UISelectTest::on_pbInteger_clicked()
 {
-    int r = handler->enterInteger(rowLabel(sender()).toInt());
+    int r = rowLabel(sender()).toInt();
+    handler->enterInteger(r);
     setRowLabel(sender(), r);
 }
 
 void UISelectTest::on_pbDouble_clicked()
 {
-    double r = handler->enterDouble(rowLabel(sender()).toDouble());
+    double r = rowLabel(sender()).toDouble();
+    handler->enterDouble(r);
     setRowLabel(sender(), r);
 }
 

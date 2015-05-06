@@ -23,6 +23,13 @@ public:
 
     void setScrollableWidget(CScrollableWidget *scrollable);
 
+    // Ask user to enter a text value
+    bool enterText(QString &value);
+    // Ask user to enter an int value
+    bool enterInteger(int &value);
+    // Ask user to enter a double value
+    bool enterDouble(double &value);
+
 protected:
     struct Row {
         Row() { }
