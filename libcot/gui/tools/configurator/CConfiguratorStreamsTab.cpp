@@ -25,5 +25,4 @@ CConfiguratorStreamsTab::~CConfiguratorStreamsTab()
 
 void CConfiguratorStreamsTab::slotAddStreams()
 {
-
 }
