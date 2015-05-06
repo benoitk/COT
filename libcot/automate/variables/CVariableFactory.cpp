@@ -94,7 +94,7 @@ IVariable *CVariableFactory::build(variableType type, VariableOrganType organTyp
                     return new CVariableUnknow;
 
                 case type_mutable:
-                    return new CVariableMutable(data.toMap());
+                    return new CVariableMutable(data);
             }
 
             break;

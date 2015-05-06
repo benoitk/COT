@@ -9,6 +9,17 @@ CVariableMutable::CVariableMutable(const QVariantMap &data, QObject *parent)
     , m_data(data)
 {}
 
+CVariableMutable::CVariableMutable(const QVariant &data, QObject *parent)
+    : QObject(parent)
+{
+    if (data.type() == QVariant::Map) {
+        m_data = data.toMap();
+    }
+    else {
+        setValue(data);
+    }
+}
+
 CVariableMutable::~CVariableMutable()
 {}
 

@@ -19,6 +19,7 @@ public:
 
     explicit CVariableMutable(QObject *parent = 0);
     explicit CVariableMutable(const QVariantMap &data, QObject *parent = 0);
+    explicit CVariableMutable(const QVariant &data, QObject *parent = 0);
     ~CVariableMutable();
 
     virtual VariableOrganType getOrganType() const;
