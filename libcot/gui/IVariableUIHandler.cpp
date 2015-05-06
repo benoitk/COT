@@ -13,6 +13,7 @@
 #include "IVariable.h"
 #include "CVariableVoie.h"
 #include "CVariableMeasure.h"
+#include "CVariableMutable.h"
 #include "IVariableInput.h"
 #include "IVariableOutput.h"
 #include "CModelExtensionCard.h"
@@ -170,27 +171,38 @@ IVariablePtrList buildStreamsMeasures() {
 
 IVariablePtrList buildExtensions() {
     CAutomate *automate = CAutomate::getInstance();
-    QMap<QString, CModelExtensionCard*> cards = automate->getMapExtensions();
+    QList<CModelExtensionCard*> cards = automate->getMapExtensions().values();
     IVariablePtrList ivars;
-    QMapIterator<QString, CModelExtensionCard*> i(cards);
-    while (i.hasNext()) {
-        i.next();
-        ivars << CVariableFactory::buildTemporary(i.value()->getName(), i.value()->getLabel(), type_string);
+
+    foreach (CModelExtensionCard *card, cards) {
+        ivars << CVariableFactory::buildTemporary(card->getName(), card->getLabel(), type_string);
     }
+
     return ivars;
 }
 
 IVariablePtrList buildOrgans() {
     // KDAB_TODO: No customer api so let fake
     CAutomate *automate = CAutomate::getInstance();
-    QMap<QString, CModelExtensionCard*> cards = automate->getMapExtensions();
+    QList<CModelExtensionCard*> cards = automate->getMapExtensions().values();
     IVariablePtrList ivars;
-    QMapIterator<QString, CModelExtensionCard*> i(cards);
-    while (i.hasNext()) {
-        i.next();
-        foreach (IOrgan *organ, i.value()->getListOrgans()) {
+
+    foreach (CModelExtensionCard *card, cards) {
+        foreach (IOrgan *organ, card->getListOrgans()) {
             ivars << CVariableFactory::buildTemporary(organ->getName(), type_string);
         }
+    }
+
+    return ivars;
+}
+
+IVariablePtrList buildUnits() {
+    CAutomate *automate = CAutomate::getInstance();
+    QList<CUnit *> units = automate->getListUnits();
+    IVariablePtrList ivars;
+
+    foreach (CUnit *unit, units) {
+        ivars << CVariableFactory::buildTemporary(unit->getName(), unit->getLbl(), type_string);
     }
 
     return ivars;
@@ -499,6 +511,22 @@ bool IVariableUIHandler::selectOrgan(QString &value)
     return false;
 }
 
+bool IVariableUIHandler::selectUnit(QString &value)
+{
+    IVariablePtrList ivars = buildUnits();
+    ScopedIVariablePtrList scoped(&ivars);
+    CGenericItemSelector dlg(ivars);
+    dlg.setTitle(tr("Select an unit"));
+    dlg.setSelectedValue(value);
+
+    if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
+        value = dlg.selectedItem()->getName();
+        return true;
+    }
+
+    return false;
+}
+
 int IVariableUIHandler::layoutRow(QWidget *widget) const
 {
     int i = m_containerLayout->indexOf(widget);
@@ -575,7 +603,6 @@ QWidget *IVariableUIHandler::newEditor(IVariable *ivar)
                 case VariableOrganTypeOutput: {
                     CSwitchButton *editor = new CSwitchButton(m_container);
                     editor->setUserData(ivar->getName());
-                    editor->setChecked(ivar->toBool());
 
                     foreach (CToolButton *button, editor->findChildren<CToolButton *>()) {
                         button->setFixedSize(30, 30);
@@ -592,14 +619,12 @@ QWidget *IVariableUIHandler::newEditor(IVariable *ivar)
 
             CLedButton *editor = new CLedButton(m_container);
             editor->setUserData(ivar->getName());
-            editor->setChecked(ivar->toBool());
             return editor;
         }
 
         case type_float: {
             CPushButton *editor = new CPushButton(m_container);
             editor->setUserData(ivar->getName());
-            editor->setText(ivar->toString());
 
             switch (ivar->getOrganType()) {
                 case VariableOrganTypeNone:
@@ -619,7 +644,6 @@ QWidget *IVariableUIHandler::newEditor(IVariable *ivar)
         case type_int: {
             CPushButton *editor = new CPushButton(m_container);
             editor->setUserData(ivar->getName());
-            editor->setText(ivar->toString());
 
             switch (ivar->getOrganType()) {
                 case VariableOrganTypeNone:
@@ -639,7 +663,6 @@ QWidget *IVariableUIHandler::newEditor(IVariable *ivar)
         case type_string: {
             CPushButton *editor = new CPushButton(m_container);
             editor->setUserData(ivar->getName());
-            editor->setText(ivar->toString());
 
             switch (ivar->getOrganType()) {
                 case VariableOrganTypeNone:
@@ -659,7 +682,6 @@ QWidget *IVariableUIHandler::newEditor(IVariable *ivar)
         case type_stream: {
             CPushButton *editor = new CPushButton(m_container);
             editor->setUserData(ivar->getName());
-            editor->setText(ivar->toString());
 
             switch (ivar->getOrganType()) {
                 case VariableOrganTypeNone:
@@ -690,8 +712,81 @@ QWidget *IVariableUIHandler::newEditor(IVariable *ivar)
 
             CPushButton *editor = new CPushButton(m_container);
             editor->setUserData(ivar->getName());
-            editor->setText(ivar->toString());
             return editor;
+        }
+
+        case type_mutable: {
+            CVariableMutable *vmutable = static_cast<CVariableMutable *>(ivar);
+
+            switch (vmutable->mutableType()) {
+                case CVariableMutable::Undefined:
+                    break;
+
+                case CVariableMutable::CycleType: {
+                    CPushButton *editor = new CPushButton(m_container);
+                    editor->setUserData(ivar->getName());
+                    connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestCycleType);
+                    break;
+                }
+
+                case CVariableMutable::Cycle: {
+                    CPushButton *editor = new CPushButton(m_container);
+                    editor->setUserData(ivar->getName());
+                    connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestCycle);
+                    break;
+                }
+
+                case CVariableMutable::VariableType: {
+                    CPushButton *editor = new CPushButton(m_container);
+                    editor->setUserData(ivar->getName());
+                    connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestVariableType);
+                    break;
+                }
+
+                case CVariableMutable::VariableUnit: {
+                    CPushButton *editor = new CPushButton(m_container);
+                    editor->setUserData(ivar->getName());
+                    connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestUnit);
+                    break;
+                }
+
+                case CVariableMutable::VariableExtension: {
+                    CPushButton *editor = new CPushButton(m_container);
+                    editor->setUserData(ivar->getName());
+                    connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestExtension);
+                    break;
+                }
+
+                case CVariableMutable::VariableOrgan: {
+                    CPushButton *editor = new CPushButton(m_container);
+                    editor->setUserData(ivar->getName());
+                    connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestOrgan);
+                    break;
+                }
+
+                case CVariableMutable::VariableStream: {
+                    CPushButton *editor = new CPushButton(m_container);
+                    editor->setUserData(ivar->getName());
+                    connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestStream);
+                    break;
+                }
+
+                case CVariableMutable::VariableFormat: {
+                    CPushButton *editor = new CPushButton(m_container);
+                    editor->setUserData(ivar->getName());
+                    connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestString);
+                    break;
+                }
+
+                case CVariableMutable::VariableMeasure: {
+                    CPushButton *editor = new CPushButton(m_container);
+                    editor->setUserData(ivar->getName());
+                    connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestMeasure);
+                    break;
+                }
+            }
+
+            break;
         }
     }
 
@@ -1003,6 +1098,17 @@ void IVariableUIHandler::slotRequestOrgan()
     QString value = ivar->toString();
 
     if (selectOrgan(value)) {
+        ivar->setValue(value);
+    }
+}
+
+void IVariableUIHandler::slotRequestUnit()
+{
+    CPushButton *editor = qobject_cast<CPushButton *>(sender());
+    IVariable *ivar = getVariable(editor->userData().toString());
+    QString value = ivar->toString();
+
+    if (selectUnit(value)) {
         ivar->setValue(value);
     }
 }

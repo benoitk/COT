@@ -99,6 +99,13 @@ void UISelectTest::on_pbOrgan_clicked()
     setRowLabel(sender(), r);
 }
 
+void UISelectTest::on_pbUnit_clicked()
+{
+    QString r = rowLabel(sender()).toString();
+    handler->selectUnit(r);
+    setRowLabel(sender(), r);
+}
+
 void UISelectTest::on_pbText_clicked()
 {
     QString r = rowLabel(sender()).toString();

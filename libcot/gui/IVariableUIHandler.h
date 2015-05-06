@@ -62,6 +62,8 @@ public:
     bool selectExtension(QString &value);
     // Select organ
     bool selectOrgan(QString &value);
+    // Select an unit
+    bool selectUnit(QString &value);
 
 protected:
     struct Row {
@@ -112,6 +114,7 @@ private slots:
     void slotRequestStreamOrMeasure();
     void slotRequestExtension();
     void slotRequestOrgan();
+    void slotRequestUnit();
 };
 
 #endif // IVARIABLEUIHANDLER_H

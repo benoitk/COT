@@ -31,6 +31,7 @@ private slots:
     void on_pbStreamMeasure_clicked();
     void on_pbExtension_clicked();
     void on_pbOrgan_clicked();
+    void on_pbUnit_clicked();
     void on_pbText_clicked();
     void on_pbInteger_clicked();
     void on_pbDouble_clicked();
