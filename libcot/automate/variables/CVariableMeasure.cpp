@@ -15,7 +15,7 @@ CVariableMeasure::CVariableMeasure(const QMap<QString, QVariant> &mapVar):IVaria
     
     if(mapVar.contains(tr("fr_FR")))
         m_label = mapVar.value(tr("fr_FR")).toString();
-    else m_name = QStringLiteral("Stream no label");
+    else m_label = QStringLiteral("Stream no label");
     
     m_measure = CAutomate::getInstance()->getVariable(mapVar.value(tr("variable_measure")).toString());
     m_measureMax = CAutomate::getInstance()->getVariable(mapVar.value(tr("variable_range_max")).toString());
