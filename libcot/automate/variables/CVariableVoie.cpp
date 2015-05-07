@@ -22,14 +22,14 @@ CVariableVoie::CVariableVoie(const QMap<QString, QVariant> &mapVar):IVariable(){
     
     if(mapVar.contains(QStringLiteral("variables"))){
         QVariantList listVariable = mapVar.value(QStringLiteral("variables")).toList();
-        foreach(QVariant variant, listVariable){
+        foreach(const QVariant &variant, listVariable){
             m_listVariables.append(CAutomate::getInstance()->getVariable(variant.toString()));
         }
     }
 
     if(mapVar.contains(QStringLiteral("cycles"))){
         QVariantList listVariable = mapVar.value(QStringLiteral("cycles")).toList();
-        foreach(QVariant variant, listVariable){
+        foreach(const QVariant &variant, listVariable){
             m_listCycles.append(CAutomate::getInstance()->getCycle(variant.toString(), CYCLE_MESURE));
         }
     }

@@ -23,7 +23,7 @@ CVariableMeasure::CVariableMeasure(const QMap<QString, QVariant> &mapVar):IVaria
     
     if(mapVar.contains(QStringLiteral("variables"))){
         QVariantList listVariable = mapVar.value(QStringLiteral("variables")).toList();
-        foreach(QVariant variant, listVariable){
+        foreach(const QVariant &variant, listVariable){
             m_listVariables.append(CAutomate::getInstance()->getVariable(variant.toString()));
         }
     }
