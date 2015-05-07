@@ -221,7 +221,6 @@ HEADERS *= \
     gui/tools/configurator/extensions/CEditOrgansTab.h \
     gui/tools/configurator/extensions/CEditExtensionWindow.h \
     gui/tools/configurator/extensions/IEditExtensionTab.h \
-    gui/tools/configurator/ConfiguratorActionsUIHandler.h
 
 SOURCES *= \
     automate/CAutomate.cpp \
@@ -371,4 +370,3 @@ SOURCES *= \
     gui/tools/configurator/extensions/CEditComTab.cpp \
     gui/tools/configurator/extensions/CEditOrgansTab.cpp \
     gui/tools/configurator/extensions/CEditExtensionWindow.cpp \
-    gui/tools/configurator/ConfiguratorActionsUIHandler.cpp
