@@ -98,11 +98,13 @@ void CVariableIVariableDescriber::describe(const QVariant &object)
     unit->setLabel(CVariableMutable::tr("Unit"));
     unit->setMutableType(CVariableMutable::VariableUnit);
 
+    //TODO add measure
     CVariableMeasure *measure = CVariableFactory::castedBuild<CVariableMeasure *>(type_measure, VariableOrganTypeNone);
+    measure->setName(QStringLiteral("measure"));
+    measure->setLabel(CVariableMutable::tr("Measure"));
+
     m_variables << label << type
-               #if 0
-                << unit
-               #endif
+                << unit << measure
                    ;
 
     switch (ivar->getType()) {
