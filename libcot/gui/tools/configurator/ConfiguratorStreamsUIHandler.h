@@ -4,7 +4,7 @@
 #include "cot_global.h"
 
 #include <IConfiguratorUIHandler.h>
-
+class CPushButton;
 class LIBCOT_EXPORT ConfiguratorStreamsUIHandler : public IConfiguratorUIHandler
 {
     Q_OBJECT
@@ -20,6 +20,10 @@ protected:
     void rowInserted(const Row &row, IVariable *ivar) Q_DECL_OVERRIDE;
     void rowChanged(const Row &row, IVariable *ivar) Q_DECL_OVERRIDE;
     void rowAboutToBeDeleted(const Row &row, IVariable *ivar) Q_DECL_OVERRIDE;
+
+private:
+    CPushButton *newButton(IVariable *ivar);
+    CPushButton *addMeasureButton();
 };
 
 #endif // CONFIGURATORSTREAMSUIHANDLER_H
