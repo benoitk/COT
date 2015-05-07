@@ -4,6 +4,7 @@
 #include "CVariableInt.h"
 #include "CVariableMutable.h"
 #include "ICycle.h"
+#include "CUnit.h"
 
 #include <CVariableBool.h>
 #include <CVariableFloat.h>
@@ -92,11 +93,11 @@ void CVariableIVariableDescriber::describe(const QVariant &object)
     type->setLabel(CVariableMutable::tr("Type"));
     type->setMutableType(CVariableMutable::VariableType);
 
-    //TODO store unit.
-    CVariableMutable *unit = CVariableFactory::castedBuild<CVariableMutable *>(type_mutable, VariableOrganTypeNone);
+    QString unitName = ivar->getUnit() ? ivar->getUnit()->getName() : QString();
+    CVariableMutable *unit = CVariableFactory::castedBuild<CVariableMutable *>(type_mutable, VariableOrganTypeNone, unitName);
     unit->setName(QStringLiteral("unit"));
     unit->setLabel(CVariableMutable::tr("Unit"));
-    unit->setMutableType(CVariableMutable::VariableUnit);
+    unit->setMutableType(CVariableMutable::VariableUnit);    
 
     //TODO add measure
     CVariableMeasure *measure = CVariableFactory::castedBuild<CVariableMeasure *>(type_measure, VariableOrganTypeNone);
