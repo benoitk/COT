@@ -53,6 +53,7 @@ INCLUDEPATH *= \
     $${LIBCOT_SRC_PWD}/updater \
     $${LIBCOT_SRC_PWD}/keyboards \
     $${LIBCOT_SRC_PWD}/graphics \
+    $${LIBCOT_SRC_PWD}/automate/organs/ \
     $${KPLOTTING_SRC_PWD}/src \
 
 isEqual(TEMPLATE, "app") {
