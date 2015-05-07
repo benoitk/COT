@@ -220,6 +220,7 @@ HEADERS *= \
     gui/tools/configurator/extensions/CEditComTab.h \
     gui/tools/configurator/extensions/CEditOrgansTab.h \
     gui/tools/configurator/extensions/CEditExtensionWindow.h \
+    gui/tools/configurator/extensions/IEditExtensionTab.h \
 
 SOURCES *= \
     automate/CAutomate.cpp \
