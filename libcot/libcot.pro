@@ -58,6 +58,9 @@ FORMS *= \
     gui/tools/configurator/variables/CEditVariableTab.ui \
     gui/tools/configurator/variables/CEditInBindsTab.ui \
     gui/tools/configurator/variables/CEditOutBindsTab.ui \
+    gui/tools/configurator/extensions/CEditGeneralTab.ui \ 
+    gui/tools/configurator/extensions/CEditComTab.ui \
+    gui/tools/configurator/extensions/CEditOrgansTab.ui \
 
 
 
@@ -211,7 +214,10 @@ HEADERS *= \
     automate/com/CComFactory.h \
     automate/com/CComUnknow.h \
     gui/tools/configurator/ConfiguratorSequencerUIHandler.h \
-    gui/tools/configurator/ConfiguratorStreamsUIHandler.h
+    gui/tools/configurator/ConfiguratorStreamsUIHandler.h \
+    gui/tools/configurator/extensions/CEditGeneralTab.h \
+    gui/tools/configurator/extensions/CEditComTab.h \
+    gui/tools/configurator/extensions/CEditOrgansTab.h \
 
 SOURCES *= \
     automate/CAutomate.cpp \
@@ -356,4 +362,7 @@ SOURCES *= \
     automate/com/CComFactory.cpp \
     automate/com/CComUnknow.cpp \
     gui/tools/configurator/ConfiguratorSequencerUIHandler.cpp \
-    gui/tools/configurator/ConfiguratorStreamsUIHandler.cpp
+    gui/tools/configurator/ConfiguratorStreamsUIHandler.cpp \
+    gui/tools/configurator/extensions/CEditGeneralTab.cpp \
+    gui/tools/configurator/extensions/CEditComTab.cpp \
+    gui/tools/configurator/extensions/CEditOrgansTab.cpp \
