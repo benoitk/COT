@@ -61,6 +61,7 @@ FORMS *= \
     gui/tools/configurator/extensions/CEditGeneralTab.ui \ 
     gui/tools/configurator/extensions/CEditComTab.ui \
     gui/tools/configurator/extensions/CEditOrgansTab.ui \
+    gui/tools/configurator/extensions/CEditExtensionWindow.ui \
 
 
 
@@ -218,6 +219,7 @@ HEADERS *= \
     gui/tools/configurator/extensions/CEditGeneralTab.h \
     gui/tools/configurator/extensions/CEditComTab.h \
     gui/tools/configurator/extensions/CEditOrgansTab.h \
+    gui/tools/configurator/extensions/CEditExtensionWindow.h \
 
 SOURCES *= \
     automate/CAutomate.cpp \
@@ -366,3 +368,4 @@ SOURCES *= \
     gui/tools/configurator/extensions/CEditGeneralTab.cpp \
     gui/tools/configurator/extensions/CEditComTab.cpp \
     gui/tools/configurator/extensions/CEditOrgansTab.cpp \
+    gui/tools/configurator/extensions/CEditExtensionWindow.cpp \
