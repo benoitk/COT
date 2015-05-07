@@ -88,6 +88,8 @@ void ConfiguratorVariablesUIHandler::rowChanged(const IVariableUIHandler::Row &r
 void ConfiguratorVariablesUIHandler::rowAboutToBeDeleted(const Row &row, IVariable *ivar)
 {
     //TODO
+    Q_UNUSED(row);
+    Q_UNUSED(ivar);
 }
 
 CPushButton *ConfiguratorVariablesUIHandler::newButton(IVariable *ivar)

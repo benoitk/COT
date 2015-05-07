@@ -57,6 +57,7 @@ void CEditvariableWindow::changeEvent(QEvent *event)
 
 void CEditvariableWindow::backTriggered()
 {
+    //TODO save variable ?
     close();
 }
 
