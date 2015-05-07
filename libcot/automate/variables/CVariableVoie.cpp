@@ -16,7 +16,7 @@ CVariableVoie::CVariableVoie(const QMap<QString, QVariant> &mapVar):IVariable(){
     
     if(mapVar.contains(tr("fr_FR")))
         m_label = mapVar.value(tr("fr_FR")).toString();
-    else m_name = QStringLiteral("Stream no label");
+    else m_label = QStringLiteral("Stream no label");
     
     m_activeState = CAutomate::getInstance()->getVariable(mapVar.value(tr("active_state")).toString());
     
