@@ -579,7 +579,7 @@ QWidget *IVariableUIHandler::createWidget(int column, IVariable *ivar)
     return Q_NULLPTR;
 }
 
-QWidget *IVariableUIHandler::newDeleteButton(IVariable *ivar)
+CToolButton *IVariableUIHandler::newDeleteButton(IVariable *ivar)
 {
     Q_UNUSED(ivar);
     return Q_NULLPTR;

@@ -12,6 +12,7 @@ class CScrollableWidget;
 class IVariableObjectDescriber;
 class QLabel;
 class QGridLayout;
+class CToolButton;
 
 /*
  * This class handle the UI presentation for a widget in the COT UI.
@@ -91,7 +92,7 @@ protected:
     virtual void rowInserted(const Row &row, IVariable *ivar);
     virtual void rowChanged(const Row &row, IVariable *ivar);
 
-    virtual QWidget *newDeleteButton(IVariable *ivar);
+    virtual CToolButton *newDeleteButton(IVariable *ivar);
     QLabel *newLabel(IVariable *ivar);
     QWidget *newEditor(IVariable *ivar);
     QLabel *newUnit(IVariable *ivar);

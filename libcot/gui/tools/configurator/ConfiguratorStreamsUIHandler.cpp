@@ -2,6 +2,7 @@
 #include <QWidget>
 #include <QGridLayout>
 #include <CPushButton.h>
+#include <CToolButton.h>
 #include <CVariableVoie.h>
 
 ConfiguratorStreamsUIHandler::ConfiguratorStreamsUIHandler(CScrollableWidget *scrollable, QObject *parent)
@@ -31,8 +32,8 @@ QWidget *ConfiguratorStreamsUIHandler::createWidget(int column, IVariable *ivar)
         return Q_NULLPTR;
     }
     if (column == 1) {
-        QWidget *w = new QWidget;
-        QGridLayout *grid = new QGridLayout(w);
+        QWidget *mainwidget = new QWidget;
+        QGridLayout *grid = new QGridLayout(mainwidget);
         CPushButton *streamButton = newButton(ivar);
         grid->addWidget(streamButton, 0, 0);
         grid->addWidget(newDeleteButton(ivar), 0, 3);
@@ -45,19 +46,23 @@ QWidget *ConfiguratorStreamsUIHandler::createWidget(int column, IVariable *ivar)
             grid->addWidget(newDeleteButton(var), row, 2);
         }
         grid->addWidget(addMeasureButton(), row, 4);
-
-        return w;
+        return mainwidget;
     }
     return Q_NULLPTR;
 }
 
 void ConfiguratorStreamsUIHandler::rowInserted(const IVariableUIHandler::Row &row, IVariable *ivar)
 {
-    //TODO
+    Q_UNUSED(row);
+    Q_UNUSED(ivar);
 }
 
 void ConfiguratorStreamsUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariable *ivar)
 {
+    QWidget *mainWidget = row.widgetAt<QWidget *>(0);
+    if (mainWidget) {
+
+    }
     //TODO
 }
 

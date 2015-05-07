@@ -14,7 +14,7 @@ public:
     explicit IConfiguratorUIHandler(CScrollableWidget *scrollable = Q_NULLPTR, QObject *parent = Q_NULLPTR);
 
 protected:
-    virtual QWidget *newDeleteButton(IVariable *ivar);
+    virtual CToolButton *newDeleteButton(IVariable *ivar);
     virtual void rowAboutToBeDeleted(const Row &row, IVariable *ivar);
 
 protected slots:

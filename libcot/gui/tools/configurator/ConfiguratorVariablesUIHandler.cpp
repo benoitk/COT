@@ -18,7 +18,8 @@ ConfiguratorVariablesUIHandler::~ConfiguratorVariablesUIHandler()
 
 void ConfiguratorVariablesUIHandler::layout()
 {
-
+    const QList<IVariable*> listVar = CAutomate::getInstance()->getMapVariables().values();
+    IVariableUIHandler::layout(listVar, false);
 }
 
 int ConfiguratorVariablesUIHandler::columnCount() const
@@ -49,14 +50,18 @@ QWidget *ConfiguratorVariablesUIHandler::createWidget(int column, IVariable *iva
         break;
     case 2:
         if (isStream) {
-            return newDeleteButton(ivar);
+            CToolButton *deleteButton = newDeleteButton(ivar);
+            connect(deleteButton, &CToolButton::clicked, this, &ConfiguratorVariablesUIHandler::slotDeleteClicked);
+            return deleteButton;
         } else if (isMeasure) {
-            return newLabel(ivar);
+            return newButton(ivar);
         }
         break;
     case 3:
         if (isMeasure) {
-            return newDeleteButton(ivar);
+            CToolButton *deleteButton = newDeleteButton(ivar);
+            connect(deleteButton, &CToolButton::clicked, this, &ConfiguratorVariablesUIHandler::slotDeleteClicked);
+            return deleteButton;
         }
         break;
     }
@@ -76,12 +81,9 @@ void ConfiguratorVariablesUIHandler::rowChanged(const IVariableUIHandler::Row &r
     if (isStream) {
         row.widgetAt<QLabel *>(0)->setText(ivar->getLabel());
         row.widgetAt<CPushButton *>(1)->setText(ivar->getLabel());
-        connect(row.widgetAt<CPushButton *>(1), &CPushButton::clicked, this, &ConfiguratorVariablesUIHandler::slotEditClicked);
-        connect(row.widgetAt<CToolButton *>(2), &CToolButton::clicked, this, &ConfiguratorVariablesUIHandler::slotDeleteClicked);
     } else if (isMeasure) {
-        row.widgetAt<CPushButton *>(1)->setText(ivar->getLabel());
-        connect(row.widgetAt<CPushButton *>(1), &CPushButton::clicked, this, &ConfiguratorVariablesUIHandler::slotEditClicked);
-        connect(row.widgetAt<CToolButton *>(2), &CToolButton::clicked, this, &ConfiguratorVariablesUIHandler::slotDeleteClicked);
+        row.widgetAt<QLabel *>(1)->setText(ivar->getLabel());
+        row.widgetAt<CPushButton *>(2)->setText(ivar->getLabel());
     }
 }
 
@@ -95,6 +97,7 @@ void ConfiguratorVariablesUIHandler::rowAboutToBeDeleted(const Row &row, IVariab
 CPushButton *ConfiguratorVariablesUIHandler::newButton(IVariable *ivar)
 {
     CPushButton *button = new CPushButton(m_container);
+    connect(button, &CPushButton::clicked, this, &ConfiguratorVariablesUIHandler::slotEditClicked);
     button->setText(ivar->getLabel());
     button->setUserData(ivar->getName());
     return button;

@@ -6,7 +6,7 @@ IConfiguratorUIHandler::IConfiguratorUIHandler(CScrollableWidget *scrollable, QO
 {
 }
 
-QWidget *IConfiguratorUIHandler::newDeleteButton(IVariable *ivar)
+CToolButton *IConfiguratorUIHandler::newDeleteButton(IVariable *ivar)
 {
     CToolButton *editor = new CToolButton(CToolButton::Delete);
     editor->setFixedSize(21, 21);
