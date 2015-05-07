@@ -5,6 +5,8 @@
 #include "CVariableMutable.h"
 #include "ICycle.h"
 
+#include <CVariableBool.h>
+#include <CVariableFloat.h>
 #include <CVariableMeasure.h>
 
 IVariableObjectDescriber::IVariableObjectDescriber(QObject *parent)
@@ -96,25 +98,38 @@ void CVariableIVariableDescriber::describe(const QVariant &object)
     unit->setLabel(CVariableMutable::tr("Unit"));
     unit->setMutableType(CVariableMutable::VariableUnit);
 
-    switch (ivar->getType()) {
-    case type_float: {
-    }
-        break;
-    case type_int:
-        break;
-    case type_bool:
-        break;
-    default:
-        break;
-    }
-
-
     CVariableMeasure *measure = CVariableFactory::castedBuild<CVariableMeasure *>(type_measure, VariableOrganTypeNone);
     m_variables << label << type
                #if 0
                 << unit
                #endif
                    ;
+
+    switch (ivar->getType()) {
+    case type_float: {
+        CVariableFloat *floatVariable = CVariableFactory::castedBuild<CVariableFloat *>(type_float, VariableOrganTypeNone, ivar->toFloat());
+        floatVariable->setName(QStringLiteral("value"));
+        floatVariable->setLabel(CVariableMutable::tr("Value"));
+        m_variables << floatVariable;
+        break;
+    }
+    case type_int: {
+        CVariableInt *intVariable = CVariableFactory::castedBuild<CVariableInt *>(type_int, VariableOrganTypeNone, ivar->toInt());
+        intVariable->setName(QStringLiteral("value"));
+        intVariable->setLabel(CVariableMutable::tr("Value"));
+        m_variables << intVariable;
+        break;
+    }
+    case type_bool: {
+        CVariableBool *boolVariable = CVariableFactory::castedBuild<CVariableBool *>(type_bool, VariableOrganTypeNone, ivar->toBool());
+        boolVariable->setName(QStringLiteral("value"));
+        boolVariable->setLabel(CVariableMutable::tr("Value"));
+        m_variables << boolVariable;
+        break;
+    }
+    default:
+        break;
+    }
 
     foreach (IVariable *ivar, m_variables) {
         m_variablesHash[ivar->getName()] = ivar;
