@@ -2,6 +2,8 @@
 #include "IOrgan.h"
 #include "COrgan.h"
 
+#include <QVariantMap>
+
 IOrgan* COrganFactory::build(const QVariantMap &mapCom){
 	
     IOrgan* organ = Q_NULLPTR;
@@ -14,5 +16,5 @@ IOrgan* COrganFactory::build(const QVariantMap &mapCom){
 	
 	}*/
 
-	return organ;
+    return organ;
 }

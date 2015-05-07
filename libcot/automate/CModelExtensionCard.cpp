@@ -3,7 +3,7 @@
 #include "ICom.h"
 #include "IOrgan.h"
 #include "COrganFactory.h"
-
+#include <QDebug>
 #include "qvariant.h"
 CModelExtensionCard::CModelExtensionCard(QObject *parent)
 	: QObject(parent)
@@ -82,6 +82,12 @@ IVariable* CModelExtensionCard::getVariable(const QString &addr_var)const{
 
 void CModelExtensionCard::setCom(ICom* com){
 	m_interfaceCom = com;
+}
+
+QList<IOrgan *> CModelExtensionCard::getListOrgans() const
+{
+    qDebug()<<" QList<IOrgan *> CModelExtensionCard::getListOrgans() const not implemented";
+    return QList<IOrgan *>();
 }
 
 QString CModelExtensionCard::getLabel() const

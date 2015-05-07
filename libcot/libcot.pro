@@ -281,7 +281,7 @@ SOURCES *= \
     automate/variables/IVariableOuput.cpp \
     automate/variables/CVariableMutable.cpp \
 	automate/organs/COrgan.cpp \
-	#automate/organs/CCOrganFactory.cpp \
+	automate/organs/COrganFactory.cpp \
     keyboards/CKeyboardButtonBase.cpp \
     keyboards/CKeyboardDialog.cpp \
     keyboards/CKeyboardLayoutUtils.cpp \
