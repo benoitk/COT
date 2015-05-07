@@ -1,12 +1,13 @@
 #ifndef CVOIE_H
 #define CVOIE_H
-
 #include "IVariable.h"
 
 #include <qobject.h>
 
 class ICycle;
 class CVariableMeasure;
+
+// TODO: rename to CVariableStream ?
 class CVariableVoie : public IVariable
 {
 	Q_OBJECT
