@@ -4,6 +4,7 @@
 #include <CPushButton.h>
 #include <CToolButton.h>
 #include <CVariableVoie.h>
+#include <CAutomate.h>
 
 ConfiguratorStreamsUIHandler::ConfiguratorStreamsUIHandler(CScrollableWidget *scrollable, QObject *parent)
     : IConfiguratorUIHandler(scrollable, parent)
@@ -18,7 +19,8 @@ ConfiguratorStreamsUIHandler::~ConfiguratorStreamsUIHandler()
 
 void ConfiguratorStreamsUIHandler::layout()
 {
-    //TODO
+    const QList<IVariable *> listVar = CAutomate::getInstance()->getMapStreams().values();
+    IConfiguratorUIHandler::layout(listVar, false);
 }
 
 int ConfiguratorStreamsUIHandler::columnCount() const

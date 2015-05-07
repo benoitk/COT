@@ -1,5 +1,8 @@
 #include "ConfiguratorSequencerUIHandler.h"
 
+#include <QLabel>
+#include <CToolButton.h>
+
 ConfiguratorSequencerUIHandler::ConfiguratorSequencerUIHandler(CScrollableWidget *scrollable, QObject *parent)
     : IConfiguratorUIHandler(scrollable, parent)
 {
@@ -13,18 +16,34 @@ ConfiguratorSequencerUIHandler::~ConfiguratorSequencerUIHandler()
 
 void ConfiguratorSequencerUIHandler::layout()
 {
-    //TODO
+    //TODO call layout(QList<IVariable*>)
 }
 
 int ConfiguratorSequencerUIHandler::columnCount() const
 {
-    //TODO
-    return 0;
+    return 4;
 }
 
 QWidget *ConfiguratorSequencerUIHandler::createWidget(int column, IVariable *ivar)
 {
-    //TODO
+    if (!ivar) {
+        return Q_NULLPTR;
+    }
+    switch (column) {
+    case 0:
+        //TODO
+        break;
+    case 1: {
+        QLabel *lab = new QLabel(m_container);
+        lab->setText(QStringLiteral("X"));
+        return lab;
+    }
+    case 2:
+        //TODO
+        break;
+    case 3:
+        return newDeleteButton(ivar);
+    }
     return Q_NULLPTR;
 }
 
@@ -40,5 +59,6 @@ void ConfiguratorSequencerUIHandler::rowChanged(const IVariableUIHandler::Row &r
 
 void ConfiguratorSequencerUIHandler::rowAboutToBeDeleted(const IVariableUIHandler::Row &row, IVariable *ivar)
 {
-    //TODO
+    Q_UNUSED(row);
+    Q_UNUSED(ivar);
 }
