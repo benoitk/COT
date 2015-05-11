@@ -1,6 +1,7 @@
 #include "CVariableString.h"
 #include "CUnit.h"
 
+
 CVariableString::CVariableString(QObject *parent)
     : IVariable(parent)
 {
@@ -99,7 +100,7 @@ QList<IVariable*>  CVariableString::getListInBinds()const{
 
 }
 QVariantMap CVariableString::serialise(){
-     QVariantMap mapSerialise;
+    QVariantMap mapSerialise;
     mapSerialise.insert(QStringLiteral("name"), m_name);
     mapSerialise.insert(tr("fr_FR"), m_label);
     mapSerialise.insert(QStringLiteral("type"), QStringLiteral("string"));

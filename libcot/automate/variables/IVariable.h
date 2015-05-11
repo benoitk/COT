@@ -2,7 +2,6 @@
 #define IVARIABLE_H
 
 #include <QVariant>
-#include <QVariantMap>
 #include <QList>
 
 enum variableType{

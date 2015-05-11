@@ -1,4 +1,4 @@
-#include "CVariableVoie.h"
+#include "CVariableStream.h"
 #include "CUnit.h"
 #include "IVariable.h"
 #include "ICycle.h"
@@ -6,10 +6,10 @@
 #include "CVariableFactory.h"
 
 #include "qlinkedlist.h"
-CVariableVoie::CVariableVoie(QObject *parent):IVariable(parent)
+CVariableStream::CVariableStream(QObject *parent):IVariable(parent)
 {	
 }
-CVariableVoie::CVariableVoie(const QMap<QString, QVariant> &mapVar):IVariable(){
+CVariableStream::CVariableStream(const QMap<QString, QVariant> &mapVar):IVariable(){
     if(mapVar.contains(QStringLiteral("name")))
         m_name = mapVar.value(QStringLiteral("name")).toString();
     else m_name = QStringLiteral("Stream unamed");
@@ -47,24 +47,24 @@ CVariableVoie::CVariableVoie(const QMap<QString, QVariant> &mapVar):IVariable(){
 
 }
 
-CVariableVoie::~CVariableVoie()
+CVariableStream::~CVariableStream()
 {
 }
-QList<IVariable*> CVariableVoie::getListVariables()
+QList<IVariable*> CVariableStream::getListVariables()
 {
     return m_listVariables;
 }
-QList<IVariable*> CVariableVoie::getListMeasures(){
+QList<IVariable*> CVariableStream::getListMeasures(){
     return m_listMeasures;
 }
-QList<ICycle*> CVariableVoie::getListCycles(){
+QList<ICycle*> CVariableStream::getListCycles(){
     return m_listCycles;
 }
-IVariable* CVariableVoie::getActiveState(){
+IVariable* CVariableStream::getActiveState(){
     return m_activeState;
 }
 
-void CVariableVoie::delCycle(const QString &name)
+void CVariableStream::delCycle(const QString &name)
 {
     for (int i = 0; i < m_listCycles.count(); i++) {
         ICycle *cycle = m_listCycles[i];
@@ -82,80 +82,80 @@ void CVariableVoie::delCycle(const QString &name)
         }
     }
 }
-QString CVariableVoie::getName()const{
+QString CVariableStream::getName()const{
     return m_name;
 }
-void CVariableVoie::setName(const QString& name){
+void CVariableStream::setName(const QString& name){
     m_name = name;
 }
-QString CVariableVoie::toString(){
+QString CVariableStream::toString(){
     return m_label;
 }
-int CVariableVoie::toInt(){
+int CVariableStream::toInt(){
 	return 0;
 }
-float CVariableVoie::toFloat(){
+float CVariableStream::toFloat(){
 	return 0;
 }
-bool CVariableVoie::toBool(){
+bool CVariableStream::toBool(){
 	return false;
 }
-QString CVariableVoie::getLabel()const{
+QString CVariableStream::getLabel()const{
 	return m_label;
 }
-void CVariableVoie::setLabel(const QString & label){
+void CVariableStream::setLabel(const QString & label){
 	m_label = label;
 }
 
-void CVariableVoie::setValue(int iValue){
+void CVariableStream::setValue(int iValue){
 }
-void CVariableVoie::setValue(const QVariant & value){
+void CVariableStream::setValue(const QVariant & value){
 }
 //Pas de récursivité dans les binds pour l'instant pour ne pas gérer les binds croisés({var1, var2}, {var2, var1})
-void CVariableVoie::setToBindedValue(const QVariant & value){
+void CVariableStream::setToBindedValue(const QVariant & value){
 	
 }
-variableType CVariableVoie::getType()const{
+variableType CVariableStream::getType()const{
     return type_stream;
 }
-void CVariableVoie::switchToUnit(CUnit* targetUnit){
+void CVariableStream::switchToUnit(CUnit* targetUnit){
 
 }
-void  CVariableVoie::delBind(IVariable*){
+void  CVariableStream::delBind(IVariable*){
 
 }
-void  CVariableVoie::addBind(IVariable*){
+void  CVariableStream::addBind(IVariable*){
 
 }
-CUnit * CVariableVoie::getUnit() const{
+CUnit * CVariableStream::getUnit() const{
     return Q_NULLPTR;
 }
-bool  CVariableVoie::isStreamRelated()const{
+bool  CVariableStream::isStreamRelated()const{
 	return false;
 }
-QString  CVariableVoie::getRelatedStreamName()const{
+QString  CVariableStream::getRelatedStreamName()const{
     return QStringLiteral("voie a changer");
 }
-bool  CVariableVoie::isMeasureRelated()const{
+bool  CVariableStream::isMeasureRelated()const{
 	return false;
 }
-QString  CVariableVoie::getRelatedMeasureName()const{
+QString  CVariableStream::getRelatedMeasureName()const{
     return QStringLiteral("mesure a changer");
 }
-bool  CVariableVoie::isDisplay()const{
+bool  CVariableStream::isDisplay()const{
 	return false;
 }
-QList<IVariable*>  CVariableVoie::getListOutBinds()const{
+QList<IVariable*>  CVariableStream::getListOutBinds()const{
 	QList<IVariable*> list;
 	return list;
 }
-QList<IVariable*>  CVariableVoie::getListInBinds()const{
+QList<IVariable*>  CVariableStream::getListInBinds()const{
 	QList<IVariable*> list;
 	return list;
 
 }
 //TO DO : change name to CVariableStream()
-QVariantMap CVariableVoie::serialise(){
+QVariantMap CVariableStream::serialise(){
     QVariantMap mapSerialise;
     mapSerialise.insert(QStringLiteral("name"), m_name);
     mapSerialise.insert(tr("fr_FR"), m_label);
@@ -177,14 +177,14 @@ QVariantMap CVariableVoie::serialise(){
     mapSerialise.insert(QStringLiteral("measures"), listMeasures);
     return mapSerialise;
 }
-variableAccess CVariableVoie::getAccess()const{
+variableAccess CVariableStream::getAccess()const{
     return m_access;
 }
-int CVariableVoie::getAddress()const{
+int CVariableStream::getAddress()const{
     return m_address;
 }
 
-void CVariableVoie::addCycle(ICycle *cycle)
+void CVariableStream::addCycle(ICycle *cycle)
 {
     if (!m_listCycles.contains(cycle)) {
         m_listCycles << cycle;

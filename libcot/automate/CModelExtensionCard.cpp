@@ -3,7 +3,8 @@
 #include "ICom.h"
 #include "IOrgan.h"
 #include "COrganFactory.h"
-#include <QDebug>
+
+#include "qdebug.h"
 #include "qvariant.h"
 CModelExtensionCard::CModelExtensionCard(QObject *parent)
 	: QObject(parent)

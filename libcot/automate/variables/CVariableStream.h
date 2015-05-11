@@ -8,14 +8,14 @@ class ICycle;
 class CVariableMeasure;
 
 // TODO: rename to CVariableStream ?
-class CVariableVoie : public IVariable
+class CVariableStream : public IVariable
 {
 	Q_OBJECT
 
 public:
-    CVariableVoie(QObject *parent = Q_NULLPTR);
-    CVariableVoie(const QMap<QString, QVariant> &mapVar);
-	~CVariableVoie();
+    CVariableStream(QObject *parent = Q_NULLPTR);
+    CVariableStream(const QMap<QString, QVariant> &mapVar);
+	~CVariableStream();
 
 	QString getName()const Q_DECL_OVERRIDE;
 	void setName(const QString&)Q_DECL_OVERRIDE;

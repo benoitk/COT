@@ -26,7 +26,7 @@
 #include "qfileinfo.h"
 
 //à suppirmer
-#include "CVariableVoie.h"
+#include "CVariableStream.h"
 #include "CVariableMeasure.h"
 //
 
@@ -249,7 +249,7 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
 
         CAutomate* a = CAutomate::getInstance();
         foreach(IVariable* varStream, a->getMapStreams()){
-            CVariableVoie* stream = (CVariableVoie*)varStream;
+            CVariableStream* stream = (CVariableStream*)varStream;
             qDebug() << "-stream label : " << stream->getLabel(); 
             qDebug() << "-stream active : " << stream->getActiveState()->getLabel() << " " << stream->getActiveState()->toBool(); 
             foreach(IVariable* varMeasure, stream->getListMeasures()){

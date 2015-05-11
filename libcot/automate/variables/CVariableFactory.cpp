@@ -10,7 +10,7 @@
 #include "CVariableOutputBool.h"
 #include "CVariableOutputFloat.h"
 #include "CVariableOutputInt.h"
-#include "CVariableVoie.h"
+#include "CVariableStream.h"
 #include "CVariableMeasure.h"
 #include "CVariableOutputListVariables.h"
 #include "CVariableMutable.h"
@@ -82,7 +82,7 @@ IVariable *CVariableFactory::build(variableType type, VariableOrganType organTyp
                     return new CVariableString(data.toString());
 
                 case type_stream:
-                    return new CVariableVoie(data.toMap());
+                    return new CVariableStream(data.toMap());
 
                 case type_measure:
                     return new CVariableMeasure(data.toMap());
