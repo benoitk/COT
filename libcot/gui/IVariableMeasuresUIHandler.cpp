@@ -5,7 +5,7 @@
 #include "CMeasureWindow.h"
 #include "CAutomate.h"
 #include "IVariable.h"
-#include "CVariableVoie.h"
+#include "CVariableStream.h"
 #include "CVariableMeasure.h"
 #include "CUnit.h"
 
@@ -21,7 +21,7 @@ IVariable *findMeasureStream(const QString &measureName) {
     CAutomate *automate = CAutomate::getInstance();
 
     foreach (IVariable *stream, automate->getMapStreams().values()) {
-        CVariableVoie *streamVar = static_cast<CVariableVoie *>(stream);
+        CVariableStream *streamVar = static_cast<CVariableStream *>(stream);
 
         foreach (IVariable *measure, streamVar->getListMeasures()) {
             CVariableMeasure *measureVar = static_cast<CVariableMeasure *>(measure);

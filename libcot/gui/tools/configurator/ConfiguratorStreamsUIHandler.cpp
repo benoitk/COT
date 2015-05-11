@@ -3,7 +3,7 @@
 #include <QGridLayout>
 #include <CPushButton.h>
 #include <CToolButton.h>
-#include <CVariableVoie.h>
+#include <CVariableStream.h>
 #include <CAutomate.h>
 
 ConfiguratorStreamsUIHandler::ConfiguratorStreamsUIHandler(CScrollableWidget *scrollable, QObject *parent)
@@ -39,7 +39,7 @@ QWidget *ConfiguratorStreamsUIHandler::createWidget(int column, IVariable *ivar)
         CPushButton *streamButton = newButton(ivar);
         grid->addWidget(streamButton, 0, 0);
         grid->addWidget(newDeleteButton(ivar), 0, 3);
-        CVariableVoie *streamVariable = static_cast<CVariableVoie *>(ivar);
+        CVariableStream *streamVariable = static_cast<CVariableStream *>(ivar);
         const QList<IVariable *> lstVar = streamVariable->getListMeasures();
         int row = 0;
         foreach (IVariable *var, lstVar) {

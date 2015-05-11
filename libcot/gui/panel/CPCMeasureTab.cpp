@@ -5,7 +5,7 @@
 #include "CPCWindow.h"
 #include "CAlarmsWindow.h"
 #include "CDisplayConf.h"
-#include "CVariableVoie.h"
+#include "CVariableStream.h"
 #include "CVariableMeasure.h"
 
 CPCMeasureTab::CPCMeasureTab(QWidget *parent)
@@ -71,7 +71,7 @@ void CPCMeasureTab::slotUpdateStreamsMeasures()
     IVariablePtrList ivars;
 
     foreach (IVariable *stream, streams) {
-        CVariableVoie *streamVar = static_cast<CVariableVoie *>(stream);
+        CVariableStream *streamVar = static_cast<CVariableStream *>(stream);
 
         foreach (IVariable *measure, streamVar->getListMeasures()) {
             CVariableMeasure *measureVar = static_cast<CVariableMeasure *>(measure);

@@ -11,7 +11,7 @@
 #include "CPCWindow.h"
 #include "CAutomate.h"
 #include "IVariable.h"
-#include "CVariableVoie.h"
+#include "CVariableStream.h"
 #include "CVariableMeasure.h"
 #include "CVariableMutable.h"
 #include "IVariableInput.h"
@@ -114,7 +114,7 @@ IVariablePtrList buildMeasures() {
     IVariablePtrList ivars;
 
     foreach (IVariable *stream, streams) {
-        CVariableVoie *streamVar = static_cast<CVariableVoie *>(stream);
+        CVariableStream *streamVar = static_cast<CVariableStream *>(stream);
 
         foreach (IVariable *measure, streamVar->getListMeasures()) {
             CVariableMeasure *measureVar = static_cast<CVariableMeasure *>(measure);
@@ -155,7 +155,7 @@ IVariablePtrList buildStreamsMeasures() {
     IVariablePtrList ivars;
 
     foreach (IVariable *stream, streams.values()) {
-        CVariableVoie *streamVar = static_cast<CVariableVoie *>(stream);
+        CVariableStream *streamVar = static_cast<CVariableStream *>(stream);
 
         ivars << stream;
 

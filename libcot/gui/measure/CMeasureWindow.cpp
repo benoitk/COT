@@ -3,7 +3,7 @@
 #include "CMeasureStreamTab.h"
 #include "CMeasureMeasureTab.h"
 #include "CAutomate.h"
-#include "CVariableVoie.h"
+#include "CVariableStream.h"
 #include "CVariableMeasure.h"
 
 CMeasureWindow::CMeasureWindow(IVariablePtr stream, QWidget *parent)
@@ -14,7 +14,7 @@ CMeasureWindow::CMeasureWindow(IVariablePtr stream, QWidget *parent)
 
     ui->setupUi(this);
 
-    CVariableVoie *streamVar = static_cast<CVariableVoie *>(stream);
+    CVariableStream *streamVar = static_cast<CVariableStream *>(stream);
 
     addTab(new CMeasureStreamTab(streamVar->getListVariables(), this), streamVar->getLabel().toUpper());
 
