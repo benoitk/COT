@@ -11,10 +11,8 @@ CEditVariableTabUIHandler::~CEditVariableTabUIHandler()
 {
 }
 
-void CEditVariableTabUIHandler::layout()
+void CEditVariableTabUIHandler::layout(IVariable *ivar)
 {
-#if 0
-    describer()->describe(QVariant::fromValue(cyclePair));
-#endif
+    describer()->describe(QVariant::fromValue(ivar));
     IConfiguratorUIHandler::layout(describer()->getVariables());
 }

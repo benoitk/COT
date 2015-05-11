@@ -27,7 +27,6 @@ void CEditVariableTab::setVariables(const QString &variableName)
 {
     IVariable *ivar = CAutomate::getInstance()->getVariable(variableName);
     Q_ASSERT(ivar);
-
-    //m_configuratorUIHandler->layout(variables);
+    m_configuratorUIHandler->layout(ivar);
 }
 
