@@ -11,6 +11,7 @@ CConfiguratorVariablesTab::CConfiguratorVariablesTab(QWidget *parent)
 {
     ui->setupUi(this);
     m_ivariableUIHandler = new ConfiguratorVariablesUIHandler(ui->swCentral, this);
+    m_ivariableUIHandler->layout();
     connect(m_ivariableUIHandler, &ConfiguratorVariablesUIHandler::editVariable, this, &CConfiguratorVariablesTab::editVariable);
     connect(ui->vbbButtons->addAction(CToolButton::Add), &QAction::triggered,
             this, &CConfiguratorVariablesTab::addVariable);
