@@ -36,5 +36,5 @@ void CConfiguratorVariablesTab::addVariable()
 
 void CConfiguratorVariablesTab::editVariable(const QString &variableName)
 {
-    CPCWindow::openModal<CEditvariableWindow>(variableName);
+    CPCWindow::openModal<CEditVariableWindow>(variableName);
 }

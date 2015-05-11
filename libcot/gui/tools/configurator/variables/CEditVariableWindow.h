@@ -11,12 +11,12 @@ class CEditVariableTab;
 class CEditOutBindsTab;
 class CEditInBindsTab;
 
-class CEditvariableWindow : public QWidget
+class CEditVariableWindow : public QWidget
 {
     Q_OBJECT
 public:
-    explicit CEditvariableWindow(const QString &variableName, QWidget *parent = Q_NULLPTR);
-    ~CEditvariableWindow();
+    explicit CEditVariableWindow(const QString &variableName, QWidget *parent = Q_NULLPTR);
+    ~CEditVariableWindow();
 
     void setVariables(const QString &name);
 public slots:

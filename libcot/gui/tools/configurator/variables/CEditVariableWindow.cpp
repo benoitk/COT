@@ -7,7 +7,7 @@
 
 #include <IVariable.h>
 
-CEditvariableWindow::CEditvariableWindow(const QString &variableName, QWidget *parent)
+CEditVariableWindow::CEditVariableWindow(const QString &variableName, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::CEditVariableWindow)
 {
@@ -25,19 +25,19 @@ CEditvariableWindow::CEditvariableWindow(const QString &variableName, QWidget *p
     }
 }
 
-CEditvariableWindow::~CEditvariableWindow()
+CEditVariableWindow::~CEditVariableWindow()
 {
     delete ui;
 }
 
-void CEditvariableWindow::setVariables(const QString &name)
+void CEditVariableWindow::setVariables(const QString &name)
 {
     m_ceditVariableTab->setVariables(name);
     m_ceditOutBindsTab->setVariables(name);
     m_ceditInBindsTab->setVariables(name);
 }
 
-void CEditvariableWindow::retranslate()
+void CEditVariableWindow::retranslate()
 {
     ui->retranslateUi(this);
     ui->twPages->setTabText(0, tr("Variables"));
@@ -45,7 +45,7 @@ void CEditvariableWindow::retranslate()
     ui->twPages->setTabText(2, tr("In Binds"));
 }
 
-void CEditvariableWindow::changeEvent(QEvent *event)
+void CEditVariableWindow::changeEvent(QEvent *event)
 {
     if (event->type() == QEvent::LanguageChange) {
         retranslate();
@@ -55,14 +55,14 @@ void CEditvariableWindow::changeEvent(QEvent *event)
 }
 
 
-void CEditvariableWindow::backTriggered()
+void CEditVariableWindow::backTriggered()
 {
     //TODO save variable ?
     close();
 }
 
-void CEditvariableWindow::addTab(IEditVariableTab *tab, const QString &title)
+void CEditVariableWindow::addTab(IEditVariableTab *tab, const QString &title)
 {
     ui->twPages->addTab(tab, title);
-    connect(tab, &IEditVariableTab::backTriggered, this, &CEditvariableWindow::backTriggered);
+    connect(tab, &IEditVariableTab::backTriggered, this, &CEditVariableWindow::backTriggered);
 }
