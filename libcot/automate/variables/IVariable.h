@@ -73,7 +73,7 @@ public:
 private:
 	
 signals:
-    void signalVariableChanged();
+    void signalVariableChanged(); // TODO: customer has to handle it in each variables.
 };
 
 // Typedefs
