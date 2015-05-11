@@ -311,8 +311,21 @@ ICycle *CAutomate::getCycle(const QString &name, int type) const
     case CYCLE_AUTONOME:
         return m_listlCycleAutonomes.value(name, Q_NULLPTR);
     case CYCLE_PAUSE:
-    case CYCLE_ALL:
             break;
+
+    case CYCLE_ALL: {
+            ICycle * cycle = m_listCycleMesures.value(name, Q_NULLPTR);
+
+            if (!cycle) {
+                m_listCycleMaintenances.value(name, Q_NULLPTR);
+            }
+
+            if (!cycle) {
+                m_listlCycleAutonomes.value(name, Q_NULLPTR);
+            }
+
+            return cycle;
+        }
     }
 
     return Q_NULLPTR;
