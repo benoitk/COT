@@ -87,7 +87,9 @@ public:
 
 	//IComObserver
     IVariable* getVariable(const QString &addr_var)const Q_DECL_OVERRIDE;
-	void setCom(ICom*);
+	void setCom(ICom*) Q_DECL_OVERRIDE;
+
+    void addVariableToMappingCom(IVariable*);
 
 	void initConfig();
     void quit();
@@ -184,6 +186,7 @@ private:
     QMap<QString, ICycle*> m_listlCycleAutonomes;
     QList<CUnit*> m_listUnits;
     QMap<QString, ICom*> m_mapComs;
+    QMap<QString, IVariable*> m_mappingCom;
 
 	QMap<QString, IAction*> m_mapActions;
 	QList<IAction*> m_listActions; //en redondance avec m_mapActions pour ne pas refaire niveau IHM

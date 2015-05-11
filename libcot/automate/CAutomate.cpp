@@ -31,6 +31,8 @@ CAutomate::CAutomate()
     m_stateCycleMesure = CYCLE_STATE_STOP;
     m_stateCycleIO = CYCLE_STATE_STOP;
     m_stateCycleMaintenance = CYCLE_STATE_STOP;
+
+    m_mappingCom.insert(QStringLiteral("0xffff"), CVariableFactory::build(QVariantMap())); //unknown address com
  }
 
 void CAutomate::initConfig(){
@@ -95,8 +97,12 @@ QList<IVariable *> CAutomate::getVariables(const QStringList &names)
 
 void CAutomate::addVariable(const QString& name, IVariable* var){
     QMutexLocker locker(&m_mutex);
-    if(var && var->getType() != type_unknow)
+    if(var && var->getType() != type_unknow){
 		m_mapVariables.insert(name, var);
+        if(var->getAddress() != 0){
+            m_mappingCom.insert(QString::number(var->getAddress(), 16 /*hexa*/), var);
+        }
+    }
 }
 void CAutomate::addStream(const QString& name, IVariable* var){
     QMutexLocker locker(&m_mutex);
@@ -252,9 +258,17 @@ void CAutomate::addExtensionCard(const QString& name, CModelExtensionCard* extCa
 
 IVariable* CAutomate::getVariable(const QString &addr_var)const{
     QMutexLocker locker(&m_mutex);
-	IVariable* modelExtCard;
-    // TODO
-	return modelExtCard;
+	IVariable* var= Q_NULLPTR;
+    if(m_mappingCom.contains(addr_var))
+        var = m_mappingCom.value(addr_var);
+    else if(m_mapActions.contains(QStringLiteral("0xffff")))
+        var = m_mappingCom.value(QStringLiteral("0xffff"));
+	return var;
+}
+void CAutomate::addVariableToMappingCom(IVariable* var){
+    QMutexLocker locker(&m_mutex);
+    if(var && var->getType() != type_unknow)
+        m_mappingCom.insert(QString::number(var->getAddress(), 16 /*hexa*/), var);
 }
 
 void CAutomate::setCom(ICom* arg_comObject){
