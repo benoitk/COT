@@ -97,7 +97,7 @@ void CVariableIVariableDescriber::describe(const QVariant &object)
     CVariableMutable *unit = CVariableFactory::castedBuild<CVariableMutable *>(type_mutable, VariableOrganTypeNone, unitName);
     unit->setName(QStringLiteral("unit"));
     unit->setLabel(CVariableMutable::tr("Unit"));
-    unit->setMutableType(CVariableMutable::VariableUnit);    
+    unit->setMutableType(CVariableMutable::Unit);
 
     //TODO add measure
     CVariableMeasure *measure = CVariableFactory::castedBuild<CVariableMeasure *>(type_measure, VariableOrganTypeNone);
