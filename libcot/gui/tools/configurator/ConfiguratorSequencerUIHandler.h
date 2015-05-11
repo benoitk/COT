@@ -3,6 +3,7 @@
 
 #include <IConfiguratorUIHandler.h>
 #include "cot_global.h"
+class CPushButton;
 class LIBCOT_EXPORT ConfiguratorSequencerUIHandler : public IConfiguratorUIHandler
 {
     Q_OBJECT
@@ -17,6 +18,15 @@ protected:
     void rowInserted(const Row &row, IVariable *ivar) Q_DECL_OVERRIDE;
     void rowChanged(const Row &row, IVariable *ivar) Q_DECL_OVERRIDE;
     void rowAboutToBeDeleted(const Row &row, IVariable *ivar) Q_DECL_OVERRIDE;
+
+private slots:
+    void slotEditClicked();
+
+signals:
+    void editVariable(const QString &signalname);
+
+private:
+    CPushButton *newButton(IVariable *ivar);
 };
 
 #endif // CONFIGURATORSEQUENCERUIHANDLER_H
