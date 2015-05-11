@@ -36,8 +36,12 @@ void CConfiguratorVariablesTab::slotAddVariable()
 {
     QString streamname;
 
-    if (m_ivariableUIHandler->selectStream(streamname) && !streamname.isEmpty()) {
-        //TODO add it
+    if (!m_ivariableUIHandler->selectStream(streamname) || streamname.isEmpty()) {
+        return;
+    }
+    variableType varType;
+    if (!m_ivariableUIHandler->selectVariableType(varType) || (varType == type_unknow)) {
+        return;
     }
 }
 
