@@ -226,7 +226,8 @@ HEADERS *= \
     gui/tools/configurator/cycles/IEditCycleTab.h \
     gui/tools/configurator/cycles/CEditCycleTab.h \
     gui/tools/configurator/cycles/CConfiguratorCycleTabUIHandler.h \
-    gui/tools/configurator/cycles/CEditCycleTabUIHandler.h
+    gui/tools/configurator/cycles/CEditCycleTabUIHandler.h \
+    gui/tools/configurator/variables/CEditVariableTabUIHandler.h \
 
 SOURCES *= \
     automate/CAutomate.cpp \
@@ -380,4 +381,5 @@ SOURCES *= \
     gui/tools/configurator/cycles/CEditCycleWindow.cpp \
     gui/tools/configurator/cycles/CEditCycleTab.cpp \
     gui/tools/configurator/cycles/CConfiguratorCycleTabUIHandler.cpp \
-    gui/tools/configurator/cycles/CEditCycleTabUIHandler.cpp
+    gui/tools/configurator/cycles/CEditCycleTabUIHandler.cpp \
+    gui/tools/configurator/variables/CEditVariableTabUIHandler.cpp \

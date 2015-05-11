@@ -1,6 +1,7 @@
 #include "CEditVariableTab.h"
 #include "ui_CEditVariableTab.h"
 #include "CAutomate.h"
+#include "CEditVariableTabUIHandler.h"
 #include <IConfiguratorUIHandler.h>
 
 CEditVariableTab::CEditVariableTab(QWidget *parent)
@@ -8,7 +9,7 @@ CEditVariableTab::CEditVariableTab(QWidget *parent)
     , ui(new Ui::CEditVariableTab)
 {
     ui->setupUi(this);
-    m_configuratorUIHandler = new IConfiguratorUIHandler(ui->swCentral, this);
+    m_configuratorUIHandler = new CEditVariableTabUIHandler(ui->swCentral, this);
     ui->vbbButtons->addAction(CToolButton::ScrollUp, ui->swCentral->moveUp());
     ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->swCentral->moveDown());
     connect(ui->vbbButtons->addAction(CToolButton::Cancel), &QAction::triggered,
