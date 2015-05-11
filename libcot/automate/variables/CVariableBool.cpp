@@ -25,6 +25,7 @@ QString CVariableBool::getName()const{
 }
 void CVariableBool::setName(const QString& name){
     m_name = name;
+    emit signalVariableChanged();
 }
 
 QString CVariableBool::toString(){
@@ -54,6 +55,8 @@ void CVariableBool::setValue(bool value){
 			var->setToBindedValue(QVariant(value));
 		}
 	}
+
+    emit signalVariableChanged();
 }
 
 //Pas de récursivité dans les binds pour l'instant pour ne pas gérer les binds croisés({var1, var2}, {var2, var1})
@@ -66,6 +69,7 @@ QString CVariableBool::getLabel()const{
 }
 void CVariableBool::setLabel(const QString & lbl){
 	m_label = lbl;
+    emit signalVariableChanged();
 }
 
 void CVariableBool::addBind(IVariable* arg_var){

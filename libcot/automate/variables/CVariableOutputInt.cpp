@@ -25,6 +25,7 @@ QString CVariableOutputInt::getName()const{
 }
 void CVariableOutputInt::setName(const QString& name){
     m_name = name;
+    emit signalVariableChanged();
 }
 CModelExtensionCard* CVariableOutputInt::getExtensionCard()const{
 	return m_modelExtensionCard;
@@ -67,6 +68,8 @@ void CVariableOutputInt::setValue(float value){
 			var->setValue(QVariant(value));
 		}
 	}
+
+    emit signalVariableChanged();
 }
 //Pas de récursivité dans les binds pour l'instant pour ne pas gérer les binds croisés({var1, var2}, {var2, var1})
 void CVariableOutputInt::setToBindedValue(const QVariant & value){
@@ -77,6 +80,7 @@ QString CVariableOutputInt::getLabel()const{
 }
 void CVariableOutputInt::setLabel(const QString & lbl){
 	m_label = lbl;
+    emit signalVariableChanged();
 }
 void CVariableOutputInt::addBind(IVariable* arg_var){
 	if(arg_var)

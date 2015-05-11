@@ -21,7 +21,7 @@
 
 #include <qdebug.h>
 #include <qthread.h>
-
+#include <QApplication>
 
 CAutomate* CAutomate::singleton = 0;
 
@@ -107,6 +107,8 @@ void CAutomate::addVariable(const QString& name, IVariable* var){
         if(var->getAddress() != 0){
             m_mappingCom.insert(QString::number(var->getAddress(), 16 /*hexa*/), var);
         }
+
+        connect(var, &IVariable::signalVariableChanged, this, &CAutomate::slotVariableChanged);
     }
 }
 void CAutomate::addStream(const QString& name, IVariable* var){
@@ -422,8 +424,15 @@ CAutomate::eStateCycle CAutomate::getStateCycleMaintenance( ){
 void CAutomate::slotRunAutomate(){
     while(!shouldQuit()){
         // TODO
+        QApplication::processEvents(); // Make sure event loop handle signals / slots / events.
         QThread::msleep(100);
-	}
+    }
+}
+
+void CAutomate::slotVariableChanged()
+{
+    IVariable *ivar = qobject_cast<IVariable *>(sender());
+    emit signalVariableChanged(ivar->getName());
 }
 
 CDisplayConf* CAutomate::getDisplayConf()const{

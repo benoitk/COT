@@ -172,6 +172,8 @@ signals:
     void signalShcedulerUpdated();
     void signalStreamsUpdated();
 
+protected slots:
+    void slotVariableChanged();
 
 private:
 	static CAutomate* singleton;

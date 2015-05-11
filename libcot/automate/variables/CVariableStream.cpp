@@ -87,6 +87,7 @@ QString CVariableStream::getName()const{
 }
 void CVariableStream::setName(const QString& name){
     m_name = name;
+    emit signalVariableChanged();
 }
 QString CVariableStream::toString(){
     return m_label;
@@ -105,6 +106,7 @@ QString CVariableStream::getLabel()const{
 }
 void CVariableStream::setLabel(const QString & label){
 	m_label = label;
+    emit signalVariableChanged();
 }
 
 void CVariableStream::setValue(int iValue){

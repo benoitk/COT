@@ -45,6 +45,7 @@ QString CVariableMeasure::getName()const{
 }
 void CVariableMeasure::setName(const QString& name){
     m_name = name;
+    emit signalVariableChanged();
 }
 QString CVariableMeasure::toString(){
     return m_label;
@@ -63,6 +64,7 @@ QString CVariableMeasure::getLabel()const{
 }
 void CVariableMeasure::setLabel(const QString & label){
 	m_label = label;
+    emit signalVariableChanged();
 }
 
 void CVariableMeasure::setValue(int iValue){
