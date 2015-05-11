@@ -1,4 +1,5 @@
 #include "CConfiguratorActionsTab.h"
+#include "ConfiguratorActionsUIHandler.h"
 #include "ui_CConfiguratorActionsTab.h"
 
 CConfiguratorActionsTab::CConfiguratorActionsTab(QWidget *parent)
@@ -6,6 +7,7 @@ CConfiguratorActionsTab::CConfiguratorActionsTab(QWidget *parent)
     , ui(new Ui::CConfiguratorActionsTab)
 {
     ui->setupUi(this);
+    m_iactionUIHandler = new ConfiguratorActionsUIHandler(ui->swCentral, this);
     connect(ui->vbbButtons->addAction(CToolButton::Add), &QAction::triggered,
             this, &CConfiguratorActionsTab::addAction);
     ui->vbbButtons->addAction(CToolButton::ScrollUp, ui->swCentral->moveUp());

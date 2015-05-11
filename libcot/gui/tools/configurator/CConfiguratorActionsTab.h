@@ -5,6 +5,7 @@
 namespace Ui {
 class CConfiguratorActionsTab;
 }
+class ConfiguratorActionsUIHandler;
 class CConfiguratorActionsTab : public IConfiguratorTab
 {
     Q_OBJECT
@@ -17,6 +18,7 @@ private slots:
 
 private:
     Ui::CConfiguratorActionsTab *ui;
+    ConfiguratorActionsUIHandler *m_iactionUIHandler;
 };
 
 #endif // CCONFIGURATORACTIONSTAB_H
