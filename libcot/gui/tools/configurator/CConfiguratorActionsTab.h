@@ -14,7 +14,7 @@ public:
     ~CConfiguratorActionsTab();
 
 private slots:
-    void addAction();
+    void slotAddAction();
 
     void slotUpdateLayout();
 private:

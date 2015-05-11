@@ -14,7 +14,7 @@ CConfiguratorVariablesTab::CConfiguratorVariablesTab(QWidget *parent)
     slotUpdateLayout();
     connect(m_ivariableUIHandler, &ConfiguratorVariablesUIHandler::editVariable, this, &CConfiguratorVariablesTab::editVariable);
     connect(ui->vbbButtons->addAction(CToolButton::Add), &QAction::triggered,
-            this, &CConfiguratorVariablesTab::addVariable);
+            this, &CConfiguratorVariablesTab::slotAddVariable);
     ui->vbbButtons->addAction(CToolButton::ScrollUp, ui->swCentral->moveUp());
     ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->swCentral->moveDown());
     connect(ui->vbbButtons->addAction(CToolButton::Back), &QAction::triggered,
@@ -32,7 +32,7 @@ void CConfiguratorVariablesTab::slotUpdateLayout()
     m_ivariableUIHandler->layout();
 }
 
-void CConfiguratorVariablesTab::addVariable()
+void CConfiguratorVariablesTab::slotAddVariable()
 {
     QString streamname;
 

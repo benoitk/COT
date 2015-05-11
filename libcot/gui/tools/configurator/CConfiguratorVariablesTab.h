@@ -14,7 +14,7 @@ public:
     ~CConfiguratorVariablesTab();
 
 private slots:
-    void addVariable();
+    void slotAddVariable();
     void editVariable(const QString &variableName);
 
     void slotUpdateLayout();

@@ -16,7 +16,7 @@ CConfiguratorActionsTab::CConfiguratorActionsTab(QWidget *parent)
     slotUpdateLayout();
 
     connect(ui->vbbButtons->addAction(CToolButton::Add), &QAction::triggered,
-            this, &CConfiguratorActionsTab::addAction);
+            this, &CConfiguratorActionsTab::slotAddAction);
     ui->vbbButtons->addAction(CToolButton::ScrollUp, ui->swCentral->moveUp());
     ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->swCentral->moveDown());
     connect(ui->vbbButtons->addAction(CToolButton::Back), &QAction::triggered,
@@ -29,9 +29,13 @@ CConfiguratorActionsTab::~CConfiguratorActionsTab()
     delete ui;
 }
 
-void CConfiguratorActionsTab::addAction()
+void CConfiguratorActionsTab::slotAddAction()
 {
-
+    QString name;
+    if (!m_iactionUIHandler->selectAction(name) || name.isEmpty()) {
+        return;
+    }
+    //TODO cycle block ?
 }
 
 void CConfiguratorActionsTab::slotUpdateLayout()
