@@ -81,14 +81,14 @@ void IVariableMaintenanceUIHandler::rowChanged(const IVariableUIHandler::Row &ro
 QLabel *IVariableMaintenanceUIHandler::newLabel(IVariable *ivar)
 {
     Q_UNUSED(ivar);
-    QLabel *label = new QLabel(m_container);
+    QLabel *label = new QLabel(container());
     return label;
 }
 
 CToolButton *IVariableMaintenanceUIHandler::newStartEditor(IVariable *ivar)
 {
     Q_UNUSED(ivar);
-    CToolButton *button = new CToolButton(CToolButton::Play, m_container);
+    CToolButton *button = new CToolButton(CToolButton::Play, container());
     button->setFixedSize(30, 30);
     button->setCheckable(true);
     return button;
@@ -97,7 +97,7 @@ CToolButton *IVariableMaintenanceUIHandler::newStartEditor(IVariable *ivar)
 CToolButton *IVariableMaintenanceUIHandler::newStopEditor(IVariable *ivar)
 {
     Q_UNUSED(ivar);
-    CToolButton *button = new CToolButton(CToolButton::Stop, m_container);
+    CToolButton *button = new CToolButton(CToolButton::Stop, container());
     button->setFixedSize(30, 30);
     return button;
 }
@@ -106,12 +106,13 @@ void IVariableMaintenanceUIHandler::slotCycleChanged(const QString &name)
 {
     CAutomate *automate = CAutomate::getInstance();
     ICycle *cycle = automate->getCycle(name, CYCLE_MAINTENANCE);
+    Row *row = getRow(name);
 
-    if (!m_rows.contains(name) || !cycle) {
+    if (!row || !cycle) {
         return;
     }
 
-    rowChanged(m_rows[name], Q_NULLPTR);
+    rowChanged(*row, Q_NULLPTR);
 }
 
 void IVariableMaintenanceUIHandler::slotButtonStartClicked()
@@ -120,8 +121,9 @@ void IVariableMaintenanceUIHandler::slotButtonStartClicked()
     const QString cycleName = button->userData().toString();
     CAutomate *automate = CAutomate::getInstance();
     ICycle *cycle = automate->getCycle(cycleName, CYCLE_MAINTENANCE);
+    Row *row = getRow(cycleName);
 
-    if (!m_rows.contains(cycleName) || !cycle) {
+    if (!row || !cycle) {
         Q_ASSERT(false);
         return;
     }
@@ -143,8 +145,9 @@ void IVariableMaintenanceUIHandler::slotButtonStopClicked()
     const QString cycleName = button->userData().toString();
     CAutomate *automate = CAutomate::getInstance();
     ICycle *cycle = automate->getCycle(cycleName, CYCLE_MAINTENANCE);
+    Row *row = getRow(cycleName);
 
-    if (!m_rows.contains(cycleName) || !cycle) {
+    if (!row || !cycle) {
         Q_ASSERT(false);
         return;
     }

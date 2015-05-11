@@ -75,7 +75,7 @@ void ConfiguratorStreamsUIHandler::rowAboutToBeDeleted(const IVariableUIHandler:
 
 CPushButton *ConfiguratorStreamsUIHandler::newButton(IVariable *ivar)
 {
-    CPushButton *button = new CPushButton(m_container);
+    CPushButton *button = new CPushButton(container());
     button->setText(ivar->getLabel());
     button->setUserData(ivar->getName());
     return button;
@@ -83,7 +83,7 @@ CPushButton *ConfiguratorStreamsUIHandler::newButton(IVariable *ivar)
 
 CPushButton *ConfiguratorStreamsUIHandler::addMeasureButton()
 {
-    CPushButton *button = new CPushButton(m_container);
+    CPushButton *button = new CPushButton(container());
     //TODO customize
     button->setText(tr("Add measure"));
     return button;

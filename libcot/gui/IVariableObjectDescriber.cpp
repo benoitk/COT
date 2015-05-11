@@ -10,6 +10,10 @@
 #include <CVariableFloat.h>
 #include <CVariableMeasure.h>
 
+#include <QDebug>
+
+typedef QPair<QString, ICycle *> CyclePair; // Stream Name, ICycle
+
 IVariableObjectDescriber::IVariableObjectDescriber(QObject *parent)
     : QObject(parent)
 {
@@ -36,6 +40,23 @@ void IVariableObjectDescriber::clear() {
     m_variablesHash.clear();
 }
 
+void IVariableObjectDescriber::setVariables(IVariablePtrList variables)
+{
+    m_variables = variables;
+
+    foreach (IVariable *ivar, m_variables) {
+        m_variablesHash[ivar->getName()] = ivar;
+        connect(ivar, &IVariable::signalVariableChanged, this, &IVariableObjectDescriber::slotVariableChanged);
+    }
+}
+
+void IVariableObjectDescriber::slotVariableChanged()
+{
+    IVariable *variable = qobject_cast<IVariable *>(sender());
+    Q_ASSERT(variable);
+    emit signalVariableChanged(variable->getName());
+}
+
 // ICycle Describer
 
 CVariableICycleDescriber::CVariableICycleDescriber(QObject *parent)
@@ -45,30 +66,42 @@ CVariableICycleDescriber::CVariableICycleDescriber(QObject *parent)
 
 void CVariableICycleDescriber::describe(const QVariant &object)
 {
-    ICycle *cycle = object.value<ICycle *>();
+    QString streamName;
+    ICycle *cycle = Q_NULLPTR;
+
+    if (object.canConvert<CyclePair>()) {
+        const CyclePair cyclePair = object.value<CyclePair>();
+        streamName = cyclePair.first;
+        cycle = cyclePair.second;
+    }
+    else {
+        cycle = object.value<ICycle *>();
+        streamName = cycle->getRelatedStreamName();
+    }
+
     Q_ASSERT(cycle);
 
     clear();
 
     CVariableString *label = CVariableFactory::castedBuild<CVariableString *>(type_string, VariableOrganTypeNone, cycle->getLbl());
     label->setName("label");
-    label->setLabel(CVariableMutable::tr("Label"));
+    label->setLabel(tr("Label"));
 
     CVariableMutable *type = CVariableFactory::castedBuild<CVariableMutable *>(type_mutable, VariableOrganTypeNone, cycle->getType());
     type->setName("type");
-    type->setLabel(CVariableMutable::tr("Type"));
+    type->setLabel(tr("Type"));
     type->setMutableType(CVariableMutable::CycleType);
 
-    // KDAB_TODO: No customer api for timer property
-    /*CVariableInt *timer = CVariableFactory::castedBuild<CVariableString *>(type_int, VariableOrganTypeNone, cycle->get());
+    CVariableInt *timer = CVariableFactory::castedBuild<CVariableInt *>(type_int, VariableOrganTypeNone, /*cycle->get()*/ -1); // KDAB_TODO: No customer api
     timer->setName("timer");
-    timer->setLabel(CVariableMutable::tr("Timer"));*/
+    timer->setLabel(tr("Timer"));
 
-    m_variables << label << type /*<< timer*/;
+    CVariableMutable *stream = CVariableFactory::castedBuild<CVariableMutable *>(type_mutable, VariableOrganTypeNone, streamName);
+    stream->setName("stream");
+    stream->setLabel(tr("Stream"));
+    stream->setMutableType(CVariableMutable::Stream);
 
-    foreach (IVariable *ivar, m_variables) {
-        m_variablesHash[ivar->getName()] = ivar;
-    }
+    setVariables(IVariablePtrList() << label << type << timer << stream);
 }
 
 
@@ -84,57 +117,55 @@ void CVariableIVariableDescriber::describe(const QVariant &object)
     Q_ASSERT(ivar);
     clear();
 
+    IVariablePtrList ivars;
+
     CVariableString *label = CVariableFactory::castedBuild<CVariableString *>(type_string, VariableOrganTypeNone, ivar->getLabel());
     label->setName(QStringLiteral("label"));
     label->setLabel(CVariableString::tr("Label"));
 
     CVariableMutable *type = CVariableFactory::castedBuild<CVariableMutable *>(type_mutable, VariableOrganTypeNone, ivar->getType());
     type->setName(QStringLiteral("type"));
-    type->setLabel(CVariableMutable::tr("Type"));
+    type->setLabel(tr("Type"));
     type->setMutableType(CVariableMutable::VariableType);
 
     QString unitName = ivar->getUnit() ? ivar->getUnit()->getName() : QString();
     CVariableMutable *unit = CVariableFactory::castedBuild<CVariableMutable *>(type_mutable, VariableOrganTypeNone, unitName);
     unit->setName(QStringLiteral("unit"));
-    unit->setLabel(CVariableMutable::tr("Unit"));
+    unit->setLabel(tr("Unit"));
     unit->setMutableType(CVariableMutable::Unit);
 
     //TODO add measure
     CVariableMeasure *measure = CVariableFactory::castedBuild<CVariableMeasure *>(type_measure, VariableOrganTypeNone);
     measure->setName(QStringLiteral("measure"));
-    measure->setLabel(CVariableMutable::tr("Measure"));
+    measure->setLabel(tr("Measure"));
 
-    m_variables << label << type
-                << unit << measure
-                   ;
+    ivars << label << type << unit << measure;
 
     switch (ivar->getType()) {
     case type_float: {
         CVariableFloat *floatVariable = CVariableFactory::castedBuild<CVariableFloat *>(type_float, VariableOrganTypeNone, ivar->toFloat());
         floatVariable->setName(QStringLiteral("value"));
-        floatVariable->setLabel(CVariableMutable::tr("Value"));
-        m_variables << floatVariable;
+        floatVariable->setLabel(tr("Value"));
+        ivars << floatVariable;
         break;
     }
     case type_int: {
         CVariableInt *intVariable = CVariableFactory::castedBuild<CVariableInt *>(type_int, VariableOrganTypeNone, ivar->toInt());
         intVariable->setName(QStringLiteral("value"));
-        intVariable->setLabel(CVariableMutable::tr("Value"));
-        m_variables << intVariable;
+        intVariable->setLabel(tr("Value"));
+        ivars << intVariable;
         break;
     }
     case type_bool: {
         CVariableBool *boolVariable = CVariableFactory::castedBuild<CVariableBool *>(type_bool, VariableOrganTypeNone, ivar->toBool());
         boolVariable->setName(QStringLiteral("value"));
-        boolVariable->setLabel(CVariableMutable::tr("Value"));
-        m_variables << boolVariable;
+        boolVariable->setLabel(tr("Value"));
+        ivars << boolVariable;
         break;
     }
     default:
         break;
     }
 
-    foreach (IVariable *ivar, m_variables) {
-        m_variablesHash[ivar->getName()] = ivar;
-    }
+    setVariables(ivars);
 }

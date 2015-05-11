@@ -31,6 +31,13 @@ public:
     void layout(const QStringList &variables, bool addDeleteButton = false);
 
     void setScrollableWidget(CScrollableWidget *scrollable);
+    CScrollableWidget *getScrollableWidget() const;
+
+    void setDescriber(IVariableObjectDescriber *describer);
+    IVariableObjectDescriber *describer() const;
+
+    QWidget *container() const;
+    QGridLayout *containerLayout() const;
 
     // Ask user to enter a text value
     bool enterText(QString &value);
@@ -69,6 +76,7 @@ public:
 protected:
     struct Row {
         Row() { }
+        ~Row() { qDeleteAll(widgets); }
 
         template <typename T>
         T widgetAt(int index) const {
@@ -78,12 +86,8 @@ protected:
         QList<QWidget *> widgets;
     };
 
-    IVariableObjectDescriber *m_describer;
-    CScrollableWidget *m_scrollable;
-    QWidget *m_container;
-    QGridLayout *m_containerLayout;
-    QHash<QString, Row> m_rows;
-
+    Row *getRow(const QString &name) const;
+    void removeRow(const QString &name);
     int layoutRow(QWidget *widget) const;
 
     virtual IVariable *getVariable(const QString &name);
@@ -96,6 +100,13 @@ protected:
     QLabel *newLabel(IVariable *ivar);
     QWidget *newEditor(IVariable *ivar);
     QLabel *newUnit(IVariable *ivar);
+
+private:
+    QWidget *m_container;
+    QGridLayout *m_containerLayout;
+    CScrollableWidget *m_scrollable;
+    IVariableObjectDescriber *m_describer;
+    mutable QHash<QString, Row> m_rows;
 
 private slots:
     void slotVariableChanged(const QString &name);

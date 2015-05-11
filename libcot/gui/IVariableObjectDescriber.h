@@ -13,6 +13,8 @@
  * */
 class IVariableObjectDescriber : public QObject
 {
+    Q_OBJECT
+
 public:
     IVariableObjectDescriber(QObject *parent = Q_NULLPTR);
     virtual ~IVariableObjectDescriber();
@@ -24,8 +26,17 @@ public:
     virtual void describe(const QVariant &object) = 0;
 
 protected:
+    void setVariables(IVariablePtrList variables);
+
+protected slots:
+    void slotVariableChanged();
+
+private:
     QHash<QString, IVariablePtr> m_variablesHash;
     IVariablePtrList m_variables;
+
+signals:
+    void signalVariableChanged(const QString &name);
 };
 
 // ICycle Describer

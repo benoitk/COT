@@ -47,7 +47,7 @@ QWidget *ConfiguratorSequencerUIHandler::createWidget(int column, IVariable *iva
     case 0:
         return newButton(ivar);
     case 1: {
-        QLabel *lab = new QLabel(m_container);
+        QLabel *lab = new QLabel(container());
         lab->setText(QStringLiteral("X"));
         return lab;
     }
@@ -80,7 +80,7 @@ void ConfiguratorSequencerUIHandler::rowAboutToBeDeleted(const IVariableUIHandle
 CPushButton *ConfiguratorSequencerUIHandler::newButton(IVariable *ivar)
 {
     //TODO fix me
-    CPushButton *button = new CPushButton(m_container);
+    CPushButton *button = new CPushButton(container());
     connect(button, &CPushButton::clicked, this, &ConfiguratorSequencerUIHandler::slotEditClicked);
     button->setText(ivar->getLabel());
     button->setUserData(ivar->getName());

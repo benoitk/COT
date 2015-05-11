@@ -81,7 +81,7 @@ void IVariableMeasuresUIHandler::rowChanged(const IVariableUIHandler::Row &row, 
 QWidget *IVariableMeasuresUIHandler::newEditor(IVariable *ivar)
 {
     Q_UNUSED(ivar);
-    CToolButton *button = new CToolButton(CToolButton::MeasureDetails, m_container);
+    CToolButton *button = new CToolButton(CToolButton::MeasureDetails, container());
     button->setFixedSize(30, 30);
     return button;
 }
@@ -89,7 +89,7 @@ QWidget *IVariableMeasuresUIHandler::newEditor(IVariable *ivar)
 QLabel *IVariableMeasuresUIHandler::newLabel(IVariable *ivar)
 {
     Q_UNUSED(ivar);
-    QLabel *label = new QLabel(m_container);
+    QLabel *label = new QLabel(container());
     label->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
     QPalette pal = label->palette();
     pal.setColor(label->foregroundRole(), QColor(Qt::gray));
@@ -100,7 +100,7 @@ QLabel *IVariableMeasuresUIHandler::newLabel(IVariable *ivar)
 QLabel *IVariableMeasuresUIHandler::newUnit(IVariable *ivar)
 {
     Q_UNUSED(ivar);
-    QLabel *label = new QLabel(m_container);
+    QLabel *label = new QLabel(container());
     label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
     return label;
 }

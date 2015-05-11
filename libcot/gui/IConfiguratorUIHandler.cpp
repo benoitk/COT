@@ -31,8 +31,9 @@ void IConfiguratorUIHandler::slotDeleteClicked()
 {
     CToolButton *editor = qobject_cast<CToolButton *>(sender());
     const QString name = editor->userData().toString();
+    Row *row = getRow(name);
 
-    if (!m_rows.contains(name)) {
+    if (!row) {
         Q_ASSERT(false);
         return;
     }
@@ -40,10 +41,7 @@ void IConfiguratorUIHandler::slotDeleteClicked()
     IVariable *ivar = getVariable(name);
     Q_ASSERT(ivar);
 
-    const Row &row = m_rows[name];
-    rowAboutToBeDeleted(row, ivar);
-
-    qDeleteAll(row.widgets);
-    m_rows.remove(name);
+    rowAboutToBeDeleted(*row, ivar);
     deleteVariable(name);
+    removeRow(name);
 }

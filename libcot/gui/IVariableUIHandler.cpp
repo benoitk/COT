@@ -281,6 +281,40 @@ void IVariableUIHandler::setScrollableWidget(CScrollableWidget *scrollable)
     m_scrollable = scrollable;
 }
 
+CScrollableWidget *IVariableUIHandler::getScrollableWidget() const
+{
+    return m_scrollable;
+}
+
+void IVariableUIHandler::setDescriber(IVariableObjectDescriber *describer)
+{
+    if (m_describer) {
+        disconnect(m_describer, &IVariableObjectDescriber::signalVariableChanged, this, &IVariableUIHandler::slotVariableChanged);
+        m_describer->deleteLater();
+    }
+
+    m_describer = describer;
+
+    if (m_describer) {
+        connect(m_describer, &IVariableObjectDescriber::signalVariableChanged, this, &IVariableUIHandler::slotVariableChanged);
+    }
+}
+
+IVariableObjectDescriber *IVariableUIHandler::describer() const
+{
+    return m_describer;
+}
+
+QWidget *IVariableUIHandler::container() const
+{
+    return m_container;
+}
+
+QGridLayout *IVariableUIHandler::containerLayout() const
+{
+    return m_containerLayout;
+}
+
 bool IVariableUIHandler::enterText(QString &value)
 {
     CKeyboardDialog dlg;
@@ -525,6 +559,17 @@ bool IVariableUIHandler::selectUnit(QString &value)
     }
 
     return false;
+}
+
+IVariableUIHandler::Row *IVariableUIHandler::getRow(const QString &name) const
+{
+    QHash<QString, Row>::iterator it = m_rows.find(name);
+    return it != m_rows.end() ? &it.value() : Q_NULLPTR;
+}
+
+void IVariableUIHandler::removeRow(const QString &name)
+{
+    m_rows.remove(name);
 }
 
 int IVariableUIHandler::layoutRow(QWidget *widget) const
@@ -913,6 +958,76 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
 
             qobject_cast<CPushButton *>(editor)->setText(ivar->toString());
             return;
+        }
+
+        case type_mutable: {
+            CAutomate *automate = CAutomate::getInstance();
+            CVariableMutable *vmutable = static_cast<CVariableMutable *>(ivar);
+            CPushButton *button = qobject_cast<CPushButton *>(editor);
+
+            switch (vmutable->mutableType()) {
+                case CVariableMutable::Undefined:
+                    break;
+
+                case CVariableMutable::CycleType: {
+                    button->setText(ICycle::typeToString(eTypeCycle(ivar->toInt())));
+                    break;
+                }
+
+                case CVariableMutable::Cycle: {
+                    ICycle *cycle = automate->getCycle(ivar->toString());
+                    Q_ASSERT(cycle);
+                    button->setText(cycle->getLbl());
+                    break;
+                }
+
+                case CVariableMutable::VariableType: {
+                    button->setText(IVariable::typeToString(variableType(ivar->toInt())));
+                    break;
+                }
+
+                case CVariableMutable::Unit: {
+                    CUnit *unit = automate->getUnit(ivar->toString());
+                    Q_ASSERT(unit);
+                    button->setText(unit->getLbl());
+                    break;
+                }
+
+                case CVariableMutable::Extension: {
+                    CModelExtensionCard *card = automate->getExtensionCard(ivar->toString());
+                    Q_ASSERT(card);
+                    button->setText(card->getLabel());
+                    break;
+                }
+
+                case CVariableMutable::Organ: {
+                    IOrgan *organ = automate->getOrgan(ivar->toString());
+                    Q_ASSERT(organ);
+                    button->setText(organ->getName()); // TODO: Customer add label for organs ?
+                    break;
+                }
+
+                case CVariableMutable::Stream: {
+                    CVariableStream *stream = automate->getStream(ivar->toString());
+                    Q_ASSERT(stream);
+                    button->setText(stream->getLabel());
+                    break;
+                }
+
+                case CVariableMutable::Format: {
+                    button->setText(ivar->toString());
+                    break;
+                }
+
+                case CVariableMutable::Measure: {
+                    CVariableMeasure *measure = automate->getMeasure(ivar->toString());
+                    Q_ASSERT(measure);
+                    button->setText(measure->getLabel());
+                    break;
+                }
+            }
+
+            break;
         }
     }
 }

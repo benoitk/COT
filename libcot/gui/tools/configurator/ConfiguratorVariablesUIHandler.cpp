@@ -94,7 +94,7 @@ void ConfiguratorVariablesUIHandler::rowAboutToBeDeleted(const Row &row, IVariab
 
 CPushButton *ConfiguratorVariablesUIHandler::newButton(IVariable *ivar)
 {
-    CPushButton *button = new CPushButton(m_container);
+    CPushButton *button = new CPushButton(container());
     connect(button, &CPushButton::clicked, this, &ConfiguratorVariablesUIHandler::slotEditClicked);
     button->setText(ivar->getLabel());
     button->setUserData(ivar->getName());
