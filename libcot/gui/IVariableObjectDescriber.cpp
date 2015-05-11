@@ -184,13 +184,10 @@ void CVariableIActionDescriber::describe(const QVariant &object)
     Q_ASSERT(action);
 
     clear();
-
+    IVariablePtrList ivars;
     CVariableString *label = CVariableFactory::castedBuild<CVariableString *>(type_string, VariableOrganTypeNone, action->getLabel());
     label->setName("label");
     label->setLabel(CVariableMutable::tr("Label"));
-
-    m_variables << label;
-    foreach (IVariable *ivar, m_variables) {
-        m_variablesHash[ivar->getName()] = ivar;
-    }
+    ivars << label;
+    setVariables(ivars);
 }

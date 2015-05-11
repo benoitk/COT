@@ -2,7 +2,7 @@
 #define IVARIABLEOBJECTDESCRIBER_H
 
 #include <QObject>
-
+#include "cot_global.h"
 #include "CVariableFactory.h"
 
 /*
@@ -11,7 +11,7 @@
  * It do track variable for you and will delete them itself.
  * That's usefull to give or append to variables passed to an IVariableUIHandler.
  * */
-class IVariableObjectDescriber : public QObject
+class LIBCOT_EXPORT IVariableObjectDescriber : public QObject
 {
     Q_OBJECT
 
