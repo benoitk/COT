@@ -17,6 +17,7 @@ private slots:
     void addVariable();
     void editVariable(const QString &variableName);
 
+    void slotUpdateLayout();
 private:
     Ui::CConfiguratorVariablesTab *ui;
     ConfiguratorVariablesUIHandler *m_ivariableUIHandler;

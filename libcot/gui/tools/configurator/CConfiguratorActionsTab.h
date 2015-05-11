@@ -16,6 +16,7 @@ public:
 private slots:
     void addAction();
 
+    void slotUpdateLayout();
 private:
     Ui::CConfiguratorActionsTab *ui;
     ConfiguratorActionsUIHandler *m_iactionUIHandler;

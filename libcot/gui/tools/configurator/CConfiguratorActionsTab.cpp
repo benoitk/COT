@@ -2,6 +2,7 @@
 #include "ConfiguratorActionsUIHandler.h"
 #include "ui_CConfiguratorActionsTab.h"
 #include "IVariableObjectDescriber.h"
+#include "CAutomate.h"
 
 CConfiguratorActionsTab::CConfiguratorActionsTab(QWidget *parent)
     : IConfiguratorTab(parent)
@@ -12,7 +13,7 @@ CConfiguratorActionsTab::CConfiguratorActionsTab(QWidget *parent)
     CVariableIActionDescriber *actionDescriber = new CVariableIActionDescriber(this);
     m_iactionUIHandler = new ConfiguratorActionsUIHandler(ui->swCentral, this);
     m_iactionUIHandler->setDescriber(actionDescriber);
-    m_iactionUIHandler->layout();
+    slotUpdateLayout();
 
     connect(ui->vbbButtons->addAction(CToolButton::Add), &QAction::triggered,
             this, &CConfiguratorActionsTab::addAction);
@@ -20,6 +21,7 @@ CConfiguratorActionsTab::CConfiguratorActionsTab(QWidget *parent)
     ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->swCentral->moveDown());
     connect(ui->vbbButtons->addAction(CToolButton::Back), &QAction::triggered,
             this, &IConfiguratorTab::backTriggered);
+    connect(CAutomate::getInstance(), &CAutomate::signalVariableChanged, this, &CConfiguratorActionsTab::slotUpdateLayout);
 }
 
 CConfiguratorActionsTab::~CConfiguratorActionsTab()
@@ -32,3 +34,7 @@ void CConfiguratorActionsTab::addAction()
 
 }
 
+void CConfiguratorActionsTab::slotUpdateLayout()
+{
+    m_iactionUIHandler->layout();
+}

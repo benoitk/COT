@@ -2,7 +2,7 @@
 #include "ui_CConfiguratorVariablesTab.h"
 #include "CPCWindow.h"
 #include "CEditVariableWindow.h"
-
+#include "CAutomate.h"
 #include <ConfiguratorVariablesUIHandler.h>
 
 CConfiguratorVariablesTab::CConfiguratorVariablesTab(QWidget *parent)
@@ -11,7 +11,7 @@ CConfiguratorVariablesTab::CConfiguratorVariablesTab(QWidget *parent)
 {
     ui->setupUi(this);
     m_ivariableUIHandler = new ConfiguratorVariablesUIHandler(ui->swCentral, this);
-    m_ivariableUIHandler->layout();
+    slotUpdateLayout();
     connect(m_ivariableUIHandler, &ConfiguratorVariablesUIHandler::editVariable, this, &CConfiguratorVariablesTab::editVariable);
     connect(ui->vbbButtons->addAction(CToolButton::Add), &QAction::triggered,
             this, &CConfiguratorVariablesTab::addVariable);
@@ -19,11 +19,17 @@ CConfiguratorVariablesTab::CConfiguratorVariablesTab(QWidget *parent)
     ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->swCentral->moveDown());
     connect(ui->vbbButtons->addAction(CToolButton::Back), &QAction::triggered,
             this, &IConfiguratorTab::backTriggered);
+    connect(CAutomate::getInstance(), &CAutomate::signalVariableChanged, this, &CConfiguratorVariablesTab::slotUpdateLayout);
 }
 
 CConfiguratorVariablesTab::~CConfiguratorVariablesTab()
 {
     delete ui;
+}
+
+void CConfiguratorVariablesTab::slotUpdateLayout()
+{
+    m_ivariableUIHandler->layout();
 }
 
 void CConfiguratorVariablesTab::addVariable()
