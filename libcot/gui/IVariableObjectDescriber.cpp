@@ -9,6 +9,7 @@
 #include <CVariableBool.h>
 #include <CVariableFloat.h>
 #include <CVariableMeasure.h>
+#include <IAction.h>
 
 #include <QDebug>
 
@@ -168,4 +169,28 @@ void CVariableIVariableDescriber::describe(const QVariant &object)
     }
 
     setVariables(ivars);
+}
+
+
+CVariableIActionDescriber::CVariableIActionDescriber(QObject *parent)
+    : IVariableObjectDescriber(parent)
+{
+
+}
+
+void CVariableIActionDescriber::describe(const QVariant &object)
+{
+    IAction *action = object.value<IAction *>();
+    Q_ASSERT(action);
+
+    clear();
+
+    CVariableString *label = CVariableFactory::castedBuild<CVariableString *>(type_string, VariableOrganTypeNone, action->getLabel());
+    label->setName("label");
+    label->setLabel(CVariableMutable::tr("Label"));
+
+    m_variables << label;
+    foreach (IVariable *ivar, m_variables) {
+        m_variablesHash[ivar->getName()] = ivar;
+    }
 }

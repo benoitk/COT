@@ -16,7 +16,7 @@ class IVariableObjectDescriber : public QObject
     Q_OBJECT
 
 public:
-    IVariableObjectDescriber(QObject *parent = Q_NULLPTR);
+    explicit IVariableObjectDescriber(QObject *parent = Q_NULLPTR);
     virtual ~IVariableObjectDescriber();
 
     IVariablePtrList getVariables() const;
@@ -43,7 +43,7 @@ signals:
 class CVariableICycleDescriber : public IVariableObjectDescriber
 {
 public:
-    CVariableICycleDescriber(QObject *parent = Q_NULLPTR);
+    explicit CVariableICycleDescriber(QObject *parent = Q_NULLPTR);
     void describe(const QVariant &object) Q_DECL_OVERRIDE;
 };
 
@@ -52,7 +52,16 @@ public:
 class CVariableIVariableDescriber : public IVariableObjectDescriber
 {
 public:
-    CVariableIVariableDescriber(QObject *parent = Q_NULLPTR);
+    explicit CVariableIVariableDescriber(QObject *parent = Q_NULLPTR);
+    void describe(const QVariant &object) Q_DECL_OVERRIDE;
+};
+
+
+// IAction Describer
+class CVariableIActionDescriber : public IVariableObjectDescriber
+{
+public:
+    explicit CVariableIActionDescriber(QObject *parent = Q_NULLPTR);
     void describe(const QVariant &object) Q_DECL_OVERRIDE;
 };
 
