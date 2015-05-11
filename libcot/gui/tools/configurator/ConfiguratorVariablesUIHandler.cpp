@@ -51,7 +51,6 @@ QWidget *ConfiguratorVariablesUIHandler::createWidget(int column, IVariable *iva
     case 2:
         if (isStream) {
             CToolButton *deleteButton = newDeleteButton(ivar);
-            connect(deleteButton, &CToolButton::clicked, this, &ConfiguratorVariablesUIHandler::slotDeleteClicked);
             return deleteButton;
         } else if (isMeasure) {
             return newButton(ivar);
@@ -60,7 +59,6 @@ QWidget *ConfiguratorVariablesUIHandler::createWidget(int column, IVariable *iva
     case 3:
         if (isMeasure) {
             CToolButton *deleteButton = newDeleteButton(ivar);
-            connect(deleteButton, &CToolButton::clicked, this, &ConfiguratorVariablesUIHandler::slotDeleteClicked);
             return deleteButton;
         }
         break;
@@ -109,7 +107,7 @@ void ConfiguratorVariablesUIHandler::slotEditClicked()
     emit editVariable(variableName);
 }
 
-void ConfiguratorVariablesUIHandler::slotDeleteClicked()
+void ConfiguratorVariablesUIHandler::deleteVariable(const QString &name)
 {
     //TODO
 }

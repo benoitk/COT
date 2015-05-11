@@ -22,6 +22,11 @@ void IConfiguratorUIHandler::rowAboutToBeDeleted(const Row &row, IVariable *ivar
     Q_UNUSED(ivar);
 }
 
+void IConfiguratorUIHandler::deleteVariable(const QString &name)
+{
+    Q_UNUSED(name);
+}
+
 void IConfiguratorUIHandler::slotDeleteClicked()
 {
     CToolButton *editor = qobject_cast<CToolButton *>(sender());
@@ -40,4 +45,5 @@ void IConfiguratorUIHandler::slotDeleteClicked()
 
     qDeleteAll(row.widgets);
     m_rows.remove(name);
+    deleteVariable(name);
 }
