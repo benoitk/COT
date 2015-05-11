@@ -71,7 +71,7 @@ void CPCPlusTab::slotButtonClicked(CLabelledToolButton *button)
         CConfigurationBackup bckp;
         const bool success = bckp.overwriteConfigurationFile(&backupFile);
         if (success) {
-            CPCWindow::openModal<CMessageBox>(tr("Configuration file successfully overwritten. The previous configuration file wa ssaved under the name %1").arg(backupFile));
+            CPCWindow::openModal<CMessageBox>(tr("Configuration file successfully overwritten.\nThe previous configuration file was saved under the name:\n%1").arg(backupFile));
         } else {
             CPCWindow::openModal<CMessageBox>(tr("ERROR: The configuration file couldn't be overwritten."));
         }
