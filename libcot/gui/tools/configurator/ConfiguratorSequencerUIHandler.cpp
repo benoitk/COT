@@ -5,6 +5,7 @@
 #include <CPushButton.h>
 #include <CSequenceur.h>
 #include <ICycle.h>
+#include <CVariableString.h>
 
 
 ConfiguratorSequencerUIHandler::ConfiguratorSequencerUIHandler(CScrollableWidget *scrollable, QObject *parent)
@@ -21,8 +22,15 @@ ConfiguratorSequencerUIHandler::~ConfiguratorSequencerUIHandler()
 void ConfiguratorSequencerUIHandler::layout()
 {
     const QList<ICycle *> listVar = CSequenceur::getInstance()->getListSequenceCyclesMesures();
+    QList<IVariable *> variables;
+    foreach (ICycle *cycle, listVar) {
+        IVariable *variable = new CVariableString;
+        variable->setName(cycle->getName());
+        variable->setLabel(cycle->getLbl());
+        variables << variable;
+    }
 
-    //layout(listVar);
+    IConfiguratorUIHandler::layout(variables);
 }
 
 int ConfiguratorSequencerUIHandler::columnCount() const
