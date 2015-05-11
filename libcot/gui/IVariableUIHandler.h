@@ -76,7 +76,6 @@ public:
 protected:
     struct Row {
         Row() { }
-        ~Row() { qDeleteAll(widgets); }
 
         template <typename T>
         T widgetAt(int index) const {
