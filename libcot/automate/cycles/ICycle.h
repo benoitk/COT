@@ -13,7 +13,7 @@ class ICycle : public QObject
 	Q_OBJECT
 
 public:
-	ICycle(QObject *parent);
+    explicit ICycle(QObject *parent);
 	ICycle();
 	~ICycle();
 
