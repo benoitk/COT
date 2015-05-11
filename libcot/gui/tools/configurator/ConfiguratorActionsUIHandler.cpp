@@ -13,7 +13,7 @@ ConfiguratorActionsUIHandler::~ConfiguratorActionsUIHandler()
 
 void ConfiguratorActionsUIHandler::layout()
 {
-
+    // call IConfiguratorUIHandler::layout(...)
 }
 
 int ConfiguratorActionsUIHandler::columnCount() const
