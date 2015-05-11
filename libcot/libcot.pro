@@ -117,7 +117,7 @@ HEADERS *= \
     automate/variables/CVariableOutputInt.h \
     automate/variables/CVariableString.h \
     automate/variables/CVariableUnknow.h \
-    automate/variables/CVariableVoie.h \
+    automate/variables/CVariableStream.h \
     automate/variables/CVariableMeasure.h \
     automate/variables/IVariable.h \
     automate/variables/IVariableInput.h \
@@ -274,7 +274,7 @@ SOURCES *= \
     automate/variables/CVariableOutputInt.cpp \
     automate/variables/CVariableString.cpp \
     automate/variables/CVariableUnknow.cpp \
-    automate/variables/CVariableVoie.cpp \
+    automate/variables/CVariableStream.cpp \
     automate/variables/CVariableMeasure.cpp \
     automate/variables/IVariable.cpp \
     automate/variables/IVariableInput.cpp \
