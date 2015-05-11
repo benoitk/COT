@@ -14,6 +14,11 @@
 #include "CComFactory.h"
 #include "CActionFactory.h"
 #include "CModelExtensionCard.h"
+#include "CUnit.h"
+#include "IOrgan.h"
+#include "CVariableStream.h"
+#include "CVariableMeasure.h"
+
 #include <qdebug.h>
 #include <qthread.h>
 
@@ -304,16 +309,16 @@ ICycle *CAutomate::getCycle(const QString &name, int type) const
     QMutexLocker locker(&m_mutex);
 
     switch(static_cast<eTypeCycle>(type)){
-    case CYCLE_MESURE:
-        return m_listCycleMesures.value(name, Q_NULLPTR);
-    case CYCLE_MAINTENANCE :
-        return m_listCycleMaintenances.value(name, Q_NULLPTR);
-    case CYCLE_AUTONOME:
-        return m_listlCycleAutonomes.value(name, Q_NULLPTR);
-    case CYCLE_PAUSE:
+        case CYCLE_MESURE:
+            return m_listCycleMesures.value(name, Q_NULLPTR);
+        case CYCLE_MAINTENANCE :
+            return m_listCycleMaintenances.value(name, Q_NULLPTR);
+        case CYCLE_AUTONOME:
+            return m_listlCycleAutonomes.value(name, Q_NULLPTR);
+        case CYCLE_PAUSE:
             break;
 
-    case CYCLE_ALL: {
+        case CYCLE_ALL: {
             ICycle * cycle = m_listCycleMesures.value(name, Q_NULLPTR);
 
             if (!cycle) {
@@ -325,6 +330,56 @@ ICycle *CAutomate::getCycle(const QString &name, int type) const
             }
 
             return cycle;
+        }
+    }
+
+    return Q_NULLPTR;
+}
+
+CUnit *CAutomate::getUnit(const QString &name) const
+{
+    foreach (CUnit *unit, m_listUnits) {
+        if (unit->getName() == name) {
+            return unit;
+        }
+    }
+
+    return Q_NULLPTR;
+}
+
+IOrgan *CAutomate::getOrgan(const QString &name) const
+{
+    foreach (CModelExtensionCard *card, m_mapExtCards.values()) {
+        foreach (IOrgan *organ, card->getListOrgans()) {
+            if (organ->getName() == name) {
+                return organ;
+            }
+        }
+    }
+
+    return Q_NULLPTR;
+}
+
+CVariableStream *CAutomate::getStream(const QString &name) const
+{
+    foreach (IVariable *ivar, m_mapStreams.values()) {
+        if (ivar->getName() == name) {
+            return static_cast<CVariableStream *>(ivar);
+        }
+    }
+
+    return Q_NULLPTR;
+}
+
+CVariableMeasure *CAutomate::getMeasure(const QString &name) const
+{
+    foreach (IVariable *ivar, m_mapStreams.values()) {
+        CVariableStream *stream = static_cast<CVariableStream *>(ivar);
+
+        foreach (IVariable *ivarMeasure, stream->getListMeasures()) {
+            if (ivarMeasure->getName() == name) {
+                return static_cast<CVariableMeasure *>(ivarMeasure);
+            }
         }
     }
 

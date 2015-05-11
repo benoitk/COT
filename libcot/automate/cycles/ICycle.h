@@ -34,6 +34,8 @@ public:
 
     CStep *getStep(int index) const;
 
+    static QString typeToString(eTypeCycle type);
+
 
 public slots:
 	virtual void slotRunCycle()=0;

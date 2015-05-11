@@ -61,16 +61,19 @@ QString CVariableMutable::getName() const
 void CVariableMutable::setName(const QString &name)
 {
     m_data["name"] = name;
+    emit signalVariableChanged();
 }
 
 void CVariableMutable::setLabel(const QString &label)
 {
     m_data["label"] = label;
+    emit signalVariableChanged();
 }
 
 void CVariableMutable::setValue(const QVariant & value)
 {
     m_data["value"] = value;
+    emit signalVariableChanged();
 }
 
 variableAccess CVariableMutable::getAccess() const
@@ -81,6 +84,7 @@ variableAccess CVariableMutable::getAccess() const
 void CVariableMutable::setAccess(variableAccess access)
 {
     m_data["access"] = access;
+    emit signalVariableChanged();
 }
 
 CVariableMutable::Type CVariableMutable::mutableType() const

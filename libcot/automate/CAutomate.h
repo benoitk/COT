@@ -31,6 +31,10 @@ class INetwork;
 class IAction;
 class CUnit;
 class CDisplayConf;
+class IOrgan;
+class CVariableStream;
+class CVariableMeasure;
+
 class CAutomate : public QObject, IComObserver
 {
 	Q_OBJECT
@@ -69,6 +73,10 @@ public:
 	void addCycle(ICycle*);
 
     ICycle *getCycle(const QString &name, int type = 0) const;
+    CUnit *getUnit(const QString &name) const;
+    IOrgan *getOrgan(const QString &name) const;
+    CVariableStream *getStream(const QString &name) const;
+    CVariableMeasure *getMeasure(const QString &name) const;
     ICom* getCom(const QString &arg_name);
     IAction* getAction(const QString &arg_name);
 

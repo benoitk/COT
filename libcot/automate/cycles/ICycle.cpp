@@ -32,6 +32,31 @@ CStep *ICycle::getStep(int index) const
     return getListSteps().at(index);
 }
 
+QString ICycle::typeToString(eTypeCycle type)
+{
+    switch (type) {
+        case CYCLE_ALL:
+            return tr("All");
+
+        case CYCLE_MESURE:
+            return tr("Measure");
+
+        case CYCLE_AUTONOME:
+            return tr("Autonome");
+
+        case CYCLE_MAINTENANCE:
+            return tr("Maintenance");
+
+        case CYCLE_PAUSE:
+            return tr("Pause");
+
+        case CYCLE_INVALID:
+            return tr("Invalid");
+    }
+
+    return QStringLiteral("**unhandled cycle type**");
+}
+
 //ICycle* ICycle::factory(QVariantMap mapCycle){
 //	qDebug() << "Pas la bonne factory !!!" ;
 //	ICycle* cycle = NULL;
