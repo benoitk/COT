@@ -4,6 +4,7 @@
 #include <CToolButton.h>
 #include <CAutomate.h>
 #include <QLabel>
+#include <QDebug>
 
 ConfiguratorVariablesUIHandler::ConfiguratorVariablesUIHandler(CScrollableWidget *scrollable, QObject *parent)
     : IConfiguratorUIHandler(scrollable, parent)

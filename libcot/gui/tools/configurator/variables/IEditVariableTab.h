@@ -14,7 +14,8 @@ public:
     CVerticalButtonBar *buttonBar() const { return findChild<CVerticalButtonBar *>(); }
 
 signals:
-    void backTriggered();
+    void okTriggered();
+    void cancelTriggered();
 };
 
 #endif // IEDITVARIABLETAB_H

@@ -55,7 +55,7 @@ void CEditVariableWindow::changeEvent(QEvent *event)
 }
 
 
-void CEditVariableWindow::backTriggered()
+void CEditVariableWindow::cancelTriggered()
 {
     //TODO save variable ?
     close();
@@ -64,5 +64,6 @@ void CEditVariableWindow::backTriggered()
 void CEditVariableWindow::addTab(IEditVariableTab *tab, const QString &title)
 {
     ui->twPages->addTab(tab, title);
-    connect(tab, &IEditVariableTab::backTriggered, this, &CEditVariableWindow::backTriggered);
+    connect(tab, &IEditVariableTab::cancelTriggered, this, &CEditVariableWindow::cancelTriggered);
+    //Connect Ok ?
 }
