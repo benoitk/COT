@@ -3,6 +3,9 @@
 #include <QLabel>
 #include <CToolButton.h>
 #include <CPushButton.h>
+#include <CSequenceur.h>
+#include <ICycle.h>
+
 
 ConfiguratorSequencerUIHandler::ConfiguratorSequencerUIHandler(CScrollableWidget *scrollable, QObject *parent)
     : IConfiguratorUIHandler(scrollable, parent)
@@ -17,7 +20,9 @@ ConfiguratorSequencerUIHandler::~ConfiguratorSequencerUIHandler()
 
 void ConfiguratorSequencerUIHandler::layout()
 {
-    //TODO call layout(QList<IVariable*>)
+    const QList<ICycle *> listVar = CSequenceur::getInstance()->getListSequenceCyclesMesures();
+
+    //layout(listVar);
 }
 
 int ConfiguratorSequencerUIHandler::columnCount() const
