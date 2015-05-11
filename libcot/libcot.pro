@@ -62,8 +62,8 @@ FORMS *= \
     gui/tools/configurator/extensions/CEditComTab.ui \
     gui/tools/configurator/extensions/CEditOrgansTab.ui \
     gui/tools/configurator/extensions/CEditExtensionWindow.ui \
-
-
+    gui/tools/configurator/cycles/CEditCycleWindow.ui \
+    gui/tools/configurator/cycles/CEditCycleTab.ui
 
 HEADERS *= \
     automate/CAutomate.h \
@@ -221,7 +221,12 @@ HEADERS *= \
     gui/tools/configurator/extensions/CEditOrgansTab.h \
     gui/tools/configurator/extensions/CEditExtensionWindow.h \
     gui/tools/configurator/extensions/IEditExtensionTab.h \
-    gui/tools/configurator/ConfiguratorActionsUIHandler.h
+    gui/tools/configurator/ConfiguratorActionsUIHandler.h \
+    gui/tools/configurator/cycles/CEditCycleWindow.h \
+    gui/tools/configurator/cycles/IEditCycleTab.h \
+    gui/tools/configurator/cycles/CEditCycleTab.h \
+    gui/tools/configurator/cycles/CConfiguratorCycleTabUIHandler.h \
+    gui/tools/configurator/cycles/CEditCycleTabUIHandler.h
 
 SOURCES *= \
     automate/CAutomate.cpp \
@@ -371,4 +376,8 @@ SOURCES *= \
     gui/tools/configurator/extensions/CEditComTab.cpp \
     gui/tools/configurator/extensions/CEditOrgansTab.cpp \
     gui/tools/configurator/extensions/CEditExtensionWindow.cpp \
-    gui/tools/configurator/ConfiguratorActionsUIHandler.cpp
+    gui/tools/configurator/ConfiguratorActionsUIHandler.cpp \
+    gui/tools/configurator/cycles/CEditCycleWindow.cpp \
+    gui/tools/configurator/cycles/CEditCycleTab.cpp \
+    gui/tools/configurator/cycles/CConfiguratorCycleTabUIHandler.cpp \
+    gui/tools/configurator/cycles/CEditCycleTabUIHandler.cpp
