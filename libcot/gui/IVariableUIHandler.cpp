@@ -726,63 +726,63 @@ QWidget *IVariableUIHandler::newEditor(IVariable *ivar)
                     CPushButton *editor = new CPushButton(m_container);
                     editor->setUserData(ivar->getName());
                     connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestCycleType);
-                    break;
+                    return editor;
                 }
 
                 case CVariableMutable::Cycle: {
                     CPushButton *editor = new CPushButton(m_container);
                     editor->setUserData(ivar->getName());
                     connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestCycle);
-                    break;
+                    return editor;
                 }
 
                 case CVariableMutable::VariableType: {
                     CPushButton *editor = new CPushButton(m_container);
                     editor->setUserData(ivar->getName());
                     connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestVariableType);
-                    break;
+                    return editor;
                 }
 
                 case CVariableMutable::Unit: {
                     CPushButton *editor = new CPushButton(m_container);
                     editor->setUserData(ivar->getName());
                     connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestUnit);
-                    break;
+                    return editor;
                 }
 
                 case CVariableMutable::Extension: {
                     CPushButton *editor = new CPushButton(m_container);
                     editor->setUserData(ivar->getName());
                     connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestExtension);
-                    break;
+                    return editor;
                 }
 
                 case CVariableMutable::Organ: {
                     CPushButton *editor = new CPushButton(m_container);
                     editor->setUserData(ivar->getName());
                     connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestOrgan);
-                    break;
+                    return editor;
                 }
 
                 case CVariableMutable::Stream: {
                     CPushButton *editor = new CPushButton(m_container);
                     editor->setUserData(ivar->getName());
                     connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestStream);
-                    break;
+                    return editor;
                 }
 
                 case CVariableMutable::Format: {
                     CPushButton *editor = new CPushButton(m_container);
                     editor->setUserData(ivar->getName());
                     connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestString);
-                    break;
+                    return editor;
                 }
 
                 case CVariableMutable::Measure: {
                     CPushButton *editor = new CPushButton(m_container);
                     editor->setUserData(ivar->getName());
                     connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestMeasure);
-                    break;
+                    return editor;
                 }
             }
 
