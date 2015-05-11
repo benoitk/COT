@@ -16,6 +16,7 @@ CConfiguratorStreamsTab::CConfiguratorStreamsTab(QWidget *parent)
     connect(ui->vbbButtons->addAction(CToolButton::Back), &QAction::triggered,
             this, &IConfiguratorTab::backTriggered);
     m_istreamUIHandler = new ConfiguratorStreamsUIHandler(ui->swCentral, this);
+    m_istreamUIHandler->layout();
 }
 
 CConfiguratorStreamsTab::~CConfiguratorStreamsTab()

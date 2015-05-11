@@ -8,6 +8,7 @@ CConfiguratorSequencerTab::CConfiguratorSequencerTab(QWidget *parent)
 {
     ui->setupUi(this);
     m_isequencerUIHandler = new ConfiguratorSequencerUIHandler(ui->swCentral, this);
+    m_isequencerUIHandler->layout();
     connect(ui->vbbButtons->addAction(CToolButton::Add), &QAction::triggered,
             this, &CConfiguratorSequencerTab::slotAddSequencer);
 

@@ -12,6 +12,7 @@ CConfiguratorActionsTab::CConfiguratorActionsTab(QWidget *parent)
     CVariableIActionDescriber *actionDescriber = new CVariableIActionDescriber(this);
     m_iactionUIHandler = new ConfiguratorActionsUIHandler(ui->swCentral, this);
     m_iactionUIHandler->setDescriber(actionDescriber);
+    m_iactionUIHandler->layout();
 
     connect(ui->vbbButtons->addAction(CToolButton::Add), &QAction::triggered,
             this, &CConfiguratorActionsTab::addAction);
