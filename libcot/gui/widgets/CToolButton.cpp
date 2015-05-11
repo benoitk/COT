@@ -105,6 +105,15 @@ void CToolButton::initialize(CToolButton::Type type, QAction *action)
     if (type == CToolButton::ScrollUp || type == CToolButton::ScrollDown) {
         setAutoRepeat(true);
     }
+
+    if (type == CToolButton::Back || type == CToolButton::Quit) {
+        if (action) {
+            action->setShortcut(QKeySequence(Qt::Key_Escape));
+        }
+        else {
+            setShortcut(QKeySequence(Qt::Key_Escape));
+        }
+    }
 }
 
 void CToolButton::updateVisibility()
