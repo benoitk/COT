@@ -22,6 +22,7 @@ public:
     virtual ~IVariableObjectDescriber();
 
     IVariablePtrList getVariables() const;
+    QHash<QString, IVariablePtr> getVariablesHash() const;
     IVariablePtr getVariable(const QString &name) const;
     void clear();
 

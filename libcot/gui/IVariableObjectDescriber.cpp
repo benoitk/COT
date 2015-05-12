@@ -32,6 +32,11 @@ IVariablePtrList IVariableObjectDescriber::getVariables() const
     return m_variables;
 }
 
+QHash<QString, IVariablePtr> IVariableObjectDescriber::getVariablesHash() const
+{
+    return m_variablesHash;
+}
+
 IVariablePtr IVariableObjectDescriber::getVariable(const QString &name) const
 {
     return m_variablesHash.value(name, Q_NULLPTR);
