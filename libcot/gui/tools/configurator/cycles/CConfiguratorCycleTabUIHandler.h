@@ -16,8 +16,6 @@ public:
     void layout();
 
 protected:
-    QHash<QString, IVariable *> m_internalVariables;
-
     IVariable *getVariable(const QString &name) Q_DECL_OVERRIDE;
     int columnCount() const Q_DECL_OVERRIDE;
     QWidget *createWidget(int column, IVariable *ivar) Q_DECL_OVERRIDE;
@@ -26,11 +24,12 @@ protected:
     void rowAboutToBeDeleted(const Row &row, IVariable *ivar) Q_DECL_OVERRIDE;
     void rowDeleted(const QString &name) Q_DECL_OVERRIDE;
 
-protected slots:
+private slots:
     void slotEditClicked();
 
 private:
     CPushButton *newButton(IVariable *ivar);
+    QHash<QString, IVariable *> m_internalVariables;
 };
 
 #endif // CCYCLETABUIHANDLER_H
