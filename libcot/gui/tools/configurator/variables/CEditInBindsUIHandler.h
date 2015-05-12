@@ -11,6 +11,7 @@ class CEditInBindsUIHandler : public IConfiguratorUIHandler
 public:
     explicit CEditInBindsUIHandler(CScrollableWidget *scrollable, QObject *parent);
     ~CEditInBindsUIHandler();
+    QWidget *createWidget(int column, IVariable *ivar) Q_DECL_OVERRIDE;
 };
 
 #endif // CEDITINBINDSUIHANDLER_H
