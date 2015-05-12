@@ -27,6 +27,11 @@ ICycle::~ICycle()
 
 }
 
+bool ICycle::isStreamRelated() const
+{
+    return !getRelatedStreamName().isEmpty();
+}
+
 CStep *ICycle::getStep(int index) const
 {
     return getListSteps().at(index);

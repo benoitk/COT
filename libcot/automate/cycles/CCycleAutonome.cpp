@@ -9,11 +9,13 @@ CCycleAutonome::CCycleAutonome(const QVariantMap &variantMap, const QMap<QString
 	:CCycleMesure(variantMap){}
 CCycleAutonome::~CCycleAutonome(){}
 
-bool CCycleAutonome::isStreamRelated()const{
-	return true;
-}
 QString CCycleAutonome::getRelatedStreamName()const{
-    return QStringLiteral("stream_1");
+    return CCycleMesure::getRelatedStreamName();
+}
+
+void CCycleAutonome::setRelatedStreamName(const QString &name)
+{
+    CCycleMesure::setRelatedStreamName(name);
 }
 QList<CStep*> CCycleAutonome::getListSteps()const{
 	return m_listSteps;

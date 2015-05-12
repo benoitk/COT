@@ -84,11 +84,13 @@ void CCyclePause::slotGoToStepCycle(int){}
 void CCyclePause::slotGetReadyForPlayNextCycle(){}
 void CCyclePause::slotGetReadyForPlayCycle(){}
 
-bool CCyclePause::isStreamRelated()const{
-	return true;
-}
 QString CCyclePause::getRelatedStreamName()const{
-    return QStringLiteral("stream_1");
+    return m_streamName;
+}
+
+void CCyclePause::setRelatedStreamName(const QString &name)
+{
+    m_streamName = name;
 }
 QList<CStep*> CCyclePause::getListSteps()const{
 	return m_listSteps;

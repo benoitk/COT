@@ -91,11 +91,14 @@ void CCycleMesure::slotPauseCycle(){
 void CCycleMesure::slotStopCycle(){
 
 }
-bool CCycleMesure::isStreamRelated()const{
-	return true;
-}
+
 QString CCycleMesure::getRelatedStreamName()const{
-    return QStringLiteral("stream_1");
+    return m_streamName;
+}
+
+void CCycleMesure::setRelatedStreamName(const QString &name)
+{
+    m_streamName = name;
 }
 QList<CStep*> CCycleMesure::getListSteps()const{
 	return m_listSteps;

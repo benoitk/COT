@@ -26,9 +26,8 @@ public:
     void setLbl(const QString&) Q_DECL_OVERRIDE;
     bool isRunning() Q_DECL_OVERRIDE;
     bool isPaused() Q_DECL_OVERRIDE;
-
-    bool isStreamRelated()const Q_DECL_OVERRIDE;
     QString getRelatedStreamName()const Q_DECL_OVERRIDE;
+    void setRelatedStreamName(const QString &name) Q_DECL_OVERRIDE;
     QList<CStep*> getListSteps()const Q_DECL_OVERRIDE;
     CStep* getStepStop()const Q_DECL_OVERRIDE;
     int getCurrentStepIndex() const Q_DECL_OVERRIDE;
@@ -57,6 +56,7 @@ private:
 	QString m_label;
 	int m_timeout;
 	QThread m_thread;
+    QString m_streamName;
 
 	CStep* m_stepStop;
 	QList<CStep*> m_listSteps;

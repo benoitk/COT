@@ -24,14 +24,15 @@ public:
     virtual void setName(const QString&)=0;
 	virtual QString getLbl()const=0;
     virtual void setLbl(const QString&)=0;
-	virtual bool isStreamRelated()const=0;
 	virtual QString getRelatedStreamName()const=0;
+    virtual void setRelatedStreamName(const QString &name)=0;
 	virtual QList<CStep*> getListSteps()const=0;
 	virtual CStep* getStepStop()const=0;
 	virtual bool isRunning()=0;
 	virtual bool isPaused()=0;
     virtual int getCurrentStepIndex() const = 0;
 
+    bool isStreamRelated()const;
     CStep *getStep(int index) const;
 
     static QString typeToString(eTypeCycle type);

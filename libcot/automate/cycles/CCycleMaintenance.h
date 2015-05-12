@@ -21,9 +21,8 @@ public:
     bool isPaused() Q_DECL_OVERRIDE;
     QString getLbl()const Q_DECL_OVERRIDE;
     void setLbl(const QString&) Q_DECL_OVERRIDE;
-
-    bool isStreamRelated()const Q_DECL_OVERRIDE;
     QString getRelatedStreamName()const Q_DECL_OVERRIDE;
+    void setRelatedStreamName(const QString &name) Q_DECL_OVERRIDE;
     QList<CStep*> getListSteps()const Q_DECL_OVERRIDE;
     CStep* getStepStop()const Q_DECL_OVERRIDE;
     int getCurrentStepIndex() const Q_DECL_OVERRIDE;
@@ -46,6 +45,7 @@ private:
 	int m_idCycle;
 	QString m_name;
 	QString m_label;
+    QString m_streamName;
 	eTypeCycle m_typeCycle;
 	CStep* m_stepStop;
 	QList<CStep*> m_listSteps;

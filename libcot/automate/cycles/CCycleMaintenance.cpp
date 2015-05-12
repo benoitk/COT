@@ -41,11 +41,14 @@ void CCycleMaintenance::setName(const QString &name){
 	m_name = name;
 
 }
-bool CCycleMaintenance::isStreamRelated()const{
-	return true;
-}
+
 QString CCycleMaintenance::getRelatedStreamName()const{
-    return QStringLiteral("stream_1");
+    return m_streamName;
+}
+
+void CCycleMaintenance::setRelatedStreamName(const QString &name)
+{
+    m_streamName = name;
 }
 QList<CStep*> CCycleMaintenance::getListSteps()const{
 	return m_listSteps;
