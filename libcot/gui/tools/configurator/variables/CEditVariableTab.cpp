@@ -3,6 +3,7 @@
 #include "CAutomate.h"
 #include "CEditVariableTabUIHandler.h"
 #include <IConfiguratorUIHandler.h>
+#include <IVariableObjectDescriber.h>
 
 CEditVariableTab::CEditVariableTab(QWidget *parent)
     : IEditVariableTab(parent)
@@ -32,6 +33,9 @@ void CEditVariableTab::setVariables(const QString &variableName)
 
 void CEditVariableTab::applyProperties(IVariable *ivar)
 {
-
+    IVariableObjectDescriber *describer = m_configuratorUIHandler->describer();
+    ivar->setName(describer->getVariable(QStringLiteral("name"))->toString());
+    ivar->setLabel(describer->getVariable(QStringLiteral("label"))->toString());
+    //TODO add type/unit
 }
 
