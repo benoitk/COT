@@ -66,5 +66,5 @@ void CConfiguratorWindow::backTriggered()
 void CConfiguratorWindow::addTab(IConfiguratorTab *tab, const QString &title)
 {
     ui->twPages->addTab(tab, title);
-    connect(tab, &IConfiguratorTab::backTriggered, this, &CConfiguratorWindow::backTriggered);
+    connect(tab, &IConfiguratorTab::signalBackTriggered, this, &CConfiguratorWindow::backTriggered);
 }

@@ -9,7 +9,7 @@ CConfiguratorNetworkTab::CConfiguratorNetworkTab(QWidget *parent)
     ui->vbbButtons->addAction(CToolButton::ScrollUp, ui->swCentral->moveUp());
     ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->swCentral->moveDown());
     connect(ui->vbbButtons->addAction(CToolButton::Back), &QAction::triggered,
-            this, &IConfiguratorTab::backTriggered);
+            this, &IConfiguratorTab::signalBackTriggered);
 }
 
 CConfiguratorNetworkTab::~CConfiguratorNetworkTab()

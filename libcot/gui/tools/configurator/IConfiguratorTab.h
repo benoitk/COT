@@ -15,7 +15,7 @@ public:
     CVerticalButtonBar *buttonBar() const { return findChild<CVerticalButtonBar *>(); }
 
 signals:
-    void backTriggered();
+    void signalBackTriggered();
 };
 
 #endif // ICONFIGURATORTAB_H
