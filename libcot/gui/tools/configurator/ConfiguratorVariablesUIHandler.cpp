@@ -103,8 +103,3 @@ void ConfiguratorVariablesUIHandler::slotEditClicked()
     QString variableName = qobject_cast<CPushButton *>(sender())->userData().toString();
     emit editVariable(variableName);
 }
-
-void ConfiguratorVariablesUIHandler::deleteVariable(const QString &name)
-{
-    //TODO
-}
