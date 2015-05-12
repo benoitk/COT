@@ -78,7 +78,6 @@ IVariablePtrList buildVariableTypes() {
                                     {"type_int", qMakePair(IVariableUIHandler::tr("Integer"), type_int)},
                                     {"type_string", qMakePair(IVariableUIHandler::tr("String"), type_string)},
                                     {"type_stream", qMakePair(IVariableUIHandler::tr("Stream"), type_stream)},
-                                    {"type_unknow", qMakePair(IVariableUIHandler::tr("Unknown"), type_unknow)}
                                 });
 }
 
