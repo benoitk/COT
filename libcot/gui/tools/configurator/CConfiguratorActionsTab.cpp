@@ -11,8 +11,6 @@ CConfiguratorActionsTab::CConfiguratorActionsTab(QWidget *parent)
     ui->setupUi(this);
 
     m_iactionUIHandler = new ConfiguratorActionsUIHandler(ui->swCentral, this);
-    CVariableIActionDescriber *actionDescriber = new CVariableIActionDescriber(m_iactionUIHandler);
-    m_iactionUIHandler->setDescriber(actionDescriber);
     slotUpdateLayout();
 
     connect(ui->vbbButtons->addAction(CToolButton::Add), &QAction::triggered,
