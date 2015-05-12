@@ -93,7 +93,7 @@ void CVariableICycleDescriber::describe(const QVariant &object)
     type->setLabel(tr("Type"));
     type->setMutableType(CVariableMutable::CycleType);
 
-    CVariableInt *timer = CVariableFactory::castedBuild<CVariableInt *>(type_int, VariableOrganTypeNone, /*cycle->get()*/ -1); // KDAB_TODO: No customer api
+    CVariableInt *timer = CVariableFactory::castedBuild<CVariableInt *>(type_int, VariableOrganTypeNone, /*cycle->get()*/ -1); // SERES_TODO: Add api
     timer->setName("timer");
     timer->setLabel(tr("Timer"));
 
@@ -135,7 +135,6 @@ void CVariableIVariableDescriber::describe(const QVariant &object)
     unit->setLabel(tr("Unit"));
     unit->setMutableType(CVariableMutable::Unit);
 
-    //TODO add measure
     CVariableMeasure *measure = CVariableFactory::castedBuild<CVariableMeasure *>(type_measure, VariableOrganTypeNone);
     measure->setName(QStringLiteral("measure"));
     measure->setLabel(tr("Measure"));

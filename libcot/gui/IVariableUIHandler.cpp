@@ -60,7 +60,7 @@ IVariablePtrList buildTemporaryString(const PairPairStringStringList& pairs) {
 }
 
 IVariablePtrList buildActionType() {
-    // KDAB_TODO: No customer api so let fake
+    // SERES_TODO: Provide api
     // Note: this relates to CActionFactory::build()
     return buildTemporaryString({
                                     {"calc_coef", qMakePair(IVariableUIHandler::tr("Calc Coef"), 1)},
@@ -181,7 +181,7 @@ IVariablePtrList buildExtensions() {
 }
 
 IVariablePtrList buildOrgans() {
-    // KDAB_TODO: No customer api so let fake
+    // SERES_TODO: Provide api
     CAutomate *automate = CAutomate::getInstance();
     QList<CModelExtensionCard*> cards = automate->getMapExtensions().values();
     IVariablePtrList ivars;
@@ -1002,7 +1002,7 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
 
                 case CVariableMutable::Organ: {
                     IOrgan *organ = automate->getOrgan(ivar->toString());
-                    button->setText(organ ? organ->getName() : QString()); // TODO: Customer add label for organs ?
+                    button->setText(organ ? organ->getName() : QString()); // SERES_TODO: add label for organs ?
                     break;
                 }
 

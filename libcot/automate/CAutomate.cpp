@@ -223,6 +223,7 @@ void CAutomate::addCom(ICom* com){
 void CAutomate::addAction(IAction* action){
     QMutexLocker locker(&m_mutex);
     if(action){
+        // SERES_TODO: what about renaming actions?
         m_mapActions.insert(action->getName(), action);
         m_listActions.append(action);// en redondance avec m_mapActions pour ne pas casser l'API
     }
@@ -257,6 +258,8 @@ IAction* CAutomate::getAction(const QString &arg_name){
     }
     return action;
 }
+
+// SERES_TODO: delAction
 
 QList<ICycle*> CAutomate::getListCycles(int cycleType){
     QMutexLocker locker(&m_mutex);
@@ -295,8 +298,8 @@ void CAutomate::addExtensionCard(const QString& name, CModelExtensionCard* extCa
 
 void CAutomate::delCycle(ICycle *cycle)
 {
-    // TODO: To be completed by customer
-    // There is probably more to update, like in CSequencer etc, to be handled by customer.
+    // SERES_TODO: To be completed.
+    // There is probably more to update, like in CSequencer etc.
     QMutexLocker locker(&m_mutex);
 
     CVariableStream *stream = qobject_cast<CVariableStream *>(m_mapStreams.value(cycle->getRelatedStreamName()));
@@ -485,8 +488,8 @@ void CAutomate::informAboutCycleChanges(ICycle *cycle, const QVariantMap &oldDat
 {
     QMutexLocker locker(&m_mutex);
 
-    // TODO: Customer do automate internal change handling.
-    // There is probably more to update, like in CSequencer etc, to be handled by customer.
+    // SERES_TODO: implement automate internal change handling.
+    // There is probably more to update, like in CSequencer etc.
     const bool isNew = !getListCyclesPrivate().contains(cycle);
     const QString oldStreamName = oldData.value(QStringLiteral("related_stream_name")).toString();
 

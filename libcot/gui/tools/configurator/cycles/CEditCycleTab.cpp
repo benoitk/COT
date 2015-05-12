@@ -27,13 +27,12 @@ CEditCycleTab::~CEditCycleTab()
 
 void CEditCycleTab::applyProperties(ICycle *cycle)
 {
-    // TODO: Customer do automate internal change handling.
     IVariableObjectDescriber *describer = m_handler->describer();
 
-    // We known hard coded variable names from our describer so just use them.
+    // We know hard coded variable names from our describer so just use them.
     cycle->setName(describer->getVariable(QStringLiteral("name"))->toString());
     cycle->setLbl(describer->getVariable(QStringLiteral("label"))->toString());
     //cycle->setType(eTypeCycle(describer->getVariable(QStringLiteral("type"))->toInt())); // read only
-    //cycle->setTimer(describer->getVariable(QStringLiteral("timer"))->toInt()); // no customer api
+    //cycle->setTimer(describer->getVariable(QStringLiteral("timer"))->toInt()); // SERES_TODO: add api
     cycle->setRelatedStreamName(describer->getVariable(QStringLiteral("stream"))->toString());
 }

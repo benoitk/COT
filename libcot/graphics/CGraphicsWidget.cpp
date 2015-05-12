@@ -81,7 +81,7 @@ void CGraphicsWidget::addPoint(float value, const QString &measureName, KPlotObj
         needToChangeGraphicLimit = true;
         m_horizontalMaximumValue += INCREMENT;
     }
-    // KDAB_TODO, use fixedrange when customer api available
+    // SERES_TODO: add API for range, so KDAB can use a fixedrange here
     if (value >= m_verticalMaximumValue) {
         needToChangeGraphicLimit = true;
         m_verticalMaximumValue += INCREMENT;

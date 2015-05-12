@@ -53,9 +53,7 @@ public:
 	void setMapVariables(QMap<QString, IVariable*>);
     CDisplayConf* getDisplayConf()const;
 
-    // TODO:
-    // Those members are called by configurator once the user do press Ok button
-    // It's up to the customer to do internal change when we call those members.
+    // Those members are called by configurator once the user clicks Ok
     void informAboutCycleChanges(ICycle *cycle, const QVariantMap &oldData);
 
 	//FIN API

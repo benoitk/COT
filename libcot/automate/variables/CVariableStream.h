@@ -7,7 +7,6 @@
 class ICycle;
 class CVariableMeasure;
 
-// TODO: rename to CVariableStream ?
 class CVariableStream : public IVariable
 {
 	Q_OBJECT

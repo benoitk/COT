@@ -32,7 +32,7 @@ CVariableStream::CVariableStream(const QMap<QString, QVariant> &mapVar):IVariabl
         foreach(const QVariant &variant, listVariable){
             ICycle *cycle = CAutomate::getInstance()->getCycle(variant.toString(), CYCLE_MESURE);
 
-            // TODO: customer insert null cycles in list.
+            // SERES_TODO: avoid null cycles in list.
             if (cycle) {
                 cycle->setRelatedStreamName(getName());
             }

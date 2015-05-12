@@ -75,7 +75,7 @@ void CToolButton::paintEvent(QPaintEvent *event)
         icon().paint(&painter, rect(), Qt::AlignCenter, QIcon::Disabled, QIcon::Off);
     }
 
-    // TODO_KDAB: Just for debug until all icons types are handled
+    // KDAB_TODO: Just for debug until all icons types are handled
     if (icon().isNull()) {
         painter.setPen(Qt::black);
         painter.drawRect(rect());
@@ -149,7 +149,7 @@ QIcon CToolButton::iconFromPixmaps(const QString &baseName)
 
 QString CToolButton::pixmapFilePath(const QString &name)
 {
-    // TODO_KDAB: To be computed
+    // KDAB_TODO: To be computed
     const bool isHd = true;
     return isHd ? QString(":/hd-icons/pictohd/%1").arg(name)
                 : QString(":/icons/picto/%1").arg(name);
@@ -164,7 +164,7 @@ QIcon CToolButton::buttonIcon(CToolButton::Type type)
         case CToolButton::StopEndCycle:
         case CToolButton::NextStream:
         case CToolButton::Update:
-            // TODO_KDAB:: Handle each icon set in picto / pictohd resources.
+            // KDAB_TODO: Handle each icon set in picto / pictohd resources.
             break;
 
         case CToolButton::Add:

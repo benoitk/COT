@@ -72,7 +72,7 @@ public:
 	
 	
 signals:
-    void signalVariableChanged(); // TODO: customer has to handle it in each variables.
+    void signalVariableChanged(); // SERES_TODO: handle it in each variable.
 };
 
 // Typedefs

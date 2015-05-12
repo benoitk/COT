@@ -108,8 +108,8 @@ void CPCToolsTab::slotInitializeHistoryDocument()
     m_history->setDefaultTextOption(option);
 
     m_history->setUndoRedoEnabled(false);
-    m_history->setMaximumBlockCount(50000); // KDAB_TODO: Need customer api to read this feature
-    // KDAB_TODO: Call clear on an interval defined by the user - need customer api
+    m_history->setMaximumBlockCount(50000); // SERES_TODO: Need api to read this feature
+    // SERES_TODO: Call clear on an interval defined by the user - need api
 }
 
 void CPCToolsTab::slotVariableChanged(const QString &name, const QDateTime &dateTime)
