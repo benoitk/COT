@@ -19,7 +19,7 @@ ConfiguratorVariablesUIHandler::~ConfiguratorVariablesUIHandler()
 
 void ConfiguratorVariablesUIHandler::layout()
 {
-    const QList<IVariable*> listVar = CAutomate::getInstance()->getMapVariables().values();
+    const QList<IVariable*> listVar = CAutomate::getInstance()->getMapStreams().values();
     IVariableUIHandler::layout(listVar, false);
 }
 
@@ -32,13 +32,9 @@ QWidget *ConfiguratorVariablesUIHandler::createWidget(int column, IVariable *iva
 {
     const bool isStream = ivar && (ivar->getType() == type_stream);
     const bool isMeasure = ivar && (ivar->getType() == type_measure);
-    if(!isStream && !isMeasure) {
-        return Q_NULLPTR;
-    }
-
     switch(column) {
     case 0:
-        if (isStream) {
+        if (!isMeasure) {
             return newLabel(ivar);
         }
         break;
@@ -50,7 +46,7 @@ QWidget *ConfiguratorVariablesUIHandler::createWidget(int column, IVariable *iva
         }
         break;
     case 2:
-        if (isStream) {
+        if (!isMeasure) {
             CToolButton *deleteButton = newDeleteButton(ivar);
             return deleteButton;
         } else if (isMeasure) {
