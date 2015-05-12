@@ -23,7 +23,7 @@
 
 #include <QGridLayout>
 #include <QLabel>
-#include <QDebug>
+#include "cotgui_debug.h"
 
 /*
 // Read / Write

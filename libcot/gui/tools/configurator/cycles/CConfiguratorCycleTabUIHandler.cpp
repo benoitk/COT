@@ -9,7 +9,7 @@
 #include <CVariableStream.h>
 
 #include <QLabel>
-#include <QDebug>
+#include "cotgui_debug.h"
 
 CConfiguratorCycleTabUIHandler::CConfiguratorCycleTabUIHandler(CScrollableWidget *scrollable, QObject *parent)
     : IConfiguratorUIHandler(scrollable, parent)

@@ -5,7 +5,7 @@
 #include <QToolTip>
 #include <QHelpEvent>
 #include <QAbstractItemView>
-#include <QDebug>
+#include "cotgui_debug.h"
 
 namespace {
     static const int DEFAULT_ITEM_SIZE = 90;

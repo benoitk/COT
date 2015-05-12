@@ -5,7 +5,7 @@
 #include <CAutomate.h>
 #include <CVariableFactory.h>
 #include <QLabel>
-#include <QDebug>
+#include "cotgui_debug.h"
 #include <CVariableStream.h>
 
 ConfiguratorVariablesUIHandler::ConfiguratorVariablesUIHandler(CScrollableWidget *scrollable, QObject *parent)

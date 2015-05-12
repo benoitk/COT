@@ -4,7 +4,7 @@
 #include <QTimer>
 #include <QPainter>
 #include <QFile>
-#include <QDebug>
+#include "cotgui_debug.h"
 
 CToolButton::CToolButton(QWidget *parent)
     : QToolButton(parent)
@@ -135,7 +135,7 @@ QIcon CToolButton::iconFromPixmaps(const QString &baseName)
     QIcon icon;
     const QString mainPixmapPath = pixmapFilePath(baseName + ".png");
     if (!QFile::exists(mainPixmapPath)) {
-        qWarning() << "Icon not found:" << mainPixmapPath;
+        qCWarning(COTGUI_LOG) << "Icon not found:" << mainPixmapPath;
         return icon;
     }
     icon.addPixmap(QPixmap(mainPixmapPath), QIcon::Normal, QIcon::Off);

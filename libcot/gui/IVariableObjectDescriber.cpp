@@ -12,7 +12,7 @@
 #include <CVariableMeasure.h>
 #include <IAction.h>
 
-#include <QDebug>
+#include "cotgui_debug.h"
 
 IVariableObjectDescriber::IVariableObjectDescriber(IVariableUIHandler *parent)
     : QObject(parent)

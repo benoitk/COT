@@ -1,7 +1,7 @@
 #include "CScrollableWidget.h"
 #include <QAction>
 #include <QScrollBar>
-#include <QDebug>
+#include "cotgui_debug.h"
 
 CScrollableWidget::CScrollableWidget(QWidget *parent)
     : QScrollArea(parent)

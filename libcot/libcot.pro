@@ -231,6 +231,7 @@ HEADERS *= \
     gui/tools/configurator/variables/CEditOutBindsUIHandler.h \
     gui/tools/configurator/variables/CEditInBindsUIHandler.h \ 
     automate/cotautomate_debug.h \
+    gui/cotgui_debug.h \
 
 SOURCES *= \
     automate/CAutomate.cpp \
@@ -388,5 +389,6 @@ SOURCES *= \
     gui/tools/configurator/variables/CEditVariableTabUIHandler.cpp \
     gui/tools/configurator/variables/CEditOutBindsUIHandler.cpp \
     gui/tools/configurator/variables/CEditInBindsUIHandler.cpp \
-    automate/cotautomate_debug.cpp
+    automate/cotautomate_debug.cpp \
+    gui/cotgui_debug.cpp \
 

@@ -5,7 +5,7 @@
 
 #include <QTimer>
 #include <QScrollBar>
-#include <QDebug>
+#include "cotgui_debug.h"
 
 CGenericItemSelector::CGenericItemSelector(const IVariablePtrList &list, QWidget *parent)
     : QDialog(parent)
