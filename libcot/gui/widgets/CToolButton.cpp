@@ -106,13 +106,22 @@ void CToolButton::initialize(CToolButton::Type type, QAction *action)
         setAutoRepeat(true);
     }
 
-    if (type == CToolButton::Back || type == CToolButton::Quit) {
-        if (action) {
-            action->setShortcut(QKeySequence(Qt::Key_Escape));
+    switch (type) {
+        case CToolButton::Back:
+        case CToolButton::Quit:
+        case CToolButton::Cancel: {
+            if (action) {
+                action->setShortcut(QKeySequence(Qt::Key_Escape));
+            }
+            else {
+                setShortcut(QKeySequence(Qt::Key_Escape));
+            }
+
+            break;
         }
-        else {
-            setShortcut(QKeySequence(Qt::Key_Escape));
-        }
+
+        default:
+            break;
     }
 }
 
