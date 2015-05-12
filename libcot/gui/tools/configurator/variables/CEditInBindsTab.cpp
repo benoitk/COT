@@ -12,7 +12,8 @@ CEditInBindsTab::CEditInBindsTab(QWidget *parent)
     ui->vbbButtons->addAction(CToolButton::ScrollUp, ui->swCentral->moveUp());
     ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->swCentral->moveDown());
     connect(ui->vbbButtons->addAction(CToolButton::Cancel), &QAction::triggered,
-            this, &IEditVariableTab::cancelTriggered);
+            this, &IEditVariableTab::backTriggered);
+
     connect(ui->vbbButtons->addAction(CToolButton::Ok), &QAction::triggered,
             this, &IEditVariableTab::okTriggered);
 }

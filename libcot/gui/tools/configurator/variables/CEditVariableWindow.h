@@ -26,7 +26,7 @@ protected:
     void changeEvent(QEvent *event) Q_DECL_OVERRIDE;
 
 private slots:
-    void cancelTriggered();
+    void backTriggered();
 
 private:
     void addTab(IEditVariableTab *tab, const QString &title);
