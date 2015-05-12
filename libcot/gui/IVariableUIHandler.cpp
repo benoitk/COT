@@ -849,7 +849,11 @@ QLabel *IVariableUIHandler::newUnit(IVariable *ivar)
 void IVariableUIHandler::rowInserted(const IVariableUIHandler::Row &row, IVariable *ivar)
 {
     Q_UNUSED(ivar);
-    m_containerLayout->setAlignment(row.widgets[1], Qt::AlignCenter);
+    QWidget *widget = row.widgets.value(1);
+
+    if (widget && (widget->inherits("CLedButton") || widget->inherits("CSwitchButton") )) {
+        m_containerLayout->setAlignment(widget, Qt::AlignCenter);
+    }
 }
 
 void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariable *ivar)
