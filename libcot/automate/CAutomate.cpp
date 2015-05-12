@@ -293,6 +293,41 @@ void CAutomate::addExtensionCard(const QString& name, CModelExtensionCard* extCa
         m_mapExtCards.insert(name, extCard);
 }
 
+void CAutomate::delCycle(ICycle *cycle)
+{
+    // TODO: To be completed by customer
+    // There is probably more to update, like in CSequencer etc, to be handled by customer.
+    QMutexLocker locker(&m_mutex);
+
+    CVariableStream *stream = qobject_cast<CVariableStream *>(m_mapStreams.value(cycle->getRelatedStreamName()));
+
+    if (stream) {
+        stream->delCycle(cycle->getName());
+    }
+
+    switch(cycle->getType()){
+        case CYCLE_MESURE:
+            delete m_listCycleMesures.take(cycle->getName());
+            break;
+
+        case CYCLE_MAINTENANCE :
+            delete m_listCycleMaintenances.take(cycle->getName());
+            break;
+
+
+        case CYCLE_AUTONOME:
+            delete m_listlCycleAutonomes.take(cycle->getName());
+            break;
+
+        case CYCLE_PAUSE:
+            break;
+
+        case CYCLE_ALL:
+            Q_ASSERT(false);
+            break;
+    }
+}
+
 IVariable* CAutomate::getVariable(const QString &addr_var)const{
     QMutexLocker locker(&m_mutex);
 	IVariable* var= Q_NULLPTR;
@@ -451,6 +486,7 @@ void CAutomate::informAboutCycleChanges(ICycle *cycle, const QVariantMap &oldDat
     QMutexLocker locker(&m_mutex);
 
     // TODO: Customer do automate internal change handling.
+    // There is probably more to update, like in CSequencer etc, to be handled by customer.
     const bool isNew = !getListCyclesPrivate().contains(cycle);
     const QString oldStreamName = oldData.value(QStringLiteral("related_stream_name")).toString();
 
@@ -458,26 +494,25 @@ void CAutomate::informAboutCycleChanges(ICycle *cycle, const QVariantMap &oldDat
         addCyclePrivate(cycle);
     }
 
-    if (oldStreamName != cycle->getRelatedStreamName()) {
-        CVariableStream *oldStream = qobject_cast<CVariableStream *>(m_mapStreams.value(oldStreamName));
-        CVariableStream *newStream = qobject_cast<CVariableStream *>(m_mapStreams.value(cycle->getRelatedStreamName()));
+    CVariableStream *oldStream = qobject_cast<CVariableStream *>(m_mapStreams.value(oldStreamName));
+    CVariableStream *newStream = qobject_cast<CVariableStream *>(m_mapStreams.value(cycle->getRelatedStreamName()));
 
-        if (!oldStreamName.isEmpty() && !oldStream) {
-            Q_ASSERT(false);
-        }
-
-        if (!cycle->getRelatedStreamName().isEmpty() && !newStream) {
-            Q_ASSERT(false);
-        }
-
-        if (oldStream) {
-            oldStream->delCycle(cycle->getName());
-        }
-
-        if (newStream) {
-            newStream->addCycle(cycle);
-        }
+    if (!oldStreamName.isEmpty() && !oldStream) {
+        Q_ASSERT(false);
     }
+
+    if (!cycle->getRelatedStreamName().isEmpty() && !newStream) {
+        Q_ASSERT(false);
+    }
+
+    if (oldStream) {
+        oldStream->delCycle(cycle->getName());
+    }
+
+    if (newStream) {
+        newStream->addCycle(cycle);
+    }
+
     locker.unlock();
 
     if (!isNew) {

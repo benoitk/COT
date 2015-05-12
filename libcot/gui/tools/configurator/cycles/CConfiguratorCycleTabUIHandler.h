@@ -24,6 +24,7 @@ protected:
     void rowInserted(const Row &row, IVariable *ivar) Q_DECL_OVERRIDE;
     void rowChanged(const Row &row, IVariable *ivar) Q_DECL_OVERRIDE;
     void rowAboutToBeDeleted(const Row &row, IVariable *ivar) Q_DECL_OVERRIDE;
+    void rowDeleted(const QString &name) Q_DECL_OVERRIDE;
 
 protected slots:
     void slotEditClicked();

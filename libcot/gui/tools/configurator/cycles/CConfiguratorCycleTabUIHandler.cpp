@@ -49,7 +49,7 @@ void CConfiguratorCycleTabUIHandler::layout()
     }
 
     // Add fake global stream
-    IVariable *streamVar = CVariableFactory::buildTemporary(QStringLiteral("global_stream"), tr("Global"), type_stream);
+    IVariable *streamVar = CVariableFactory::buildTemporary(QString(), tr("Global"), type_stream);
     m_internalVariables[streamVar->getName()] = streamVar;
     ivars << streamVar;
 
@@ -140,10 +140,32 @@ void CConfiguratorCycleTabUIHandler::rowAboutToBeDeleted(const IVariableUIHandle
     CAutomate *automate = CAutomate::getInstance();
     ICycle *cycle = automate->getCycle(ivar->getName());
     Q_ASSERT(cycle);
-    CVariableStream *streamVar = static_cast<CVariableStream *>(automate->getMapStreams().value(cycle->getRelatedStreamName()));
+    const QString streamName = cycle->getRelatedStreamName();
+    const bool isGlobal = streamName.isEmpty();
+    CVariableStream *streamVar = Q_NULLPTR;
+
+    // Delete cycle
+    if (isGlobal) {
+        streamVar = static_cast<CVariableStream *>(getVariable(QString()));
+    }
+    // Become a global cycle
+    else {
+        streamVar = static_cast<CVariableStream *>(automate->getMapStreams().value(cycle->getRelatedStreamName()));
+    }
+
     Q_ASSERT(streamVar);
     streamVar->delCycle(cycle->getName());
     delete m_internalVariables.take(cycle->getName());
+
+    if (isGlobal) {
+        automate->delCycle(cycle);
+    }
+}
+
+void CConfiguratorCycleTabUIHandler::rowDeleted(const QString &name)
+{
+    Q_UNUSED(name);
+    layout();
 }
 
 void CConfiguratorCycleTabUIHandler::slotEditClicked()

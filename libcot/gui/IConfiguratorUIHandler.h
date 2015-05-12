@@ -16,6 +16,7 @@ public:
 protected:
     virtual CToolButton *newDeleteButton(IVariable *ivar);
     virtual void rowAboutToBeDeleted(const Row &row, IVariable *ivar);
+    virtual void rowDeleted(const QString &name);
 
 protected slots:
     void slotDeleteClicked();

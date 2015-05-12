@@ -202,6 +202,7 @@ int CVariableStream::getAddress()const{
 void CVariableStream::addCycle(ICycle *cycle)
 {
     if (!m_listCycles.contains(cycle)) {
+        cycle->setRelatedStreamName(getName());
         m_listCycles << cycle;
     }
 }

@@ -97,6 +97,8 @@ public:
 	CModelExtensionCard* getExtensionCard(const QString&);
 	void addExtensionCard(const QString&, CModelExtensionCard*); 
 
+    void delCycle(ICycle *cycle);
+
 
 	//IComObserver
     IVariable* getVariable(const QString &addr_var)const Q_DECL_OVERRIDE;
