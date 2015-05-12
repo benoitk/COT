@@ -61,9 +61,16 @@ void CEditVariableWindow::backTriggered()
     close();
 }
 
+
+void CEditVariableWindow::okTriggered()
+{
+    //TODO implement it.
+    close();
+}
+
 void CEditVariableWindow::addTab(IEditVariableTab *tab, const QString &title)
 {
     ui->twPages->addTab(tab, title);
     connect(tab, &IEditVariableTab::backTriggered, this, &CEditVariableWindow::backTriggered);
-    //Connect Ok ?
+    connect(tab, &IEditVariableTab::okTriggered, this, &CEditVariableWindow::okTriggered);
 }

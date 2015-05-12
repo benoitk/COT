@@ -31,3 +31,8 @@ void CEditInBindsTab::setVariables(const QString &variableName)
     m_configuratorUIHandler->layout(listInBinds);
 }
 
+void CEditInBindsTab::applyProperties(IVariable *ivar)
+{
+
+}
+

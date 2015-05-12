@@ -30,3 +30,8 @@ void CEditVariableTab::setVariables(const QString &variableName)
     m_configuratorUIHandler->layout(ivar);
 }
 
+void CEditVariableTab::applyProperties(IVariable *ivar)
+{
+
+}
+

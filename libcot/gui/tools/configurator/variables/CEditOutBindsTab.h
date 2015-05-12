@@ -14,6 +14,7 @@ public:
     explicit CEditOutBindsTab(QWidget *parent = Q_NULLPTR);
     ~CEditOutBindsTab();
     void setVariables(const QString &variableName);
+    void applyProperties(IVariable *ivar) Q_DECL_OVERRIDE;
 private:
     Ui::CEditOutBindsTab *ui;
     IConfiguratorUIHandler *m_configuratorUIHandler;

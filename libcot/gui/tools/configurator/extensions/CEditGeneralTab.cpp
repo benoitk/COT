@@ -12,15 +12,10 @@ CEditGeneralTab::CEditGeneralTab(QWidget *parent)
     connect(ui->vbbButtons->addAction(CToolButton::Back), &QAction::triggered,
             this, &IEditExtensionTab::backTriggered);
     connect(ui->vbbButtons->addAction(CToolButton::Ok), &QAction::triggered,
-            this, &CEditGeneralTab::slotOkTriggered);
+            this, &IEditExtensionTab::okTriggered);
 }
 
 CEditGeneralTab::~CEditGeneralTab()
 {
     delete ui;
-}
-
-void CEditGeneralTab::slotOkTriggered()
-{
-    //TODO
 }

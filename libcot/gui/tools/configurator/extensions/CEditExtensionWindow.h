@@ -23,6 +23,7 @@ protected:
 private slots:
     void backTriggered();
 
+    void okTriggered();
 private:
     void addTab(IEditExtensionTab *tab, const QString &title);
     Ui::CEditExtensionWindow *ui;

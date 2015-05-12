@@ -11,15 +11,11 @@ CEditOrgansTab::CEditOrgansTab(QWidget *parent)
     ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->swCentral->moveDown());
     connect(ui->vbbButtons->addAction(CToolButton::Back), &QAction::triggered,
             this, &IEditExtensionTab::backTriggered);
-    connect(ui->vbbButtons->addAction(CToolButton::Ok), &QAction::triggered, this, &CEditOrgansTab::slotOkTriggered);
+    connect(ui->vbbButtons->addAction(CToolButton::Ok), &QAction::triggered,
+            this, &IEditExtensionTab::okTriggered);
 }
 
 CEditOrgansTab::~CEditOrgansTab()
 {
     delete ui;
-}
-
-void CEditOrgansTab::slotOkTriggered()
-{
-    //TODO
 }

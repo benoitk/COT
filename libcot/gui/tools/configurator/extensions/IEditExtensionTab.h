@@ -15,6 +15,7 @@ public:
 
 signals:
     void backTriggered();
+    void okTriggered();
 };
 
 #endif // IEDITEXTENSIONTAB_H

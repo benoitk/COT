@@ -27,6 +27,7 @@ protected:
 
 private slots:
     void backTriggered();
+    void okTriggered();
 
 private:
     void addTab(IEditVariableTab *tab, const QString &title);

@@ -15,6 +15,7 @@ public:
     ~CEditInBindsTab();
 
     void setVariables(const QString &variableName);
+    void applyProperties(IVariable *ivar) Q_DECL_OVERRIDE;
 private:
     Ui::CEditInBindsTab *ui;
     IConfiguratorUIHandler *m_configuratorUIHandler;

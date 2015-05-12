@@ -14,9 +14,11 @@ public:
     explicit CEditVariableTab(QWidget *parent = Q_NULLPTR);
     ~CEditVariableTab();
     void setVariables(const QString &variableName);
+    void applyProperties(IVariable *ivar) Q_DECL_OVERRIDE;
 private:
     Ui::CEditVariableTab *ui;
     CEditVariableTabUIHandler *m_configuratorUIHandler;
+
 };
 
 #endif // CEDITVARIABLETAB_H

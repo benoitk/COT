@@ -30,3 +30,8 @@ void CEditOutBindsTab::setVariables(const QString &variableName)
     m_configuratorUIHandler->layout(listOutBinds, true);
 }
 
+void CEditOutBindsTab::applyProperties(IVariable *ivar)
+{
+
+}
+

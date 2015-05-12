@@ -42,6 +42,12 @@ void CEditExtensionWindow::changeEvent(QEvent *event)
 }
 
 
+void CEditExtensionWindow::okTriggered()
+{
+    //TODO
+    close();
+}
+
 void CEditExtensionWindow::backTriggered()
 {
     close();
@@ -51,4 +57,5 @@ void CEditExtensionWindow::addTab(IEditExtensionTab *tab, const QString &title)
 {
     ui->twPages->addTab(tab, title);
     connect(tab, &IEditExtensionTab::backTriggered, this, &CEditExtensionWindow::backTriggered);
+    connect(tab, &IEditExtensionTab::okTriggered, this, &CEditExtensionWindow::okTriggered);
 }
