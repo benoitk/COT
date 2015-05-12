@@ -96,7 +96,8 @@ unix {
     -Wwrite-strings -Wpacked -Wformat-security \
     -Wmissing-format-attribute -Woverloaded-virtual
 
-  NORMAL_CFLAGS *= -pedantic
+  # qCDebug is incompatible with -pedantic, see http://lists.qt-project.org/pipermail/development/2014-August/018022.html
+  #NORMAL_CFLAGS *= -pedantic
 
   debug:NORMAL_CXXFLAGS *= -O0 -g3
   debug:NORMAL_CXXFLAGS -= -g
