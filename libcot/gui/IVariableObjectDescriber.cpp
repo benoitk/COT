@@ -1,4 +1,5 @@
 #include "IVariableObjectDescriber.h"
+#include "IVariableUIHandler.h"
 #include "CVariableFactory.h"
 #include "CVariableString.h"
 #include "CVariableInt.h"
@@ -15,9 +16,10 @@
 
 typedef QPair<QString, ICycle *> CyclePair; // Stream Name, ICycle
 
-IVariableObjectDescriber::IVariableObjectDescriber(QObject *parent)
+IVariableObjectDescriber::IVariableObjectDescriber(IVariableUIHandler *parent)
     : QObject(parent)
 {
+    Q_ASSERT(parent);
 }
 
 IVariableObjectDescriber::~IVariableObjectDescriber()
@@ -60,7 +62,7 @@ void IVariableObjectDescriber::slotVariableChanged()
 
 // ICycle Describer
 
-CVariableICycleDescriber::CVariableICycleDescriber(QObject *parent)
+CVariableICycleDescriber::CVariableICycleDescriber(IVariableUIHandler *parent)
     : IVariableObjectDescriber(parent)
 {
 }
@@ -106,7 +108,7 @@ void CVariableICycleDescriber::describe(const QVariant &object)
 }
 
 
-CVariableIVariableDescriber::CVariableIVariableDescriber(QObject *parent)
+CVariableIVariableDescriber::CVariableIVariableDescriber(IVariableUIHandler *parent)
     : IVariableObjectDescriber(parent)
 {
 
@@ -172,7 +174,7 @@ void CVariableIVariableDescriber::describe(const QVariant &object)
 }
 
 
-CVariableIActionDescriber::CVariableIActionDescriber(QObject *parent)
+CVariableIActionDescriber::CVariableIActionDescriber(IVariableUIHandler *parent)
     : IVariableObjectDescriber(parent)
 {
 

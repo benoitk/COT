@@ -5,6 +5,8 @@
 #include "cot_global.h"
 #include "CVariableFactory.h"
 
+class IVariableUIHandler;
+
 /*
  * This class is responsable to generate a list of IVariable representing the properties
  * of an editable object like ICycle, IAction...
@@ -16,7 +18,7 @@ class LIBCOT_EXPORT IVariableObjectDescriber : public QObject
     Q_OBJECT
 
 public:
-    explicit IVariableObjectDescriber(QObject *parent = Q_NULLPTR);
+    explicit IVariableObjectDescriber(IVariableUIHandler *parent);
     virtual ~IVariableObjectDescriber();
 
     IVariablePtrList getVariables() const;
@@ -43,7 +45,7 @@ signals:
 class CVariableICycleDescriber : public IVariableObjectDescriber
 {
 public:
-    explicit CVariableICycleDescriber(QObject *parent = Q_NULLPTR);
+    explicit CVariableICycleDescriber(IVariableUIHandler *parent);
     void describe(const QVariant &object) Q_DECL_OVERRIDE;
 };
 
@@ -52,7 +54,7 @@ public:
 class CVariableIVariableDescriber : public IVariableObjectDescriber
 {
 public:
-    explicit CVariableIVariableDescriber(QObject *parent = Q_NULLPTR);
+    explicit CVariableIVariableDescriber(IVariableUIHandler *parent);
     void describe(const QVariant &object) Q_DECL_OVERRIDE;
 };
 
@@ -61,7 +63,7 @@ public:
 class CVariableIActionDescriber : public IVariableObjectDescriber
 {
 public:
-    explicit CVariableIActionDescriber(QObject *parent = Q_NULLPTR);
+    explicit CVariableIActionDescriber(IVariableUIHandler *parent);
     void describe(const QVariant &object) Q_DECL_OVERRIDE;
 };
 

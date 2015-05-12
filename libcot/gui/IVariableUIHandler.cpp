@@ -211,10 +211,10 @@ IVariablePtrList buildUnits() {
 
 IVariableUIHandler::IVariableUIHandler(CScrollableWidget *scrollable, QObject *parent)
     : QObject(parent)
-    , m_describer(Q_NULLPTR)
-    , m_scrollable(scrollable)
     , m_container(Q_NULLPTR)
     , m_containerLayout(Q_NULLPTR)
+    , m_scrollable(scrollable)
+    , m_describer(Q_NULLPTR)
 {
     connect(CAutomate::getInstance(), &CAutomate::signalVariableChanged,
             this, &IVariableUIHandler::slotVariableChanged);
@@ -222,7 +222,6 @@ IVariableUIHandler::IVariableUIHandler(CScrollableWidget *scrollable, QObject *p
 
 IVariableUIHandler::~IVariableUIHandler()
 {
-    delete m_describer;
 }
 
 void IVariableUIHandler::layout(const QList<IVariable *> &variables, bool addDeleteButton)

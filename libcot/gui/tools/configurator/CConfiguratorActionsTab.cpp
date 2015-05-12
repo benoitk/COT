@@ -10,8 +10,8 @@ CConfiguratorActionsTab::CConfiguratorActionsTab(QWidget *parent)
 {
     ui->setupUi(this);
 
-    CVariableIActionDescriber *actionDescriber = new CVariableIActionDescriber(this);
     m_iactionUIHandler = new ConfiguratorActionsUIHandler(ui->swCentral, this);
+    CVariableIActionDescriber *actionDescriber = new CVariableIActionDescriber(m_iactionUIHandler);
     m_iactionUIHandler->setDescriber(actionDescriber);
     slotUpdateLayout();
 
