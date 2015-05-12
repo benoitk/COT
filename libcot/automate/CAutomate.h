@@ -208,6 +208,7 @@ private:
 
     // The next function deliberatly not lock the mutex so internals can rely on them ensuring they have first locked the mutex.
     void addCyclePrivate(ICycle *cycle);
+    QList<ICycle*> getListCyclesPrivate(int cycleType = 0);
 };
 
 #endif // CAUTOMATE_H
