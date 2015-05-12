@@ -43,6 +43,7 @@ INCLUDEPATH *= \
     $${LIBCOT_SRC_PWD}/gui/tools/configurator \
     $${LIBCOT_SRC_PWD}/gui/tools/configurator/variables \
     $${LIBCOT_SRC_PWD}/gui/tools/configurator/cycles \
+    $${LIBCOT_SRC_PWD}/gui/tools/configurator/actions \
     $${LIBCOT_SRC_PWD}/gui/widgets \
     $${LIBCOT_SRC_PWD}/automate/variables \
     $${LIBCOT_SRC_PWD}/automate \

@@ -2,10 +2,12 @@
 
 #include <CAutomate.h>
 #include <CPushButton.h>
+#include <CPCWindow.h>
 #include <CToolButton.h>
 #include <CVariableFactory.h>
 #include <IAction.h>
 #include <cotgui_debug.h>
+#include <CEditActionWindow.h>
 
 ConfiguratorActionsUIHandler::ConfiguratorActionsUIHandler(CScrollableWidget *scrollable, QObject *parent)
     : IConfiguratorUIHandler(scrollable, parent)
@@ -98,6 +100,7 @@ void ConfiguratorActionsUIHandler::slotEditClicked()
     Q_ASSERT(action);
     qCDebug(COTGUI_LOG) << "Editing action" << action << action->getName();
     // KDAB_TODO
+    CPCWindow::openModal<CEditActionWindow>(action);
 }
 
 CPushButton *ConfiguratorActionsUIHandler::newButton(IVariable *ivar)
