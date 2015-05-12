@@ -73,12 +73,12 @@ void CUpdateManager::slotTimeout()
     const QString settingsFilePath = this->settingsFilePath();
 
     if (!QFile::exists(settingsFilePath)) {
-        qDebug("%s: Settings file do not exists.", qPrintable(settingsFilePath));
+        qDebug("%s: Settings file does not exist.", qPrintable(settingsFilePath));
         return;
     }
 
     if (!QFile::exists(scriptFilePath)) {
-        qDebug("%s: Script file do not exists.", qPrintable(scriptFilePath));
+        qDebug("%s: Script file does not exist.", qPrintable(scriptFilePath));
         return;
     }
 
