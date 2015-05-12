@@ -17,6 +17,8 @@ signals:
     void editVariable(const QString &varname);
 
 protected:
+    QHash<QString, IVariable *> m_internalVariables;
+
     int columnCount() const Q_DECL_OVERRIDE;
     QWidget *createWidget(int column, IVariable *ivar) Q_DECL_OVERRIDE;
     void rowInserted(const Row &row, IVariable *ivar) Q_DECL_OVERRIDE;

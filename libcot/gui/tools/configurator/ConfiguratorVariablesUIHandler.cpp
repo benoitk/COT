@@ -3,8 +3,10 @@
 #include <CPushButton.h>
 #include <CToolButton.h>
 #include <CAutomate.h>
+#include <CVariableFactory.h>
 #include <QLabel>
 #include <QDebug>
+#include <CVariableStream.h>
 
 ConfiguratorVariablesUIHandler::ConfiguratorVariablesUIHandler(CScrollableWidget *scrollable, QObject *parent)
     : IConfiguratorUIHandler(scrollable, parent)
@@ -14,13 +16,27 @@ ConfiguratorVariablesUIHandler::ConfiguratorVariablesUIHandler(CScrollableWidget
 
 ConfiguratorVariablesUIHandler::~ConfiguratorVariablesUIHandler()
 {
-
+    CVariableFactory::deleteVariables(m_internalVariables);
 }
 
 void ConfiguratorVariablesUIHandler::layout()
 {
-    const QList<IVariable*> listVar = CAutomate::getInstance()->getMapStreams().values();
-    IVariableUIHandler::layout(listVar, false);
+    CVariableFactory::deleteVariables(m_internalVariables);
+
+    CAutomate *automate = CAutomate::getInstance();
+    const IVariablePtrList streams = automate->getMapStreams().values();
+    IVariablePtrList ivars;
+
+    foreach ( IVariable *streamIVar, streams) {
+        Q_ASSERT(streamIVar->getType() == type_stream);
+        CVariableStream *streamVar = static_cast<CVariableStream *>(streamIVar);
+
+        ivars << streamVar;
+        ivars << streamVar->getListVariables();
+        ivars << streamVar->getListMeasures();
+    }
+    IConfiguratorUIHandler::layout(ivars, true);
+
 }
 
 int ConfiguratorVariablesUIHandler::columnCount() const
