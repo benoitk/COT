@@ -46,7 +46,7 @@ void CEditCycleWindow::changeEvent(QEvent *event)
 void CEditCycleWindow::slotOkTriggered()
 {
     CAutomate *automate = CAutomate::getInstance();
-    // TODO: Customer has no api for ICycle serialisation yet
+    // SERES_TODO: add api for ICycle serialisation
     QVariantMap oldData /*= m_cycle->serialize()*/;
     oldData[QStringLiteral("related_stream_name")] = m_cycle->getRelatedStreamName();
 
