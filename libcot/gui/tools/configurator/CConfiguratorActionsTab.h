@@ -6,6 +6,10 @@ namespace Ui {
 class CConfiguratorActionsTab;
 }
 class ConfiguratorActionsUIHandler;
+
+/**
+ * Tab "Actions" in the configurator GUI.
+ */
 class CConfiguratorActionsTab : public IConfiguratorTab
 {
     Q_OBJECT

@@ -6,6 +6,9 @@
 #include "IVariable.h"
 #include "ICycle.h"
 
+/**
+ * Extends IVariableUIHandler to add support for deletion.
+ */
 class LIBCOT_EXPORT IConfiguratorUIHandler : public IVariableUIHandler
 {
     Q_OBJECT

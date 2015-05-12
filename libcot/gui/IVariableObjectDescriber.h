@@ -8,11 +8,11 @@
 class IVariableUIHandler;
 
 /*
- * This class is responsable to generate a list of IVariable representing the properties
+ * This class is responsible for generating a list of IVariable representing the properties
  * of an editable object like ICycle, IAction...
- * It do track variable for you and will delete them itself.
- * That's usefull to give or append to variables passed to an IVariableUIHandler.
- * */
+ * It tracks the variables for you and will delete them itself.
+ * This is useful to generate variables passed to an IVariableUIHandler.
+ */
 class LIBCOT_EXPORT IVariableObjectDescriber : public QObject
 {
     Q_OBJECT
@@ -22,10 +22,11 @@ public:
     virtual ~IVariableObjectDescriber();
 
     IVariablePtrList getVariables() const;
-    QHash<QString, IVariablePtr> getVariablesHash() const;
+    // currently unused QHash<QString, IVariablePtr> getVariablesHash() const;
     IVariablePtr getVariable(const QString &name) const;
     void clear();
 
+    /// Subclasses reimplement this to create the list of variables, by calling setVariables.
     virtual void describe(const QVariant &object) = 0;
 
 protected:
@@ -42,7 +43,7 @@ signals:
     void signalVariableChanged(const QString &name);
 };
 
-// ICycle Describer
+// ICycle Describer, to edit one cycle
 class CVariableICycleDescriber : public IVariableObjectDescriber
 {
 public:
@@ -51,7 +52,7 @@ public:
 };
 
 
-// IVariable Describer
+// IVariable Describer, to edit one variable
 class CVariableIVariableDescriber : public IVariableObjectDescriber
 {
 public:
@@ -60,7 +61,7 @@ public:
 };
 
 
-// IAction Describer
+// IAction Describer, to edit one action
 class CVariableIActionDescriber : public IVariableObjectDescriber
 {
 public:

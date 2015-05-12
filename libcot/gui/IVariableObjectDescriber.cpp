@@ -30,10 +30,12 @@ IVariablePtrList IVariableObjectDescriber::getVariables() const
     return m_variables;
 }
 
+#if 0 // currently unused
 QHash<QString, IVariablePtr> IVariableObjectDescriber::getVariablesHash() const
 {
     return m_variablesHash;
 }
+#endif
 
 IVariablePtr IVariableObjectDescriber::getVariable(const QString &name) const
 {

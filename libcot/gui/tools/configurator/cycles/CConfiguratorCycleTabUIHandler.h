@@ -5,12 +5,12 @@
 
 class CPushButton;
 
-class  CConfiguratorCycleTabUIHandler : public IConfiguratorUIHandler
+class CConfiguratorCycleTabUIHandler : public IConfiguratorUIHandler
 {
     Q_OBJECT
 
 public:
-    explicit  CConfiguratorCycleTabUIHandler(CScrollableWidget *scrollable = Q_NULLPTR, QObject *parent = Q_NULLPTR);
+    explicit CConfiguratorCycleTabUIHandler(CScrollableWidget *scrollable = Q_NULLPTR, QObject *parent = Q_NULLPTR);
     ~CConfiguratorCycleTabUIHandler();
 
     void layout();

@@ -1,9 +1,9 @@
 #ifndef CONFIGURATORACTIONSUIHANDLER_H
 #define CONFIGURATORACTIONSUIHANDLER_H
 
-
 #include <IConfiguratorUIHandler.h>
 #include "cot_global.h"
+
 class LIBCOT_EXPORT ConfiguratorActionsUIHandler : public IConfiguratorUIHandler
 {
     Q_OBJECT

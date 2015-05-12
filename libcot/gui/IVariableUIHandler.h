@@ -18,6 +18,8 @@ class CToolButton;
  * This class handles the UI presentation for a widget in the COT UI.
  * It is responsable for creating labels, editors and mapped selectors in a generic way.
  * Give it your variables list, it will do all for you.
+ *
+ * The widgets get created inside the scrollable widget passed to setScrollableWidget.
  */
 class LIBCOT_EXPORT IVariableUIHandler : public QObject
 {
@@ -46,7 +48,7 @@ public:
     // Ask user to enter a double value
     bool enterDouble(double &value);
 
-    // return an action type: calc_coef, calc_rien, bloc, etc.
+    // return an action type: calc_coef, calc_rien, block, etc.
     bool selectActionType(int &value);
     // Select a variable type (float, int, string)
     bool selectVariableType(variableType &value);
@@ -91,8 +93,15 @@ protected:
 
     virtual IVariable *getVariable(const QString &name);
     virtual int columnCount() const;
+
+    // Called by layout() for every row, every column
     virtual QWidget *createWidget(int column, IVariable *ivar);
+
+    // Called when layout() inserts a row
     virtual void rowInserted(const Row &row, IVariable *ivar);
+
+    // Called when layout() inserts a row, or gets notified that a variable changed
+    // This is therefore the best method where to implement showing the value of the variable
     virtual void rowChanged(const Row &row, IVariable *ivar);
 
     virtual CToolButton *newDeleteButton(IVariable *ivar);
