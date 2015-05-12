@@ -227,12 +227,12 @@ void CVariableFactory::deleteVariables(IVariablePtrList &ivars)
 
 void CVariableFactory::deleteVariables(QHash<QString, IVariablePtr> &ivars)
 {
-    qDeleteAll(ivars.values());
+    qDeleteAll(ivars);
     ivars.clear();
 }
 
 void CVariableFactory::deleteVariables(QMap<QString, IVariablePtr> &ivars)
 {
-    qDeleteAll(ivars.values());
+    qDeleteAll(ivars);
     ivars.clear();
 }
