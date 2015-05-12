@@ -5,8 +5,8 @@
 namespace Ui {
 class CEditInBindsTab;
 }
-class IConfiguratorUIHandler;
 class IVariable;
+class CEditInBindsUIHandler;
 class CEditInBindsTab : public IEditVariableTab
 {
     Q_OBJECT
@@ -18,7 +18,7 @@ public:
     void applyProperties(IVariable *ivar) Q_DECL_OVERRIDE;
 private:
     Ui::CEditInBindsTab *ui;
-    IConfiguratorUIHandler *m_configuratorUIHandler;
+    CEditInBindsUIHandler *m_configuratorUIHandler;
 };
 
 #endif // CEDITINBINDSTAB_H
