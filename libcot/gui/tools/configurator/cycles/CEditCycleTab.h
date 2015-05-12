@@ -10,18 +10,15 @@ class CEditCycleTab;
 class CEditCycleTabUIHandler;
 class ICycle;
 
-typedef QPair<QString, ICycle *> CyclePair; // Stream Name, ICycle
-
 class CEditCycleTab : public IEditCycleTab
 {
     Q_OBJECT
 
 public:
-    explicit CEditCycleTab(const CyclePair &cyclePair, QWidget *parent = Q_NULLPTR);
+    explicit CEditCycleTab(ICycle *cycle, QWidget *parent = Q_NULLPTR);
     ~CEditCycleTab();
 
-protected slots:
-    void slotOkTriggered();
+    void applyProperties(ICycle *cycle) Q_DECL_OVERRIDE;
 
 private:
     Ui::CEditCycleTab *ui;

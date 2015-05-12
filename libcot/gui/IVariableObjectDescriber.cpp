@@ -14,8 +14,6 @@
 
 #include <QDebug>
 
-typedef QPair<QString, ICycle *> CyclePair; // Stream Name, ICycle
-
 IVariableObjectDescriber::IVariableObjectDescriber(IVariableUIHandler *parent)
     : QObject(parent)
 {
@@ -74,22 +72,15 @@ CVariableICycleDescriber::CVariableICycleDescriber(IVariableUIHandler *parent)
 
 void CVariableICycleDescriber::describe(const QVariant &object)
 {
-    QString streamName;
-    ICycle *cycle = Q_NULLPTR;
-
-    if (object.canConvert<CyclePair>()) {
-        const CyclePair cyclePair = object.value<CyclePair>();
-        streamName = cyclePair.first;
-        cycle = cyclePair.second;
-    }
-    else {
-        cycle = object.value<ICycle *>();
-        streamName = cycle->getRelatedStreamName();
-    }
-
+    ICycle *cycle = object.value<ICycle *>();
     Q_ASSERT(cycle);
+    QString streamName = cycle->getRelatedStreamName();;
 
     clear();
+
+    CVariableString *name = CVariableFactory::castedBuild<CVariableString *>(type_string, VariableOrganTypeNone, cycle->getName());
+    name->setName("name");
+    name->setLabel(tr("Name"));
 
     CVariableString *label = CVariableFactory::castedBuild<CVariableString *>(type_string, VariableOrganTypeNone, cycle->getLbl());
     label->setName("label");
@@ -109,7 +100,7 @@ void CVariableICycleDescriber::describe(const QVariant &object)
     stream->setLabel(tr("Stream"));
     stream->setMutableType(CVariableMutable::Stream);
 
-    setVariables(IVariablePtrList() << label << type << timer << stream);
+    setVariables(IVariablePtrList() << name << label << type << timer << stream);
 }
 
 

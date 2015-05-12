@@ -53,6 +53,11 @@ public:
 	void setMapVariables(QMap<QString, IVariable*>);
     CDisplayConf* getDisplayConf()const;
 
+    // TODO:
+    // Those members are called by configurator once the user do press Ok button
+    // It's up to the customer to do internal change when we call those members.
+    void informAboutCycleChanges(ICycle *cycle, const QVariantMap &oldData);
+
 	//FIN API
 
     static QString formatHistoryEntry(const QString &name, const QDateTime &dateTime);
@@ -203,6 +208,9 @@ private:
 	QList<CControlerCycle*> m_listCtrlCycleIO;*/
 	
     int m_iClock;
+
+    // The next function deliberatly not lock the mutex so internals can rely on them ensuring they have first locked the mutex.
+    void addCyclePrivate(ICycle *cycle);
 };
 
 #endif // CAUTOMATE_H

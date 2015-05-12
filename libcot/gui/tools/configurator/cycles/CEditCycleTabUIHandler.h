@@ -5,8 +5,6 @@
 
 class ICycle;
 
-typedef QPair<QString, ICycle *> CyclePair; // Stream Name, ICycle
-
 class CEditCycleTabUIHandler : public IConfiguratorUIHandler
 {
     Q_OBJECT
@@ -15,7 +13,7 @@ public:
     explicit  CEditCycleTabUIHandler(CScrollableWidget *scrollable = Q_NULLPTR, QObject *parent = Q_NULLPTR);
     ~CEditCycleTabUIHandler();
 
-    void layout(const CyclePair &cyclePair);
+    void layout(ICycle *cycle);
 };
 
 #endif // CEDITCYCLETABUIHANDLER_H

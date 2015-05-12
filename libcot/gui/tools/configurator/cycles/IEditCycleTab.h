@@ -5,6 +5,8 @@
 
 #include "CVerticalButtonBar.h"
 
+class ICycle;
+
 class IEditCycleTab : public QWidget
 {
     Q_OBJECT
@@ -13,8 +15,11 @@ public:
 
     CVerticalButtonBar *buttonBar() const { return findChild<CVerticalButtonBar *>(); }
 
+    virtual void applyProperties(ICycle *cycle) = 0;
+
 signals:
-    void backTriggered();
+    void signalOkTriggered();
+    void signalCancelTriggered();
 };
 
 #endif // IEDITCYCLETAB_H

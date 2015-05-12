@@ -82,6 +82,34 @@ bool CAutomate::shouldQuit()
     return m_quit;
 }
 
+void CAutomate::addCyclePrivate(ICycle * cycle)
+{
+    //CControlerCycle* controlerCycle = new CControlerCycle(this, cycle);
+    switch(cycle->getType()){
+        case CYCLE_MESURE:
+            Q_ASSERT(!m_listCycleMesures.contains(cycle->getName()));
+            m_listCycleMesures[cycle->getName()] = cycle;
+            break;
+        case CYCLE_MAINTENANCE :
+            Q_ASSERT(!m_listCycleMaintenances.contains(cycle->getName()));
+            m_listCycleMaintenances[cycle->getName()] = cycle;
+            break;
+        case CYCLE_AUTONOME:
+            Q_ASSERT(!m_listlCycleAutonomes.contains(cycle->getName()));
+            m_listlCycleAutonomes[cycle->getName()] = cycle;
+            break;
+
+        case CYCLE_PAUSE:
+            break;
+
+        case CYCLE_ALL:
+            Q_ASSERT(false);
+            break;
+    }
+
+    emit signalCyclesUpdated();
+}
+
 IVariable* CAutomate::getVariable(const QString &name){
     QMutexLocker locker(&m_mutex);
 
@@ -295,25 +323,7 @@ void CAutomate::setCom(ICom* arg_comObject){
 
 void CAutomate::addCycle(ICycle* cycle){
     QMutexLocker locker(&m_mutex);
-    //CControlerCycle* controlerCycle = new CControlerCycle(this, cycle);
-    switch(cycle->getType()){
-        case CYCLE_MESURE:
-            Q_ASSERT(!m_listCycleMesures.contains(cycle->getName()));
-            m_listCycleMesures[cycle->getName()] = cycle;
-            break;
-        case CYCLE_MAINTENANCE :
-            Q_ASSERT(!m_listCycleMaintenances.contains(cycle->getName()));
-            m_listCycleMaintenances[cycle->getName()] = cycle;
-            break;
-        case CYCLE_AUTONOME:
-            Q_ASSERT(!m_listlCycleAutonomes.contains(cycle->getName()));
-            m_listlCycleAutonomes[cycle->getName()] = cycle;
-            break;
-
-        case CYCLE_PAUSE:
-        case CYCLE_ALL:
-            break;
-    }
+    addCyclePrivate(cycle);
 }
 
 ICycle *CAutomate::getCycle(const QString &name, int type) const
@@ -448,6 +458,45 @@ void CAutomate::slotVariableChanged()
 CDisplayConf* CAutomate::getDisplayConf()const{
     QMutexLocker locker(&m_mutex);
     return m_displayConf;
+}
+
+void CAutomate::informAboutCycleChanges(ICycle *cycle, const QVariantMap &oldData)
+{
+    QMutexLocker locker(&m_mutex);
+
+    // TODO: Customer do automate internal change handling.
+    const bool isNew = !getListCycles().contains(cycle);
+    const QString oldStreamName = oldData.value(QStringLiteral("related_stream_name")).toString();
+
+    if (isNew) {
+        addCyclePrivate(cycle);
+    }
+
+    if (oldStreamName != cycle->getRelatedStreamName()) {
+        CVariableStream *oldStream = qobject_cast<CVariableStream *>(m_mapStreams.value(oldStreamName));
+        CVariableStream *newStream = qobject_cast<CVariableStream *>(m_mapStreams.value(cycle->getRelatedStreamName()));
+
+        if (!oldStreamName.isEmpty() && !oldStream) {
+            Q_ASSERT(false);
+        }
+
+        if (!cycle->getRelatedStreamName().isEmpty() && !newStream) {
+            Q_ASSERT(false);
+        }
+
+        if (oldStream) {
+            oldStream->delCycle(cycle->getName());
+        }
+
+        if (newStream) {
+            newStream->addCycle(cycle);
+        }
+    }
+
+    if (!isNew) {
+        emit signalCycleChanged(cycle->getName());
+        emit signalCyclesUpdated();
+    }
 }
 
 QString CAutomate::formatHistoryEntry(const QString &name, const QDateTime &dateTime)

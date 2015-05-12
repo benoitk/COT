@@ -48,6 +48,28 @@ void CConfiguratorCycleTabUIHandler::layout()
         }
     }
 
+    // Add fake global stream
+    IVariable *streamVar = CVariableFactory::buildTemporary(QStringLiteral("global_stream"), tr("Global"), type_stream);
+    m_internalVariables[streamVar->getName()] = streamVar;
+    ivars << streamVar;
+
+    foreach (ICycle *cycle, automate->getListCycles()) {
+        if (!cycle) {
+            // KDAB_TODO: Uncomment me when using final api
+            //Q_ASSERT(false);
+            continue;
+        }
+
+        // cycle is member of a stream and is already visible.
+        if (m_internalVariables.contains(cycle->getName())) {
+            continue;
+        }
+
+        IVariable *ivar = CVariableFactory::buildTemporary(cycle->getName(), cycle->getLbl(), type_string);
+        m_internalVariables[cycle->getName()] = ivar;
+        ivars << ivar;
+    }
+
     IConfiguratorUIHandler::layout(ivars, true);
 }
 
@@ -118,11 +140,10 @@ void CConfiguratorCycleTabUIHandler::rowAboutToBeDeleted(const IVariableUIHandle
     CAutomate *automate = CAutomate::getInstance();
     ICycle *cycle = automate->getCycle(ivar->getName());
     Q_ASSERT(cycle);
-    const QString streamName = cycle->getRelatedStreamName();
-    CVariableStream *streamVar = static_cast<CVariableStream *>(automate->getMapStreams().value(streamName));
+    CVariableStream *streamVar = static_cast<CVariableStream *>(automate->getMapStreams().value(cycle->getRelatedStreamName()));
     Q_ASSERT(streamVar);
     streamVar->delCycle(cycle->getName());
-    delete m_internalVariables.take(ivar->getName());
+    delete m_internalVariables.take(cycle->getName());
 }
 
 void CConfiguratorCycleTabUIHandler::slotEditClicked()
@@ -130,10 +151,8 @@ void CConfiguratorCycleTabUIHandler::slotEditClicked()
     CPushButton *editor = qobject_cast<CPushButton *>(sender());
     CAutomate *automate = CAutomate::getInstance();
     ICycle *cycle = automate->getCycle(editor->userData().toString());
-
     Q_ASSERT(cycle);
-
-    CPCWindow::openModal<CEditCycleWindow>(CyclePair(cycle->getRelatedStreamName(), cycle));
+    CPCWindow::openModal<CEditCycleWindow>(cycle);
 }
 
 CPushButton *CConfiguratorCycleTabUIHandler::newButton(IVariable *ivar)

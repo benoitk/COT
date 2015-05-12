@@ -12,13 +12,11 @@ class CEditCycleTab;
 class CEditCycleStepsTab;
 class ICycle;
 
-typedef QPair<QString, ICycle *> CyclePair; // Stream Name, ICycle
-
 class CEditCycleWindow : public QWidget
 {
     Q_OBJECT
 public:
-    explicit CEditCycleWindow(const CyclePair &cyclePair, QWidget *parent = Q_NULLPTR);
+    explicit CEditCycleWindow(ICycle *cycle, QWidget *parent = Q_NULLPTR);
     ~CEditCycleWindow();
 
 public slots:
@@ -28,10 +26,11 @@ protected:
     void changeEvent(QEvent *event) Q_DECL_OVERRIDE;
 
 private slots:
-    void backTriggered();
+    void slotOkTriggered();
+    void slotCancelTriggered();
 
 private:
-    CyclePair m_cyclePair;
+    ICycle *m_cycle;
     Ui::CEditCycleWindow *ui;
     CEditCycleTab *m_ceditCycleTab;
     CEditCycleStepsTab *m_ceditCycleStepsTab;

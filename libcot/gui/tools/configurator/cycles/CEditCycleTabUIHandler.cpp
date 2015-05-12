@@ -11,8 +11,8 @@ CEditCycleTabUIHandler::~CEditCycleTabUIHandler()
 {
 }
 
-void CEditCycleTabUIHandler::layout(const CyclePair &cyclePair)
+void CEditCycleTabUIHandler::layout(ICycle *cycle)
 {
-    describer()->describe(QVariant::fromValue(cyclePair));
+    describer()->describe(QVariant::fromValue(cycle));
     IConfiguratorUIHandler::layout(describer()->getVariables());
 }

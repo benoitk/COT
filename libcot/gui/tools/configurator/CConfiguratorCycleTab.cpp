@@ -34,29 +34,25 @@ CConfiguratorCycleTab::~CConfiguratorCycleTab()
 
 void CConfiguratorCycleTab::slotAddCycle()
 {
+    // user can't deny a type
     eTypeCycle cycleType;
-
     if (!m_handler->selectCycleType(cycleType) || cycleType == CYCLE_INVALID) {
         return;
     }
 
+    // user can deny adding to a stream so it become a global cycle.
     QString streamName;
+    m_handler->selectStream(streamName);
 
-    if (!m_handler->selectStream(streamName) || streamName.isEmpty()) {
-        return;
-    }
-
-    CAutomate *automate = CAutomate::getInstance();
-    CVariableStream *stream = static_cast<CVariableStream *>(automate->getMapStreams().value(streamName));
+    // Create cycle
     ICycle *cycle = CCycleFactory::build(cycleType);
-
-    Q_ASSERT(stream);
     Q_ASSERT(cycle);
-
-    cycle->setName("new_cycle");
+    cycle->setName(QStringLiteral("new_cycle_%1").arg(qrand() %1000));
     cycle->setLbl(tr("New cycle"));
+    cycle->setRelatedStreamName(streamName);
 
-    CPCWindow::openModal<CEditCycleWindow>(CyclePair(streamName, cycle));
+    // Edit the new cycle
+    CPCWindow::openModal<CEditCycleWindow>(cycle);
 }
 
 void CConfiguratorCycleTab::slotUpdateLayout()

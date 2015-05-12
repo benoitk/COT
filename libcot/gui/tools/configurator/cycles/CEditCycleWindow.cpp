@@ -3,13 +3,15 @@
 #include "IEditCycleTab.h"
 #include "CEditCycleTab.h"
 
+#include <CAutomate.h>
 #include <IVariable.h>
+#include <ICycle.h>
 
-CEditCycleWindow::CEditCycleWindow(const CyclePair &cyclePair, QWidget *parent)
+CEditCycleWindow::CEditCycleWindow(ICycle *cycle, QWidget *parent)
     : QWidget(parent)
-    , m_cyclePair(cyclePair)
+    , m_cycle(cycle)
     , ui(new Ui::CEditCycleWindow)
-    , m_ceditCycleTab(new CEditCycleTab(cyclePair, this))
+    , m_ceditCycleTab(new CEditCycleTab(cycle, this))
     , m_ceditCycleStepsTab(Q_NULLPTR)
 {
     ui->setupUi(this);
@@ -41,14 +43,38 @@ void CEditCycleWindow::changeEvent(QEvent *event)
     QWidget::changeEvent(event);
 }
 
-
-void CEditCycleWindow::backTriggered()
+void CEditCycleWindow::slotOkTriggered()
 {
+    CAutomate *automate = CAutomate::getInstance();
+    // TODO: Customer has no api for ICycle serialisation yet
+    QVariantMap oldData /*= m_cycle->serialize()*/;
+    oldData[QStringLiteral("related_stream_name")] = m_cycle->getRelatedStreamName();
+
+    for (int i = 0; i < ui->twPages->count(); i++) {
+        IEditCycleTab *tab = qobject_cast<IEditCycleTab *>(ui->twPages->widget(i));
+        tab->applyProperties(m_cycle);
+    }
+
+    automate->informAboutCycleChanges(m_cycle, oldData);
+    close();
+}
+
+void CEditCycleWindow::slotCancelTriggered()
+{
+    CAutomate *automate = CAutomate::getInstance();
+    const bool isNew = !automate->getListCycles().contains(m_cycle);
+
+    if (isNew) {
+        delete m_cycle;
+        m_cycle = Q_NULLPTR;
+    }
+
     close();
 }
 
 void CEditCycleWindow::addTab(IEditCycleTab *tab, const QString &title)
 {
     ui->twPages->addTab(tab, title);
-    connect(tab, &IEditCycleTab::backTriggered, this, &CEditCycleWindow::backTriggered);
+    connect(tab, &IEditCycleTab::signalOkTriggered, this, &CEditCycleWindow::slotOkTriggered);
+    connect(tab, &IEditCycleTab::signalCancelTriggered, this, &CEditCycleWindow::slotCancelTriggered);
 }
