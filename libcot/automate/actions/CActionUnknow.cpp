@@ -1,6 +1,6 @@
 #include "CActionUnknow.h"
 
-#include "qdebug.h"
+#include "cotautomate_debug.h"
 CActionUnknow::CActionUnknow(QObject *parent)
 	: IAction(parent)
 {
@@ -16,7 +16,7 @@ CActionUnknow::~CActionUnknow()
 }
 
 bool CActionUnknow::runAction(){
-	qDebug() <<  "Action inconnu " ;
+	qCDebug(COTAUTOMATE_LOG) <<  "Action inconnu " ;
 	return true;
 }
 

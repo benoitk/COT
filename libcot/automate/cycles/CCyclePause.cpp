@@ -1,5 +1,5 @@
 #include "CCyclePause.h"
-#include "qdebug.h"
+#include "cotautomate_debug.h"
 #include "qthread.h"
 #include "qtimer.h"
 CCyclePause::CCyclePause(QObject *parent)
@@ -39,13 +39,13 @@ eTypeCycle CCyclePause::getType()const{
 	return CYCLE_PAUSE;
 }
 void CCyclePause::slotRunCycle(){
-	qDebug() << "CCyclePause::slotRunCycle()";
+	qCDebug(COTAUTOMATE_LOG) << "CCyclePause::slotRunCycle()";
 	m_iTimer = 0;
 	m_timer->start();
 }
 void CCyclePause::slotExecNextStep(){
 	if(m_iTimer++ < m_iTempsCycle){
-		qDebug() << "t : " << m_iTimer << " / " << m_iTempsCycle;
+		qCDebug(COTAUTOMATE_LOG) << "t : " << m_iTimer << " / " << m_iTempsCycle;
 	}
 	else{
 		m_timer->stop();

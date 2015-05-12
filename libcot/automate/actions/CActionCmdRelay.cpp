@@ -1,7 +1,7 @@
 #include "CActionCmdRelay.h"
 #include "IVariable.h"
 #include "CAutomate.h"
-#include "qdebug.h"
+#include "cotautomate_debug.h"
 
 
 CActionCmdRelay::CActionCmdRelay(QObject *parent)
@@ -33,7 +33,7 @@ CActionCmdRelay::~CActionCmdRelay()
 
 
 bool CActionCmdRelay::runAction(){
-	qDebug()<< "Action relay "
+	qCDebug(COTAUTOMATE_LOG)<< "Action relay "
 			<< " label fr " << m_label
             << " Etat relais " << m_RelayVar->toString();
 	return true;

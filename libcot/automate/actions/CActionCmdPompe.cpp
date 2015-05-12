@@ -4,7 +4,7 @@
 #include "CVariableFactory.h"
 #include "CAutomate.h"
 
-#include "qdebug.h"
+#include "cotautomate_debug.h"
 
 
 CActionCmdPompe::CActionCmdPompe(QObject *parent)
@@ -59,7 +59,7 @@ QList<IVariable*> CActionCmdPompe::getListParameters()const{
 
 
 bool CActionCmdPompe::runAction(){
-	qDebug() <<  "Action pompe "
+	qCDebug(COTAUTOMATE_LOG) <<  "Action pompe "
 			<< " label fr " << m_label
             << " m_numero " << m_nbStepOrTour->toString()
             << " m_speed " << m_speed->toString()

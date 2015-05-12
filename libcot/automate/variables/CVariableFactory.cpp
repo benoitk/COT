@@ -16,7 +16,7 @@
 #include "CVariableMutable.h"
 
 #include "qvariant.h"
-#include "qdebug.h"
+#include "cotautomate_debug.h"
 
 IVariable* CVariableFactory::build(const QMap<QString, QVariant> &mapVar){
 	
@@ -177,7 +177,7 @@ IVariable* CVariableFactory::build(const QString &type, const QVariantMap &data)
     }
 
     if (!types.contains(type)) {
-        qDebug() << "Type variable INCONNU " << type;
+        qCDebug(COTAUTOMATE_LOG) << "Type variable INCONNU " << type;
     }
 
     const QPair<variableType, VariableOrganType> pair = types.value(type, qMakePair(type_unknow, VariableOrganTypeNone));

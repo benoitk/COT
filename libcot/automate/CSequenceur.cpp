@@ -2,7 +2,7 @@
 #include "CCyclePause.h"
 #include "CControlerCycle.h"
 #include "qthread.h"
-#include "qdebug.h"
+#include "cotautomate_debug.h"
 
 CSequenceur* CSequenceur::singleton = 0;
 CSequenceur::CSequenceur()
@@ -32,7 +32,7 @@ void CSequenceur::apendSequenceMesureRunCycle(ICycle* cycle, int nbMesure){
 	//CControlerCycle* ctrlCycle = new CControlerCycle(this, cycle);
 	//this->apendSequenceMesureRunCycle(ctrlCycle, nbMesure);
 	while(nbMesure>0){
-		qDebug() << "nbMesure " << nbMesure;
+		qCDebug(COTAUTOMATE_LOG) << "nbMesure " << nbMesure;
 		m_listSequenceCyclesMesures.append(cycle);
 		nbMesure--;
 	}
@@ -50,7 +50,7 @@ void CSequenceur::apendSequenceMesurePause(int minute){
 }
 
 void CSequenceur::setSequenceMesure(){
-    qDebug() << "void CSequenceur::setSequenceMesure()";
+    qCDebug(COTAUTOMATE_LOG) << "void CSequenceur::setSequenceMesure()";
 	if(m_cycleMaintenanceEnCours){
 		this->signalStopCycleMaintenance();
 		while(m_cycleMaintenanceEnCours->isRunning()){
@@ -139,14 +139,14 @@ void CSequenceur::slotRequestPlaySequenceMesure(){
 	emit signalGetReadyForPlayCycleMesure();
 }
 void CSequenceur::slotPlaySequenceMesure(){
-    qDebug() << "CSequenceur::slotPlaySequenceMesure()" << m_cycleMesureEnCours;
+    qCDebug(COTAUTOMATE_LOG) << "CSequenceur::slotPlaySequenceMesure()" << m_cycleMesureEnCours;
 	if(!m_cycleMesureEnCours || (m_cycleMesureEnCours && !m_cycleMesureEnCours->isRunning()))
 	{
 		m_itListSequenceCyclesMesures = m_listSequenceCyclesMesures.begin();
 		this->setSequenceMesure();
 		emit signalRunCycleMesure();
 	}
-    qDebug() << "FIN CSequenceur::slotPlaySequenceMesure()";
+    qCDebug(COTAUTOMATE_LOG) << "FIN CSequenceur::slotPlaySequenceMesure()";
 
 }
 //fin play cycle Mesure

@@ -229,7 +229,8 @@ HEADERS *= \
     gui/tools/configurator/cycles/CEditCycleTabUIHandler.h \
     gui/tools/configurator/variables/CEditVariableTabUIHandler.h \
     gui/tools/configurator/variables/CEditOutBindsUIHandler.h \
-    gui/tools/configurator/variables/CEditInBindsUIHandler.h
+    gui/tools/configurator/variables/CEditInBindsUIHandler.h \ 
+    automate/cotautomate_debug.h \
 
 SOURCES *= \
     automate/CAutomate.cpp \
@@ -386,4 +387,6 @@ SOURCES *= \
     gui/tools/configurator/cycles/CEditCycleTabUIHandler.cpp \
     gui/tools/configurator/variables/CEditVariableTabUIHandler.cpp \
     gui/tools/configurator/variables/CEditOutBindsUIHandler.cpp \
-    gui/tools/configurator/variables/CEditInBindsUIHandler.cpp
+    gui/tools/configurator/variables/CEditInBindsUIHandler.cpp \
+    automate/cotautomate_debug.cpp
+

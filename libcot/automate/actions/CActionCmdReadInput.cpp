@@ -4,7 +4,7 @@
 #include "CAutomate.h"
 #include "CModelExtensionCard.h"
 
-#include "qdebug.h"
+#include "cotautomate_debug.h"
 
 
 CActionCmdReadInput::CActionCmdReadInput(QObject *parent)
@@ -32,7 +32,7 @@ CActionCmdReadInput::~CActionCmdReadInput()
 }
 
 bool CActionCmdReadInput::runAction(){
-    qDebug()<< QString::fromUtf8("Action lecture entrÃ©e ")
+    qCDebug(COTAUTOMATE_LOG)<< QString::fromUtf8("Action lecture entrÃ©e ")
 			<< " label fr " << m_label
 			<< " Etat du l'entrée " << m_organneVar->toString()
 			<< " var name " << m_variableDestination->getLabel()

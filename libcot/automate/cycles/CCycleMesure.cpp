@@ -1,5 +1,5 @@
 #include "CCycleMesure.h"
-#include "qdebug.h"
+#include "cotautomate_debug.h"
 #include "qtimer.h"
 #include "qlist.h"
 #include "CLinkAction.h"
@@ -15,7 +15,7 @@ CCycleMesure::CCycleMesure(QObject *parent)
 }
 
 CCycleMesure::CCycleMesure(const QVariantMap &mapCycle): ICycle(){
-    qDebug() << "constructor CCycleMesure(const QVariantMap &mapCycle) mapCycle:" << mapCycle; 
+    qCDebug(COTAUTOMATE_LOG) << "constructor CCycleMesure(const QVariantMap &mapCycle) mapCycle:" << mapCycle; 
     if(mapCycle.contains(QStringLiteral("name")))
         m_name = mapCycle[QStringLiteral("name")].toString();
     else
@@ -51,7 +51,7 @@ void CCycleMesure::slotExecNextStep(){
    
     
     if(m_itListStepsPasEnCours != m_listSteps.end()){// && (*m_itListStepsPasEnCours)->getNumStep() == m_iTimer){
-        qDebug() << "CCycleMesure slotExecNextStep. Setp : " << (*m_itListStepsPasEnCours)->getLabel() << " step : " << (*m_itListStepsPasEnCours)->getNumStep();
+        qCDebug(COTAUTOMATE_LOG) << "CCycleMesure slotExecNextStep. Setp : " << (*m_itListStepsPasEnCours)->getLabel() << " step : " << (*m_itListStepsPasEnCours)->getNumStep();
         (*m_itListStepsPasEnCours++)->execStep();
         
 	}
@@ -65,7 +65,7 @@ void CCycleMesure::slotExecNextStep(){
             m_timeout = (*m_itListStepsPasEnCours)->getNumStep()*1000 - (*m_itListStepsPasEnCours.operator-(1))->getNumStep()*1000;
         }else
             m_timeout = (*m_itListStepsPasEnCours)->getNumStep()*1000;
-        qDebug() << "time out before next step : " << m_timeout;
+        qCDebug(COTAUTOMATE_LOG) << "time out before next step : " << m_timeout;
         QTimer::singleShot(m_timeout, this, SLOT(slotExecNextStep()));
     }
 	//m_iTimer++;
@@ -73,16 +73,16 @@ void CCycleMesure::slotExecNextStep(){
    
 }
 void CCycleMesure::slotRunCycle(){
-    qDebug() << "CCycleMesure::slotRunCycle()";
+    qCDebug(COTAUTOMATE_LOG) << "CCycleMesure::slotRunCycle()";
     
 	if(!m_listSteps.isEmpty()){
 		m_itListStepsPasEnCours = m_listSteps.begin(); 
         m_timeout = m_listSteps.first()->getNumStep() * 1000; //step en seconde
-        qDebug() << "time out before next step : " << m_timeout;
+        qCDebug(COTAUTOMATE_LOG) << "time out before next step : " << m_timeout;
         QTimer::singleShot(m_timeout, this, SLOT(slotExecNextStep()));
 	}
     
-    qDebug() << "FIN CCycleMesure::slotRunCycle()";
+    qCDebug(COTAUTOMATE_LOG) << "FIN CCycleMesure::slotRunCycle()";
 
 }
 void CCycleMesure::slotPauseCycle(){
@@ -115,7 +115,7 @@ QString CCycleMesure::getLbl()const{ return m_label;}
 void CCycleMesure::setLbl(const QString &lbl){ m_label = lbl;}
 	
 void CCycleMesure::addAction(int arg_step, IAction* action){
-    qDebug() << "CCycleMesure::addAction(int arg_step, IAction* action) NE DOIT PLUS ETRE APPELE" ;
+    qCDebug(COTAUTOMATE_LOG) << "CCycleMesure::addAction(int arg_step, IAction* action) NE DOIT PLUS ETRE APPELE" ;
 	/*if(action){
 		CLinkAction* linkAction = new CLinkAction(arg_step, action);
 		QList<CLinkAction*>::iterator it = m_ListActions.begin();

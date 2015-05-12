@@ -1,6 +1,6 @@
 #include "CCycleMaintenance.h"
 
-#include "qdebug.h"
+#include "cotautomate_debug.h"
 CCycleMaintenance::CCycleMaintenance(QObject *parent)
 	: ICycle(parent)
 {
@@ -17,7 +17,7 @@ eTypeCycle CCycleMaintenance::getType()const{
 	return CYCLE_MAINTENANCE;
 }
 void CCycleMaintenance::slotRunCycle(){
-	qDebug() << "CCycleMaintenance::slotRunCycle()";
+	qCDebug(COTAUTOMATE_LOG) << "CCycleMaintenance::slotRunCycle()";
 	
 }
 void CCycleMaintenance::slotPauseCycle(){

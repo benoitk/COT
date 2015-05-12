@@ -8,7 +8,7 @@
 
 #include "qvariant.h"
 #include "qmap.h"
-#include "qdebug.h"
+#include "cotautomate_debug.h"
 
 IConverter* CConverterFactory::build(const QVariantMap &mapConverter){
 	
@@ -27,7 +27,7 @@ IConverter* CConverterFactory::build(const QVariantMap &mapConverter){
 	
 	}else{
         converter = new CConverterUnknow();
-        qDebug() << "Classe converter INCONNUE :  " << mapConverter[QStringLiteral("type")].toString();
+        qCDebug(COTAUTOMATE_LOG) << "Classe converter INCONNUE :  " << mapConverter[QStringLiteral("type")].toString();
 	
 	}
 

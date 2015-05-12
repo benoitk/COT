@@ -4,11 +4,11 @@
 #include "CCyclePause.h"
 #include "CCycleMaintenance.h"
 
-#include "qdebug.h"
+#include "cotautomate_debug.h"
 #include "qvariant.h"
 
 ICycle* CCycleFactory::build(const QVariantMap &mapCycle){
-    qDebug() << "CCycleFactory::build mapCycle:"<< mapCycle;
+    qCDebug(COTAUTOMATE_LOG) << "CCycleFactory::build mapCycle:"<< mapCycle;
 	ICycle* cycle = NULL;
     if(mapCycle[QStringLiteral("type")].toString() == QStringLiteral("measure")){
 		cycle = new CCycleMesure(mapCycle);
@@ -17,7 +17,7 @@ ICycle* CCycleFactory::build(const QVariantMap &mapCycle){
     }else if(mapCycle[QStringLiteral("type")].toString() == QStringLiteral("autonome")){
 		cycle = new CCycleAutonome(mapCycle);
 	}else{
-        qDebug() << "Type cycle INCONNU " << mapCycle[QStringLiteral("type")].toString();
+        qCDebug(COTAUTOMATE_LOG) << "Type cycle INCONNU " << mapCycle[QStringLiteral("type")].toString();
 	}
 	return cycle;
 }

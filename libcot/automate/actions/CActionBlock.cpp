@@ -1,7 +1,7 @@
 #include "CActionBlock.h"
 #include "IVariable.h"
 #include "CAutomate.h"
-#include "qdebug.h"
+#include "cotautomate_debug.h"
 
 CActionBlock::CActionBlock(const QVariantMap &mapAction)
 	: IAction()
@@ -26,7 +26,7 @@ QList<IAction *> CActionBlock::actions() const
 }
 
 bool CActionBlock::runAction(){
-    qDebug() << "Running action block" << getName();
+    qCDebug(COTAUTOMATE_LOG) << "Running action block" << getName();
     foreach (IAction *action, m_actions) {
         if (!action->runAction())
             return false;

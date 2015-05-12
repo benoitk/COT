@@ -19,7 +19,7 @@
 #include "CVariableStream.h"
 #include "CVariableMeasure.h"
 
-#include <qdebug.h>
+#include "cotautomate_debug.h"
 #include <qthread.h>
 #include <QApplication>
 #include "qtimer.h"
@@ -263,7 +263,7 @@ QList<ICycle*> CAutomate::getListCycles(int cycleType){
     return getListCyclesPrivate(cycleType);
 }
 void CAutomate::slotClock(){
-    qDebug() << "Tick " << m_iClock++%600;
+    qCDebug(COTAUTOMATE_LOG) << "Tick " << m_iClock++%600;
 }
 QList<IAction*>  CAutomate::getListActions(){
     QMutexLocker locker(&m_mutex);

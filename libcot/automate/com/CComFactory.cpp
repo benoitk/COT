@@ -4,7 +4,7 @@
 #include "CComUnknow.h"
 #include "qvariant.h"
 #include "qmap.h"
-#include "qdebug.h"
+#include "cotautomate_debug.h"
 
 
 
@@ -16,7 +16,7 @@ ICom* CComFactory::build(const QVariantMap &mapCom){
 	
 	}else{
         com = new CComUnknow();
-        qDebug() << "Class com unknow :  " << mapCom[QStringLiteral("type")].toString();
+        qCDebug(COTAUTOMATE_LOG) << "Class com unknow :  " << mapCom[QStringLiteral("type")].toString();
 	
 	}
 

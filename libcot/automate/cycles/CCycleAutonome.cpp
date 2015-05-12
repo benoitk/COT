@@ -1,5 +1,5 @@
 #include "CCycleAutonome.h"
-#include "qdebug.h"
+#include "cotautomate_debug.h"
 
 CCycleAutonome::CCycleAutonome(QObject *parent)
 	:CCycleMesure(parent){}
@@ -44,7 +44,7 @@ int CCycleAutonome::getCurrentStepIndex() const
 //	return CYCLE_AUTONOME;
 //}
 //void CCycleAutonome::slotRunCycle(){
-//	qDebug() << "CCycleAutonome::slotRunCycle()";
+//	qCDebug(COTAUTOMATE_LOG) << "CCycleAutonome::slotRunCycle()";
 //	
 //}
 //QString CCycleAutonome::getLbl()const{ return m_label;}

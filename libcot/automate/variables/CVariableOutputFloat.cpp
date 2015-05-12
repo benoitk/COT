@@ -1,7 +1,7 @@
 #include "CVariableOutputFloat.h"
 #include "CModelExtensionCard.h"
 #include "CUnit.h"
-#include <QDebug>
+#include "cotautomate_debug.h"
 CVariableOutputFloat::CVariableOutputFloat(QObject *parent)
     : IVariable(parent)
     , m_modelExtensionCard(Q_NULLPTR)

@@ -3,7 +3,7 @@
 #include "CAutomate.h"
 #include "qvariant.h"
 #include "qmap.h"
-#include "qdebug.h"
+#include "cotautomate_debug.h"
 
 CStep::CStep(const QMap<QString, QVariant> &mapStep)
 	: QObject()
@@ -18,7 +18,7 @@ CStep::CStep(const QMap<QString, QVariant> &mapStep)
         if(action->getType() != actionType::type_action_unknow){
             m_listActions.append(action);
         }else{
-            qDebug() << "CStep::CStep Action inconue";
+            qCDebug(COTAUTOMATE_LOG) << "CStep::CStep Action inconue";
         }
     }
 }

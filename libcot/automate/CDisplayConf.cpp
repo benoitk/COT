@@ -3,8 +3,8 @@
 #include "CAutomate.h"
 #include "qvariant.h"
 #include "qjsonarray.h"
-#include "qdebug.h"
-
+#include "cotautomate_debug.h"
+#include "cotautomate_debug.h"
 
 // JSON names for elec_tests, they are used to retrieve the correct IVariable array in a map.
 // the strings are coming from save.json
@@ -27,7 +27,7 @@ CDisplayConf::CDisplayConf(const QJsonArray& jsonArray, QObject *parent)
                 if(var->getType() != type_unknow){
                     addVariableToScreenDiagnostic(var);
                 }
-                else qDebug() << "CDisplay Conf diagnostic type_unknow" << mapScreen;
+                else qCDebug(COTAUTOMATE_LOG) << "CDisplay Conf diagnostic type_unknow" << mapScreen;
 
             }
         }else if(mapScreen.contains(QStringLiteral("name")) && mapScreen["name"].toString() == QStringLiteral("options")){
@@ -37,7 +37,7 @@ CDisplayConf::CDisplayConf(const QJsonArray& jsonArray, QObject *parent)
                 if(var->getType() != type_unknow){
                     addVariableToScreenOptions(var);
                 }
-                else qDebug() << "CDisplay Conf options type_unknow" << mapScreen;
+                else qCDebug(COTAUTOMATE_LOG) << "CDisplay Conf options type_unknow" << mapScreen;
             }
         }else if(mapScreen.contains(QStringLiteral("name")) && mapScreen["name"].toString() == QStringLiteral("history")){
             QVariantList variantList = mapScreen.value(QStringLiteral("variables")).toList();
@@ -46,7 +46,7 @@ CDisplayConf::CDisplayConf(const QJsonArray& jsonArray, QObject *parent)
                 if(var->getType() != type_unknow){
                     addVariableToScreenHistory(var);
                 }
-                else qDebug() << "CDisplay Conf history type_unknow" << mapScreen;
+                else qCDebug(COTAUTOMATE_LOG) << "CDisplay Conf history type_unknow" << mapScreen;
             }
         }else if(mapScreen.contains(QStringLiteral("name")) && mapScreen["name"].toString() == QStringLiteral("alarms")){
             QVariantList variantList = mapScreen.value(QStringLiteral("variables")).toList();
@@ -55,7 +55,7 @@ CDisplayConf::CDisplayConf(const QJsonArray& jsonArray, QObject *parent)
                 if(var->getType() != type_unknow){
                     addVariableToScreenAlarms(var);
                 }
-                else qDebug() << "CDisplay Conf alarms type_unknow" << mapScreen;
+                else qCDebug(COTAUTOMATE_LOG) << "CDisplay Conf alarms type_unknow" << mapScreen;
             }
         }else if(mapScreen.contains(QStringLiteral("name")) && mapScreen["name"].toString() == QStringLiteral("elec_tests")){
             QVariantList variantMapTabs = mapScreen.value(QStringLiteral("map_tabs")).toList();
@@ -68,20 +68,20 @@ CDisplayConf::CDisplayConf(const QJsonArray& jsonArray, QObject *parent)
                     //if(var->getType() != type_unknow){
                         addVariableToScreenElectricalTest(map.value(QStringLiteral("name")).toString(), var);
                     //}
-                    //else qDebug() << "CDisplay Conf elec_tests type_unknow" << mapScreen;
+                    //else qCDebug(COTAUTOMATE_LOG) << "CDisplay Conf elec_tests type_unknow" << mapScreen;
                 }
             }
             
         }else{ 
-            qDebug() << "display écran inconnu " << mapScreen;
+            qCDebug(COTAUTOMATE_LOG) << "display écran inconnu " << mapScreen;
         }		
 	}
 
-    qDebug() << "diagnostic" << m_listForScrenDiagnostic;
-    qDebug() << "elec_tests" << m_mapForScrenElectricalTests;
-    qDebug() << "options" << m_listForScrenOptions;
-    qDebug() << "history" << m_listForScrenHistory;
-    qDebug() << "alarms" << m_listForScrenAlarms;
+    qCDebug(COTAUTOMATE_LOG) << "diagnostic" << m_listForScrenDiagnostic;
+    qCDebug(COTAUTOMATE_LOG) << "elec_tests" << m_mapForScrenElectricalTests;
+    qCDebug(COTAUTOMATE_LOG) << "options" << m_listForScrenOptions;
+    qCDebug(COTAUTOMATE_LOG) << "history" << m_listForScrenHistory;
+    qCDebug(COTAUTOMATE_LOG) << "alarms" << m_listForScrenAlarms;
 }
 
 CDisplayConf::~CDisplayConf()

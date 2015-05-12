@@ -12,7 +12,7 @@ IOrgan* COrganFactory::build(const QVariantMap &mapCom){
 	
 	}/*else{
         organ = new COrganUnknow();
-        qDebug() << "Class organ unknow :  " << mapCom[QStringLiteral("type")].toString();
+        qCDebug(COTAUTOMATE_LOG) << "Class organ unknow :  " << mapCom[QStringLiteral("type")].toString();
 	
 	}*/
 

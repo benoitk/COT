@@ -4,7 +4,7 @@
 #include "IOrgan.h"
 #include "COrganFactory.h"
 
-#include "qdebug.h"
+#include "cotautomate_debug.h"
 #include "qvariant.h"
 CModelExtensionCard::CModelExtensionCard(QObject *parent)
 	: QObject(parent)
@@ -87,7 +87,7 @@ void CModelExtensionCard::setCom(ICom* com){
 
 QList<IOrgan *> CModelExtensionCard::getListOrgans() const
 {
-    qDebug()<<" QList<IOrgan *> CModelExtensionCard::getListOrgans() const not implemented";
+    qCDebug(COTAUTOMATE_LOG)<<" QList<IOrgan *> CModelExtensionCard::getListOrgans() const not implemented";
     return QList<IOrgan *>();
 }
 

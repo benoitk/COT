@@ -9,7 +9,7 @@
 //#include "CCycleMesure.h"
 //#include "CCyclePause.h"
 //
-//#include "qdebug.h"
+//#include "cotautomate_debug.h"
 
 ICycle::ICycle(QObject *parent)
 	: QObject(parent)
@@ -63,7 +63,7 @@ QString ICycle::typeToString(eTypeCycle type)
 }
 
 //ICycle* ICycle::factory(QVariantMap mapCycle){
-//	qDebug() << "Pas la bonne factory !!!" ;
+//	qCDebug(COTAUTOMATE_LOG) << "Pas la bonne factory !!!" ;
 //	ICycle* cycle = NULL;
 //	if(mapCycle["type"].toString() == "measure"){
 //		cycle = new CCycleMesure(mapCycle);
@@ -73,13 +73,13 @@ QString ICycle::typeToString(eTypeCycle type)
 //	return cycle;
 //}
 //ICycle* ICycle::factory(QVariantMap mapCycle,QMap<QString, IAction*> mapAction){
-//	qDebug() << " ##ICycle::factory " ;
+//	qCDebug(COTAUTOMATE_LOG) << " ##ICycle::factory " ;
 //	ICycle* cycle = NULL;
 //	if(mapCycle["type"].toString() == "measure"){
 //		cycle = new CCycleMesure(mapCycle, mapAction);
 //	}else if(mapCycle["type"].toString() == "pause"){
 //		cycle = new CCyclePause(mapCycle);
 //	}
-//	qDebug() << " ## END ICycle::factory " ;
+//	qCDebug(COTAUTOMATE_LOG) << " ## END ICycle::factory " ;
 //	return cycle;
 //}

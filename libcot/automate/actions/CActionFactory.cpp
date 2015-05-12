@@ -7,7 +7,7 @@
 
 #include "qvariant.h"
 #include "qmap.h"
-#include "qdebug.h"
+#include "cotautomate_debug.h"
 
 
 IAction* CActionFactory::build(const QVariantMap &mapAction){
@@ -28,7 +28,7 @@ IAction* CActionFactory::build(const QVariantMap &mapAction){
     }
     else{
 		action = new CActionUnknow(mapAction);
-        qDebug() << "Classe action INCONNUE :" << type;
+        qCDebug(COTAUTOMATE_LOG) << "Classe action INCONNUE :" << type;
 	}
 
 	return action;
