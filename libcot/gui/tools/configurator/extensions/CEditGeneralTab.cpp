@@ -11,6 +11,7 @@ CEditGeneralTab::CEditGeneralTab(QWidget *parent)
     ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->swCentral->moveDown());
     connect(ui->vbbButtons->addAction(CToolButton::Back), &QAction::triggered,
             this, &IEditExtensionTab::backTriggered);
+    connect(ui->vbbButtons->addAction(CToolButton::Ok), &QAction::triggered, this, &CEditGeneralTab::slotOkTriggered);
 }
 
 CEditGeneralTab::~CEditGeneralTab()
@@ -18,3 +19,7 @@ CEditGeneralTab::~CEditGeneralTab()
     delete ui;
 }
 
+void CEditGeneralTab::slotOkTriggered()
+{
+    //TODO
+}

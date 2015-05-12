@@ -11,6 +11,8 @@ class CEditComTab : public IEditExtensionTab
 public:
     explicit CEditComTab(QWidget *parent = Q_NULLPTR);
     ~CEditComTab();
+private slots:
+    void slotOkTriggered();
 private:
     Ui::CEditComTab *ui;
 };

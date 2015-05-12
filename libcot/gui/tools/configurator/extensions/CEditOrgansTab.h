@@ -11,6 +11,8 @@ class CEditOrgansTab : public IEditExtensionTab
 public:
     explicit CEditOrgansTab(QWidget *parent = Q_NULLPTR);
     ~CEditOrgansTab();
+private slots:
+    void slotOkTriggered();
 private:
     Ui::CEditOrgansTab *ui;
 };

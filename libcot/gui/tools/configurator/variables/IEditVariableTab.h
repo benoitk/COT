@@ -15,7 +15,7 @@ public:
 
 signals:
     void okTriggered();
-    void cancelTriggered();
+    void backTriggered();
 };
 
 #endif // IEDITVARIABLETAB_H
