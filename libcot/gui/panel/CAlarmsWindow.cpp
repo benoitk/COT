@@ -16,7 +16,7 @@ void CAlarmsWindow::setupWindow()
 {
     m_alarmsHandler = new IVariableUIHandler(scrollable(), this);
     updateAlarms();
-    connect(CAutomate::getInstance(), &CAutomate::signalDisplayChanged,
+    connect(CAutomate::getInstance(), &CAutomate::signalDisplayUpdated,
             this, &CAlarmsWindow::updateAlarms);
 }
 

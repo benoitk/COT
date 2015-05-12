@@ -23,8 +23,8 @@ CConfiguratorCycleTab::CConfiguratorCycleTab(QWidget *parent)
 
     connect(ui->vbbButtons->addAction(CToolButton::Add), &QAction::triggered, this, &CConfiguratorCycleTab::slotAddCycle);
     connect(ui->vbbButtons->addAction(CToolButton::Back), &QAction::triggered, this, &IConfiguratorTab::backTriggered);
-    connect(CAutomate::getInstance(), &CAutomate::signalStreamsChanged, this, &CConfiguratorCycleTab::slotUpdateLayout);
-    connect(CAutomate::getInstance(), &CAutomate::signalCyclesChanged, this, &CConfiguratorCycleTab::slotUpdateLayout);
+    connect(CAutomate::getInstance(), &CAutomate::signalStreamsUpdated, this, &CConfiguratorCycleTab::slotUpdateLayout);
+    connect(CAutomate::getInstance(), &CAutomate::signalCyclesUpdated, this, &CConfiguratorCycleTab::slotUpdateLayout);
 }
 
 CConfiguratorCycleTab::~CConfiguratorCycleTab()

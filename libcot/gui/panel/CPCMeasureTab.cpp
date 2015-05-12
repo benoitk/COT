@@ -28,7 +28,7 @@ CPCMeasureTab::CPCMeasureTab(QWidget *parent)
             this, &CPCMeasureTab::slotNextStreamTriggered);
     ui->vbbButtons->addAction(CToolButton::ScrollUp, ui->swCentral->moveUp());
     ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->swCentral->moveDown());
-    connect(CAutomate::getInstance(), &CAutomate::signalStreamsChanged,
+    connect(CAutomate::getInstance(), &CAutomate::signalStreamsUpdated,
             this, &CPCMeasureTab::slotUpdateStreamsMeasures);
     connect(CAutomate::getInstance(), &CAutomate::signalVariableChanged,
             this, &CPCMeasureTab::slotVariableChanged);

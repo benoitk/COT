@@ -15,7 +15,7 @@ CMaintenanceDiagnosticTab::CMaintenanceDiagnosticTab(QWidget *parent)
 
     m_diagnosticHandler = new IVariableUIHandler(ui->swCentral, this);
     slotUpdateLayout();
-    connect(CAutomate::getInstance(), &CAutomate::signalDisplayChanged,
+    connect(CAutomate::getInstance(), &CAutomate::signalDisplayUpdated,
             this, &CMaintenanceDiagnosticTab::slotUpdateLayout);
 
     connect(ui->vbbButtons->addAction(CToolButton::Back), &QAction::triggered,

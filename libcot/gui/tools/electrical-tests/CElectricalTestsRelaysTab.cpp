@@ -17,7 +17,7 @@ CElectricalTestsRelaysTab::CElectricalTestsRelaysTab(QWidget *parent)
 
     m_elecTestRelaysHandler = new IVariableUIHandler(ui->swCentral, this);
     updateElecTestRelays();
-    connect(CAutomate::getInstance(), &CAutomate::signalDisplayChanged,
+    connect(CAutomate::getInstance(), &CAutomate::signalDisplayUpdated,
             this, &CElectricalTestsRelaysTab::updateElecTestRelays);
 }
 

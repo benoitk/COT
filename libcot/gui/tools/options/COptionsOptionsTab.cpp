@@ -17,7 +17,7 @@ COptionsOptionsTab::COptionsOptionsTab(QWidget *parent)
 
     m_optionHandler = new IVariableUIHandler(ui->swCentral, this);
     updateOptions();
-    connect(CAutomate::getInstance(), &CAutomate::signalDisplayChanged,
+    connect(CAutomate::getInstance(), &CAutomate::signalDisplayUpdated,
             this, &COptionsOptionsTab::updateOptions);
 }
 

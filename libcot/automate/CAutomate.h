@@ -110,12 +110,6 @@ public slots:
 signals:
 	void signalRunCycle(int);
     // KDAB: Needed api
-    // When the streams section changed
-    void signalStreamsChanged();
-    // When the display section is changed
-    void signalDisplayChanged();
-    // When the cycles section is changed
-    void signalCyclesChanged();
     // When the value of a variable changed
     void signalVariableChanged(const QString &name, const QDateTime &dateTime = QDateTime());
     // When internal state of a general cycle changed

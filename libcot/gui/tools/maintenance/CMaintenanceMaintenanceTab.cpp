@@ -16,7 +16,7 @@ CMaintenanceMaintenanceTab::CMaintenanceMaintenanceTab(QWidget *parent)
 
     CAutomate *automate = CAutomate::getInstance();
 
-    connect(automate, &CAutomate::signalCyclesChanged, this, &CMaintenanceMaintenanceTab::slotUpdateLayout);
+    connect(automate, &CAutomate::signalCyclesUpdated, this, &CMaintenanceMaintenanceTab::slotUpdateLayout);
     connect(automate, &CAutomate::signalCurrentMaintenanceCycleChanged, this, &CMaintenanceMaintenanceTab::slotCurrentMaintenanceCycleChanged);
     connect(ui->vbbButtons->addAction(CToolButton::Back), &QAction::triggered, this, &IMaintenanceTab::backTriggered);
 }

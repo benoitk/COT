@@ -18,7 +18,7 @@ CElectricalTestsPumpsTab::CElectricalTestsPumpsTab(QWidget *parent)
 
     m_elecTestPumpHandler = new IVariableUIHandler(ui->swCentral, this);
     updateElecTestPump();
-    connect(CAutomate::getInstance(), &CAutomate::signalDisplayChanged,
+    connect(CAutomate::getInstance(), &CAutomate::signalDisplayUpdated,
             this, &CElectricalTestsPumpsTab::updateElecTestPump);
 }
 
