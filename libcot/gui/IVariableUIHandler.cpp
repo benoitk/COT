@@ -976,8 +976,7 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
 
                 case CVariableMutable::Cycle: {
                     ICycle *cycle = automate->getCycle(ivar->toString());
-                    Q_ASSERT(cycle);
-                    button->setText(cycle->getLbl());
+                    button->setText(cycle ? cycle->getLbl() : QString());
                     break;
                 }
 
@@ -988,29 +987,25 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
 
                 case CVariableMutable::Unit: {
                     CUnit *unit = automate->getUnit(ivar->toString());
-                    Q_ASSERT(unit);
-                    button->setText(unit->getLbl());
+                    button->setText(unit ? unit->getLbl() : QString());
                     break;
                 }
 
                 case CVariableMutable::Extension: {
                     CModelExtensionCard *card = automate->getExtensionCard(ivar->toString());
-                    Q_ASSERT(card);
-                    button->setText(card->getLabel());
+                    button->setText(card ? card->getLabel() : QString());
                     break;
                 }
 
                 case CVariableMutable::Organ: {
                     IOrgan *organ = automate->getOrgan(ivar->toString());
-                    Q_ASSERT(organ);
-                    button->setText(organ->getName()); // TODO: Customer add label for organs ?
+                    button->setText(organ ? organ->getName() : QString()); // TODO: Customer add label for organs ?
                     break;
                 }
 
                 case CVariableMutable::Stream: {
                     CVariableStream *stream = automate->getStream(ivar->toString());
-                    Q_ASSERT(stream);
-                    button->setText(stream->getLabel());
+                    button->setText(stream ? stream->getLabel() : QString());
                     break;
                 }
 
@@ -1021,8 +1016,7 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
 
                 case CVariableMutable::Measure: {
                     CVariableMeasure *measure = automate->getMeasure(ivar->toString());
-                    Q_ASSERT(measure);
-                    button->setText(measure->getLabel());
+                    button->setText(measure ? measure->getLabel() : QString());
                     break;
                 }
             }
