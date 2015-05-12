@@ -118,7 +118,6 @@ void CConfiguratorCycleTabUIHandler::rowInserted(const IVariableUIHandler::Row &
     }
     else {
         connect(row.widgetAt<CPushButton *>(1), &CPushButton::clicked, this, & CConfiguratorCycleTabUIHandler::slotEditClicked);
-        connect(row.widgetAt<CToolButton *>(2), &CToolButton::clicked, this, & CConfiguratorCycleTabUIHandler::slotDeleteClicked);
     }
 }
 
