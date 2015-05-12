@@ -22,78 +22,30 @@ public:
     explicit CPCWindow(QWidget *parent = Q_NULLPTR);
     ~CPCWindow();
 
-    static int openExec(QDialog *dialog) {
-        QWidget *parent = QApplication::activeWindow();
-
-        if (!parent) {
-            Q_ASSERT(false);
-            return QDialog::Rejected;
-        }
-
-#ifdef QT_DEBUG
-        // add windows decorations when debugging
-        dialog->setWindowFlags(Qt::Dialog);
-#else
-        dialog->setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint);
-#endif
-        dialog->adjustSize();
-        QRect rect = QRect(QPoint(), dialog->minimumSize());
-        rect.moveCenter(parent->geometry().center());
-        dialog->setGeometry(rect);
-        return dialog->exec();
-    }
+    static int openExec(QDialog *dialog);
 
     template <typename T>
     static void openExec() {
         QWidget *parent = QApplication::activeWindow();
-
-        if (!parent) {
-            Q_ASSERT(false);
-            return;
-        }
-
         T *window = new T(parent);
         openExec(window);
         delete window;
     }
 
-    static void openModal(QWidget *widget, const QRect &geometry) {
-#ifdef QT_DEBUG
-        // add windows decorations when debugging
-        widget->setWindowFlags(Qt::Window);
-#else
-        widget->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
-#endif
-        widget->setAttribute(Qt::WA_DeleteOnClose);
-        widget->setWindowModality(Qt::ApplicationModal);
-        widget->setGeometry(geometry);
-        widget->show();
-    }
+    static void openModal(QWidget *widget);
 
     template <typename T>
     static void openModal() {
         QWidget *parent = QApplication::activeWindow();
-
-        if (!parent) {
-            Q_ASSERT(false);
-            return;
-        }
-
         T *window = new T(parent);
-        openModal(window, QRect(parent->pos(), parent->size()));
+        openModal(window);
     }
 
     template <typename T, typename Arg>
     static void openModal(const Arg &arg) {
         QWidget *parent = QApplication::activeWindow();
-
-        if (!parent) {
-            Q_ASSERT(false);
-            return;
-        }
-
         T *window = new T(arg, parent);
-        openModal(window, QRect(parent->pos(), parent->size()));
+        openModal(window);
     }
 
 public slots:

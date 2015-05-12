@@ -9,11 +9,15 @@
 #include "CUpdateManager.h"
 #include "CUpdateDialog.h"
 
+static CPCWindow *s_mainWindow = Q_NULLPTR;
+
 CPCWindow::CPCWindow(QWidget *parent)
     : QWidget(parent, Qt::Window | Qt::FramelessWindowHint)
     , ui(new Ui::CPCWindow)
     , m_updateManager(new CUpdateManager(this))
 {
+    if (!s_mainWindow)
+        s_mainWindow = this;
 
 #ifdef QT_DEBUG
     // add windows decorations when debugging
@@ -50,7 +54,40 @@ CPCWindow::CPCWindow(QWidget *parent)
 
 CPCWindow::~CPCWindow()
 {
+    if (s_mainWindow == this)
+        s_mainWindow = Q_NULLPTR;
     delete ui;
+}
+
+void CPCWindow::openModal(QWidget *widget) {
+#ifdef QT_DEBUG
+    // add windows decorations when debugging
+    widget->setWindowFlags(Qt::Window);
+#else
+    widget->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
+#endif
+    widget->setAttribute(Qt::WA_DeleteOnClose);
+    widget->setWindowModality(Qt::ApplicationModal);
+    if (s_mainWindow)
+        widget->setGeometry(s_mainWindow->geometry());
+    widget->show();
+}
+
+// static
+int CPCWindow::openExec(QDialog *dialog)
+{
+#ifdef QT_DEBUG
+    // add windows decorations when debugging
+    dialog->setWindowFlags(Qt::Dialog);
+#else
+    dialog->setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint);
+#endif
+    dialog->adjustSize();
+    QRect rect = QRect(QPoint(), dialog->minimumSize());
+    if (s_mainWindow)
+        rect.moveCenter(s_mainWindow->geometry().center());
+    dialog->setGeometry(rect);
+    return dialog->exec();
 }
 
 void CPCWindow::retranslate()
