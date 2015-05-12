@@ -15,10 +15,10 @@ class QGridLayout;
 class CToolButton;
 
 /*
- * This class handle the UI presentation for a widget in the COT UI.
- * It is responsable to create labels, editors and mapped selectors in a generic way.
+ * This class handles the UI presentation for a widget in the COT UI.
+ * It is responsable for creating labels, editors and mapped selectors in a generic way.
  * Give it your variables list, it will do all for you.
- * */
+ */
 class LIBCOT_EXPORT IVariableUIHandler : public QObject
 {
     Q_OBJECT
