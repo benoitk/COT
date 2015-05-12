@@ -95,8 +95,6 @@ void CAutomate::addCyclePrivate(ICycle * cycle)
             Q_ASSERT(false);
             break;
     }
-
-    emit signalCyclesUpdated();
 }
 
 QList<ICycle *> CAutomate::getListCyclesPrivate(int cycleType)
@@ -318,6 +316,8 @@ void CAutomate::setCom(ICom* arg_comObject){
 void CAutomate::addCycle(ICycle* cycle){
     QMutexLocker locker(&m_mutex);
     addCyclePrivate(cycle);
+    locker.unlock();
+    emit signalCyclesUpdated();
 }
 
 ICycle *CAutomate::getCycle(const QString &name, int type) const
@@ -478,6 +478,7 @@ void CAutomate::informAboutCycleChanges(ICycle *cycle, const QVariantMap &oldDat
             newStream->addCycle(cycle);
         }
     }
+    locker.unlock();
 
     if (!isNew) {
         emit signalCycleChanged(cycle->getName());
