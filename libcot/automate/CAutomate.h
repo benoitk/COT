@@ -107,11 +107,9 @@ public:
 	void initConfig();
     void quit();
 
-public slots:
-	void slotRunAutomate();
-    // DO NOT add any other slots here. They will never run, since the automat thread
-    // doesn't go back to the event loop.
+private slots:
     void slotClock();
+
 signals:
 	void signalRunCycle(int);
     // KDAB: Needed api
@@ -181,7 +179,6 @@ private:
     bool shouldQuit();
 
     mutable QMutex m_mutex;
-    bool m_quit;
 
 	QList<INetwork*> m_listNetworks;
     eStateCycle m_stateCycleMesure; //0 stoped, 1 run, 2 pause

@@ -22,7 +22,7 @@ DEFINES *= \
 
 DEFINES *= "COT_JSON_FILE=\\\"$${LIBCOT_SRC_PWD}/save.json\\\""
 macx:DEFINES *= "COT_USB_MOUNT_POINT=\\\"/Volumes\\\""
-else:DEFINES *= "COT_USB_MOUNT_POINT=\\\"/media\\\""
+else:DEFINES *= "COT_USB_MOUNT_POINT=\\\"/mnt\\\""
 
 CONFIG *= \
     c++11 \

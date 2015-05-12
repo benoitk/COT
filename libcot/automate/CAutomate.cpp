@@ -63,23 +63,12 @@ void CAutomate::initConfig(){
     threadSequenceur->start();
 }
 
-void CAutomate::quit()
-{
-    QMutexLocker locker(&m_mutex);
-    m_quit = true;
-}
 
 CAutomate::~CAutomate()
 {
     QThread* threadSequenceur = m_sequenceur->thread();
     threadSequenceur->quit();
     threadSequenceur->wait();
-}
-
-bool CAutomate::shouldQuit()
-{
-    QMutexLocker locker(&m_mutex);
-    return m_quit;
 }
 
 void CAutomate::addCyclePrivate(ICycle * cycle)
@@ -439,14 +428,6 @@ CAutomate::eStateCycle CAutomate::getStateCycleMaintenance( ){
     QMutexLocker locker(&m_mutex);
     // TODO
     return CAutomate::CYCLE_STATE_STOP;
-}
-
-void CAutomate::slotRunAutomate(){
-    while(!shouldQuit()){
-        // TODO
-        QApplication::processEvents(); // Make sure event loop handle signals / slots / events.
-        QThread::msleep(100);
-    }
 }
 
 void CAutomate::slotVariableChanged()
