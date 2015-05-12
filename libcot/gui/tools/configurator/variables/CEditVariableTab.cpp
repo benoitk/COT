@@ -24,10 +24,8 @@ CEditVariableTab::~CEditVariableTab()
     delete ui;
 }
 
-void CEditVariableTab::setVariables(const QString &variableName)
+void CEditVariableTab::setVariables(IVariable *ivar)
 {
-    IVariable *ivar = CAutomate::getInstance()->getVariable(variableName);
-    Q_ASSERT(ivar);
     m_configuratorUIHandler->layout(ivar);
 }
 

@@ -22,9 +22,8 @@ CEditOutBindsTab::~CEditOutBindsTab()
     delete ui;
 }
 
-void CEditOutBindsTab::setVariables(const QString &variableName)
+void CEditOutBindsTab::setVariables(IVariable *ivar)
 {
-    IVariable *ivar = CAutomate::getInstance()->getVariable(variableName);
     Q_ASSERT(ivar);
     const QList<IVariable *> listOutBinds = ivar->getListOutBinds();
     m_configuratorUIHandler->layout(listOutBinds, true);

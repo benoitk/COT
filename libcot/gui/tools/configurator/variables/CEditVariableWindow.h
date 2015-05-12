@@ -15,10 +15,10 @@ class CEditVariableWindow : public QWidget
 {
     Q_OBJECT
 public:
-    explicit CEditVariableWindow(const QString &variableName, QWidget *parent = Q_NULLPTR);
+    explicit CEditVariableWindow(IVariable *ivar, QWidget *parent = Q_NULLPTR);
     ~CEditVariableWindow();
 
-    void setVariables(const QString &name);
+    void setVariables(IVariable *ivar);
 public slots:
     void retranslate();
 

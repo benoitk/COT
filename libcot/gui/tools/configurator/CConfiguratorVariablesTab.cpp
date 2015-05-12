@@ -3,6 +3,7 @@
 #include "CPCWindow.h"
 #include "CEditVariableWindow.h"
 #include "CAutomate.h"
+#include <CVariableFactory.h>
 #include <ConfiguratorVariablesUIHandler.h>
 
 CConfiguratorVariablesTab::CConfiguratorVariablesTab(QWidget *parent)
@@ -34,18 +35,28 @@ void CConfiguratorVariablesTab::slotUpdateLayout()
 
 void CConfiguratorVariablesTab::slotAddVariable()
 {
-    QString streamname;
+    QString streamName;
 
-    if (!m_ivariableUIHandler->selectStream(streamname) || streamname.isEmpty()) {
+    if (!m_ivariableUIHandler->selectStream(streamName) || streamName.isEmpty()) {
         return;
     }
     variableType varType;
     if (!m_ivariableUIHandler->selectVariableType(varType) || (varType == type_unknow)) {
         return;
     }
+
+    // Create variable
+    IVariable *variable = CVariableFactory::build(varType);
+    variable->setName(QStringLiteral("new_variable_%1").arg(qrand() %1000));
+    variable->setLabel(tr("New variable"));
+    variable->setRelatedStreamName(streamName);
+
+    // Edit variable
+    CPCWindow::openModal<CEditVariableWindow>(variable);
 }
 
 void CConfiguratorVariablesTab::editVariable(const QString &variableName)
 {
-    CPCWindow::openModal<CEditVariableWindow>(variableName);
+    IVariable *ivar = CAutomate::getInstance()->getVariable(variableName);
+    CPCWindow::openModal<CEditVariableWindow>(ivar);
 }

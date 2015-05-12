@@ -13,7 +13,7 @@ class CEditVariableTab : public IEditVariableTab
 public:
     explicit CEditVariableTab(QWidget *parent = Q_NULLPTR);
     ~CEditVariableTab();
-    void setVariables(const QString &variableName);
+    void setVariables(IVariable *ivar);
     void applyProperties(IVariable *ivar) Q_DECL_OVERRIDE;
 private:
     Ui::CEditVariableTab *ui;

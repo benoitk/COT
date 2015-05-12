@@ -4,10 +4,10 @@
 #include "CEditInBindsTab.h"
 #include "CEditOutBindsTab.h"
 #include "CEditVariableTab.h"
-
+#include "CAutomate.h"
 #include <IVariable.h>
 
-CEditVariableWindow::CEditVariableWindow(const QString &variableName, QWidget *parent)
+CEditVariableWindow::CEditVariableWindow(IVariable *ivar, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::CEditVariableWindow)
 {
@@ -20,8 +20,8 @@ CEditVariableWindow::CEditVariableWindow(const QString &variableName, QWidget *p
     addTab(m_ceditOutBindsTab, QString());
     addTab(m_ceditInBindsTab, QString());
     retranslate();
-    if (!variableName.isEmpty()) {
-        setVariables(variableName);
+    if (ivar) {
+        setVariables(ivar);
     }
 }
 
@@ -30,11 +30,11 @@ CEditVariableWindow::~CEditVariableWindow()
     delete ui;
 }
 
-void CEditVariableWindow::setVariables(const QString &name)
+void CEditVariableWindow::setVariables(IVariable *ivar)
 {
-    m_ceditVariableTab->setVariables(name);
-    m_ceditOutBindsTab->setVariables(name);
-    m_ceditInBindsTab->setVariables(name);
+    m_ceditVariableTab->setVariables(ivar);
+    m_ceditOutBindsTab->setVariables(ivar);
+    m_ceditInBindsTab->setVariables(ivar);
 }
 
 void CEditVariableWindow::retranslate()

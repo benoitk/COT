@@ -14,7 +14,7 @@ public:
     explicit CEditInBindsTab(QWidget *parent = Q_NULLPTR);
     ~CEditInBindsTab();
 
-    void setVariables(const QString &variableName);
+    void setVariables(IVariable *ivar);
     void applyProperties(IVariable *ivar) Q_DECL_OVERRIDE;
 private:
     Ui::CEditInBindsTab *ui;
