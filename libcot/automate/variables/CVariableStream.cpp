@@ -30,7 +30,14 @@ CVariableStream::CVariableStream(const QMap<QString, QVariant> &mapVar):IVariabl
     if(mapVar.contains(QStringLiteral("cycles"))){
         QVariantList listVariable = mapVar.value(QStringLiteral("cycles")).toList();
         foreach(const QVariant &variant, listVariable){
-            m_listCycles.append(CAutomate::getInstance()->getCycle(variant.toString(), CYCLE_MESURE));
+            ICycle *cycle = CAutomate::getInstance()->getCycle(variant.toString(), CYCLE_MESURE);
+
+            // TODO: customer insert null cycles in list.
+            if (cycle) {
+                cycle->setRelatedStreamName(getName());
+            }
+
+            m_listCycles.append(cycle);
         }
     }
 
@@ -76,6 +83,7 @@ void CVariableStream::delCycle(const QString &name)
         }
 
         if (cycle->getName() == name) {
+            cycle->setRelatedStreamName(QString());
             m_listCycles.removeAt(i);
             // Customer - should inform automat about change ?
             break;
