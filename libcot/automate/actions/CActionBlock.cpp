@@ -49,3 +49,6 @@ QString CActionBlock::getLabel()const{
 void CActionBlock::setLabel(const QString& lbl){
     m_label = lbl;
 }
+actionType CActionBlock::getType()const {
+    return actionType::type_block;
+}

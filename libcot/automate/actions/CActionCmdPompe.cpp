@@ -78,3 +78,6 @@ QString CActionCmdPompe::getLabel()const{
 void CActionCmdPompe::setLabel(const QString& lbl){
     m_label = lbl;
 }
+actionType CActionCmdPompe::getType()const {
+    return actionType::type_cmd_pump;
+}

@@ -257,14 +257,14 @@
             "fr_FR" : "measure de COT",
             "en_US" : "measure of TOC",
             "type" : "measure",
-            "steps" : [{"name":"step_2", "step":1,"fr_FR":"Init", "actions":["bloc_rincage"]}, {"name":"step_3", "step":4, "actions":["close_sample_solenoide","4_tour_pompe_persulfate"]}, {"step":6, "actions":["close_sample_solenoide","close_emptying_solenoide"]}, {"step":12, "actions":["4_tour_pompe_persulfate"]}, {"step":25, "actions":["close_sample_solenoide","4_tour_pompe_persulfate"]}]
+            "steps" : [{"name":"step_2", "step":3,"fr_FR":"Init", "actions":["bloc_rincage"]}, {"name":"step_3", "step":4,"fr_FR":"injection persulafe", "actions":["close_sample_solenoide","4_tour_pompe_persulfate"]}, {"step":6,"fr_FR":"Vidange", "actions":["close_sample_solenoide","close_emptying_solenoide"]}, {"step":12,"fr_FR":"Injection persulafe bis", "actions":["4_tour_pompe_persulfate"]}, {"step":25,"fr_FR":"Fin du cycle", "actions":["close_sample_solenoide","4_tour_pompe_persulfate"]}]
         },
         {
             "name" : "cycle_measure_azote",
             "fr_FR" : "measure de COT",
             "en_US" : "measure of TOC",
             "type" : "measure",
-            "steps" : [{"name":"step_2", "step":1,"fr_FR":"Init", "actions":["bloc_rincage"]}, {"name":"step_3", "step":4, "actions":["close_sample_solenoide","4_tour_pompe_persulfate"]}, {"step":6, "actions":["close_sample_solenoide","close_emptying_solenoide"]}, {"step":12, "actions":["4_tour_pompe_persulfate"]}, {"step":25, "actions":["close_sample_solenoide","4_tour_pompe_persulfate"]}]
+            "steps" : [{"name":"step_2", "step":3,"fr_FR":"Init", "actions":["bloc_rincage"]}, {"name":"step_3","fr_FR":"pas 4", "step":4, "actions":["close_sample_solenoide","4_tour_pompe_persulfate"]}, {"step":6,"fr_FR":"pas 6", "actions":["close_sample_solenoide","close_emptying_solenoide"]}, {"step":12,"fr_FR":"pas 12", "actions":["4_tour_pompe_persulfate"]}, {"step":25,"fr_FR":"Pas 25", "actions":["close_sample_solenoide","4_tour_pompe_persulfate"]}]
         }
     ],
 

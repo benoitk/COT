@@ -59,3 +59,6 @@ QString CActionCmdReadInput::getLabel()const{
 void CActionCmdReadInput::setLabel(const QString& lbl){
     m_label = lbl;
 }
+actionType CActionCmdReadInput::getType()const {
+    return actionType::type_cmd_read_input;
+}

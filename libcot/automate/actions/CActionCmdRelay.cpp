@@ -56,3 +56,6 @@ QString CActionCmdRelay::getLabel()const{
 void CActionCmdRelay::setLabel(const QString& lbl){
     m_label = lbl;
 }
+actionType CActionCmdRelay::getType()const {
+    return actionType::type_cmd_relay;
+}

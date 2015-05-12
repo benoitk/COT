@@ -18,8 +18,8 @@ public:
 	QList<IAction*> getListActions()const;
 	float getNumStep()const;
 	void setNumStep(float);
-	CStep* getNextStep()const;
-	void setNextStep(CStep*);
+	//CStep* getNextStep()const;
+	//void setNextStep(CStep*);
 	//FIN API
     void execStep();
 

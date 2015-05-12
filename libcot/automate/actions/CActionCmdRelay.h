@@ -21,6 +21,7 @@ public:
     QList<IVariable*> getListParameters()const Q_DECL_OVERRIDE;
     QString getLabel()const Q_DECL_OVERRIDE;
 	void setLabel(const QString&) Q_DECL_OVERRIDE;
+    actionType getType()const Q_DECL_OVERRIDE;
 private:
 
 	QString m_label;

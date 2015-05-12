@@ -52,11 +52,10 @@ private:
 	QString m_name;
 	eTypeCycle m_typeCycle;
 
-	QTimer* m_timer;
+	//QTimer* m_timer;
 	int m_iTimer;
 	QString m_label;
-	int m_periode;
-
+	int m_timeout;
 	QThread m_thread;
 
 	CStep* m_stepStop;

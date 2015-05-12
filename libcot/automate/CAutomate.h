@@ -106,7 +106,7 @@ public slots:
 	void slotRunAutomate();
     // DO NOT add any other slots here. They will never run, since the automat thread
     // doesn't go back to the event loop.
-
+    void slotClock();
 signals:
 	void signalRunCycle(int);
     // KDAB: Needed api
@@ -208,6 +208,7 @@ private:
 	QList<CControlerCycle*> m_listCtrlCycleMaintenance;
 	QList<CControlerCycle*> m_listCtrlCycleIO;*/
 	
+    int m_iClock;
 };
 
 #endif // CAUTOMATE_H

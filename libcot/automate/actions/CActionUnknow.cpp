@@ -4,11 +4,12 @@
 CActionUnknow::CActionUnknow(QObject *parent)
 	: IAction(parent)
 {
-
+    m_name =  QStringLiteral("unknow_action");
 }
 CActionUnknow::CActionUnknow(const QVariantMap &mapAction)
 	: IAction()
 {
+    m_name =  QStringLiteral("unknow_action");
 }
 CActionUnknow::~CActionUnknow()
 {
@@ -41,4 +42,7 @@ QString CActionUnknow::getLabel()const{
     return QStringLiteral("unknow lbl");
 }
 void CActionUnknow::setLabel(const QString& lbl){
+}
+actionType CActionUnknow::getType()const {
+    return actionType::type_action_unknow;
 }

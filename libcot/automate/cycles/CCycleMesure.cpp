@@ -34,11 +34,12 @@ CCycleMesure::CCycleMesure(const QVariantMap &mapCycle): ICycle(){
 
 }
 void CCycleMesure::initTimer(){
-	m_periode = 500;
-	m_timer = new QTimer(this);
-	connect(m_timer, &QTimer::timeout, this, &CCycleMesure::slotExecNextStep);
-	m_timer->setInterval(m_periode);
+	//m_timer = new QTimer(this);
+	//connect(m_timer, &QTimer::timeout, this, &CCycleMesure::slotExecNextStep);
+	//m_timer->setInterval(m_timeout);
+    
 }
+
 CCycleMesure::~CCycleMesure()
 {
 
@@ -47,27 +48,40 @@ eTypeCycle CCycleMesure::getType()const{
 	return CYCLE_MESURE;
 }
 void CCycleMesure::slotExecNextStep(){	
-    qDebug() << "CCycleMesure slotExecNextStep. Setp : " << m_iTimer << " Next step : " << (*m_itListStepsPasEnCours)->getNumStep();
-    if(m_itListStepsPasEnCours != m_listSteps.end()){
-		/*while(	  m_itListActionPasEnCours != m_ListActions.end() 
-			  && (*m_itListActionsPasEnCours)->getStep() == m_iTimer){
-			(*m_itListActionsPasEnCours++)->getAction()->runAction();
-		}*/
+   
+    
+    if(m_itListStepsPasEnCours != m_listSteps.end()){// && (*m_itListStepsPasEnCours)->getNumStep() == m_iTimer){
+        qDebug() << "CCycleMesure slotExecNextStep. Setp : " << (*m_itListStepsPasEnCours)->getLabel() << " step : " << (*m_itListStepsPasEnCours)->getNumStep();
+        (*m_itListStepsPasEnCours++)->execStep();
+        
 	}
-	
-	if(m_itListStepsPasEnCours == m_listSteps.end()) { //fin du cycle
-		m_timer->stop();
+    
+    if(m_itListStepsPasEnCours == m_listSteps.end()) { //fin du cycle
+		//m_timer->stop();
 		emit signalReadyForPlayNextCycle();
-	}
-	m_iTimer++;
+	}else{
+        int delay;
+        if((m_itListStepsPasEnCours != m_listSteps.begin())){
+            m_timeout = (*m_itListStepsPasEnCours)->getNumStep()*1000 - (*m_itListStepsPasEnCours.operator-(1))->getNumStep()*1000;
+        }else
+            m_timeout = (*m_itListStepsPasEnCours)->getNumStep()*1000;
+        qDebug() << "time out before next step : " << m_timeout;
+        QTimer::singleShot(m_timeout, this, SLOT(slotExecNextStep()));
+    }
+	//m_iTimer++;
+
+   
 }
 void CCycleMesure::slotRunCycle(){
     qDebug() << "CCycleMesure::slotRunCycle()";
+    
 	if(!m_listSteps.isEmpty()){
 		m_itListStepsPasEnCours = m_listSteps.begin(); 
-		m_iTimer = 0;
-		m_timer->start();
+        m_timeout = m_listSteps.first()->getNumStep() * 1000; //step en seconde
+        qDebug() << "time out before next step : " << m_timeout;
+        QTimer::singleShot(m_timeout, this, SLOT(slotExecNextStep()));
 	}
+    
     qDebug() << "FIN CCycleMesure::slotRunCycle()";
 
 }

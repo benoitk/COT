@@ -22,7 +22,7 @@
 #include <qdebug.h>
 #include <qthread.h>
 #include <QApplication>
-
+#include "qtimer.h"
 CAutomate* CAutomate::singleton = 0;
 
 CAutomate* CAutomate::getInstance(){
@@ -38,6 +38,14 @@ CAutomate::CAutomate()
     m_stateCycleMaintenance = CYCLE_STATE_STOP;
 
     m_mappingCom.insert(QStringLiteral("0xffff"), CVariableFactory::build(QVariantMap())); //unknown address com
+
+
+    QTimer* timer = new QTimer(this);
+    m_iClock = 0; 
+    connect(timer, &QTimer::timeout, this, &CAutomate::slotClock);
+    timer->setInterval(1000);
+    timer->start();
+
  }
 
 void CAutomate::initConfig(){
@@ -234,7 +242,9 @@ QList<ICycle*> CAutomate::getListCycles(int cycleType){
 
 	return listAllCycles;
 }
-
+void CAutomate::slotClock(){
+    qDebug() << "Tick " << m_iClock++%600;
+}
 QList<IAction*>  CAutomate::getListActions(){
     QMutexLocker locker(&m_mutex);
 	return m_listActions;
