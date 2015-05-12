@@ -131,6 +131,11 @@ int CVariableBool::getAddress()const{
     return m_address;
 }
 
+void CVariableBool::setRelatedStreamName(const QString &variableName)
+{
+
+}
+
 void CVariableBool::setAccess(variableAccess access)
 {
     m_access = access;

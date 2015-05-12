@@ -65,12 +65,11 @@ public:
     virtual int getAddress()const =0;
     //qvariantmap can be converted to a json object
 	virtual QVariantMap serialise()=0;
+    virtual void setRelatedStreamName(const QString &name) = 0;
 
     static QString typeToString(variableType type);
     static QString organTypeToString(VariableOrganType type);
 	
-	
-private:
 	
 signals:
     void signalVariableChanged(); // TODO: customer has to handle it in each variables.

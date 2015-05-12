@@ -88,3 +88,8 @@ variableAccess CVariableUnknow::getAccess()const{
 int CVariableUnknow::getAddress()const{
     return 0;
 }
+
+void CVariableUnknow::setRelatedStreamName(const QString &variableName)
+{
+
+}

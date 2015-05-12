@@ -47,6 +47,7 @@ public:
 
     variableAccess getAccess()const Q_DECL_OVERRIDE;
     int getAddress()const Q_DECL_OVERRIDE;
+    void setRelatedStreamName(const QString &variableName) Q_DECL_OVERRIDE;
 
 private:
 
@@ -54,12 +55,12 @@ private:
     variableAccess m_access;
     QString m_name;
 	QString m_label;
+    QString m_streamRelatedVariableName;
     IVariable * m_measure;
     IVariable * m_measureMax;
     IVariable * m_measureMin;
 
     QList<IVariable*> m_listVariables;
-    
 };
 
 #endif // CVARIABLEMEASURE_H

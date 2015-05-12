@@ -117,3 +117,8 @@ variableAccess CVariableString::getAccess()const{
 int CVariableString::getAddress()const{
     return m_address;
 }
+
+void CVariableString::setRelatedStreamName(const QString &variableName)
+{
+
+}

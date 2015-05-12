@@ -4,11 +4,13 @@
 
 #include "CUnit.h"
 #include "qlinkedlist.h"
-CVariableMeasure::CVariableMeasure(QObject *parent):IVariable(parent)
+CVariableMeasure::CVariableMeasure(QObject *parent)
+    :IVariable(parent)
 {	
 }
-CVariableMeasure::CVariableMeasure(const QMap<QString, QVariant> &mapVar):IVariable(){
-
+CVariableMeasure::CVariableMeasure(const QMap<QString, QVariant> &mapVar)
+    :IVariable()
+{
     if(mapVar.contains(QStringLiteral("name")))
         m_name = mapVar.value(QStringLiteral("name")).toString();
     else m_name = QStringLiteral("Stream unamed");
@@ -91,13 +93,13 @@ CUnit * CVariableMeasure::getUnit() const{
     return Q_NULLPTR;
 }
 bool  CVariableMeasure::isStreamRelated()const{
-	return false;
+    return !m_streamRelatedVariableName.isEmpty();
 }
 QString  CVariableMeasure::getRelatedStreamName()const{
-    return QStringLiteral("stream_1");
+    return m_streamRelatedVariableName.isEmpty() ? QStringLiteral("stream_1") : m_streamRelatedVariableName;
 }
 bool  CVariableMeasure::isMeasureRelated()const{
-	return false;
+    return false;
 }
 QString  CVariableMeasure::getRelatedMeasureName()const{
     return QStringLiteral("mesure a changer");
@@ -134,4 +136,9 @@ variableAccess CVariableMeasure::getAccess()const{
 }
 int CVariableMeasure::getAddress()const{
     return m_address;
+}
+
+void CVariableMeasure::setRelatedStreamName(const QString &variableName)
+{
+    m_streamRelatedVariableName = variableName;
 }

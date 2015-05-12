@@ -55,6 +55,7 @@ public:
 
     variableAccess getAccess()const Q_DECL_OVERRIDE;
     int getAddress()const Q_DECL_OVERRIDE;
+    void setRelatedStreamName(const QString &variableName) Q_DECL_OVERRIDE;
 
 private:
 

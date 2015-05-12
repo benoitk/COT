@@ -82,6 +82,11 @@ void CVariableStream::delCycle(const QString &name)
         }
     }
 }
+
+void CVariableStream::setRelatedStreamName(const QString &variableName)
+{
+
+}
 QString CVariableStream::getName()const{
     return m_name;
 }

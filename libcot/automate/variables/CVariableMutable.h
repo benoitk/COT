@@ -62,6 +62,7 @@ public:
 
     CVariableMutable::Type mutableType() const;
     void setMutableType(CVariableMutable::Type mutableType);
+    void setRelatedStreamName(const QString &variableName) Q_DECL_OVERRIDE;
 
 private:
     QVariantMap m_data;

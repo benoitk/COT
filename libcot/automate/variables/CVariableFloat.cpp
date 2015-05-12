@@ -122,6 +122,11 @@ int CVariableFloat::getAddress()const{
     return m_address;
 }
 
+void CVariableFloat::setRelatedStreamName(const QString &variableName)
+{
+
+}
+
 void CVariableFloat::setAccess(variableAccess access)
 {
     m_access = access;

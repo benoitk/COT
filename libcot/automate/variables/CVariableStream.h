@@ -54,7 +54,7 @@ public:
 
     void addCycle(ICycle *cycle);
     void delCycle(const QString &name);
-
+    void setRelatedStreamName(const QString &variableName) Q_DECL_OVERRIDE;
 private:
 
     int m_address;

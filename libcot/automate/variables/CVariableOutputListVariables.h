@@ -58,7 +58,7 @@ public:
 
     IVariable* getVariable(const QString&);
     void addVaraiable(IVariable*);
-
+    void setRelatedStreamName(const QString &variableName) Q_DECL_OVERRIDE;
 private:
 
     int m_address;

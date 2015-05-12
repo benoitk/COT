@@ -156,3 +156,8 @@ variableAccess CVariableInputFloat::getAccess()const{
 int CVariableInputFloat::getAddress()const{
     return m_address;
 }
+
+void CVariableInputFloat::setRelatedStreamName(const QString &variableName)
+{
+
+}

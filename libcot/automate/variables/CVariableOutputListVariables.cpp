@@ -144,3 +144,8 @@ variableAccess CVariableOutputListVariables::getAccess()const{
 int CVariableOutputListVariables::getAddress()const{
     return m_address;
 }
+
+void CVariableOutputListVariables::setRelatedStreamName(const QString &variableName)
+{
+
+}

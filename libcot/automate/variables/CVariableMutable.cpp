@@ -97,6 +97,11 @@ void CVariableMutable::setMutableType(CVariableMutable::Type mutableType)
     m_data["mutableType"] = mutableType;
 }
 
+void CVariableMutable::setRelatedStreamName(const QString &variableName)
+{
+
+}
+
 QVariantMap CVariableMutable::serialise()
 {
     return m_data;
