@@ -52,6 +52,9 @@ public:
     virtual bool isDisplay()const Q_DECL_OVERRIDE;
     virtual QList<IVariable*> getListOutBinds()const Q_DECL_OVERRIDE;
     virtual QList<IVariable*> getListInBinds()const Q_DECL_OVERRIDE;
+    void setListOutBinds(const QList<IVariable*> &) Q_DECL_OVERRIDE;
+    void setListInBinds(const QList<IVariable*> &) Q_DECL_OVERRIDE;
+
     virtual variableAccess getAccess()const  Q_DECL_OVERRIDE;
     virtual int getAddress()const  Q_DECL_OVERRIDE;
     //qvariantmap can be converted to a json object

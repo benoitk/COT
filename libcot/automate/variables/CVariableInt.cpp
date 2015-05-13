@@ -120,6 +120,16 @@ void CVariableInt::setRelatedStreamName(const QString &variableName)
 
 }
 
+void CVariableInt::setListOutBinds(const QList<IVariable *> &)
+{
+    //SERES_TODO: Implement that for each variable
+}
+
+void CVariableInt::setListInBinds(const QList<IVariable *> &)
+{
+    //SERES_TODO: Implement that for each variable
+}
+
 void CVariableInt::setAccess(variableAccess access)
 {
     m_access = access;

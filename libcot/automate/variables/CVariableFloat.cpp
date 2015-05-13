@@ -107,6 +107,17 @@ QList<IVariable*>  CVariableFloat::getListInBinds()const{
 	return m_listBinds;
 
 }
+
+void CVariableFloat::setListOutBinds(const QList<IVariable *> &)
+{
+    //SERES_TODO: Implement that for each variable
+}
+
+void CVariableFloat::setListInBinds(const QList<IVariable *> &)
+{
+    //SERES_TODO: Implement that for each variable
+}
+
 QVariantMap CVariableFloat::serialise(){
      QVariantMap mapSerialise;
     mapSerialise.insert(QStringLiteral("name"), m_name);

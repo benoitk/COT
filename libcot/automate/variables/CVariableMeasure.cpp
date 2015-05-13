@@ -131,6 +131,16 @@ QVariantMap CVariableMeasure::serialise(){
     
     return mapSerialise;
 }
+
+void CVariableMeasure::setListOutBinds(const QList<IVariable *> &)
+{
+    //SERES_TODO: Implement that for each variable
+}
+
+void CVariableMeasure::setListInBinds(const QList<IVariable *> &)
+{
+    //SERES_TODO: Implement that for each variable
+}
 variableAccess CVariableMeasure::getAccess()const{
     return m_access;
 }

@@ -58,6 +58,9 @@ public:
     variableAccess getAccess()const Q_DECL_OVERRIDE;
     int getAddress()const Q_DECL_OVERRIDE;
     void setRelatedStreamName(const QString &variableName) Q_DECL_OVERRIDE;
+    void setListOutBinds(const QList<IVariable*> &) Q_DECL_OVERRIDE;
+    void setListInBinds(const QList<IVariable*> &) Q_DECL_OVERRIDE;
+
 private:
 
     int m_address;

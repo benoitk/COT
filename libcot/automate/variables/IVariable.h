@@ -61,6 +61,10 @@ public:
 	virtual bool isDisplay()const=0;
     virtual QList<IVariable*> getListOutBinds()const=0;
     virtual QList<IVariable*> getListInBinds()const=0;
+
+    virtual void setListOutBinds(const QList<IVariable*> &) =0;
+    virtual void setListInBinds(const QList<IVariable*> &) =0;
+
     virtual variableAccess getAccess()const =0;
     virtual int getAddress()const =0;
     //qvariantmap can be converted to a json object

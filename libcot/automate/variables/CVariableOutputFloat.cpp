@@ -130,6 +130,16 @@ QList<IVariable*>  CVariableOutputFloat::getListInBinds()const{
 
 }
 
+void CVariableOutputFloat::setListOutBinds(const QList<IVariable *> &)
+{
+    //SERES_TODO: Implement that for each variable
+}
+
+void CVariableOutputFloat::setListInBinds(const QList<IVariable *> &)
+{
+    //SERES_TODO: Implement that for each variable
+}
+
 QVariantMap CVariableOutputFloat::serialise()
 {
     QVariantMap mapSerialise;

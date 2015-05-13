@@ -51,6 +51,9 @@ public:
     QList<IVariable*> getListOutBinds()const Q_DECL_OVERRIDE;
     QList<IVariable*> getListInBinds()const Q_DECL_OVERRIDE;
 
+    void setListOutBinds(const QList<IVariable*> &) Q_DECL_OVERRIDE;
+    void setListInBinds(const QList<IVariable*> &) Q_DECL_OVERRIDE;
+
 	QVariantMap serialise() Q_DECL_OVERRIDE;
 
     variableAccess getAccess()const Q_DECL_OVERRIDE;

@@ -77,6 +77,16 @@ QList<IVariable*>  CVariableUnknow::getListInBinds()const{
 	return list;
 
 }
+
+void CVariableUnknow::setListOutBinds(const QList<IVariable *> &)
+{
+    //SERES_TODO: Implement that for each variable
+}
+
+void CVariableUnknow::setListInBinds(const QList<IVariable *> &)
+{
+    //SERES_TODO: Implement that for each variable
+}
 QVariantMap CVariableUnknow::serialise(){
     QVariantMap mapSerialise;
     mapSerialise.insert(QStringLiteral("unserialized"), QStringLiteral("CVariableUnknow"));

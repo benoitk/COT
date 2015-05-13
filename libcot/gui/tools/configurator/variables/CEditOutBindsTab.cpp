@@ -21,5 +21,7 @@ void CEditOutBindsTab::applyProperties(const QVariant &object)
 {
     IVariable *ivar = object.value<IVariable *>();
     Q_ASSERT(ivar);
+    QList<IVariable *> listOutBinds = ivar->getListOutBinds();
+
 }
 

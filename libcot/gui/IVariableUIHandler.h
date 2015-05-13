@@ -75,6 +75,8 @@ public:
     // Select an unit
     bool selectUnit(QString &value);
 
+    virtual IVariable *getVariable(const QString &name);
+
 protected:
     struct Row {
         Row() { }
@@ -91,7 +93,6 @@ protected:
     void removeRow(const QString &name);
     int layoutRow(QWidget *widget) const;
 
-    virtual IVariable *getVariable(const QString &name);
     virtual int columnCount() const;
 
     // Called by layout() for every row, every column

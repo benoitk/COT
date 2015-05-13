@@ -159,3 +159,13 @@ void CVariableInputBool::setRelatedStreamName(const QString &variableName)
 {
 
 }
+
+void CVariableInputBool::setListOutBinds(const QList<IVariable *> &)
+{
+    //SERES_TODO: Implement that for each variable
+}
+
+void CVariableInputBool::setListInBinds(const QList<IVariable *> &)
+{
+    //SERES_TODO: Implement that for each variable
+}

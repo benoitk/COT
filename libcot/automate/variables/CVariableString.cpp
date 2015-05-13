@@ -103,6 +103,16 @@ QList<IVariable*>  CVariableString::getListInBinds()const{
 	return m_listBinds;
 
 }
+
+void CVariableString::setListOutBinds(const QList<IVariable *> &)
+{
+    //SERES_TODO: Implement that for each variable
+}
+
+void CVariableString::setListInBinds(const QList<IVariable *> &)
+{
+    //SERES_TODO: Implement that for each variable
+}
 QVariantMap CVariableString::serialise(){
     QVariantMap mapSerialise;
     mapSerialise.insert(QStringLiteral("name"), m_name);

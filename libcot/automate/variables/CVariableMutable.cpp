@@ -149,6 +149,16 @@ QList<IVariable *> CVariableMutable::getListOutBinds() const
 QList<IVariable *> CVariableMutable::getListInBinds() const
 { return QList<IVariable *>(); }
 
+void CVariableMutable::setListOutBinds(const QList<IVariable *> &)
+{
+    //SERES_TODO: Implement that for each variable
+}
+
+void CVariableMutable::setListInBinds(const QList<IVariable *> &)
+{
+    //SERES_TODO: Implement that for each variable
+}
+
 int CVariableMutable::getAddress() const
 { return -1; }
 

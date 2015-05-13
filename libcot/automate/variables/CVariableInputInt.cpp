@@ -157,3 +157,13 @@ void CVariableInputInt::setRelatedStreamName(const QString &variableName)
 {
 
 }
+
+void CVariableInputInt::setListOutBinds(const QList<IVariable *> &)
+{
+    //SERES_TODO: Implement that for each variable
+}
+
+void CVariableInputInt::setListInBinds(const QList<IVariable *> &)
+{
+    //SERES_TODO: Implement that for each variable
+}

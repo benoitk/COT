@@ -192,6 +192,16 @@ QVariantMap CVariableStream::serialise(){
     mapSerialise.insert(QStringLiteral("measures"), listMeasures);
     return mapSerialise;
 }
+
+void CVariableStream::setListOutBinds(const QList<IVariable *> &)
+{
+    //SERES_TODO: Implement that for each variable
+}
+
+void CVariableStream::setListInBinds(const QList<IVariable *> &)
+{
+    //SERES_TODO: Implement that for each variable
+}
 variableAccess CVariableStream::getAccess()const{
     return m_access;
 }
