@@ -11,7 +11,7 @@
 #include "cotautomate_debug.h"
 
 IConverter* CConverterFactory::build(const QVariantMap &mapConverter){
-    
+
     IConverter* converter = NULL;
     if(mapConverter[QStringLiteral("type")].toString() == QStringLiteral("coef")){
         converter = new CConverterCoef(mapConverter);
@@ -24,11 +24,11 @@ IConverter* CConverterFactory::build(const QVariantMap &mapConverter){
     }
     else if(mapConverter[QStringLiteral("type")].toString() == QStringLiteral("offset_coef")){
         converter = new CConverterOffsetCoef(mapConverter);
-    
+
     }else{
         converter = new CConverterUnknow();
         qCDebug(COTAUTOMATE_LOG) << "Classe converter INCONNUE :  " << mapConverter[QStringLiteral("type")].toString();
-    
+
     }
 
     return converter;

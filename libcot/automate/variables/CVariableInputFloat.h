@@ -15,7 +15,7 @@ public:
     CVariableInputFloat(QObject *parent = Q_NULLPTR);
     CVariableInputFloat(const QMap<QString, QVariant> &mapVar);
     ~CVariableInputFloat();
-        
+
     //IVariableInput
     CModelExtensionCard* getExtensionCard()const Q_DECL_OVERRIDE;
     QString getOrganneName()const Q_DECL_OVERRIDE;

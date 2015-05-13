@@ -62,8 +62,8 @@ void CSequencer::setSequenceMesure(){
         this->disconnectCycle(m_cycleMaintenanceEnCours);
     }
 
-    this->disconnectCycle(m_cycleMesureEnCours);    
-    
+    this->disconnectCycle(m_cycleMesureEnCours);
+
 
     if( m_itListSequenceCyclesMesures != m_listSequenceCyclesMesures.end()){
 
@@ -94,10 +94,10 @@ void CSequencer::disconnectCycle(ICycle* cycle){
     }
 }
 void CSequencer::playSequenceMaintenance(int id_cycle){
-    
+
 }
 void CSequencer::playSequenceAutonome(){
-    
+
 }
 //Play Next cycle Mesure
 void CSequencer::slotRequestPlayNextSequenceMesure(){

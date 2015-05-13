@@ -45,7 +45,7 @@ void CVariableOutputFloat::setOrganne(CModelExtensionCard* arg_model, const QStr
 }
 
 void CVariableOutputFloat::writeValue(){
-    
+
 
 }
 QString CVariableOutputFloat::toString(){

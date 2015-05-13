@@ -11,7 +11,7 @@
 
 
 IAction* CActionFactory::build(const QVariantMap &mapAction){
-    
+
     IAction* action = Q_NULLPTR;
     const QString type = mapAction[QStringLiteral("type")].toString();
     if(type == QStringLiteral("cmd_pump")){

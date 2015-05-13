@@ -25,7 +25,7 @@ QVariant CUnit::convert(const QString &targetKey, const QVariant &sourceValue){
     QVariant var;
     if(converter)
         var = converter->convert(sourceValue);
-    
+
     return var;
 }
 

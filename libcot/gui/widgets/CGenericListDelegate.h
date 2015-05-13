@@ -11,7 +11,7 @@ class CGenericListDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 
-public:   
+public:
     explicit CGenericListDelegate(QObject *parent = Q_NULLPTR);
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const Q_DECL_OVERRIDE;
     QSize sizeHint(const QStyleOptionViewItem &, const QModelIndex &) const Q_DECL_OVERRIDE;

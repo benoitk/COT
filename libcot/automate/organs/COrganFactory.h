@@ -13,7 +13,7 @@ public:
 
 
 private:
-    
+
 };
 
 #endif // CORGANFACTORY_H

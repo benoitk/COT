@@ -162,8 +162,8 @@ HEADERS *= \
     gui/IVariableUIHandler.h \
     gui/IVariableObjectDescriber.h \
     gui/IConfiguratorUIHandler.h \
-    $$KPLOTTING_SRC_PWD/src/kplotaxis.h \ 
-    $$KPLOTTING_SRC_PWD/src/kplotobject.h \ 
+    $$KPLOTTING_SRC_PWD/src/kplotaxis.h \
+    $$KPLOTTING_SRC_PWD/src/kplotobject.h \
     $$KPLOTTING_SRC_PWD/src/kplotpoint.h \
     $$KPLOTTING_SRC_PWD/src/kplotwidget.h \
     graphics/CGraphicsWidget.h \
@@ -328,8 +328,8 @@ SOURCES *= \
     gui/IVariableUIHandler.cpp \
     gui/IVariableObjectDescriber.cpp \
     gui/IConfiguratorUIHandler.cpp \
-    $$KPLOTTING_SRC_PWD/src/kplotaxis.cpp \ 
-    $$KPLOTTING_SRC_PWD/src/kplotobject.cpp \ 
+    $$KPLOTTING_SRC_PWD/src/kplotaxis.cpp \
+    $$KPLOTTING_SRC_PWD/src/kplotobject.cpp \
     $$KPLOTTING_SRC_PWD/src/kplotpoint.cpp \
     $$KPLOTTING_SRC_PWD/src/kplotwidget.cpp \
     graphics/CGraphicsWidget.cpp \

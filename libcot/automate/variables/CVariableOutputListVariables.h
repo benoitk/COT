@@ -27,7 +27,7 @@ public:
     //IVariable
     QString getName()const Q_DECL_OVERRIDE;
     void setName(const QString&)Q_DECL_OVERRIDE;
-    
+
     QString toString() Q_DECL_OVERRIDE;
     int toInt() Q_DECL_OVERRIDE;
     float toFloat() Q_DECL_OVERRIDE;
@@ -77,8 +77,8 @@ private:
     CUnit* m_unit;
 
     QList<IVariable*> m_listVariables;
-    
-    
+
+
 };
 
 #endif // CVARIABLEOUTPUTLISTVARIABLES_H

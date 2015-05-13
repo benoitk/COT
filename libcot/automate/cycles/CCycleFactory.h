@@ -13,10 +13,10 @@ class CCycleFactory : public QObject
 public:
     static ICycle* build(eTypeCycle type);
     static ICycle* build(const QVariantMap &mapCycle);
-    
+
 
 private:
-    
+
 };
 
 #endif // CCYCLEFACTORY_H

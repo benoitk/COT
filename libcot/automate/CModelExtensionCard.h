@@ -38,12 +38,12 @@ public:
 
 
 private:
-    
+
     //qmap<name, type>
 
     QMap<QString, IOrgan*> m_mapOrgans;
     ICom* m_interfaceCom;
-    
+
     QString m_label;
     QString m_name;
 

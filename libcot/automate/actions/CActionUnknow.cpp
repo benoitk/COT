@@ -21,7 +21,7 @@ bool CActionUnknow::runAction(){
 }
 
 QString CActionUnknow::getName()const{
-    return m_name; 
+    return m_name;
 }
 
 QList<IVariable*> CActionUnknow::getListParameters()const{

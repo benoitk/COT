@@ -42,7 +42,7 @@ QString CComUnknow::getName()const{
     return QStringLiteral("Unknow com");
 }
 comType CComUnknow::getType()const{
-    return type_com_unknow; 
+    return type_com_unknow;
 }
 
 

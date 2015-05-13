@@ -51,11 +51,11 @@
                        {"name":"loop_0_20_status", "type":"output_integer", "address_data":"0x0403"},
                        {"name":"loop_0_20_reset", "type":"output_integer", "address_data":"0x0406"}]
         }
-       
+
     ],
 
     "units":[{"name":"g_l", "fr_FR":"g/l"}, {"name":"mg_l", "fr_FR":"mg/l"}, {"name":"µg_l", "fr_FR":"µg/l"}, {"name":"tr_min", "fr_FR":"tr/min"},
-             {"name":"deg_celsius", "fr_FR":"°C"}, {"name":"deg_fahrenheit", "fr_FR":"°F"}, {"name":"kelvin", "fr_FR":"K"}, 
+             {"name":"deg_celsius", "fr_FR":"°C"}, {"name":"deg_fahrenheit", "fr_FR":"°F"}, {"name":"kelvin", "fr_FR":"K"},
              {"name":"pts", "fr_FR":"Points"}, {"name":"ntu", "fr_FR":"NTU"}
     ],
 
@@ -101,19 +101,19 @@
                     {"name":"stream_2_state", "fr_FR":"Status voie COV", "en_US":"NaA", "type":"boolean", "value":false},
                     {"name":"selecteur_position_stream1", "fr_FR":"Position voie 1", "en_US":"Position stream 1", "type":"integer", "value":90},
                     {"name":"selecteur_position_stream2", "fr_FR":"Position voie 1", "en_US":"Position stream 2", "type":"integer", "value":180},
-                    
-                    {"name":"coeffs_linearisation", "fr_FR":"Coefficients de linéarisation", "en_US":"Linearisation coefficients", "type":"map_float_float", 
+
+                    {"name":"coeffs_linearisation", "fr_FR":"Coefficients de linéarisation", "en_US":"Linearisation coefficients", "type":"map_float_float",
                     "values":[{"key":0, "value":0}, {"key":0.789, "value":5}, {"key":0.921, "value":6}, {"key":1.069, "value":7}, {"key":1.163, "value":8}, {"key":1.269, "value":9}, {"key":1.362, "value":10}, {"key":1.52, "value":11}]
-                    }, 
+                    },
                     {"name":"direct_measure", "fr_FR" : "Mesure direct", "en_US" : "Direct measure", "type":"input_float",
                         "value" : 0, "extension_name":"measure_card_1", "organ_name":"measure_cell"
                     },
                     {"name":"temperature_cell", "fr_FR" : "Température cuve", "en_US" : "Cell température", "type":"input_float",
                         "value" : 0, "extension_name":"measure_card_1", "organ_name":"temperature_cell"
                     },
-                   
+
                     {"name":"loop_4_20", "fr_FR" : "Sortie 4-20 mA", "en_US" : "4-20 mA output", "type":"output_integer_point",
-                        "value" : 0, "extension_name":"measure_card_1", "organ_name":"loop_0_20_data", "range_min":0, "range_point_min":0, "range_max":20, "range_point_max":4695  
+                        "value" : 0, "extension_name":"measure_card_1", "organ_name":"loop_0_20_data", "range_min":0, "range_point_min":0, "range_max":20, "range_point_max":4695
                     },
                     {"name":"analyzer_default", "fr_FR" : "Défaut analyseur", "en_US" : "Analyzer default", "type":"output_boolean",
                             "value" : 0, "extension_name":"io_card_1", "organ_name":"tor_output_0"
@@ -127,8 +127,8 @@
                     {"name":"emptying_solenoide", "fr_FR" : "EV vidange", "en_US" : "Emptying solenoid", "type":"output_boolean",
                             "value" : false, "extension_name":"io_card_1", "organ_name":"tor_output_2", "passive":false
                     },
-                
-                    {"name":"pump_persulfate", "fr_FR" : "Pompe persulfate", "en_US" : "Persulfate pump", "type":"output_list_variables", 
+
+                    {"name":"pump_persulfate", "fr_FR" : "Pompe persulfate", "en_US" : "Persulfate pump", "type":"output_list_variables",
                         "variables": [  {"name":"num_tour_pump", "fr_FR" : "Nombre de tour", "en_US" : "Tour number", "type":"integer", "value" : 4, "unit":"tr_min"},
                                         {"name":"speed_pump", "fr_FR" : "Vitesse", "en_US" : "Speed pump", "type":"integer", "value" : 30, "unit":"tr_min"},
                                         {"name":"direction_clockwise_pump", "fr_FR" : "Pompe en sens anti-trigo", "en_US" : "Pump set to clockwise", "type":"boolean", "value" : true, "unit":"tr_min"},
@@ -142,7 +142,7 @@
                     {"name":"direction_clockwise_pump_persulfate", "fr_FR" : "Pompe en sens anti-trigo", "en_US" : "Pump set to clockwise", "type":"boolean", "value" : true, "unit":"tr_min"},
                     {"name":"step_by_step_pump_persulfate", "fr_FR" : "Pompe en pas à pas", "en_US" : "Pump set to step by step", "type":"boolean", "value" : true, "unit":"tr_min"},
                     {"name":"cmd_continus_pump_persulfate", "fr_FR" : "Pompe alimenté au repos", "en_US" : "Pump always powered", "type":"boolean", "value" : true, "unit":"tr_min"}
-                    
+
     ],
 
     "display":[
@@ -159,7 +159,7 @@
 
     ],
 
-    
+
 
 
     "binds" : [

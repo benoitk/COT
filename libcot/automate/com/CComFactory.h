@@ -11,7 +11,7 @@ class CComFactory : public QObject
 public:
     static ICom* build(const QVariantMap&);
 
-    
+
 };
 
 #endif // CCOMFACTORY_H

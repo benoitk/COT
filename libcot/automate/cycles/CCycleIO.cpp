@@ -19,14 +19,14 @@ int CCycleIO::getCurrentStepIndex() const
     return -1;
 }
 void CCycleIO::slotRunCycle(){
-    
+
 }
 void CCycleIO::slotPauseCycle(){
-    
+
 }
 void CCycleIO::slotStopCycle(){
 }
 
 void CCycleIO::addAction(int, IAction* action){
-    
+
 }

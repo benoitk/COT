@@ -16,7 +16,7 @@ public:
 
     QString getName()const Q_DECL_OVERRIDE;
     void setName(const QString&)Q_DECL_OVERRIDE;
-    
+
     QString toString() Q_DECL_OVERRIDE;
     int toInt() Q_DECL_OVERRIDE;
     float toFloat() Q_DECL_OVERRIDE;
@@ -48,7 +48,7 @@ public:
     void setRelatedStreamName(const QString &variableName) Q_DECL_OVERRIDE;
 private:
 
-    
+
     QString m_label;
 };
 

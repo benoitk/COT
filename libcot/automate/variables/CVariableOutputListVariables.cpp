@@ -44,7 +44,7 @@ void CVariableOutputListVariables::setOrganne(CModelExtensionCard* arg_model, co
 }
 
 void CVariableOutputListVariables::writeValue(){
-    
+
 
 }
 QString CVariableOutputListVariables::toString(){

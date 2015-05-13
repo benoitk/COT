@@ -71,10 +71,10 @@ CDisplayConf::CDisplayConf(const QJsonArray& jsonArray, QObject *parent)
                     //else qCDebug(COTAUTOMATE_LOG) << "CDisplay Conf elec_tests type_unknow" << mapScreen;
                 }
             }
-            
-        }else{ 
+
+        }else{
             qCDebug(COTAUTOMATE_LOG) << "display écran inconnu " << mapScreen;
-        }        
+        }
     }
 
     qCDebug(COTAUTOMATE_LOG) << "diagnostic" << m_listForScrenDiagnostic;
@@ -119,7 +119,7 @@ void CDisplayConf::delVariableToScreenDiagnostic(IVariable* var){
         }
         i++;
     }
-    
+
 }
 void CDisplayConf::delVariableToScreenElectricalTest(const QString& tab, IVariable* var){
     if(m_mapForScrenElectricalTests.contains(tab)){

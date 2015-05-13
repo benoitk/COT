@@ -13,7 +13,7 @@ CCyclePause::CCyclePause(const QVariantMap &mapCycle)
     m_name = mapCycle[QStringLiteral("name")].toString();
     m_label = mapCycle[tr("FR_lbl")].toString();
     m_iTempsCycle = mapCycle[QStringLiteral("timer")].toInt();
-    
+
     initTimer();
     this->moveToThread(&m_thread);
     m_thread.start();
@@ -56,16 +56,16 @@ void CCyclePause::slotExecNextStep(){
 QString CCyclePause::getLbl()const{ return m_label;}
 void CCyclePause::setLbl(const QString &lbl){ m_label = lbl;}
 void CCyclePause::slotPauseCycle(){
-    
+
 }
 void CCyclePause::slotUnPauseCycle(){
-    
+
 }
 void CCyclePause::slotStopCycle(){
 }
 
 void CCyclePause::addAction(int arg_step, IAction* action){
-    
+
 }
 void CCyclePause::setType(eTypeCycle){
 

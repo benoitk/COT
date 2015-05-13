@@ -12,7 +12,7 @@ public:
     virtual CUnit* getTarget()const=0;
 
 private:
-    
+
 };
 
 #endif // ICONVERTER_H

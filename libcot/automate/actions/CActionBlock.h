@@ -30,7 +30,7 @@ private:
     QString m_label;
     QList<IAction*> m_actions;
     QString m_name;
-    
+
 };
 
 #endif // CACTIONBLOCK_H

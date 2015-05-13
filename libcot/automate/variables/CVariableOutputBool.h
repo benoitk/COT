@@ -28,7 +28,7 @@ public:
 
     QString getName()const Q_DECL_OVERRIDE;
     void setName(const QString&)Q_DECL_OVERRIDE;
-    
+
     QString toString() Q_DECL_OVERRIDE;
     int toInt() Q_DECL_OVERRIDE;
     float toFloat() Q_DECL_OVERRIDE;
@@ -75,7 +75,7 @@ private:
     QString m_name;
     QString m_label;
     QList<IVariable*> m_listBinds;
-    
+
     CUnit* m_unit;
 };
 

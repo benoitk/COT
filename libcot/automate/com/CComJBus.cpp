@@ -39,8 +39,8 @@ QVariant CComJBus::readData(IVariableInput* arg_input){
         break;
     case type_int:
         {
-            byteArray = readNWordsFunction3(arg_input->getOrganneAddr().toInt(), 2);    
-        
+            byteArray = readNWordsFunction3(arg_input->getOrganneAddr().toInt(), 2);
+
             char byte;
             int value =0;
             int i=0;
@@ -65,7 +65,7 @@ QVariant CComJBus::readData(IVariableInput* arg_input){
     case type_unknow:
     default:
         break;
-    } 
+    }
     return QVariant();
 }
 void CComJBus::writeData(IVariableOutput* arg_output){
@@ -83,7 +83,7 @@ void CComJBus::writeData(IVariableOutput* arg_output){
     case type_unknow:
     default:
         break;
-    } 
+    }
 
 }
 
@@ -118,7 +118,7 @@ QString CComJBus::getName()const{
     return m_name;
 }
 comType CComJBus::getType()const{
-    return m_type; //typer slave et master ? 
+    return m_type; //typer slave et master ?
 }
 
 

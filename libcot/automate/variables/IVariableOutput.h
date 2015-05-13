@@ -21,7 +21,7 @@ public:
 
 private:
     virtual void writeValue()=0;
-    
+
 };
 
 #endif // IVariableOutput_H

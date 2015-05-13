@@ -23,7 +23,7 @@ public slots:
 
 private:
     int m_idCycle;
-    
+
 };
 
 #endif // CCYCLEIO_H

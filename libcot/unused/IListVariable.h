@@ -11,7 +11,7 @@ public:
     IListVariable(QObject* parent);
 
 private:
-    
+
 };
 
 #endif // ILISTVARIABLE_H

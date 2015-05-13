@@ -2,7 +2,7 @@
 
 CInt::CInt(QObject *parent):IVariable(parent)
 {
-    
+
 }
 
 CInt::~CInt()

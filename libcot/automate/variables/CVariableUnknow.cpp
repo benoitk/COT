@@ -45,7 +45,7 @@ variableType CVariableUnknow::getType()const{
     return type_unknow;
 }
 void CVariableUnknow::switchToUnit(CUnit* targetUnit){
-    
+
 }
 void  CVariableUnknow::delBind(IVariable*){
 

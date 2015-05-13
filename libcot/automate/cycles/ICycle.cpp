@@ -22,7 +22,7 @@ ICycle::ICycle()
 
 }
 
-ICycle::~ICycle() 
+ICycle::~ICycle()
 {
 
 }

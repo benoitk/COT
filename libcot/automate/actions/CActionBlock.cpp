@@ -36,7 +36,7 @@ bool CActionBlock::runAction(){
 
 
 QString CActionBlock::getName()const{
-    return m_name; 
+    return m_name;
 }
 
 QList<IVariable*> CActionBlock::getListParameters()const{

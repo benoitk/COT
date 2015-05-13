@@ -45,7 +45,7 @@ void CVariableOutputBool::setOrganne(CModelExtensionCard* arg_model,const  QStri
 }
 
 void CVariableOutputBool::writeValue(){
-    
+
 
 }
 QString CVariableOutputBool::toString(){

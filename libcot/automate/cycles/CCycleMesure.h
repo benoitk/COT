@@ -42,7 +42,7 @@ public slots:
     void slotGoToStepCycle(int) Q_DECL_OVERRIDE;
     void slotGetReadyForPlayNextCycle() Q_DECL_OVERRIDE;
     void slotGetReadyForPlayCycle() Q_DECL_OVERRIDE;
-    
+
     void slotExecNextStep() Q_DECL_OVERRIDE;
 
 private:

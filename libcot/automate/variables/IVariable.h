@@ -73,8 +73,8 @@ public:
 
     static QString typeToString(variableType type);
     static QString organTypeToString(VariableOrganType type);
-    
-    
+
+
 signals:
     void signalVariableChanged(); // SERES_TODO: handle it in each variable.
 };

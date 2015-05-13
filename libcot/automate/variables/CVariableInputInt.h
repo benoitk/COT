@@ -19,8 +19,8 @@ public:
 
 //IVariableInput
 
-    
-    
+
+
     CModelExtensionCard* getExtensionCard()const Q_DECL_OVERRIDE;
     QString getOrganneName()const Q_DECL_OVERRIDE;
     QString getOrganneAddr()const Q_DECL_OVERRIDE;
@@ -75,7 +75,7 @@ private:
     QString m_label;
     QList<IVariable*> m_listBinds;
     CUnit* m_unit;
-    
+
 };
 
 #endif // CVARIBALEINPUTINT_H

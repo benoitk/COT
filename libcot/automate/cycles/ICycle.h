@@ -58,8 +58,8 @@ signals:
     void signalRunning();
     void signalReadyForPlayNextCycle();
     void signalReadyForPlayCycle();
-    
-    
+
+
 };
 
 #endif // ICYCLE_H

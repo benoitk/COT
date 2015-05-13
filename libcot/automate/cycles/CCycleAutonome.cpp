@@ -45,18 +45,18 @@ int CCycleAutonome::getCurrentStepIndex() const
 //}
 //void CCycleAutonome::slotRunCycle(){
 //    qCDebug(COTAUTOMATE_LOG) << "CCycleAutonome::slotRunCycle()";
-//    
+//
 //}
 //QString CCycleAutonome::getLbl()const{ return m_label;}
 //void CCycleAutonome::setLbl(const QString &lbl){ m_label = lbl;}
 //void CCycleAutonome::slotPauseCycle(){
-//    
+//
 //}
 //void CCycleAutonome::slotStopCycle(){
 //}
 //
 //void CCycleAutonome::addAction(IAction* action){
-//    
+//
 //}
 //void CCycleAutonome::setType(eTypeCycle){
 //

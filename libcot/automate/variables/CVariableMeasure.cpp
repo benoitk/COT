@@ -9,7 +9,7 @@
 
 CVariableMeasure::CVariableMeasure(QObject *parent)
     :IVariable(parent)
-{    
+{
 }
 CVariableMeasure::CVariableMeasure(const QMap<QString, QVariant> &mapVar)
     :IVariable()
@@ -17,15 +17,15 @@ CVariableMeasure::CVariableMeasure(const QMap<QString, QVariant> &mapVar)
     m_name = mapVar.value(QSL("name")).toString();
     if (m_name.isEmpty())
         m_name = QSL("Stream unamed");
-    
+
     m_label = mapVar.value(tr("fr_FR")).toString();
     if (m_label.isEmpty())
         m_label = tr("Stream no label");
-    
+
     m_measure = CAutomate::getInstance()->getVariable(mapVar.value(QSL("variable_measure")).toString());
     m_measureMax = CAutomate::getInstance()->getVariable(mapVar.value(QSL("variable_range_max")).toString());
     m_measureMin = CAutomate::getInstance()->getVariable(mapVar.value(QSL("variable_range_min")).toString());
-    
+
     QVariantList listVariable = mapVar.value(QStringLiteral("variables")).toList();
     foreach(const QVariant &variant, listVariable){
         m_listVariables.append(CAutomate::getInstance()->getVariable(variant.toString()));
@@ -76,7 +76,7 @@ void CVariableMeasure::setValue(const QVariant & value){
 }
 //Pas de récursivité dans les binds pour l'instant pour ne pas gérer les binds croisés({var1, var2}, {var2, var1})
 void CVariableMeasure::setToBindedValue(const QVariant & value){
-    
+
 }
 variableType CVariableMeasure::getType()const{
     return type_measure;
@@ -129,7 +129,7 @@ QVariantMap CVariableMeasure::serialise(){
     foreach(IVariable* var, m_listVariables){
         listVars.append(var->getName());
     }
-    
+
     return mapSerialise;
 }
 

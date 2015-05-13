@@ -26,7 +26,7 @@ public:
     comType getType()const Q_DECL_OVERRIDE;
 
 private:
-    
+
 };
 
 #endif // CCOMUNKNOW_H

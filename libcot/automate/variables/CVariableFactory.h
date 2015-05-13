@@ -27,7 +27,7 @@ public:
     }
 
 private:
-    
+
 };
 
 #endif // CVARIABLEFACTORY_H

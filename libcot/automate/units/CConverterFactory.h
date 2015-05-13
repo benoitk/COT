@@ -10,7 +10,7 @@ class CConverterFactory : public QObject
 
 public:
     static IConverter* build(const QVariantMap&);
-    
+
 };
 
 #endif //CCONVERTERFACTORY_H

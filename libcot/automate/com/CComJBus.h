@@ -36,7 +36,7 @@ public:
     comType getType()const Q_DECL_OVERRIDE;
 
 private:
-    
+
     INetwork* m_uart;
     int m_numSlave;
     QMap<int, IVariableInput*> m_mapInputTable;

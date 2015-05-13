@@ -34,7 +34,7 @@ public:
 public slots:
     void slotRunCycle();
     void slotPauseCycle();
-    void slotStopCycle();    
+    void slotStopCycle();
     void slotUnPauseCycle();
     void slotStopEndCycle();
     void slotGoToEndCycle();

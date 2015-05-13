@@ -45,8 +45,8 @@ public slots:
 
     void slotExecNextStep() Q_DECL_OVERRIDE;
 
-    
-private : 
+
+private :
 
     void initTimer();
 
@@ -61,7 +61,7 @@ private :
 
     CStep* m_stepStop;
     QList<CStep*> m_listSteps;
-    
+
 };
 
 #endif // CCYCLEPAUSE_H

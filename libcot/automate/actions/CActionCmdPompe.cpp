@@ -18,7 +18,7 @@ CActionCmdPompe::CActionCmdPompe(const QVariantMap &mapAction)
     CAutomate* automate = CAutomate::getInstance();
     m_name = mapAction[QStringLiteral("name")].toString();
     m_label = mapAction[tr("fr_FR")].toString();
-    if(mapAction.contains(QStringLiteral("pump")))  
+    if(mapAction.contains(QStringLiteral("pump")))
         m_pump = automate->getVariable(mapAction[QStringLiteral("pump")].toString());
     if(mapAction.contains(QStringLiteral("pump")))
         m_cmdContinu = automate->getVariable(mapAction[QStringLiteral("cmd_continu_pump")].toString());
@@ -34,7 +34,7 @@ CActionCmdPompe::CActionCmdPompe(const QVariantMap &mapAction)
         m_clockwise =  automate->getVariable(mapAction[QStringLiteral("direction_trigo_pump")].toString());
     if(mapAction.contains(QStringLiteral("pump")))
         m_speed = automate->getVariable(mapAction[QStringLiteral("speed_pump")].toString());
-    
+
 }
 CActionCmdPompe::CActionCmdPompe()
     : IAction()
@@ -70,7 +70,7 @@ bool CActionCmdPompe::runAction(){
 }
 
 QString CActionCmdPompe::getName()const{
-    return m_name; 
+    return m_name;
 }
 QString CActionCmdPompe::getLabel()const{
     return m_label;

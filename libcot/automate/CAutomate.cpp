@@ -39,7 +39,7 @@ CAutomate::CAutomate()
 
 
     QTimer* timer = new QTimer(this);
-    m_iClock = 0; 
+    m_iClock = 0;
     connect(timer, &QTimer::timeout, this, &CAutomate::slotClock);
     timer->setInterval(1000);
     timer->start();
@@ -48,15 +48,15 @@ CAutomate::CAutomate()
 
 void CAutomate::initConfig(){
     CModelConfigFile configFile(this);
-    
+
     QMap<QString, ICycle*> mapCycles = configFile.getMapCycle();
     m_sequencer = CSequencer::getInstance();
     m_sequencer->setSequenceMesure(configFile.getListSequencesMesure());
-    
+
     QThread* threadSequencer = new QThread(this);
-    
+
     m_sequencer->moveToThread(threadSequencer);
-    
+
     connect(threadSequencer, &QThread::started, m_sequencer, &CSequencer::slotRequestPlaySequenceMesure);
     connect(m_sequencer, &CSequencer::signalUpdated, this, &CAutomate::signalSchedulerUpdated);
     threadSequencer->start();
@@ -185,7 +185,7 @@ void CAutomate::addUnit(CUnit* unit){
 
 QList<CUnit*> CAutomate::getListUnits(){
     QMutexLocker locker(&m_mutex);
-    return m_listUnits; 
+    return m_listUnits;
 }
 
 CModelExtensionCard* CAutomate::getExtensionCard(const QString& name){
@@ -216,7 +216,7 @@ QMap<QString, ICom*> CAutomate::getMapComs(){
 }
 void CAutomate::addCom(ICom* com){
     QMutexLocker locker(&m_mutex);
-    if(com)    
+    if(com)
         m_mapComs.insert(com->getName(), com);
 }
 void CAutomate::addAction(IAction* action){

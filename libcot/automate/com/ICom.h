@@ -9,7 +9,7 @@ enum comType{
         type_jbus,
         type_jbus_over_tcpip,
         type_com_unknow
-        
+
 };
 
 class IVariableInput;
@@ -37,7 +37,7 @@ public:
     virtual comType getType()const=0;
 
 private:
-    
+
 };
 
 #endif // ICom_H

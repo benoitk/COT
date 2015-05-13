@@ -16,7 +16,7 @@ public:
     virtual void getType();
 
 private:
-    
+
 };
 
 #endif // INetwork_H

@@ -8,7 +8,7 @@
 CStep::CStep(const QMap<QString, QVariant> &mapStep)
     : QObject()
 {
-    
+
     m_numStep = mapStep.value(QStringLiteral("step")).toFloat();
     m_label = mapStep.value(tr("fr_FR")).toString();
     const QVariantList listActions = mapStep.value(QStringLiteral("actions")).toList();

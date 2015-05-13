@@ -42,7 +42,7 @@ CModelExtensionCard::CModelExtensionCard(const QVariantMap& mapExt)
             if(organ)
                 m_mapOrgans.insert(organ->getName(), organ);
         }
-        
+
     }
 }
 CModelExtensionCard::~CModelExtensionCard()
@@ -58,7 +58,7 @@ IOrgan* CModelExtensionCard::getOrgan(const QString& arg_name){
             organ = m_mapOrgans.value(QStringLiteral("unknown_organ"));
         else{
             QVariantMap map;
-            map.insert(QStringLiteral("name"),QStringLiteral("unknown_organ")); 
+            map.insert(QStringLiteral("name"),QStringLiteral("unknown_organ"));
             organ = COrganFactory::build(map);
             m_mapOrgans.insert(organ->getName(), organ);
         }

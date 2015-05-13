@@ -19,17 +19,17 @@ public:
     QString getLblAnalyser(const QLocale &);
     QList<ICycle*> getListSequencesMesure();
     QMap<QString, ICycle*> getMapCycle();
-    
+
     int getNumberOfStream() const;
     ICycle* getCycle(int);
 
 private:
     QJsonDocument* m_jsonDoc;
 
-    QMap<QString, IAction*> m_mapActions; 
-    QMap<QString, ICycle*> m_mapCycles; 
-    //QMap<QString, ICycle*> m_mapSequences; 
-    QList<ICycle*> m_listSequences; 
+    QMap<QString, IAction*> m_mapActions;
+    QMap<QString, ICycle*> m_mapCycles;
+    //QMap<QString, ICycle*> m_mapSequences;
+    QList<ICycle*> m_listSequences;
 
 };
 

@@ -38,13 +38,13 @@ bool CActionCmdReadInput::runAction(){
             << " var name " << m_variableDestination->getLabel()
             << " value (normalement l'état de l'entrée)" << m_variableDestination->toString();
 
-    
+
     return true;
 }
 
 
 QString CActionCmdReadInput::getName()const{
-    return m_name; 
+    return m_name;
 }
 
 QList<IVariable*> CActionCmdReadInput::getListParameters()const{

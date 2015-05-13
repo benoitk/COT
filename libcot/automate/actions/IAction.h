@@ -9,7 +9,7 @@ enum actionType{
         type_cmd_relay,
         type_cmd_read_input,
         type_action_unknow
-        
+
 };
 
 class IVariable;
@@ -28,7 +28,7 @@ public:
     virtual void setLabel(const QString&)=0;
     virtual QList<IVariable*> getListParameters()const=0;
     virtual actionType getType()const =0;
-    
+
 
 };
 

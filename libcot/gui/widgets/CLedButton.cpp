@@ -46,7 +46,7 @@ void CLedButton::setUserData(const QVariant &userData)
 void CLedButton::updateIcon()
 {
     static const QSize size(30, 30);
-    
+
     switch (m_checkState) {
     case Qt::Checked:
     case Qt::PartiallyChecked:

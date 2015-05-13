@@ -32,7 +32,7 @@ public:
     QList<IVariable*> getListForScreenOptions() const;
     QList<IVariable*> getListForScreenHistory() const;
     QList<IVariable*> getListForScreenAlarms() const;
-    
+
     static const QString STR_ELEC_420;
     static const QString STR_ELEC_RELAYS;
     static const QString STR_ELEC_INPUTS;

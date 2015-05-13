@@ -5,7 +5,7 @@
 #include <QObject>
 
 class CUnit;
-class CConverterOffsetCoef : public QObject, public IConverter 
+class CConverterOffsetCoef : public QObject, public IConverter
 {
     Q_OBJECT
 

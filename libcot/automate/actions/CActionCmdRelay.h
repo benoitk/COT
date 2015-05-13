@@ -14,7 +14,7 @@ public:
     CActionCmdRelay();
     ~CActionCmdRelay();
 
-    int getTiming();    
+    int getTiming();
     void setTiming(int);
     bool runAction() Q_DECL_OVERRIDE;
     QString getName()const Q_DECL_OVERRIDE;
@@ -27,7 +27,7 @@ private:
     QString m_label;
     IVariable* m_RelayVar;
     QString m_name;
-    
+
 };
 
 #endif // CACTIONCMDRELAY_H

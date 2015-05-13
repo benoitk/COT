@@ -11,7 +11,7 @@ class CSequencer : public QObject
     Q_OBJECT
 
 public:
-    
+
     //API
     typedef QPair<ICycle *, int> CyclePair;
 
@@ -38,7 +38,7 @@ public:
     void setSequenceMesure(QList<ICycle *>);
 
 public slots:
-    void slotRequestPlaySequenceMesure(); //démarre ou redémarre 
+    void slotRequestPlaySequenceMesure(); //démarre ou redémarre
     void slotRequestPlayNextSequenceMesure();
     void slotRequestStopSequenceMesure();
     void slotRequestPauseSequenceMesure();
@@ -101,7 +101,7 @@ private:
     bool m_bCycleMesurePaused;
     bool m_bCycleMesureRunning;
 
-    QList<ICycle*>::iterator m_itListSequenceCyclesMesures; 
+    QList<ICycle*>::iterator m_itListSequenceCyclesMesures;
 
     ICycle* m_cycleMesureEnCours;
     ICycle* m_cycleMaintenanceEnCours;

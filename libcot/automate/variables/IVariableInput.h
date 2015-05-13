@@ -22,7 +22,7 @@ public:
 private:
 
     virtual IVariable* readValue()=0;
-    
+
 };
 
 #endif // IVariableInput_H

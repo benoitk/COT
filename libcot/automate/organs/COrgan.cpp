@@ -26,7 +26,7 @@ COrgan::COrgan(const QVariantMap& mapOrgan):IOrgan(){
     }
     else m_type = organType::input_bool;
 }
-    
+
 QString COrgan::getName()const {
     return m_name;
 }
@@ -36,11 +36,11 @@ void COrgan::setName(const QString & name) {
 organType COrgan::getType()const {
     return m_type;
 }
-//adresse physique sur le materiel, varie selon protocol 
+//adresse physique sur le materiel, varie selon protocol
 QString COrgan::getAddress()const {
     QString sAddress = QStringLiteral("0x") + QString::number(m_address);
     return sAddress;
-} 
+}
 void COrgan::setAddress(const QString & arg_address) {
     m_address = arg_address.toInt();
 }

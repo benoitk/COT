@@ -6,7 +6,7 @@
 CEditInBindsTab::CEditInBindsTab(QWidget *parent)
     : IConfiguratorEditTab(parent)
 {
-    
+
     m_configuratorUIHandler = new CEditInBindsUIHandler(scrollableWidget(), this);
 
     initBaseTab();

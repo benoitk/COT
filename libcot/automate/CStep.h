@@ -11,7 +11,7 @@ class CStep : public QObject
 public:
     CStep(const QMap<QString, QVariant> &);
     ~CStep();
-    
+
     //use for API
     QString getLabel()const;
     void setLabel(const QString &);
@@ -24,7 +24,7 @@ public:
     void execStep();
 
 private:
-    
+
     QList<IAction*> m_listActions;
     float m_numStep; //peut gérer des pas flotant pour affiner le timming
     CStep* m_nextStep;

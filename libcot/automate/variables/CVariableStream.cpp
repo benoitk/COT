@@ -7,19 +7,19 @@
 
 #include "qlinkedlist.h"
 CVariableStream::CVariableStream(QObject *parent):IVariable(parent)
-{    
+{
 }
 CVariableStream::CVariableStream(const QMap<QString, QVariant> &mapVar):IVariable(){
     if(mapVar.contains(QStringLiteral("name")))
         m_name = mapVar.value(QStringLiteral("name")).toString();
     else m_name = QStringLiteral("Stream unamed");
-    
+
     if(mapVar.contains(tr("fr_FR")))
         m_label = mapVar.value(tr("fr_FR")).toString();
     else m_label = QStringLiteral("Stream no label");
-    
+
     m_activeState = CAutomate::getInstance()->getVariable(mapVar.value(QStringLiteral("active_state")).toString());
-    
+
     if(mapVar.contains(QStringLiteral("variables"))){
         QVariantList listVariable = mapVar.value(QStringLiteral("variables")).toList();
         foreach(const QVariant &variant, listVariable){
@@ -46,7 +46,7 @@ CVariableStream::CVariableStream(const QMap<QString, QVariant> &mapVar):IVariabl
         foreach(QVariant variant, listVariable){
             QVariantMap map = variant.toMap();
             map.insert(QStringLiteral("type"), QStringLiteral("measure"));
-            IVariable* var = CVariableFactory::build(map); 
+            IVariable* var = CVariableFactory::build(map);
             m_listMeasures.append(var);
         }
     }
@@ -128,7 +128,7 @@ void CVariableStream::setValue(const QVariant & value){
 }
 //Pas de récursivité dans les binds pour l'instant pour ne pas gérer les binds croisés({var1, var2}, {var2, var1})
 void CVariableStream::setToBindedValue(const QVariant & value){
-    
+
 }
 variableType CVariableStream::getType()const{
     return type_stream;

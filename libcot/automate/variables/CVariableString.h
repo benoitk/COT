@@ -1,5 +1,5 @@
 #ifndef CVARIABLESTRING_H
-#define CVARIABLESTRING_H 
+#define CVARIABLESTRING_H
 
 #include "IVariable.h"
 

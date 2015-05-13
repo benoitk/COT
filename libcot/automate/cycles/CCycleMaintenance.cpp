@@ -18,17 +18,17 @@ eTypeCycle CCycleMaintenance::getType()const{
 }
 void CCycleMaintenance::slotRunCycle(){
     qCDebug(COTAUTOMATE_LOG) << "CCycleMaintenance::slotRunCycle()";
-    
+
 }
 void CCycleMaintenance::slotPauseCycle(){
-    
+
 }
 void CCycleMaintenance::slotStopCycle(){
 }
 QString CCycleMaintenance::getLbl()const{ return m_label;}
 void CCycleMaintenance::setLbl(const QString &lbl){ m_label = lbl;}
 void CCycleMaintenance::addAction(int arg_step, IAction* action){
-    
+
 }
 void CCycleMaintenance::setType(eTypeCycle){
 

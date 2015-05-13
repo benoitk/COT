@@ -15,7 +15,7 @@ public:
 
 
 private:
-    
+
 };
 
 #endif // ICOMOBSERVER_H

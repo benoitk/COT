@@ -3,10 +3,10 @@
 
 
 CVoie::CVoie(QObject *parent):IVariable(parent)
-{    
+{
 }
 CVoie::CVoie(QObject * parent, int iNumVoie):IVariable(parent){
-    m_iNumVoie = iNumVoie;    
+    m_iNumVoie = iNumVoie;
 }
 
 CVoie::~CVoie()

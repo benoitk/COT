@@ -16,10 +16,10 @@ public:
     CVariableInt(int, int address = 0, variableAccess =access_read);
     ~CVariableInt();
 
-    
+
     QString getName()const Q_DECL_OVERRIDE;
     void setName(const QString&)Q_DECL_OVERRIDE;
-    
+
     QString toString() Q_DECL_OVERRIDE;
     int toInt() Q_DECL_OVERRIDE;
     float toFloat() Q_DECL_OVERRIDE;
