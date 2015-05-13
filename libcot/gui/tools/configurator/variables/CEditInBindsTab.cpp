@@ -21,4 +21,6 @@ void CEditInBindsTab::setVariables(IVariable *ivar)
 
 void CEditInBindsTab::applyProperties(const QVariant &object)
 {
+    Q_UNUSED(object);
+    //ReadOnly => nothing to do
 }

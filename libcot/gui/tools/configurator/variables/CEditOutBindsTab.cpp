@@ -19,5 +19,7 @@ void CEditOutBindsTab::setVariables(IVariable *ivar)
 
 void CEditOutBindsTab::applyProperties(const QVariant &object)
 {
+    IVariable *ivar = object.value<IVariable *>();
+    Q_ASSERT(ivar);
 }
 
