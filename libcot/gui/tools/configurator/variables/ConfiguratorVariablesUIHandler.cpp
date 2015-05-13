@@ -89,10 +89,10 @@ void ConfiguratorVariablesUIHandler::rowChanged(const IVariableUIHandler::Row &r
     const bool isStream = ivar && ivar->getType() == type_stream;
     const bool isMeasure = ivar && (ivar->getType() == type_measure);
     if (isStream) {
-        row.widgetAt<QLabel *>(0)->setText(ivar->getLabel());
+        row.widgetAt<QLabel *>(0)->setText(ivar->getName());
         row.widgetAt<CPushButton *>(1)->setText(ivar->getLabel());
     } else if (isMeasure) {
-        row.widgetAt<QLabel *>(1)->setText(ivar->getLabel());
+        row.widgetAt<QLabel *>(1)->setText(ivar->getName());
         row.widgetAt<CPushButton *>(2)->setText(ivar->getLabel());
     }
 }
