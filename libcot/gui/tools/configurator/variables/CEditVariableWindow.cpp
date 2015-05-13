@@ -17,7 +17,6 @@ CEditVariableWindow::CEditVariableWindow(IVariable *ivar, QWidget *parent)
     initBaseWindow();
     if (ivar) {
         setVariables(ivar);
-
     }
 }
 
@@ -37,7 +36,13 @@ void CEditVariableWindow::slotRetranslate()
 
 void CEditVariableWindow::slotCancelTriggered()
 {
-    //TODO save variable ?
+    IVariable *variable = editedObject().value<IVariable *>();
+    Q_ASSERT(variable);
+    const bool isNew = CAutomate::getInstance()->getMapVariables().values().contains(variable);
+
+    if (isNew) {
+        delete variable;
+    }
     close();
 }
 
