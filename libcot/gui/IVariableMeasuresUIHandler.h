@@ -11,10 +11,10 @@ public:
     explicit IVariableMeasuresUIHandler(CScrollableWidget *scrollable = Q_NULLPTR, QObject *parent = Q_NULLPTR);
 
 protected:
-    virtual int columnCount() const Q_DECL_OVERRIDE;
-    virtual QWidget *createWidget(int index, IVariable *ivar) Q_DECL_OVERRIDE;
-    virtual void rowInserted(const Row &row, IVariable *ivar) Q_DECL_OVERRIDE;
-    virtual void rowChanged(const Row &row, IVariable *ivar) Q_DECL_OVERRIDE;
+    int columnCount() const Q_DECL_OVERRIDE;
+    QWidget *createWidget(int index, IVariable *ivar) Q_DECL_OVERRIDE;
+    void rowInserted(const Row &row, IVariable *ivar) Q_DECL_OVERRIDE;
+    void rowChanged(const Row &row, IVariable *ivar) Q_DECL_OVERRIDE;
 
 private:
     QWidget *newEditor(IVariable *ivar);

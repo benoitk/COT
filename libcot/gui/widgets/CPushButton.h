@@ -17,7 +17,7 @@ public:
     void setUserData(const QVariant &userData);
 
 protected:
-    virtual void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
 
 private:
     QVariant m_userData;
