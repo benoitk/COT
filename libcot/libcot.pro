@@ -1,5 +1,5 @@
 TEMPLATE = lib
-TARGET = cot
+TARGET = cotlib
 QT *= widgets
 
 include("$${top_srcdir}/config.pri")

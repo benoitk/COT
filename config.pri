@@ -5,6 +5,10 @@ KPLOTTING_SRC_PWD = $${top_srcdir}/3rd_party/kplotting/
 LIBCOT_SRC_PWD = $${top_srcdir}/libcot
 LIBCOT_BUILD_PWD = $${top_builddir}/lib
 
+
+target.path = /home/seres/
+INSTALLS += target
+
 DEVICE_BUILD {
     DEFINES *= DEVICE_BUILD
     DEFINES *= LIBCOT_STATIC_BUILD
@@ -65,7 +69,7 @@ INCLUDEPATH *= \
 
 isEqual(TEMPLATE, "app") {
     QMAKE_RPATHDIR *= $${LIBCOT_BUILD_PWD}
-    LIBS *= -L$${LIBCOT_BUILD_PWD} -lcot
+    LIBS *= -L$${LIBCOT_BUILD_PWD} -lcotlib
 
     LIBCOT_STATIC_BUILD {
         PRE_TARGETDEPS *= $${LIBCOT_BUILD_PWD}
@@ -76,7 +80,7 @@ isEqual(TEMPLATE, "app") {
         CONFIG *= static
     }
 
-    isEqual(TARGET, "cot") {
+    isEqual(TARGET, "cotlib") {
         DEFINES *= LIBCOT_BUILD
         DESTDIR = $${LIBCOT_BUILD_PWD}
     }
@@ -98,11 +102,13 @@ unix {
   NORMAL_CFLAGS = -Wno-long-long
   #-ansi gives error with mingw
   NORMAL_CXXFLAGS = \
-    -Wnon-virtual-dtor -Wundef -Wcast-align \
+    -Wnon-virtual-dtor -Wundef  \
     -Wchar-subscripts -Wpointer-arith \
     -Wwrite-strings -Wpacked -Wformat-security \
     -Wmissing-format-attribute -Woverloaded-virtual
 
+  # gives warnings in Qt itself
+  #-Wcast-align
   # qCDebug is incompatible with -pedantic, see http://lists.qt-project.org/pipermail/development/2014-August/018022.html
   #NORMAL_CFLAGS *= -pedantic
 
