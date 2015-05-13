@@ -21,6 +21,7 @@ CConfiguratorVariablesTab::CConfiguratorVariablesTab(QWidget *parent)
     connect(ui->vbbButtons->addAction(CToolButton::Back), &QAction::triggered,
             this, &IConfiguratorTab::signalBackTriggered);
     connect(CAutomate::getInstance(), &CAutomate::signalVariableChanged, this, &CConfiguratorVariablesTab::slotUpdateLayout);
+    connect(CAutomate::getInstance(), &CAutomate::signalStreamsUpdated, this, &CConfiguratorVariablesTab::slotUpdateLayout);
 }
 
 CConfiguratorVariablesTab::~CConfiguratorVariablesTab()
