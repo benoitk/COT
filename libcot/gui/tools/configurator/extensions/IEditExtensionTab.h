@@ -4,7 +4,7 @@
 #include <QWidget>
 
 #include "CVerticalButtonBar.h"
-
+class IVariable;
 class IEditExtensionTab : public QWidget
 {
     Q_OBJECT
@@ -13,9 +13,10 @@ public:
 
     CVerticalButtonBar *buttonBar() const { return findChild<CVerticalButtonBar *>(); }
 
+    virtual void applyProperties(IVariable *ivar) = 0;
 signals:
-    void backTriggered();
-    void okTriggered();
+    void signalOkTriggered();
+    void signalCancelTriggered();
 };
 
 #endif // IEDITEXTENSIONTAB_H

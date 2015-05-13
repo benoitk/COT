@@ -9,13 +9,18 @@ CEditGeneralTab::CEditGeneralTab(QWidget *parent)
     ui->setupUi(this);
     ui->vbbButtons->addAction(CToolButton::ScrollUp, ui->swCentral->moveUp());
     ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->swCentral->moveDown());
-    connect(ui->vbbButtons->addAction(CToolButton::Back), &QAction::triggered,
-            this, &IEditExtensionTab::backTriggered);
+    connect(ui->vbbButtons->addAction(CToolButton::Cancel), &QAction::triggered,
+            this, &IEditExtensionTab::signalCancelTriggered);
     connect(ui->vbbButtons->addAction(CToolButton::Ok), &QAction::triggered,
-            this, &IEditExtensionTab::okTriggered);
+            this, &IEditExtensionTab::signalOkTriggered);
 }
 
 CEditGeneralTab::~CEditGeneralTab()
 {
     delete ui;
+}
+
+void CEditGeneralTab::applyProperties(IVariable *ivar)
+{
+
 }

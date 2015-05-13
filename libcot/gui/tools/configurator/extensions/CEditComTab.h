@@ -11,6 +11,7 @@ class CEditComTab : public IEditExtensionTab
 public:
     explicit CEditComTab(QWidget *parent = Q_NULLPTR);
     ~CEditComTab();
+    void applyProperties(IVariable *ivar) Q_DECL_OVERRIDE;
 
 private:
     Ui::CEditComTab *ui;

@@ -12,6 +12,8 @@ public:
     explicit CEditOrgansTab(QWidget *parent = Q_NULLPTR);
     ~CEditOrgansTab();
 
+    void applyProperties(IVariable *ivar) Q_DECL_OVERRIDE;
+
 private:
     Ui::CEditOrgansTab *ui;
 };
