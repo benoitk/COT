@@ -4,7 +4,6 @@
 #include "qlist.h"
 #include "CLinkAction.h"
 #include "CActionFactory.h"
-#include "CAutomate.h"
 #include "IAction.h"
 #include "CStep.h"
 

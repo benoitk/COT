@@ -81,7 +81,6 @@ isEqual(TEMPLATE, "app") {
     }
 
     isEqual(TARGET, "cotlib") {
-        DEFINES *= LIBCOT_BUILD
         DESTDIR = $${LIBCOT_BUILD_PWD}
     }
 
