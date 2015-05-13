@@ -10,6 +10,7 @@
 CEditVariableWindow::CEditVariableWindow(IVariable *ivar, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::CEditVariableWindow)
+    , m_ivariable(ivar)
 {
     ui->setupUi(this);
     m_ceditVariableTab = new CEditVariableTab(this);
@@ -64,7 +65,13 @@ void CEditVariableWindow::slotCancelTriggered()
 
 void CEditVariableWindow::slotOkTriggered()
 {
+    CAutomate *automate = CAutomate::getInstance();
+    for (int i = 0; i < ui->twPages->count(); ++i) {
+        IEditVariableTab *tab = qobject_cast<IEditVariableTab *>(ui->twPages->widget(i));
+        tab->applyProperties(m_ivariable);
+    }
     //TODO implement it.
+    //automate->informAboutVariableChanges(m_ivariable, oldmap);
     close();
 }
 
