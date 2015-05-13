@@ -582,6 +582,19 @@ int IVariableUIHandler::layoutRow(QWidget *widget) const
     return r;
 }
 
+int IVariableUIHandler::layoutRow(const IVariableUIHandler::Row &row) const
+{
+    foreach (QWidget *widget, row.widgets) {
+        const int r = layoutRow(widget);
+
+        if (r >= 0) {
+            return r;
+        }
+    }
+
+    return -1;
+}
+
 IVariable *IVariableUIHandler::getVariable(const QString &name)
 {
     IVariable *ivar = Q_NULLPTR;

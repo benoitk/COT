@@ -93,6 +93,7 @@ protected:
     Row *getRow(const QString &name) const;
     void removeRow(const QString &name);
     int layoutRow(QWidget *widget) const;
+    int layoutRow(const Row &row) const;
 
     virtual int columnCount() const;
 
