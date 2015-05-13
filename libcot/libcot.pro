@@ -43,29 +43,29 @@ FORMS *= \
     gui/tools/maintenance/CMaintenanceMaintenanceTab.ui \
     gui/tools/maintenance/CMaintenanceWindow.ui \
     gui/panel/CAboutWindow.ui \
-    gui/tools/configurator/CConfiguratorWindow.ui \
-    gui/tools/configurator/CConfiguratorCycleTab.ui \
-    gui/tools/configurator/CConfiguratorActionsTab.ui \
-    gui/tools/configurator/CConfiguratorVariablesTab.ui \
-    gui/tools/configurator/CConfiguratorSequencerTab.ui \
-    gui/tools/configurator/CConfiguratorStreamsTab.ui \
-    gui/tools/configurator/CConfiguratorExtensionsTab.ui \
-    gui/tools/configurator/CConfiguratorDisplayTab.ui \
-    gui/tools/configurator/CConfiguratorHardwareTab.ui \
-    gui/tools/configurator/CConfiguratorNetworkTab.ui \
-    gui/tools/configurator/variables/CEditVariableWindow.ui \
     gui/widgets/CGenericItemSelector.ui \
-    gui/tools/configurator/variables/CEditVariableTab.ui \
+    gui/tools/configurator/CConfiguratorWindow.ui \
+    gui/tools/configurator/actions/CConfiguratorActionsTab.ui \
+    gui/tools/configurator/actions/CEditActionTab.ui \
+    gui/tools/configurator/actions/CEditActionWindow.ui \
+    gui/tools/configurator/cycles/CConfiguratorCycleTab.ui \
+    gui/tools/configurator/cycles/CEditCycleTab.ui \
+    gui/tools/configurator/cycles/CEditCycleWindow.ui \
+    gui/tools/configurator/display/CConfiguratorDisplayTab.ui \
+    gui/tools/configurator/extensions/CConfiguratorExtensionsTab.ui \
+    gui/tools/configurator/extensions/CEditComTab.ui \
+    gui/tools/configurator/extensions/CEditExtensionWindow.ui \
+    gui/tools/configurator/extensions/CEditGeneralTab.ui \
+    gui/tools/configurator/extensions/CEditOrgansTab.ui \
+    gui/tools/configurator/hardware/CConfiguratorHardwareTab.ui \
+    gui/tools/configurator/network/CConfiguratorNetworkTab.ui \
+    gui/tools/configurator/sequencer/CConfiguratorSequencerTab.ui \
+    gui/tools/configurator/streams/CConfiguratorStreamsTab.ui \
+    gui/tools/configurator/variables/CConfiguratorVariablesTab.ui \
     gui/tools/configurator/variables/CEditInBindsTab.ui \
     gui/tools/configurator/variables/CEditOutBindsTab.ui \
-    gui/tools/configurator/extensions/CEditGeneralTab.ui \ 
-    gui/tools/configurator/extensions/CEditComTab.ui \
-    gui/tools/configurator/extensions/CEditOrgansTab.ui \
-    gui/tools/configurator/extensions/CEditExtensionWindow.ui \
-    gui/tools/configurator/cycles/CEditCycleWindow.ui \
-    gui/tools/configurator/cycles/CEditCycleTab.ui \
-    gui/tools/configurator/actions/CEditActionWindow.ui \
-    gui/tools/configurator/actions/CEditActionTab.ui
+    gui/tools/configurator/variables/CEditVariableTab.ui \
+    gui/tools/configurator/variables/CEditVariableWindow.ui
 
 HEADERS *= \
     automate/CAutomate.h \
@@ -195,48 +195,48 @@ HEADERS *= \
     gui/widgets/CLabelledToolButtonGrid.h \
     gui/panel/CAboutWindow.h \
     gui/widgets/CMessageBox.h \
-    gui/tools/configurator/CConfiguratorWindow.h \
-    gui/tools/configurator/IConfiguratorTab.h \
-    gui/tools/configurator/CConfiguratorCycleTab.h \
-    gui/tools/configurator/CConfiguratorActionsTab.h \
-    gui/tools/configurator/CConfiguratorVariablesTab.h \
-    gui/tools/configurator/CConfiguratorSequencerTab.h \
-    gui/tools/configurator/CConfiguratorStreamsTab.h \
-    gui/tools/configurator/CConfiguratorExtensionsTab.h \
-    gui/tools/configurator/CConfiguratorDisplayTab.h \
-    gui/tools/configurator/CConfiguratorHardwareTab.h \
-    gui/tools/configurator/CConfiguratorNetworkTab.h \
-    gui/tools/configurator/variables/CEditVariableWindow.h \
-    gui/tools/configurator/variables/IEditVariableTab.h \
 	gui/widgets/CGenericVariableUIHandler.h \
-    gui/tools/configurator/variables/CEditVariableTab.h \
-    gui/tools/configurator/variables/CEditInBindsTab.h \
-    gui/tools/configurator/variables/CEditOutBindsTab.h \
-    gui/tools/configurator/ConfiguratorVariablesUIHandler.h \
     automate/variables/CVariableOutputListVariables.h \
     automate/com/CComFactory.h \
     automate/com/CComUnknow.h \
-    gui/tools/configurator/ConfiguratorSequencerUIHandler.h \
-    gui/tools/configurator/ConfiguratorStreamsUIHandler.h \
-    gui/tools/configurator/extensions/CEditGeneralTab.h \
-    gui/tools/configurator/extensions/CEditComTab.h \
-    gui/tools/configurator/extensions/CEditOrgansTab.h \
-    gui/tools/configurator/extensions/CEditExtensionWindow.h \
-    gui/tools/configurator/extensions/IEditExtensionTab.h \
-    gui/tools/configurator/ConfiguratorActionsUIHandler.h \
-    gui/tools/configurator/actions/CEditActionWindow.h \
-    gui/tools/configurator/actions/CEditActionTab.h \
-    gui/tools/configurator/actions/CEditActionTabUIHandler.h \
-    gui/tools/configurator/cycles/CEditCycleWindow.h \
-    gui/tools/configurator/cycles/IEditCycleTab.h \
-    gui/tools/configurator/cycles/CEditCycleTab.h \
-    gui/tools/configurator/cycles/CConfiguratorCycleTabUIHandler.h \
-    gui/tools/configurator/cycles/CEditCycleTabUIHandler.h \
-    gui/tools/configurator/variables/CEditVariableTabUIHandler.h \
-    gui/tools/configurator/variables/CEditOutBindsUIHandler.h \
-    gui/tools/configurator/variables/CEditInBindsUIHandler.h \ 
     automate/cotautomate_debug.h \
     gui/cotgui_debug.h \
+    gui/tools/configurator/CConfiguratorWindow.h \
+    gui/tools/configurator/IConfiguratorTab.h \
+    gui/tools/configurator/actions/CConfiguratorActionsTab.h \
+    gui/tools/configurator/actions/CEditActionTab.h \
+    gui/tools/configurator/actions/CEditActionTabUIHandler.h \
+    gui/tools/configurator/actions/CEditActionWindow.h \
+    gui/tools/configurator/actions/ConfiguratorActionsUIHandler.h \
+    gui/tools/configurator/cycles/CConfiguratorCycleTab.h \
+    gui/tools/configurator/cycles/CConfiguratorCycleTabUIHandler.h \
+    gui/tools/configurator/cycles/CEditCycleTab.h \
+    gui/tools/configurator/cycles/CEditCycleTabUIHandler.h \
+    gui/tools/configurator/cycles/CEditCycleWindow.h \
+    gui/tools/configurator/cycles/IEditCycleTab.h \
+    gui/tools/configurator/display/CConfiguratorDisplayTab.h \
+    gui/tools/configurator/extensions/CConfiguratorExtensionsTab.h \
+    gui/tools/configurator/extensions/CEditComTab.h \
+    gui/tools/configurator/extensions/CEditExtensionWindow.h \
+    gui/tools/configurator/extensions/CEditGeneralTab.h \
+    gui/tools/configurator/extensions/CEditOrgansTab.h \
+    gui/tools/configurator/extensions/IEditExtensionTab.h \
+    gui/tools/configurator/hardware/CConfiguratorHardwareTab.h \
+    gui/tools/configurator/network/CConfiguratorNetworkTab.h \
+    gui/tools/configurator/sequencer/CConfiguratorSequencerTab.h \
+    gui/tools/configurator/sequencer/ConfiguratorSequencerUIHandler.h \
+    gui/tools/configurator/streams/CConfiguratorStreamsTab.h \
+    gui/tools/configurator/streams/ConfiguratorStreamsUIHandler.h \
+    gui/tools/configurator/variables/CConfiguratorVariablesTab.h \
+    gui/tools/configurator/variables/CEditInBindsTab.h \
+    gui/tools/configurator/variables/CEditInBindsUIHandler.h \
+    gui/tools/configurator/variables/CEditOutBindsTab.h \
+    gui/tools/configurator/variables/CEditOutBindsUIHandler.h \
+    gui/tools/configurator/variables/CEditVariableTab.h \
+    gui/tools/configurator/variables/CEditVariableTabUIHandler.h \
+    gui/tools/configurator/variables/CEditVariableWindow.h \
+    gui/tools/configurator/variables/ConfiguratorVariablesUIHandler.h \
+    gui/tools/configurator/variables/IEditVariableTab.h
 
 SOURCES *= \
     automate/CAutomate.cpp \
@@ -361,42 +361,42 @@ SOURCES *= \
     gui/widgets/CLabelledToolButtonGrid.cpp \
     gui/panel/CAboutWindow.cpp \
     gui/widgets/CMessageBox.cpp \
-    gui/tools/configurator/CConfiguratorWindow.cpp \
-    gui/tools/configurator/CConfiguratorCycleTab.cpp \
-    gui/tools/configurator/CConfiguratorActionsTab.cpp \
-    gui/tools/configurator/CConfiguratorVariablesTab.cpp \
-    gui/tools/configurator/CConfiguratorSequencerTab.cpp \
-    gui/tools/configurator/CConfiguratorStreamsTab.cpp \
-    gui/tools/configurator/CConfiguratorExtensionsTab.cpp \
-    gui/tools/configurator/CConfiguratorDisplayTab.cpp \
-    gui/tools/configurator/CConfiguratorHardwareTab.cpp \
-    gui/tools/configurator/CConfiguratorNetworkTab.cpp \
-    gui/tools/configurator/variables/CEditVariableWindow.cpp \
 	gui/widgets/CGenericVariableUIHandler.cpp \
-    gui/tools/configurator/variables/CEditVariableTab.cpp \
-    gui/tools/configurator/variables/CEditInBindsTab.cpp \
-    gui/tools/configurator/variables/CEditOutBindsTab.cpp \
-    gui/tools/configurator/ConfiguratorVariablesUIHandler.cpp \
     automate/variables/CVariableOutputListVariables.cpp \
     automate/com/CComFactory.cpp \
     automate/com/CComUnknow.cpp \
-    gui/tools/configurator/ConfiguratorSequencerUIHandler.cpp \
-    gui/tools/configurator/ConfiguratorStreamsUIHandler.cpp \
-    gui/tools/configurator/extensions/CEditGeneralTab.cpp \
-    gui/tools/configurator/extensions/CEditComTab.cpp \
-    gui/tools/configurator/extensions/CEditOrgansTab.cpp \
-    gui/tools/configurator/extensions/CEditExtensionWindow.cpp \
-    gui/tools/configurator/ConfiguratorActionsUIHandler.cpp \
-    gui/tools/configurator/actions/CEditActionWindow.cpp \
-    gui/tools/configurator/actions/CEditActionTab.cpp \
-    gui/tools/configurator/actions/CEditActionTabUIHandler.cpp \
-    gui/tools/configurator/cycles/CEditCycleWindow.cpp \
-    gui/tools/configurator/cycles/CEditCycleTab.cpp \
-    gui/tools/configurator/cycles/CConfiguratorCycleTabUIHandler.cpp \
-    gui/tools/configurator/cycles/CEditCycleTabUIHandler.cpp \
-    gui/tools/configurator/variables/CEditVariableTabUIHandler.cpp \
-    gui/tools/configurator/variables/CEditOutBindsUIHandler.cpp \
-    gui/tools/configurator/variables/CEditInBindsUIHandler.cpp \
     automate/cotautomate_debug.cpp \
     gui/cotgui_debug.cpp \
+    gui/tools/configurator/CConfiguratorWindow.cpp \
+    gui/tools/configurator/actions/CConfiguratorActionsTab.cpp \
+    gui/tools/configurator/actions/CEditActionTab.cpp \
+    gui/tools/configurator/actions/CEditActionTabUIHandler.cpp \
+    gui/tools/configurator/actions/CEditActionWindow.cpp \
+    gui/tools/configurator/actions/ConfiguratorActionsUIHandler.cpp \
+    gui/tools/configurator/cycles/CConfiguratorCycleTab.cpp \
+    gui/tools/configurator/cycles/CConfiguratorCycleTabUIHandler.cpp \
+    gui/tools/configurator/cycles/CEditCycleTab.cpp \
+    gui/tools/configurator/cycles/CEditCycleTabUIHandler.cpp \
+    gui/tools/configurator/cycles/CEditCycleWindow.cpp \
+    gui/tools/configurator/display/CConfiguratorDisplayTab.cpp \
+    gui/tools/configurator/extensions/CConfiguratorExtensionsTab.cpp \
+    gui/tools/configurator/extensions/CEditComTab.cpp \
+    gui/tools/configurator/extensions/CEditExtensionWindow.cpp \
+    gui/tools/configurator/extensions/CEditGeneralTab.cpp \
+    gui/tools/configurator/extensions/CEditOrgansTab.cpp \
+    gui/tools/configurator/hardware/CConfiguratorHardwareTab.cpp \
+    gui/tools/configurator/network/CConfiguratorNetworkTab.cpp \
+    gui/tools/configurator/sequencer/CConfiguratorSequencerTab.cpp \
+    gui/tools/configurator/sequencer/ConfiguratorSequencerUIHandler.cpp \
+    gui/tools/configurator/streams/CConfiguratorStreamsTab.cpp \
+    gui/tools/configurator/streams/ConfiguratorStreamsUIHandler.cpp \
+    gui/tools/configurator/variables/CConfiguratorVariablesTab.cpp \
+    gui/tools/configurator/variables/CEditInBindsTab.cpp \
+    gui/tools/configurator/variables/CEditInBindsUIHandler.cpp \
+    gui/tools/configurator/variables/CEditOutBindsTab.cpp \
+    gui/tools/configurator/variables/CEditOutBindsUIHandler.cpp \
+    gui/tools/configurator/variables/CEditVariableTab.cpp \
+    gui/tools/configurator/variables/CEditVariableTabUIHandler.cpp \
+    gui/tools/configurator/variables/CEditVariableWindow.cpp \
+    gui/tools/configurator/variables/ConfiguratorVariablesUIHandler.cpp
 

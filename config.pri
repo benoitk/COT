@@ -41,9 +41,15 @@ INCLUDEPATH *= \
     $${LIBCOT_SRC_PWD}/gui/tools/maintenance \
     $${LIBCOT_SRC_PWD}/gui/tools/options \
     $${LIBCOT_SRC_PWD}/gui/tools/configurator \
-    $${LIBCOT_SRC_PWD}/gui/tools/configurator/variables \
-    $${LIBCOT_SRC_PWD}/gui/tools/configurator/cycles \
     $${LIBCOT_SRC_PWD}/gui/tools/configurator/actions \
+    $${LIBCOT_SRC_PWD}/gui/tools/configurator/cycles \
+    $${LIBCOT_SRC_PWD}/gui/tools/configurator/display \
+    $${LIBCOT_SRC_PWD}/gui/tools/configurator/extensions \
+    $${LIBCOT_SRC_PWD}/gui/tools/configurator/hardware \
+    $${LIBCOT_SRC_PWD}/gui/tools/configurator/network \
+    $${LIBCOT_SRC_PWD}/gui/tools/configurator/sequencer \
+    $${LIBCOT_SRC_PWD}/gui/tools/configurator/streams \
+    $${LIBCOT_SRC_PWD}/gui/tools/configurator/variables \
     $${LIBCOT_SRC_PWD}/gui/widgets \
     $${LIBCOT_SRC_PWD}/automate/variables \
     $${LIBCOT_SRC_PWD}/automate \
