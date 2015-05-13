@@ -14,9 +14,10 @@ CEditVariableWindow::CEditVariableWindow(IVariable *ivar, QWidget *parent)
     addTab(m_ceditVariableTab);
     addTab(m_ceditOutBindsTab);
     addTab(m_ceditInBindsTab);
-
+    initBaseWindow();
     if (ivar) {
         setVariables(ivar);
+
     }
 }
 
