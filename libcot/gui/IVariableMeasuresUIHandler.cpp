@@ -14,7 +14,7 @@
 namespace {
 QString valueAndUnit(IVariable *ivar) {
     const CUnit *unit = ivar->getUnit();
-    return QString("%1%2").arg(ivar->toString()).arg(unit ? unit->getLbl() : QString());
+    return QString("%1%2").arg(ivar->toString()).arg(unit ? unit->getLabel() : QString());
 }
 
 IVariable *findMeasureStream(const QString &measureName) {

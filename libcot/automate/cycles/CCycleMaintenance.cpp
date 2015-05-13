@@ -25,7 +25,7 @@ void CCycleMaintenance::slotPauseCycle(){
 }
 void CCycleMaintenance::slotStopCycle(){
 }
-QString CCycleMaintenance::getLbl()const{ return m_label;}
+QString CCycleMaintenance::getLabel()const{ return m_label;}
 void CCycleMaintenance::setLbl(const QString &lbl){ m_label = lbl;}
 void CCycleMaintenance::addAction(int arg_step, IAction* action){
 

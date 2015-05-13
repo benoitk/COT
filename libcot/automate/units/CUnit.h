@@ -13,7 +13,7 @@ public:
     CUnit(QObject *parent);
     CUnit(const QString&, const QString&);
     ~CUnit();
-    QString getLbl()const;
+    QString getLabel()const;
     QString getName()const;
     QVariant convert(const QString &, const QVariant &);
     void addConverter(const QString &, IConverter*);

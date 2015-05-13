@@ -29,7 +29,7 @@ public:
     QString getName()const;
     void setName(const QString &);
     void addAction(IAction*);
-    QString getLbl()const;
+    QString getLabel()const;
     void setLbl(const QString&);
 public slots:
     void slotRunCycle();

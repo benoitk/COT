@@ -18,7 +18,7 @@ public: //acces multithread possible sur tout les get, penser au mutex sur tous 
     void addAction(int, IAction*) Q_DECL_OVERRIDE;
     eTypeCycle getType()const Q_DECL_OVERRIDE;
     void setType(eTypeCycle) Q_DECL_OVERRIDE;
-    QString getLbl()const Q_DECL_OVERRIDE;
+    QString getLabel()const Q_DECL_OVERRIDE;
     void setLbl(const QString&) Q_DECL_OVERRIDE;
     QString getName()const Q_DECL_OVERRIDE;
     void setName(const QString&) Q_DECL_OVERRIDE;

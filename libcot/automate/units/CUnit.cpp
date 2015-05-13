@@ -13,7 +13,7 @@ CUnit::~CUnit()
 
 }
 
-QString CUnit::getLbl()const{
+QString CUnit::getLabel()const{
     return m_label;
 }
 QString CUnit::getName()const{

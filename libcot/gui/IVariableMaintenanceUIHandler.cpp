@@ -23,7 +23,7 @@ void IVariableMaintenanceUIHandler::layout()
     foreach (ICycle *cycle, cycles) {
         IVariable *variable = new CVariableString;
         variable->setName(cycle->getName());
-        variable->setLabel(cycle->getLbl());
+        variable->setLabel(cycle->getLabel());
         variables << variable;
     }
 
@@ -72,7 +72,7 @@ void IVariableMaintenanceUIHandler::rowChanged(const IVariableUIHandler::Row &ro
         return;
     }
 
-    row.widgetAt<QLabel *>(0)->setText(cycle->getLbl());
+    row.widgetAt<QLabel *>(0)->setText(cycle->getLabel());
     row.widgetAt<CToolButton *>(1)->setEnabled(!cycle->isRunning());
     row.widgetAt<CToolButton *>(1)->setChecked(cycle->isRunning());
     row.widgetAt<CToolButton *>(2)->setVisible(cycle->isRunning());

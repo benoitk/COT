@@ -42,7 +42,7 @@ void CConfiguratorCycleTabUIHandler::layout()
                 continue;
             }
 
-            IVariable *ivar = CVariableFactory::buildTemporary(cycle->getName(), cycle->getLbl(), type_string);
+            IVariable *ivar = CVariableFactory::buildTemporary(cycle->getName(), cycle->getLabel(), type_string);
             m_internalVariables[cycle->getName()] = ivar;
             ivars << ivar;
         }
@@ -65,7 +65,7 @@ void CConfiguratorCycleTabUIHandler::layout()
             continue;
         }
 
-        IVariable *ivar = CVariableFactory::buildTemporary(cycle->getName(), cycle->getLbl(), type_string);
+        IVariable *ivar = CVariableFactory::buildTemporary(cycle->getName(), cycle->getLabel(), type_string);
         m_internalVariables[cycle->getName()] = ivar;
         ivars << ivar;
     }

@@ -84,7 +84,7 @@ void CVariableICycleDescriber::describe(const QVariant &object)
     name->setName("name");
     name->setLabel(tr("Name"));
 
-    CVariableString *label = CVariableFactory::castedBuild<CVariableString *>(type_string, VariableOrganTypeNone, cycle->getLbl());
+    CVariableString *label = CVariableFactory::castedBuild<CVariableString *>(type_string, VariableOrganTypeNone, cycle->getLabel());
     label->setName("label");
     label->setLabel(tr("Label"));
 

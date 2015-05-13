@@ -110,7 +110,7 @@ int CCycleMesure::getCurrentStepIndex() const
 {
     return -1;
 }
-QString CCycleMesure::getLbl()const{ return m_label;}
+QString CCycleMesure::getLabel()const{ return m_label;}
 void CCycleMesure::setLbl(const QString &lbl){ m_label = lbl;}
 
 void CCycleMesure::addAction(int arg_step, IAction* action){

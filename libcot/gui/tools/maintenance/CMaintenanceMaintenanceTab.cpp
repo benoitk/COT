@@ -49,7 +49,7 @@ void CMaintenanceMaintenanceTab::slotCurrentMaintenanceCycleChanged(const QStrin
             break;
 
         case CAutomate::CYCLE_STATE_RUN:
-            ui->lStepName->setText(cycle->getLbl());
+            ui->lStepName->setText(cycle->getLabel());
             ui->lStep->setNum(cycle->getCurrentStepIndex());
             break;
 

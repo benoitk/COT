@@ -276,7 +276,7 @@ CModelConfigFile::~CModelConfigFile()
 
 }
 
-QString CModelConfigFile::getLblAnalyser(const QLocale &local){
+QString CModelConfigFile::getLabelAnalyser(const QLocale &local){
     QJsonObject jsonObject = m_jsonDoc->object();
     if(jsonObject[tr("FR_lbl_analyser")] == QJsonValue::Undefined)
         return tr("lbl_analyser not find see save.json file");

@@ -47,7 +47,7 @@ int CCycleAutonome::getCurrentStepIndex() const
 //    qCDebug(COTAUTOMATE_LOG) << "CCycleAutonome::slotRunCycle()";
 //
 //}
-//QString CCycleAutonome::getLbl()const{ return m_label;}
+//QString CCycleAutonome::getLabel()const{ return m_label;}
 //void CCycleAutonome::setLbl(const QString &lbl){ m_label = lbl;}
 //void CCycleAutonome::slotPauseCycle(){
 //

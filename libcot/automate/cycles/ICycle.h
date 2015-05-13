@@ -22,7 +22,7 @@ public:
     virtual void setType(eTypeCycle)=0;
     virtual QString getName()const =0;
     virtual void setName(const QString&)=0;
-    virtual QString getLbl()const=0;
+    virtual QString getLabel()const=0;
     virtual void setLbl(const QString&)=0;
     virtual QString getRelatedStreamName()const=0;
     virtual void setRelatedStreamName(const QString &name)=0;

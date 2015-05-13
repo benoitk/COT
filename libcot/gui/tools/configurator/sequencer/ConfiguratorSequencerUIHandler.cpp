@@ -30,7 +30,7 @@ void ConfiguratorSequencerUIHandler::layout()
         const CSequencer::CyclePair &pair = cycles[i];
         ICycle *cycle = pair.first;
         Q_ASSERT(cycle);
-        IVariable *ivar = CVariableFactory::buildTemporary(QString::number(i), cycle->getLbl(), type_string);
+        IVariable *ivar = CVariableFactory::buildTemporary(QString::number(i), cycle->getLabel(), type_string);
         m_internalVariables[cycle->getName()] = ivar;
         ivars << ivar;
     }

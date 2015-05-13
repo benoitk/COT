@@ -16,7 +16,7 @@ public:
     CModelConfigFile(QObject *parent);
     ~CModelConfigFile();
 
-    QString getLblAnalyser(const QLocale &);
+    QString getLabelAnalyser(const QLocale &);
     QList<ICycle*> getListSequencesMesure();
     QMap<QString, ICycle*> getMapCycle();
 

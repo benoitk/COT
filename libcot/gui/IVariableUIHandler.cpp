@@ -131,7 +131,7 @@ IVariablePtrList buildCycles() {
     IVariablePtrList ivars;
 
     foreach (ICycle *cycle, cycles) {
-        ivars << CVariableFactory::buildTemporary(cycle->getName(), cycle->getLbl(), type_string);
+        ivars << CVariableFactory::buildTemporary(cycle->getName(), cycle->getLabel(), type_string);
     }
 
     return ivars;
@@ -202,7 +202,7 @@ IVariablePtrList buildUnits() {
     IVariablePtrList ivars;
 
     foreach (CUnit *unit, units) {
-        ivars << CVariableFactory::buildTemporary(unit->getName(), unit->getLbl(), type_string);
+        ivars << CVariableFactory::buildTemporary(unit->getName(), unit->getLabel(), type_string);
     }
 
     return ivars;
@@ -881,7 +881,7 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
     QLabel *labelUnit = row.widgetAt<QLabel *>(2);
     CUnit *unit = ivar->getUnit();
     label->setText(ivar->getLabel());
-    labelUnit->setText(unit ? unit->getLbl() : QString());
+    labelUnit->setText(unit ? unit->getLabel() : QString());
 
     // Keep in synch with newEditor
     switch (ivar->getType()) {
@@ -998,7 +998,7 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
 
                 case CVariableMutable::Cycle: {
                     ICycle *cycle = automate->getCycle(ivar->toString());
-                    button->setText(cycle ? cycle->getLbl() : QString());
+                    button->setText(cycle ? cycle->getLabel() : QString());
                     break;
                 }
 
@@ -1009,7 +1009,7 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
 
                 case CVariableMutable::Unit: {
                     CUnit *unit = automate->getUnit(ivar->toString());
-                    button->setText(unit ? unit->getLbl() : QString());
+                    button->setText(unit ? unit->getLabel() : QString());
                     break;
                 }
 
