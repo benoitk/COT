@@ -76,7 +76,7 @@ void CVariableICycleDescriber::describe(const QVariant &object)
 {
     ICycle *cycle = object.value<ICycle *>();
     Q_ASSERT(cycle);
-    QString streamName = cycle->getRelatedStreamName();;
+    QString streamName = cycle->getRelatedStreamName();
 
     clear();
 
@@ -135,9 +135,11 @@ void CVariableIVariableDescriber::describe(const QVariant &object)
     unit->setLabel(tr("Unit"));
     unit->setMutableType(CVariableMutable::Unit);
 
-    CVariableMeasure *measure = CVariableFactory::castedBuild<CVariableMeasure *>(type_measure, VariableOrganTypeNone);
-    measure->setName(QStringLiteral("measure"));
-    measure->setLabel(tr("Measure"));
+
+    CVariableMutable *measure = CVariableFactory::castedBuild<CVariableMutable *>(type_mutable, VariableOrganTypeNone, ivar->getLabel());
+    measure->setName(QStringLiteral("type"));
+    measure->setLabel(tr("Type"));
+    measure->setMutableType(CVariableMutable::Stream);
 
     ivars << label << type << unit << measure;
 
