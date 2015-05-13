@@ -5,14 +5,14 @@
 
 
 CActionCmdRelay::CActionCmdRelay(QObject *parent)
-	: IAction(parent)
+    : IAction(parent)
 {
 
 }
 CActionCmdRelay::CActionCmdRelay(const QVariantMap &mapAction)
-	: IAction()
+    : IAction()
 {
-	m_label = mapAction[tr("FR_lbl")].toString();
+    m_label = mapAction[tr("FR_lbl")].toString();
     m_name = mapAction[QStringLiteral("name")].toString();
    
     CAutomate* automate = CAutomate::getInstance();
@@ -21,7 +21,7 @@ CActionCmdRelay::CActionCmdRelay(const QVariantMap &mapAction)
    
 }
 CActionCmdRelay::CActionCmdRelay()
-	: IAction()
+    : IAction()
 {
 
 }
@@ -33,22 +33,22 @@ CActionCmdRelay::~CActionCmdRelay()
 
 
 bool CActionCmdRelay::runAction(){
-	qCDebug(COTAUTOMATE_LOG)<< "Action relay "
-			<< " label fr " << m_label
+    qCDebug(COTAUTOMATE_LOG)<< "Action relay "
+            << " label fr " << m_label
             << " Etat relais " << m_RelayVar->toString();
-	return true;
+    return true;
 }
 
 
 QString CActionCmdRelay::getName()const{
-	return m_name; 
+    return m_name; 
 }
 
 QList<IVariable*> CActionCmdRelay::getListParameters()const{
-	QList<IVariable*> listParams;
+    QList<IVariable*> listParams;
     listParams.append(m_RelayVar);
 
-	return listParams;
+    return listParams;
 }
 QString CActionCmdRelay::getLabel()const{
     return m_label;

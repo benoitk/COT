@@ -53,7 +53,7 @@ HEADERS *= \
     automate/CModelConfigFile.h \
     automate/CModelExtensionCard.h \
     automate/CRunnableCycle.h \
-	automate/CSequencer.h \
+    automate/CSequencer.h \
     automate/CStep.h \
     automate/INetwork.h \
     automate/IObserverAutomate.h \
@@ -101,8 +101,8 @@ HEADERS *= \
     automate/variables/IVariableInput.h \
     automate/variables/IVariableOutput.h \
     automate/variables/CVariableMutable.h \
-	automate/organs/COrgan.h \
-	#automate/organs/CCOrganFactory.h \
+    automate/organs/COrgan.h \
+    #automate/organs/CCOrganFactory.h \
     keyboards/CKeyboardButtonBase.h \
     keyboards/CKeyboardDialog.h \
     keyboards/CKeyboardLayoutUtils.h \
@@ -171,7 +171,7 @@ HEADERS *= \
     gui/widgets/CLabelledToolButtonGrid.h \
     gui/panel/CAboutWindow.h \
     gui/widgets/CMessageBox.h \
-	gui/widgets/CGenericVariableUIHandler.h \
+    gui/widgets/CGenericVariableUIHandler.h \
     automate/variables/CVariableOutputListVariables.h \
     automate/com/CComFactory.h \
     automate/com/CComUnknow.h \
@@ -224,7 +224,7 @@ SOURCES *= \
     automate/CModelConfigFile.cpp \
     automate/CModelExtensionCard.cpp \
     automate/CRunnableCycle.cpp \
-	automate/CSequencer.cpp \
+    automate/CSequencer.cpp \
     automate/CStep.cpp \
     automate/INetwork.cpp \
     automate/IObserverAutomate.cpp \
@@ -272,8 +272,8 @@ SOURCES *= \
     automate/variables/IVariableInput.cpp \
     automate/variables/IVariableOuput.cpp \
     automate/variables/CVariableMutable.cpp \
-	automate/organs/COrgan.cpp \
-	automate/organs/COrganFactory.cpp \
+    automate/organs/COrgan.cpp \
+    automate/organs/COrganFactory.cpp \
     keyboards/CKeyboardButtonBase.cpp \
     keyboards/CKeyboardDialog.cpp \
     keyboards/CKeyboardLayoutUtils.cpp \
@@ -337,7 +337,7 @@ SOURCES *= \
     gui/widgets/CLabelledToolButtonGrid.cpp \
     gui/panel/CAboutWindow.cpp \
     gui/widgets/CMessageBox.cpp \
-	gui/widgets/CGenericVariableUIHandler.cpp \
+    gui/widgets/CGenericVariableUIHandler.cpp \
     automate/variables/CVariableOutputListVariables.cpp \
     automate/com/CComFactory.cpp \
     automate/com/CComUnknow.cpp \

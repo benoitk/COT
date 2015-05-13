@@ -23,7 +23,7 @@ public:
     void triggerUpdateAllData() Q_DECL_OVERRIDE;
 
     QString getName()const Q_DECL_OVERRIDE;
-	comType getType()const Q_DECL_OVERRIDE;
+    comType getType()const Q_DECL_OVERRIDE;
 
 private:
     

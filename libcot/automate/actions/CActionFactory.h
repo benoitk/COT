@@ -6,7 +6,7 @@
 class IAction;
 class CActionFactory : public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
     static IAction* build(const QVariantMap&);

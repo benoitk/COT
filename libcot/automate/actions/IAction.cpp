@@ -10,14 +10,14 @@ IAction::IAction(): QObject(){}
 IAction::~IAction(){}
 
 /*IAction* IAction::factory(QVariantMap mapAction){
-	IAction* action = NULL;
-	if(mapAction["class"].toString() == "cmd_pump"){
-		action = new CActionCmdPompe(mapAction);
-		action->factory(mapAction);
-	}
-	if(mapAction["class"].toString() == "cmd_relay"){
-		action = new CActionCmdRelay(mapAction);
-	}
-	return action;
+    IAction* action = NULL;
+    if(mapAction["class"].toString() == "cmd_pump"){
+        action = new CActionCmdPompe(mapAction);
+        action->factory(mapAction);
+    }
+    if(mapAction["class"].toString() == "cmd_relay"){
+        action = new CActionCmdRelay(mapAction);
+    }
+    return action;
 }*/
 

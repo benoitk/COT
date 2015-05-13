@@ -1,9 +1,9 @@
 #include "CLinkAction.h"
 
 CLinkAction::CLinkAction(int arg_step, IAction* arg_action)
-	: QObject()
+    : QObject()
 {
-	m_action = arg_action;
+    m_action = arg_action;
 }
 
 CLinkAction::~CLinkAction()
@@ -13,6 +13,6 @@ CLinkAction::~CLinkAction()
 
 IAction* CLinkAction::getAction()const
 {
-	return m_action;
+    return m_action;
 }
 

@@ -8,12 +8,12 @@
 
 class LIBCOT_EXPORT CControlerAutomate : public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 private:
-	QThread automateThread;
+    QThread automateThread;
 public:
-	CControlerAutomate();
-	~CControlerAutomate();
+    CControlerAutomate();
+    ~CControlerAutomate();
 
 };
 

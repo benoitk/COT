@@ -10,12 +10,12 @@ class CLinkAction;
 class QTimer;
 class CCycleMesure : public ICycle
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
     CCycleMesure(QObject *parent = Q_NULLPTR);
     CCycleMesure(const QVariantMap&);
-	~CCycleMesure();
+    ~CCycleMesure();
 
     void setType(eTypeCycle) Q_DECL_OVERRIDE;
     eTypeCycle getType()const Q_DECL_OVERRIDE;
@@ -42,24 +42,24 @@ public slots:
     void slotGoToStepCycle(int) Q_DECL_OVERRIDE;
     void slotGetReadyForPlayNextCycle() Q_DECL_OVERRIDE;
     void slotGetReadyForPlayCycle() Q_DECL_OVERRIDE;
-	
+    
     void slotExecNextStep() Q_DECL_OVERRIDE;
 
 private:
-	void initTimer();
-	int m_idCycle;
-	QString m_name;
-	eTypeCycle m_typeCycle;
+    void initTimer();
+    int m_idCycle;
+    QString m_name;
+    eTypeCycle m_typeCycle;
 
-	//QTimer* m_timer;
-	int m_iTimer;
-	QString m_label;
-	int m_timeout;
-	QThread m_thread;
+    //QTimer* m_timer;
+    int m_iTimer;
+    QString m_label;
+    int m_timeout;
+    QThread m_thread;
     QString m_streamName;
 
-	CStep* m_stepStop;
-	QList<CStep*> m_listSteps;
-	QList<CStep*>::iterator m_itListStepsPasEnCours;
+    CStep* m_stepStop;
+    QList<CStep*> m_listSteps;
+    QList<CStep*>::iterator m_itListStepsPasEnCours;
 };
 #endif // CCYCLEMESURE_H

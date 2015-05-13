@@ -20,10 +20,10 @@ CComUnknow::~CComUnknow()
 
 
 QVariant CComUnknow::readData(){
-	return QVariant("CComUnknow::readData()");
+    return QVariant("CComUnknow::readData()");
 }
 QVariant CComUnknow::readData(IVariableInput* arg_input){
-	return QVariant("CComUnknow::readData(IVariableInput* arg_input)");
+    return QVariant("CComUnknow::readData(IVariableInput* arg_input)");
 }
 void CComUnknow::writeData(IVariableOutput* arg_output){
 }

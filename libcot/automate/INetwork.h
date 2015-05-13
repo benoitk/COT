@@ -2,8 +2,8 @@
 #define INetwork_H
 
 enum networkType{
-	eth =0,
-	uart
+    eth =0,
+    uart
 
 };
 
@@ -12,11 +12,11 @@ class INetwork
 {
 
 public:
-	virtual void registerCom(ICom*);//Enregistre toute les coms qui attende une info de cet hardware (eth, uart, autre)
-	virtual void getType();
+    virtual void registerCom(ICom*);//Enregistre toute les coms qui attende une info de cet hardware (eth, uart, autre)
+    virtual void getType();
 
 private:
-	
+    
 };
 
 #endif // INetwork_H

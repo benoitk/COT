@@ -7,13 +7,13 @@
 //class CCycleAutonome : public ICycle
 class CCycleAutonome : public CCycleMesure
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
     CCycleAutonome(QObject *parent = Q_NULLPTR);
     CCycleAutonome(const QVariantMap&);
     CCycleAutonome(const QVariantMap&, const QMap<QString, IAction*> &);
-	~CCycleAutonome();
+    ~CCycleAutonome();
 
 
     QString getRelatedStreamName()const Q_DECL_OVERRIDE;
@@ -22,35 +22,35 @@ public:
     CStep* getStepStop()const Q_DECL_OVERRIDE;
     int getCurrentStepIndex() const Q_DECL_OVERRIDE;
 
-/*	void setType(eTypeCycle);
-	eTypeCycle getType()const;
-	bool isRunning();
-	bool isPaused();
-	QString getName()const;
+/*    void setType(eTypeCycle);
+    eTypeCycle getType()const;
+    bool isRunning();
+    bool isPaused();
+    QString getName()const;
     void setName(const QString &);
-	void addAction(IAction*);
-	QString getLbl()const;
+    void addAction(IAction*);
+    QString getLbl()const;
     void setLbl(const QString&);
 public slots:
-	void slotRunCycle();
-	void slotPauseCycle();
-	void slotStopCycle();	
-	void slotUnPauseCycle();
-	void slotStopEndCycle();
-	void slotGoToEndCycle();
-	void slotGoToStepCycle(int);
-	void slotGetReadyForPlayNextCycle();
-	void slotGetReadyForPlayCycle();
+    void slotRunCycle();
+    void slotPauseCycle();
+    void slotStopCycle();    
+    void slotUnPauseCycle();
+    void slotStopEndCycle();
+    void slotGoToEndCycle();
+    void slotGoToStepCycle(int);
+    void slotGetReadyForPlayNextCycle();
+    void slotGetReadyForPlayCycle();
 
-	void slotExecNextStep();
-	*/
+    void slotExecNextStep();
+    */
 private:
-	int m_idCycle;
-	eTypeCycle m_typeCycle;
-	QString m_name;
-	QString m_label;
+    int m_idCycle;
+    eTypeCycle m_typeCycle;
+    QString m_name;
+    QString m_label;
 
-	CStep* m_stepStop;
-	QList<CStep*> m_listSteps;
+    CStep* m_stepStop;
+    QList<CStep*> m_listSteps;
 };
 #endif // CCYCLEAUTONOME_H

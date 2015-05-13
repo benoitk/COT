@@ -8,13 +8,13 @@ class CRunnableCycle : public QRunnable
 {
 
 public:
-	CRunnableCycle(ICycle *cycle);
-	~CRunnableCycle();
+    CRunnableCycle(ICycle *cycle);
+    ~CRunnableCycle();
 
     void run() Q_DECL_OVERRIDE;
 
 private :
-	ICycle* m_cycle;
+    ICycle* m_cycle;
 };
 
 #endif // CRUNNABLECYCLE_H

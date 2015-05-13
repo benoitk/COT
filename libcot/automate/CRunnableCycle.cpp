@@ -1,9 +1,9 @@
 #include "CRunnableCycle.h"
 
 CRunnableCycle::CRunnableCycle(ICycle *cycle)
-	: QRunnable()
+    : QRunnable()
 {
-	this->setAutoDelete(true);
+    this->setAutoDelete(true);
 }
 
 CRunnableCycle::~CRunnableCycle()
@@ -12,5 +12,5 @@ CRunnableCycle::~CRunnableCycle()
 }
 
 void CRunnableCycle::run(){
-	m_cycle->slotRunCycle();
+    m_cycle->slotRunCycle();
 }

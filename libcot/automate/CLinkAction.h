@@ -6,17 +6,17 @@
 class IAction;
 class CLinkAction : public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	CLinkAction(int, IAction*);
-	~CLinkAction();
+    CLinkAction(int, IAction*);
+    ~CLinkAction();
 
-	int getNum()const;
-	IAction* getAction()const;
+    int getNum()const;
+    IAction* getAction()const;
 
 private:
-	IAction* m_action;
+    IAction* m_action;
 };
 
 #endif // CLINKACTION_H

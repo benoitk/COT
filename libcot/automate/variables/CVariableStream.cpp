@@ -7,7 +7,7 @@
 
 #include "qlinkedlist.h"
 CVariableStream::CVariableStream(QObject *parent):IVariable(parent)
-{	
+{    
 }
 CVariableStream::CVariableStream(const QMap<QString, QVariant> &mapVar):IVariable(){
     if(mapVar.contains(QStringLiteral("name")))
@@ -106,19 +106,19 @@ QString CVariableStream::toString(){
     return m_label;
 }
 int CVariableStream::toInt(){
-	return 0;
+    return 0;
 }
 float CVariableStream::toFloat(){
-	return 0;
+    return 0;
 }
 bool CVariableStream::toBool(){
-	return false;
+    return false;
 }
 QString CVariableStream::getLabel()const{
-	return m_label;
+    return m_label;
 }
 void CVariableStream::setLabel(const QString & label){
-	m_label = label;
+    m_label = label;
     emit signalVariableChanged();
 }
 
@@ -128,7 +128,7 @@ void CVariableStream::setValue(const QVariant & value){
 }
 //Pas de récursivité dans les binds pour l'instant pour ne pas gérer les binds croisés({var1, var2}, {var2, var1})
 void CVariableStream::setToBindedValue(const QVariant & value){
-	
+    
 }
 variableType CVariableStream::getType()const{
     return type_stream;
@@ -146,27 +146,27 @@ CUnit * CVariableStream::getUnit() const{
     return Q_NULLPTR;
 }
 bool  CVariableStream::isStreamRelated()const{
-	return false;
+    return false;
 }
 QString  CVariableStream::getRelatedStreamName()const{
     return QStringLiteral("voie a changer");
 }
 bool  CVariableStream::isMeasureRelated()const{
-	return false;
+    return false;
 }
 QString  CVariableStream::getRelatedMeasureName()const{
     return QStringLiteral("mesure a changer");
 }
 bool  CVariableStream::isDisplay()const{
-	return false;
+    return false;
 }
 QList<IVariable*>  CVariableStream::getListOutBinds()const{
-	QList<IVariable*> list;
-	return list;
+    QList<IVariable*> list;
+    return list;
 }
 QList<IVariable*>  CVariableStream::getListInBinds()const{
-	QList<IVariable*> list;
-	return list;
+    QList<IVariable*> list;
+    return list;
 
 }
 //TO DO : change name to CVariableStream()

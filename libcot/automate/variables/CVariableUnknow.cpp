@@ -18,21 +18,21 @@ QString CVariableUnknow::getName()const{
 void CVariableUnknow::setName(const QString& name){
 }
 QString CVariableUnknow::toString(){
-	return tr("Variable inconnu");
+    return tr("Variable inconnu");
 }
 int CVariableUnknow::toInt(){
-	return 0;
+    return 0;
 }
 float CVariableUnknow::toFloat(){
-	return 0;
+    return 0;
 }
 bool CVariableUnknow::toBool(){
-	return false;
+    return false;
 }
 void CVariableUnknow::setValue(const QVariant &){
 }
 QString CVariableUnknow::getLabel()const{
-	return tr("Variable inconnu");
+    return tr("Variable inconnu");
 }
 void CVariableUnknow::setLabel(const QString &){
 }
@@ -45,7 +45,7 @@ variableType CVariableUnknow::getType()const{
     return type_unknow;
 }
 void CVariableUnknow::switchToUnit(CUnit* targetUnit){
-	
+    
 }
 void  CVariableUnknow::delBind(IVariable*){
 
@@ -54,27 +54,27 @@ CUnit * CVariableUnknow::getUnit() const {
     return Q_NULLPTR;
 }
 bool  CVariableUnknow::isStreamRelated()const{
-	return false;
+    return false;
 }
 QString  CVariableUnknow::getRelatedStreamName()const{
     return QStringLiteral("voie a changer");
 }
 bool  CVariableUnknow::isMeasureRelated()const{
-	return false;
+    return false;
 }
 QString  CVariableUnknow::getRelatedMeasureName()const{
     return QStringLiteral("mesure a changer");
 }
 bool  CVariableUnknow::isDisplay()const{
-	return false;
+    return false;
 }
 QList<IVariable*>  CVariableUnknow::getListOutBinds()const{
     QList<IVariable*> list;
-	return list;
+    return list;
 }
 QList<IVariable*>  CVariableUnknow::getListInBinds()const{
     QList<IVariable*> list;
-	return list;
+    return list;
 
 }
 

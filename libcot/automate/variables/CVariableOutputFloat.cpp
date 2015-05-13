@@ -28,78 +28,78 @@ void CVariableOutputFloat::setName(const QString& name){
     emit signalVariableChanged();
 }
 CModelExtensionCard* CVariableOutputFloat::getExtensionCard()const{
-	return m_modelExtensionCard;
+    return m_modelExtensionCard;
 }
 IComObserver* CVariableOutputFloat::getComObserver()const{
-	return m_modelExtensionCard;
+    return m_modelExtensionCard;
 }
 QString CVariableOutputFloat::getOrganneName()const{
-	return m_organneName;
+    return m_organneName;
 }
 QString CVariableOutputFloat::getOrganneAddr()const{
     return QStringLiteral("return ADDR");
 }
 void CVariableOutputFloat::setOrganne(CModelExtensionCard* arg_model, const QString &arg_organneName){
-	m_modelExtensionCard = arg_model;
-	m_organneName = arg_organneName;
+    m_modelExtensionCard = arg_model;
+    m_organneName = arg_organneName;
 }
 
 void CVariableOutputFloat::writeValue(){
-	
+    
 
 }
 QString CVariableOutputFloat::toString(){
-	return QString::number(m_fValeur);
+    return QString::number(m_fValeur);
 }
 int CVariableOutputFloat::toInt(){
-	return m_fValeur;
+    return m_fValeur;
 }
 float CVariableOutputFloat::toFloat(){
-	return m_fValeur;
+    return m_fValeur;
 }
 void CVariableOutputFloat::setValue(const QVariant & value){
-	setValue(value.toFloat());
+    setValue(value.toFloat());
 }
 void CVariableOutputFloat::setValue(float value){
-	m_fValeur = value;
-	if(!m_listBinds.isEmpty()){
-		IVariable* var;
-		foreach(var,  m_listBinds){
-			var->setValue(QVariant(value));
-		}
-	}
+    m_fValeur = value;
+    if(!m_listBinds.isEmpty()){
+        IVariable* var;
+        foreach(var,  m_listBinds){
+            var->setValue(QVariant(value));
+        }
+    }
 
     emit signalVariableChanged();
 }
 //Pas de récursivité dans les binds pour l'instant pour ne pas gérer les binds croisés({var1, var2}, {var2, var1})
 void CVariableOutputFloat::setToBindedValue(const QVariant & value){
-	m_fValeur = value.toFloat();
+    m_fValeur = value.toFloat();
 }
 QString CVariableOutputFloat::getLabel()const{
-	return m_label;
+    return m_label;
 }
 void CVariableOutputFloat::setLabel(const QString & lbl){
-	m_label = lbl;
+    m_label = lbl;
     emit signalVariableChanged();
 }
 void CVariableOutputFloat::addBind(IVariable* arg_var){
-	if(arg_var)
-		m_listBinds.append(arg_var);
+    if(arg_var)
+        m_listBinds.append(arg_var);
 }
 variableType CVariableOutputFloat::getType()const{
     return type_float;
 }
 IVariable* CVariableOutputFloat::getIVariable(){
-	return this;
+    return this;
 }
 bool CVariableOutputFloat::toBool(){
-	return m_fValeur;
+    return m_fValeur;
 }
 void CVariableOutputFloat::switchToUnit(CUnit* targetUnit){
-	QVariant var = m_unit->convert(targetUnit->getName(), QVariant(m_fValeur));
-	if(!var.isNull())
-		m_fValeur = var.toFloat();
-	m_unit = targetUnit;
+    QVariant var = m_unit->convert(targetUnit->getName(), QVariant(m_fValeur));
+    if(!var.isNull())
+        m_fValeur = var.toFloat();
+    m_unit = targetUnit;
 }
 void  CVariableOutputFloat::delBind(IVariable*){
 
@@ -108,25 +108,25 @@ CUnit * CVariableOutputFloat::getUnit() const{
     return Q_NULLPTR;
 }
 bool  CVariableOutputFloat::isStreamRelated()const{
-	return false;
+    return false;
 }
 QString  CVariableOutputFloat::getRelatedStreamName()const{
     return QStringLiteral("voie a changer");
 }
 bool  CVariableOutputFloat::isMeasureRelated()const{
-	return false;
+    return false;
 }
 QString  CVariableOutputFloat::getRelatedMeasureName()const{
     return QStringLiteral("mesure a changer");
 }
 bool  CVariableOutputFloat::isDisplay()const{
-	return false;
+    return false;
 }
 QList<IVariable*>  CVariableOutputFloat::getListOutBinds()const{
-	return m_listBinds;
+    return m_listBinds;
 }
 QList<IVariable*>  CVariableOutputFloat::getListInBinds()const{
-	return m_listBinds;
+    return m_listBinds;
 
 }
 

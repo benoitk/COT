@@ -14,21 +14,21 @@ public:
     CVariableMeasure(const QMap<QString, QVariant> &mapVar);
 
     QString getName()const Q_DECL_OVERRIDE;
-	void setName(const QString&)Q_DECL_OVERRIDE;
-	
+    void setName(const QString&)Q_DECL_OVERRIDE;
+    
     QString toString() Q_DECL_OVERRIDE;
     int toInt() Q_DECL_OVERRIDE;
     float toFloat() Q_DECL_OVERRIDE;
     bool toBool() Q_DECL_OVERRIDE;
     void setValue(int iNumVoie);
     void setValue(const QVariant &) Q_DECL_OVERRIDE;
-	QString getLabel()const;
+    QString getLabel()const;
     void setLabel(const QString &) Q_DECL_OVERRIDE;
     void setToBindedValue(const QVariant &) Q_DECL_OVERRIDE;
     variableType getType()const Q_DECL_OVERRIDE;
     void switchToUnit(CUnit*) Q_DECL_OVERRIDE;
-	//
-	void addBind(IVariable*) Q_DECL_OVERRIDE;
+    //
+    void addBind(IVariable*) Q_DECL_OVERRIDE;
     void delBind(IVariable*) Q_DECL_OVERRIDE;
     CUnit *getUnit() const Q_DECL_OVERRIDE;
     bool isStreamRelated()const Q_DECL_OVERRIDE;
@@ -38,7 +38,7 @@ public:
     bool isDisplay()const Q_DECL_OVERRIDE;
     QList<IVariable*> getListOutBinds()const Q_DECL_OVERRIDE;
     QList<IVariable*> getListInBinds()const Q_DECL_OVERRIDE;
-	QVariantMap serialise() Q_DECL_OVERRIDE;
+    QVariantMap serialise() Q_DECL_OVERRIDE;
     void setListOutBinds(const QList<IVariable*> &) Q_DECL_OVERRIDE;
     void setListInBinds(const QList<IVariable*> &) Q_DECL_OVERRIDE;
 
@@ -56,7 +56,7 @@ private:
     int m_address;
     variableAccess m_access;
     QString m_name;
-	QString m_label;
+    QString m_label;
     QString m_streamRelatedVariableName;
     IVariable * m_measure;
     IVariable * m_measureMax;

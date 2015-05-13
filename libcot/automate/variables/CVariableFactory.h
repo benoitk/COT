@@ -6,7 +6,7 @@
 
 class CVariableFactory : public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
     static IVariable* build(const QMap<QString, QVariant> &);
@@ -27,7 +27,7 @@ public:
     }
 
 private:
-	
+    
 };
 
 #endif // CVARIABLEFACTORY_H

@@ -74,8 +74,8 @@ CDisplayConf::CDisplayConf(const QJsonArray& jsonArray, QObject *parent)
             
         }else{ 
             qCDebug(COTAUTOMATE_LOG) << "display écran inconnu " << mapScreen;
-        }		
-	}
+        }        
+    }
 
     qCDebug(COTAUTOMATE_LOG) << "diagnostic" << m_listForScrenDiagnostic;
     qCDebug(COTAUTOMATE_LOG) << "elec_tests" << m_mapForScrenElectricalTests;

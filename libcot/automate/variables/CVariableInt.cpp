@@ -3,11 +3,11 @@
 
 CVariableInt::CVariableInt(QObject *parent):IVariable(parent),m_iValeur(-1)
 {
-	
+    
 }
 CVariableInt::CVariableInt(int arg_int, int arg_address, variableAccess arg_access):IVariable()
 {
-	m_iValeur = arg_int;
+    m_iValeur = arg_int;
     m_access = arg_access;
     m_address = arg_address;
 }
@@ -23,54 +23,54 @@ void CVariableInt::setName(const QString& name){
     emit signalVariableChanged();
 }
 QString CVariableInt::toString(){
-	return QString::number(m_iValeur);
+    return QString::number(m_iValeur);
 }
 int CVariableInt::toInt(){
-	return m_iValeur;
+    return m_iValeur;
 }
 float CVariableInt::toFloat(){
-	return m_iValeur;
+    return m_iValeur;
 }
 bool CVariableInt::toBool(){
-	return m_iValeur;
+    return m_iValeur;
 }
 void CVariableInt::setValue(int value){
-	m_iValeur = value;
-	if(!m_listBinds.isEmpty()){
-		IVariable* var;
-		foreach(var,  m_listBinds){
-			var->setValue(QVariant(value));
-		}
-	}
+    m_iValeur = value;
+    if(!m_listBinds.isEmpty()){
+        IVariable* var;
+        foreach(var,  m_listBinds){
+            var->setValue(QVariant(value));
+        }
+    }
 
     emit signalVariableChanged();
 }
 //Pas de récursivité dans les binds pour l'instant pour ne pas gérer les binds croisés({var1, var2}, {var2, var1})
 void CVariableInt::setToBindedValue(const QVariant & value){
-	m_iValeur = value.toInt();
+    m_iValeur = value.toInt();
 }
 void CVariableInt::setValue(const QVariant & value){
-	setValue(value.toInt());
+    setValue(value.toInt());
 }
 QString CVariableInt::getLabel()const{
-	return m_label;
+    return m_label;
 }
 void CVariableInt::setLabel(const QString & label){
-	m_label = label;
+    m_label = label;
     emit signalVariableChanged();
 }
 void CVariableInt::addBind(IVariable* arg_var){
-	if(arg_var)
-		m_listBinds.append(arg_var);
+    if(arg_var)
+        m_listBinds.append(arg_var);
 }
 variableType CVariableInt::getType()const{
     return type_int;
 }
 void CVariableInt::switchToUnit(CUnit* targetUnit){
-	QVariant var = m_unit->convert(targetUnit->getName(), QVariant(m_iValeur));
-	if(!var.isNull())
-		m_iValeur = var.toFloat();
-	m_unit = targetUnit;
+    QVariant var = m_unit->convert(targetUnit->getName(), QVariant(m_iValeur));
+    if(!var.isNull())
+        m_iValeur = var.toFloat();
+    m_unit = targetUnit;
 }
 void  CVariableInt::delBind(IVariable*){
 
@@ -79,25 +79,25 @@ CUnit * CVariableInt::getUnit() const{
     return Q_NULLPTR;
 }
 bool  CVariableInt::isStreamRelated()const{
-	return false;
+    return false;
 }
 QString  CVariableInt::getRelatedStreamName()const{
     return QStringLiteral("voie a changer");
 }
 bool  CVariableInt::isMeasureRelated()const{
-	return false;
+    return false;
 }
 QString  CVariableInt::getRelatedMeasureName()const{
     return QStringLiteral("mesure a changer");
 }
 bool  CVariableInt::isDisplay()const{
-	return false;
+    return false;
 }
 QList<IVariable*>  CVariableInt::getListOutBinds()const{
-	return m_listBinds;
+    return m_listBinds;
 }
 QList<IVariable*>  CVariableInt::getListInBinds()const{
-	return m_listBinds;
+    return m_listBinds;
 
 }
 QVariantMap CVariableInt::serialise(){

@@ -8,14 +8,14 @@ class ICycle;
 class CControlerCycle;
 class CSequencer : public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	
-	//API
+    
+    //API
     typedef QPair<ICycle *, int> CyclePair;
 
-	QList<ICycle*> getListSequenceCyclesMesures();
+    QList<ICycle*> getListSequenceCyclesMesures();
     void setListSequenceCyclesMesures(QList<ICycle*> );
 
     // SERES_TODO: Proposed api by KDAB, used by the configurator.
@@ -26,86 +26,86 @@ public:
     CyclePair getCycleAt(int index) const;
     QList<CyclePair> getCycles() const;
 
-	//FIN API
+    //FIN API
 
     static CSequencer* getInstance();
 
-	void apendSequenceMesureRunCycle(ICycle*, int nbCycle);
-	//void apendSequenceMesureRunCycle(CControlerCycle*, int nbCycle);
-	void apendSequenceMesurePause(int minute);
+    void apendSequenceMesureRunCycle(ICycle*, int nbCycle);
+    //void apendSequenceMesureRunCycle(CControlerCycle*, int nbCycle);
+    void apendSequenceMesurePause(int minute);
     void initListSequenceCyclesMesures(QList<ICycle *>);
 
     void setSequenceMesure(QList<ICycle *>);
 
 public slots:
-	void slotRequestPlaySequenceMesure(); //démarre ou redémarre 
-	void slotRequestPlayNextSequenceMesure();
-	void slotRequestStopSequenceMesure();
-	void slotRequestPauseSequenceMesure();
-	void slotRequestUnPauseSequenceMesure();
+    void slotRequestPlaySequenceMesure(); //démarre ou redémarre 
+    void slotRequestPlayNextSequenceMesure();
+    void slotRequestStopSequenceMesure();
+    void slotRequestPauseSequenceMesure();
+    void slotRequestUnPauseSequenceMesure();
 
-	void slotPlaySequenceMesure();
-	void slotPlayNextSequenceMesure();
-	void slotPlayNextSequenceMaintenance();
-	void slotPlayNextSequenceAutonome();
+    void slotPlaySequenceMesure();
+    void slotPlayNextSequenceMesure();
+    void slotPlayNextSequenceMaintenance();
+    void slotPlayNextSequenceAutonome();
 
-	void slotCycleMesureIsRunning();
-	void slotCycleMesureIsStopped();
-	void slotCycleMesureIsPaused();
+    void slotCycleMesureIsRunning();
+    void slotCycleMesureIsStopped();
+    void slotCycleMesureIsPaused();
 
 signals:
     void signalUpdated();
-	void signalRunCycleMesure();
-	void signalPauseCycleMesure();
-	void signalUnPauseCycleMesure();
-	void signalStopCycleMesure();
-	void signalRunCycleMaintenance();
-	void signalPauseCycleMaintenance();
-	void signalUnPauseCycleMaintenance();
-	void signalStopCycleMaintenance();
-	void signalRunCycleAutonome();
-	void signalPauseCycleAutonome();
-	void signalUnPauseCycleAutonome();
-	void signalStopCycleAutonome();
-	void signalGoToEndCycleMesure();
-	void signalGetReadyForPlayNextCycleMesure();
-	void signalGetReadyForPlayCycleMesure();
+    void signalRunCycleMesure();
+    void signalPauseCycleMesure();
+    void signalUnPauseCycleMesure();
+    void signalStopCycleMesure();
+    void signalRunCycleMaintenance();
+    void signalPauseCycleMaintenance();
+    void signalUnPauseCycleMaintenance();
+    void signalStopCycleMaintenance();
+    void signalRunCycleAutonome();
+    void signalPauseCycleAutonome();
+    void signalUnPauseCycleAutonome();
+    void signalStopCycleAutonome();
+    void signalGoToEndCycleMesure();
+    void signalGetReadyForPlayNextCycleMesure();
+    void signalGetReadyForPlayCycleMesure();
 
 
 private:
     CSequencer();
     ~CSequencer();
 
-	void disconnectCycle(ICycle*);
-	void setSequenceMesure();
-	void playSequenceMaintenance(int id_cycle);
-	void playSequenceAutonome();
+    void disconnectCycle(ICycle*);
+    void setSequenceMesure();
+    void playSequenceMaintenance(int id_cycle);
+    void playSequenceAutonome();
 
 
     static CSequencer* singleton;
 
     QList<CyclePair> m_listSequenceCycles;
 
-	QList<ICycle*> m_listSequenceCyclesMesures;
-	QList<ICycle*> m_listSequenceCyclesAutonomes;
-	QList<ICycle*> m_listSequenceCyclesMaintenances;
+    QList<ICycle*> m_listSequenceCyclesMesures;
+    QList<ICycle*> m_listSequenceCyclesAutonomes;
+    QList<ICycle*> m_listSequenceCyclesMaintenances;
 
-	/*QList<CControlerCycle*> m_listSequenceCyclesMesure;
-	QList<CControlerCycle*> m_listSequenceCyclesAutonome;
-	QList<CControlerCycle*> m_listSequenceCyclesMaintenance;*/
+    /*QList<CControlerCycle*> m_listSequenceCyclesMesure;
+    QList<CControlerCycle*> m_listSequenceCyclesAutonome;
+    QList<CControlerCycle*> m_listSequenceCyclesMaintenance;*/
 
-	bool m_bPlaySequenceMesure;
-	bool m_bPlaySequenceMaintenance;
-	bool m_bPlaySequenceAutonome;
+    bool m_bPlaySequenceMesure;
+    bool m_bPlaySequenceMaintenance;
+    bool m_bPlaySequenceAutonome;
 
-	bool m_bCycleMesurePaused;
-	bool m_bCycleMesureRunning;
+    bool m_bCycleMesurePaused;
+    bool m_bCycleMesureRunning;
 
-	QList<ICycle*>::iterator m_itListSequenceCyclesMesures; 
+    QList<ICycle*>::iterator m_itListSequenceCyclesMesures; 
 
-	ICycle* m_cycleMesureEnCours;
-	ICycle* m_cycleMaintenanceEnCours;
-	ICycle* m_cycleAutonomeEnCours;
+    ICycle* m_cycleMesureEnCours;
+    ICycle* m_cycleMaintenanceEnCours;
+    ICycle* m_cycleAutonomeEnCours;
 };
 
 #endif // CSEQUENCEUR_H

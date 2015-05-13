@@ -5,13 +5,13 @@
 
 class IListVariable : public IVariable
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	IListVariable(QObject* parent);
+    IListVariable(QObject* parent);
 
 private:
-	
+    
 };
 
 #endif // ILISTVARIABLE_H

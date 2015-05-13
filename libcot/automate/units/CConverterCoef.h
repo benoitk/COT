@@ -7,18 +7,18 @@
 class CUnit;
 class CConverterCoef : public QObject, public IConverter
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
     CConverterCoef(const QVariantMap &);
-	~CConverterCoef();
+    ~CConverterCoef();
 
     QVariant convert(const QVariant &) Q_DECL_OVERRIDE;
     CUnit* getTarget()const Q_DECL_OVERRIDE;
 
 
 private:
-	float m_coef;
+    float m_coef;
     CUnit* m_targetUnit;
 };
 

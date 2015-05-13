@@ -9,17 +9,17 @@
 
 ICycle* CCycleFactory::build(const QVariantMap &mapCycle){
     qCDebug(COTAUTOMATE_LOG) << "CCycleFactory::build mapCycle:"<< mapCycle;
-	ICycle* cycle = NULL;
+    ICycle* cycle = NULL;
     if(mapCycle[QStringLiteral("type")].toString() == QStringLiteral("measure")){
-		cycle = new CCycleMesure(mapCycle);
+        cycle = new CCycleMesure(mapCycle);
     }else if(mapCycle[QStringLiteral("type")].toString() == QStringLiteral("pause")){
-		cycle = new CCyclePause(mapCycle);
+        cycle = new CCyclePause(mapCycle);
     }else if(mapCycle[QStringLiteral("type")].toString() == QStringLiteral("autonome")){
-		cycle = new CCycleAutonome(mapCycle);
-	}else{
+        cycle = new CCycleAutonome(mapCycle);
+    }else{
         qCDebug(COTAUTOMATE_LOG) << "Type cycle INCONNU " << mapCycle[QStringLiteral("type")].toString();
-	}
-	return cycle;
+    }
+    return cycle;
 }
 
 ICycle *CCycleFactory::build(eTypeCycle type)

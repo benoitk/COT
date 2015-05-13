@@ -9,7 +9,7 @@
 
 CVariableMeasure::CVariableMeasure(QObject *parent)
     :IVariable(parent)
-{	
+{    
 }
 CVariableMeasure::CVariableMeasure(const QMap<QString, QVariant> &mapVar)
     :IVariable()
@@ -54,19 +54,19 @@ QString CVariableMeasure::toString(){
     return m_label;
 }
 int CVariableMeasure::toInt(){
-	return 0;
+    return 0;
 }
 float CVariableMeasure::toFloat(){
-	return 0;
+    return 0;
 }
 bool CVariableMeasure::toBool(){
-	return false;
+    return false;
 }
 QString CVariableMeasure::getLabel()const{
-	return m_label;
+    return m_label;
 }
 void CVariableMeasure::setLabel(const QString & label){
-	m_label = label;
+    m_label = label;
     emit signalVariableChanged();
 }
 
@@ -76,7 +76,7 @@ void CVariableMeasure::setValue(const QVariant & value){
 }
 //Pas de récursivité dans les binds pour l'instant pour ne pas gérer les binds croisés({var1, var2}, {var2, var1})
 void CVariableMeasure::setToBindedValue(const QVariant & value){
-	
+    
 }
 variableType CVariableMeasure::getType()const{
     return type_measure;
@@ -106,15 +106,15 @@ QString  CVariableMeasure::getRelatedMeasureName()const{
     return QStringLiteral("mesure a changer");
 }
 bool  CVariableMeasure::isDisplay()const{
-	return false;
+    return false;
 }
 QList<IVariable*>  CVariableMeasure::getListOutBinds()const{
-	QList<IVariable*> list;
-	return list;
+    QList<IVariable*> list;
+    return list;
 }
 QList<IVariable*>  CVariableMeasure::getListInBinds()const{
-	QList<IVariable*> list;
-	return list;
+    QList<IVariable*> list;
+    return list;
 
 }
 QVariantMap CVariableMeasure::serialise(){

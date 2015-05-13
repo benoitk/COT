@@ -19,7 +19,7 @@
 #include "cotautomate_debug.h"
 
 IVariable* CVariableFactory::build(const QMap<QString, QVariant> &mapVar){
-	
+    
     int address = 0;
     if(mapVar.contains(QStringLiteral("address")))
          address = mapVar[QStringLiteral("address")].toInt();

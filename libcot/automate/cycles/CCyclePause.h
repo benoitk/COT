@@ -6,14 +6,14 @@
 class QTimer;
 class CCyclePause : public ICycle
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public: //acces multithread possible sur tout les get, penser au mutex sur tous les accès aux variables.
     CCyclePause(QObject *parent = Q_NULLPTR);
     CCyclePause(const QVariantMap&);
     CCyclePause(int temps, QObject* parent = Q_NULLPTR);
     CCyclePause(int temps);
-	~CCyclePause();
+    ~CCyclePause();
 
     void addAction(int, IAction*) Q_DECL_OVERRIDE;
     eTypeCycle getType()const Q_DECL_OVERRIDE;
@@ -45,23 +45,23 @@ public slots:
 
     void slotExecNextStep() Q_DECL_OVERRIDE;
 
-	
+    
 private : 
 
-	void initTimer();
+    void initTimer();
 
-	QTimer* m_timer;
-	int m_iTimer;
-	int m_iTempsCycle;
-	QString m_name;
-	QString m_label;
+    QTimer* m_timer;
+    int m_iTimer;
+    int m_iTempsCycle;
+    QString m_name;
+    QString m_label;
     QString m_streamName;
 
-	QThread m_thread;
+    QThread m_thread;
 
-	CStep* m_stepStop;
-	QList<CStep*> m_listSteps;
-	
+    CStep* m_stepStop;
+    QList<CStep*> m_listSteps;
+    
 };
 
 #endif // CCYCLEPAUSE_H

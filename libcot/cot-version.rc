@@ -19,10 +19,10 @@
 #define VER_LEGALTRADEMARKS1_STR    "All Rights Reserve\0"
 #define VER_ORIGINALFILENAME_STR    "CristalQTARM.exe \0"
 
-	#define VER_PRODUCTNAME_STR     "Cristal/Saphir \0"
-//	#define VER_PRODUCTNAME_STR     "Cristallite \0"
+    #define VER_PRODUCTNAME_STR     "Cristal/Saphir \0"
+//    #define VER_PRODUCTNAME_STR     "Cristallite \0"
 
-#define VER_COMMENTS				"None \0"
+#define VER_COMMENTS                "None \0"
 
 VS_VERSION_INFO VERSIONINFO
  FILEVERSION VER_FILEVERSION

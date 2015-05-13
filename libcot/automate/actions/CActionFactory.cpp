@@ -11,25 +11,25 @@
 
 
 IAction* CActionFactory::build(const QVariantMap &mapAction){
-	
+    
     IAction* action = Q_NULLPTR;
     const QString type = mapAction[QStringLiteral("type")].toString();
     if(type == QStringLiteral("cmd_pump")){
-		action = new CActionCmdPompe(mapAction);
-	}
+        action = new CActionCmdPompe(mapAction);
+    }
     else if(type == QStringLiteral("cmd_relay")){
-		action = new CActionCmdRelay(mapAction);
-	}
+        action = new CActionCmdRelay(mapAction);
+    }
     else if(type == QStringLiteral("cmd_read_input")){
-		action = new CActionCmdReadInput(mapAction);
-	}
+        action = new CActionCmdReadInput(mapAction);
+    }
     else if(type == QStringLiteral("block")){
         action = new CActionBlock(mapAction);
     }
     else{
-		action = new CActionUnknow(mapAction);
+        action = new CActionUnknow(mapAction);
         qCDebug(COTAUTOMATE_LOG) << "Classe action INCONNUE :" << type;
-	}
+    }
 
-	return action;
+    return action;
 }

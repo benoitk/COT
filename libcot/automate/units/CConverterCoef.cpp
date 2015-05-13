@@ -2,7 +2,7 @@
 
 CConverterCoef::CConverterCoef(const QVariantMap &variantMap):QObject()
 {
-	m_coef = 1;
+    m_coef = 1;
 }
 
 CConverterCoef::~CConverterCoef()
@@ -11,10 +11,10 @@ CConverterCoef::~CConverterCoef()
 }
 
 QVariant CConverterCoef::convert(const QVariant &valueToConvert){
-	float value = valueToConvert.toFloat();
-	value *= m_coef;
-	QVariant result(value);
-	return result;
+    float value = valueToConvert.toFloat();
+    value *= m_coef;
+    QVariant result(value);
+    return result;
 }
 
 CUnit* CConverterCoef::getTarget()const{

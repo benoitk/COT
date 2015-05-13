@@ -8,16 +8,16 @@
 
 class CVariableBool : public IVariable
 {
-	Q_OBJECT
+    Q_OBJECT
     friend class CVariableFactory;
 
 public:
     CVariableBool(QObject *parent = Q_NULLPTR);
     CVariableBool(bool, int = 0, variableAccess =access_read);
-	~CVariableBool();
+    ~CVariableBool();
 
-	QString getName()const Q_DECL_OVERRIDE;
-	void setName(const QString&)Q_DECL_OVERRIDE;
+    QString getName()const Q_DECL_OVERRIDE;
+    void setName(const QString&)Q_DECL_OVERRIDE;
     QString toString() Q_DECL_OVERRIDE;
     int toInt() Q_DECL_OVERRIDE;
     float toFloat() Q_DECL_OVERRIDE;
@@ -26,12 +26,12 @@ public:
     void setValue(const QVariant &) Q_DECL_OVERRIDE;
     QString getLabel()const Q_DECL_OVERRIDE;
     void setLabel(const QString &) Q_DECL_OVERRIDE;
-	//QString getName()const;
+    //QString getName()const;
     void addBind(IVariable*) Q_DECL_OVERRIDE;
     void setToBindedValue(const QVariant &) Q_DECL_OVERRIDE;
     variableType getType()const Q_DECL_OVERRIDE;
     void switchToUnit(CUnit*) Q_DECL_OVERRIDE;
-	//
+    //
     void delBind(IVariable*) Q_DECL_OVERRIDE;
     CUnit *getUnit() const Q_DECL_OVERRIDE;
     bool isStreamRelated()const Q_DECL_OVERRIDE;
@@ -45,7 +45,7 @@ public:
     void setListOutBinds(const QList<IVariable*> &) Q_DECL_OVERRIDE;
     void setListInBinds(const QList<IVariable*> &) Q_DECL_OVERRIDE;
 
-	QVariantMap serialise() Q_DECL_OVERRIDE;
+    QVariantMap serialise() Q_DECL_OVERRIDE;
 
     variableAccess getAccess()const Q_DECL_OVERRIDE;
     int getAddress()const Q_DECL_OVERRIDE;
@@ -56,11 +56,11 @@ private:
     int m_address;
     variableAccess m_access;
 
-	bool m_bValeur;
+    bool m_bValeur;
     QString m_name;
-	QString m_label;
+    QString m_label;
     QList<IVariable*> m_listBinds;
-	CUnit* m_unit;
+    CUnit* m_unit;
 
     void setAccess(variableAccess access);
     void setAddress(int address);

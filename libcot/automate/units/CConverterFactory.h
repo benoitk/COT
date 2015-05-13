@@ -6,7 +6,7 @@
 class IConverter;
 class CConverterFactory : public QObject
 {
-   	Q_OBJECT
+       Q_OBJECT
 
 public:
     static IConverter* build(const QVariantMap&);

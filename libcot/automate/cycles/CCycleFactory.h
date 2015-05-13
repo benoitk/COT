@@ -8,15 +8,15 @@
 class IAction;
 class CCycleFactory : public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
     static ICycle* build(eTypeCycle type);
     static ICycle* build(const QVariantMap &mapCycle);
-	
+    
 
 private:
-	
+    
 };
 
 #endif // CCYCLEFACTORY_H

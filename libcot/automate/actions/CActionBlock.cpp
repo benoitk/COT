@@ -4,9 +4,9 @@
 #include "cotautomate_debug.h"
 
 CActionBlock::CActionBlock(const QVariantMap &mapAction)
-	: IAction()
+    : IAction()
 {
-	m_label = mapAction[tr("FR_lbl")].toString();
+    m_label = mapAction[tr("FR_lbl")].toString();
     m_name = mapAction[QStringLiteral("name")].toString();
 }
 
@@ -31,17 +31,17 @@ bool CActionBlock::runAction(){
         if (!action->runAction())
             return false;
     }
-	return true;
+    return true;
 }
 
 
 QString CActionBlock::getName()const{
-	return m_name; 
+    return m_name; 
 }
 
 QList<IVariable*> CActionBlock::getListParameters()const{
-	QList<IVariable*> listParams;
-	return listParams;
+    QList<IVariable*> listParams;
+    return listParams;
 }
 QString CActionBlock::getLabel()const{
     return m_label;

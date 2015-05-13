@@ -24,9 +24,9 @@
 CAutomate* CAutomate::singleton = 0;
 
 CAutomate* CAutomate::getInstance(){
-	if(!singleton)
-		singleton = new CAutomate();
-	return singleton;
+    if(!singleton)
+        singleton = new CAutomate();
+    return singleton;
 }
 
 CAutomate::CAutomate()
@@ -47,16 +47,16 @@ CAutomate::CAutomate()
  }
 
 void CAutomate::initConfig(){
-	CModelConfigFile configFile(this);
-	
-	QMap<QString, ICycle*> mapCycles = configFile.getMapCycle();
+    CModelConfigFile configFile(this);
+    
+    QMap<QString, ICycle*> mapCycles = configFile.getMapCycle();
     m_sequencer = CSequencer::getInstance();
     m_sequencer->setSequenceMesure(configFile.getListSequencesMesure());
-	
+    
     QThread* threadSequencer = new QThread(this);
-	
+    
     m_sequencer->moveToThread(threadSequencer);
-	
+    
     connect(threadSequencer, &QThread::started, m_sequencer, &CSequencer::slotRequestPlaySequenceMesure);
     connect(m_sequencer, &CSequencer::signalUpdated, this, &CAutomate::signalSchedulerUpdated);
     threadSequencer->start();
@@ -138,10 +138,10 @@ QList<ICycle *> CAutomate::getListCyclesPrivate(int cycleType)
 IVariable* CAutomate::getVariable(const QString &name){
     QMutexLocker locker(&m_mutex);
 
-	IVariable* var = m_mapVariables.value(name);
-	if(!var){
+    IVariable* var = m_mapVariables.value(name);
+    if(!var){
         var = CVariableFactory::build(name + QLatin1String("unknow in map"));
-	}
+    }
     return var;
 }
 
@@ -164,7 +164,7 @@ QList<IVariable *> CAutomate::getVariables(const QStringList &names)
 void CAutomate::addVariable(const QString& name, IVariable* var){
     QMutexLocker locker(&m_mutex);
     if(var && var->getType() != type_unknow){
-		m_mapVariables.insert(name, var);
+        m_mapVariables.insert(name, var);
         if(var->getAddress() != 0){
             m_mappingCom.insert(QString::number(var->getAddress(), 16 /*hexa*/), var);
         }
@@ -174,8 +174,8 @@ void CAutomate::addVariable(const QString& name, IVariable* var){
 }
 void CAutomate::addStream(const QString& name, IVariable* var){
     QMutexLocker locker(&m_mutex);
-	if(var && var->getType() != type_unknow)
-		m_mapStreams.insert(name, var);
+    if(var && var->getType() != type_unknow)
+        m_mapStreams.insert(name, var);
 }
 
 void CAutomate::addUnit(CUnit* unit){
@@ -203,12 +203,12 @@ CModelExtensionCard* CAutomate::getExtensionCard(const QString& name){
             m_mapExtCards.insert(QStringLiteral("unknown_extension_card"), extCard);
         }
     }
-	return extCard;
+    return extCard;
 }
 
 QMap<QString, CModelExtensionCard*> CAutomate::getMapExtensions(){
     QMutexLocker locker(&m_mutex);
-	return m_mapExtCards;
+    return m_mapExtCards;
 }
 QMap<QString, ICom*> CAutomate::getMapComs(){
     QMutexLocker locker(&m_mutex);
@@ -268,16 +268,16 @@ void CAutomate::slotClock(){
 }
 QList<IAction*>  CAutomate::getListActions(){
     QMutexLocker locker(&m_mutex);
-	return m_listActions;
+    return m_listActions;
 }
 QMap<QString, IAction*> CAutomate::getMapActions(){
     QMutexLocker locker(&m_mutex);
-	return m_mapActions;
+    return m_mapActions;
 }
 
 QMap<QString, IVariable*> CAutomate::getMapVariables(){
     QMutexLocker locker(&m_mutex);
-	return m_mapVariables;
+    return m_mapVariables;
 }
 QMap<QString, IVariable*> CAutomate::getMapStreams(){
     QMutexLocker locker(&m_mutex);
@@ -331,12 +331,12 @@ void CAutomate::delCycle(ICycle *cycle)
 
 IVariable* CAutomate::getVariable(const QString &addr_var)const{
     QMutexLocker locker(&m_mutex);
-	IVariable* var= Q_NULLPTR;
+    IVariable* var= Q_NULLPTR;
     if(m_mappingCom.contains(addr_var))
         var = m_mappingCom.value(addr_var);
     else if(m_mapActions.contains(QStringLiteral("0xffff")))
         var = m_mappingCom.value(QStringLiteral("0xffff"));
-	return var;
+    return var;
 }
 void CAutomate::addVariableToMappingCom(IVariable* var){
     QMutexLocker locker(&m_mutex);

@@ -5,11 +5,11 @@
 
 class CCycleIO : public ICycle
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	CCycleIO(QObject *parent);
-	~CCycleIO();
+    CCycleIO(QObject *parent);
+    ~CCycleIO();
 
     eTypeCycle getType()const Q_DECL_OVERRIDE;
     int getCurrentStepIndex() const Q_DECL_OVERRIDE;
@@ -22,8 +22,8 @@ public slots:
 
 
 private:
-	int m_idCycle;
-	
+    int m_idCycle;
+    
 };
 
 #endif // CCYCLEIO_H

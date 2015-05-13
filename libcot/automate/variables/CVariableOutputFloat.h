@@ -9,12 +9,12 @@
 
 class CVariableOutputFloat : public IVariable, public IVariableOutput
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
     CVariableOutputFloat(QObject *parent = Q_NULLPTR);
     CVariableOutputFloat(const QMap<QString, QVariant> &mapVar);
-	~CVariableOutputFloat();
+    ~CVariableOutputFloat();
 
 //IVariableOutput
     CModelExtensionCard* getExtensionCard()const Q_DECL_OVERRIDE;
@@ -24,11 +24,11 @@ public:
     IComObserver* getComObserver()const Q_DECL_OVERRIDE;
     IVariable* getIVariable() Q_DECL_OVERRIDE;
 
-	//IVariable
+    //IVariable
 
-	QString getName()const Q_DECL_OVERRIDE;
-	void setName(const QString&)Q_DECL_OVERRIDE;
-	
+    QString getName()const Q_DECL_OVERRIDE;
+    void setName(const QString&)Q_DECL_OVERRIDE;
+    
     QString toString() Q_DECL_OVERRIDE;
     int toInt() Q_DECL_OVERRIDE;
     float toFloat() Q_DECL_OVERRIDE;
@@ -37,13 +37,13 @@ public:
     void setValue(const QVariant &) Q_DECL_OVERRIDE;
     QString getLabel()const Q_DECL_OVERRIDE;
     void setLabel(const QString &) Q_DECL_OVERRIDE;
-	//QString getName()const;
+    //QString getName()const;
     void addBind(IVariable*) Q_DECL_OVERRIDE;
     void setToBindedValue(const QVariant &) Q_DECL_OVERRIDE;
     variableType getType()const Q_DECL_OVERRIDE;
     VariableOrganType getOrganType() const Q_DECL_OVERRIDE { return VariableOrganTypeOutput; }
     void switchToUnit(CUnit*) Q_DECL_OVERRIDE;
-	//
+    //
     void delBind(IVariable*) Q_DECL_OVERRIDE;
     CUnit *getUnit() const Q_DECL_OVERRIDE;
     bool isStreamRelated()const Q_DECL_OVERRIDE;
@@ -65,16 +65,16 @@ private:
     int m_address;
     variableAccess m_access;
     void writeValue() Q_DECL_OVERRIDE;
-	CModelExtensionCard* m_modelExtensionCard;
-	QString m_organneName;
-	QString m_organneAddr;
+    CModelExtensionCard* m_modelExtensionCard;
+    QString m_organneName;
+    QString m_organneAddr;
 
-	float m_fValeur;
+    float m_fValeur;
     QString m_name;
-	QString m_label;
-	QList<IVariable*> m_listBinds;
-	CUnit* m_unit;
-	
+    QString m_label;
+    QList<IVariable*> m_listBinds;
+    CUnit* m_unit;
+    
 };
 
 #endif // CVARIABLEOUTPUTFLOAT_H

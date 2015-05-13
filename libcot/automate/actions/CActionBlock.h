@@ -9,7 +9,7 @@ class IVariable;
  */
 class CActionBlock : public IAction
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
 
@@ -23,14 +23,14 @@ public:
     QString getName()const Q_DECL_OVERRIDE;
     QList<IVariable*> getListParameters()const Q_DECL_OVERRIDE;
     QString getLabel()const Q_DECL_OVERRIDE;
-	void setLabel(const QString&) Q_DECL_OVERRIDE;
+    void setLabel(const QString&) Q_DECL_OVERRIDE;
     actionType getType()const Q_DECL_OVERRIDE;
 private:
 
-	QString m_label;
+    QString m_label;
     QList<IAction*> m_actions;
-	QString m_name;
-	
+    QString m_name;
+    
 };
 
 #endif // CACTIONBLOCK_H

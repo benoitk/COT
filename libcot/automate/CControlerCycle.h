@@ -5,16 +5,16 @@
 #include "ICycle.h"
 class CControlerCycle : public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	CControlerCycle(QObject *parent, ICycle* cycle);
-	~CControlerCycle();
+    CControlerCycle(QObject *parent, ICycle* cycle);
+    ~CControlerCycle();
 
 signals:
-	void signalRunCycle();
-	void signalPauseCycle();
-	void signalStopCycle();
+    void signalRunCycle();
+    void signalPauseCycle();
+    void signalStopCycle();
 };
 
 #endif // CCONTROLERCYCLE_H

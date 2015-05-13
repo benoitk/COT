@@ -5,12 +5,12 @@
 
 class CCycleMaintenance : public ICycle
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
     CCycleMaintenance(QObject *parent = Q_NULLPTR);
     CCycleMaintenance(eTypeCycle type, QObject *parent = Q_NULLPTR);
-	~CCycleMaintenance();
+    ~CCycleMaintenance();
 
     void setType(eTypeCycle) Q_DECL_OVERRIDE;
     eTypeCycle getType()const Q_DECL_OVERRIDE;
@@ -42,13 +42,13 @@ public slots:
 
 
 private:
-	int m_idCycle;
-	QString m_name;
-	QString m_label;
+    int m_idCycle;
+    QString m_name;
+    QString m_label;
     QString m_streamName;
-	eTypeCycle m_typeCycle;
-	CStep* m_stepStop;
-	QList<CStep*> m_listSteps;
+    eTypeCycle m_typeCycle;
+    CStep* m_stepStop;
+    QList<CStep*> m_listSteps;
 
 };
 #endif // CCYCLEMAINTENANCE_H

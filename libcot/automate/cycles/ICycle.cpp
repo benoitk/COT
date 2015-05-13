@@ -12,12 +12,12 @@
 //#include "cotautomate_debug.h"
 
 ICycle::ICycle(QObject *parent)
-	: QObject(parent)
+    : QObject(parent)
 {
 
 }
 ICycle::ICycle()
-	: QObject()
+    : QObject()
 {
 
 }
@@ -63,23 +63,23 @@ QString ICycle::typeToString(eTypeCycle type)
 }
 
 //ICycle* ICycle::factory(QVariantMap mapCycle){
-//	qCDebug(COTAUTOMATE_LOG) << "Pas la bonne factory !!!" ;
-//	ICycle* cycle = NULL;
-//	if(mapCycle["type"].toString() == "measure"){
-//		cycle = new CCycleMesure(mapCycle);
-//	}else if(mapCycle["type"].toString() == "pause"){
-//		cycle = new CCyclePause(mapCycle);
-//	}
-//	return cycle;
+//    qCDebug(COTAUTOMATE_LOG) << "Pas la bonne factory !!!" ;
+//    ICycle* cycle = NULL;
+//    if(mapCycle["type"].toString() == "measure"){
+//        cycle = new CCycleMesure(mapCycle);
+//    }else if(mapCycle["type"].toString() == "pause"){
+//        cycle = new CCyclePause(mapCycle);
+//    }
+//    return cycle;
 //}
 //ICycle* ICycle::factory(QVariantMap mapCycle,QMap<QString, IAction*> mapAction){
-//	qCDebug(COTAUTOMATE_LOG) << " ##ICycle::factory " ;
-//	ICycle* cycle = NULL;
-//	if(mapCycle["type"].toString() == "measure"){
-//		cycle = new CCycleMesure(mapCycle, mapAction);
-//	}else if(mapCycle["type"].toString() == "pause"){
-//		cycle = new CCyclePause(mapCycle);
-//	}
-//	qCDebug(COTAUTOMATE_LOG) << " ## END ICycle::factory " ;
-//	return cycle;
+//    qCDebug(COTAUTOMATE_LOG) << " ##ICycle::factory " ;
+//    ICycle* cycle = NULL;
+//    if(mapCycle["type"].toString() == "measure"){
+//        cycle = new CCycleMesure(mapCycle, mapAction);
+//    }else if(mapCycle["type"].toString() == "pause"){
+//        cycle = new CCyclePause(mapCycle);
+//    }
+//    qCDebug(COTAUTOMATE_LOG) << " ## END ICycle::factory " ;
+//    return cycle;
 //}

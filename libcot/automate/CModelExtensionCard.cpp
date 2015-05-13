@@ -7,13 +7,13 @@
 #include "cotautomate_debug.h"
 #include "qvariant.h"
 CModelExtensionCard::CModelExtensionCard(QObject *parent)
-	: QObject(parent)
+    : QObject(parent)
 {
 
 }
 
 CModelExtensionCard::CModelExtensionCard(const QVariantMap& mapExt)
-	: QObject()
+    : QObject()
 {
     if(mapExt.contains(QStringLiteral("name")))
         m_name = mapExt.value(QStringLiteral("name")).toString();
@@ -69,20 +69,20 @@ QMap<QString, IOrgan*> CModelExtensionCard::getMapOrgans(){
     return m_mapOrgans;
 }
 QString CModelExtensionCard::getName()const{
-	return m_name;
+    return m_name;
 }
 
 QVariant CModelExtensionCard::readOrganneValue(IVariableInput* arg_varInput){
-	return m_interfaceCom->readData(arg_varInput);
+    return m_interfaceCom->readData(arg_varInput);
 }
 
 IVariable* CModelExtensionCard::getVariable(const QString &addr_var)const{
     IVariable * temp = Q_NULLPTR;
-	return temp;
+    return temp;
 }
 
 void CModelExtensionCard::setCom(ICom* com){
-	m_interfaceCom = com;
+    m_interfaceCom = com;
 }
 
 QList<IOrgan *> CModelExtensionCard::getListOrgans() const

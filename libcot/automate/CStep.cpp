@@ -6,7 +6,7 @@
 #include "cotautomate_debug.h"
 
 CStep::CStep(const QMap<QString, QVariant> &mapStep)
-	: QObject()
+    : QObject()
 {
     
     m_numStep = mapStep.value(QStringLiteral("step")).toFloat();
@@ -29,25 +29,25 @@ CStep::~CStep()
 }
 
 QString CStep::getLabel()const{
-	return m_label;
+    return m_label;
 }
 void CStep::setLabel(const QString &label){
-	m_label = label;
+    m_label = label;
 }
 QList<IAction*> CStep::getListActions()const{
-	return m_listActions;
+    return m_listActions;
 }
 float CStep::getNumStep()const{
-	return m_numStep;
+    return m_numStep;
 }
 void CStep::setNumStep(float numStep){
-	m_numStep = numStep;
+    m_numStep = numStep;
 }
 //CStep* CStep::getNextStep()const{
-//	return m_nextStep;
+//    return m_nextStep;
 //}
 //void CStep::setNextStep(CStep* step){
-//	m_nextStep = step;
+//    m_nextStep = step;
 //}
 void CStep::execStep(){
     foreach(IAction* action, m_listActions){
