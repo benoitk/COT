@@ -1,6 +1,8 @@
-RC_FILE *= cot-version.rc
+# This is a separate .pri file for the Qt-MSVC integration
+# Do not add any DEFINES here, MSVC will just ignore them.
+# Only list source files here.
 
-DEFINES += LIBCOT_BUILD
+RC_FILE *= cot-version.rc
 
 RESOURCES *= \
     resources/cot-resources.qrc
