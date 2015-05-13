@@ -58,7 +58,7 @@ void CAutomate::initConfig(){
 	m_sequenceur->moveToThread(threadSequenceur);
 	
 	connect(threadSequenceur, &QThread::started, m_sequenceur, &CSequenceur::slotRequestPlaySequenceMesure);
-    connect(m_sequenceur, &CSequenceur::signalUpdated, this, &CAutomate::signalShcedulerUpdated);
+    connect(m_sequenceur, &CSequenceur::signalUpdated, this, &CAutomate::signalSchedulerUpdated);
     threadSequenceur->start();
 }
 

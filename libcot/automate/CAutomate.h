@@ -166,7 +166,7 @@ signals:
     void signalBindsUpdated();
     void signalActionsUpdated();
     void signalCyclesUpdated();
-    void signalShcedulerUpdated();
+    void signalSchedulerUpdated();
     void signalStreamsUpdated();
 
 protected slots:

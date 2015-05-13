@@ -10,7 +10,7 @@ CConfiguratorSequencerTab::CConfiguratorSequencerTab(QWidget *parent)
     m_isequencerUIHandler = new ConfiguratorSequencerUIHandler(scrollableWidget(), this);
     slotUpdateLayout();
 
-    connect(CAutomate::getInstance(), &CAutomate::signalShcedulerUpdated, this, &CConfiguratorSequencerTab::slotUpdateLayout);
+    connect(CAutomate::getInstance(), &CAutomate::signalSchedulerUpdated, this, &CConfiguratorSequencerTab::slotUpdateLayout);
     connect(buttonBar()->addAction(CToolButton::Add), &QAction::triggered, this, &CConfiguratorSequencerTab::slotAddSequencer);
     initBaseTab();
 }
