@@ -62,40 +62,40 @@ IVariablePtrList buildTemporaryString(const PairPairStringStringList& pairs) {
 IVariablePtrList buildActionType() {
     // SERES_TODO: Provide api
     // Note: this relates to CActionFactory::build()
-    return buildTemporaryString({
-                                    {"calc_coef", qMakePair(IVariableUIHandler::tr("Calc Coef"), 1)},
-                                    {"calc_rien", qMakePair(IVariableUIHandler::tr("Calc Rien"), 2)},
-                                    {"cmd_pump", qMakePair(IVariableUIHandler::tr("Pump"), 3)},
-                                    {"cmd_relay", qMakePair(IVariableUIHandler::tr("Relay"), 3)},
-                                    {"block", qMakePair(IVariableUIHandler::tr("Block"), 1000)}
-                                });
+    return buildTemporaryString(PairPairStringStringList() <<
+                                    PairPairStringString("calc_coef", qMakePair(IVariableUIHandler::tr("Calc Coef"), 1)) <<
+                                    PairPairStringString("calc_rien", qMakePair(IVariableUIHandler::tr("Calc Rien"), 2)) <<
+                                    PairPairStringString("cmd_pump", qMakePair(IVariableUIHandler::tr("Pump"), 3)) <<
+                                    PairPairStringString("cmd_relay", qMakePair(IVariableUIHandler::tr("Relay"), 3)) <<
+                                    PairPairStringString("block", qMakePair(IVariableUIHandler::tr("Block"), 1000))
+                                );
 }
 
 IVariablePtrList buildVariableTypes() {
-    return buildTemporaryString({
-                                    {"type_bool", qMakePair(IVariableUIHandler::tr("Boolean"), type_bool)},
-                                    {"type_float", qMakePair(IVariableUIHandler::tr("Float"), type_float)},
-                                    {"type_int", qMakePair(IVariableUIHandler::tr("Integer"), type_int)},
-                                    {"type_string", qMakePair(IVariableUIHandler::tr("String"), type_string)},
-                                    {"type_stream", qMakePair(IVariableUIHandler::tr("Stream"), type_stream)},
-                                });
+    return buildTemporaryString(PairPairStringStringList() <<
+                                    PairPairStringString("type_bool", qMakePair(IVariableUIHandler::tr("Boolean"), type_bool)) <<
+                                    PairPairStringString("type_float", qMakePair(IVariableUIHandler::tr("Float"), type_float)) <<
+                                    PairPairStringString("type_int", qMakePair(IVariableUIHandler::tr("Integer"), type_int)) <<
+                                    PairPairStringString("type_string", qMakePair(IVariableUIHandler::tr("String"), type_string)) <<
+                                    PairPairStringString("type_stream", qMakePair(IVariableUIHandler::tr("Stream"), type_stream))
+                                );
 }
 
 IVariablePtrList buildOrganTypes() {
-    return buildTemporaryString({
-                                    {"VariableOrganTypeNone", qMakePair(IVariableUIHandler::tr("None"), VariableOrganTypeNone)},
-                                    {"VariableOrganTypeInput", qMakePair(IVariableUIHandler::tr("Input"), VariableOrganTypeInput)},
-                                    {"VariableOrganTypeOutput", qMakePair(IVariableUIHandler::tr("Output"), VariableOrganTypeOutput)}
-                                });
+    return buildTemporaryString(PairPairStringStringList() <<
+                                    PairPairStringString("VariableOrganTypeNone", qMakePair(IVariableUIHandler::tr("None"), VariableOrganTypeNone)) <<
+                                    PairPairStringString("VariableOrganTypeInput", qMakePair(IVariableUIHandler::tr("Input"), VariableOrganTypeInput)) <<
+                                    PairPairStringString("VariableOrganTypeOutput", qMakePair(IVariableUIHandler::tr("Output"), VariableOrganTypeOutput))
+                                );
 }
 
 IVariablePtrList buildCycleTypes() {
-    return buildTemporaryString({
-                                    {"CYCLE_MESURE", qMakePair(IVariableUIHandler::tr("Measure"), CYCLE_MESURE)},
-                                    {"CYCLE_AUTONOME", qMakePair(IVariableUIHandler::tr("Autonome"), CYCLE_AUTONOME)},
-                                    {"CYCLE_MAINTENANCE", qMakePair(IVariableUIHandler::tr("Maintenance"), CYCLE_MAINTENANCE)},
-                                    {"CYCLE_PAUSE", qMakePair(IVariableUIHandler::tr("Pause"), CYCLE_PAUSE)}
-                                });
+    return buildTemporaryString(PairPairStringStringList() <<
+                                    PairPairStringString("CYCLE_MESURE", qMakePair(IVariableUIHandler::tr("Measure"), CYCLE_MESURE)) <<
+                                    PairPairStringString("CYCLE_AUTONOME", qMakePair(IVariableUIHandler::tr("Autonome"), CYCLE_AUTONOME)) <<
+                                    PairPairStringString("CYCLE_MAINTENANCE", qMakePair(IVariableUIHandler::tr("Maintenance"), CYCLE_MAINTENANCE)) <<
+                                    PairPairStringString("CYCLE_PAUSE", qMakePair(IVariableUIHandler::tr("Pause"), CYCLE_PAUSE))
+                                );
 }
 
 IVariablePtrList buildVariables() {
