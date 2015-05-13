@@ -11,7 +11,6 @@
 ConfiguratorVariablesUIHandler::ConfiguratorVariablesUIHandler(CScrollableWidget *scrollable, QObject *parent)
     : IConfiguratorUIHandler(scrollable, parent)
 {
-
 }
 
 ConfiguratorVariablesUIHandler::~ConfiguratorVariablesUIHandler()

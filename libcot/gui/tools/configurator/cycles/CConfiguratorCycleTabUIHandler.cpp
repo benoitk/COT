@@ -3,13 +3,13 @@
 #include "CToolButton.h"
 #include "CEditCycleWindow.h"
 #include "CPCWindow.h"
+#include "cotgui_debug.h"
 
 #include <CAutomate.h>
 #include <CVariableFactory.h>
 #include <CVariableStream.h>
 
 #include <QLabel>
-#include "cotgui_debug.h"
 
 CConfiguratorCycleTabUIHandler::CConfiguratorCycleTabUIHandler(CScrollableWidget *scrollable, QObject *parent)
     : IConfiguratorUIHandler(scrollable, parent)

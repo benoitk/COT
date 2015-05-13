@@ -1,21 +1,16 @@
 #ifndef CEDITORGANSTAB_H
 #define CEDITORGANSTAB_H
 
-#include "IEditExtensionTab.h"
-namespace Ui {
-class CEditOrgansTab;
-}
-class CEditOrgansTab : public IEditExtensionTab
+#include "IConfiguratorEditTab.h"
+
+class CEditOrgansTab : public IConfiguratorEditTab
 {
     Q_OBJECT
+
 public:
     explicit CEditOrgansTab(QWidget *parent = Q_NULLPTR);
-    ~CEditOrgansTab();
 
-    void applyProperties(IVariable *ivar) Q_DECL_OVERRIDE;
-
-private:
-    Ui::CEditOrgansTab *ui;
+    void applyProperties(const QVariant &object) Q_DECL_OVERRIDE;
 };
 
 #endif // CEDITORGANSTAB_H

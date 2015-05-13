@@ -2,12 +2,14 @@
 #define CONFIGURATORSTREAMSUIHANDLER_H
 
 #include "cot_global.h"
+#include "IConfiguratorUIHandler.h"
 
-#include <IConfiguratorUIHandler.h>
 class CPushButton;
+
 class LIBCOT_EXPORT ConfiguratorStreamsUIHandler : public IConfiguratorUIHandler
 {
     Q_OBJECT
+
 public:
     explicit ConfiguratorStreamsUIHandler(CScrollableWidget *scrollable = Q_NULLPTR, QObject *parent = Q_NULLPTR);
     ~ConfiguratorStreamsUIHandler();

@@ -3,14 +3,15 @@
 
 #include <IConfiguratorUIHandler.h>
 
-
-
 class CEditInBindsUIHandler : public IConfiguratorUIHandler
 {
     Q_OBJECT
+
 public:
     explicit CEditInBindsUIHandler(CScrollableWidget *scrollable, QObject *parent);
     ~CEditInBindsUIHandler();
+
+protected:
     QWidget *createWidget(int column, IVariable *ivar) Q_DECL_OVERRIDE;
 };
 

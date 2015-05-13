@@ -1,16 +1,15 @@
 #include "CEditInBindsUIHandler.h"
-#include <CPushButton.h>
+#include "CPushButton.h"
+
 #include <QLabel>
 
 CEditInBindsUIHandler::CEditInBindsUIHandler(CScrollableWidget *scrollable, QObject *parent)
     : IConfiguratorUIHandler(scrollable, parent)
 {
-
 }
 
 CEditInBindsUIHandler::~CEditInBindsUIHandler()
 {
-
 }
 
 QWidget *CEditInBindsUIHandler::createWidget(int column, IVariable *ivar)

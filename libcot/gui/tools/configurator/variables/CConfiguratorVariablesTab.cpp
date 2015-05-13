@@ -1,32 +1,22 @@
 #include "CConfiguratorVariablesTab.h"
-#include "ui_CConfiguratorVariablesTab.h"
+#include "ConfiguratorVariablesUIHandler.h"
 #include "CPCWindow.h"
 #include "CEditVariableWindow.h"
-#include "CAutomate.h"
+
+#include <CAutomate.h>
 #include <CVariableFactory.h>
-#include <ConfiguratorVariablesUIHandler.h>
 
 CConfiguratorVariablesTab::CConfiguratorVariablesTab(QWidget *parent)
     : IConfiguratorTab(parent)
-    , ui(new Ui::CConfiguratorVariablesTab)
 {
-    ui->setupUi(this);
-    m_ivariableUIHandler = new ConfiguratorVariablesUIHandler(ui->swCentral, this);
+    m_ivariableUIHandler = new ConfiguratorVariablesUIHandler(scrollableWidget(), this);
     slotUpdateLayout();
+
     connect(m_ivariableUIHandler, &ConfiguratorVariablesUIHandler::editVariable, this, &CConfiguratorVariablesTab::editVariable);
-    connect(ui->vbbButtons->addAction(CToolButton::Add), &QAction::triggered,
-            this, &CConfiguratorVariablesTab::slotAddVariable);
-    ui->vbbButtons->addAction(CToolButton::ScrollUp, ui->swCentral->moveUp());
-    ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->swCentral->moveDown());
-    connect(ui->vbbButtons->addAction(CToolButton::Back), &QAction::triggered,
-            this, &IConfiguratorTab::signalBackTriggered);
     connect(CAutomate::getInstance(), &CAutomate::signalVariableChanged, this, &CConfiguratorVariablesTab::slotUpdateLayout);
     connect(CAutomate::getInstance(), &CAutomate::signalStreamsUpdated, this, &CConfiguratorVariablesTab::slotUpdateLayout);
-}
-
-CConfiguratorVariablesTab::~CConfiguratorVariablesTab()
-{
-    delete ui;
+    connect(buttonBar()->addAction(CToolButton::Add), &QAction::triggered, this, &CConfiguratorVariablesTab::slotAddVariable);
+    initBaseTab();
 }
 
 void CConfiguratorVariablesTab::slotUpdateLayout()

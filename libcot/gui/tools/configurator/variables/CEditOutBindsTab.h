@@ -1,22 +1,22 @@
 #ifndef CEDITOUTBINDSTAB_H
 #define CEDITOUTBINDSTAB_H
 
-#include "IEditVariableTab.h"
-namespace Ui {
-class CEditOutBindsTab;
-}
+#include "IConfiguratorEditTab.h"
+
 class CEditOutBindsUIHandler;
 class IVariable;
-class CEditOutBindsTab : public IEditVariableTab
+
+class CEditOutBindsTab : public IConfiguratorEditTab
 {
     Q_OBJECT
+
 public:
     explicit CEditOutBindsTab(QWidget *parent = Q_NULLPTR);
-    ~CEditOutBindsTab();
+
     void setVariables(IVariable *ivar);
-    void applyProperties(IVariable *ivar) Q_DECL_OVERRIDE;
+    void applyProperties(const QVariant &object) Q_DECL_OVERRIDE;
+
 private:
-    Ui::CEditOutBindsTab *ui;
     CEditOutBindsUIHandler *m_configuratorUIHandler;
 };
 

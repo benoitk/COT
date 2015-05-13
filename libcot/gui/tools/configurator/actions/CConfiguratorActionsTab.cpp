@@ -1,37 +1,29 @@
 #include "CConfiguratorActionsTab.h"
+#include "CScrollableWidget.h"
+#include "CVerticalButtonBar.h"
 #include "ConfiguratorActionsUIHandler.h"
-#include "ui_CConfiguratorActionsTab.h"
 #include "IVariableObjectDescriber.h"
+
 #include "CAutomate.h"
+
+#include <QAction>
 
 CConfiguratorActionsTab::CConfiguratorActionsTab(QWidget *parent)
     : IConfiguratorTab(parent)
-    , ui(new Ui::CConfiguratorActionsTab)
 {
-    ui->setupUi(this);
-
-    m_iactionUIHandler = new ConfiguratorActionsUIHandler(ui->swCentral, this);
+    m_iactionUIHandler = new ConfiguratorActionsUIHandler(scrollableWidget(), this);
     slotUpdateLayout();
 
-    connect(ui->vbbButtons->addAction(CToolButton::Add), &QAction::triggered,
-            this, &CConfiguratorActionsTab::slotAddAction);
-    ui->vbbButtons->addAction(CToolButton::ScrollUp, ui->swCentral->moveUp());
-    ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->swCentral->moveDown());
-    connect(ui->vbbButtons->addAction(CToolButton::Back), &QAction::triggered,
-            this, &IConfiguratorTab::signalBackTriggered);
-    connect(CAutomate::getInstance(), &CAutomate::signalVariableChanged,
-            this, &CConfiguratorActionsTab::slotUpdateLayout);
-}
+    connect(buttonBar()->addAction(CToolButton::Add), &QAction::triggered, this, &CConfiguratorActionsTab::slotAddAction);
+    connect(CAutomate::getInstance(), &CAutomate::signalVariableChanged, this, &CConfiguratorActionsTab::slotUpdateLayout);
 
-CConfiguratorActionsTab::~CConfiguratorActionsTab()
-{
-    delete ui;
+    initBaseTab();
 }
 
 void CConfiguratorActionsTab::slotAddAction()
 {
-    QString name;
-    if (!m_iactionUIHandler->selectAction(name) || name.isEmpty()) {
+    int type;
+    if (!m_iactionUIHandler->selectActionType(type)) {
         return;
     }
     //TODO cycle block ?

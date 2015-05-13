@@ -1,19 +1,16 @@
 #ifndef CEDITGENERALTAB_H
 #define CEDITGENERALTAB_H
 
-#include "IEditExtensionTab.h"
-namespace Ui {
-class CEditGeneralTab;
-}
-class CEditGeneralTab : public IEditExtensionTab
+#include "IConfiguratorEditTab.h"
+
+class CEditGeneralTab : public IConfiguratorEditTab
 {
     Q_OBJECT
+
 public:
     explicit CEditGeneralTab(QWidget *parent = Q_NULLPTR);
-    ~CEditGeneralTab();
-    void applyProperties(IVariable *ivar) Q_DECL_OVERRIDE;
-private:
-    Ui::CEditGeneralTab *ui;
+
+    void applyProperties(const QVariant &object) Q_DECL_OVERRIDE;
 };
 
 #endif // CEDITGENERALTAB_H

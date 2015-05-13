@@ -1,5 +1,6 @@
 #include "CEditActionTab.h"
-#include "ui_CEditActionTab.h"
+#include "CScrollableWidget.h"
+#include "CVerticalButtonBar.h"
 #include "CEditActionTabUIHandler.h"
 #include "IVariableObjectDescriber.h"
 
@@ -7,26 +8,15 @@
 #include <IAction.h>
 
 CEditActionTab::CEditActionTab(IAction *action, QWidget *parent)
-    : IEditActionTab(parent)
-    , ui(new Ui::CEditActionTab)
+    : IConfiguratorEditTab(parent)
 {
-    ui->setupUi(this);
-    m_handler = new CEditActionTabUIHandler(ui->swCentral, this);
-    ui->vbbButtons->addAction(CToolButton::ScrollUp, ui->swCentral->moveUp());
-    ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->swCentral->moveDown());
-
+    m_handler = new CEditActionTabUIHandler(scrollableWidget(), this);
     m_handler->layout(action);
 
-    connect(ui->vbbButtons->addAction(CToolButton::Ok), &QAction::triggered, this, &CEditActionTab::signalOkTriggered);
-    connect(ui->vbbButtons->addAction(CToolButton::Cancel), &QAction::triggered, this, &IEditActionTab::signalCancelTriggered);
+    initBaseTab();
 }
 
-CEditActionTab::~CEditActionTab()
-{
-    delete ui;
-}
-
-void CEditActionTab::applyProperties(IAction *action)
+void CEditActionTab::applyProperties(const QVariant &object)
 {
     IVariableObjectDescriber *describer = m_handler->describer();
 

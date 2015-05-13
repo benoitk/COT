@@ -1,33 +1,24 @@
 #include "CEditCycleTab.h"
-#include "ui_CEditCycleTab.h"
+#include "CScrollableWidget.h"
 #include "CEditCycleTabUIHandler.h"
 #include "IVariableObjectDescriber.h"
 
 #include <IVariable.h>
 
 CEditCycleTab::CEditCycleTab(ICycle *cycle, QWidget *parent)
-    : IEditCycleTab(parent)
-    , ui(new Ui::CEditCycleTab)
+    : IConfiguratorEditTab(parent)
 {
-    ui->setupUi(this);
-    m_handler = new CEditCycleTabUIHandler(ui->swCentral, this);
-    ui->vbbButtons->addAction(CToolButton::ScrollUp, ui->swCentral->moveUp());
-    ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->swCentral->moveDown());
-
+    m_handler = new CEditCycleTabUIHandler(scrollableWidget(), this);
     m_handler->layout(cycle);
 
-    connect(ui->vbbButtons->addAction(CToolButton::Ok), &QAction::triggered, this, &CEditCycleTab::signalOkTriggered);
-    connect(ui->vbbButtons->addAction(CToolButton::Cancel), &QAction::triggered, this, &IEditCycleTab::signalCancelTriggered);
+    initBaseTab();
 }
 
-CEditCycleTab::~CEditCycleTab()
-{
-    delete ui;
-}
-
-void CEditCycleTab::applyProperties(ICycle *cycle)
+void CEditCycleTab::applyProperties(const QVariant &object)
 {
     IVariableObjectDescriber *describer = m_handler->describer();
+    ICycle *cycle = object.value<ICycle *>();
+    Q_ASSERT(cycle);
 
     // We know hard coded variable names from our describer so just use them.
     cycle->setName(describer->getVariable(QStringLiteral("name"))->toString());

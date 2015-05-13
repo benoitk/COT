@@ -1,27 +1,21 @@
 #ifndef CEDITCYCLETAB_H
 #define CEDITCYCLETAB_H
 
-#include "IEditCycleTab.h"
+#include "IConfiguratorEditTab.h"
 
-namespace Ui {
-class CEditCycleTab;
-}
-
-class CEditCycleTabUIHandler;
 class ICycle;
+class CEditCycleTabUIHandler;
 
-class CEditCycleTab : public IEditCycleTab
+class CEditCycleTab : public IConfiguratorEditTab
 {
     Q_OBJECT
 
 public:
     explicit CEditCycleTab(ICycle *cycle, QWidget *parent = Q_NULLPTR);
-    ~CEditCycleTab();
 
-    void applyProperties(ICycle *cycle) Q_DECL_OVERRIDE;
+    void applyProperties(const QVariant &object) Q_DECL_OVERRIDE;
 
 private:
-    Ui::CEditCycleTab *ui;
     CEditCycleTabUIHandler *m_handler;
 };
 

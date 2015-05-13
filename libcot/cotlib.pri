@@ -39,27 +39,7 @@ FORMS *= \
     gui/panel/CAboutWindow.ui \
     gui/widgets/CGenericItemSelector.ui \
     gui/tools/configurator/CConfiguratorWindow.ui \
-    gui/tools/configurator/actions/CConfiguratorActionsTab.ui \
-    gui/tools/configurator/actions/CEditActionTab.ui \
-    gui/tools/configurator/actions/CEditActionWindow.ui \
-    gui/tools/configurator/cycles/CConfiguratorCycleTab.ui \
-    gui/tools/configurator/cycles/CEditCycleTab.ui \
-    gui/tools/configurator/cycles/CEditCycleWindow.ui \
-    gui/tools/configurator/display/CConfiguratorDisplayTab.ui \
-    gui/tools/configurator/extensions/CConfiguratorExtensionsTab.ui \
-    gui/tools/configurator/extensions/CEditComTab.ui \
-    gui/tools/configurator/extensions/CEditExtensionWindow.ui \
-    gui/tools/configurator/extensions/CEditGeneralTab.ui \
-    gui/tools/configurator/extensions/CEditOrgansTab.ui \
-    gui/tools/configurator/hardware/CConfiguratorHardwareTab.ui \
-    gui/tools/configurator/network/CConfiguratorNetworkTab.ui \
-    gui/tools/configurator/sequencer/CConfiguratorSequencerTab.ui \
-    gui/tools/configurator/streams/CConfiguratorStreamsTab.ui \
-    gui/tools/configurator/variables/CConfiguratorVariablesTab.ui \
-    gui/tools/configurator/variables/CEditInBindsTab.ui \
-    gui/tools/configurator/variables/CEditOutBindsTab.ui \
-    gui/tools/configurator/variables/CEditVariableTab.ui \
-    gui/tools/configurator/variables/CEditVariableWindow.ui
+    gui/tools/configurator/IConfiguratorEditWindow.ui
 
 HEADERS *= \
     automate/CAutomate.h \
@@ -207,14 +187,12 @@ HEADERS *= \
     gui/tools/configurator/cycles/CEditCycleTab.h \
     gui/tools/configurator/cycles/CEditCycleTabUIHandler.h \
     gui/tools/configurator/cycles/CEditCycleWindow.h \
-    gui/tools/configurator/cycles/IEditCycleTab.h \
     gui/tools/configurator/display/CConfiguratorDisplayTab.h \
     gui/tools/configurator/extensions/CConfiguratorExtensionsTab.h \
     gui/tools/configurator/extensions/CEditComTab.h \
     gui/tools/configurator/extensions/CEditExtensionWindow.h \
     gui/tools/configurator/extensions/CEditGeneralTab.h \
     gui/tools/configurator/extensions/CEditOrgansTab.h \
-    gui/tools/configurator/extensions/IEditExtensionTab.h \
     gui/tools/configurator/hardware/CConfiguratorHardwareTab.h \
     gui/tools/configurator/network/CConfiguratorNetworkTab.h \
     gui/tools/configurator/sequencer/CConfiguratorSequencerTab.h \
@@ -230,7 +208,9 @@ HEADERS *= \
     gui/tools/configurator/variables/CEditVariableTabUIHandler.h \
     gui/tools/configurator/variables/CEditVariableWindow.h \
     gui/tools/configurator/variables/ConfiguratorVariablesUIHandler.h \
-    gui/tools/configurator/variables/IEditVariableTab.h
+    gui/IScrollableUIWidget.h \
+    gui/tools/configurator/IConfiguratorEditWindow.h \
+    gui/tools/configurator/IConfiguratorEditTab.h
 
 SOURCES *= \
     automate/CAutomate.cpp \
@@ -392,5 +372,6 @@ SOURCES *= \
     gui/tools/configurator/variables/CEditVariableTab.cpp \
     gui/tools/configurator/variables/CEditVariableTabUIHandler.cpp \
     gui/tools/configurator/variables/CEditVariableWindow.cpp \
-    gui/tools/configurator/variables/ConfiguratorVariablesUIHandler.cpp
-
+    gui/tools/configurator/variables/ConfiguratorVariablesUIHandler.cpp \
+    gui/IScrollableUIWidget.cpp \
+    gui/tools/configurator/IConfiguratorEditWindow.cpp

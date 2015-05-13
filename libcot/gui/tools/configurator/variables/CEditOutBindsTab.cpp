@@ -1,26 +1,13 @@
 #include "CEditOutBindsTab.h"
-#include "ui_CEditOutBindsTab.h"
 #include "CAutomate.h"
 #include "CEditOutBindsUIHandler.h"
 
 CEditOutBindsTab::CEditOutBindsTab(QWidget *parent)
-    : IEditVariableTab(parent)
-    , ui(new Ui::CEditOutBindsTab)
+    : IConfiguratorEditTab(parent)
 {
-    ui->setupUi(this);
-    m_configuratorUIHandler = new CEditOutBindsUIHandler(ui->swCentral, this);
-    ui->vbbButtons->addAction(CToolButton::ScrollUp, ui->swCentral->moveUp());
-    ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->swCentral->moveDown());
-    connect(ui->vbbButtons->addAction(CToolButton::Cancel), &QAction::triggered,
-            this, &IEditVariableTab::signalCancelTriggered);
+    m_configuratorUIHandler = new CEditOutBindsUIHandler(scrollableWidget(), this);
 
-    connect(ui->vbbButtons->addAction(CToolButton::Ok), &QAction::triggered,
-            this, &IEditVariableTab::signalOkTriggered);
-}
-
-CEditOutBindsTab::~CEditOutBindsTab()
-{
-    delete ui;
+    initBaseTab();
 }
 
 void CEditOutBindsTab::setVariables(IVariable *ivar)
@@ -30,8 +17,7 @@ void CEditOutBindsTab::setVariables(IVariable *ivar)
     m_configuratorUIHandler->layout(listOutBinds, true);
 }
 
-void CEditOutBindsTab::applyProperties(IVariable *ivar)
+void CEditOutBindsTab::applyProperties(const QVariant &object)
 {
-
 }
 

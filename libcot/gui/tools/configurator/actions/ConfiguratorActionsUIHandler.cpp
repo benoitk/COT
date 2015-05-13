@@ -27,7 +27,6 @@ void ConfiguratorActionsUIHandler::layout()
     CAutomate *automate = CAutomate::getInstance();
     const QList<IAction *> actions = automate->getListActions();
     foreach ( IAction *action, actions ) {
-
         // All this assumes that actions have a unique name. But of course so does CAutomate::getAction.
         qCDebug(COTGUI_LOG) << action->getName() << action->getLabel();
         IVariable *ivar = CVariableFactory::buildTemporary(action->getName(), action->getLabel(), type_string);

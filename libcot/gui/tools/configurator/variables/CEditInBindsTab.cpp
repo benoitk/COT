@@ -1,27 +1,15 @@
 #include "CEditInBindsTab.h"
-#include "ui_CEditInBindsTab.h"
 #include "CAutomate.h"
 #include "CEditInBindsUIHandler.h"
 #include <IConfiguratorUIHandler.h>
 
 CEditInBindsTab::CEditInBindsTab(QWidget *parent)
-    : IEditVariableTab(parent)
-    , ui(new Ui::CEditInBindsTab)
+    : IConfiguratorEditTab(parent)
 {
-    ui->setupUi(this);
-    m_configuratorUIHandler = new CEditInBindsUIHandler(ui->swCentral, this);
-    ui->vbbButtons->addAction(CToolButton::ScrollUp, ui->swCentral->moveUp());
-    ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->swCentral->moveDown());
-    connect(ui->vbbButtons->addAction(CToolButton::Cancel), &QAction::triggered,
-            this, &IEditVariableTab::signalCancelTriggered);
+    
+    m_configuratorUIHandler = new CEditInBindsUIHandler(scrollableWidget(), this);
 
-    connect(ui->vbbButtons->addAction(CToolButton::Ok), &QAction::triggered,
-            this, &IEditVariableTab::signalOkTriggered);
-}
-
-CEditInBindsTab::~CEditInBindsTab()
-{
-    delete ui;
+    initBaseTab();
 }
 
 void CEditInBindsTab::setVariables(IVariable *ivar)
@@ -31,8 +19,6 @@ void CEditInBindsTab::setVariables(IVariable *ivar)
     m_configuratorUIHandler->layout(listInBinds);
 }
 
-void CEditInBindsTab::applyProperties(IVariable *ivar)
+void CEditInBindsTab::applyProperties(const QVariant &object)
 {
-
 }
-

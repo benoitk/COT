@@ -28,8 +28,9 @@ private slots:
     void slotEditClicked();
 
 private:
-    CPushButton *newButton(IVariable *ivar);
     QHash<QString, IVariable *> m_internalVariables;
+
+    CPushButton *newButton(IVariable *ivar);
 };
 
 #endif // CCYCLETABUIHANDLER_H

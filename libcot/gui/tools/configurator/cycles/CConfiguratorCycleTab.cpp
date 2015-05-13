@@ -1,5 +1,6 @@
 #include "CConfiguratorCycleTab.h"
-#include "ui_CConfiguratorCycleTab.h"
+#include "CScrollableWidget.h"
+#include "CVerticalButtonBar.h"
 #include "CConfiguratorCycleTabUIHandler.h"
 #include "CEditCycleWindow.h"
 #include "CPCWindow.h"
@@ -10,26 +11,15 @@
 
 CConfiguratorCycleTab::CConfiguratorCycleTab(QWidget *parent)
     : IConfiguratorTab(parent)
-    , ui(new Ui::CConfiguratorCycleTab)
     , m_handler(new CConfiguratorCycleTabUIHandler(0, this))
 {
-    ui->setupUi(this);
-    m_handler->setScrollableWidget(ui->swCentral);
-    ui->vbbButtons->addAction(CToolButton::Add);
-    ui->vbbButtons->addAction(CToolButton::ScrollUp, ui->swCentral->moveUp());
-    ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->swCentral->moveDown());
-
+    m_handler->setScrollableWidget(scrollableWidget());
     slotUpdateLayout();
 
-    connect(ui->vbbButtons->addAction(CToolButton::Add), &QAction::triggered, this, &CConfiguratorCycleTab::slotAddCycle);
-    connect(ui->vbbButtons->addAction(CToolButton::Back), &QAction::triggered, this, &IConfiguratorTab::signalBackTriggered);
+    connect(buttonBar()->addAction(CToolButton::Add), &QAction::triggered, this, &CConfiguratorCycleTab::slotAddCycle);
     connect(CAutomate::getInstance(), &CAutomate::signalStreamsUpdated, this, &CConfiguratorCycleTab::slotUpdateLayout);
     connect(CAutomate::getInstance(), &CAutomate::signalCyclesUpdated, this, &CConfiguratorCycleTab::slotUpdateLayout);
-}
-
-CConfiguratorCycleTab::~CConfiguratorCycleTab()
-{
-    delete ui;
+    initBaseTab();
 }
 
 void CConfiguratorCycleTab::slotAddCycle()

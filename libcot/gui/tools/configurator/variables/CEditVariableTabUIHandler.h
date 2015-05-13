@@ -4,6 +4,7 @@
 #include "IConfiguratorUIHandler.h"
 
 class IVariable;
+
 class CEditVariableTabUIHandler : public IConfiguratorUIHandler
 {
     Q_OBJECT

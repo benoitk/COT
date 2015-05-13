@@ -1,32 +1,19 @@
 #ifndef CEDITEXTENSIONWINDOW_H
 #define CEDITEXTENSIONWINDOW_H
 
-#include <QWidget>
-namespace Ui {
-class CEditExtensionWindow;
-}
-class IEditExtensionTab;
+#include "IConfiguratorEditWindow.h"
 
-class CEditExtensionWindow : public QWidget
+class CEditExtensionWindow : public IConfiguratorEditWindow
 {
     Q_OBJECT
+
 public:
     explicit CEditExtensionWindow(QWidget *parent = Q_NULLPTR);
-    ~CEditExtensionWindow();
-
-public slots:
-    void retranslate();
-
-protected:
-    void changeEvent(QEvent *event) Q_DECL_OVERRIDE;
 
 private slots:
-    void backTriggered();
-
-    void okTriggered();
-private:
-    void addTab(IEditExtensionTab *tab, const QString &title);
-    Ui::CEditExtensionWindow *ui;
+    void slotRetranslate();
+    void slotOkTriggered();
+    void slotCancelTriggered();
 };
 
 #endif // CEDITEXTENSIONWINDOW_H

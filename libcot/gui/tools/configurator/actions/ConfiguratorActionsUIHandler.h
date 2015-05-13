@@ -8,9 +8,11 @@ class CPushButton;
 class LIBCOT_EXPORT ConfiguratorActionsUIHandler : public IConfiguratorUIHandler
 {
     Q_OBJECT
+
 public:
     explicit ConfiguratorActionsUIHandler(CScrollableWidget *scrollable = Q_NULLPTR, QObject *parent = Q_NULLPTR);
     ~ConfiguratorActionsUIHandler();
+
     void layout();
 
 protected:
@@ -28,7 +30,6 @@ private slots:
 private:
     CPushButton *newButton(IVariable *ivar);
     QHash<QString, IVariable *> m_internalVariables;
-
 };
 
 #endif // CONFIGURATORACTIONSUIHANDLER_H

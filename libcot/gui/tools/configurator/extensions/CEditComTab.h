@@ -1,20 +1,16 @@
 #ifndef CEDITCOMTAB_H
 #define CEDITCOMTAB_H
 
-#include "IEditExtensionTab.h"
-namespace Ui {
-class CEditComTab;
-}
-class CEditComTab : public IEditExtensionTab
+#include "IConfiguratorEditTab.h"
+
+class CEditComTab : public IConfiguratorEditTab
 {
     Q_OBJECT
+
 public:
     explicit CEditComTab(QWidget *parent = Q_NULLPTR);
-    ~CEditComTab();
-    void applyProperties(IVariable *ivar) Q_DECL_OVERRIDE;
 
-private:
-    Ui::CEditComTab *ui;
+    void applyProperties(const QVariant &object) Q_DECL_OVERRIDE;
 };
 
 #endif // CEDITCOMTAB_H

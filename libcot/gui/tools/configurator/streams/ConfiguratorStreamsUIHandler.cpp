@@ -1,20 +1,20 @@
 #include "ConfiguratorStreamsUIHandler.h"
-#include <QWidget>
-#include <QGridLayout>
-#include <CPushButton.h>
-#include <CToolButton.h>
+#include "CPushButton.h"
+#include "CToolButton.h"
+
 #include <CVariableStream.h>
 #include <CAutomate.h>
+
+#include <QWidget>
+#include <QGridLayout>
 
 ConfiguratorStreamsUIHandler::ConfiguratorStreamsUIHandler(CScrollableWidget *scrollable, QObject *parent)
     : IConfiguratorUIHandler(scrollable, parent)
 {
-
 }
 
 ConfiguratorStreamsUIHandler::~ConfiguratorStreamsUIHandler()
 {
-
 }
 
 void ConfiguratorStreamsUIHandler::layout()

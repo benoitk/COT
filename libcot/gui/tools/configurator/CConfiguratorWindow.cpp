@@ -16,16 +16,16 @@ CConfiguratorWindow::CConfiguratorWindow(QWidget *parent)
     , ui(new Ui::CConfiguratorWindow)
 {
     ui->setupUi(this);
-    addTab(new CConfiguratorCycleTab(this), QString());
-    addTab(new CConfiguratorActionsTab(this), QString());
-    addTab(new CConfiguratorVariablesTab(this), QString());
-    addTab(new CConfiguratorSequencerTab(this), QString());
-    addTab(new CConfiguratorStreamsTab(this), QString());
-    addTab(new CConfiguratorExtensionsTab(this), QString());
-    addTab(new CConfiguratorDisplayTab(this), QString());
-    addTab(new CConfiguratorHardwareTab(this), QString());
-    addTab(new CConfiguratorNetworkTab(this), QString());
-    retranslate();
+    addTab(new CConfiguratorCycleTab(this));
+    addTab(new CConfiguratorActionsTab(this));
+    addTab(new CConfiguratorVariablesTab(this));
+    addTab(new CConfiguratorSequencerTab(this));
+    addTab(new CConfiguratorStreamsTab(this));
+    addTab(new CConfiguratorExtensionsTab(this));
+    addTab(new CConfiguratorDisplayTab(this));
+    addTab(new CConfiguratorHardwareTab(this));
+    addTab(new CConfiguratorNetworkTab(this));
+    slotRetranslate();
 }
 
 CConfiguratorWindow::~CConfiguratorWindow()
@@ -33,8 +33,7 @@ CConfiguratorWindow::~CConfiguratorWindow()
     delete ui;
 }
 
-
-void CConfiguratorWindow::retranslate()
+void CConfiguratorWindow::slotRetranslate()
 {
     ui->retranslateUi(this);
     ui->twPages->setTabText(0, tr("Cycles"));
@@ -50,21 +49,20 @@ void CConfiguratorWindow::retranslate()
 
 void CConfiguratorWindow::changeEvent(QEvent *event)
 {
-    if (event->type() == QEvent::LanguageChange) {
-        retranslate();
-    }
-
     QWidget::changeEvent(event);
+
+    if (event->type() == QEvent::LanguageChange) {
+        slotRetranslate();
+    }
 }
 
-
-void CConfiguratorWindow::backTriggered()
+void CConfiguratorWindow::slotBackTriggered()
 {
     close();
 }
 
-void CConfiguratorWindow::addTab(IConfiguratorTab *tab, const QString &title)
+void CConfiguratorWindow::addTab(IConfiguratorTab *tab)
 {
-    ui->twPages->addTab(tab, title);
-    connect(tab, &IConfiguratorTab::signalBackTriggered, this, &CConfiguratorWindow::backTriggered);
+    ui->twPages->addTab(tab, QString());
+    connect(tab, &IConfiguratorTab::signalBackTriggered, this, &CConfiguratorWindow::slotBackTriggered);
 }

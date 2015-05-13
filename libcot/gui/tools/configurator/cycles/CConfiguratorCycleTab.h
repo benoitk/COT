@@ -3,10 +3,6 @@
 
 #include "IConfiguratorTab.h"
 
-namespace Ui {
-class CConfiguratorCycleTab;
-}
-
 class CConfiguratorCycleTabUIHandler;
 
 class CConfiguratorCycleTab : public IConfiguratorTab
@@ -15,14 +11,12 @@ class CConfiguratorCycleTab : public IConfiguratorTab
 
 public:
     explicit CConfiguratorCycleTab(QWidget *parent = Q_NULLPTR);
-    ~CConfiguratorCycleTab();
 
 protected slots:
     void slotAddCycle();
     void slotUpdateLayout();
 
 private:
-    Ui::CConfiguratorCycleTab *ui;
     CConfiguratorCycleTabUIHandler *m_handler;
 };
 
