@@ -1,6 +1,6 @@
 #include "CAutomate.h"
 #include "CControlerCycle.h"
-#include "CSequenceur.h"
+#include "CSequencer.h"
 #include "ICycle.h"
 #include "IVariable.h"
 #include "CCycleMesure.h"
@@ -50,24 +50,24 @@ void CAutomate::initConfig(){
 	CModelConfigFile configFile(this);
 	
 	QMap<QString, ICycle*> mapCycles = configFile.getMapCycle();
-	m_sequenceur = CSequenceur::getInstance();
-	m_sequenceur->setSequenceMesure(configFile.getListSequencesMesure());
+    m_sequencer = CSequencer::getInstance();
+    m_sequencer->setSequenceMesure(configFile.getListSequencesMesure());
 	
-	QThread* threadSequenceur = new QThread(this);
+    QThread* threadSequencer = new QThread(this);
 	
-	m_sequenceur->moveToThread(threadSequenceur);
+    m_sequencer->moveToThread(threadSequencer);
 	
-	connect(threadSequenceur, &QThread::started, m_sequenceur, &CSequenceur::slotRequestPlaySequenceMesure);
-    connect(m_sequenceur, &CSequenceur::signalUpdated, this, &CAutomate::signalSchedulerUpdated);
-    threadSequenceur->start();
+    connect(threadSequencer, &QThread::started, m_sequencer, &CSequencer::slotRequestPlaySequenceMesure);
+    connect(m_sequencer, &CSequencer::signalUpdated, this, &CAutomate::signalSchedulerUpdated);
+    threadSequencer->start();
 }
 
 
 CAutomate::~CAutomate()
 {
-    QThread* threadSequenceur = m_sequenceur->thread();
-    threadSequenceur->quit();
-    threadSequenceur->wait();
+    QThread* threadSequencer = m_sequencer->thread();
+    threadSequencer->quit();
+    threadSequencer->wait();
 }
 
 void CAutomate::addCyclePrivate(ICycle * cycle)
@@ -222,7 +222,6 @@ void CAutomate::addCom(ICom* com){
 void CAutomate::addAction(IAction* action){
     QMutexLocker locker(&m_mutex);
     if(action){
-        // SERES_TODO: what about renaming actions?
         m_mapActions.insert(action->getName(), action);
         m_listActions.append(action);// en redondance avec m_mapActions pour ne pas casser l'API
     }

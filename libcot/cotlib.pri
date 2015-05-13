@@ -53,7 +53,7 @@ HEADERS *= \
     automate/CModelConfigFile.h \
     automate/CModelExtensionCard.h \
     automate/CRunnableCycle.h \
-    automate/CSequenceur.h \
+	automate/CSequencer.h \
     automate/CStep.h \
     automate/INetwork.h \
     automate/IObserverAutomate.h \
@@ -224,7 +224,7 @@ SOURCES *= \
     automate/CModelConfigFile.cpp \
     automate/CModelExtensionCard.cpp \
     automate/CRunnableCycle.cpp \
-    automate/CSequenceur.cpp \
+	automate/CSequencer.cpp \
     automate/CStep.cpp \
     automate/INetwork.cpp \
     automate/IObserverAutomate.cpp \

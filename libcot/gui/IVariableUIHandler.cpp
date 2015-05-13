@@ -89,6 +89,7 @@ IVariablePtrList buildOrganTypes() {
                                 );
 }
 
+
 IVariablePtrList buildCycleTypes() {
     return buildTemporaryString(PairPairStringStringList() <<
                                     PairPairStringString("CYCLE_MESURE", qMakePair(IVariableUIHandler::tr("Measure"), CYCLE_MESURE)) <<

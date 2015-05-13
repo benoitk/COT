@@ -213,12 +213,12 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
 	}
 
 	//Séquenceur
-	QJsonObject jsonObjectSequenceur = m_jsonDoc->object();
-    if(jsonObjectSequenceur[QStringLiteral("scheduler")] == QJsonValue::Undefined){
+    QJsonObject jsonObjectSequencer = m_jsonDoc->object();
+    if(jsonObjectSequencer[QStringLiteral("scheduler")] == QJsonValue::Undefined){
 		qCDebug(COTAUTOMATE_LOG) << "jsonObject[\"scheduler\"] == QJsonValue::Undefined";
 	}
 	else {
-        QJsonArray jsonArraySeqeuceur = jsonObjectSequenceur[QStringLiteral("scheduler")].toArray();
+        QJsonArray jsonArraySeqeuceur = jsonObjectSequencer[QStringLiteral("scheduler")].toArray();
 		foreach(QJsonValue jsonValueSequence, jsonArraySeqeuceur){
 			QVariantMap mapSequence = jsonValueSequence.toVariant().toMap();
             if(mapSequence[QStringLiteral("cycle")] != QStringLiteral(""))
@@ -226,7 +226,7 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
 			else
 				qCDebug(COTAUTOMATE_LOG) << "Sequence name cycle null : map = " << mapSequence;
 		}
-        qCDebug(COTAUTOMATE_LOG) << "SEQUENCEUR : " << m_listSequences;
+        qCDebug(COTAUTOMATE_LOG) << "SEQUENCER : " << m_listSequences;
 
 	}
 	qCDebug(COTAUTOMATE_LOG) << "FIN CModelConfigFile(QObject *parent)";

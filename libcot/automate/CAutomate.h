@@ -24,7 +24,7 @@
 //Automade de gestion des cycles
 class ICycle;
 class CControlerCycle;
-class CSequenceur;
+class CSequencer;
 class IVariable;
 class CModelExtensionCard;
 class INetwork;
@@ -185,7 +185,7 @@ private:
     eStateCycle m_stateCycleIO; //0 stoped, 1 run, 2 pause
     eStateCycle m_stateCycleMaintenance; //0 stoped, 1 run, 2 pause
 
-	CSequenceur* m_sequenceur;
+    CSequencer* m_sequencer;
     CDisplayConf* m_displayConf;
     QMap<QString, ICycle*> m_listCycleMesures;
     QMap<QString, ICycle*> m_listCycleMaintenances;

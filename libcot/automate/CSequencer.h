@@ -6,7 +6,7 @@
 //GEstion de l'éxecution des cycles
 class ICycle;
 class CControlerCycle;
-class CSequenceur : public QObject
+class CSequencer : public QObject
 {
 	Q_OBJECT
 
@@ -28,7 +28,7 @@ public:
 
 	//FIN API
 
-	static CSequenceur* getInstance();
+    static CSequencer* getInstance();
 
 	void apendSequenceMesureRunCycle(ICycle*, int nbCycle);
 	//void apendSequenceMesureRunCycle(CControlerCycle*, int nbCycle);
@@ -73,8 +73,8 @@ signals:
 
 
 private:
-	CSequenceur();
-	~CSequenceur();
+    CSequencer();
+    ~CSequencer();
 
 	void disconnectCycle(ICycle*);
 	void setSequenceMesure();
@@ -82,7 +82,7 @@ private:
 	void playSequenceAutonome();
 
 
-	static CSequenceur* singleton;
+    static CSequencer* singleton;
 
     QList<CyclePair> m_listSequenceCycles;
 
