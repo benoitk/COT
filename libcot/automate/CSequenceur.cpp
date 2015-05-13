@@ -36,6 +36,8 @@ void CSequenceur::apendSequenceMesureRunCycle(ICycle* cycle, int nbMesure){
 		m_listSequenceCyclesMesures.append(cycle);
 		nbMesure--;
 	}
+
+    m_listSequenceCycles << CyclePair(cycle, nbMesure);
 }
 
 /*void CSequenceur::apendSequenceMesureRunCycle(CControlerCycle* ctrlCycle, int nbMesur	e){
@@ -47,6 +49,7 @@ void CSequenceur::apendSequenceMesurePause(int minute){
     CCyclePause* cyclePause = new CCyclePause(minute, this);
 	//CControlerCycle* ctrlCycle = new CControlerCycle(this, cyclePause);
 	m_listSequenceCyclesMesures.append(cyclePause);
+    m_listSequenceCycles << CyclePair(cyclePause, minute);
 }
 
 void CSequenceur::setSequenceMesure(){
@@ -173,5 +176,41 @@ QList<ICycle*>  CSequenceur::getListSequenceCyclesMesures(){
 	return m_listSequenceCyclesMesures;
 }
 void  CSequenceur::setListSequenceCyclesMesures(QList<ICycle *> listCycles){
-	m_listSequenceCyclesMesures.swap(listCycles);
+    m_listSequenceCyclesMesures.swap(listCycles);
+}
+
+void CSequenceur::addCycle(const CSequenceur::CyclePair &pair)
+{
+    m_listSequenceCycles << pair;
+    emit signalUpdated();
+}
+
+void CSequenceur::replaceCycleAt(int index, const CSequenceur::CyclePair &pair)
+{
+    if (index >= m_listSequenceCycles.count()) {
+        return;
+    }
+
+    m_listSequenceCycles[index] = pair;
+    emit signalUpdated();
+}
+
+void CSequenceur::removeAt(int index)
+{
+    if (index >= m_listSequenceCycles.count()) {
+        return;
+    }
+
+    m_listSequenceCycles.removeAt(index);
+    emit signalUpdated();
+}
+
+CSequenceur::CyclePair CSequenceur::getCycleAt(int index) const
+{
+    return m_listSequenceCycles.value(index, CyclePair(Q_NULLPTR, -1));
+}
+
+QList<CSequenceur::CyclePair> CSequenceur::getCycles() const
+{
+    return m_listSequenceCycles;
 }

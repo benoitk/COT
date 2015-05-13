@@ -13,8 +13,16 @@ class CSequenceur : public QObject
 public:
 	
 	//API
+    typedef QPair<ICycle *, int> CyclePair;
+
 	QList<ICycle*> getListSequenceCyclesMesures();
     void setListSequenceCyclesMesures(QList<ICycle*> );
+
+    void addCycle(const CyclePair &pair);
+    void replaceCycleAt(int index, const CyclePair &pair);
+    void removeAt(int index);
+    CyclePair getCycleAt(int index) const;
+    QList<CyclePair> getCycles() const;
 
 	//FIN API
 
@@ -44,6 +52,7 @@ public slots:
 	void slotCycleMesureIsPaused();
 
 signals:
+    void signalUpdated();
 	void signalRunCycleMesure();
 	void signalPauseCycleMesure();
 	void signalUnPauseCycleMesure();
@@ -72,6 +81,9 @@ private:
 
 
 	static CSequenceur* singleton;
+
+    QList<CyclePair> m_listSequenceCycles;
+
 	QList<ICycle*> m_listSequenceCyclesMesures;
 	QList<ICycle*> m_listSequenceCyclesAutonomes;
 	QList<ICycle*> m_listSequenceCyclesMaintenances;
