@@ -21,7 +21,13 @@ void CEditOutBindsTab::applyProperties(const QVariant &object)
 {
     IVariable *ivar = object.value<IVariable *>();
     Q_ASSERT(ivar);
-    QList<IVariable *> listOutBinds = ivar->getListOutBinds();
-
+    QList<IVariable *> lstVar;
+    foreach( const QString &varname, m_configuratorUIHandler->variableNames()) {
+        IVariable *var = m_configuratorUIHandler->getVariable(varname);
+        if (var) {
+            lstVar << var;
+        }
+    }
+    ivar->setListOutBinds(lstVar);
 }
 

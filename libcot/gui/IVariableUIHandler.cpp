@@ -597,6 +597,11 @@ IVariable *IVariableUIHandler::getVariable(const QString &name)
     return ivar;
 }
 
+QStringList IVariableUIHandler::variableNames() const
+{
+    return m_rows.keys();
+}
+
 int IVariableUIHandler::columnCount() const
 {
     return 3;

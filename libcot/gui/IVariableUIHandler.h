@@ -76,6 +76,7 @@ public:
     bool selectUnit(QString &value);
 
     virtual IVariable *getVariable(const QString &name);
+    QStringList variableNames() const;
 
 protected:
     struct Row {
