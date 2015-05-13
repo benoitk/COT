@@ -75,7 +75,7 @@ void ConfiguratorActionsUIHandler::rowAboutToBeDeleted(const IVariableUIHandler:
     m_internalVariables.take(actionName);
     IAction *action = automate->getAction(actionName);
     Q_ASSERT(action);
-    // SERES_TODO automate->removeAction(action);
+    // SERES_TODO automate->delAction(action); // COT-60
     qWarning() << "Not fully implemented, missing API for removeAction";
     delete ivar;
 }

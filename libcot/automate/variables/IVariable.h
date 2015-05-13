@@ -76,7 +76,7 @@ public:
 
 
 signals:
-    void signalVariableChanged(); // SERES_TODO: handle it in each variable.
+    void signalVariableChanged(); // SERES_TODO: handle it in each variable (COT-64)
 };
 
 // Typedefs

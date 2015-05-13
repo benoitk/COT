@@ -60,7 +60,7 @@ IVariablePtrList buildTemporaryString(const PairPairStringStringList& pairs) {
 }
 
 IVariablePtrList buildActionType() {
-    // SERES_TODO: Provide api
+    // SERES_TODO: Provide api (COT-54)
     // Note: this relates to CActionFactory::build()
     return buildTemporaryString(PairPairStringStringList() <<
                                     PairPairStringString("calc_coef", qMakePair(IVariableUIHandler::tr("Calc Coef"), 1)) <<
@@ -72,6 +72,7 @@ IVariablePtrList buildActionType() {
 }
 
 IVariablePtrList buildVariableTypes() {
+    // SERES_TODO: Provide api (COT-55)
     return buildTemporaryString(PairPairStringStringList() <<
                                     PairPairStringString("type_bool", qMakePair(IVariableUIHandler::tr("Boolean"), type_bool)) <<
                                     PairPairStringString("type_float", qMakePair(IVariableUIHandler::tr("Float"), type_float)) <<
@@ -82,6 +83,7 @@ IVariablePtrList buildVariableTypes() {
 }
 
 IVariablePtrList buildOrganTypes() {
+    // SERES_TODO: Provide api (COT-56)
     return buildTemporaryString(PairPairStringStringList() <<
                                     PairPairStringString("VariableOrganTypeNone", qMakePair(IVariableUIHandler::tr("None"), VariableOrganTypeNone)) <<
                                     PairPairStringString("VariableOrganTypeInput", qMakePair(IVariableUIHandler::tr("Input"), VariableOrganTypeInput)) <<
@@ -91,6 +93,7 @@ IVariablePtrList buildOrganTypes() {
 
 
 IVariablePtrList buildCycleTypes() {
+    // SERES_TODO: Provide api (COT-57)
     return buildTemporaryString(PairPairStringStringList() <<
                                     PairPairStringString("CYCLE_MESURE", qMakePair(IVariableUIHandler::tr("Measure"), CYCLE_MESURE)) <<
                                     PairPairStringString("CYCLE_AUTONOME", qMakePair(IVariableUIHandler::tr("Autonome"), CYCLE_AUTONOME)) <<

@@ -26,7 +26,7 @@ void CEditCycleWindow::slotOkTriggered()
     CAutomate *automate = CAutomate::getInstance();
     ICycle *cycle = editedObject().value<ICycle *>();
     Q_ASSERT(cycle);
-    // SERES_TODO: add api for ICycle serialisation
+    // SERES_TODO: add api for changing a stream name (COT-52)
     QVariantMap oldData /*= m_cycle->serialize()*/;
     oldData[QStringLiteral("related_stream_name")] = cycle->getRelatedStreamName();
 

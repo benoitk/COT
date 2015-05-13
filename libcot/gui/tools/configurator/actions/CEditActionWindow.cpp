@@ -25,9 +25,6 @@ void CEditActionWindow::slotRetranslate()
 void CEditActionWindow::slotOkTriggered()
 {
     CAutomate *automate = CAutomate::getInstance();
-    // SERES_TODO: add api for IAction serialisation
-//    QVariantMap oldData /*= m_action->serialize()*/;
-//    oldData[QStringLiteral("related_stream_name")] = m_action->getRelatedStreamName();
 
     applyProperties();
 

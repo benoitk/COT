@@ -257,7 +257,7 @@ IAction* CAutomate::getAction(const QString &arg_name){
     return action;
 }
 
-// SERES_TODO: delAction
+// SERES_TODO: delAction (COT-60)
 
 QList<ICycle*> CAutomate::getListCycles(int cycleType){
     QMutexLocker locker(&m_mutex);
@@ -296,7 +296,7 @@ void CAutomate::addExtensionCard(const QString& name, CModelExtensionCard* extCa
 
 void CAutomate::delCycle(ICycle *cycle)
 {
-    // SERES_TODO: To be completed.
+    // SERES_TODO: To be completed (COT-58).
     // There is probably more to update, like in CSequencer etc.
     QMutexLocker locker(&m_mutex);
 
