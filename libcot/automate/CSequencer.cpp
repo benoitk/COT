@@ -77,9 +77,9 @@ void CSequencer::setSequenceMesure(){
         connect(this, &CSequencer::signalGoToEndCycleMesure, m_cycleMesureEnCours, &ICycle::slotGoToEndCycle);
         connect(this, &CSequencer::signalGetReadyForPlayNextCycleMesure, m_cycleMesureEnCours, &ICycle::slotGetReadyForPlayNextCycle);
         connect(this, &CSequencer::signalGetReadyForPlayCycleMesure, m_cycleMesureEnCours, &ICycle::slotGetReadyForPlayCycle);
-        connect(m_cycleMesureEnCours, &ICycle::signalImRunned, this, &CSequencer::slotCycleMesureIsRunning);
-        connect(m_cycleMesureEnCours, &ICycle::signalImStopped, this, &CSequencer::slotCycleMesureIsStopped);
-        connect(m_cycleMesureEnCours, &ICycle::signalImPaused, this, &CSequencer::slotCycleMesureIsPaused);
+        connect(m_cycleMesureEnCours, &ICycle::signalRunning, this, &CSequencer::slotCycleMesureIsRunning);
+        connect(m_cycleMesureEnCours, &ICycle::signalStopped, this, &CSequencer::slotCycleMesureIsStopped);
+        connect(m_cycleMesureEnCours, &ICycle::signalPaused, this, &CSequencer::slotCycleMesureIsPaused);
         connect(m_cycleMesureEnCours, &ICycle::signalReadyForPlayNextCycle, this, &CSequencer::slotPlayNextSequenceMesure);
         disconnect(this, &CSequencer::signalGetReadyForPlayCycleMesure, this, &CSequencer::slotPlaySequenceMesure);
         connect(m_cycleMesureEnCours, &ICycle::signalReadyForPlayCycle, this, &CSequencer::slotPlaySequenceMesure);
