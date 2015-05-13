@@ -15,8 +15,8 @@ public:
 
     virtual void applyProperties(IVariable *ivar) = 0;
 signals:
-    void okTriggered();
-    void backTriggered();
+    void signalOkTriggered();
+    void signalCancelTriggered();
 };
 
 #endif // IEDITVARIABLETAB_H
