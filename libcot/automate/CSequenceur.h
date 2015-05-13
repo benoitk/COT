@@ -18,6 +18,8 @@ public:
 	QList<ICycle*> getListSequenceCyclesMesures();
     void setListSequenceCyclesMesures(QList<ICycle*> );
 
+    // SERES_TODO: Proposed api by KDAB, used by the configurator.
+    // To be entirely implemented / used by the sequencer.
     void addCycle(const CyclePair &pair);
     void replaceCycleAt(int index, const CyclePair &pair);
     void removeAt(int index);
