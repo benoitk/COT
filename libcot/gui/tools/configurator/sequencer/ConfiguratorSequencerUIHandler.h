@@ -3,30 +3,36 @@
 
 #include <IConfiguratorUIHandler.h>
 #include "cot_global.h"
+
 class CPushButton;
+
 class LIBCOT_EXPORT ConfiguratorSequencerUIHandler : public IConfiguratorUIHandler
 {
     Q_OBJECT
 public:
     explicit ConfiguratorSequencerUIHandler(CScrollableWidget *scrollable = Q_NULLPTR, QObject *parent = Q_NULLPTR);
     ~ConfiguratorSequencerUIHandler();
+
     void layout();
 
 protected:
+    IVariable *getVariable(const QString &name) Q_DECL_OVERRIDE;
     int columnCount() const Q_DECL_OVERRIDE;
     QWidget *createWidget(int column, IVariable *ivar) Q_DECL_OVERRIDE;
     void rowInserted(const Row &row, IVariable *ivar) Q_DECL_OVERRIDE;
     void rowChanged(const Row &row, IVariable *ivar) Q_DECL_OVERRIDE;
     void rowAboutToBeDeleted(const Row &row, IVariable *ivar) Q_DECL_OVERRIDE;
+    void rowDeleted(const QString &name) Q_DECL_OVERRIDE;
 
 private slots:
-    void slotEditClicked();
-
-signals:
-    void editVariable(const QString &signalname);
+    void slotEditCycleClicked();
+    void slotEditValueClicked();
 
 private:
-    CPushButton *newButton(IVariable *ivar);
+    QHash<QString, IVariable *> m_internalVariables;
+
+    CPushButton *newCycleButton(IVariable *ivar);
+    CPushButton *newValueButton(IVariable *ivar);
 };
 
 #endif // CONFIGURATORSEQUENCERUIHANDLER_H

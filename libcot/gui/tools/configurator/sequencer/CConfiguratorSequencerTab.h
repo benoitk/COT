@@ -13,6 +13,7 @@ public:
     explicit CConfiguratorSequencerTab(QWidget *parent = Q_NULLPTR);
 
 private slots:
+    void slotUpdateLayout();
     void slotAddSequencer();
 
 private:

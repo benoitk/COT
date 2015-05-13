@@ -1,36 +1,52 @@
 #include "ConfiguratorSequencerUIHandler.h"
+#include "CPushButton.h"
+#include "CToolButton.h"
 
-#include <QLabel>
-#include <CToolButton.h>
-#include <CPushButton.h>
+#include <CVariableFactory.h>
+#include <CAutomate.h>
 #include <CSequenceur.h>
 #include <ICycle.h>
-#include <CVariableString.h>
 
+#include <QLabel>
 
 ConfiguratorSequencerUIHandler::ConfiguratorSequencerUIHandler(CScrollableWidget *scrollable, QObject *parent)
     : IConfiguratorUIHandler(scrollable, parent)
 {
-
 }
 
 ConfiguratorSequencerUIHandler::~ConfiguratorSequencerUIHandler()
 {
-
+    CVariableFactory::deleteVariables(m_internalVariables);
 }
 
 void ConfiguratorSequencerUIHandler::layout()
 {
-    const QList<ICycle *> listVar = CSequenceur::getInstance()->getListSequenceCyclesMesures();
-    QList<IVariable *> variables;
-    foreach (ICycle *cycle, listVar) {
-        IVariable *variable = new CVariableString;
-        variable->setName(cycle->getName());
-        variable->setLabel(cycle->getLbl());
-        variables << variable;
+    CVariableFactory::deleteVariables(m_internalVariables);
+
+    const QList<CSequenceur::CyclePair> cycles = CSequenceur::getInstance()->getCycles();
+    QList<IVariable *> ivars;
+
+    for (int i = 0; i < cycles.count(); ++i) {
+        const CSequenceur::CyclePair &pair = cycles[i];
+        ICycle *cycle = pair.first;
+        Q_ASSERT(cycle);
+        IVariable *ivar = CVariableFactory::buildTemporary(QString::number(i), cycle->getLbl(), type_string);
+        m_internalVariables[cycle->getName()] = ivar;
+        ivars << ivar;
     }
 
-    IConfiguratorUIHandler::layout(variables);
+    IConfiguratorUIHandler::layout(ivars, true);
+}
+
+IVariable *ConfiguratorSequencerUIHandler::getVariable(const QString &name)
+{
+    IVariable *ivar = m_internalVariables.value(name);
+
+    if (!ivar) {
+        ivar = IConfiguratorUIHandler::getVariable(name);
+    }
+
+    return ivar;
 }
 
 int ConfiguratorSequencerUIHandler::columnCount() const
@@ -40,22 +56,20 @@ int ConfiguratorSequencerUIHandler::columnCount() const
 
 QWidget *ConfiguratorSequencerUIHandler::createWidget(int column, IVariable *ivar)
 {
-    if (!ivar) {
-        return Q_NULLPTR;
-    }
     switch (column) {
-    case 0:
-        return newButton(ivar);
-    case 1: {
-        QLabel *lab = new QLabel(container());
-        lab->setText(QStringLiteral("X"));
-        return lab;
+        case 0:
+            return newCycleButton(ivar);
+
+        case 1:
+            return new QLabel(QStringLiteral("X"), container());
+
+        case 2:
+            return newValueButton(ivar);
+
+        case 3:
+            return newDeleteButton(ivar);
     }
-    case 2:
-        return newButton(ivar);
-    case 3:
-        return newDeleteButton(ivar);
-    }
+
     return Q_NULLPTR;
 }
 
@@ -67,29 +81,71 @@ void ConfiguratorSequencerUIHandler::rowInserted(const IVariableUIHandler::Row &
 
 void ConfiguratorSequencerUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariable *ivar)
 {
+    const int index = layoutRow(row);
+    const CSequenceur::CyclePair pair = CSequenceur::getInstance()->getCycleAt(index);
     row.widgetAt<CPushButton *>(0)->setText(ivar->getLabel());
-    row.widgetAt<CPushButton *>(2)->setText(ivar->getLabel());
+    row.widgetAt<CPushButton *>(2)->setText(QString::number(pair.second));
 }
 
 void ConfiguratorSequencerUIHandler::rowAboutToBeDeleted(const IVariableUIHandler::Row &row, IVariable *ivar)
 {
-    Q_UNUSED(row);
-    Q_UNUSED(ivar);
+    const int index = layoutRow(row);
+    CSequenceur *sequencer = CSequenceur::getInstance();
+    sequencer->removeAt(index);
+    delete m_internalVariables.take(ivar->getName());
 }
 
-CPushButton *ConfiguratorSequencerUIHandler::newButton(IVariable *ivar)
+void ConfiguratorSequencerUIHandler::rowDeleted(const QString &name)
 {
-    //TODO fix me
+    Q_UNUSED(name);
+}
+
+CPushButton *ConfiguratorSequencerUIHandler::newCycleButton(IVariable *ivar)
+{
     CPushButton *button = new CPushButton(container());
-    connect(button, &CPushButton::clicked, this, &ConfiguratorSequencerUIHandler::slotEditClicked);
-    button->setText(ivar->getLabel());
     button->setUserData(ivar->getName());
+    connect(button, &CPushButton::clicked, this, &ConfiguratorSequencerUIHandler::slotEditCycleClicked);
     return button;
 }
 
-void ConfiguratorSequencerUIHandler::slotEditClicked()
+CPushButton *ConfiguratorSequencerUIHandler::newValueButton(IVariable *ivar)
 {
-    //TODO customize it.
-    const QString variableName = qobject_cast<CPushButton *>(sender())->userData().toString();
-    emit editVariable(variableName);
+    CPushButton *button = new CPushButton(container());
+    button->setUserData(ivar->getName());
+    connect(button, &CPushButton::clicked, this, &ConfiguratorSequencerUIHandler::slotEditValueClicked);
+    return button;
+}
+
+void ConfiguratorSequencerUIHandler::slotEditCycleClicked()
+{
+    const int row = layoutRow(qobject_cast<QWidget *>(sender()));
+    CAutomate *automate = CAutomate::getInstance();
+    CSequenceur *sequencer = CSequenceur::getInstance();
+    CSequenceur::CyclePair pair = sequencer->getCycleAt(row);
+    Q_ASSERT(pair.first);
+    QString cycleName = pair.first->getName();
+
+    if (!selectCycle(cycleName) || cycleName.isEmpty()) {
+        return;
+    }
+
+    pair.first = automate->getCycle(cycleName);
+    Q_ASSERT(pair.first);
+    sequencer->replaceCycleAt(row, pair);
+}
+
+void ConfiguratorSequencerUIHandler::slotEditValueClicked()
+{
+    const int row = layoutRow(qobject_cast<QWidget *>(sender()));
+    CSequenceur *sequencer = CSequenceur::getInstance();
+    CSequenceur::CyclePair pair = sequencer->getCycleAt(row);
+    Q_ASSERT(pair.first);
+    int value = pair.second;
+
+    if (!enterInteger(value) || value <= 0) {
+        return;
+    }
+
+    pair.second = value;
+    sequencer->replaceCycleAt(row, pair);
 }
