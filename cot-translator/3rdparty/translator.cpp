@@ -113,7 +113,7 @@ void Translator::ensureIndexed() const
         m_ctxCmtIdx.clear();
         m_idMsgIdx.clear();
         m_msgIdx.clear();
-        for (int i = 0; i < m_messages.count(); i++)
+        for (int i = 0; i < m_messages.count(); ++i)
             addIndex(i, m_messages.at(i));
     }
 }

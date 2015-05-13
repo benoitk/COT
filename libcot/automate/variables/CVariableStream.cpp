@@ -73,7 +73,7 @@ IVariable* CVariableStream::getActiveState(){
 
 void CVariableStream::delCycle(const QString &name)
 {
-    for (int i = 0; i < m_listCycles.count(); i++) {
+    for (int i = 0; i < m_listCycles.count(); ++i) {
         ICycle *cycle = m_listCycles[i];
 
         if (!cycle) {

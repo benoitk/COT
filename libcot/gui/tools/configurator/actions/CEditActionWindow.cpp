@@ -49,7 +49,7 @@ void CEditActionWindow::slotOkTriggered()
 //    QVariantMap oldData /*= m_action->serialize()*/;
 //    oldData[QStringLiteral("related_stream_name")] = m_action->getRelatedStreamName();
 
-    for (int i = 0; i < ui->twPages->count(); i++) {
+    for (int i = 0; i < ui->twPages->count(); ++i) {
         IEditActionTab *tab = qobject_cast<IEditActionTab *>(ui->twPages->widget(i));
         tab->applyProperties(m_action);
     }

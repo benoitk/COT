@@ -50,7 +50,7 @@ void CEditCycleWindow::slotOkTriggered()
     QVariantMap oldData /*= m_cycle->serialize()*/;
     oldData[QStringLiteral("related_stream_name")] = m_cycle->getRelatedStreamName();
 
-    for (int i = 0; i < ui->twPages->count(); i++) {
+    for (int i = 0; i < ui->twPages->count(); ++i) {
         IEditCycleTab *tab = qobject_cast<IEditCycleTab *>(ui->twPages->widget(i));
         tab->applyProperties(m_cycle);
     }
