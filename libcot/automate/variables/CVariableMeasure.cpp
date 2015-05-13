@@ -4,6 +4,9 @@
 
 #include "CUnit.h"
 #include "qlinkedlist.h"
+
+#define QSL QStringLiteral
+
 CVariableMeasure::CVariableMeasure(QObject *parent)
     :IVariable(parent)
 {	
@@ -11,23 +14,21 @@ CVariableMeasure::CVariableMeasure(QObject *parent)
 CVariableMeasure::CVariableMeasure(const QMap<QString, QVariant> &mapVar)
     :IVariable()
 {
-    if(mapVar.contains(QStringLiteral("name")))
-        m_name = mapVar.value(QStringLiteral("name")).toString();
-    else m_name = QStringLiteral("Stream unamed");
+    m_name = mapVar.value(QSL("name")).toString();
+    if (m_name.isEmpty())
+        m_name = QSL("Stream unamed");
     
-    if(mapVar.contains(tr("fr_FR")))
-        m_label = mapVar.value(tr("fr_FR")).toString();
-    else m_label = QStringLiteral("Stream no label");
+    m_label = mapVar.value(tr("fr_FR")).toString();
+    if (m_label.isEmpty())
+        m_label = tr("Stream no label");
     
-    m_measure = CAutomate::getInstance()->getVariable(mapVar.value(tr("variable_measure")).toString());
-    m_measureMax = CAutomate::getInstance()->getVariable(mapVar.value(tr("variable_range_max")).toString());
-    m_measureMin = CAutomate::getInstance()->getVariable(mapVar.value(tr("variable_range_min")).toString());
+    m_measure = CAutomate::getInstance()->getVariable(mapVar.value(QSL("variable_measure")).toString());
+    m_measureMax = CAutomate::getInstance()->getVariable(mapVar.value(QSL("variable_range_max")).toString());
+    m_measureMin = CAutomate::getInstance()->getVariable(mapVar.value(QSL("variable_range_min")).toString());
     
-    if(mapVar.contains(QStringLiteral("variables"))){
-        QVariantList listVariable = mapVar.value(QStringLiteral("variables")).toList();
-        foreach(const QVariant &variant, listVariable){
-            m_listVariables.append(CAutomate::getInstance()->getVariable(variant.toString()));
-        }
+    QVariantList listVariable = mapVar.value(QStringLiteral("variables")).toList();
+    foreach(const QVariant &variant, listVariable){
+        m_listVariables.append(CAutomate::getInstance()->getVariable(variant.toString()));
     }
 }
 IVariable* CVariableMeasure::getMeasureMax(){

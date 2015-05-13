@@ -20,8 +20,6 @@
 #include "CVariableMeasure.h"
 
 #include "cotautomate_debug.h"
-#include <qthread.h>
-#include <QApplication>
 #include "qtimer.h"
 CAutomate* CAutomate::singleton = 0;
 
