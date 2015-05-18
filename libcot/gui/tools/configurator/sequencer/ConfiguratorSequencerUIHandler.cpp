@@ -31,7 +31,7 @@ void ConfiguratorSequencerUIHandler::layout()
         ICycle *cycle = pair.first;
         Q_ASSERT(cycle);
         IVariable *ivar = CVariableFactory::buildTemporary(QString::number(i), cycle->getLabel(), type_string);
-        m_internalVariables[cycle->getName()] = ivar;
+        m_internalVariables[ivar->getName()] = ivar;
         ivars << ivar;
     }
 
@@ -81,7 +81,7 @@ void ConfiguratorSequencerUIHandler::rowInserted(const IVariableUIHandler::Row &
 
 void ConfiguratorSequencerUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariable *ivar)
 {
-    const int index = layoutRow(row);
+    const int index = ivar->getName().toInt();
     const CSequencer::CyclePair pair = CSequencer::getInstance()->getCycleAt(index);
     row.widgetAt<CPushButton *>(0)->setText(ivar->getLabel());
     row.widgetAt<CPushButton *>(2)->setText(QString::number(pair.second));
@@ -89,7 +89,7 @@ void ConfiguratorSequencerUIHandler::rowChanged(const IVariableUIHandler::Row &r
 
 void ConfiguratorSequencerUIHandler::rowAboutToBeDeleted(const IVariableUIHandler::Row &row, IVariable *ivar)
 {
-    const int index = layoutRow(row);
+    const int index = ivar->getName().toInt();
     CSequencer *sequencer = CSequencer::getInstance();
     sequencer->removeAt(index);
     delete m_internalVariables.take(ivar->getName());
@@ -118,10 +118,10 @@ CPushButton *ConfiguratorSequencerUIHandler::newValueButton(IVariable *ivar)
 
 void ConfiguratorSequencerUIHandler::slotEditCycleClicked()
 {
-    const int row = layoutRow(qobject_cast<QWidget *>(sender()));
+    const int index = qobject_cast<CPushButton *>(sender())->userData().toInt();
     CAutomate *automate = CAutomate::getInstance();
     CSequencer *sequencer = CSequencer::getInstance();
-    CSequencer::CyclePair pair = sequencer->getCycleAt(row);
+    CSequencer::CyclePair pair = sequencer->getCycleAt(index);
     Q_ASSERT(pair.first);
     QString cycleName = pair.first->getName();
 
@@ -131,14 +131,14 @@ void ConfiguratorSequencerUIHandler::slotEditCycleClicked()
 
     pair.first = automate->getCycle(cycleName);
     Q_ASSERT(pair.first);
-    sequencer->replaceCycleAt(row, pair);
+    sequencer->replaceCycleAt(index, pair);
 }
 
 void ConfiguratorSequencerUIHandler::slotEditValueClicked()
 {
-    const int row = layoutRow(qobject_cast<QWidget *>(sender()));
+    const int index = qobject_cast<CPushButton *>(sender())->userData().toInt();
     CSequencer *sequencer = CSequencer::getInstance();
-    CSequencer::CyclePair pair = sequencer->getCycleAt(row);
+    CSequencer::CyclePair pair = sequencer->getCycleAt(index);
     Q_ASSERT(pair.first);
     int value = pair.second;
 
@@ -147,5 +147,5 @@ void ConfiguratorSequencerUIHandler::slotEditValueClicked()
     }
 
     pair.second = value;
-    sequencer->replaceCycleAt(row, pair);
+    sequencer->replaceCycleAt(index, pair);
 }
