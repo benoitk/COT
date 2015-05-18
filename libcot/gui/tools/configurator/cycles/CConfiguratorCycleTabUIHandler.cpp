@@ -43,7 +43,7 @@ void CConfiguratorCycleTabUIHandler::layout()
             }
 
             IVariable *ivar = CVariableFactory::buildTemporary(cycle->getName(), cycle->getLabel(), type_string);
-            m_internalVariables[cycle->getName()] = ivar;
+            m_internalVariables[ivar->getName()] = ivar;
             ivars << ivar;
         }
     }
@@ -66,7 +66,7 @@ void CConfiguratorCycleTabUIHandler::layout()
         }
 
         IVariable *ivar = CVariableFactory::buildTemporary(cycle->getName(), cycle->getLabel(), type_string);
-        m_internalVariables[cycle->getName()] = ivar;
+        m_internalVariables[ivar->getName()] = ivar;
         ivars << ivar;
     }
 
@@ -112,13 +112,8 @@ QWidget *CConfiguratorCycleTabUIHandler::createWidget(int column, IVariable *iva
 
 void CConfiguratorCycleTabUIHandler::rowInserted(const IVariableUIHandler::Row &row, IVariable *ivar)
 {
-    const bool isStream = ivar && ivar->getType() == type_stream;
-
-    if (isStream) {
-    }
-    else {
-        connect(row.widgetAt<CPushButton *>(1), &CPushButton::clicked, this, & CConfiguratorCycleTabUIHandler::slotEditClicked);
-    }
+    Q_UNUSED(row);
+    Q_UNUSED(ivar);
 }
 
 void CConfiguratorCycleTabUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariable *ivar)
@@ -182,5 +177,6 @@ CPushButton *CConfiguratorCycleTabUIHandler::newButton(IVariable *ivar)
     CPushButton *button = new CPushButton(container());
     button->setText(ivar->getLabel());
     button->setUserData(ivar->getName());
+    connect(button, &CPushButton::clicked, this, &CConfiguratorCycleTabUIHandler::slotEditClicked);
     return button;
 }
