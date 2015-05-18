@@ -75,7 +75,6 @@ void IVariableMeasuresUIHandler::rowChanged(const IVariableUIHandler::Row &row, 
 {
     row.widgetAt<QLabel *>(1)->setText(ivar->getLabel());
     row.widgetAt<CToolButton *>(0)->setUserData(ivar->getName());
-    applyEditorConstraints(row.widgets.value(0), ivar);
     row.widgetAt<QLabel *>(2)->setText(valueAndUnit(ivar));
 }
 
