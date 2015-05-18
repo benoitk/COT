@@ -6,10 +6,15 @@
 #include "CVariableFactory.h"
 
 #include "qlinkedlist.h"
-CVariableStream::CVariableStream(QObject *parent):IVariable(parent)
+CVariableStream::CVariableStream(QObject *parent)
+    : IVariable(parent)
+    , m_access(access_read_write)
 {
 }
-CVariableStream::CVariableStream(const QMap<QString, QVariant> &mapVar):IVariable(){
+CVariableStream::CVariableStream(const QMap<QString, QVariant> &mapVar)
+    : IVariable()
+    , m_access(access_read_write)
+{
     if(mapVar.contains(QStringLiteral("name")))
         m_name = mapVar.value(QStringLiteral("name")).toString();
     else m_name = QStringLiteral("Stream unamed");
@@ -94,6 +99,10 @@ void CVariableStream::delCycle(const QString &name)
 void CVariableStream::setRelatedStreamName(const QString &variableName)
 {
 
+}
+void CVariableStream::setAccess(variableAccess access)
+{
+    m_access = access;
 }
 QString CVariableStream::getName()const{
     return m_name;

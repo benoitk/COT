@@ -55,3 +55,8 @@ QString IVariable::organTypeToString(VariableOrganType type)
 
     return QStringLiteral("**unhandled organ type**");
 }
+
+void IVariable::setAddress(int address)
+{
+    Q_UNUSED(address);
+}

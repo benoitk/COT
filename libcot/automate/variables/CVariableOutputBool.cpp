@@ -4,6 +4,7 @@
 
 CVariableOutputBool::CVariableOutputBool(QObject *parent)
     : IVariable(parent)
+    , m_access(access_read_write)
     , m_modelExtensionCard(Q_NULLPTR)
 {
 
@@ -16,6 +17,7 @@ CVariableOutputBool::~CVariableOutputBool()
 
 CVariableOutputBool::CVariableOutputBool(const QMap<QString, QVariant> &mapVar)
     : IVariable()
+    , m_access(access_read_write)
     , m_modelExtensionCard(Q_NULLPTR)
 {
 
@@ -47,6 +49,10 @@ void CVariableOutputBool::setOrganne(CModelExtensionCard* arg_model,const  QStri
 void CVariableOutputBool::writeValue(){
 
 
+}
+void CVariableOutputBool::setAccess(variableAccess access)
+{
+    m_access = access;
 }
 QString CVariableOutputBool::toString(){
     return QString::number(m_bValeur);

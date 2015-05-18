@@ -5,6 +5,7 @@
 
 CVariableInputFloat::CVariableInputFloat(QObject *parent)
     : IVariable(parent)
+    , m_access(access_read_write)
     , m_modelExtensionCard(Q_NULLPTR)
 {
 
@@ -17,6 +18,7 @@ CVariableInputFloat::~CVariableInputFloat()
 
 CVariableInputFloat::CVariableInputFloat(const QMap<QString, QVariant> &mapVar)
     : IVariable()
+    , m_access(access_read_write)
     , m_modelExtensionCard(Q_NULLPTR)
 {
 
@@ -52,6 +54,10 @@ IVariable* CVariableInputFloat::readValue(){
     }
 
     return this;
+}
+void CVariableInputFloat::setAccess(variableAccess access)
+{
+    m_access = access;
 }
 QString CVariableInputFloat::toString(){
     this->readValue();

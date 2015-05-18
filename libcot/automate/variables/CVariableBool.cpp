@@ -2,6 +2,7 @@
 #include "CUnit.h"
 CVariableBool::CVariableBool(QObject *parent)
     : IVariable(parent)
+    , m_access(access_read_write)
 {
 
 }

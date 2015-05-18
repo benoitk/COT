@@ -3,7 +3,9 @@
 #include "CUnit.h"
 
 CVariableOutputListVariables::CVariableOutputListVariables(QObject *parent)
-    : IVariable(parent), m_modelExtensionCard(Q_NULLPTR)
+    : IVariable(parent)
+    , m_access(access_read_write)
+    , m_modelExtensionCard(Q_NULLPTR)
 {
 
 }
@@ -15,6 +17,7 @@ CVariableOutputListVariables::~CVariableOutputListVariables()
 
 CVariableOutputListVariables::CVariableOutputListVariables(const QMap<QString, QVariant> &mapVar)
     : IVariable()
+    , m_access(access_read_write)
     , m_modelExtensionCard(Q_NULLPTR)
 {
 
@@ -46,6 +49,10 @@ void CVariableOutputListVariables::setOrganne(CModelExtensionCard* arg_model, co
 void CVariableOutputListVariables::writeValue(){
 
 
+}
+void CVariableOutputListVariables::setAccess(variableAccess access)
+{
+    m_access = access;
 }
 QString CVariableOutputListVariables::toString(){
     return QStringLiteral(""); //TO DO : do some toString useful

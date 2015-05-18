@@ -34,6 +34,10 @@ class CUnit;
 class IVariable : public QObject
 {
     Q_OBJECT
+    friend class CVariableFactory;
+    friend class IVariableUIHandler;
+    friend class IVariableObjectDescriber;
+
 public:
     IVariable(QObject *parent);
     IVariable() {}
@@ -74,6 +78,9 @@ public:
     static QString typeToString(variableType type);
     static QString organTypeToString(VariableOrganType type);
 
+private:
+    virtual void setAccess(variableAccess access) = 0;
+    virtual void setAddress(int address);
 
 signals:
     void signalVariableChanged(); // SERES_TODO: handle it in each variable (COT-64)

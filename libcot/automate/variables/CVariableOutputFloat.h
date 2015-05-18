@@ -75,6 +75,7 @@ private:
     QList<IVariable*> m_listBinds;
     CUnit* m_unit;
 
+    void setAccess(variableAccess access) Q_DECL_OVERRIDE;
 };
 
 #endif // CVARIABLEOUTPUTFLOAT_H

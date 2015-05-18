@@ -9,10 +9,12 @@
 
 CVariableMeasure::CVariableMeasure(QObject *parent)
     :IVariable(parent)
+    , m_access(access_read_write)
 {
 }
 CVariableMeasure::CVariableMeasure(const QMap<QString, QVariant> &mapVar)
     :IVariable()
+    , m_access(access_read_write)
 {
     m_name = mapVar.value(QSL("name")).toString();
     if (m_name.isEmpty())
@@ -132,7 +134,6 @@ QVariantMap CVariableMeasure::serialise(){
 
     return mapSerialise;
 }
-
 void CVariableMeasure::setListOutBinds(const QList<IVariable *> &)
 {
     //SERES_TODO: Implement that for each variable
@@ -152,4 +153,9 @@ int CVariableMeasure::getAddress()const{
 void CVariableMeasure::setRelatedStreamName(const QString &variableName)
 {
     m_streamRelatedVariableName = variableName;
+}
+
+void CVariableMeasure::setAccess(variableAccess access)
+{
+    m_access = access;
 }

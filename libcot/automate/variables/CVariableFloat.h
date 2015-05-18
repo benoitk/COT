@@ -9,12 +9,10 @@
 class CVariableFloat : public IVariable
 {
     Q_OBJECT
-    friend class CVariableFactory;
 
 public:
-    CVariableFloat(QObject *parent);
+    CVariableFloat(QObject *parent = Q_NULLPTR);
     CVariableFloat(float, int = 0, variableAccess =access_read);
-    CVariableFloat();
     ~CVariableFloat();
 
 
@@ -62,8 +60,8 @@ private:
     QList<IVariable*> m_listBinds;
     CUnit* m_unit;
 
-    void setAccess(variableAccess access);
-    void setAddress(int address);
+    void setAccess(variableAccess access) Q_DECL_OVERRIDE;
+    void setAddress(int address) Q_DECL_OVERRIDE;
 };
 
 

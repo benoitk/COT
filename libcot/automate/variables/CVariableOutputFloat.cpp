@@ -4,6 +4,7 @@
 #include "cotautomate_debug.h"
 CVariableOutputFloat::CVariableOutputFloat(QObject *parent)
     : IVariable(parent)
+    , m_access(access_read_write)
     , m_modelExtensionCard(Q_NULLPTR)
 {
 
@@ -16,6 +17,7 @@ CVariableOutputFloat::~CVariableOutputFloat()
 
 CVariableOutputFloat::CVariableOutputFloat(const QMap<QString, QVariant> &mapVar)
     : IVariable()
+    , m_access(access_read_write)
     , m_modelExtensionCard(Q_NULLPTR)
 {
 
@@ -47,6 +49,10 @@ void CVariableOutputFloat::setOrganne(CModelExtensionCard* arg_model, const QStr
 void CVariableOutputFloat::writeValue(){
 
 
+}
+void CVariableOutputFloat::setAccess(variableAccess access)
+{
+    m_access = access;
 }
 QString CVariableOutputFloat::toString(){
     return QString::number(m_fValeur);

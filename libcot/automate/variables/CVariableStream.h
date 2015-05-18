@@ -67,6 +67,8 @@ private:
     QList<IVariable*> m_listVariables;
     QList<IVariable*> m_listMeasures;
     QList<ICycle*> m_listCycles;
+
+    void setAccess(variableAccess access) Q_DECL_OVERRIDE;
 };
 
 #endif // CVOIE_H

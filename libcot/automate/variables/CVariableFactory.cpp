@@ -34,26 +34,12 @@ IVariable* CVariableFactory::build(const QMap<QString, QVariant> &mapVar){
     IVariable *variable = build(type, mapVar);
 
     switch (variable->getType()) {
-        case type_int: {
-            CVariableInt * ivar = static_cast<CVariableInt *>(variable);
-            ivar->setAddress(address);
-            ivar->setAccess(access);
+        case type_int:
+        case type_float:
+        case type_bool:
+            variable->setAddress(address);
+            variable->setAccess(access);
             break;
-        }
-
-        case type_float: {
-            CVariableFloat * ivar = static_cast<CVariableFloat *>(variable);
-            ivar->setAddress(address);
-            ivar->setAccess(access);
-            break;
-        }
-
-        case type_bool: {
-            CVariableBool * ivar = static_cast<CVariableBool *>(variable);
-            ivar->setAddress(address);
-            ivar->setAccess(access);
-            break;
-        }
 
         default:
             break;

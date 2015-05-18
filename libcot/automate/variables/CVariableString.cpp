@@ -4,11 +4,13 @@
 
 CVariableString::CVariableString(QObject *parent)
     : IVariable(parent)
+    , m_access(access_read_write)
 {
 
 }
 CVariableString::CVariableString(const QString &arg_value)
     : IVariable()
+    , m_access(access_read_write)
 {
     m_sValeur = arg_value;
 }
@@ -131,4 +133,8 @@ int CVariableString::getAddress()const{
 void CVariableString::setRelatedStreamName(const QString &variableName)
 {
 
+}
+void CVariableString::setAccess(variableAccess access)
+{
+    m_access = access;
 }

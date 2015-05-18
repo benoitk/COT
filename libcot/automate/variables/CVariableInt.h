@@ -9,7 +9,6 @@
 class CVariableInt : public IVariable
 {
     Q_OBJECT
-    friend class CVariableFactory;
 
 public:
     CVariableInt(QObject *parent = Q_NULLPTR);
@@ -60,8 +59,8 @@ private:
     QList<IVariable*> m_listBinds;
     CUnit* m_unit;
 
-    void setAccess(variableAccess access);
-    void setAddress(int address);
+    void setAccess(variableAccess access) Q_DECL_OVERRIDE;
+    void setAddress(int address) Q_DECL_OVERRIDE;
 };
 
 #endif // CInt_H

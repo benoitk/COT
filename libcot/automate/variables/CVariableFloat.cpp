@@ -2,11 +2,7 @@
 #include "CUnit.h"
 CVariableFloat::CVariableFloat(QObject *parent)
     : IVariable(parent)
-{
-
-}
-CVariableFloat::CVariableFloat()
-    : IVariable()
+    , m_access(access_read_write)
 {
 
 }

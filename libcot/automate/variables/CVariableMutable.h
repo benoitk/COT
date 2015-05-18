@@ -61,7 +61,6 @@ public:
     QVariantMap serialise() Q_DECL_OVERRIDE;
 
     QVariant toVariant() const;
-    void setAccess(variableAccess access);
 
     CVariableMutable::Type mutableType() const;
     void setMutableType(CVariableMutable::Type mutableType);
@@ -69,6 +68,8 @@ public:
 
 private:
     QVariantMap m_data;
+
+    void setAccess(variableAccess access) Q_DECL_OVERRIDE;
 };
 
 #endif // CVARIABLEMUTABLE_H

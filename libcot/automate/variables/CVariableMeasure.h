@@ -63,6 +63,8 @@ private:
     IVariable * m_measureMin;
 
     QList<IVariable*> m_listVariables;
+
+    void setAccess(variableAccess access) Q_DECL_OVERRIDE;
 };
 
 #endif // CVARIABLEMEASURE_H

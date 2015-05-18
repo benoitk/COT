@@ -103,3 +103,8 @@ void CVariableUnknow::setRelatedStreamName(const QString &variableName)
 {
 
 }
+
+void CVariableUnknow::setAccess(variableAccess access)
+{
+    Q_UNUSED(access);
+}

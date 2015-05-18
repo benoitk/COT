@@ -3,6 +3,7 @@
 #include "CUnit.h"
 CVariableInputInt::CVariableInputInt(QObject *parent)
     : IVariable(parent)
+    , m_access(access_read_write)
     , m_modelExtensionCard(Q_NULLPTR)
 {
 
@@ -15,6 +16,7 @@ CVariableInputInt::~CVariableInputInt()
 
 CVariableInputInt::CVariableInputInt(const QMap<QString, QVariant> &mapVar)
     : IVariable()
+    , m_access(access_read_write)
     , m_modelExtensionCard(Q_NULLPTR)
 {
 
@@ -50,6 +52,10 @@ IVariable* CVariableInputInt::readValue(){
     }
 
     return this;
+}
+void CVariableInputInt::setAccess(variableAccess access)
+{
+    m_access = access;
 }
 QString CVariableInputInt::toString(){
     this->readValue();

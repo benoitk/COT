@@ -79,6 +79,7 @@ private:
     QList<IVariable*> m_listVariables;
 
 
+    void setAccess(variableAccess access) Q_DECL_OVERRIDE;
 };
 
 #endif // CVARIABLEOUTPUTLISTVARIABLES_H

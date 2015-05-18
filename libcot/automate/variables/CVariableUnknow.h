@@ -50,6 +50,8 @@ private:
 
 
     QString m_label;
+
+    void setAccess(variableAccess access) Q_DECL_OVERRIDE;
 };
 
 #endif // CVARIABLEUNKNOW_H
