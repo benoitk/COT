@@ -31,6 +31,7 @@ public:
 
 protected:
     void setVariables(IVariablePtrList variables);
+    void setVariableAccess(IVariable *ivar, int access);
 
 protected slots:
     void slotVariableChanged();

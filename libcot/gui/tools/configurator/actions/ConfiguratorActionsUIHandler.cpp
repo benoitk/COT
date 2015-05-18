@@ -65,6 +65,7 @@ void ConfiguratorActionsUIHandler::rowInserted(const IVariableUIHandler::Row &ro
 void ConfiguratorActionsUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariable *ivar)
 {
     row.widgetAt<QPushButton *>(0)->setText(ivar->getLabel());
+    applyEditorConstraints(row.widgets.value(0), ivar);
 }
 
 void ConfiguratorActionsUIHandler::rowAboutToBeDeleted(const IVariableUIHandler::Row &row, IVariable *ivar)

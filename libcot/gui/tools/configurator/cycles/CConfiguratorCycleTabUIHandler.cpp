@@ -130,6 +130,7 @@ void CConfiguratorCycleTabUIHandler::rowChanged(const IVariableUIHandler::Row &r
     }
     else {
         row.widgetAt<CPushButton *>(1)->setText(ivar->getLabel());
+        applyEditorConstraints(row.widgets.value(1), ivar);
     }
 }
 

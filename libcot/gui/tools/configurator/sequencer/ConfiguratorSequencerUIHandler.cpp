@@ -84,7 +84,9 @@ void ConfiguratorSequencerUIHandler::rowChanged(const IVariableUIHandler::Row &r
     const int index = ivar->getName().toInt();
     const CSequencer::CyclePair pair = CSequencer::getInstance()->getCycleAt(index);
     row.widgetAt<CPushButton *>(0)->setText(ivar->getLabel());
+    applyEditorConstraints(row.widgets.value(0), ivar);
     row.widgetAt<CPushButton *>(2)->setText(QString::number(pair.second));
+    applyEditorConstraints(row.widgets.value(2), ivar);
 }
 
 void ConfiguratorSequencerUIHandler::rowAboutToBeDeleted(const IVariableUIHandler::Row &row, IVariable *ivar)

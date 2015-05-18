@@ -91,9 +91,11 @@ void ConfiguratorVariablesUIHandler::rowChanged(const IVariableUIHandler::Row &r
     if (isStream) {
         row.widgetAt<QLabel *>(0)->setText(ivar->getName());
         row.widgetAt<CPushButton *>(1)->setText(ivar->getLabel());
+        applyEditorConstraints(row.widgets.value(1), ivar);
     } else if (isMeasure) {
         row.widgetAt<QLabel *>(1)->setText(ivar->getName());
         row.widgetAt<CPushButton *>(2)->setText(ivar->getLabel());
+        applyEditorConstraints(row.widgets.value(2), ivar);
     }
 }
 

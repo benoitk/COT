@@ -111,6 +111,7 @@ protected:
     QLabel *newLabel(IVariable *ivar);
     QWidget *newEditor(IVariable *ivar);
     QLabel *newUnit(IVariable *ivar);
+    void applyEditorConstraints(QWidget *editor, IVariable *ivar);
 
 private:
     QWidget *m_container;

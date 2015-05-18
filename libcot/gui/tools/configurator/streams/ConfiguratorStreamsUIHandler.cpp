@@ -63,7 +63,7 @@ void ConfiguratorStreamsUIHandler::rowChanged(const IVariableUIHandler::Row &row
 {
     QWidget *mainWidget = row.widgetAt<QWidget *>(0);
     if (mainWidget) {
-
+        applyEditorConstraints(mainWidget, ivar);
     }
     //TODO
 }

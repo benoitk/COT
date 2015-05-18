@@ -58,6 +58,11 @@ void IVariableObjectDescriber::setVariables(IVariablePtrList variables)
     }
 }
 
+void IVariableObjectDescriber::setVariableAccess(IVariable *ivar, int access)
+{
+    ivar->setAccess(variableAccess(access));
+}
+
 void IVariableObjectDescriber::slotVariableChanged()
 {
     IVariable *variable = qobject_cast<IVariable *>(sender());
@@ -81,6 +86,7 @@ void CVariableICycleDescriber::describe(const QVariant &object)
     clear();
 
     CVariableString *name = CVariableFactory::castedBuild<CVariableString *>(type_string, VariableOrganTypeNone, cycle->getName());
+    setVariableAccess(name, access_read);
     name->setName("name");
     name->setLabel(tr("Name"));
 
@@ -89,11 +95,13 @@ void CVariableICycleDescriber::describe(const QVariant &object)
     label->setLabel(tr("Label"));
 
     CVariableMutable *type = CVariableFactory::castedBuild<CVariableMutable *>(type_mutable, VariableOrganTypeNone, cycle->getType());
+    setVariableAccess(type, access_read);
     type->setName("type");
     type->setLabel(tr("Type"));
     type->setMutableType(CVariableMutable::CycleType);
 
     CVariableInt *timer = CVariableFactory::castedBuild<CVariableInt *>(type_int, VariableOrganTypeNone, /*cycle->get()*/ -1); // SERES_TODO: Add api
+    setVariableAccess(timer, access_read_write);
     timer->setName("timer");
     timer->setLabel(tr("Timer"));
 
