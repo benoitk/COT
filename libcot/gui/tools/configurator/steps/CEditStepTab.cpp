@@ -12,6 +12,8 @@ CEditStepTab::CEditStepTab(CStep *step, QWidget *parent)
     m_handler->setDescriber(m_describer);
     m_describer->describe(QVariant::fromValue(step));
     m_handler->layout(m_describer->getVariables());
+
+    initBaseTab();
 }
 
 CEditStepTab::~CEditStepTab()
@@ -23,6 +25,6 @@ void CEditStepTab::applyProperties(const QVariant &object)
     CStep *step = object.value<CStep *>();
     Q_ASSERT(step);
 
-    step->setNumStep(m_describer->getVariable(QStringLiteral("interval"))->toInt());
+    step->setNumStep(m_describer->getVariable(QStringLiteral("interval"))->toFloat());
     step->setLabel(m_describer->getVariable(QStringLiteral("label"))->toString());
 }
