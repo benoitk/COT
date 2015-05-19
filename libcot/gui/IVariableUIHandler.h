@@ -30,7 +30,6 @@ public:
     virtual ~IVariableUIHandler();
 
     void layout(const QList<IVariable *> &variables, bool addDeleteButton = false);
-    void layout(const QStringList &variables, bool addDeleteButton = false);
 
     void setScrollableWidget(CScrollableWidget *scrollable);
     CScrollableWidget *getScrollableWidget() const;

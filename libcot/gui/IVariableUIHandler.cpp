@@ -268,12 +268,6 @@ void IVariableUIHandler::layout(const QList<IVariable *> &variables, bool addDel
     m_scrollable->setScrollableWidget(m_container);
 }
 
-void IVariableUIHandler::layout(const QStringList &variables, bool addDeleteButton)
-{
-    CAutomate *automate = CAutomate::getInstance();
-    layout(automate->getVariables(variables), addDeleteButton);
-}
-
 void IVariableUIHandler::setScrollableWidget(CScrollableWidget *scrollable)
 {
     if (m_scrollable) {
