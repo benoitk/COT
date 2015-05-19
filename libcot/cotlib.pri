@@ -212,7 +212,8 @@ HEADERS *= \
     gui/tools/configurator/variables/ConfiguratorVariablesUIHandler.h \
     gui/IScrollableUIWidget.h \
     gui/tools/configurator/IConfiguratorEditWindow.h \
-    gui/tools/configurator/IConfiguratorEditTab.h
+    gui/tools/configurator/IConfiguratorEditTab.h \
+    gui/tools/configurator/steps/CEditStepTab.h
 
 SOURCES *= \
     automate/CAutomate.cpp \
@@ -376,4 +377,5 @@ SOURCES *= \
     gui/tools/configurator/variables/CEditVariableWindow.cpp \
     gui/tools/configurator/variables/ConfiguratorVariablesUIHandler.cpp \
     gui/IScrollableUIWidget.cpp \
-    gui/tools/configurator/IConfiguratorEditWindow.cpp
+    gui/tools/configurator/IConfiguratorEditWindow.cpp \
+    gui/tools/configurator/steps/CEditStepTab.cpp

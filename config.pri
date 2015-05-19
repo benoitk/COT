@@ -54,6 +54,7 @@ INCLUDEPATH *= \
     $${LIBCOT_SRC_PWD}/gui/tools/configurator/sequencer \
     $${LIBCOT_SRC_PWD}/gui/tools/configurator/streams \
     $${LIBCOT_SRC_PWD}/gui/tools/configurator/variables \
+    $${LIBCOT_SRC_PWD}/gui/tools/configurator/steps \
     $${LIBCOT_SRC_PWD}/gui/widgets \
     $${LIBCOT_SRC_PWD}/automate/variables \
     $${LIBCOT_SRC_PWD}/automate \

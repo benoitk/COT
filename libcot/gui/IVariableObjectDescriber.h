@@ -70,4 +70,12 @@ public:
     void describe(const QVariant &object) Q_DECL_OVERRIDE;
 };
 
+// CStep Describer, to edit one step
+class CVariableCStepDescriber : public IVariableObjectDescriber
+{
+public:
+    explicit CVariableCStepDescriber(IVariableUIHandler *parent);
+    void describe(const QVariant &object) Q_DECL_OVERRIDE;
+};
+
 #endif // IVARIABLEOBJECTDESCRIBER_H

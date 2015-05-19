@@ -11,6 +11,7 @@
 #include <CVariableFloat.h>
 #include <CVariableMeasure.h>
 #include <IAction.h>
+#include <CStep.h>
 
 #include "cotgui_debug.h"
 
@@ -117,7 +118,6 @@ void CVariableICycleDescriber::describe(const QVariant &object)
 CVariableIVariableDescriber::CVariableIVariableDescriber(IVariableUIHandler *parent)
     : IVariableObjectDescriber(parent)
 {
-
 }
 
 void CVariableIVariableDescriber::describe(const QVariant &object)
@@ -184,7 +184,6 @@ void CVariableIVariableDescriber::describe(const QVariant &object)
 CVariableIActionDescriber::CVariableIActionDescriber(IVariableUIHandler *parent)
     : IVariableObjectDescriber(parent)
 {
-
 }
 
 void CVariableIActionDescriber::describe(const QVariant &object)
@@ -199,4 +198,29 @@ void CVariableIActionDescriber::describe(const QVariant &object)
     label->setLabel(CVariableMutable::tr("Label"));
     ivars << label;
     setVariables(ivars);
+}
+
+
+CVariableCStepDescriber::CVariableCStepDescriber(IVariableUIHandler *parent)
+    : IVariableObjectDescriber(parent)
+{
+}
+
+void CVariableCStepDescriber::describe(const QVariant &object)
+{
+    CStep *step = object.value<CStep *>();
+    Q_ASSERT(step);
+
+    clear();
+
+    CVariableInt *interval = CVariableFactory::castedBuild<CVariableInt *>(type_int, VariableOrganTypeNone, step->getNumStep());
+    setVariableAccess(interval, access_read_write);
+    interval->setName("interval");
+    interval->setLabel(tr("Interval"));
+
+    CVariableString *label = CVariableFactory::castedBuild<CVariableString *>(type_string, VariableOrganTypeNone, step->getLabel());
+    label->setName("label");
+    label->setLabel(tr("Label"));
+
+    setVariables(IVariablePtrList() << interval << label);
 }

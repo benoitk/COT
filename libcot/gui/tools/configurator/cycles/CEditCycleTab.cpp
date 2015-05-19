@@ -21,7 +21,7 @@ void CEditCycleTab::applyProperties(const QVariant &object)
     Q_ASSERT(cycle);
 
     // We know hard coded variable names from our describer so just use them.
-    cycle->setName(describer->getVariable(QStringLiteral("name"))->toString());
+    //cycle->setName(describer->getVariable(QStringLiteral("name"))->toString()); // read only
     cycle->setLbl(describer->getVariable(QStringLiteral("label"))->toString());
     //cycle->setType(eTypeCycle(describer->getVariable(QStringLiteral("type"))->toInt())); // read only
     //cycle->setTimer(describer->getVariable(QStringLiteral("timer"))->toInt()); // SERES_TODO: add api
