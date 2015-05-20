@@ -108,6 +108,7 @@ public:
     void initConfig();
     void quit();
 
+    void delVariable(IVariable *ivar);
 private slots:
     void slotClock();
 

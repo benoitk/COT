@@ -136,6 +136,7 @@ void CVariableIVariableDescriber::describe(const QVariant &object)
     type->setName(QStringLiteral("type"));
     type->setLabel(tr("Type"));
     type->setMutableType(CVariableMutable::VariableType);
+    setVariableAccess(type, access_read);
 
     QString unitName = ivar->getUnit() ? ivar->getUnit()->getName() : QString();
     CVariableMutable *unit = CVariableFactory::castedBuild<CVariableMutable *>(type_mutable, VariableOrganTypeNone, unitName);

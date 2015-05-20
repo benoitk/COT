@@ -49,6 +49,7 @@ public:
     QList<IVariable*> getListMeasures();
     QList<ICycle*> getListCycles();
     IVariable* getActiveState();
+    void delVariable(IVariable *var);
 
     variableAccess getAccess()const Q_DECL_OVERRIDE;
     int getAddress()const Q_DECL_OVERRIDE;

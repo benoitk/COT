@@ -39,6 +39,12 @@ IVariable* CVariableMeasure::getMeasureMax(){
 IVariable* CVariableMeasure::getMeasureMin(){
     return m_measureMin;
 }
+
+void CVariableMeasure::delVariable(IVariable *ivar)
+{
+    m_listVariables.removeOne(ivar);
+}
+
 QList<IVariable*>  CVariableMeasure::getListVariables(){
     return m_listVariables;
 }

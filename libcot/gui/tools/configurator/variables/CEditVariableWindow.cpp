@@ -38,8 +38,7 @@ void CEditVariableWindow::slotCancelTriggered()
 {
     IVariable *variable = editedObject().value<IVariable *>();
     Q_ASSERT(variable);
-    const bool isNew = CAutomate::getInstance()->getMapVariables().values().contains(variable);
-
+    const bool isNew = !CAutomate::getInstance()->getMapVariables().values().contains(variable);
     if (isNew) {
         delete variable;
     }

@@ -305,6 +305,30 @@ void CAutomate::addExtensionCard(const QString& name, CModelExtensionCard* extCa
         m_mapExtCards.insert(name, extCard);
 }
 
+void CAutomate::delVariable(IVariable *ivar)
+{
+    // SERES_TODO: To be completed (COT-XX).
+    // There is probably more to update, like in CSequencer etc.
+    QMutexLocker locker(&m_mutex);
+    IVariable *var = m_mapVariables.take(ivar->getName());
+
+    foreach ( IVariable *streamIVar, m_mapStreams.values()) {
+        Q_ASSERT(streamIVar->getType() == type_stream);
+        CVariableStream *streamVar = static_cast<CVariableStream *>(streamIVar);
+
+        foreach(IVariable *measureIvar, streamVar->getListMeasures()) {
+            CVariableMeasure *measureVar = static_cast<CVariableMeasure *>(measureIvar);
+            measureVar->delVariable(ivar);
+        }
+        streamVar->delVariable(ivar);
+    }
+    locker.unlock();
+    if (var) {
+        emit signalVariablesUpdated();
+        delete var;
+    }
+}
+
 void CAutomate::delCycle(ICycle *cycle)
 {
     // SERES_TODO: To be completed (COT-58).

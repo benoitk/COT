@@ -76,6 +76,11 @@ IVariable* CVariableStream::getActiveState(){
     return m_activeState;
 }
 
+void CVariableStream::delVariable(IVariable *var)
+{
+    m_listVariables.removeOne(var);
+}
+
 void CVariableStream::delCycle(const QString &name)
 {
     for (int i = 0; i < m_listCycles.count(); ++i) {

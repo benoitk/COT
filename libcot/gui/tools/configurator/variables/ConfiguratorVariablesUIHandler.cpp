@@ -176,9 +176,9 @@ void ConfiguratorVariablesUIHandler::rowChanged(const IVariableUIHandler::Row &r
 
 void ConfiguratorVariablesUIHandler::rowAboutToBeDeleted(const Row &row, IVariable *ivar)
 {
-    //TODO
     Q_UNUSED(row);
-    Q_UNUSED(ivar);
+    CAutomate *automate = CAutomate::getInstance();
+    automate->delVariable(ivar);
 }
 
 CPushButton *ConfiguratorVariablesUIHandler::newButton(IVariable *ivar)
