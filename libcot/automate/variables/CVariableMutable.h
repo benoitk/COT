@@ -22,7 +22,8 @@ public:
         Stream,
         Format,
         Measure,
-        Variable
+        Variable,
+        Action
     };
 
     explicit CVariableMutable(QObject *parent = 0);

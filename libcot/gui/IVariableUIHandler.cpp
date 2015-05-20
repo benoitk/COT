@@ -851,6 +851,13 @@ QWidget *IVariableUIHandler::newEditor(IVariable *ivar)
                     connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestMeasure);
                     return editor;
                 }
+
+                case CVariableMutable::Action: {
+                    CPushButton *editor = new CPushButton(m_container);
+                    editor->setUserData(ivar->getName());
+                    connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestAction);
+                    return editor;
+                }
             }
 
             break;
