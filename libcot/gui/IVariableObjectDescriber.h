@@ -61,6 +61,14 @@ public:
     void describe(const QVariant &object) Q_DECL_OVERRIDE;
 };
 
+// IVariable Out Binds Describer, to edit one variable
+class CVariableIVariableOutBindsDescriber : public IVariableObjectDescriber
+{
+public:
+    explicit CVariableIVariableOutBindsDescriber(IVariableUIHandler *parent);
+    void describe(const QVariant &object) Q_DECL_OVERRIDE;
+};
+
 
 // IAction Describer, to edit one action
 class CVariableIActionDescriber : public IVariableObjectDescriber

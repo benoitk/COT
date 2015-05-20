@@ -228,3 +228,15 @@ void CVariableCStepDescriber::describe(const QVariant &object)
 
     setVariables(IVariablePtrList() << interval << label);
 }
+
+
+CVariableIVariableOutBindsDescriber::CVariableIVariableOutBindsDescriber(IVariableUIHandler *parent)
+    :  IVariableObjectDescriber(parent)
+{
+
+}
+
+void CVariableIVariableOutBindsDescriber::describe(const QVariant &object)
+{
+    //TODO
+}
