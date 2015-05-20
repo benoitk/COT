@@ -2,6 +2,8 @@
 #include "CAutomate.h"
 #include "CEditOutBindsUIHandler.h"
 
+#include <IVariableObjectDescriber.h>
+
 CEditOutBindsTab::CEditOutBindsTab(QWidget *parent)
     : IConfiguratorEditTab(parent)
 {
@@ -17,14 +19,9 @@ void CEditOutBindsTab::setVariables(IVariable *ivar)
 
 void CEditOutBindsTab::applyProperties(const QVariant &object)
 {
-    //TODO
-#if 0
     IVariable *ivar = object.value<IVariable *>();
     Q_ASSERT(ivar);
     IVariableObjectDescriber *describer = m_configuratorUIHandler->describer();
-    ivar->setLabel(describer->getVariable(QStringLiteral("label"))->toString());
-    //TODO add type/unit
-    ivar->setListOutBinds(lstVar);
-#endif
+    ivar->setListOutBinds(describer->getVariables());
 }
 
