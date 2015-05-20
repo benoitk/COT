@@ -15,6 +15,7 @@ public:
 
     void layout();
 
+    IVariable *getVariable(const QString &name) Q_DECL_OVERRIDE;
 signals:
     void editVariable(const QString &varname);
 
@@ -32,6 +33,7 @@ private slots:
 
 private:
     CPushButton *newButton(IVariable *ivar);
+    IVariable *getStreamOrMeasure(IVariable *ivar) const;
 };
 
 #endif // CONFIGURATORVARIABLESUIHANDLER_H

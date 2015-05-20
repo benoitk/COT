@@ -6,7 +6,9 @@
 #include <CVariableFactory.h>
 #include <QLabel>
 #include "cotgui_debug.h"
+#include <CVariableMeasure.h>
 #include <CVariableStream.h>
+#include <QDebug>
 
 ConfiguratorVariablesUIHandler::ConfiguratorVariablesUIHandler(CScrollableWidget *scrollable, QObject *parent)
     : IConfiguratorUIHandler(scrollable, parent)
@@ -32,10 +34,19 @@ void ConfiguratorVariablesUIHandler::layout()
 
         ivars << streamVar;
         ivars << streamVar->getListVariables();
-        ivars << streamVar->getListMeasures();
+        foreach(IVariable *measureIvar, streamVar->getListMeasures()) {
+            CVariableMeasure *measureVar = static_cast<CVariableMeasure *>(measureIvar);
+            ivars << measureVar;
+            ivars << measureVar->getListVariables();
+        }
     }
-    IConfiguratorUIHandler::layout(ivars, true);
+    // Add fake global stream
+    IVariable *streamVar = CVariableFactory::buildTemporary(QString(), tr("Global"), type_stream);
+    m_internalVariables[streamVar->getName()] = streamVar;
+    ivars << streamVar;
 
+    ivars << automate->getMapVariables().values();
+    IConfiguratorUIHandler::layout(ivars, false);
 }
 
 int ConfiguratorVariablesUIHandler::columnCount() const
@@ -43,35 +54,86 @@ int ConfiguratorVariablesUIHandler::columnCount() const
     return 4;
 }
 
+IVariable *ConfiguratorVariablesUIHandler::getStreamOrMeasure(IVariable *ivar) const
+{
+    CAutomate *automate = CAutomate::getInstance();
+    const IVariablePtrList streams = automate->getMapStreams().values();
+    foreach ( IVariable *streamIVar, streams) {
+        Q_ASSERT(streamIVar->getType() == type_stream);
+        CVariableStream *streamVar = static_cast<CVariableStream *>(streamIVar);
+        if (streamVar->getListVariables().contains(ivar)) {
+            return streamVar;
+        }
+        foreach(IVariable *measureIvar, streamVar->getListMeasures()) {
+            CVariableMeasure *measureVar = static_cast<CVariableMeasure *>(measureIvar);
+            if (measureVar->getListVariables().contains(ivar)) {
+                return measureVar;
+            }
+        }
+    }
+    return Q_NULLPTR;
+}
+
+IVariable *ConfiguratorVariablesUIHandler::getVariable(const QString &name)
+{
+    CAutomate *automate = CAutomate::getInstance();
+    const IVariablePtrList streams = automate->getMapStreams().values();
+    foreach ( IVariable *streamIVar, streams) {
+        Q_ASSERT(streamIVar->getType() == type_stream);
+        CVariableStream *streamVar = static_cast<CVariableStream *>(streamIVar);
+        if (streamVar->getName() == name) {
+            return streamVar;
+        }
+
+        foreach(IVariable *measureIvar, streamVar->getListMeasures()) {
+            CVariableMeasure *measureVar = static_cast<CVariableMeasure *>(measureIvar);
+            if (measureVar->getName() == name) {
+                return measureVar;
+            } else {
+                foreach (IVariable *ivar, measureVar->getListVariables()) {
+                    if (ivar->getName() == name) {
+                        return ivar;
+                    }
+                }
+            }
+        }
+    }
+
+    return IVariableUIHandler::getVariable(name);
+}
+
+
 QWidget *ConfiguratorVariablesUIHandler::createWidget(int column, IVariable *ivar)
 {
+
     const bool isStream = ivar && (ivar->getType() == type_stream);
     const bool isMeasure = ivar && (ivar->getType() == type_measure);
+    const bool isVariable = !isStream && !isMeasure;
+    IVariable *varParent = isVariable ? getStreamOrMeasure(ivar) : Q_NULLPTR;
+    qDebug()<<" varParent"<<varParent<< "colum,n"<<column << "ivar " <<ivar << "name :"<<ivar->getName();
     switch(column) {
     case 0:
-        if (!isMeasure) {
+        if (isStream) {
             return newLabel(ivar);
         }
         break;
     case 1:
-        if (isStream) {
+        if ((isVariable && !varParent) || (isVariable && (varParent->getType() == type_stream))) {
             return newButton(ivar);
         } else if (isMeasure) {
             return newLabel(ivar);
         }
         break;
     case 2:
-        if (!isMeasure) {
-            CToolButton *deleteButton = newDeleteButton(ivar);
-            return deleteButton;
-        } else if (isMeasure) {
+        if (/*(isVariable && !varParent) || */(isVariable && varParent && (varParent->getType() == type_measure))) {
             return newButton(ivar);
+        } else if (!isStream && !isMeasure) {
+            return newDeleteButton(ivar);
         }
         break;
     case 3:
-        if (isMeasure) {
-            CToolButton *deleteButton = newDeleteButton(ivar);
-            return deleteButton;
+        if (!isStream && !isMeasure) {
+            return newDeleteButton(ivar);
         }
         break;
     }
@@ -86,16 +148,22 @@ void ConfiguratorVariablesUIHandler::rowInserted(const IVariableUIHandler::Row &
 
 void ConfiguratorVariablesUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariable *ivar)
 {
-    const bool isStream = ivar && ivar->getType() == type_stream;
+    const bool isStream = ivar && (ivar->getType() == type_stream);
     const bool isMeasure = ivar && (ivar->getType() == type_measure);
+    //const bool isVariable = !isStream && !isMeasure;
+    //IVariable *varParent = isVariable ? getStreamOrMeasure(ivar) : Q_NULLPTR;
+
     if (isStream) {
-        row.widgetAt<QLabel *>(0)->setText(ivar->getName());
-        row.widgetAt<CPushButton *>(1)->setText(ivar->getLabel());
-        applyEditorConstraints(row.widgets.value(1), ivar);
+        row.widgetAt<QLabel *>(0)->setText(ivar->getLabel());
     } else if (isMeasure) {
-        row.widgetAt<QLabel *>(1)->setText(ivar->getName());
-        row.widgetAt<CPushButton *>(2)->setText(ivar->getLabel());
-        applyEditorConstraints(row.widgets.value(2), ivar);
+        row.widgetAt<QLabel *>(1)->setText(ivar->getLabel());
+    } else {
+     CPushButton *button = row.widgetAt<CPushButton *>(1);
+     if (!button) {
+         button = row.widgetAt<CPushButton *>(2);
+     }
+     if (button)
+         button->setText(ivar->getLabel());
     }
 }
 
