@@ -135,6 +135,11 @@ QList<ICycle *> CAutomate::getListCyclesPrivate(int cycleType)
     return listAllCycles;
 }
 
+QMap<QString, IVariable *> CAutomate::getMapVariablesPrivate()
+{
+     return m_mapVariables;
+}
+
 IVariable* CAutomate::getVariable(const QString &name){
     QMutexLocker locker(&m_mutex);
 
@@ -163,6 +168,10 @@ QList<IVariable *> CAutomate::getVariables(const QStringList &names)
 
 void CAutomate::addVariable(const QString& name, IVariable* var){
     QMutexLocker locker(&m_mutex);
+    addVariablePrivate(name, var);
+}
+
+void CAutomate::addVariablePrivate(const QString& name, IVariable* var){
     if(var && var->getType() != type_unknow){
         m_mapVariables.insert(name, var);
         if(var->getAddress() != 0){
@@ -172,6 +181,8 @@ void CAutomate::addVariable(const QString& name, IVariable* var){
         connect(var, &IVariable::signalVariableChanged, this, &CAutomate::slotVariableChanged);
     }
 }
+
+
 void CAutomate::addStream(const QString& name, IVariable* var){
     QMutexLocker locker(&m_mutex);
     if(var && var->getType() != type_unknow)
@@ -277,7 +288,7 @@ QMap<QString, IAction*> CAutomate::getMapActions(){
 
 QMap<QString, IVariable*> CAutomate::getMapVariables(){
     QMutexLocker locker(&m_mutex);
-    return m_mapVariables;
+    return getMapVariablesPrivate();
 }
 QMap<QString, IVariable*> CAutomate::getMapStreams(){
     QMutexLocker locker(&m_mutex);
@@ -521,6 +532,27 @@ void CAutomate::informAboutCycleChanges(ICycle *cycle, const QVariantMap &oldDat
     }
 
     emit signalCyclesUpdated();
+}
+
+void CAutomate::informAboutVariableChanges(IVariable *variable, const QVariantMap &oldData)
+{
+    QMutexLocker locker(&m_mutex);
+
+    // SERES_TODO: implement automate internal change handling.
+    // There is probably more to update, like in CSequencer etc.
+    const bool isNew = !getMapVariablesPrivate().values().contains(variable);
+
+    if (isNew) {
+        addVariablePrivate(variable->getName(), variable);
+    }
+
+    locker.unlock();
+
+    if (!isNew) {
+        emit signalVariableChanged(variable->getName());
+    }
+
+    emit signalVariablesUpdated();
 }
 
 QString CAutomate::formatHistoryEntry(const QString &name, const QDateTime &dateTime)

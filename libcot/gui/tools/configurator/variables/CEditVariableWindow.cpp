@@ -50,9 +50,9 @@ void CEditVariableWindow::slotOkTriggered()
 {
     IVariable *variable = editedObject().value<IVariable *>();
     Q_ASSERT(variable);
+    const QVariantMap oldVarMap = variable->serialise();
     CAutomate *automate = CAutomate::getInstance();
     applyProperties();
-    //TODO implement it.
-    //automate->informAboutVariableChanges(variable, oldmap);
+    automate->informAboutVariableChanges(variable, oldVarMap);
     close();
 }

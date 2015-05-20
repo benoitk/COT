@@ -13,8 +13,8 @@ CConfiguratorVariablesTab::CConfiguratorVariablesTab(QWidget *parent)
     slotUpdateLayout();
 
     connect(m_ivariableUIHandler, &ConfiguratorVariablesUIHandler::editVariable, this, &CConfiguratorVariablesTab::editVariable);
-    connect(CAutomate::getInstance(), &CAutomate::signalVariableChanged, this, &CConfiguratorVariablesTab::slotUpdateLayout);
     connect(CAutomate::getInstance(), &CAutomate::signalStreamsUpdated, this, &CConfiguratorVariablesTab::slotUpdateLayout);
+    connect(CAutomate::getInstance(), &CAutomate::signalVariablesUpdated, this, &CConfiguratorVariablesTab::slotUpdateLayout);
     connect(buttonBar()->addAction(CToolButton::Add), &QAction::triggered, this, &CConfiguratorVariablesTab::slotAddVariable);
     initBaseTab();
 }

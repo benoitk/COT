@@ -55,6 +55,7 @@ public:
 
     // Those members are called by configurator once the user clicks Ok
     void informAboutCycleChanges(ICycle *cycle, const QVariantMap &oldData);
+    void informAboutVariableChanges(IVariable *variable, const QVariantMap &oldData);
 
     //FIN API
 
@@ -208,7 +209,9 @@ private:
 
     // The next function deliberatly not lock the mutex so internals can rely on them ensuring they have first locked the mutex.
     void addCyclePrivate(ICycle *cycle);
+    void addVariablePrivate(const QString &name, IVariable *var);
     QList<ICycle*> getListCyclesPrivate(int cycleType = 0);
+    QMap<QString, IVariable*> getMapVariablesPrivate();
 };
 
 #endif // CAUTOMATE_H

@@ -145,15 +145,16 @@ void CVariableIVariableDescriber::describe(const QVariant &object)
 
 
     CVariableMutable *measure = CVariableFactory::castedBuild<CVariableMutable *>(type_mutable, VariableOrganTypeNone, ivar->getLabel());
-    measure->setName(QStringLiteral("type"));
-    measure->setLabel(tr("Type"));
-    measure->setMutableType(CVariableMutable::Stream);
+    measure->setName(QStringLiteral("measure"));
+    measure->setLabel(tr("Measure"));
+    measure->setMutableType(CVariableMutable::Measure);
 
     ivars << label << type << unit << measure;
 
     switch (ivar->getType()) {
     case type_float: {
         CVariableFloat *floatVariable = CVariableFactory::castedBuild<CVariableFloat *>(type_float, VariableOrganTypeNone, ivar->toFloat());
+        setVariableAccess(floatVariable, access_read_write);
         floatVariable->setName(QStringLiteral("value"));
         floatVariable->setLabel(tr("Value"));
         ivars << floatVariable;
@@ -161,6 +162,7 @@ void CVariableIVariableDescriber::describe(const QVariant &object)
     }
     case type_int: {
         CVariableInt *intVariable = CVariableFactory::castedBuild<CVariableInt *>(type_int, VariableOrganTypeNone, ivar->toInt());
+        setVariableAccess(intVariable, access_read_write);
         intVariable->setName(QStringLiteral("value"));
         intVariable->setLabel(tr("Value"));
         ivars << intVariable;
@@ -168,6 +170,7 @@ void CVariableIVariableDescriber::describe(const QVariant &object)
     }
     case type_bool: {
         CVariableBool *boolVariable = CVariableFactory::castedBuild<CVariableBool *>(type_bool, VariableOrganTypeNone, ivar->toBool());
+        setVariableAccess(boolVariable, access_read_write);
         boolVariable->setName(QStringLiteral("value"));
         boolVariable->setLabel(tr("Value"));
         ivars << boolVariable;
