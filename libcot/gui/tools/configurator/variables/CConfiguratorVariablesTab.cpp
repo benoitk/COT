@@ -42,6 +42,9 @@ void CConfiguratorVariablesTab::slotAddVariable()
     variable->setLabel(tr("New variable"));
     variable->setRelatedStreamName(name);
 
+    //
+
+
     // Edit variable
     CPCWindow::openModal<CEditVariableWindow>(variable);
 }

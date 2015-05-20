@@ -242,5 +242,14 @@ void CVariableIVariableOutBindsDescriber::describe(const QVariant &object)
     Q_ASSERT(var);
 
     clear();
-    //TODO
+    IVariablePtrList lst;
+    const QList<IVariable *> listOutBind = var->getListOutBinds();
+    foreach(IVariable *var, listOutBind) {
+        CVariableMutable *outBind = CVariableFactory::castedBuild<CVariableMutable *>(type_mutable, VariableOrganTypeNone, var->getLabel());
+        outBind->setName(QStringLiteral("Target"));
+        outBind->setLabel(tr("Target"));
+        outBind->setMutableType(CVariableMutable::Variable);
+        lst << outBind;
+    }
+    setVariables(lst);
 }

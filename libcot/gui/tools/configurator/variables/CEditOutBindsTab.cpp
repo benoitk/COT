@@ -12,22 +12,19 @@ CEditOutBindsTab::CEditOutBindsTab(QWidget *parent)
 
 void CEditOutBindsTab::setVariables(IVariable *ivar)
 {
-    Q_ASSERT(ivar);
-    const QList<IVariable *> listOutBinds = ivar->getListOutBinds();
-    m_configuratorUIHandler->layout(listOutBinds, true);
+    m_configuratorUIHandler->layout(ivar);
 }
 
 void CEditOutBindsTab::applyProperties(const QVariant &object)
 {
+    //TODO
+#if 0
     IVariable *ivar = object.value<IVariable *>();
     Q_ASSERT(ivar);
-    QList<IVariable *> lstVar;
-    foreach( const QString &varname, m_configuratorUIHandler->variableNames()) {
-        IVariable *var = m_configuratorUIHandler->getVariable(varname);
-        if (var) {
-            lstVar << var;
-        }
-    }
+    IVariableObjectDescriber *describer = m_configuratorUIHandler->describer();
+    ivar->setLabel(describer->getVariable(QStringLiteral("label"))->toString());
+    //TODO add type/unit
     ivar->setListOutBinds(lstVar);
+#endif
 }
 

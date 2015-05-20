@@ -10,6 +10,7 @@ class CEditOutBindsUIHandler : public IConfiguratorUIHandler
 public:
     explicit CEditOutBindsUIHandler(CScrollableWidget *scrollable, QObject *parent);
     ~CEditOutBindsUIHandler();
+    void layout(IVariable *ivar);
 };
 
 #endif // CEDITOUTBINDSUIHANDLER_H
