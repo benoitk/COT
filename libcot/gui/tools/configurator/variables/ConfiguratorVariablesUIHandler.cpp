@@ -27,17 +27,20 @@ void ConfiguratorVariablesUIHandler::layout()
     CAutomate *automate = CAutomate::getInstance();
     const IVariablePtrList streams = automate->getMapStreams().values();
     IVariablePtrList ivars;
-
+    QList<IVariable *> listVar;
     foreach ( IVariable *streamIVar, streams) {
         Q_ASSERT(streamIVar->getType() == type_stream);
         CVariableStream *streamVar = static_cast<CVariableStream *>(streamIVar);
 
-        ivars << streamVar;
+        ivars << streamVar;        
         ivars << streamVar->getListVariables();
+        listVar << streamVar->getListVariables();
+
         foreach(IVariable *measureIvar, streamVar->getListMeasures()) {
             CVariableMeasure *measureVar = static_cast<CVariableMeasure *>(measureIvar);
             ivars << measureVar;
             ivars << measureVar->getListVariables();
+            listVar << measureVar->getListVariables();
         }
     }
     // Add fake global stream
@@ -45,7 +48,12 @@ void ConfiguratorVariablesUIHandler::layout()
     m_internalVariables[streamVar->getName()] = streamVar;
     ivars << streamVar;
 
-    ivars << automate->getMapVariables().values();
+    foreach( IVariable *var, automate->getMapVariables().values()) {
+        if (!listVar.contains(var)) {
+            ivars << var;
+        }
+    }
+
     IConfiguratorUIHandler::layout(ivars, false);
 }
 
@@ -110,7 +118,6 @@ QWidget *ConfiguratorVariablesUIHandler::createWidget(int column, IVariable *iva
     const bool isMeasure = ivar && (ivar->getType() == type_measure);
     const bool isVariable = !isStream && !isMeasure;
     IVariable *varParent = isVariable ? getStreamOrMeasure(ivar) : Q_NULLPTR;
-    qDebug()<<" varParent"<<varParent<< "colum,n"<<column << "ivar " <<ivar << "name :"<<ivar->getName();
     switch(column) {
     case 0:
         if (isStream) {
@@ -125,7 +132,7 @@ QWidget *ConfiguratorVariablesUIHandler::createWidget(int column, IVariable *iva
         }
         break;
     case 2:
-        if (/*(isVariable && !varParent) || */(isVariable && varParent && (varParent->getType() == type_measure))) {
+        if (isVariable && varParent && (varParent->getType() == type_measure)) {
             return newButton(ivar);
         } else if (!isStream && !isMeasure) {
             return newDeleteButton(ivar);
