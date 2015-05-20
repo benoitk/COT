@@ -21,7 +21,8 @@ public:
         Organ,
         Stream,
         Format,
-        Measure
+        Measure,
+        Variable
     };
 
     explicit CVariableMutable(QObject *parent = 0);

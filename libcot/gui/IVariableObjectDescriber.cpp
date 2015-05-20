@@ -238,5 +238,9 @@ CVariableIVariableOutBindsDescriber::CVariableIVariableOutBindsDescriber(IVariab
 
 void CVariableIVariableOutBindsDescriber::describe(const QVariant &object)
 {
+    IVariable *var = object.value<IVariable *>();
+    Q_ASSERT(var);
+
+    clear();
     //TODO
 }

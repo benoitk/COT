@@ -165,7 +165,7 @@ IVariablePtrList buildStreamsMeasures() {
         foreach (IVariable *measure, streamVar->getListMeasures()) {
             CVariableMeasure *measureVar = static_cast<CVariableMeasure *>(measure);
 
-            ivars << measureVar->getMeasureVariable();
+            ivars << measureVar;
         }
     }
 
@@ -800,6 +800,13 @@ QWidget *IVariableUIHandler::newEditor(IVariable *ivar)
                     CPushButton *editor = new CPushButton(m_container);
                     editor->setUserData(ivar->getName());
                     connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestVariableType);
+                    return editor;
+                }
+
+                case CVariableMutable::Variable: {
+                    CPushButton *editor = new CPushButton(m_container);
+                    editor->setUserData(ivar->getName());
+                    connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestVariable);
                     return editor;
                 }
 

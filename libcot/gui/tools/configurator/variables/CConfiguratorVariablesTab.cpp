@@ -26,9 +26,9 @@ void CConfiguratorVariablesTab::slotUpdateLayout()
 
 void CConfiguratorVariablesTab::slotAddVariable()
 {
-    QString streamName;
+    QString name;
 
-    if (!m_ivariableUIHandler->selectStream(streamName) || streamName.isEmpty()) {
+    if (!m_ivariableUIHandler->selectStreamOrMeasure(name) || name.isEmpty()) {
         return;
     }
     variableType varType;
@@ -40,7 +40,7 @@ void CConfiguratorVariablesTab::slotAddVariable()
     IVariable *variable = CVariableFactory::build(varType);
     variable->setName(QStringLiteral("new_variable_%1").arg(qrand() %1000));
     variable->setLabel(tr("New variable"));
-    variable->setRelatedStreamName(streamName);
+    variable->setRelatedStreamName(name);
 
     // Edit variable
     CPCWindow::openModal<CEditVariableWindow>(variable);
