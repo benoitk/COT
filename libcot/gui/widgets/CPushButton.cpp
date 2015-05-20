@@ -26,7 +26,7 @@ void CPushButton::paintEvent(QPaintEvent *event)
     painter.setRenderHint(QPainter::Antialiasing);
 
     painter.setPen(Qt::NoPen);
-    painter.setBrush(palette().color(backgroundRole()).lighter(isDown() ? 120 : 0));
+    painter.setBrush(palette().color(backgroundRole()).lighter(isDown() || !isEnabled() ? 120 : 0));
     painter.drawRoundedRect(rect(), CORNER_RADIUS, CORNER_RADIUS);
 
     painter.setPen(palette().color(foregroundRole()));
