@@ -132,7 +132,7 @@ QWidget *ConfiguratorVariablesUIHandler::createWidget(int column, IVariable *iva
         }
         break;
     case 3:
-        if (!isStream && !isMeasure) {
+        if (isVariable && varParent && (varParent->getType() == type_measure)) {
             return newDeleteButton(ivar);
         }
         break;
