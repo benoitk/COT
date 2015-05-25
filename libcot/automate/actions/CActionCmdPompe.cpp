@@ -66,6 +66,7 @@ bool CActionCmdPompe::runAction(){
             << " m_clockwise " << m_clockwise->toString()
             << " m_stepOrTour " << m_stepOrTour->toString()
             << " m_ctrlContinu " << m_cmdContinu->toString();
+    emit finish(this);
     return true;
 }
 

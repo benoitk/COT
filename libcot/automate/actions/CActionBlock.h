@@ -14,6 +14,7 @@ class CActionBlock : public IAction
 public:
 
     CActionBlock(const QVariantMap&);
+    CActionBlock();
     ~CActionBlock();
 
     void setActions(const QList<IAction *>& actions);

@@ -9,7 +9,12 @@ CActionBlock::CActionBlock(const QVariantMap &mapAction)
     m_label = mapAction[tr("FR_lbl")].toString();
     m_name = mapAction[QStringLiteral("name")].toString();
 }
-
+CActionBlock::CActionBlock()
+    : IAction()
+{
+    m_label = tr("Label non renseignée");
+    m_name =  tr("Nom non renseignée");
+}
 CActionBlock::~CActionBlock()
 {
 

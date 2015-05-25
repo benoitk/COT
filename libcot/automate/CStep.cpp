@@ -81,6 +81,7 @@ void CStep::setNumStep(float numStep){
 //    m_nextStep = step;
 //}
 void CStep::execStep(){
+    //Connecter le signal IAction::finish(IAction*) si on veut que le pas attande la fin de l'action
     foreach(IAction* action, m_listActions){
         action->runAction();
     }

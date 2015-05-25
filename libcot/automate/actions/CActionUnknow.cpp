@@ -11,6 +11,11 @@ CActionUnknow::CActionUnknow(const QVariantMap &mapAction)
 {
     m_name =  QStringLiteral("unknow_action");
 }
+CActionUnknow::CActionUnknow()
+    : IAction()
+{
+    m_name =  QStringLiteral("unknow_action");
+}
 CActionUnknow::~CActionUnknow()
 {
 }

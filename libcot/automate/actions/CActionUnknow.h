@@ -10,6 +10,7 @@ class CActionUnknow : public IAction
 public:
     CActionUnknow(QObject *parent);
     CActionUnknow(const QVariantMap &mapAction);
+    CActionUnknow();
     ~CActionUnknow();
 
     bool runAction() Q_DECL_OVERRIDE;
