@@ -391,7 +391,7 @@ void CAutomate::delCycle(ICycle *cycle)
     }
 }
 
-IVariable* CAutomate::getVariable(const QString &addr_var)const{
+IVariable* CAutomate::getVariableByAddr(const QString &addr_var)const{
     QMutexLocker locker(&m_mutex);
     IVariable* var= Q_NULLPTR;
     if(m_mappingCom.contains(addr_var))
