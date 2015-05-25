@@ -8,6 +8,7 @@ enum eTypeCycle{CYCLE_INVALID = -1, CYCLE_ALL = 0, CYCLE_MESURE, CYCLE_AUTONOME,
 
 class IAction;
 class CStep;
+class CVariableStream;
 class ICycle : public QObject
 {
     Q_OBJECT
@@ -27,6 +28,7 @@ public:
     virtual void setLbl(const QString&)=0;
     virtual QString getRelatedStreamName()const=0;
     virtual void setRelatedStreamName(const QString &name)=0;
+    virtual CVariableStream* getRelatedStream()const=0;
     virtual QList<CStep*> getListSteps()const=0;
     virtual CStep* getStepStop()const=0;
     virtual bool isRunning()=0;

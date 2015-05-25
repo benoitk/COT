@@ -25,12 +25,13 @@ void ConfiguratorVariablesUIHandler::layout()
     CVariableFactory::deleteVariables(m_internalVariables);
 
     CAutomate *automate = CAutomate::getInstance();
-    const IVariablePtrList streams = automate->getMapStreams().values();
+    //const IVariablePtrList streams = automate->getMapStreams().values();
+    QList<CVariableStream*> streams = automate->getListStreams();
     IVariablePtrList ivars;
     QList<IVariable *> listVar;
-    foreach ( IVariable *streamIVar, streams) {
-        Q_ASSERT(streamIVar->getType() == type_stream);
-        CVariableStream *streamVar = static_cast<CVariableStream *>(streamIVar);
+    foreach ( CVariableStream *streamVar, streams) {
+//        Q_ASSERT(streamIVar->getType() == type_stream);
+//        CVariableStream *streamVar = static_cast<CVariableStream *>(streamIVar);
 
         ivars << streamVar;        
         ivars << streamVar->getListVariables();
@@ -65,10 +66,11 @@ int ConfiguratorVariablesUIHandler::columnCount() const
 IVariable *ConfiguratorVariablesUIHandler::getStreamOrMeasure(IVariable *ivar) const
 {
     CAutomate *automate = CAutomate::getInstance();
-    const IVariablePtrList streams = automate->getMapStreams().values();
-    foreach ( IVariable *streamIVar, streams) {
-        Q_ASSERT(streamIVar->getType() == type_stream);
-        CVariableStream *streamVar = static_cast<CVariableStream *>(streamIVar);
+//    const IVariablePtrList streams = automate->getMapStreams().values();
+    const QList<CVariableStream*> streams = automate->getListStreams();
+    foreach (CVariableStream *streamVar, streams) {
+//        Q_ASSERT(streamIVar->getType() == type_stream);
+//        CVariableStream *streamVar = static_cast<CVariableStream *>(streamIVar);
         if (streamVar->getListVariables().contains(ivar)) {
             return streamVar;
         }
@@ -85,10 +87,11 @@ IVariable *ConfiguratorVariablesUIHandler::getStreamOrMeasure(IVariable *ivar) c
 IVariable *ConfiguratorVariablesUIHandler::getVariable(const QString &name)
 {
     CAutomate *automate = CAutomate::getInstance();
-    const IVariablePtrList streams = automate->getMapStreams().values();
-    foreach ( IVariable *streamIVar, streams) {
-        Q_ASSERT(streamIVar->getType() == type_stream);
-        CVariableStream *streamVar = static_cast<CVariableStream *>(streamIVar);
+    //    const IVariablePtrList streams = automate->getMapStreams().values();
+    const QList<CVariableStream*> streams = automate->getListStreams();
+    foreach (CVariableStream *streamVar, streams) {
+    //        Q_ASSERT(streamIVar->getType() == type_stream);
+    //        CVariableStream *streamVar = static_cast<CVariableStream *>(streamIVar);
         if (streamVar->getName() == name) {
             return streamVar;
         }

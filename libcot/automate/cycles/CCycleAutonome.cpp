@@ -1,7 +1,8 @@
 #include "CCycleAutonome.h"
 #include "CStep.h"
 #include "cotautomate_debug.h"
-
+#include "CVariableStream.h"
+#include "CAutomate.h"
 CCycleAutonome::CCycleAutonome(QObject *parent)
     :CCycleMesure(parent){}
 CCycleAutonome::CCycleAutonome(const QVariantMap &variantMap)
@@ -12,6 +13,9 @@ CCycleAutonome::~CCycleAutonome(){}
 
 QString CCycleAutonome::getRelatedStreamName()const{
     return CCycleMesure::getRelatedStreamName();
+}
+CVariableStream* CCycleAutonome::getRelatedStream()const{
+    return CAutomate::getInstance()->getStream(CCycleMesure::getRelatedStreamName());
 }
 QVariantMap CCycleAutonome::serialise(){
     QVariantMap mapSerialise;

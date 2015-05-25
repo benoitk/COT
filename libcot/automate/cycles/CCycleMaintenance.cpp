@@ -1,6 +1,8 @@
 #include "CCycleMaintenance.h"
 #include "CStep.h"
 #include "cotautomate_debug.h"
+#include "CAutomate.h"
+#include "CVariableStream.h"
 CCycleMaintenance::CCycleMaintenance(QObject *parent)
     : ICycle(parent)
 {
@@ -27,7 +29,7 @@ QVariantMap CCycleMaintenance::serialise(){
     return mapSerialise;
 }
 //enlève toutes les référence à arg_action
-void CCycleMesure::removeAction(IAction* arg_action){
+void CCycleMaintenance::removeAction(IAction* arg_action){
     QList<CStep*>::iterator itListStep;
     for(itListStep=m_listSteps.begin(); itListStep != m_listSteps.end(); ++itListStep){
         (*itListStep)->removeAction(arg_action);
@@ -72,7 +74,9 @@ void CCycleMaintenance::setName(const QString &name){
 QString CCycleMaintenance::getRelatedStreamName()const{
     return m_streamName;
 }
-
+CVariableStream* CCycleMaintenance::getRelatedStream()const{
+    return CAutomate::getInstance()->getStream(m_streamName);
+}
 void CCycleMaintenance::setRelatedStreamName(const QString &name)
 {
     m_streamName = name;

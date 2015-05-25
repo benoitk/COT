@@ -20,15 +20,14 @@ QString valueAndUnit(IVariable *ivar) {
 IVariable *findMeasureStream(const QString &measureName) {
     CAutomate *automate = CAutomate::getInstance();
 
-    foreach (IVariable *stream, automate->getMapStreams().values()) {
-        CVariableStream *streamVar = static_cast<CVariableStream *>(stream);
+    foreach ( CVariableStream *streamVar, automate->getListStreams()) {
 
         foreach (IVariable *measure, streamVar->getListMeasures()) {
             CVariableMeasure *measureVar = static_cast<CVariableMeasure *>(measure);
             IVariable *measureMeasureVariable = measureVar->getMeasureVariable();
 
             if (measureMeasureVariable && measureMeasureVariable->getName() == measureName) {
-                return stream;
+                return streamVar;
             }
         }
     }

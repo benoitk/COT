@@ -18,7 +18,7 @@ public slots:
     void slotRunCycle() Q_DECL_OVERRIDE;
     void slotPauseCycle() Q_DECL_OVERRIDE;
     void slotStopCycle() Q_DECL_OVERRIDE;
-    void addAction(int, IAction*) Q_DECL_OVERRIDE;
+    void addAction(float, IAction*) Q_DECL_OVERRIDE;
 
 
 private:

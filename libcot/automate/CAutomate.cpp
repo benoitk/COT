@@ -183,10 +183,16 @@ void CAutomate::addVariablePrivate(const QString& name, IVariable* var){
 }
 
 
-void CAutomate::addStream(const QString& name, IVariable* var){
+void CAutomate::addStream(CVariableStream* arg_stream){
     QMutexLocker locker(&m_mutex);
-    if(var && var->getType() != type_unknow)
-        m_mapStreams.insert(name, var);
+    if(arg_stream){
+        bool bStreamExist = false;
+        foreach(CVariableStream* stream, m_listStreams){
+            if(arg_stream == stream) bStreamExist = true;
+        }
+        if(!bStreamExist)
+            m_listStreams.append(arg_stream);
+    }
 }
 
 void CAutomate::addUnit(CUnit* unit){
@@ -312,9 +318,9 @@ QMap<QString, IVariable*> CAutomate::getMapVariables(){
     QMutexLocker locker(&m_mutex);
     return getMapVariablesPrivate();
 }
-QMap<QString, IVariable*> CAutomate::getMapStreams(){
+QList<CVariableStream*> CAutomate::getListStreams(){
     QMutexLocker locker(&m_mutex);
-    return m_mapStreams;
+    return m_listStreams;
 }
 void CAutomate::setMapVariables(QMap<QString, IVariable*> mapVariable){
     QMutexLocker locker(&m_mutex);
@@ -334,9 +340,7 @@ void CAutomate::delVariable(IVariable *ivar)
     QMutexLocker locker(&m_mutex);
     IVariable *var = m_mapVariables.take(ivar->getName());
 
-    foreach ( IVariable *streamIVar, m_mapStreams.values()) {
-        Q_ASSERT(streamIVar->getType() == type_stream);
-        CVariableStream *streamVar = static_cast<CVariableStream *>(streamIVar);
+    foreach ( CVariableStream *streamVar, m_listStreams) {
 
         foreach(IVariable *measureIvar, streamVar->getListMeasures()) {
             CVariableMeasure *measureVar = static_cast<CVariableMeasure *>(measureIvar);
@@ -357,32 +361,33 @@ void CAutomate::delCycle(ICycle *cycle)
     // There is probably more to update, like in CSequencer etc.
     QMutexLocker locker(&m_mutex);
 
-    CVariableStream *stream = qobject_cast<CVariableStream *>(m_mapStreams.value(cycle->getRelatedStreamName()));
+    foreach(CVariableStream* stream, m_listStreams){
+        if(stream->getName() == cycle->getRelatedStreamName()){
 
-    if (stream) {
-        stream->delCycle(cycle->getName());
-    }
+            stream->delCycle(cycle->getName());
 
-    switch(cycle->getType()){
-        case CYCLE_MESURE:
-            delete m_listCycleMesures.take(cycle->getName());
-            break;
+            switch(cycle->getType()){
+            case CYCLE_MESURE:
+                delete m_listCycleMesures.take(cycle->getName());
+                break;
 
-        case CYCLE_MAINTENANCE :
-            delete m_listCycleMaintenances.take(cycle->getName());
-            break;
+            case CYCLE_MAINTENANCE :
+                delete m_listCycleMaintenances.take(cycle->getName());
+                break;
 
 
-        case CYCLE_AUTONOME:
-            delete m_listlCycleAutonomes.take(cycle->getName());
-            break;
+            case CYCLE_AUTONOME:
+                delete m_listlCycleAutonomes.take(cycle->getName());
+                break;
 
-        case CYCLE_PAUSE:
-            break;
+            case CYCLE_PAUSE:
+                break;
 
-        case CYCLE_ALL:
-            Q_ASSERT(false);
-            break;
+            case CYCLE_ALL:
+                Q_ASSERT(false);
+                break;
+            }
+        }
     }
 }
 
@@ -471,9 +476,9 @@ IOrgan *CAutomate::getOrgan(const QString &name) const
 
 CVariableStream *CAutomate::getStream(const QString &name) const
 {
-    foreach (IVariable *ivar, m_mapStreams.values()) {
-        if (ivar->getName() == name) {
-            return static_cast<CVariableStream *>(ivar);
+    foreach (CVariableStream *stream, m_listStreams) {
+        if (stream->getName() == name) {
+            return stream;
         }
     }
 
@@ -482,10 +487,8 @@ CVariableStream *CAutomate::getStream(const QString &name) const
 
 CVariableMeasure *CAutomate::getMeasure(const QString &name) const
 {
-    foreach (IVariable *ivar, m_mapStreams.values()) {
-        CVariableStream *stream = static_cast<CVariableStream *>(ivar);
-
-        foreach (IVariable *ivarMeasure, stream->getListMeasures()) {
+    foreach (CVariableStream *stream, m_listStreams) {
+          foreach (IVariable *ivarMeasure, stream->getListMeasures()) {
             if (ivarMeasure->getName() == name) {
                 return static_cast<CVariableMeasure *>(ivarMeasure);
             }
@@ -552,8 +555,12 @@ void CAutomate::informAboutCycleChanges(ICycle *cycle, const QVariantMap &oldDat
         addCyclePrivate(cycle);
     }
 
-    CVariableStream *oldStream = qobject_cast<CVariableStream *>(m_mapStreams.value(oldStreamName));
-    CVariableStream *newStream = qobject_cast<CVariableStream *>(m_mapStreams.value(cycle->getRelatedStreamName()));
+    CVariableStream *oldStream;
+    CVariableStream *newStream;
+    foreach (CVariableStream* stream, m_listStreams) {
+        if(stream->getName() == oldStreamName) oldStream = stream;
+        else if(stream->getName() == cycle->getRelatedStreamName()) newStream = stream;
+    }
 
     if (!oldStreamName.isEmpty() && !oldStream) {
         Q_ASSERT(false);

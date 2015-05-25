@@ -3,6 +3,9 @@
 #include "cotautomate_debug.h"
 #include "qthread.h"
 #include "qtimer.h"
+#include "CAutomate.h"
+#include "CVariableStream.h"
+
 CCyclePause::CCyclePause(QObject *parent)
     : ICycle(parent)
 {
@@ -103,7 +106,9 @@ void CCyclePause::slotGetReadyForPlayCycle(){}
 QString CCyclePause::getRelatedStreamName()const{
     return m_streamName;
 }
-
+CVariableStream* CCyclePause::getRelatedStream()const{
+    return CAutomate::getInstance()->getStream(m_streamName);
+}
 void CCyclePause::setRelatedStreamName(const QString &name)
 {
     m_streamName = name;

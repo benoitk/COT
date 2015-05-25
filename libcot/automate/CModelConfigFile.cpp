@@ -242,14 +242,13 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
             mapStream.insert(QStringLiteral("type"), QStringLiteral("stream"));
             IVariable* var = CVariableFactory::build(mapStream);
             if(var)
-                CAutomate::getInstance()->addStream(mapStream[QStringLiteral("name")].toString(),var);
+                CAutomate::getInstance()->addStream(static_cast<CVariableStream *>(var));
             else
                 qCDebug(COTAUTOMATE_LOG) << "Streams null : map = " << mapStream;
         }
 
         CAutomate* a = CAutomate::getInstance();
-        foreach(IVariable* varStream, a->getMapStreams()){
-            CVariableStream* stream = (CVariableStream*)varStream;
+        foreach(CVariableStream* stream, a->getListStreams()){
             qCDebug(COTAUTOMATE_LOG) << "-stream label : " << stream->getLabel();
             qCDebug(COTAUTOMATE_LOG) << "-stream active : " << stream->getActiveState()->getLabel() << " " << stream->getActiveState()->toBool();
             foreach(IVariable* varMeasure, stream->getListMeasures()){

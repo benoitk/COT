@@ -6,6 +6,8 @@
 #include "CActionFactory.h"
 #include "IAction.h"
 #include "CStep.h"
+#include "CAutomate.h"
+#include "CVariableStream.h"
 
 CCycleMesure::CCycleMesure(QObject *parent)
     : ICycle(parent)
@@ -107,7 +109,9 @@ void CCycleMesure::slotStopCycle(){
 QString CCycleMesure::getRelatedStreamName()const{
     return m_streamName;
 }
-
+CVariableStream* CCycleMesure::getRelatedStream()const{
+    return CAutomate::getInstance()->getStream(m_streamName);
+}
 void CCycleMesure::setRelatedStreamName(const QString &name)
 {
     m_streamName = name;

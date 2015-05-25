@@ -49,7 +49,7 @@ public:
     QMap<QString, IAction*> getMapActions();
     QList<CUnit*> getListUnits();
     QMap<QString, IVariable*> getMapVariables();
-    QMap<QString, IVariable*> getMapStreams();
+    QList<CVariableStream*> getListStreams();
     void setMapVariables(QMap<QString, IVariable*>);
     CDisplayConf* getDisplayConf()const;
 
@@ -87,7 +87,7 @@ public:
     IVariable* getVariable(const QString&);
     QList<IVariable *> getVariables(const QStringList&);
     void addVariable(const QString&, IVariable*);
-    void addStream(const QString&, IVariable*);
+    void addStream(CVariableStream*);
     void addUnit(CUnit*);
     void addCom(ICom*);
     void addAction(IAction*);
@@ -200,7 +200,7 @@ private:
     QMap<QString, IAction*> m_mapActions;
     QList<IAction*> m_listActions; //en redondance avec m_mapActions pour ne pas refaire niveau IHM
     QMap<QString, IVariable*> m_mapVariables;
-    QMap<QString, IVariable*> m_mapStreams;
+    QList<CVariableStream*> m_listStreams;
     QMap<QString, CModelExtensionCard*> m_mapExtCards;
 
     /*QList<CControlerCycle*> m_listCtrlCycleMesure;

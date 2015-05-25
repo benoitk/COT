@@ -19,7 +19,11 @@ ConfiguratorStreamsUIHandler::~ConfiguratorStreamsUIHandler()
 
 void ConfiguratorStreamsUIHandler::layout()
 {
-    const QList<IVariable *> listVar = CAutomate::getInstance()->getMapStreams().values();
+    QList<IVariable *> listVar;// = CAutomate::getInstance()->getMapStreams().values();
+    foreach(CVariableStream* stream, CAutomate::getInstance()->getListStreams()){
+        listVar << stream;
+    }
+
     IConfiguratorUIHandler::layout(listVar, false);
 }
 

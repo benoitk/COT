@@ -67,11 +67,11 @@ void CPCMeasureTab::slotNextStreamTriggered()
 void CPCMeasureTab::slotUpdateStreamsMeasures()
 {
     CAutomate *automate = CAutomate::getInstance();
-    const IVariablePtrList streams = automate->getMapStreams().values();
+    const QList<CVariableStream*> streams = automate->getListStreams();
     IVariablePtrList ivars;
 
-    foreach (IVariable *stream, streams) {
-        CVariableStream *streamVar = static_cast<CVariableStream *>(stream);
+    foreach (CVariableStream *streamVar, streams) {
+
 
         foreach (IVariable *measure, streamVar->getListMeasures()) {
             CVariableMeasure *measureVar = static_cast<CVariableMeasure *>(measure);

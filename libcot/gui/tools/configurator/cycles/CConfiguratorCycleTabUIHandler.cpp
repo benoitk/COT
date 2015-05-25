@@ -26,12 +26,10 @@ void CConfiguratorCycleTabUIHandler::layout()
     CVariableFactory::deleteVariables(m_internalVariables);
 
     CAutomate *automate = CAutomate::getInstance();
-    const IVariablePtrList streams = automate->getMapStreams().values();
+    const QList<CVariableStream*> streams = automate->getListStreams();
     IVariablePtrList ivars;
 
-    foreach ( IVariable *streamIVar, streams) {
-        Q_ASSERT(streamIVar->getType() == type_stream);
-        CVariableStream *streamVar = static_cast<CVariableStream *>(streamIVar);
+    foreach (CVariableStream *streamVar, streams) {
 
         ivars << streamVar;
 
@@ -145,7 +143,8 @@ void CConfiguratorCycleTabUIHandler::rowAboutToBeDeleted(const IVariableUIHandle
     }
     // Become a global cycle
     else {
-        streamVar = static_cast<CVariableStream *>(automate->getMapStreams().value(cycle->getRelatedStreamName()));
+
+        streamVar = static_cast<CVariableStream *>(automate->getStream(cycle->getRelatedStreamName()));
     }
 
     Q_ASSERT(streamVar);

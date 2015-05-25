@@ -107,17 +107,17 @@ IVariablePtrList buildVariables() {
     return automate->getMapVariables().values();
 }
 
-IVariablePtrList buildStreams() {
-    CAutomate *automate = CAutomate::getInstance();
-    return automate->getMapStreams().values();
+//IVariablePtrList buildStreams() {
+QList<CVariableStream*> buildStreams() {
+CAutomate *automate = CAutomate::getInstance();
+    return automate->getListStreams();
 }
 
 IVariablePtrList buildMeasures() {
-    const IVariablePtrList streams = buildStreams();
+    const QList<CVariableStream*> streams = buildStreams();
     IVariablePtrList ivars;
 
-    foreach (IVariable *stream, streams) {
-        CVariableStream *streamVar = static_cast<CVariableStream *>(stream);
+    foreach (CVariableStream *streamVar, streams) {
 
         foreach (IVariable *measure, streamVar->getListMeasures()) {
             CVariableMeasure *measureVar = static_cast<CVariableMeasure *>(measure);
@@ -154,13 +154,11 @@ IVariablePtrList buildActions() {
 
 IVariablePtrList buildStreamsMeasures() {
     CAutomate *automate = CAutomate::getInstance();
-    const QMap<QString, IVariable *> streams = automate->getMapStreams();
+    const QList<CVariableStream *> streams = automate->getListStreams();
     IVariablePtrList ivars;
 
-    foreach (IVariable *stream, streams.values()) {
-        CVariableStream *streamVar = static_cast<CVariableStream *>(stream);
-
-        ivars << stream;
+    foreach (CVariableStream *streamVar, streams) {
+        ivars << streamVar;
 
         foreach (IVariable *measure, streamVar->getListMeasures()) {
             CVariableMeasure *measureVar = static_cast<CVariableMeasure *>(measure);
@@ -434,7 +432,12 @@ bool IVariableUIHandler::selectVariable(QString &value)
 
 bool IVariableUIHandler::selectStream(QString &value)
 {
-    IVariablePtrList ivars = buildStreams(); // don't free, hold by automate
+    //TO DO : vérifier le fonctionnement
+
+    IVariablePtrList ivars;// = buildStreams(); // don't free, hold by automate
+    foreach(CVariableStream* stream, buildStreams()){
+        ivars << stream;
+    }
     CGenericItemSelector dlg(ivars);
     dlg.setTitle(tr("Select a stream"));
     dlg.setSelectedValue(value);
