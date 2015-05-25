@@ -29,7 +29,6 @@ private:
 
     QList<IAction*> m_listActions;
     float m_numStep; //peut gérer des pas flotant pour affiner le timming
-    CStep* m_nextStep;
     QString m_label;
 };
 

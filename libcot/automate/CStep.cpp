@@ -25,7 +25,7 @@ CStep::CStep(const QMap<QString, QVariant> &mapStep)
 
 CStep::~CStep()
 {
-
+    //ne pas supprimer les actions de m_listActions.
 }
 QVariantMap CStep::serialise(){
     QVariantMap mapSerialise;

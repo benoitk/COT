@@ -23,6 +23,9 @@ public:
     void addCycle(const CyclePair &pair);
     void replaceCycleAt(int index, const CyclePair &pair);
     void removeAt(int index);
+    void removeCycleMeasure(ICycle *);
+    void removeCycleMaintenance(ICycle *);
+    void removeCycleAutonome(ICycle *);
     CyclePair getCycleAt(int index) const;
     QList<CyclePair> getCycles() const;
 

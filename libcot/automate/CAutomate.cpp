@@ -366,6 +366,10 @@ void CAutomate::delCycle(ICycle *cycle)
 
             stream->delCycle(cycle->getName());
 
+            m_sequencer->removeCycleMeasure(cycle);
+            m_sequencer->removeCycleMaintenance(cycle);
+            m_sequencer->removeCycleAutonome(cycle);
+
             switch(cycle->getType()){
             case CYCLE_MESURE:
                 delete m_listCycleMesures.take(cycle->getName());

@@ -56,7 +56,10 @@ void CCycleMesure::initTimer(){
 
 CCycleMesure::~CCycleMesure()
 {
-
+    delete m_stepStop;
+    foreach (CStep* step, m_listSteps) {
+        delete step;
+    }
 }
 eTypeCycle CCycleMesure::getType()const{
     return CYCLE_MESURE;

@@ -9,7 +9,12 @@ CCycleAutonome::CCycleAutonome(const QVariantMap &variantMap)
     :CCycleMesure(variantMap){}
 CCycleAutonome::CCycleAutonome(const QVariantMap &variantMap, const QMap<QString, IAction *> &actionMap)
     :CCycleMesure(variantMap){}
-CCycleAutonome::~CCycleAutonome(){}
+CCycleAutonome::~CCycleAutonome(){
+    delete m_stepStop;
+    foreach (CStep* step, m_listSteps) {
+        delete step;
+    }
+}
 
 QString CCycleAutonome::getRelatedStreamName()const{
     return CCycleMesure::getRelatedStreamName();

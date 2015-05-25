@@ -205,6 +205,30 @@ void CSequencer::removeAt(int index)
     emit signalUpdated();
 }
 
+void CSequencer::removeCycleMeasure(ICycle * arg_cycle){
+    QList<ICycle*>::iterator itListCycles;
+    for(itListCycles = m_listSequenceCyclesMesures.begin(); itListCycles != m_listSequenceCyclesMesures.end(); ++itListCycles){
+        if(arg_cycle == (*itListCycles))
+            itListCycles = m_listSequenceCyclesMesures.erase(itListCycles);
+    }
+}
+
+void CSequencer::removeCycleMaintenance(ICycle * arg_cycle){
+    QList<ICycle*>::iterator itListCycles;
+    for(itListCycles = m_listSequenceCyclesMaintenances.begin(); itListCycles != m_listSequenceCyclesMaintenances.end(); ++itListCycles){
+        if(arg_cycle == (*itListCycles))
+            itListCycles = m_listSequenceCyclesMaintenances.erase(itListCycles);
+    }
+}
+
+void CSequencer::removeCycleAutonome(ICycle * arg_cycle){
+    QList<ICycle*>::iterator itListCycles;
+    for(itListCycles = m_listSequenceCyclesAutonomes.begin(); itListCycles != m_listSequenceCyclesAutonomes.end(); ++itListCycles){
+        if(arg_cycle == (*itListCycles))
+            itListCycles = m_listSequenceCyclesAutonomes.erase(itListCycles);
+    }
+}
+
 CSequencer::CyclePair CSequencer::getCycleAt(int index) const
 {
     return m_listSequenceCycles.value(index, CyclePair(Q_NULLPTR, -1));

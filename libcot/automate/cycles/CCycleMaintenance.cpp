@@ -13,7 +13,10 @@ CCycleMaintenance::CCycleMaintenance(eTypeCycle typeCycle, QObject* parent): ICy
 }
 CCycleMaintenance::~CCycleMaintenance()
 {
-
+    delete m_stepStop;
+    foreach (CStep* step, m_listSteps) {
+        delete step;
+    }
 }
 QVariantMap CCycleMaintenance::serialise(){
     QVariantMap mapSerialise;
