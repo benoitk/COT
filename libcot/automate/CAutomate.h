@@ -91,7 +91,8 @@ public:
     void addUnit(CUnit*);
     void addCom(ICom*);
     void addAction(IAction*);
-
+    void delAction(IAction*);
+    void delAction(const QString&);
 
     CModelExtensionCard* getExtensionCard(const QString&);
     void addExtensionCard(const QString&, CModelExtensionCard*);

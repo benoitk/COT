@@ -126,23 +126,26 @@ int CCycleMesure::getCurrentStepIndex() const
 QString CCycleMesure::getLabel()const{ return m_label;}
 void CCycleMesure::setLbl(const QString &lbl){ m_label = lbl;}
 
-void CCycleMesure::addAction(int arg_step, IAction* action){
-    qCDebug(COTAUTOMATE_LOG) << "CCycleMesure::addAction(int arg_step, IAction* action) NE DOIT PLUS ETRE APPELE" ;
-    /*if(action){
-        CLinkAction* linkAction = new CLinkAction(arg_step, action);
-        QList<CLinkAction*>::iterator it = m_ListActions.begin();
-        bool bSortie= false;
-        while(!bSortie && it != m_ListActions.end()){
-            //if((*it)->getStep() > linkAction->getStep()){
-            //    m_ListActions.insert(it, linkAction);
-            //    bSortie = true;
-            //}
-            it++;
+void CCycleMesure::addAction(float arg_step, IAction* action){
+    //TODO ajouter un mutex
+    QList<CStep*>::iterator itListStep;
+    for(itListStep=m_listSteps.begin(); itListStep != m_listSteps.end(); ++itListStep){
+        if((*itListStep)->getNumStep() == arg_step){
+            (*itListStep)->addAction(action);
+            itListStep = m_listSteps.end();
         }
-        if(!bSortie) m_ListActions.append(linkAction);
-    }*/
+    }
 
 }
+//enlève toutes les référence à arg_action
+void CCycleMesure::removeAction(IAction* arg_action){
+    QList<CStep*>::iterator itListStep;
+    for(itListStep=m_listSteps.begin(); itListStep != m_listSteps.end(); ++itListStep){
+        (*itListStep)->removeAction(arg_action);
+    }
+}
+
+
 void CCycleMesure::setType(eTypeCycle){}
 
 QString CCycleMesure::getName()const{

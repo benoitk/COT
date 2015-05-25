@@ -17,7 +17,8 @@ public:
     ICycle();
     ~ICycle();
 
-    virtual void addAction(int, IAction*)=0;
+    virtual void addAction(float, IAction*)=0;
+    virtual void removeAction(IAction*)=0;
     virtual eTypeCycle getType()const=0;
     virtual void setType(eTypeCycle)=0;
     virtual QString getName()const =0;

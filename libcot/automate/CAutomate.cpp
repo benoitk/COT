@@ -237,6 +237,28 @@ void CAutomate::addAction(IAction* action){
         m_listActions.append(action);// en redondance avec m_mapActions pour ne pas casser l'API
     }
 }
+
+void CAutomate::delAction(IAction* arg_action){
+    QMutexLocker locker(&m_mutex);
+    if(arg_action){
+        if(m_mapActions.contains(arg_action->getName())){
+            IAction* action = m_mapActions.take(arg_action->getName());
+            if(action){
+                foreach(ICycle* cycle, m_listCycleMesures){
+                    cycle->removeAction(action);
+                }
+                foreach(ICycle* cycle, m_listCycleMaintenances){
+                    cycle->removeAction(action);
+                }
+                foreach(ICycle* cycle, m_listlCycleAutonomes){
+                    cycle->removeAction(action);
+                }
+                delete action;
+            }
+        }
+    }
+}
+
 ICom* CAutomate::getCom(const QString &arg_name){
     QMutexLocker locker(&m_mutex);
     ICom* com = Q_NULLPTR;

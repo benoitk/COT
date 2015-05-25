@@ -39,6 +39,25 @@ QVariantMap CStep::serialise(){
     mapSerialise.insert(QStringLiteral("actions"), listActionName);
     return mapSerialise;
 }
+void CStep::addAction(IAction* arg_action){
+    if(arg_action){
+        bool bActionExist=false;
+        foreach(IAction* action, m_listActions){
+            if(action == arg_action) bActionExist = true;
+        }
+        if(!bActionExist)
+            m_listActions.append(arg_action);
+    }
+}
+void CStep::removeAction(IAction* arg_action){
+    if(arg_action){
+        QList<IAction*>::iterator itListAction;
+        for(itListAction = m_listActions.begin(); itListAction != m_listActions.end(); ++itListAction){
+            if((*itListAction) == arg_action)
+                itListAction = m_listActions.erase(itListAction);
+        }
+    }
+}
 
 QString CStep::getLabel()const{
     return m_label;

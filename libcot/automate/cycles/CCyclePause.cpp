@@ -79,9 +79,10 @@ void CCyclePause::slotUnPauseCycle(){
 void CCyclePause::slotStopCycle(){
 }
 
-void CCyclePause::addAction(int arg_step, IAction* action){
+void CCyclePause::addAction(float arg_step, IAction* action){
 
 }
+void CCyclePause::removeAction(IAction*){}
 void CCyclePause::setType(eTypeCycle){
 
 }

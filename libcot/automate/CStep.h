@@ -23,6 +23,8 @@ public:
     //FIN API
     void execStep();
     QVariantMap serialise();
+    void addAction(IAction*);
+    void removeAction(IAction*);
 private:
 
     QList<IAction*> m_listActions;

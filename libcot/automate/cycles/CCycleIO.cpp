@@ -27,6 +27,6 @@ void CCycleIO::slotPauseCycle(){
 void CCycleIO::slotStopCycle(){
 }
 
-void CCycleIO::addAction(int, IAction* action){
+void CCycleIO::addAction(float, IAction* action){
 
 }

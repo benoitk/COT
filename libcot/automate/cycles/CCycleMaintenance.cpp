@@ -26,6 +26,13 @@ QVariantMap CCycleMaintenance::serialise(){
     mapSerialise.insert(QStringLiteral("steps"), listSteps);
     return mapSerialise;
 }
+//enlève toutes les référence à arg_action
+void CCycleMesure::removeAction(IAction* arg_action){
+    QList<CStep*>::iterator itListStep;
+    for(itListStep=m_listSteps.begin(); itListStep != m_listSteps.end(); ++itListStep){
+        (*itListStep)->removeAction(arg_action);
+    }
+}
 eTypeCycle CCycleMaintenance::getType()const{
     return CYCLE_MAINTENANCE;
 }
@@ -40,8 +47,15 @@ void CCycleMaintenance::slotStopCycle(){
 }
 QString CCycleMaintenance::getLabel()const{ return m_label;}
 void CCycleMaintenance::setLbl(const QString &lbl){ m_label = lbl;}
-void CCycleMaintenance::addAction(int arg_step, IAction* action){
-
+void CCycleMaintenance::addAction(float arg_step, IAction* action){
+    //TODO ajouter un mutex
+    QList<CStep*>::iterator itListStep;
+    for(itListStep=m_listSteps.begin(); itListStep != m_listSteps.end(); ++itListStep){
+        if((*itListStep)->getNumStep() == arg_step){
+            (*itListStep)->addAction(action);
+            itListStep = m_listSteps.end();
+        }
+    }
 }
 void CCycleMaintenance::setType(eTypeCycle){
 

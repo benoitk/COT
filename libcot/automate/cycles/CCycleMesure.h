@@ -19,7 +19,8 @@ public:
 
     void setType(eTypeCycle) Q_DECL_OVERRIDE;
     eTypeCycle getType()const Q_DECL_OVERRIDE;
-    void addAction(int, IAction*) Q_DECL_OVERRIDE;
+    void addAction(float, IAction*) Q_DECL_OVERRIDE;
+    void removeAction(IAction*)Q_DECL_OVERRIDE;
     QString getName()const Q_DECL_OVERRIDE;
     void setName(const QString &) Q_DECL_OVERRIDE;
     QString getLabel()const Q_DECL_OVERRIDE;
