@@ -57,3 +57,8 @@ void CActionBlock::setLabel(const QString& lbl){
 actionType CActionBlock::getType()const {
     return actionType::type_block;
 }
+bool CActionBlock::variableUsed(IVariable *)const {
+    //bool bReturn = false;
+    //foreach(IAction* action, m_listAction){if(action->variableUsed()) bReturn=true;}
+    return false;
+}

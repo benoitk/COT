@@ -73,7 +73,7 @@ private:
 
     QString m_name;
     QString m_label;
-        QList<IVariable*> m_listBinds;
+    QList<IVariable*> m_listBinds;
     CUnit* m_unit;
 
     QList<IVariable*> m_listVariables;

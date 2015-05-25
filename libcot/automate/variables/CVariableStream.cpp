@@ -76,7 +76,7 @@ IVariable* CVariableStream::getActiveState(){
     return m_activeState;
 }
 
-void CVariableStream::delVariable(IVariable *var)
+void CVariableStream::removeVariable(IVariable *var)
 {
     m_listVariables.removeOne(var);
 }

@@ -93,6 +93,7 @@ public:
     void addAction(IAction*);
     void delAction(IAction*);
     void delAction(const QString&);
+    void delVariable(IVariable *ivar);
 
     CModelExtensionCard* getExtensionCard(const QString&);
     void addExtensionCard(const QString&, CModelExtensionCard*);
@@ -109,7 +110,6 @@ public:
     void initConfig();
     void quit();
 
-    void delVariable(IVariable *ivar);
 private slots:
     void slotClock();
 

@@ -51,3 +51,6 @@ void CActionUnknow::setLabel(const QString& lbl){
 actionType CActionUnknow::getType()const {
     return actionType::type_action_unknow;
 }
+bool CActionUnknow::variableUsed(IVariable *)const {
+    return false;
+}

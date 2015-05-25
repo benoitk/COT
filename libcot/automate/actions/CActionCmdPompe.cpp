@@ -82,3 +82,14 @@ void CActionCmdPompe::setLabel(const QString& lbl){
 actionType CActionCmdPompe::getType()const {
     return actionType::type_cmd_pump;
 }
+
+bool CActionCmdPompe::variableUsed(IVariable * arg_var)const {
+    if(m_pump == arg_var) return true;
+    if(m_speed == arg_var) return true;
+    if(m_nbStepOrTour == arg_var) return true;
+    if(m_clockwise == arg_var) return true;
+    if(m_stepOrTour == arg_var) return true;
+    if(m_cmdContinu == arg_var) return true;
+
+    return false;
+}

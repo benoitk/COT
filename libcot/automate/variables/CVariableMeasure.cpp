@@ -40,7 +40,7 @@ IVariable* CVariableMeasure::getMeasureMin(){
     return m_measureMin;
 }
 
-void CVariableMeasure::delVariable(IVariable *ivar)
+void CVariableMeasure::removeVariable(IVariable *ivar)
 {
     m_listVariables.removeOne(ivar);
 }

@@ -265,6 +265,7 @@ void CAutomate::delAction(IAction* arg_action){
     }
 }
 
+
 ICom* CAutomate::getCom(const QString &arg_name){
     QMutexLocker locker(&m_mutex);
     ICom* com = Q_NULLPTR;
@@ -333,26 +334,35 @@ void CAutomate::addExtensionCard(const QString& name, CModelExtensionCard* extCa
         m_mapExtCards.insert(name, extCard);
 }
 
-void CAutomate::delVariable(IVariable *ivar)
+void CAutomate::delVariable(IVariable *arg_var)
 {
     // SERES_TODO: To be completed (COT-XX).
     // There is probably more to update, like in CSequencer etc.
     QMutexLocker locker(&m_mutex);
-    IVariable *var = m_mapVariables.take(ivar->getName());
 
     foreach ( CVariableStream *streamVar, m_listStreams) {
 
         foreach(IVariable *measureIvar, streamVar->getListMeasures()) {
             CVariableMeasure *measureVar = static_cast<CVariableMeasure *>(measureIvar);
-            measureVar->delVariable(ivar);
+            measureVar->removeVariable(arg_var);
         }
-        streamVar->delVariable(ivar);
+        streamVar->removeVariable(arg_var);
     }
-    locker.unlock();
-    if (var) {
-        emit signalVariablesUpdated();
-        delete var;
+
+    bool bUsed = false;
+    foreach(IAction* action, m_listActions){
+        if(action->variableUsed(arg_var)) bUsed = true;
     }
+
+    if(!bUsed){
+        IVariable *var = m_mapVariables.take(arg_var->getName());
+        //locker.unlock();
+        if (var && var == arg_var) {
+            emit signalVariablesUpdated();
+            delete var;
+        }
+    }
+    //gestion d'erreur si on ne peut pas la supprimer ? Checker sur l'IHM en premier avant d'essayer ?
 }
 
 void CAutomate::delCycle(ICycle *cycle)

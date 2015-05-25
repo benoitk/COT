@@ -28,7 +28,7 @@ public:
     virtual void setLabel(const QString&)=0;
     virtual QList<IVariable*> getListParameters()const=0;
     virtual actionType getType()const =0;
-
+    virtual bool variableUsed(IVariable *)const =0;
     static QString typeToString(actionType type);
 
 signals:

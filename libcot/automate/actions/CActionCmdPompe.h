@@ -20,6 +20,7 @@ public:
     QString getLabel()const Q_DECL_OVERRIDE;
     void setLabel(const QString&) Q_DECL_OVERRIDE;
     actionType getType()const Q_DECL_OVERRIDE;
+    bool variableUsed(IVariable *)const Q_DECL_OVERRIDE;
 private:
 
     QString m_name;
