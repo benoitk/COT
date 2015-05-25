@@ -29,6 +29,8 @@ public:
     virtual QList<IVariable*> getListParameters()const=0;
     virtual actionType getType()const =0;
 
+    static QString typeToString(actionType type);
+
 signals:
     void finish(IAction* arg_this);
 
