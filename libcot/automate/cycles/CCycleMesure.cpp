@@ -32,6 +32,19 @@ CCycleMesure::CCycleMesure(const QVariantMap &mapCycle): ICycle(){
     m_thread.start();
 
 }
+QVariantMap CCycleMesure::serialise(){
+    QVariantMap mapSerialise;
+    mapSerialise.insert(QStringLiteral("name"), m_name);
+    mapSerialise.insert(tr("fr_FR"), m_label);
+    mapSerialise.insert(QStringLiteral("type"), QStringLiteral("measure"));
+
+    QVariantList listSteps;
+    foreach(CStep* step, m_listSteps){
+        listSteps.append(step->serialise());
+    }
+    mapSerialise.insert(QStringLiteral("steps"), listSteps);
+    return mapSerialise;
+}
 void CCycleMesure::initTimer(){
     //m_timer = new QTimer(this);
     //connect(m_timer, &QTimer::timeout, this, &CCycleMesure::slotExecNextStep);

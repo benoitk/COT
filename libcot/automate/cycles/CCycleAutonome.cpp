@@ -1,4 +1,5 @@
 #include "CCycleAutonome.h"
+#include "CStep.h"
 #include "cotautomate_debug.h"
 
 CCycleAutonome::CCycleAutonome(QObject *parent)
@@ -12,7 +13,19 @@ CCycleAutonome::~CCycleAutonome(){}
 QString CCycleAutonome::getRelatedStreamName()const{
     return CCycleMesure::getRelatedStreamName();
 }
+QVariantMap CCycleAutonome::serialise(){
+    QVariantMap mapSerialise;
+    mapSerialise.insert(QStringLiteral("name"), m_name);
+    mapSerialise.insert(tr("fr_FR"), m_label);
+    mapSerialise.insert(QStringLiteral("type"), QStringLiteral("autonome"));
 
+    QVariantList listSteps;
+    foreach(CStep* step, m_listSteps){
+        listSteps.append(step->serialise());
+    }
+    mapSerialise.insert(QStringLiteral("steps"), listSteps);
+    return mapSerialise;
+}
 void CCycleAutonome::setRelatedStreamName(const QString &name)
 {
     CCycleMesure::setRelatedStreamName(name);

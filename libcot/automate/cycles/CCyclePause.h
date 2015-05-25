@@ -31,7 +31,7 @@ public: //acces multithread possible sur tout les get, penser au mutex sur tous 
 
     bool isRunning() Q_DECL_OVERRIDE;
     bool isPaused() Q_DECL_OVERRIDE;
-
+    QVariantMap serialise() Q_DECL_OVERRIDE;
 public slots:
     void slotRunCycle() Q_DECL_OVERRIDE;
     void slotPauseCycle() Q_DECL_OVERRIDE;

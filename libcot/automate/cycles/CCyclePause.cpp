@@ -1,4 +1,5 @@
 #include "CCyclePause.h"
+#include "CStep.h"
 #include "cotautomate_debug.h"
 #include "qthread.h"
 #include "qtimer.h"
@@ -29,6 +30,20 @@ CCyclePause::CCyclePause(int temps): ICycle(){
 CCyclePause::~CCyclePause()
 {
 
+}
+QVariantMap CCyclePause::serialise(){
+    QVariantMap mapSerialise;
+    mapSerialise.insert(QStringLiteral("name"), m_name);
+    mapSerialise.insert(tr("fr_FR"), m_label);
+    mapSerialise.insert(QStringLiteral("type"), QStringLiteral("pause"));
+    mapSerialise.insert(QStringLiteral("timer"), m_iTimer);
+
+    QVariantList listSteps;
+    foreach(CStep* step, m_listSteps){
+        listSteps.append(step->serialise());
+    }
+    mapSerialise.insert(QStringLiteral("steps"), listSteps);
+    return mapSerialise;
 }
 void CCyclePause::initTimer(){
     m_timer = new QTimer(this);

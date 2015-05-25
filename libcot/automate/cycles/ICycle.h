@@ -31,6 +31,7 @@ public:
     virtual bool isRunning()=0;
     virtual bool isPaused()=0;
     virtual int getCurrentStepIndex() const = 0;
+    virtual QVariantMap serialise()=0;
 
     bool isStreamRelated()const;
     CStep *getStep(int index) const;

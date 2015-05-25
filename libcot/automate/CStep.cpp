@@ -27,6 +27,18 @@ CStep::~CStep()
 {
 
 }
+QVariantMap CStep::serialise(){
+    QVariantMap mapSerialise;
+//    mapSerialise.insert(QStringLiteral("name"), m_name);
+    mapSerialise.insert(tr("fr_FR"), m_label);
+    mapSerialise.insert(QStringLiteral("type"), QStringLiteral("measure"));
+    QStringList listActionName;
+    foreach(IAction* action, m_listActions){
+        listActionName.append(action->getName());
+    }
+    mapSerialise.insert(QStringLiteral("actions"), listActionName);
+    return mapSerialise;
+}
 
 QString CStep::getLabel()const{
     return m_label;

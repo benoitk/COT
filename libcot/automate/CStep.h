@@ -22,7 +22,7 @@ public:
     //void setNextStep(CStep*);
     //FIN API
     void execStep();
-
+    QVariantMap serialise();
 private:
 
     QList<IAction*> m_listActions;

@@ -1,5 +1,5 @@
 #include "CCycleMaintenance.h"
-
+#include "CStep.h"
 #include "cotautomate_debug.h"
 CCycleMaintenance::CCycleMaintenance(QObject *parent)
     : ICycle(parent)
@@ -12,6 +12,19 @@ CCycleMaintenance::CCycleMaintenance(eTypeCycle typeCycle, QObject* parent): ICy
 CCycleMaintenance::~CCycleMaintenance()
 {
 
+}
+QVariantMap CCycleMaintenance::serialise(){
+    QVariantMap mapSerialise;
+    mapSerialise.insert(QStringLiteral("name"), m_name);
+    mapSerialise.insert(tr("fr_FR"), m_label);
+    mapSerialise.insert(QStringLiteral("type"), QStringLiteral("measure"));
+
+    QVariantList listSteps;
+    foreach(CStep* step, m_listSteps){
+        listSteps.append(step->serialise());
+    }
+    mapSerialise.insert(QStringLiteral("steps"), listSteps);
+    return mapSerialise;
 }
 eTypeCycle CCycleMaintenance::getType()const{
     return CYCLE_MAINTENANCE;

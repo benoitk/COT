@@ -21,7 +21,7 @@ public:
     QList<CStep*> getListSteps()const Q_DECL_OVERRIDE;
     CStep* getStepStop()const Q_DECL_OVERRIDE;
     int getCurrentStepIndex() const Q_DECL_OVERRIDE;
-
+    QVariantMap serialise() Q_DECL_OVERRIDE;
 /*    void setType(eTypeCycle);
     eTypeCycle getType()const;
     bool isRunning();
