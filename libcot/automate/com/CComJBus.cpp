@@ -8,11 +8,17 @@
 
 CComJBus::CComJBus(QObject *parent)
     : ICom(parent)
+    , m_uart(0)
+    , m_numSlave(0)
+    , m_type(type_com_unknow)
 {
 
 }
 CComJBus::CComJBus(const QVariantMap& mapCom)
     : ICom()
+    , m_uart(0)
+    , m_numSlave(0)
+    , m_type(type_com_unknow)
 {
     m_name = mapCom.value(QStringLiteral("name")).toString();
     if(m_name.isEmpty()) {
@@ -25,10 +31,9 @@ CComJBus::CComJBus(const QVariantMap& mapCom)
         m_type = type_jbus_over_tcpip;
     else if (type == QLatin1String("jbus"))
         m_type = type_jbus;
-    else {
+    else
         qCDebug(COTAUTOMATE_LOG) << "CComJBus type unknow:" << type;
-        m_type = type_com_unknow;
-    }
+
     //TO DO : fill datas
 }
 CComJBus::~CComJBus()
