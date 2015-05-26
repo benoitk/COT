@@ -1,7 +1,8 @@
 #include "CScrollableWidget.h"
+#include "cotgui_debug.h"
+
 #include <QAction>
 #include <QScrollBar>
-#include "cotgui_debug.h"
 
 CScrollableWidget::CScrollableWidget(QWidget *parent)
     : QScrollArea(parent)
@@ -36,12 +37,14 @@ CScrollableWidget::~CScrollableWidget()
 
 QSize CScrollableWidget::minimumSizeHint() const
 {
-    return m_scrollable || !widget() ? QScrollArea::minimumSizeHint() : widget()->minimumSizeHint();
+    const QSize msh = QScrollArea::minimumSizeHint();
+    return m_scrollable || !widget() ? msh : QSize(msh.width(), widget()->minimumSizeHint().height());
 }
 
 QSize CScrollableWidget::sizeHint() const
 {
-    return m_scrollable || !widget() ? QScrollArea::sizeHint() : widget()->sizeHint();
+    const QSize sh = QScrollArea::sizeHint();
+    return m_scrollable || !widget() ? sh : QSize(sh.width(), widget()->sizeHint().height());
 }
 
 bool CScrollableWidget::scrollable() const
