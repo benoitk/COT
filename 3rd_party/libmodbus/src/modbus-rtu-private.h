@@ -83,4 +83,15 @@ typedef struct _modbus_rtu {
 #endif
 } modbus_rtu_t;
 
+
+int _modbus_rtu_build_request_basis(modbus_t *ctx, int function,
+                                           int addr, int nb,
+                                           uint8_t *req);
+int _modbus_rtu_build_response_basis(sft_t *sft, uint8_t *rsp);
+int _modbus_rtu_prepare_response_tid(const uint8_t *req, int *req_length);
+int _modbus_rtu_send_msg_pre(uint8_t *req, int req_length);
+int _modbus_rtu_check_integrity(modbus_t *ctx, uint8_t *msg, const int msg_length);
+int _modbus_rtu_filter_request(modbus_t *ctx, int slave);
+uint16_t crc16(uint8_t *buffer, uint16_t buffer_length);
+
 #endif /* _MODBUS_RTU_PRIVATE_H_ */

@@ -61,6 +61,7 @@
 
 #include "modbus-tcp.h"
 #include "modbus-tcp-private.h"
+#include "modbus-rtu-private.h"
 
 #ifdef OS_WIN32
 static int _modbus_tcp_init_win32(void)
@@ -611,6 +612,26 @@ const modbus_backend_t _modbus_tcp_backend = {
     _modbus_tcp_filter_request
 };
 
+const modbus_backend_t _modbus_rtutcp_backend = {
+    _MODBUS_BACKEND_TYPE_TCP,
+    _MODBUS_RTU_HEADER_LENGTH,
+    _MODBUS_RTU_CHECKSUM_LENGTH,
+    MODBUS_RTU_MAX_ADU_LENGTH,
+    _modbus_set_slave,
+    _modbus_rtu_build_request_basis,
+    _modbus_rtu_build_response_basis,
+    _modbus_rtu_prepare_response_tid,
+    _modbus_rtu_send_msg_pre,
+    _modbus_tcp_send,
+    _modbus_tcp_recv,
+    _modbus_rtu_check_integrity,
+    NULL,
+    _modbus_tcp_connect,
+    _modbus_tcp_close,
+    _modbus_tcp_flush,
+    _modbus_tcp_select,
+    _modbus_rtu_filter_request
+};
 
 const modbus_backend_t _modbus_tcp_pi_backend = {
     _MODBUS_BACKEND_TYPE_TCP,
@@ -633,7 +654,7 @@ const modbus_backend_t _modbus_tcp_pi_backend = {
     _modbus_tcp_filter_request
 };
 
-modbus_t* modbus_new_tcp(const char *ip, int port)
+static modbus_t* _modbus_new_tcp_with_backend(const modbus_backend_t *backend, const char *ip, int port)
 {
     modbus_t *ctx;
     modbus_tcp_t *ctx_tcp;
@@ -659,7 +680,7 @@ modbus_t* modbus_new_tcp(const char *ip, int port)
     /* Could be changed after to reach a remote serial Modbus device */
     ctx->slave = MODBUS_TCP_SLAVE;
 
-    ctx->backend = &(_modbus_tcp_backend);
+    ctx->backend = backend;
 
     ctx->backend_data = (modbus_tcp_t *) malloc(sizeof(modbus_tcp_t));
     ctx_tcp = (modbus_tcp_t *)ctx->backend_data;
@@ -685,6 +706,15 @@ modbus_t* modbus_new_tcp(const char *ip, int port)
     return ctx;
 }
 
+modbus_t* modbus_new_tcp(const char *ip, int port)
+{
+    return _modbus_new_tcp_with_backend(&(_modbus_tcp_backend), ip, port);
+}
+
+modbus_t* modbus_new_rtutcp(const char *ip, int port)
+{
+    return _modbus_new_tcp_with_backend(&(_modbus_rtutcp_backend), ip, port);
+}
 
 modbus_t* modbus_new_tcp_pi(const char *node, const char *service)
 {
