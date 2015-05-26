@@ -6,8 +6,8 @@
 
     "network" : [
         {"name":"eth0", "type":"ethernet", "address" : "192.168.1.2"},
-        {"name":"uart0", "type":"uart", "baudrate":115000, "stop":1, "data":8},
-        {"name":"uart1", "type":"uart", "baudrate":9600, "stop":1, "data":8}
+        {"name":"uart0", "type":"uart", "device": "/dev/ttyS0", "baudrate":115000, "stop":1, "data":8},
+        {"name":"uart1", "type":"uart", "device": "/dev/ttyS1", "baudrate":9600, "stop":1, "data":8}
     ],
 
     "com_automate":[
