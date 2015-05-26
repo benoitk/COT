@@ -68,8 +68,9 @@ INCLUDEPATH *= \
     $${LIBCOT_SRC_PWD}/automate/organs/ \
     $${KPLOTTING_SRC_PWD}/src \
 
+QMAKE_RPATHDIR *= $${LIBCOT_BUILD_PWD}
+
 isEqual(TEMPLATE, "app") {
-    QMAKE_RPATHDIR *= $${LIBCOT_BUILD_PWD}
     LIBS *= -L$${LIBCOT_BUILD_PWD} -lcotlib
 
     LIBCOT_STATIC_BUILD {

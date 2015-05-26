@@ -1,4 +1,4 @@
-include("$${top_srcdir}/config.pri")
+QT -= core gui
 
 HEADERS += \
     config.h \
@@ -17,5 +17,5 @@ SOURCES += \
 
 TEMPLATE = lib
 TARGET = modbus
-DESTDIR = $${LIBCOT_BUILD_PWD}
+DESTDIR = $${top_builddir}/lib
 
