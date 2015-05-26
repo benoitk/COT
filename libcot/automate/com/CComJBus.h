@@ -38,7 +38,7 @@ public:
 
 private:
     modbus_t* m_ctx;
-    int m_numSlave;
+    int m_slave;
     QMap<int, IVariableInput*> m_mapInputTable;
     QMap<int, IVariableOutput*> m_mapOutputTable;
 

@@ -11,7 +11,7 @@
 CComJBus::CComJBus(const QVariantMap &mapCom, QObject *parent)
     : ICom(parent)
     , m_ctx(0)
-    , m_numSlave(0)
+    , m_slave(-1)
     , m_type(type_com_unknow)
 {
     m_name = mapCom.value(QStringLiteral("name")).toString();
@@ -27,6 +27,12 @@ CComJBus::CComJBus(const QVariantMap &mapCom, QObject *parent)
         m_type = type_jbus;
     else
         qCDebug(COTAUTOMATE_LOG) << "CComJBus type unknow:" << type;
+
+    bool ok = false;
+    const int slave = mapCom.value(QStringLiteral("slave")).toInt(&ok);
+    if (ok && slave >= 0) {
+        m_slave = slave;
+    }
 
     //TO DO : fill datas
 }
