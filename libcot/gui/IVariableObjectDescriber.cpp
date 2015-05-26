@@ -292,7 +292,7 @@ void CVariableCStepActionsDescriber::describe(const QVariant &object)
         CVariableMutable *ivar = CVariableFactory::castedBuild<CVariableMutable *>(type_mutable, VariableOrganTypeNone, action->getName());
         ivar->setName(action->getName());
         ivar->setLabel(action->getLabel());
-        ivar->setMutableType(CVariableMutable::Cycle);
+        ivar->setMutableType(CVariableMutable::Action);
         ivars << ivar;
     }
 
