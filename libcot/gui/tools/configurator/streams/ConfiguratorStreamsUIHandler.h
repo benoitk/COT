@@ -25,7 +25,7 @@ protected:
 
 private:
     CPushButton *newButton(IVariable *ivar);
-    CPushButton *addMeasureButton();
+    CToolButton *addMeasureButton(IVariable *ivar);
 };
 
 #endif // CONFIGURATORSTREAMSUIHANDLER_H

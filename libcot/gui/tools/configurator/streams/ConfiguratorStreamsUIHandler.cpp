@@ -50,7 +50,7 @@ QWidget *ConfiguratorStreamsUIHandler::createWidget(int column, IVariable *ivar)
             grid->addWidget(newButton(var), row, 1);
             grid->addWidget(newDeleteButton(var), row, 2);
         }
-        grid->addWidget(addMeasureButton(lstVar.first()), row, 3);
+        grid->addWidget(addMeasureButton(Q_NULLPTR), row, 3);
         return mainwidget;
     }
     return Q_NULLPTR;
@@ -88,7 +88,7 @@ CToolButton *ConfiguratorStreamsUIHandler::addMeasureButton(IVariable *ivar)
 {    
     CToolButton *button = new CToolButton(CToolButton::Add);
     button->setFixedSize(21, 21);
-    button->setUserData(ivar->getName());
+   // button->setUserData(ivar->getName());
     button->setText(tr("+"));
     return button;
 }
