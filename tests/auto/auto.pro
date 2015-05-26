@@ -6,4 +6,5 @@ SUBDIRS *= \
     scrollablewidget \
     JSON \
     graphicswidget \ 
+    jbus \
 

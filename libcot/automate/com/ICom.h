@@ -40,4 +40,6 @@ private:
 
 };
 
+Q_DECLARE_METATYPE(comType)
+
 #endif // ICom_H

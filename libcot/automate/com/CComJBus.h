@@ -6,8 +6,11 @@
 #include "qlist.h"
 #include "qbitarray.h"
 #include "qvariant.h"
+
+#include "cot_global.h"
+
 class INetwork;
-class CComJBus : public ICom
+class LIBCOT_EXPORT CComJBus : public ICom
 {
     Q_OBJECT
 

@@ -4,17 +4,31 @@
 #include "IVariableOutput.h"
 #include "IComObserver.h"
 #include "CModelExtensionCard.h"
+#include "cotautomate_debug.h"
 
 CComJBus::CComJBus(QObject *parent)
     : ICom(parent)
 {
 
 }
-CComJBus::CComJBus(const QVariantMap& mapCom): ICom(){
-    if(mapCom.contains(QStringLiteral("name")))
-        m_name = mapCom.value(QStringLiteral("name")).toString();
-    else m_name = QStringLiteral("Com not named");
+CComJBus::CComJBus(const QVariantMap& mapCom)
+    : ICom()
+{
+    m_name = mapCom.value(QStringLiteral("name")).toString();
+    if(m_name.isEmpty()) {
+        qCDebug(COTAUTOMATE_LOG) << "CComJBus not named.";
+        m_name = QStringLiteral("Com not named");
+    }
 
+    const QString type = mapCom.value(QStringLiteral("type")).toString();
+    if(type == QLatin1String("jbus_over_tcpip"))
+        m_type = type_jbus_over_tcpip;
+    else if (type == QLatin1String("jbus"))
+        m_type = type_jbus;
+    else {
+        qCDebug(COTAUTOMATE_LOG) << "CComJBus type unknow:" << type;
+        m_type = type_com_unknow;
+    }
     //TO DO : fill datas
 }
 CComJBus::~CComJBus()
