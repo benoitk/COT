@@ -9,9 +9,6 @@
 CComUnknow::CComUnknow(QObject *parent): ICom(parent){
 
 }
-CComUnknow::CComUnknow(): ICom(){
-
-}
 CComUnknow::~CComUnknow()
 {
 

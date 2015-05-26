@@ -5,11 +5,6 @@ ICom::ICom(QObject *parent)
 {
 
 }
-ICom::ICom()
-    : QObject()
-{
-
-}
 ICom::~ICom()
 {
 

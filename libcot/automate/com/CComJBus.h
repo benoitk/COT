@@ -11,17 +11,13 @@
 
 typedef struct _modbus modbus_t;
 
-class INetwork;
 class LIBCOT_EXPORT CComJBus : public ICom
 {
     Q_OBJECT
 
 public:
-    CComJBus(QObject *parent);
-    CComJBus(const QVariantMap&);
+    CComJBus(const QVariantMap &options, QObject *parent = 0);
     ~CComJBus();
-
-
 
     QVariant readData() Q_DECL_OVERRIDE;
     QVariant readData(IVariableInput*) Q_DECL_OVERRIDE;
@@ -42,7 +38,6 @@ public:
 
 private:
     modbus_t* m_ctx;
-    INetwork* m_uart;
     int m_numSlave;
     QMap<int, IVariableInput*> m_mapInputTable;
     QMap<int, IVariableOutput*> m_mapOutputTable;

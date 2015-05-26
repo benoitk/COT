@@ -55,7 +55,6 @@ HEADERS *= \
     automate/CRunnableCycle.h \
     automate/CSequencer.h \
     automate/CStep.h \
-    automate/INetwork.h \
     automate/IObserverAutomate.h \
     automate/IOrgan.h \
     automate/actions/CActionCmdPompe.h \
@@ -229,7 +228,6 @@ SOURCES *= \
     automate/CRunnableCycle.cpp \
     automate/CSequencer.cpp \
     automate/CStep.cpp \
-    automate/INetwork.cpp \
     automate/IObserverAutomate.cpp \
     automate/IOrgan.cpp \
     automate/actions/CActionCmdPompe.cpp \

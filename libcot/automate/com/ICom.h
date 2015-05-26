@@ -20,8 +20,7 @@ class ICom : public QObject
     Q_OBJECT
 
 public:
-    ICom(QObject *parent);
-    ICom();
+    ICom(QObject *parent = 0);
     ~ICom();
 
     virtual QVariant readData()=0;
