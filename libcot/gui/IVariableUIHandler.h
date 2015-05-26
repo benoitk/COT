@@ -36,6 +36,9 @@ public:
 
     void setDescriber(IVariableObjectDescriber *describer);
     IVariableObjectDescriber *describer() const;
+    template <typename T> T castedDescriber() const {
+        return qobject_cast<T>(m_describer);
+    }
 
     QWidget *container() const;
     QGridLayout *containerLayout() const;
@@ -95,6 +98,8 @@ protected:
     int layoutRow(const Row &row) const;
 
     virtual int columnCount() const;
+    virtual bool horizontalStretch() const;
+    virtual bool verticalStretch() const;
 
     // Called by layout() for every row, every column
     virtual QWidget *createWidget(int column, IVariable *ivar);

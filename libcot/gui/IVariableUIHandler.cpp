@@ -257,11 +257,15 @@ void IVariableUIHandler::layout(const QList<IVariable *> &variables, bool addDel
         y++;
     }
 
-    QSpacerItem *vspacer = new QSpacerItem(8, 8, QSizePolicy::Expanding, QSizePolicy::Expanding);
-    m_containerLayout->addItem(vspacer, y, 0, 1, numberOfColumn);
+    if (verticalStretch()) {
+        QSpacerItem *vspacer = new QSpacerItem(8, 8, QSizePolicy::Expanding, QSizePolicy::Expanding);
+        m_containerLayout->addItem(vspacer, y, 0, 1, numberOfColumn);
+    }
 
-    QSpacerItem *hspacer = new QSpacerItem(8, 8, QSizePolicy::Expanding, QSizePolicy::Expanding);
-    m_containerLayout->addItem(hspacer, 0, numberOfColumn, y, 1);
+    if (horizontalStretch()) {
+        QSpacerItem *hspacer = new QSpacerItem(8, 8, QSizePolicy::Expanding, QSizePolicy::Expanding);
+        m_containerLayout->addItem(hspacer, 0, numberOfColumn, y, 1);
+    }
 
     m_scrollable->setScrollableWidget(m_container);
 }
@@ -619,6 +623,16 @@ QStringList IVariableUIHandler::variableNames() const
 int IVariableUIHandler::columnCount() const
 {
     return 3;
+}
+
+bool IVariableUIHandler::horizontalStretch() const
+{
+    return true;
+}
+
+bool IVariableUIHandler::verticalStretch() const
+{
+    return true;
 }
 
 QWidget *IVariableUIHandler::createWidget(int column, IVariable *ivar)
