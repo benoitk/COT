@@ -14,6 +14,16 @@ IScrollableUIWidget::IScrollableUIWidget(QWidget *parent)
     hl->addWidget(m_verticalButtonBar);
 }
 
+IScrollableUIWidget::IScrollableUIWidget(bool scrollable, QWidget *parent)
+    : QWidget(parent)
+    , m_scrollableWidget(new CScrollableWidget(scrollable, this))
+    , m_verticalButtonBar(new CVerticalButtonBar(this))
+{
+    QHBoxLayout *hl = new QHBoxLayout(this);
+    hl->addWidget(m_scrollableWidget);
+    hl->addWidget(m_verticalButtonBar);
+}
+
 IScrollableUIWidget::~IScrollableUIWidget()
 {
 }

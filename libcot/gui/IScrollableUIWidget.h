@@ -12,6 +12,7 @@ class IScrollableUIWidget : public QWidget
 
 public:
     explicit IScrollableUIWidget(QWidget *parent = 0);
+    explicit IScrollableUIWidget(bool scrollable, QWidget *parent = 0);
     virtual ~IScrollableUIWidget();
 
     CScrollableWidget *scrollableWidget() const;

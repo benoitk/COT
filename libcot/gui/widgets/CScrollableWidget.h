@@ -10,15 +10,22 @@ class LIBCOT_EXPORT CScrollableWidget : public QScrollArea
     Q_OBJECT
 public:
     explicit CScrollableWidget(QWidget *parent = Q_NULLPTR);
+    explicit CScrollableWidget(bool scrollable, QWidget *parent = Q_NULLPTR);
     ~CScrollableWidget();
 
-    QAction *moveDown() const;
+    QSize minimumSizeHint() const Q_DECL_OVERRIDE;
+    QSize sizeHint() const Q_DECL_OVERRIDE;
 
+    bool scrollable() const;
+    void setScrollable(bool scrollable);
+
+    QAction *moveDown() const;
     QAction *moveUp() const;
 
     void setScrollableWidget(QWidget *w);
 
 protected:
+    bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
     void wheelEvent(QWheelEvent *) Q_DECL_OVERRIDE;
 
@@ -27,9 +34,11 @@ private slots:
     void slotMoveDown();
 
 private:
-    void updateActions();
+    bool m_scrollable;
     QAction *m_moveUp;
     QAction *m_moveDown;
+
+    void updateActions();
 };
 
 // CScrollablePlainTextEdit
