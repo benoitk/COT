@@ -53,9 +53,8 @@ public:
     void apendSequenceMesureRunCycle(ICycle*, int nbCycle);
     //void apendSequenceMesureRunCycle(CControlerCycle*, int nbCycle);
     void apendSequenceMesurePause(int minute);
-    void initListSequenceCyclesMesures(QList<ICycle *>);
 
-    void setSequenceMesure(QList<ICycle *>);
+
 
 public slots:
     void slotRequestPlaySequenceMesure(); //démarre ou redémarre

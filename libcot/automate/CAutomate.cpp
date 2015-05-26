@@ -52,7 +52,7 @@ void CAutomate::initConfig(){
 
     QMap<QString, ICycle*> mapCycles = configFile.getMapCycle();
 
-    m_sequencer->setSequenceMesure(configFile.getListSequencesMesure());
+    m_sequencer->setListSequenceCyclesMesures(configFile.getListSequencesMesure());
 
     QThread* threadSequencer = new QThread(this);
 

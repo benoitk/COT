@@ -25,19 +25,19 @@ CSequencer::~CSequencer()
 {
 
 }
-void CSequencer::setSequenceMesure(QList<ICycle *> list){
-    m_listSequenceCyclesMesures.swap(list);
-}
-void CSequencer::apendSequenceMesureRunCycle(ICycle* cycle, int nbMesure){
+
+void CSequencer::apendSequenceMesureRunCycle(ICycle* arg_cycle, int arg_nbMesure){
     //CControlerCycle* ctrlCycle = new CControlerCycle(this, cycle);
     //this->apendSequenceMesureRunCycle(ctrlCycle, nbMesure);
-    while(nbMesure>0){
-        qCDebug(COTAUTOMATE_LOG) << "nbMesure " << nbMesure;
-        m_listSequenceCyclesMesures.append(cycle);
-        nbMesure--;
-    }
+    if(arg_cycle){
+        while(arg_nbMesure>0){
+            qCDebug(COTAUTOMATE_LOG) << "nbMesure " << arg_nbMesure;
+            m_listSequenceCyclesMesures.append(arg_cycle);
+            arg_nbMesure--;
+        }
 
-    m_listSequenceCycles << CyclePair(cycle, nbMesure);
+        m_listSequenceCycles << CyclePair(arg_cycle, arg_nbMesure);
+    }
 }
 
 /*void CSequencer::apendSequenceMesureRunCycle(CControlerCycle* ctrlCycle, int nbMesur    e){
@@ -173,9 +173,6 @@ CSequencer* CSequencer::getInstance(){
     return singleton;
 }
 
-void CSequencer::initListSequenceCyclesMesures(QList<ICycle *> list){
-    m_listSequenceCyclesMesures.swap(list);
-}
 QList<ICycle*>  CSequencer::getListSequenceCyclesMesures(){
     return m_listSequenceCyclesMesures;
 }
@@ -186,7 +183,15 @@ QList<ICycle*>  CSequencer::getListCyclesMaintenances(){
     return m_listCyclesMaintenances;
 }
 void  CSequencer::setListSequenceCyclesMesures(QList<ICycle *> listCycles){
+    QList<ICycle *>::iterator itList;
+    //vire les pointeurs vides potentiel
+    for(itList=listCycles.begin(); itList != listCycles.end(); ++itList){
+        if (!qobject_cast<ICycle*>(*itList)) {
+            itList = listCycles.erase(itList);
+        }
+    }
     m_listSequenceCyclesMesures.swap(listCycles);
+    m_itListSequenceCyclesMesures = m_listSequenceCyclesMesures.begin();
 }
 void  CSequencer::setListSequenceCyclesAutonomes(QList<ICycle *> listCycles){
     m_listSequenceCyclesAutonomes.swap(listCycles);
@@ -255,6 +260,7 @@ void CSequencer::removeAt(int index)
 void CSequencer::removeCycleMeasureAt(int arg_index){
     if(arg_index >= 0 && arg_index < m_listSequenceCyclesMesures.size()){
         m_listSequenceCyclesMesures.removeAt(arg_index);
+        m_itListSequenceCyclesMesures = m_listSequenceCyclesMesures.begin();
     }
 }
 void CSequencer::removeCycleAutonomeAt(int arg_index){
@@ -265,8 +271,10 @@ void CSequencer::removeCycleAutonomeAt(int arg_index){
 void CSequencer::removeCycleMeasure(ICycle * arg_cycle){
     QList<ICycle*>::iterator itListCycles;
     for(itListCycles = m_listSequenceCyclesMesures.begin(); itListCycles != m_listSequenceCyclesMesures.end(); ++itListCycles){
-        if(arg_cycle == (*itListCycles))
+        if(arg_cycle == (*itListCycles)){
             itListCycles = m_listSequenceCyclesMesures.erase(itListCycles);
+            m_itListSequenceCyclesMesures = m_listSequenceCyclesMesures.begin();
+        }
     }
 }
 
