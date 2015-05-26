@@ -5,7 +5,7 @@
 #include "qvariant.h"
 
 enum comType{
-        type_tcp = 0,
+        type_tcpip = 0,
         type_jbus,
         type_jbus_over_tcpip,
         type_com_unknow

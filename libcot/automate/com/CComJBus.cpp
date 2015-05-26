@@ -25,6 +25,8 @@ CComJBus::CComJBus(const QVariantMap &mapCom, QObject *parent)
         m_type = type_jbus_over_tcpip;
     else if (type == QLatin1String("jbus"))
         m_type = type_jbus;
+    else if (type == QLatin1String("tcpip"))
+        m_type = type_tcpip;
     else
         qCDebug(COTAUTOMATE_LOG) << "CComJBus type unknow:" << type;
 

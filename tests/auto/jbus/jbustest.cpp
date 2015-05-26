@@ -32,6 +32,12 @@ void JBusTest::shouldInitialize_data()
     {
         QVariantMap map;
         map["name"] = "com_jbus_tcp_master";
+        map["type"] = "tcpip";
+        QTest::newRow("tcpip") << map << "com_jbus_tcp_master" << type_tcpip;
+    }
+    {
+        QVariantMap map;
+        map["name"] = "com_jbus_tcp_master";
         QTest::newRow("unknown_type") << map << "com_jbus_tcp_master" << type_com_unknow;
     }
     {
