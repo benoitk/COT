@@ -265,13 +265,19 @@
             "en_US" : "measure of TOC",
             "type" : "measure",
             "steps" : [{"name":"step_2", "step":3,"fr_FR":"Init", "actions":["bloc_rincage"]}, {"name":"step_3","fr_FR":"pas 4", "step":4, "actions":["close_sample_solenoide","4_tour_pompe_persulfate"]}, {"step":6,"fr_FR":"pas 6", "actions":["close_sample_solenoide","close_emptying_solenoide"]}, {"step":12,"fr_FR":"pas 12", "actions":["4_tour_pompe_persulfate"]}, {"step":25,"fr_FR":"Pas 25", "actions":["close_sample_solenoide","4_tour_pompe_persulfate"]}]
+        },
+        {
+            "name" : "cycle_io",
+            "fr_FR" : "gestion des E/S",
+            "en_US" : "I/O management",
+            "type" : "autonome",
+            "steps" : [{"name":"step_2", "step":3,"fr_FR":"Init", "actions":["bloc_rincage"]}, {"name":"step_3","fr_FR":"pas 4", "step":4, "actions":["close_sample_solenoide","4_tour_pompe_persulfate"]}, {"step":6,"fr_FR":"pas 6", "actions":["close_sample_solenoide","close_emptying_solenoide"]}, {"step":12,"fr_FR":"pas 12", "actions":["4_tour_pompe_persulfate"]}, {"step":25,"fr_FR":"Pas 25", "actions":["close_sample_solenoide","4_tour_pompe_persulfate"]}]
         }
     ],
 
-     "scheduler" : [
-        {"cycle" :"cycle_measure_cot_stream1", "nb_cycle" : 2},
-        {"cycle" :"cycle_pause_0", "nb_cycle" : 1}
-    ],
+    "scheduler_measure" : ["cycle_measure_cot_stream1", "cycle_measure_cot_stream1", "cycle_pause_0", "nb_cycle"],
+    "scheduler_autonome" : ["cycle_io", "nb_cycle"],
+    "list_cycles_maintenaces" : ["azote_calibration", "zero_calibration"],
 
     "streams" :[{"name":"stream_1", "fr_FR":"stream 1", "variables":["status", "defaut_eau"], "active_state": "stream_1_state",
                     "measures":[{"name":"measure_1", "fr_FR":"absorbance de la measure 1", "variable_measure":"measure_cot", "variable_range_max":"measure_cot_max" , "variable_range_min":"measure_cot_min", "variables":["coef_calculated", "zero_standard"]},

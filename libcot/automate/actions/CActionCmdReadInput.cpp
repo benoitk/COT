@@ -62,8 +62,9 @@ void CActionCmdReadInput::setLabel(const QString& lbl){
 actionType CActionCmdReadInput::getType()const {
     return actionType::type_cmd_read_input;
 }
+
 bool CActionCmdReadInput::variableUsed(IVariable *arg_var)const {
-    if(m_organneVar == arg_var) return true;
+ if(m_organneVar == arg_var) return true;
     if(m_variableDestination == arg_var) return true;
 
     return false;

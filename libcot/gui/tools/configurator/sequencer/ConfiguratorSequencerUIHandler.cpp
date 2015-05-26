@@ -93,7 +93,7 @@ void ConfiguratorSequencerUIHandler::rowAboutToBeDeleted(const IVariableUIHandle
 {
     const int index = ivar->getName().toInt();
     CSequencer *sequencer = CSequencer::getInstance();
-    sequencer->removeAt(index);
+    sequencer->removeCycleMeasureAt(index);
     delete m_internalVariables.take(ivar->getName());
 }
 

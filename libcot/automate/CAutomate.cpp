@@ -47,10 +47,11 @@ CAutomate::CAutomate()
  }
 
 void CAutomate::initConfig(){
+    m_sequencer = CSequencer::getInstance();
     CModelConfigFile configFile(this);
 
     QMap<QString, ICycle*> mapCycles = configFile.getMapCycle();
-    m_sequencer = CSequencer::getInstance();
+
     m_sequencer->setSequenceMesure(configFile.getListSequencesMesure());
 
     QThread* threadSequencer = new QThread(this);
@@ -62,14 +63,15 @@ void CAutomate::initConfig(){
     threadSequencer->start();
 }
 
-
 CAutomate::~CAutomate()
 {
     QThread* threadSequencer = m_sequencer->thread();
     threadSequencer->quit();
     threadSequencer->wait();
 }
-
+CSequencer* CAutomate::getSequencer()const{
+    return m_sequencer;
+}
 void CAutomate::addCyclePrivate(ICycle * cycle)
 {
     //CControlerCycle* controlerCycle = new CControlerCycle(this, cycle);

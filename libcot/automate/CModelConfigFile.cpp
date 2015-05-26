@@ -13,7 +13,7 @@
 #include "CUnit.h"
 #include "CDisplayConf.h"
 #include "CModelExtensionCard.h"
-
+#include "CSequencer.h"
 #include "qfile.h"
 #include "qjsonobject.h"
 #include "qlocale.h"
@@ -57,6 +57,8 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
 
     QJsonObject jsonObjectAll = m_jsonDoc->object();
 
+    CAutomate *automate = CAutomate::getInstance();
+
     //com_automate
      if(jsonObjectAll[QStringLiteral("com_automate")] == QJsonValue::Undefined){
         qCDebug(COTAUTOMATE_LOG) << "jsonObject[\"com_automate\"] == QJsonValue::Undefined";
@@ -67,9 +69,9 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
             QVariantMap mapCom = jsonValueCom.toVariant().toMap();
             ICom* com = CComFactory::build(mapCom);
             if(com->getType() != type_com_unknow)
-                CAutomate::getInstance()->addCom(com);
+                automate->addCom(com);
         }
-        qCDebug(COTAUTOMATE_LOG) << "mapComs " << CAutomate::getInstance()->getMapComs();
+        qCDebug(COTAUTOMATE_LOG) << "mapComs " << automate->getMapComs();
     }
 
     //extension
@@ -82,10 +84,10 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
             QVariantMap mapExt = jsonValueExt.toVariant().toMap();
             if(mapExt.contains(QStringLiteral("name"))){
                 CModelExtensionCard* ext = new CModelExtensionCard(mapExt);
-                CAutomate::getInstance()->addExtensionCard(mapExt.value(QStringLiteral("name")).toString(), ext);
+                automate->addExtensionCard(mapExt.value(QStringLiteral("name")).toString(), ext);
             }
         }
-        qCDebug(COTAUTOMATE_LOG) << "mapExtCard " << CAutomate::getInstance()->getMapExtensions();
+        qCDebug(COTAUTOMATE_LOG) << "mapExtCard " << automate->getMapExtensions();
     }
 
     //Units
@@ -105,7 +107,7 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
                 if(!mapUnit[QStringLiteral("name")].isNull()) {
                     CUnit* unit = new CUnit(mapUnit[QStringLiteral("name")].toString()
                                           , mapUnit[tr("fr_FR")].toString());
-                    CAutomate::getInstance()->addUnit(unit);
+                    automate->addUnit(unit);
                     foreach(QJsonValue jsonValueConverter, jsonArrayConverters){
                         QVariantMap mapConverter = jsonValueConverter.toVariant().toMap();
                         if(!mapConverter[QStringLiteral("source")].isNull()) {
@@ -135,7 +137,7 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
             QVariantMap mapVariable = jsonValueVariable.toVariant().toMap();
             IVariable* var = CVariableFactory::build(mapVariable);
             if(var)
-                CAutomate::getInstance()->addVariable(mapVariable[QStringLiteral("name")].toString(),var);
+                automate->addVariable(mapVariable[QStringLiteral("name")].toString(),var);
             else
                 qCDebug(COTAUTOMATE_LOG) << "Variables null : map = " << mapVariable;
         }
@@ -148,8 +150,8 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
         qCDebug(COTAUTOMATE_LOG) << "jsonObject[\"display\"] == QJsonValue::Undefined";
     }
     else {
-       CDisplayConf* displayConf = new CDisplayConf(jsonObjectAll[QStringLiteral("display")].toArray(), CAutomate::getInstance());
-       CAutomate::getInstance()->setDisplayConf(displayConf);
+       CDisplayConf* displayConf = new CDisplayConf(jsonObjectAll[QStringLiteral("display")].toArray(), automate);
+       automate->setDisplayConf(displayConf);
     }
 
     //bind variables
@@ -160,8 +162,8 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
         QJsonArray jsonArrayBinds = jsonObjectAll[QStringLiteral("binds")].toArray();
         foreach(QJsonValue jsonValueBind, jsonArrayBinds){
             QVariantMap mapBind = jsonValueBind.toVariant().toMap();
-            IVariable* var = CAutomate::getInstance()->getVariable(mapBind[QStringLiteral("variable_origin_name")].toString());
-            IVariable* var_binded = CAutomate::getInstance()->getVariable(mapBind[QStringLiteral("variable_destination_name")].toString());
+            IVariable* var = automate->getVariable(mapBind[QStringLiteral("variable_origin_name")].toString());
+            IVariable* var_binded = automate->getVariable(mapBind[QStringLiteral("variable_destination_name")].toString());
             if(var && var_binded)
                 var->addBind(var_binded);
             else
@@ -180,7 +182,7 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
             IAction* action = CActionFactory::build(mapAction);
             if(action){
                 m_mapActions.insert(action->getName(),action);
-                CAutomate::getInstance()->addAction(action);
+                automate->addAction(action);
             }else
                 qCDebug(COTAUTOMATE_LOG) << "Action null : map = " << mapAction;
         }
@@ -194,7 +196,7 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
         qCDebug(COTAUTOMATE_LOG) << "jsonObject[\"cycles\"] == QJsonValue::Undefined";
     }
     else {
-        CAutomate *automate = CAutomate::getInstance();
+
         QJsonArray jsonArrayCycles = jsonObjectCycle[QStringLiteral("cycles")].toArray();
         foreach(QJsonValue jsonValueCycle, jsonArrayCycles){
             QVariantMap mapCycle = jsonValueCycle.toVariant().toMap();
@@ -212,24 +214,60 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
         qCDebug(COTAUTOMATE_LOG) << "CYCLES : " << m_mapCycles;
     }
 
-    //Séquenceur
+    //Séquenceur mesure
     QJsonObject jsonObjectSequencer = m_jsonDoc->object();
-    if(jsonObjectSequencer[QStringLiteral("scheduler")] == QJsonValue::Undefined){
-        qCDebug(COTAUTOMATE_LOG) << "jsonObject[\"scheduler\"] == QJsonValue::Undefined";
+    if(jsonObjectSequencer[QStringLiteral("scheduler_measure")] == QJsonValue::Undefined){
+        qCDebug(COTAUTOMATE_LOG) << "jsonObject[\"scheduler_measure\"] == QJsonValue::Undefined";
     }
     else {
-        QJsonArray jsonArraySeqeuceur = jsonObjectSequencer[QStringLiteral("scheduler")].toArray();
+        QJsonArray jsonArraySeqeuceur = jsonObjectSequencer[QStringLiteral("scheduler_measure")].toArray();
         foreach(QJsonValue jsonValueSequence, jsonArraySeqeuceur){
-            QVariantMap mapSequence = jsonValueSequence.toVariant().toMap();
-            if(mapSequence[QStringLiteral("cycle")] != QStringLiteral(""))
-                m_listSequences.append(m_mapCycles[mapSequence[QStringLiteral("cycle")].toString()]);
+            QString sequenceName = jsonValueSequence.toVariant().toString();
+            if(sequenceName != QStringLiteral(""))
+                m_listSequences.append(m_mapCycles[sequenceName]);
             else
-                qCDebug(COTAUTOMATE_LOG) << "Sequence name cycle null : map = " << mapSequence;
+                qCDebug(COTAUTOMATE_LOG) << "Sequence name cycle null : map = " << sequenceName;
         }
         qCDebug(COTAUTOMATE_LOG) << "SEQUENCER : " << m_listSequences;
 
     }
-    qCDebug(COTAUTOMATE_LOG) << "FIN CModelConfigFile(QObject *parent)";
+
+    //Séquenceur autonome
+    QJsonObject jsonObjectSequencerAutonome = m_jsonDoc->object();
+    if(jsonObjectSequencerAutonome[QStringLiteral("scheduler_autonome")] == QJsonValue::Undefined){
+        qCDebug(COTAUTOMATE_LOG) << "jsonObject[\"scheduler_autonome\"] == QJsonValue::Undefined";
+    }
+    else {
+        QJsonArray jsonArraySeqeuceur = jsonObjectSequencerAutonome[QStringLiteral("scheduler_autonome")].toArray();
+        foreach(QJsonValue jsonValueSequence, jsonArraySeqeuceur){
+            QString sequenceName = jsonValueSequence.toVariant().toString();
+            if(sequenceName != QStringLiteral(""))
+                automate->getSequencer()->addCycleAutonome(m_mapCycles[sequenceName]);
+            else
+                qCDebug(COTAUTOMATE_LOG) << "Sequence name cycle null : map = " << sequenceName;
+        }
+        qCDebug(COTAUTOMATE_LOG) << "SEQUENCER : " << automate->getSequencer()->getListSequenceCyclesAutonomes();
+
+    }
+
+    //Liste cycles de maintenance
+    QJsonObject jsonObjectSequencerMaintenance = m_jsonDoc->object();
+    if(jsonObjectSequencerMaintenance[QStringLiteral("list_cycles_maintenaces")] == QJsonValue::Undefined){
+        qCDebug(COTAUTOMATE_LOG) << "jsonObject[\"list_cycles_maintenaces\"] == QJsonValue::Undefined";
+    }
+    else {
+        QJsonArray jsonArraySeqeuceur = jsonObjectSequencerMaintenance[QStringLiteral("list_cycles_maintenaces")].toArray();
+        foreach(QJsonValue jsonValueSequence, jsonArraySeqeuceur){
+            QString sequenceName = jsonValueSequence.toVariant().toString();
+            if(sequenceName != QStringLiteral(""))
+                automate->getSequencer()->addCycleMaintenance(m_mapCycles[sequenceName]);
+            else
+                qCDebug(COTAUTOMATE_LOG) << "Sequence name cycle null : map = " << sequenceName;
+        }
+        qCDebug(COTAUTOMATE_LOG) << "SEQUENCER : " << automate->getSequencer()->getListCyclesMaintenances();
+
+    }
+
 
      //Streams :
      if(jsonObjectAll[QStringLiteral("streams")] == QJsonValue::Undefined){
@@ -242,13 +280,12 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
             mapStream.insert(QStringLiteral("type"), QStringLiteral("stream"));
             IVariable* var = CVariableFactory::build(mapStream);
             if(var)
-                CAutomate::getInstance()->addStream(static_cast<CVariableStream *>(var));
+                automate->addStream(static_cast<CVariableStream *>(var));
             else
                 qCDebug(COTAUTOMATE_LOG) << "Streams null : map = " << mapStream;
         }
 
-        CAutomate* a = CAutomate::getInstance();
-        foreach(CVariableStream* stream, a->getListStreams()){
+        foreach(CVariableStream* stream, automate->getListStreams()){
             qCDebug(COTAUTOMATE_LOG) << "-stream label : " << stream->getLabel();
             qCDebug(COTAUTOMATE_LOG) << "-stream active : " << stream->getActiveState()->getLabel() << " " << stream->getActiveState()->toBool();
             foreach(IVariable* varMeasure, stream->getListMeasures()){
@@ -267,7 +304,7 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
             }
         }
     }
-
+    qCDebug(COTAUTOMATE_LOG) << "FIN CModelConfigFile(QObject *parent)";
 }
 
 CModelConfigFile::~CModelConfigFile()

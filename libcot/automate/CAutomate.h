@@ -100,6 +100,7 @@ public:
 
     void delCycle(ICycle *cycle);
 
+    CSequencer* getSequencer()const;
 
     //IComObserver
     IVariable* getVariableByAddr(const QString &addr_var)const Q_DECL_OVERRIDE;

@@ -59,6 +59,7 @@ void CActionCmdRelay::setLabel(const QString& lbl){
 actionType CActionCmdRelay::getType()const {
     return actionType::type_cmd_relay;
 }
+
 bool CActionCmdRelay::variableUsed(IVariable *arg_var)const {
     if(m_RelayVar == arg_var) return true;
 

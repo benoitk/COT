@@ -17,6 +17,23 @@ public:
 
     QList<ICycle*> getListSequenceCyclesMesures();
     void setListSequenceCyclesMesures(QList<ICycle*> );
+    void addCycleMeasure(int index, ICycle*);
+    void replaceCycleMeasureAt(int index, ICycle*);
+    void removeCycleMeasureAt(int index);
+    ICycle* getCycleMeasureAt(int index) const;
+
+    QList<ICycle*> getListSequenceCyclesAutonomes();
+    void setListSequenceCyclesAutonomes(QList<ICycle*> );
+    void addCycleAutonome(int index, ICycle*);
+    void addCycleAutonome(ICycle*);
+    void replaceCycleAutonomeAt(int index, ICycle*);
+    void removeCycleAutonomeAt(int index);
+    ICycle* getCycleAutonomeAt(int index) const;
+
+    QList<ICycle*> getListCyclesMaintenances();
+    void setListCyclesMaintenances(QList<ICycle*> );
+    void addCycleMaintenance(ICycle*);
+
 
     // SERES_TODO: Proposed api by KDAB, used by the configurator. (COT-61)
     // To be entirely implemented / used by the sequencer.
@@ -49,7 +66,7 @@ public slots:
 
     void slotPlaySequenceMesure();
     void slotPlayNextSequenceMesure();
-    void slotPlayNextSequenceMaintenance();
+    void slotPlayNextMaintenance();
     void slotPlayNextSequenceAutonome();
 
     void slotCycleMesureIsRunning();
@@ -81,7 +98,7 @@ private:
 
     void disconnectCycle(ICycle*);
     void setSequenceMesure();
-    void playSequenceMaintenance(int id_cycle);
+    void playMaintenance(int id_cycle);
     void playSequenceAutonome();
 
 
@@ -91,14 +108,14 @@ private:
 
     QList<ICycle*> m_listSequenceCyclesMesures;
     QList<ICycle*> m_listSequenceCyclesAutonomes;
-    QList<ICycle*> m_listSequenceCyclesMaintenances;
+    QList<ICycle*> m_listCyclesMaintenances;
 
     /*QList<CControlerCycle*> m_listSequenceCyclesMesure;
     QList<CControlerCycle*> m_listSequenceCyclesAutonome;
     QList<CControlerCycle*> m_listSequenceCyclesMaintenance;*/
 
     bool m_bPlaySequenceMesure;
-    bool m_bPlaySequenceMaintenance;
+    bool m_bPlayMaintenance;
     bool m_bPlaySequenceAutonome;
 
     bool m_bCycleMesurePaused;
