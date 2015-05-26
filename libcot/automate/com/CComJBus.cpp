@@ -6,7 +6,59 @@
 #include "CModelExtensionCard.h"
 #include "cotautomate_debug.h"
 
+#include <cstring>
 #include <modbus.h>
+
+namespace {
+modbus_t *initRtu(const QVariantMap &options)
+{
+    QByteArray device = options.value(QStringLiteral("device")).toByteArray();
+    if(device.isEmpty()){
+        qWarning() << "missing device name:" << options;
+        return 0;
+    }
+    bool ok = false;
+    int baudrate = options.value(QStringLiteral("baudrate")).toInt(&ok);
+    if(!ok){
+        qWarning() << "missing baud rate:" << options;
+        return 0;
+    }
+    int data_bit = options.value(QStringLiteral("data")).toInt(&ok);
+    if(!ok){
+        qWarning() << "missing data bit:" << options;
+        return 0;
+    }
+    int stop_bit = options.value(QStringLiteral("stop")).toInt(&ok);
+    if(!ok){
+        qWarning() << "missing stop bit:" << options;
+        return 0;
+    }
+    modbus_t *ret = modbus_new_rtu(device.constData(), baudrate, 'n', data_bit, stop_bit);
+    if(!ret)
+        qWarning() << "failed to initialize modbus over rtu:" << strerror(errno);
+    return ret;
+}
+
+template<typename InitFunction>
+modbus_t *initTcp(const QVariantMap &options, InitFunction init)
+{
+    QByteArray ip = options.value(QStringLiteral("ip")).toByteArray();
+    if(ip.isEmpty()){
+        qWarning() << "missing ip:" << options;
+        return 0;
+    }
+    bool ok = false;
+    int port = options.value(QStringLiteral("port")).toInt(&ok);
+    if(!ok){
+        qWarning() << "missing port:" << options;
+        return 0;
+    }
+    modbus_t *ret = init(ip.constData(), port);
+    if(!ret)
+        qWarning() << "failed to initialize modbus over tcp:" << strerror(errno);
+    return ret;
+}
+}
 
 CComJBus::CComJBus(const QVariantMap &mapCom, QObject *parent)
     : ICom(parent)
@@ -21,14 +73,18 @@ CComJBus::CComJBus(const QVariantMap &mapCom, QObject *parent)
     }
 
     const QString type = mapCom.value(QStringLiteral("type")).toString();
-    if(type == QLatin1String("jbus_over_tcpip"))
+    if(type == QLatin1String("jbus_over_tcpip")){
         m_type = type_jbus_over_tcpip;
-    else if (type == QLatin1String("jbus"))
+        m_ctx = initTcp(mapCom, modbus_new_rtutcp);
+    }else if(type == QLatin1String("jbus")){
         m_type = type_jbus;
-    else if (type == QLatin1String("tcpip"))
+        m_ctx = initRtu(mapCom);
+    }else if(type == QLatin1String("tcpip")){
         m_type = type_tcpip;
-    else
+        m_ctx = initTcp(mapCom, modbus_new_tcp);
+    }else{
         qCDebug(COTAUTOMATE_LOG) << "CComJBus type unknow:" << type;
+    }
 
     bool ok = false;
     const int slave = mapCom.value(QStringLiteral("slave")).toInt(&ok);
@@ -40,7 +96,8 @@ CComJBus::CComJBus(const QVariantMap &mapCom, QObject *parent)
 }
 CComJBus::~CComJBus()
 {
-
+    if (m_ctx)
+        modbus_free(m_ctx);
 }
 QVariant CComJBus::readData(){
     return QVariant();
