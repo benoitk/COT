@@ -67,7 +67,11 @@ void CSequencer::setSequenceMesure(){
 
     if( m_itListSequenceCyclesMesures != m_listSequenceCyclesMesures.end()){
 
-        m_cycleMesureEnCours = (*m_itListSequenceCyclesMesures);
+        // SERES_TODO: Fix null pointers.
+        m_cycleMesureEnCours = qobject_cast<ICycle*>(*m_itListSequenceCyclesMesures);
+        if (!m_cycleMesureEnCours) {
+            return;
+        }
 
         //Si les signaux ne fonctionne pas, vérfier que le cycle à était déplacer dans un QThread à part(movethead)
         connect(this, &CSequencer::signalRunCycleMesure, m_cycleMesureEnCours, &ICycle::slotRunCycle);//, Qt::DirectConnection);
