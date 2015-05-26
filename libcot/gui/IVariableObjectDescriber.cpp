@@ -7,6 +7,7 @@
 #include "ICycle.h"
 #include "CUnit.h"
 
+#include <CAutomate.h>
 #include <CVariableBool.h>
 #include <CVariableFloat.h>
 #include <CVariableMeasure.h>
@@ -252,4 +253,59 @@ void CVariableIVariableOutBindsDescriber::describe(const QVariant &object)
         lst << outBind;
     }
     setVariables(lst);
+}
+
+
+CVariableCStepActionsDescriber::CVariableCStepActionsDescriber(IVariableUIHandler *parent)
+    : IVariableObjectDescriber(parent)
+{
+}
+
+void CVariableCStepActionsDescriber::describe(const QVariant &object)
+{
+    QList<IAction *> actions;
+
+    if (object.canConvert<CStep *>()) {
+        CStep *step = object.value<CStep *>();
+        Q_ASSERT(step);
+        actions << step->getListActions();
+    }
+    else if (object.canConvert<QStringList>()) {
+        CAutomate *automate = CAutomate::getInstance();
+        QStringList names = object.toStringList();
+
+        foreach (const QString &name, names) {
+            IAction *action = automate->getAction(name);
+            Q_ASSERT(action);
+            actions << action;
+        }
+    }
+    else {
+        Q_ASSERT(false);
+    }
+
+    clear();
+
+    IVariablePtrList ivars;
+
+    foreach (IAction *action, actions) {
+        CVariableMutable *ivar = CVariableFactory::castedBuild<CVariableMutable *>(type_mutable, VariableOrganTypeNone, action->getName());
+        ivar->setName(action->getName());
+        ivar->setLabel(action->getLabel());
+        ivar->setMutableType(CVariableMutable::Cycle);
+        ivars << ivar;
+    }
+
+    setVariables(ivars);
+}
+
+QStringList CVariableCStepActionsDescriber::getActionList() const
+{
+    QStringList actions;
+
+    foreach (IVariable *ivar, getVariables()) {
+        actions << ivar->toString();
+    }
+
+    return actions;
 }

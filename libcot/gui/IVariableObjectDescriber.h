@@ -47,15 +47,18 @@ signals:
 // ICycle Describer, to edit one cycle
 class CVariableICycleDescriber : public IVariableObjectDescriber
 {
+    Q_OBJECT
+
 public:
     explicit CVariableICycleDescriber(IVariableUIHandler *parent);
     void describe(const QVariant &object) Q_DECL_OVERRIDE;
 };
 
-
 // IVariable Describer, to edit one variable
 class CVariableIVariableDescriber : public IVariableObjectDescriber
 {
+    Q_OBJECT
+
 public:
     explicit CVariableIVariableDescriber(IVariableUIHandler *parent);
     void describe(const QVariant &object) Q_DECL_OVERRIDE;
@@ -64,15 +67,18 @@ public:
 // IVariable Out Binds Describer, to edit one variable
 class CVariableIVariableOutBindsDescriber : public IVariableObjectDescriber
 {
+    Q_OBJECT
+
 public:
     explicit CVariableIVariableOutBindsDescriber(IVariableUIHandler *parent);
     void describe(const QVariant &object) Q_DECL_OVERRIDE;
 };
 
-
 // IAction Describer, to edit one action
 class CVariableIActionDescriber : public IVariableObjectDescriber
 {
+    Q_OBJECT
+
 public:
     explicit CVariableIActionDescriber(IVariableUIHandler *parent);
     void describe(const QVariant &object) Q_DECL_OVERRIDE;
@@ -81,9 +87,23 @@ public:
 // CStep Describer, to edit one step
 class CVariableCStepDescriber : public IVariableObjectDescriber
 {
+    Q_OBJECT
+
 public:
     explicit CVariableCStepDescriber(IVariableUIHandler *parent);
     void describe(const QVariant &object) Q_DECL_OVERRIDE;
+};
+
+// CStep action Describer, to edit one step actions
+class CVariableCStepActionsDescriber : public IVariableObjectDescriber
+{
+    Q_OBJECT
+
+public:
+    explicit CVariableCStepActionsDescriber(IVariableUIHandler *parent);
+    void describe(const QVariant &object) Q_DECL_OVERRIDE;
+
+    QStringList getActionList() const;
 };
 
 #endif // IVARIABLEOBJECTDESCRIBER_H
