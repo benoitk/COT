@@ -171,6 +171,10 @@ QIcon CToolButton::buttonIcon(CToolButton::Type type)
             icon = iconFromPixmaps("30x30 Plus");
             break;
 
+        case CToolButton::Edit:
+            icon = iconFromPixmaps("30x30 rotation mvt");
+            break;
+
         case CToolButton::Remove:
             icon = iconFromPixmaps("30x30 moins");
             break;

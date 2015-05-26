@@ -39,6 +39,7 @@ public:
         RestoreConfig,
         Configure,
         Add,
+        Edit,
         Remove,
         Delete
     };
