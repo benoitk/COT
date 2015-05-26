@@ -19,17 +19,16 @@ ConfiguratorStreamsUIHandler::~ConfiguratorStreamsUIHandler()
 
 void ConfiguratorStreamsUIHandler::layout()
 {
-    QList<IVariable *> listVar;// = CAutomate::getInstance()->getMapStreams().values();
+    QList<IVariable *> listVar;
     foreach(CVariableStream* stream, CAutomate::getInstance()->getListStreams()){
         listVar << stream;
     }
-
     IConfiguratorUIHandler::layout(listVar, false);
 }
 
 int ConfiguratorStreamsUIHandler::columnCount() const
 {
-    return 1;
+    return 4;
 }
 
 QWidget *ConfiguratorStreamsUIHandler::createWidget(int column, IVariable *ivar)
@@ -51,7 +50,7 @@ QWidget *ConfiguratorStreamsUIHandler::createWidget(int column, IVariable *ivar)
             grid->addWidget(newButton(var), row, 1);
             grid->addWidget(newDeleteButton(var), row, 2);
         }
-        grid->addWidget(addMeasureButton(), row, 4);
+        grid->addWidget(addMeasureButton(lstVar.first()), row, 3);
         return mainwidget;
     }
     return Q_NULLPTR;
@@ -85,10 +84,11 @@ CPushButton *ConfiguratorStreamsUIHandler::newButton(IVariable *ivar)
     return button;
 }
 
-CPushButton *ConfiguratorStreamsUIHandler::addMeasureButton()
-{
-    CPushButton *button = new CPushButton(container());
-    //TODO customize
-    button->setText(tr("Add measure"));
+CToolButton *ConfiguratorStreamsUIHandler::addMeasureButton(IVariable *ivar)
+{    
+    CToolButton *button = new CToolButton(CToolButton::Add);
+    button->setFixedSize(21, 21);
+    button->setUserData(ivar->getName());
+    button->setText(tr("+"));
     return button;
 }
