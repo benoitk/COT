@@ -6,8 +6,11 @@
 #include "CModelExtensionCard.h"
 #include "cotautomate_debug.h"
 
+#include <modbus.h>
+
 CComJBus::CComJBus(QObject *parent)
     : ICom(parent)
+    , m_ctx(0)
     , m_uart(0)
     , m_numSlave(0)
     , m_type(type_com_unknow)
@@ -16,6 +19,7 @@ CComJBus::CComJBus(QObject *parent)
 }
 CComJBus::CComJBus(const QVariantMap& mapCom)
     : ICom()
+    , m_ctx(0)
     , m_uart(0)
     , m_numSlave(0)
     , m_type(type_com_unknow)

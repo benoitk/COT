@@ -9,6 +9,8 @@
 
 #include "cot_global.h"
 
+typedef struct _modbus modbus_t;
+
 class INetwork;
 class LIBCOT_EXPORT CComJBus : public ICom
 {
@@ -39,7 +41,7 @@ public:
     comType getType()const Q_DECL_OVERRIDE;
 
 private:
-
+    modbus_t* m_ctx;
     INetwork* m_uart;
     int m_numSlave;
     QMap<int, IVariableInput*> m_mapInputTable;
