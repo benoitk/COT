@@ -38,7 +38,7 @@ void ConfiguratorSequencerUIHandler::layout()
     IConfiguratorUIHandler::layout(ivars, true);
 }
 
-IVariable *ConfiguratorSequencerUIHandler::getVariable(const QString &name)
+IVariable *ConfiguratorSequencerUIHandler::getVariable(const QString &name) const
 {
     IVariable *ivar = m_internalVariables.value(name);
 

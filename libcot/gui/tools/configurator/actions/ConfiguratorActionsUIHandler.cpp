@@ -87,7 +87,7 @@ void ConfiguratorActionsUIHandler::rowDeleted(const QString &name)
     layout();
 }
 
-IVariable *ConfiguratorActionsUIHandler::getVariable(const QString &name)
+IVariable *ConfiguratorActionsUIHandler::getVariable(const QString &name) const
 {
     return m_internalVariables.value(name);
 }

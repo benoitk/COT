@@ -15,7 +15,7 @@ public:
 
     void layout();
 
-    IVariable *getVariable(const QString &name) Q_DECL_OVERRIDE;
+    IVariable *getVariable(const QString &name) const Q_DECL_OVERRIDE;
 signals:
     void editVariable(const QString &varname);
 

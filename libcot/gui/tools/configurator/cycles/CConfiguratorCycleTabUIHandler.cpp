@@ -71,7 +71,7 @@ void CConfiguratorCycleTabUIHandler::layout()
     IConfiguratorUIHandler::layout(ivars, true);
 }
 
-IVariable *CConfiguratorCycleTabUIHandler::getVariable(const QString &name)
+IVariable *CConfiguratorCycleTabUIHandler::getVariable(const QString &name) const
 {
     IVariable *ivar = m_internalVariables.value(name);
 

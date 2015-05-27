@@ -84,7 +84,7 @@ IVariable *ConfiguratorVariablesUIHandler::getStreamOrMeasure(IVariable *ivar) c
     return Q_NULLPTR;
 }
 
-IVariable *ConfiguratorVariablesUIHandler::getVariable(const QString &name)
+IVariable *ConfiguratorVariablesUIHandler::getVariable(const QString &name) const
 {
     CAutomate *automate = CAutomate::getInstance();
     //    const IVariablePtrList streams = automate->getMapStreams().values();

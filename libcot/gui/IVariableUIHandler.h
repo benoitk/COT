@@ -77,7 +77,7 @@ public:
     // Select an unit
     bool selectUnit(QString &value);
 
-    virtual IVariable *getVariable(const QString &name);
+    virtual IVariable *getVariable(const QString &name) const;
     QStringList variableNames() const;
 
 protected:

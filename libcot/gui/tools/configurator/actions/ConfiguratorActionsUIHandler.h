@@ -22,7 +22,7 @@ protected:
     void rowChanged(const Row &row, IVariable *ivar) Q_DECL_OVERRIDE;
     void rowAboutToBeDeleted(const Row &row, IVariable *ivar) Q_DECL_OVERRIDE;
     void rowDeleted(const QString &name) Q_DECL_OVERRIDE;
-    IVariable *getVariable(const QString &name) Q_DECL_OVERRIDE;
+    IVariable *getVariable(const QString &name) const Q_DECL_OVERRIDE;
 
 private slots:
     void slotEditClicked();

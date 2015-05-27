@@ -600,7 +600,7 @@ int IVariableUIHandler::layoutRow(const IVariableUIHandler::Row &row) const
     return -1;
 }
 
-IVariable *IVariableUIHandler::getVariable(const QString &name)
+IVariable *IVariableUIHandler::getVariable(const QString &name) const
 {
     IVariable *ivar = Q_NULLPTR;
 

@@ -12,6 +12,7 @@ FORMS *= \
     keyboards/CKeyboardDialog.ui \
     keyboards/CNumericalKeyboardDialog.ui \
     gui/widgets/CStatusWidget.ui \
+    gui/widgets/CGenericItemSelector.ui \
     gui/panel/CPCDiagnosticTab.ui \
     gui/panel/CPCHistogramTab.ui \
     gui/panel/CPCMeasureTab.ui \
@@ -39,7 +40,6 @@ FORMS *= \
     gui/tools/maintenance/CMaintenanceMaintenanceTab.ui \
     gui/tools/maintenance/CMaintenanceWindow.ui \
     gui/panel/CAboutWindow.ui \
-    gui/widgets/CGenericItemSelector.ui \
     gui/tools/configurator/CConfiguratorWindow.ui \
     gui/tools/configurator/IConfiguratorEditWindow.ui
 
@@ -122,6 +122,14 @@ HEADERS *= \
     gui/widgets/CStatusWidget.h \
     gui/widgets/CToolButton.h \
     gui/widgets/CVerticalButtonBar.h \
+    gui/widgets/CLabelledToolButton.h \
+    gui/widgets/CLedButton.h \
+    gui/widgets/CSwitchButton.h \
+    gui/widgets/CLabelledToolButtonGrid.h \
+    gui/widgets/CMessageBox.h \
+    gui/widgets/CGenericVariablesEditor.h \
+    gui/widgets/CGenericVariablesEditorWindow.h \
+    gui/widgets/CGenericVariablesUIHandler.h \
     gui/panel/CAlarmsWindow.h \
     gui/panel/CPCDiagnosticTab.h \
     gui/panel/CPCHistogramTab.h \
@@ -142,9 +150,6 @@ HEADERS *= \
     gui/tools/electrical-tests/CElectricalTestsRelaysTab.h \
     gui/tools/electrical-tests/CElectricalTestsWindow.h \
     gui/tools/electrical-tests/IElectricalTestsTab.h \
-    gui/widgets/CLabelledToolButton.h \
-    gui/widgets/CLedButton.h \
-    gui/widgets/CSwitchButton.h \
     gui/tools/options/COptionsWindow.h \
     gui/tools/options/IOptionsTab.h \
     gui/tools/options/COptionsOptionsTab.h \
@@ -168,10 +173,7 @@ HEADERS *= \
     $$KPLOTTING_SRC_PWD/src/kplotwidget.h \
     graphics/CGraphicsWidget.h \
     gui/IVariableMaintenanceUIHandler.h \
-    gui/widgets/CLabelledToolButtonGrid.h \
     gui/panel/CAboutWindow.h \
-    gui/widgets/CMessageBox.h \
-    gui/widgets/CGenericVariableUIHandler.h \
     automate/variables/CVariableOutputListVariables.h \
     automate/com/CComFactory.h \
     automate/com/CComUnknow.h \
@@ -295,6 +297,13 @@ SOURCES *= \
     gui/widgets/CStatusWidget.cpp \
     gui/widgets/CToolButton.cpp \
     gui/widgets/CVerticalButtonBar.cpp \
+    gui/widgets/CSwitchButton.cpp \
+    gui/widgets/CLedButton.cpp \
+    gui/widgets/CLabelledToolButtonGrid.cpp \
+    gui/widgets/CMessageBox.cpp \
+    gui/widgets/CGenericVariablesEditor.cpp \
+    gui/widgets/CGenericVariablesEditorWindow.cpp \
+    gui/widgets/CGenericVariablesUIHandler.cpp \
     gui/panel/CAlarmsWindow.cpp \
     gui/panel/CPCDiagnosticTab.cpp \
     gui/panel/CPCHistogramTab.cpp \
@@ -312,8 +321,6 @@ SOURCES *= \
     gui/tools/electrical-tests/CElectricalTestsPumpsTab.cpp \
     gui/tools/electrical-tests/CElectricalTestsRelaysTab.cpp \
     gui/tools/electrical-tests/CElectricalTestsWindow.cpp \
-    gui/widgets/CSwitchButton.cpp \
-    gui/widgets/CLedButton.cpp \
     gui/tools/options/COptionsWindow.cpp \
     gui/tools/options/COptionsOptionsTab.cpp \
     gui/tools/options/COptionsAutoCyclesTab.cpp \
@@ -335,10 +342,7 @@ SOURCES *= \
     $$KPLOTTING_SRC_PWD/src/kplotwidget.cpp \
     graphics/CGraphicsWidget.cpp \
     gui/IVariableMaintenanceUIHandler.cpp \
-    gui/widgets/CLabelledToolButtonGrid.cpp \
     gui/panel/CAboutWindow.cpp \
-    gui/widgets/CMessageBox.cpp \
-    gui/widgets/CGenericVariableUIHandler.cpp \
     automate/variables/CVariableOutputListVariables.cpp \
     automate/com/CComFactory.cpp \
     automate/com/CComUnknow.cpp \
