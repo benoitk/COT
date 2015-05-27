@@ -379,37 +379,36 @@ void CAutomate::delCycle(ICycle *cycle)
     // There is probably more to update, like in CSequencer etc.
     QMutexLocker locker(&m_mutex);
 
-    foreach(CVariableStream* stream, m_listStreams){
-        if(stream->getName() == cycle->getRelatedStreamName()){
+    CVariableStream *stream = cycle->getRelatedStream();
 
-            stream->delCycle(cycle->getName());
+    if (stream) {
+        stream->delCycle(cycle->getName());
+    }
 
-            m_sequencer->removeCycleMeasure(cycle);
-            m_sequencer->removeCycleMaintenance(cycle);
-            m_sequencer->removeCycleAutonome(cycle);
+    m_sequencer->removeCycleMeasure(cycle);
+    m_sequencer->removeCycleMaintenance(cycle);
+    m_sequencer->removeCycleAutonome(cycle);
 
-            switch(cycle->getType()){
-            case CYCLE_MESURE:
-                delete m_listCycleMesures.take(cycle->getName());
-                break;
+    switch(cycle->getType()){
+        case CYCLE_MESURE:
+            delete m_listCycleMesures.take(cycle->getName());
+            break;
 
-            case CYCLE_MAINTENANCE :
-                delete m_listCycleMaintenances.take(cycle->getName());
-                break;
+        case CYCLE_MAINTENANCE :
+            delete m_listCycleMaintenances.take(cycle->getName());
+            break;
 
 
-            case CYCLE_AUTONOME:
-                delete m_listlCycleAutonomes.take(cycle->getName());
-                break;
+        case CYCLE_AUTONOME:
+            delete m_listlCycleAutonomes.take(cycle->getName());
+            break;
 
-            case CYCLE_PAUSE:
-                break;
+        case CYCLE_PAUSE:
+            break;
 
-            case CYCLE_ALL:
-                Q_ASSERT(false);
-                break;
-            }
-        }
+        case CYCLE_ALL:
+            Q_ASSERT(false);
+            break;
     }
 }
 
@@ -589,11 +588,11 @@ void CAutomate::informAboutCycleChanges(ICycle *cycle, const QVariantMap &oldDat
         addCyclePrivate(cycle);
     }
 
-    CVariableStream *oldStream;
-    CVariableStream *newStream;
+    CVariableStream *oldStream = Q_NULLPTR;
+    CVariableStream *newStream = Q_NULLPTR;
     foreach (CVariableStream* stream, m_listStreams) {
         if(stream->getName() == oldStreamName) oldStream = stream;
-        else if(stream->getName() == cycle->getRelatedStreamName()) newStream = stream;
+        if(stream->getName() == cycle->getRelatedStreamName()) newStream = stream;
     }
 
     if (!oldStreamName.isEmpty() && !oldStream) {
@@ -604,12 +603,14 @@ void CAutomate::informAboutCycleChanges(ICycle *cycle, const QVariantMap &oldDat
         Q_ASSERT(false);
     }
 
-    if (oldStream) {
-        oldStream->delCycle(cycle->getName());
-    }
+    if (oldStream != newStream) {
+        if (oldStream) {
+            oldStream->delCycle(cycle->getName());
+        }
 
-    if (newStream) {
-        newStream->addCycle(cycle);
+        if (newStream) {
+            newStream->addCycle(cycle);
+        }
     }
 
     locker.unlock();
