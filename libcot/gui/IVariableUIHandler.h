@@ -117,14 +117,7 @@ protected:
     QLabel *newUnit(IVariable *ivar);
     void applyEditorConstraints(QWidget *editor, IVariable *ivar);
 
-private:
-    QWidget *m_container;
-    QGridLayout *m_containerLayout;
-    CScrollableWidget *m_scrollable;
-    IVariableObjectDescriber *m_describer;
-    mutable QHash<QString, Row> m_rows;
-
-private slots:
+protected slots:
     void slotVariableChanged(const QString &name);
     void slotSwitchClicked();
     void slotRequestString();
@@ -143,6 +136,13 @@ private slots:
     void slotRequestExtension();
     void slotRequestOrgan();
     void slotRequestUnit();
+
+private:
+    QWidget *m_container;
+    QGridLayout *m_containerLayout;
+    CScrollableWidget *m_scrollable;
+    IVariableObjectDescriber *m_describer;
+    mutable QHash<QString, Row> m_rows;
 };
 
 #endif // IVARIABLEUIHANDLER_H
