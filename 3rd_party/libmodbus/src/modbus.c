@@ -833,6 +833,7 @@ int modbus_reply(modbus_t *ctx, const uint8_t *req,
     case _FC_WRITE_MULTIPLE_COILS: {
         int nb = (req[offset + 3] << 8) + req[offset + 4];
 
+        printf("got nb: %d\n", nb);
         if (nb < 1 || MODBUS_MAX_WRITE_BITS < nb) {
             if (ctx->debug) {
                 fprintf(stderr,
@@ -858,6 +859,8 @@ int modbus_reply(modbus_t *ctx, const uint8_t *req,
             /* 4 to copy the bit address (2) and the quantity of bits */
             memcpy(rsp + rsp_length, req + rsp_length, 4);
             rsp_length += 4;
+
+            printf("wrote data to: %p\n", mb_mapping->tab_bits);
         }
     }
         break;
