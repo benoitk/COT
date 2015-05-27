@@ -280,8 +280,8 @@
     "list_cycles_maintenaces" : ["azote_calibration", "zero_calibration"],
 
     "streams" :[{"name":"stream_1", "fr_FR":"stream 1", "variables":["status", "defaut_eau"], "active_state": "stream_1_state",
-                    "measures":[{"name":"measure_1", "fr_FR":"absorbance de la measure 1", "variable_measure":"measure_cot", "variable_range_max":"measure_cot_max" , "variable_range_min":"measure_cot_min", "variables":["coef_calculated", "zero_standard"]},
-                                {"name":"measure_2", "fr_FR":"var relative a measure 2", "variable_measure":"phosphore", "variable_range_max":"measure_cot_max", "variable_range_min":"measure_cot_min", "variables":["coef_calculated", "zero_standard"]}
+                    "measures":[{"name":"measure_a", "fr_FR":"absorbance de la measure 1", "variable_measure":"measure_cot", "variable_range_max":"measure_cot_max" , "variable_range_min":"measure_cot_min", "variables":["coef_calculated", "zero_standard"]},
+                                {"name":"measure_b", "fr_FR":"var relative a measure 2", "variable_measure":"phosphore", "variable_range_max":"measure_cot_max", "variable_range_min":"measure_cot_min", "variables":["coef_calculated", "zero_standard"]}
                     ],
                     "cycles":["zero_calibration", "cycle_measure_cot_stream1"]
 
