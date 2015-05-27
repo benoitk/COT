@@ -11,13 +11,17 @@
 ICom* CComFactory::build(const QVariantMap &mapCom){
 
     ICom* com = Q_NULLPTR;
-    if(mapCom[QStringLiteral("type")].toString() == QStringLiteral("jbus_over_tcpip")){
-        com = new CComJBus(mapCom);
-
-    }else{
-        com = new CComUnknow();
-        qCDebug(COTAUTOMATE_LOG) << "Class com unknow :  " << mapCom[QStringLiteral("type")].toString();
-
+    switch (stringToComType(mapCom[QStringLiteral("type")].toString()))
+    {
+        case type_jbus_over_tcpip:
+        case type_jbus:
+        case type_tcpip:
+            com = new CComJBus(mapCom);
+            break;
+        case type_com_unknow:
+            com = new CComUnknow();
+            qCDebug(COTAUTOMATE_LOG) << "Class com unknow :  " << mapCom[QStringLiteral("type")].toString();
+            break;
     }
 
     return com;

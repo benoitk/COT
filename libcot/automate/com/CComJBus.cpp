@@ -72,18 +72,20 @@ CComJBus::CComJBus(const QVariantMap &mapCom, QObject *parent)
         m_name = QStringLiteral("Com not named");
     }
 
-    const QString type = mapCom.value(QStringLiteral("type")).toString();
-    if(type == QLatin1String("jbus_over_tcpip")){
-        m_type = type_jbus_over_tcpip;
+    m_type = stringToComType(mapCom.value(QStringLiteral("type")).toString());
+    switch(m_type)
+    {
+    case type_jbus_over_tcpip:
         m_ctx = initTcp(mapCom, modbus_new_rtutcp);
-    }else if(type == QLatin1String("jbus")){
-        m_type = type_jbus;
+        break;
+    case type_jbus:
         m_ctx = initRtu(mapCom);
-    }else if(type == QLatin1String("tcpip")){
-        m_type = type_tcpip;
+        break;
+    case type_tcpip:
         m_ctx = initTcp(mapCom, modbus_new_tcp);
-    }else{
-        qCDebug(COTAUTOMATE_LOG) << "CComJBus type unknow:" << type;
+        break;
+    case type_com_unknow:
+        qCDebug(COTAUTOMATE_LOG) << "CComJBus type unknow:" << mapCom;
     }
 
     bool ok = false;

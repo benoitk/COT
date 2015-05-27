@@ -12,6 +12,8 @@ enum comType{
 
 };
 
+comType stringToComType(const QString &type);
+
 class IVariableInput;
 class IVariableOutput;
 class IVariable;
