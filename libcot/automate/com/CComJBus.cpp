@@ -14,28 +14,28 @@ modbus_t *initRtu(const QVariantMap &options)
 {
     QByteArray device = options.value(QStringLiteral("device")).toByteArray();
     if(device.isEmpty()){
-        qWarning() << "missing device name:" << options;
+        qCWarning(COTAUTOMATE_LOG) << "missing device name:" << options;
         return 0;
     }
     bool ok = false;
     int baudrate = options.value(QStringLiteral("baudrate")).toInt(&ok);
     if(!ok){
-        qWarning() << "missing baud rate:" << options;
+        qCWarning(COTAUTOMATE_LOG) << "missing baud rate:" << options;
         return 0;
     }
     int data_bit = options.value(QStringLiteral("data")).toInt(&ok);
     if(!ok){
-        qWarning() << "missing data bit:" << options;
+        qCWarning(COTAUTOMATE_LOG) << "missing data bit:" << options;
         return 0;
     }
     int stop_bit = options.value(QStringLiteral("stop")).toInt(&ok);
     if(!ok){
-        qWarning() << "missing stop bit:" << options;
+        qCWarning(COTAUTOMATE_LOG) << "missing stop bit:" << options;
         return 0;
     }
     modbus_t *ret = modbus_new_rtu(device.constData(), baudrate, 'n', data_bit, stop_bit);
     if(!ret)
-        qWarning() << "failed to initialize modbus over rtu:" << strerror(errno);
+        qCWarning(COTAUTOMATE_LOG) << "failed to initialize modbus over rtu:" << strerror(errno);
     return ret;
 }
 
@@ -44,18 +44,18 @@ modbus_t *initTcp(const QVariantMap &options, InitFunction init)
 {
     QByteArray ip = options.value(QStringLiteral("ip")).toByteArray();
     if(ip.isEmpty()){
-        qWarning() << "missing ip:" << options;
+        qCWarning(COTAUTOMATE_LOG) << "missing ip:" << options;
         return 0;
     }
     bool ok = false;
     int port = options.value(QStringLiteral("port")).toInt(&ok);
     if(!ok){
-        qWarning() << "missing port:" << options;
+        qCWarning(COTAUTOMATE_LOG) << "missing port:" << options;
         return 0;
     }
     modbus_t *ret = init(ip.constData(), port);
     if(!ret)
-        qWarning() << "failed to initialize modbus over tcp:" << strerror(errno);
+        qCWarning(COTAUTOMATE_LOG) << "failed to initialize modbus over tcp:" << strerror(errno);
     return ret;
 }
 }
