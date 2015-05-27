@@ -7,12 +7,12 @@
 #include "CVariableStream.h"
 
 CCyclePause::CCyclePause(QObject *parent)
-    : ICycle(parent)
+    : ICycle(parent), m_stepStop(Q_NULLPTR)
 {
     initTimer();
 }
 CCyclePause::CCyclePause(const QVariantMap &mapCycle)
-    : ICycle()
+    : ICycle(), m_stepStop(Q_NULLPTR)
 {
     m_name = mapCycle[QStringLiteral("name")].toString();
     m_label = mapCycle[tr("FR_lbl")].toString();
@@ -22,11 +22,11 @@ CCyclePause::CCyclePause(const QVariantMap &mapCycle)
     this->moveToThread(&m_thread);
     m_thread.start();
 }
-CCyclePause::CCyclePause(int temps, QObject* parent): ICycle(parent){
+CCyclePause::CCyclePause(int temps, QObject* parent): ICycle(parent), m_stepStop(Q_NULLPTR) {
     m_iTempsCycle = temps;
     initTimer();
 }
-CCyclePause::CCyclePause(int temps): ICycle(){
+CCyclePause::CCyclePause(int temps): ICycle(), m_stepStop(Q_NULLPTR) {
     m_iTempsCycle = temps;
     initTimer();
 }

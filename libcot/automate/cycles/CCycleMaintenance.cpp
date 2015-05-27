@@ -4,11 +4,11 @@
 #include "CAutomate.h"
 #include "CVariableStream.h"
 CCycleMaintenance::CCycleMaintenance(QObject *parent)
-    : ICycle(parent)
+    : ICycle(parent), m_stepStop(Q_NULLPTR)
 {
 
 }
-CCycleMaintenance::CCycleMaintenance(eTypeCycle typeCycle, QObject* parent): ICycle(parent){
+CCycleMaintenance::CCycleMaintenance(eTypeCycle typeCycle, QObject* parent): ICycle(parent), m_stepStop(Q_NULLPTR) {
     m_typeCycle = typeCycle;
 }
 CCycleMaintenance::~CCycleMaintenance()
