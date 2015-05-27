@@ -35,7 +35,7 @@ modbus_t *initRtu(const QVariantMap &options)
     }
     modbus_t *ret = modbus_new_rtu(device.constData(), baudrate, 'n', data_bit, stop_bit);
     if(!ret)
-        qCWarning(COTAUTOMATE_LOG) << "failed to initialize modbus over rtu:" << strerror(errno);
+        qCWarning(COTAUTOMATE_LOG) << "failed to initialize modbus over rtu:" << modbus_strerror(errno);
     return ret;
 }
 
@@ -55,14 +55,32 @@ modbus_t *initTcp(const QVariantMap &options, InitFunction init)
     }
     modbus_t *ret = init(ip.constData(), port);
     if(!ret)
-        qCWarning(COTAUTOMATE_LOG) << "failed to initialize modbus over tcp:" << strerror(errno);
+        qCWarning(COTAUTOMATE_LOG) << "failed to initialize modbus over tcp:" << modbus_strerror(errno);
     return ret;
 }
 }
 
+struct CComJBus::FreeModbus
+{
+    static inline void cleanup(modbus_t *ctx)
+    {
+        if (ctx)
+            modbus_free(ctx);
+    }
+};
+
+struct CComJBus::FreeModbusMapping
+{
+    static inline void cleanup(modbus_mapping_t *mapping)
+    {
+        if (mapping)
+            modbus_mapping_free(mapping);
+    }
+};
+
 CComJBus::CComJBus(const QVariantMap &mapCom, QObject *parent)
     : ICom(parent)
-    , m_ctx(0)
+    , m_ctx(Q_NULLPTR)
     , m_slave(-1)
     , m_type(type_com_unknow)
 {
@@ -76,13 +94,13 @@ CComJBus::CComJBus(const QVariantMap &mapCom, QObject *parent)
     switch(m_type)
     {
     case type_jbus_over_tcpip:
-        m_ctx = initTcp(mapCom, modbus_new_rtutcp);
+        m_ctx.reset(initTcp(mapCom, modbus_new_rtutcp));
         break;
     case type_jbus:
-        m_ctx = initRtu(mapCom);
+        m_ctx.reset(initRtu(mapCom));
         break;
     case type_tcpip:
-        m_ctx = initTcp(mapCom, modbus_new_tcp);
+        m_ctx.reset(initTcp(mapCom, modbus_new_tcp));
         break;
     case type_com_unknow:
         qCDebug(COTAUTOMATE_LOG) << "CComJBus type unknow:" << mapCom;
@@ -94,13 +112,37 @@ CComJBus::CComJBus(const QVariantMap &mapCom, QObject *parent)
         m_slave = slave;
     }
 
-    //TO DO : fill datas
+    if (m_ctx)
+        initializeModbus();
 }
+
 CComJBus::~CComJBus()
 {
-    if (m_ctx)
-        modbus_free(m_ctx);
 }
+
+void CComJBus::initializeModbus()
+{
+    // TODO: disable
+    modbus_set_debug(m_ctx.data(), 1);
+
+    // -1 == m_slave indicates master coms
+    if (m_slave >= 0)
+        modbus_set_slave(m_ctx.data(), m_slave);
+
+    if (!modbus_connect(m_ctx.data())) {
+        qWarning("Failed to connect to com bus: %s\n", modbus_strerror(errno));
+        m_ctx.reset();
+        return;
+    }
+
+    m_mapping.reset(modbus_mapping_new(MODBUS_MAX_READ_BITS, 0, MODBUS_MAX_READ_REGISTERS, 0));
+    if (!m_mapping) {
+        qWarning("Failed to allocate the mapping: %s\n", modbus_strerror(errno));
+        m_ctx.reset();
+        return;
+    }
+}
+
 QVariant CComJBus::readData(){
     return QVariant();
 }

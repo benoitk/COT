@@ -9,7 +9,7 @@
 
 #include "cot_global.h"
 
-typedef struct _modbus modbus_t;
+#include <modbus.h>
 
 class LIBCOT_EXPORT CComJBus : public ICom
 {
@@ -37,7 +37,13 @@ public:
     comType getType()const Q_DECL_OVERRIDE;
 
 private:
-    modbus_t* m_ctx;
+    void initializeModbus();
+
+    struct FreeModbus;
+    QScopedPointer<modbus_t, FreeModbus> m_ctx;
+    struct FreeModbusMapping;
+    QScopedPointer<modbus_mapping_t, FreeModbusMapping> m_mapping;
+
     int m_slave;
     QMap<int, IVariableInput*> m_mapInputTable;
     QMap<int, IVariableOutput*> m_mapOutputTable;

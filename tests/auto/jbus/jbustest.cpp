@@ -58,6 +58,6 @@ void JBusTest::shouldInitialize()
     QCOMPARE(bus.getType(), type);
 }
 
-QTEST_MAIN(JBusTest)
+QTEST_GUILESS_MAIN(JBusTest)
 
 #include "jbustest.moc"
