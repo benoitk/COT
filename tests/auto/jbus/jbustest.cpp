@@ -151,6 +151,8 @@ void JBusTest::testInitialize()
 
 void JBusTest::testRtu()
 {
+    QSKIP("not implemented yet");
+
     QVariantMap masterConfig;
     masterConfig["name"] = "rtu_master";
     masterConfig["type"] = "jbus";
