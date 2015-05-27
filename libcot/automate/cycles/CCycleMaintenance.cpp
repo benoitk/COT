@@ -29,6 +29,7 @@ QVariantMap CCycleMaintenance::serialise(){
         listSteps.append(step->serialise());
     }
     mapSerialise.insert(QStringLiteral("steps"), listSteps);
+    mapSerialise.insert(QStringLiteral("related_stream_name"), getRelatedStreamName());
     return mapSerialise;
 }
 //enlève toutes les référence à arg_action

@@ -46,6 +46,7 @@ QVariantMap CCyclePause::serialise(){
         listSteps.append(step->serialise());
     }
     mapSerialise.insert(QStringLiteral("steps"), listSteps);
+    mapSerialise.insert(QStringLiteral("related_stream_name"), getRelatedStreamName());
     return mapSerialise;
 }
 void CCyclePause::initTimer(){

@@ -33,6 +33,7 @@ QVariantMap CCycleAutonome::serialise(){
         listSteps.append(step->serialise());
     }
     mapSerialise.insert(QStringLiteral("steps"), listSteps);
+    mapSerialise.insert(QStringLiteral("related_stream_name"), getRelatedStreamName());
     return mapSerialise;
 }
 void CCycleAutonome::setRelatedStreamName(const QString &name)
