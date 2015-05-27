@@ -14,9 +14,10 @@
 #include "CVariableMeasure.h"
 #include "CVariableOutputListVariables.h"
 #include "CVariableMutable.h"
-
-#include "qvariant.h"
 #include "cotautomate_debug.h"
+
+#include <QVariant>
+#include <QDateTime>
 
 IVariable* CVariableFactory::build(const QMap<QString, QVariant> &mapVar){
 
@@ -172,37 +173,53 @@ IVariable* CVariableFactory::build(const QString &type, const QVariantMap &data)
                                    : data );
 }
 
+QString CVariableFactory::buildTemporaryName(const QString &baseName)
+{
+    static int count = 0;
+    return QStringLiteral("%1_%2_%3")
+            .arg(baseName)
+            .arg(QDateTime::currentDateTime().toString(QStringLiteral("yyyyMMdd_HHmm")))
+            .arg(count++);
+}
 
-IVariablePtr CVariableFactory::buildTemporary(const QString& name, variableType type) {
-    IVariable *ivar = CVariableFactory::build(type);
+IVariablePtr CVariableFactory::buildTemporary(const QString& name, variableType type, VariableOrganType organType) {
+    IVariable *ivar = CVariableFactory::build(type, organType);
     ivar->setName(name);
     ivar->setLabel(name);
     return ivar;
 }
 
-IVariablePtr CVariableFactory::buildTemporary(const QString& name, const QString &label, variableType type) {
-    IVariable *ivar = CVariableFactory::build(type);
+IVariablePtr CVariableFactory::buildTemporary(const QString& name, const QString &label, variableType type, VariableOrganType organType) {
+    IVariable *ivar = CVariableFactory::build(type, organType);
     ivar->setName(name);
     ivar->setLabel(label.isEmpty() ? name : label);
     return ivar;
 }
 
-IVariablePtr CVariableFactory::buildTemporary(const QString& name, const QString &label, const QVariant &value, variableType type) {
-    IVariable *ivar = CVariableFactory::build(type);
+IVariablePtr CVariableFactory::buildTemporary(const QString& name, const QString &label, const QVariant &value, variableType type, VariableOrganType organType) {
+    IVariable *ivar = CVariableFactory::build(type, organType);
     ivar->setName(name);
     ivar->setLabel(label.isEmpty() ? name : label);
     ivar->setValue(value);
     return ivar;
 }
 
-IVariablePtrList CVariableFactory::buildTemporary(const QStringList& names, variableType type) {
+IVariablePtrList CVariableFactory::buildTemporary(const QStringList& names, variableType type, VariableOrganType organType) {
     IVariablePtrList ivars;
 
     foreach (const QString& name, names) {
-        ivars << buildTemporary(name, type);
+        ivars << buildTemporary(name, type, organType);
     }
 
     return ivars;
+}
+
+IVariablePtr CVariableFactory::duplicateTemporary(IVariablePtr variable)
+{
+    IVariable *ivar = CVariableFactory::buildTemporary(variable->getName(), variable->getLabel(), variable->toVariant(),
+                                                       variable->getType(), variable->getOrganType());
+    ivar->setAccess(variable->getAccess());
+    return ivar;
 }
 
 void CVariableFactory::deleteVariables(IVariablePtrList &ivars)
