@@ -6,6 +6,7 @@
 #include <QApplication>
 
 #include "cot_global.h"
+#include "CVerticalButtonBar.h"
 
 namespace Ui {
 class CPCWindow;

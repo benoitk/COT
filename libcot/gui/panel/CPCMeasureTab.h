@@ -16,6 +16,8 @@ public:
     explicit CPCMeasureTab(QWidget *parent = Q_NULLPTR);
     ~CPCMeasureTab();
 
+    CVerticalButtonBar *buttonBar() const Q_DECL_OVERRIDE;
+
 private slots:
     void slotAlarmsTriggered();
     void slotPlayTriggered();

@@ -48,6 +48,11 @@ CPCToolsTab::~CPCToolsTab()
     delete ui;
 }
 
+CVerticalButtonBar *CPCToolsTab::buttonBar() const
+{
+    return ui->vbbButtons;
+}
+
 void CPCToolsTab::retranslate()
 {
     m_buttons->button(CToolButton::Maintenance)->setText(tr("Maintenance"));

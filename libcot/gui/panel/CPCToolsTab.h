@@ -19,6 +19,8 @@ public:
     explicit CPCToolsTab(QWidget *parent = Q_NULLPTR);
     ~CPCToolsTab();
 
+    CVerticalButtonBar *buttonBar() const Q_DECL_OVERRIDE;
+
 public slots:
     void retranslate();
 

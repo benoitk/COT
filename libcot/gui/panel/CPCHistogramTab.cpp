@@ -14,3 +14,8 @@ CPCHistogramTab::~CPCHistogramTab()
 {
     delete ui;
 }
+
+CVerticalButtonBar *CPCHistogramTab::buttonBar() const
+{
+    return ui->vbbButtons;
+}

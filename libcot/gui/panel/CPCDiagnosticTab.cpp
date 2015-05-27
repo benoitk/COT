@@ -24,6 +24,10 @@ CPCDiagnosticTab::~CPCDiagnosticTab()
     delete ui;
 }
 
+CVerticalButtonBar *CPCDiagnosticTab::buttonBar() const
+{
+    return ui->vbbButtons;
+}
 
 void CPCDiagnosticTab::updateDiagnostic()
 {

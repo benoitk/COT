@@ -32,6 +32,11 @@ CPCPlusTab::~CPCPlusTab()
     delete ui;
 }
 
+CVerticalButtonBar *CPCPlusTab::buttonBar() const
+{
+    return ui->vbbButtons;
+}
+
 void CPCPlusTab::retranslate()
 {
     m_buttons->button(CToolButton::Informations)->setText(tr("Informations"));

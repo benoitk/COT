@@ -15,6 +15,8 @@ public:
     explicit CPCHistogramTab(QWidget *parent = Q_NULLPTR);
     ~CPCHistogramTab();
 
+    CVerticalButtonBar *buttonBar() const Q_DECL_OVERRIDE;
+
 private:
     Ui::CPCHistogramTab *ui;
 };

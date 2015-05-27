@@ -3,7 +3,7 @@
 
 #include <QWidget>
 
-#include "CVerticalButtonBar.h"
+class CVerticalButtonBar;
 
 class IPCTab : public QWidget
 {
@@ -12,7 +12,7 @@ class IPCTab : public QWidget
 public:
     IPCTab(QWidget *parent = Q_NULLPTR) : QWidget(parent) { }
 
-    CVerticalButtonBar *buttonBar() const { return findChild<CVerticalButtonBar *>(); }
+    virtual CVerticalButtonBar *buttonBar() const = 0;
 };
 
 #endif // IPCTAB

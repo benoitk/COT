@@ -39,6 +39,11 @@ CPCMeasureTab::~CPCMeasureTab()
     delete ui;
 }
 
+CVerticalButtonBar *CPCMeasureTab::buttonBar() const
+{
+    return ui->vbbButtons;
+}
+
 void CPCMeasureTab::slotAlarmsTriggered()
 {
     CPCWindow::openModal<CAlarmsWindow>();

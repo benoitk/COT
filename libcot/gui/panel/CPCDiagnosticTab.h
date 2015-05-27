@@ -21,6 +21,8 @@ public:
     explicit CPCDiagnosticTab(QWidget *parent = Q_NULLPTR);
     ~CPCDiagnosticTab();
 
+    CVerticalButtonBar *buttonBar() const Q_DECL_OVERRIDE;
+
 protected slots:
     void updateDiagnostic();
 

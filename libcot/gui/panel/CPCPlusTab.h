@@ -18,6 +18,8 @@ public:
     explicit CPCPlusTab(QWidget *parent = Q_NULLPTR);
     ~CPCPlusTab();
 
+    CVerticalButtonBar *buttonBar() const Q_DECL_OVERRIDE;
+
 public slots:
     void retranslate();
 
