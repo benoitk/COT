@@ -63,8 +63,10 @@ struct CComJBus::FreeModbus
 {
     static inline void cleanup(modbus_t *ctx)
     {
-        if (ctx)
+        if (ctx) {
+            modbus_close(ctx);
             modbus_free(ctx);
+        }
     }
 };
 
