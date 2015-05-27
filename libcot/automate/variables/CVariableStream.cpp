@@ -101,6 +101,22 @@ void CVariableStream::delCycle(const QString &name)
     }
 }
 
+void CVariableStream::addMeasure(IVariablePtr var)
+{
+    // SERES_TODO propagate change to the automate so the right signal is emitted
+    if (!m_listMeasures.contains(var)) {
+        m_listMeasures << var;
+    }
+}
+
+void CVariableStream::delMeasure(IVariablePtr var)
+{
+    // SERES_TODO propagate change to the automate so the right signal is emitted
+    if (m_listMeasures.contains(var)) {
+        m_listMeasures.removeAll(var);
+    }
+}
+
 void CVariableStream::setRelatedStreamName(const QString &variableName)
 {
 

@@ -185,16 +185,20 @@ void CAutomate::addVariablePrivate(const QString& name, IVariable* var){
 }
 
 
-void CAutomate::addStream(CVariableStream* arg_stream){
+void CAutomate::addStream(CVariableStream* arg_stream, bool emitSignalOnAdd){
     QMutexLocker locker(&m_mutex);
     if(arg_stream){
         bool bStreamExist = false;
         foreach(CVariableStream* stream, m_listStreams){
             if(arg_stream == stream) bStreamExist = true;
         }
-        if(!bStreamExist)
+        if(!bStreamExist) {
             m_listStreams.append(arg_stream);
+            if (emitSignalOnAdd)
+                emit signalStreamsUpdated();
+        }
     }
+
 }
 
 void CAutomate::addUnit(CUnit* unit){
@@ -404,6 +408,17 @@ void CAutomate::delCycle(ICycle *cycle)
                 break;
             }
         }
+    }
+}
+
+void CAutomate::delStream(IVariable *ivar)
+{
+    // SERES_TODO: To be completed
+    QMutexLocker locker(&m_mutex);
+    if(ivar){
+        CVariableStream *varStream = qobject_cast<CVariableStream *>(ivar);
+        m_listStreams.removeAll(varStream);
+        emit signalStreamsUpdated();
     }
 }
 

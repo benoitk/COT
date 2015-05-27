@@ -87,7 +87,7 @@ public:
     IVariable* getVariable(const QString&);
     QList<IVariable *> getVariables(const QStringList&);
     void addVariable(const QString&, IVariable*);
-    void addStream(CVariableStream*);
+    void addStream(CVariableStream*, bool emitSignalOnAdd = false);
     void addUnit(CUnit*);
     void addCom(ICom*);
     void addAction(IAction*);
@@ -99,6 +99,7 @@ public:
     void addExtensionCard(const QString&, CModelExtensionCard*);
 
     void delCycle(ICycle *cycle);
+    void delStream(IVariable *ivar);
 
     CSequencer* getSequencer()const;
 

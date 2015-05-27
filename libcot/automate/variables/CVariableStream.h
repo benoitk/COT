@@ -57,6 +57,10 @@ public:
 
     void addCycle(ICycle *cycle);
     void delCycle(const QString &name);
+
+    void addMeasure(IVariablePtr var);
+    void delMeasure(IVariablePtr var);
+
     void setRelatedStreamName(const QString &variableName) Q_DECL_OVERRIDE;
 private:
 

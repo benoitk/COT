@@ -5,6 +5,7 @@
 #include "IConfiguratorUIHandler.h"
 
 class CPushButton;
+class CVariableMeasure;
 
 class LIBCOT_EXPORT ConfiguratorStreamsUIHandler : public IConfiguratorUIHandler
 {
@@ -15,6 +16,7 @@ public:
     ~ConfiguratorStreamsUIHandler();
 
     void layout();
+    IVariable *getVariable(const QString &name) Q_DECL_OVERRIDE;
 
 protected:
     int columnCount() const Q_DECL_OVERRIDE;
@@ -24,8 +26,15 @@ protected:
     void rowAboutToBeDeleted(const Row &row, IVariable *ivar) Q_DECL_OVERRIDE;
 
 private:
-    CPushButton *newButton(IVariable *ivar);
+    CPushButton *newItemButton(IVariable *ivar);
     CToolButton *addMeasureButton(IVariable *ivar);
+
+    CVariableStream *getStreamForMeasure(CVariableMeasure *measure);
+
+private slots:
+    void itemClicked();
+    void addItem();
+
 };
 
 #endif // CONFIGURATORSTREAMSUIHANDLER_H
