@@ -241,8 +241,3 @@ QString CComJBus::getName()const{
 comType CComJBus::getType()const{
     return m_type; //typer slave et master ?
 }
-
-bool CComJBus::isInitialized() const
-{
-    return m_ctx.data() && m_mapping.data();
-}

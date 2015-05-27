@@ -70,7 +70,13 @@ private slots:
     void testInitialize();
 
     void testRtu();
+
 private:
+    bool isInitialized(const CComJBus &bus) const
+    {
+        return bus.m_ctx.data() && bus.m_mapping.data();
+    }
+
     PseudoTerminal m_pty;
     QTcpServer m_tcp;
 };
@@ -139,7 +145,7 @@ void JBusTest::testInitialize()
 #ifndef Q_OS_LINUX
     QEXPECT_FAIL("jbus", "no pseudo tty implementation available on this platform", Abort);
 #endif
-    QCOMPARE(bus.isInitialized(), initialized);
+    QCOMPARE(isInitialized(bus), initialized);
 }
 
 void JBusTest::testRtu()
@@ -152,13 +158,13 @@ void JBusTest::testRtu()
     masterConfig["data"] = 8;
     masterConfig["stop"] = 1;
     CComJBus master(masterConfig);
-    QVERIFY(master.isInitialized());
+    QVERIFY(isInitialized(master));
 
     QVariantMap slaveConfig = masterConfig;
     slaveConfig["name"] = "rtu_slave";
     slaveConfig["slave"] = 1;
     CComJBus slave(slaveConfig);
-    QVERIFY(slave.isInitialized());
+    QVERIFY(isInitialized(slave));
 }
 
 QTEST_GUILESS_MAIN(JBusTest)

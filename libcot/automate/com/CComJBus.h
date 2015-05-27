@@ -30,8 +30,6 @@ public:
     QString getName()const Q_DECL_OVERRIDE;
     comType getType()const Q_DECL_OVERRIDE;
 
-    bool isInitialized() const;
-
 private:
     QBitArray readNBitsFunction1( int addrVar, int nbBitsToRead);
     void writeNBitsFunction15(int addrVar, const QBitArray &data);
@@ -51,6 +49,8 @@ private:
 
     QString m_name;
     comType m_type;
+
+    friend class JBusTest;
 };
 
 #endif // CComJBus_H
