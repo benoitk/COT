@@ -247,7 +247,7 @@ void CVariableIVariableOutBindsDescriber::describe(const QVariant &object)
     const QList<IVariable *> listOutBind = var->getListOutBinds();
     foreach(IVariable *var, listOutBind) {
         CVariableMutable *outBind = CVariableFactory::castedBuild<CVariableMutable *>(type_mutable, VariableOrganTypeNone, var->getLabel());
-        outBind->setName(QStringLiteral("Target"));
+        outBind->setName(QStringLiteral("target"));
         outBind->setLabel(tr("Target"));
         outBind->setMutableType(CVariableMutable::Variable);
         lst << outBind;
@@ -290,8 +290,7 @@ void CVariableCStepActionsDescriber::describe(const QVariant &object)
 
     foreach (IAction *action, actions) {
         CVariableMutable *ivar = CVariableFactory::castedBuild<CVariableMutable *>(type_mutable, VariableOrganTypeNone, action->getName());
-        ivar->setName(action->getName());
-        ivar->setLabel(action->getLabel());
+        ivar->setName(CVariableFactory::buildTemporaryName(QStringLiteral("actionName")));
         ivar->setMutableType(CVariableMutable::Action);
         ivars << ivar;
     }
