@@ -564,6 +564,7 @@ void CAutomate::informAboutCycleChanges(ICycle *cycle, const QVariantMap &oldDat
 
     // SERES_TODO: implement automate internal change handling.
     // There is probably more to update, like in CSequencer etc.
+    // SERES_TODO: add api for changing a stream name (COT-52)
     const bool isNew = !getListCyclesPrivate().contains(cycle);
     const QString oldStreamName = oldData.value(QStringLiteral("related_stream_name")).toString();
 

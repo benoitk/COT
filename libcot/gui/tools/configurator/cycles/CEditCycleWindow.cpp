@@ -26,12 +26,14 @@ void CEditCycleWindow::slotOkTriggered()
     CAutomate *automate = CAutomate::getInstance();
     ICycle *cycle = editedObject().value<ICycle *>();
     Q_ASSERT(cycle);
-    // SERES_TODO: add api for changing a stream name (COT-52)
-    QVariantMap oldData /*= m_cycle->serialize()*/;
-    oldData[QStringLiteral("related_stream_name")] = cycle->getRelatedStreamName();
+    const QVariantMap oldData = cycle->serialise();
 
     applyProperties();
-    automate->informAboutCycleChanges(cycle, oldData);
+
+    if (oldData != cycle->serialise()) {
+        automate->informAboutCycleChanges(cycle, oldData);
+    }
+
     close();
 }
 

@@ -68,7 +68,7 @@ void CConfiguratorCycleTabUIHandler::layout()
         ivars << ivar;
     }
 
-    IConfiguratorUIHandler::layout(ivars, true);
+    IConfiguratorUIHandler::layout(ivars, false);
 }
 
 IVariable *CConfiguratorCycleTabUIHandler::getVariable(const QString &name) const
@@ -84,7 +84,7 @@ IVariable *CConfiguratorCycleTabUIHandler::getVariable(const QString &name) cons
 
 int CConfiguratorCycleTabUIHandler::columnCount() const
 {
-    return 2;
+    return 3;
 }
 
 QWidget *CConfiguratorCycleTabUIHandler::createWidget(int column, IVariable *ivar)
@@ -143,7 +143,6 @@ void CConfiguratorCycleTabUIHandler::rowAboutToBeDeleted(const IVariableUIHandle
     }
     // Become a global cycle
     else {
-
         streamVar = static_cast<CVariableStream *>(automate->getStream(cycle->getRelatedStreamName()));
     }
 
