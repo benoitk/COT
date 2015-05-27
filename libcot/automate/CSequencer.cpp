@@ -186,7 +186,7 @@ QList<ICycle*>  CSequencer::getListCyclesMaintenances(){
 }
 void  CSequencer::setListSequenceCyclesMesures(QList<ICycle *> listCycles){
     // remove null pointers.
-    auto itFirst = std::remove_if(listCycles.begin(), listCycles.end(), [](ICycle *cycle) { return cycle != Q_NULLPTR; });
+    auto itFirst = std::remove_if(listCycles.begin(), listCycles.end(), [](ICycle *cycle) { return cycle == Q_NULLPTR; });
     listCycles.erase(itFirst, listCycles.end());
 
     m_listSequenceCyclesMesures.swap(listCycles);
