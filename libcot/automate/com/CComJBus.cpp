@@ -33,7 +33,7 @@ modbus_t *initRtu(const QVariantMap &options)
         qCWarning(COTAUTOMATE_LOG) << "missing stop bit:" << options;
         return 0;
     }
-    modbus_t *ret = modbus_new_rtu(device.constData(), baudrate, 'n', data_bit, stop_bit);
+    modbus_t *ret = modbus_new_rtu(device.constData(), baudrate, 'N', data_bit, stop_bit);
     if(!ret)
         qCWarning(COTAUTOMATE_LOG) << "failed to initialize modbus over rtu:" << modbus_strerror(errno);
     return ret;
@@ -243,4 +243,7 @@ comType CComJBus::getType()const{
     return m_type; //typer slave et master ?
 }
 
-
+bool CComJBus::initialized() const
+{
+    return m_ctx.data() && m_mapping.data();
+}

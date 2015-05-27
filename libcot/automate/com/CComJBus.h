@@ -36,6 +36,8 @@ public:
     QString getName()const Q_DECL_OVERRIDE;
     comType getType()const Q_DECL_OVERRIDE;
 
+    bool initialized() const;
+
 private:
     void initializeModbus();
 
