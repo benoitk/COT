@@ -327,10 +327,10 @@ bool IVariableUIHandler::enterText(QString &value, const QString &title)
     return false;
 }
 
-bool IVariableUIHandler::enterInteger(int &value)
+bool IVariableUIHandler::enterInteger(int &value, const QString &title)
 {
     CNumericalKeyboardDialog dlg(CNumericalKeyboardWidget::Integer);
-    dlg.setTitle(tr("Enter a new value"));
+    dlg.setTitle(title);
     dlg.setIntegerValue(value);
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
@@ -341,10 +341,10 @@ bool IVariableUIHandler::enterInteger(int &value)
     return false;
 }
 
-bool IVariableUIHandler::enterDouble(double &value)
+bool IVariableUIHandler::enterDouble(double &value, const QString &title)
 {
     CNumericalKeyboardDialog dlg(CNumericalKeyboardWidget::Double);
-    dlg.setTitle(tr("Enter a new value"));
+    dlg.setTitle(title);
     dlg.setDoubleValue(value);
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {

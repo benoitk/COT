@@ -44,11 +44,11 @@ public:
     QGridLayout *containerLayout() const;
 
     // Ask user to enter a text value
-    bool enterText(QString &value, const QString &title = QString("Enter a new value"));
+    bool enterText(QString &value, const QString &title = tr("Enter a new value"));
     // Ask user to enter an int value
-    bool enterInteger(int &value);
+    bool enterInteger(int &value, const QString &title = tr("Enter a new value"));
     // Ask user to enter a double value
-    bool enterDouble(double &value);
+    bool enterDouble(double &value, const QString &title = tr("Enter a new value"));
 
     // return an action type: calc_coef, calc_rien, block, etc.
     bool selectActionType(int &value);
