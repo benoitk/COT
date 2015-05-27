@@ -7,7 +7,7 @@
 
 int main()
 {
-    modbus_t* ctx = modbus_new_tcp("127.0.0.1", 12345);
+    modbus_t* ctx = modbus_new_rtutcp("127.0.0.1", 12345);
     if (!ctx) {
         fprintf(stderr, "failed to create modbus context: %s\n", modbus_strerror(errno));
         return 1;
