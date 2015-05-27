@@ -28,7 +28,7 @@ CStepWidget::CStepWidget(CStep *step, QWidget *parent)
     m_scrollable->scrollableWidget()->setWidgetResizable(true);
 
     QSizePolicy policy = sizePolicy();
-    policy.setVerticalPolicy(QSizePolicy::Maximum);
+    policy.setVerticalPolicy(QSizePolicy::Fixed);
     setSizePolicy(policy);
 
     CVerticalButtonBar *vbb = m_scrollable->buttonBar();
