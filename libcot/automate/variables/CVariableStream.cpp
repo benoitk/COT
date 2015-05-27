@@ -95,7 +95,7 @@ void CVariableStream::delCycle(const QString &name)
         if (cycle->getName() == name) {
             cycle->setRelatedStreamName(QString());
             m_listCycles.removeAt(i);
-            // Customer - should inform automat about change ?
+            // SERES_TODO - should inform automat about change ?
             break;
         }
     }
