@@ -129,7 +129,7 @@ void CComJBus::initializeModbus()
     if (m_slave >= 0)
         modbus_set_slave(m_ctx.data(), m_slave);
 
-    if (!modbus_connect(m_ctx.data())) {
+    if (modbus_connect(m_ctx.data()) == -1) {
         qWarning("Failed to connect to com bus: %s\n", modbus_strerror(errno));
         m_ctx.reset();
         return;

@@ -3,13 +3,81 @@
 #include <QObject>
 #include "CComJBus.h"
 
+#include <QDebug>
+#include <QTcpServer>
+#include <QHostAddress>
+
+#ifdef Q_OS_LINUX
+#include <stdlib.h>
+#include <fcntl.h>
+#include <unistd.h>
+
+class PseudoTerminal
+{
+public:
+    PseudoTerminal()
+        : m_master(-1)
+        , m_name(Q_NULLPTR)
+    {
+    }
+
+    void init()
+    {
+        m_master = posix_openpt(O_RDWR | O_NOCTTY);
+        if (m_master == -1 || grantpt(m_master) == -1 || unlockpt(m_master) == -1) {
+            qWarning() << "Failed to open pseudo-tty";
+            return;
+        }
+        m_name = ptsname(m_master);
+    }
+
+    ~PseudoTerminal()
+    {
+        if (m_master >= 0)
+            close(m_master);
+    }
+
+    const char *name() const
+    {
+        return m_name;
+    }
+
+private:
+    int m_master;
+    char *m_name;
+};
+
+#else
+
+class PseudoTerminal
+{
+public:
+    void init() {}
+    const char *name() const
+    {
+        return Q_NULLPTR;
+    }
+};
+#endif
+
 class JBusTest : public QObject
 {
     Q_OBJECT
 private slots:
+    void initTestCase();
     void shouldInitialize_data();
     void shouldInitialize();
+
+private:
+    PseudoTerminal m_pty;
+    QTcpServer m_tcp;
 };
+
+void JBusTest::initTestCase()
+{
+    m_pty.init();
+    QVERIFY(m_tcp.listen(QHostAddress::LocalHost, 12345));
+}
 
 void JBusTest::shouldInitialize_data()
 {
@@ -22,15 +90,15 @@ void JBusTest::shouldInitialize_data()
         QVariantMap map;
         map["name"] = "com_jbus_tcpip_master";
         map["type"] = "jbus_over_tcpip";
-        map["ip"] = "127.0.0.1";
-        map["port"] = "12345";
+        map["ip"] = m_tcp.serverAddress().toString();
+        map["port"] = m_tcp.serverPort();
         QTest::newRow("jbus_over_tcpip") << map << "com_jbus_tcpip_master" << type_jbus_over_tcpip << true;
     }
     {
         QVariantMap map;
         map["name"] = "com_jbus_master";
         map["type"] = "jbus";
-        map["device"] = "/dev/ttyS0";
+        map["device"] = m_pty.name();
         map["baudrate"] = "9600";
         map["stop"] = "1";
         map["data"] = "8";
@@ -40,8 +108,8 @@ void JBusTest::shouldInitialize_data()
         QVariantMap map;
         map["name"] = "com_tcpip_master";
         map["type"] = "tcpip";
-        map["ip"] = "127.0.0.1";
-        map["port"] = "12345";
+        map["ip"] = m_tcp.serverAddress().toString();
+        map["port"] = m_tcp.serverPort();
         QTest::newRow("tcpip") << map << "com_tcpip_master" << type_tcpip << true;
     }
     {
@@ -66,7 +134,9 @@ void JBusTest::shouldInitialize()
     CComJBus bus(map);
     QCOMPARE(bus.getName(), name);
     QCOMPARE(bus.getType(), type);
-    QEXPECT_FAIL("jbus", "connection to the ttyS0 device fails, need to use a pseudo tty", Abort);
+#ifndef Q_OS_LINUX
+    QEXPECT_FAIL("jbus", "no pseudo tty implementation available on this platform", Abort);
+#endif
     QCOMPARE(bus.initialized(), initialized);
 }
 
