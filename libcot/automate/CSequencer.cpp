@@ -4,6 +4,8 @@
 #include "qthread.h"
 #include "cotautomate_debug.h"
 
+#include <algorithm>
+
 CSequencer* CSequencer::singleton = 0;
 CSequencer::CSequencer()
     : QObject()
@@ -183,13 +185,10 @@ QList<ICycle*>  CSequencer::getListCyclesMaintenances(){
     return m_listCyclesMaintenances;
 }
 void  CSequencer::setListSequenceCyclesMesures(QList<ICycle *> listCycles){
-    QList<ICycle *>::iterator itList;
-    //vire les pointeurs vides potentiel
-    for(itList=listCycles.begin(); itList != listCycles.end(); ++itList){
-        if (!qobject_cast<ICycle*>(*itList)) {
-            itList = listCycles.erase(itList);
-        }
-    }
+    // remove null pointers.
+    auto itFirst = std::remove_if(listCycles.begin(), listCycles.end(), [](ICycle *cycle) { return cycle != Q_NULLPTR; });
+    listCycles.erase(itFirst, listCycles.end());
+
     m_listSequenceCyclesMesures.swap(listCycles);
     m_itListSequenceCyclesMesures = m_listSequenceCyclesMesures.begin();
 }
