@@ -31,8 +31,9 @@ public:
     comType getType()const Q_DECL_OVERRIDE;
 
 private:
-    QBitArray readNBitsFunction1( int addrVar, int nbBitsToRead);
-    void writeNBitsFunction15(int addrVar, const QBitArray &data);
+    typedef QVector<uint8_t> BitArray;
+    BitArray readNBitsFunction1( int addrVar, int nbBitsToRead);
+    void writeNBitsFunction15(int addrVar, const BitArray &data);
     QList<char> readNWordsFunction3( int addrVar, int nbBytesToRead);
     void writeNWordsFunction16(int addrVar, const QList<char> &data);
 

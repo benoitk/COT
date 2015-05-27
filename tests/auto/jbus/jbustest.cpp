@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <QTcpServer>
 #include <QHostAddress>
+#include <QBitArray>
 
 #ifdef Q_OS_LINUX
 #include <stdlib.h>
@@ -165,6 +166,16 @@ void JBusTest::testRtu()
     slaveConfig["slave"] = 1;
     CComJBus slave(slaveConfig);
     QVERIFY(isInitialized(slave));
+
+    const int address = 42;
+    CComJBus::BitArray bitsToWrite(32);
+    for (int i = 0; i < bitsToWrite.size(); ++i) {
+        bitsToWrite[i] = i % 2;
+    }
+    slave.writeNBitsFunction15(address, bitsToWrite);
+    const CComJBus::BitArray bitsRead = master.readNBitsFunction1(address, bitsToWrite.size());
+    qDebug() << bitsToWrite << bitsRead;
+    QCOMPARE(bitsToWrite, bitsRead);
 }
 
 QTEST_GUILESS_MAIN(JBusTest)

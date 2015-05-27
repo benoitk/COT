@@ -146,7 +146,7 @@ QVariant CComJBus::readData(){
     return QVariant();
 }
 QVariant CComJBus::readData(IVariableInput* arg_input){
-    QBitArray bitArray;
+    BitArray bitArray;
     QList<char> byteArray;
     QVariant returnedVar;
 
@@ -193,7 +193,7 @@ void CComJBus::writeData(IVariableOutput* arg_output){
     switch (arg_output->getIVariable()->getType())
     {
     case type_bool:
-        writeNBitsFunction15(arg_output->getOrganneAddr().toInt(), QBitArray(1,arg_output->getIVariable()->toInt()));
+        writeNBitsFunction15(arg_output->getOrganneAddr().toInt(), BitArray(1, arg_output->getIVariable()->toInt()));
         break;
     case type_int:
         readNWordsFunction3(arg_output->getOrganneAddr().toInt(), 2);
@@ -208,12 +208,20 @@ void CComJBus::writeData(IVariableOutput* arg_output){
 
 }
 
-QBitArray CComJBus::readNBitsFunction1(int addrVar, int nbBitsToRead){
-    return QBitArray();
+CComJBus::BitArray CComJBus::readNBitsFunction1(int addrVar, int nbBitsToRead)
+{
+    BitArray ret(nbBitsToRead);
+    if (modbus_read_bits(m_ctx.data(), addrVar, nbBitsToRead, ret.data()) == -1)
+        qCDebug(COTAUTOMATE_LOG) << "Failed to read" << nbBitsToRead << "bits from" << addrVar << ":" << modbus_strerror(errno);
+    return ret;
 }
-void CComJBus::writeNBitsFunction15(int addrVar, const QBitArray &data){
 
+void CComJBus::writeNBitsFunction15(int addrVar, const BitArray &data)
+{
+    if (modbus_write_bits(m_ctx.data(), addrVar, data.size(), data.data()) == -1)
+        qCDebug(COTAUTOMATE_LOG) << "Failed to write" << data.size() << "bits to" << addrVar << ":" << modbus_strerror(errno);
 }
+
 QList<char> CComJBus::readNWordsFunction3( int addrVar, int nbBytesToRead){
     QList<char> temp;
     return temp;
