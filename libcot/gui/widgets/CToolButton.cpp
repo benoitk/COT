@@ -164,7 +164,7 @@ QIcon CToolButton::buttonIcon(CToolButton::Type type)
         case CToolButton::StopEndCycle:
         case CToolButton::NextStream:
         case CToolButton::Update:
-            // KDAB_TODO: Handle each icon set in picto / pictohd resources.
+            // SERES_TODO: Add correct icons. // COT-66
             break;
 
         case CToolButton::Add:
@@ -172,6 +172,12 @@ QIcon CToolButton::buttonIcon(CToolButton::Type type)
             break;
 
         case CToolButton::Edit:
+            // SERES_TODO: Add correct icons. // COT-66
+            icon = iconFromPixmaps("30x30 rotation mvt");
+            break;
+
+        case CToolButton::AddStopStep:
+            // SERES_TODO: Add correct icons. // COT-66
             icon = iconFromPixmaps("30x30 rotation mvt");
             break;
 

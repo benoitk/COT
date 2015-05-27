@@ -39,6 +39,7 @@ public:
         RestoreConfig,
         Configure,
         Add,
+        AddStopStep,
         Edit,
         Remove,
         Delete
