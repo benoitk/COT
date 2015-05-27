@@ -36,6 +36,20 @@ QAction *CVerticalButtonBar::addAction(CToolButton::Type type, QAction *action)
     return act;
 }
 
+void CVerticalButtonBar::removeAction(CToolButton::Type type)
+{
+    CToolButton *button = m_buttons.take(type);
+    QAction *action = m_actions.take(type);
+
+    if (button) {
+        button->deleteLater();
+    }
+
+    if (action && action->parent() == this) {
+        action->deleteLater();
+    }
+}
+
 QAction *CVerticalButtonBar::action(CToolButton::Type type) const
 {
     return m_actions.value(type);

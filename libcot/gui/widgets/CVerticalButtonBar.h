@@ -14,6 +14,7 @@ public:
     ~CVerticalButtonBar();
 
     QAction *addAction(CToolButton::Type type, QAction *action = Q_NULLPTR);
+    void removeAction(CToolButton::Type type);
     QAction *action(CToolButton::Type type) const;
     CToolButton *button(CToolButton::Type type) const;
 
