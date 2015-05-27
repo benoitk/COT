@@ -108,7 +108,7 @@ CPushButton *ConfiguratorStreamsUIHandler::newItemButton(IVariable *ivar)
     return button;
 }
 
-IVariable *ConfiguratorStreamsUIHandler::getVariable(const QString &name)
+IVariable *ConfiguratorStreamsUIHandler::getVariable(const QString &name) const
 {
     CAutomate *automate = CAutomate::getInstance();
     const QList<CVariableStream*> streams = automate->getListStreams();
@@ -188,14 +188,18 @@ void ConfiguratorStreamsUIHandler::addItem()
     }
 
     QString label;
-    enterText(label);
+    if (!enterText(label))
+        return;
+
+    const QString tempName = CVariableFactory::buildTemporaryName("Measure");
 
     CVariableStream *varStream = qobject_cast<CVariableStream *>(ivar);
-    CVariableMeasure *varMeasure = qobject_cast<CVariableMeasure *>(CVariableFactory::buildTemporary(label, type_measure));
-    if (!varMeasure)
-        return;
-    varStream = getStreamForMeasure(varMeasure);
-    if (varStream)
+    CVariableMeasure *varMeasure = qobject_cast<CVariableMeasure *>(CVariableFactory::buildTemporary(tempName, type_measure));
+    if (varMeasure  && varStream) {
+        varMeasure->setLabel(label);
         varStream->addMeasure(varMeasure);
+    }
+
+    // KDAB_TODO remove once the automat is connected to the measure
     layout();
 }

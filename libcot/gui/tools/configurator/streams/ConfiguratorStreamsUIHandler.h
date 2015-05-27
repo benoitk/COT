@@ -16,7 +16,7 @@ public:
     ~ConfiguratorStreamsUIHandler();
 
     void layout();
-    IVariable *getVariable(const QString &name) Q_DECL_OVERRIDE;
+    IVariable *getVariable(const QString &name) const Q_DECL_OVERRIDE;
 
 protected:
     int columnCount() const Q_DECL_OVERRIDE;
