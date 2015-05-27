@@ -92,6 +92,14 @@ CStep* CCycleMaintenance::getStepStop()const{
     return m_stepStop;
 }
 
+void CCycleMaintenance::setListSteps(const QList<CStep *> &steps, CStep *stopStep)
+{
+    qDeleteAll(m_listSteps);
+    delete m_stepStop;
+    m_listSteps = steps;
+    m_stepStop = stopStep;
+}
+
 int CCycleMaintenance::getCurrentStepIndex() const
 {
     return -1;

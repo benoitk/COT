@@ -5,7 +5,7 @@
 #include "qmap.h"
 #include "cotautomate_debug.h"
 
-CStep::CStep(const QMap<QString, QVariant> &mapStep)
+CStep::CStep(const QVariantMap &mapStep)
     : QObject()
 {
 
@@ -41,22 +41,20 @@ QVariantMap CStep::serialise(){
 }
 void CStep::addAction(IAction* arg_action){
     if(arg_action){
-        bool bActionExist=false;
-        foreach(IAction* action, m_listActions){
-            if(action == arg_action) bActionExist = true;
-        }
-        if(!bActionExist)
+        if (!m_listActions.contains(arg_action)) {
             m_listActions.append(arg_action);
+        }
     }
 }
 void CStep::removeAction(IAction* arg_action){
     if(arg_action){
-        QList<IAction*>::iterator itListAction;
-        for(itListAction = m_listActions.begin(); itListAction != m_listActions.end(); ++itListAction){
-            if((*itListAction) == arg_action)
-                itListAction = m_listActions.erase(itListAction);
-        }
+        m_listActions.removeOne(arg_action);
     }
+}
+
+void CStep::setListActions(const QList<IAction *> &actions)
+{
+    m_listActions = actions;
 }
 
 QString CStep::getLabel()const{

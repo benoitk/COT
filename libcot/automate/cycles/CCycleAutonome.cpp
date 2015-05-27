@@ -47,6 +47,14 @@ CStep* CCycleAutonome::getStepStop()const{
     return m_stepStop;
 }
 
+void CCycleAutonome::setListSteps(const QList<CStep *> &steps, CStep *stopStep)
+{
+    qDeleteAll(m_listSteps);
+    delete m_stepStop;
+    m_listSteps = steps;
+    m_stepStop = stopStep;
+}
+
 int CCycleAutonome::getCurrentStepIndex() const
 {
     return -1;

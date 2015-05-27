@@ -27,6 +27,7 @@ public:
     void setRelatedStreamName(const QString &name) Q_DECL_OVERRIDE;
     QList<CStep*> getListSteps()const Q_DECL_OVERRIDE;
     CStep* getStepStop()const Q_DECL_OVERRIDE;
+    void setListSteps(const QList<CStep *> &steps, CStep *stopStep = Q_NULLPTR) Q_DECL_OVERRIDE;
     int getCurrentStepIndex() const Q_DECL_OVERRIDE;
     QVariantMap serialise() Q_DECL_OVERRIDE;
 public slots:

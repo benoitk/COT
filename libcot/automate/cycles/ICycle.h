@@ -30,6 +30,7 @@ public:
     virtual void setRelatedStreamName(const QString &name)=0;
     virtual CVariableStream* getRelatedStream()const=0;
     virtual QList<CStep*> getListSteps()const=0;
+    virtual void setListSteps(const QList<CStep *> &steps, CStep *stopStep = Q_NULLPTR)=0;
     virtual CStep* getStepStop()const=0;
     virtual bool isRunning()=0;
     virtual bool isPaused()=0;
