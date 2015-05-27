@@ -27,18 +27,17 @@ public:
 
     void triggerUpdateAllData() Q_DECL_OVERRIDE;
 
+    QString getName()const Q_DECL_OVERRIDE;
+    comType getType()const Q_DECL_OVERRIDE;
 
+    bool isInitialized() const;
+
+private:
     QBitArray readNBitsFunction1( int addrVar, int nbBitsToRead);
     void writeNBitsFunction15(int addrVar, const QBitArray &data);
     QList<char> readNWordsFunction3( int addrVar, int nbBytesToRead);
     void writeNWordsFunction16(int addrVar, const QList<char> &data);
 
-    QString getName()const Q_DECL_OVERRIDE;
-    comType getType()const Q_DECL_OVERRIDE;
-
-    bool initialized() const;
-
-private:
     void initializeModbus();
 
     struct FreeModbus;

@@ -65,9 +65,11 @@ class JBusTest : public QObject
     Q_OBJECT
 private slots:
     void initTestCase();
-    void shouldInitialize_data();
-    void shouldInitialize();
 
+    void testInitialize_data();
+    void testInitialize();
+
+    void testRtu();
 private:
     PseudoTerminal m_pty;
     QTcpServer m_tcp;
@@ -79,7 +81,7 @@ void JBusTest::initTestCase()
     QVERIFY(m_tcp.listen(QHostAddress::LocalHost, 12345));
 }
 
-void JBusTest::shouldInitialize_data()
+void JBusTest::testInitialize_data()
 {
     QTest::addColumn<QVariantMap>("map");
     QTest::addColumn<QString>("name");
@@ -124,7 +126,7 @@ void JBusTest::shouldInitialize_data()
     }
 }
 
-void JBusTest::shouldInitialize()
+void JBusTest::testInitialize()
 {
     QFETCH(QVariantMap, map);
     QFETCH(QString, name);
@@ -137,7 +139,26 @@ void JBusTest::shouldInitialize()
 #ifndef Q_OS_LINUX
     QEXPECT_FAIL("jbus", "no pseudo tty implementation available on this platform", Abort);
 #endif
-    QCOMPARE(bus.initialized(), initialized);
+    QCOMPARE(bus.isInitialized(), initialized);
+}
+
+void JBusTest::testRtu()
+{
+    QVariantMap masterConfig;
+    masterConfig["name"] = "rtu_master";
+    masterConfig["type"] = "jbus";
+    masterConfig["device"] = m_pty.name();
+    masterConfig["baudrate"] = 9600;
+    masterConfig["data"] = 8;
+    masterConfig["stop"] = 1;
+    CComJBus master(masterConfig);
+    QVERIFY(master.isInitialized());
+
+    QVariantMap slaveConfig = masterConfig;
+    slaveConfig["name"] = "rtu_slave";
+    slaveConfig["slave"] = 1;
+    CComJBus slave(slaveConfig);
+    QVERIFY(slave.isInitialized());
 }
 
 QTEST_GUILESS_MAIN(JBusTest)

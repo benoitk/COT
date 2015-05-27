@@ -7,7 +7,6 @@
 #include "cotautomate_debug.h"
 
 #include <cstring>
-#include <modbus.h>
 
 namespace {
 modbus_t *initRtu(const QVariantMap &options)
@@ -243,7 +242,7 @@ comType CComJBus::getType()const{
     return m_type; //typer slave et master ?
 }
 
-bool CComJBus::initialized() const
+bool CComJBus::isInitialized() const
 {
     return m_ctx.data() && m_mapping.data();
 }
