@@ -22,6 +22,9 @@ public:
 
 private:
     CGenericVariablesUIHandler *m_handler;
+
+signals:
+    void signalPropertiesApplied();
 };
 
 #endif // CGENERICVARIABLESEDITOR_H

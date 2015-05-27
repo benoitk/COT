@@ -24,6 +24,7 @@ CGenericVariablesEditorWindow::CGenericVariablesEditorWindow(QWidget *parent)
     vbb->addAction(CToolButton::ScrollDown, sw->moveDown());
     connect(vbb->addAction(CToolButton::Ok), &QAction::triggered, this, &CGenericVariablesEditorWindow::slotOkTriggered);
     connect(vbb->addAction(CToolButton::Cancel), &QAction::triggered, this, &CGenericVariablesEditorWindow::slotCancelTriggered);
+    connect(m_editor, &CGenericVariablesEditor::signalPropertiesApplied, this, &CGenericVariablesEditorWindow::signalPropertiesApplied);
 }
 
 void CGenericVariablesEditorWindow::setVariables(const QString &title, const IVariablePtrList &variables, bool makeCopies)

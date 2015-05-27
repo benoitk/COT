@@ -18,4 +18,5 @@ void CGenericVariablesEditor::setVariables(const IVariablePtrList &variables, bo
 void CGenericVariablesEditor::applyProperties()
 {
     m_handler->applyProperties();
+    emit signalPropertiesApplied();
 }

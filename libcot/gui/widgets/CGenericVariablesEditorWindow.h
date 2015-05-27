@@ -26,6 +26,9 @@ private:
 private slots:
     void slotOkTriggered();
     void slotCancelTriggered();
+
+signals:
+    void signalPropertiesApplied();
 };
 
 #endif // CGENERICVARIABLESEDITORWINDOW_H
