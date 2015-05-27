@@ -313,10 +313,10 @@ QGridLayout *IVariableUIHandler::containerLayout() const
     return m_containerLayout;
 }
 
-bool IVariableUIHandler::enterText(QString &value)
+bool IVariableUIHandler::enterText(QString &value, const QString &title)
 {
     CKeyboardDialog dlg;
-    dlg.setTitle(tr("Enter a new value"));
+    dlg.setTitle(title);
     dlg.setStringValue(value);
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {

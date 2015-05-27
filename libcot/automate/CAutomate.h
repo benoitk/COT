@@ -99,7 +99,7 @@ public:
     void addExtensionCard(const QString&, CModelExtensionCard*);
 
     void delCycle(ICycle *cycle);
-    void delStream(IVariable *ivar);
+    void delStream(CVariableStream *ivar);
 
     CSequencer* getSequencer()const;
 

@@ -6,6 +6,7 @@
 
 class CPushButton;
 class CVariableMeasure;
+class CVariableStream;
 
 class LIBCOT_EXPORT ConfiguratorStreamsUIHandler : public IConfiguratorUIHandler
 {
@@ -31,9 +32,17 @@ private:
 
     CVariableStream *getStreamForMeasure(CVariableMeasure *measure);
 
+    /**
+     * @brief asks the user for a name, then add a new measure in the passed stream
+     */
+    void addNewMeasureToStream(CVariableStream *stream);
+
 private slots:
-    void itemClicked();
-    void addItem();
+    void slotItemClicked();
+    void slotAddItem();
+
+public slots:
+    void slotAddStreams();
 
 };
 

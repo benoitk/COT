@@ -12,9 +12,6 @@ class CConfiguratorStreamsTab : public IConfiguratorTab
 public:
     explicit CConfiguratorStreamsTab(QWidget *parent = Q_NULLPTR);
 
-private slots:
-    void slotAddStreams();
-
 private:
     ConfiguratorStreamsUIHandler *m_istreamUIHandler;
 };

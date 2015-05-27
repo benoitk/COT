@@ -194,8 +194,10 @@ void CAutomate::addStream(CVariableStream* arg_stream, bool emitSignalOnAdd){
         }
         if(!bStreamExist) {
             m_listStreams.append(arg_stream);
-            if (emitSignalOnAdd)
+            if (emitSignalOnAdd) {
+                locker.unlock();
                 emit signalStreamsUpdated();
+            }
         }
     }
 
@@ -411,13 +413,13 @@ void CAutomate::delCycle(ICycle *cycle)
     }
 }
 
-void CAutomate::delStream(IVariable *ivar)
+void CAutomate::delStream(CVariableStream *ivar)
 {
     // SERES_TODO: To be completed
     QMutexLocker locker(&m_mutex);
     if(ivar){
-        CVariableStream *varStream = qobject_cast<CVariableStream *>(ivar);
-        m_listStreams.removeAll(varStream);
+        m_listStreams.removeAll(ivar);
+        locker.unlock();
         emit signalStreamsUpdated();
     }
 }

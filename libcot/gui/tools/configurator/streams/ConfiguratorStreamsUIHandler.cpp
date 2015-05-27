@@ -6,6 +6,7 @@
 #include <CVariableMeasure.h>
 #include <CAutomate.h>
 #include <CVariableFactory.h>
+#include <IConfiguratorUIHandler.h>
 
 #include <QWidget>
 #include <QGridLayout>
@@ -14,7 +15,6 @@
 ConfiguratorStreamsUIHandler::ConfiguratorStreamsUIHandler(CScrollableWidget *scrollable, QObject *parent)
     : IConfiguratorUIHandler(scrollable, parent)
 {
-    connect(CAutomate::getInstance(), &CAutomate::signalStreamsUpdated, this, &ConfiguratorStreamsUIHandler::layout);
 }
 
 ConfiguratorStreamsUIHandler::~ConfiguratorStreamsUIHandler()
@@ -55,9 +55,10 @@ QWidget *ConfiguratorStreamsUIHandler::createWidget(int column, IVariable *ivar)
         }
         case 3: {
             return isStream ? addMeasureButton(ivar) : Q_NULLPTR;
-        }
+        }        
     }
 
+    Q_ASSERT(false);
     return Q_NULLPTR;
 }
 
@@ -104,7 +105,7 @@ CPushButton *ConfiguratorStreamsUIHandler::newItemButton(IVariable *ivar)
     CPushButton *button = new CPushButton(container());
     button->setText(ivar->getLabel());
     button->setUserData(ivar->getName());
-    connect(button, &CPushButton::clicked, this, &ConfiguratorStreamsUIHandler::itemClicked);
+    connect(button, &CPushButton::clicked, this, &ConfiguratorStreamsUIHandler::slotItemClicked);
     return button;
 }
 
@@ -125,7 +126,7 @@ IVariable *ConfiguratorStreamsUIHandler::getVariable(const QString &name) const
         }
     }
 
-    return IVariableUIHandler::getVariable(name);
+    return IConfiguratorUIHandler::getVariable(name);
 }
 
 CToolButton *ConfiguratorStreamsUIHandler::addMeasureButton(IVariable *ivar)
@@ -133,7 +134,7 @@ CToolButton *ConfiguratorStreamsUIHandler::addMeasureButton(IVariable *ivar)
     CToolButton *button = new CToolButton(CToolButton::Add);
     button->setFixedSize(21, 21);
     button->setUserData(ivar->getName());
-    connect(button, &CToolButton::clicked, this, &ConfiguratorStreamsUIHandler::addItem);
+    connect(button, &CToolButton::clicked, this, &ConfiguratorStreamsUIHandler::slotAddItem);
     return button;
 }
 
@@ -153,10 +154,26 @@ CVariableStream *ConfiguratorStreamsUIHandler::getStreamForMeasure(CVariableMeas
             }
         }
     }
+    Q_ASSERT(false);
     return Q_NULLPTR;
 }
 
-void ConfiguratorStreamsUIHandler::itemClicked()
+void ConfiguratorStreamsUIHandler::addNewMeasureToStream(CVariableStream *stream)
+{
+    QString label;
+    if (!enterText(label, tr("Measure")))
+        return;
+
+    const QString tempName = CVariableFactory::buildTemporaryName("Measure");
+
+    CVariableMeasure *varMeasure = qobject_cast<CVariableMeasure *>(CVariableFactory::buildTemporary(tempName, type_measure));
+    if (varMeasure  && stream) {
+        varMeasure->setLabel(label);
+        stream->addMeasure(varMeasure);
+    }
+}
+
+void ConfiguratorStreamsUIHandler::slotItemClicked()
 {
     CPushButton *item = qobject_cast<CPushButton *>(sender());
     if (!item) {
@@ -170,11 +187,15 @@ void ConfiguratorStreamsUIHandler::itemClicked()
     }
 
     QString label = ivar->getLabel();
-    enterText(label);
+    if (!enterText(label, tr("New label")))
+        return;
     ivar->setLabel(label);
+
+    // KDAB_TODO remove once the automat is connected to the measure
+    layout();
 }
 
-void ConfiguratorStreamsUIHandler::addItem()
+void ConfiguratorStreamsUIHandler::slotAddItem()
 {
     CToolButton *item = qobject_cast<CToolButton *>(sender());
     if (!item) {
@@ -186,20 +207,28 @@ void ConfiguratorStreamsUIHandler::addItem()
     if (!ivar) {
         return;
     }
-
-    QString label;
-    if (!enterText(label))
-        return;
-
-    const QString tempName = CVariableFactory::buildTemporaryName("Measure");
-
     CVariableStream *varStream = qobject_cast<CVariableStream *>(ivar);
-    CVariableMeasure *varMeasure = qobject_cast<CVariableMeasure *>(CVariableFactory::buildTemporary(tempName, type_measure));
-    if (varMeasure  && varStream) {
-        varMeasure->setLabel(label);
-        varStream->addMeasure(varMeasure);
-    }
+    addNewMeasureToStream(varStream);
 
     // KDAB_TODO remove once the automat is connected to the measure
     layout();
 }
+
+void ConfiguratorStreamsUIHandler::slotAddStreams()
+{
+    //select stream name and create it
+    QString label;
+    if (!enterText(label, tr("Stream")))
+        return;
+
+    const QString tempName = CVariableFactory::buildTemporaryName("Stream");
+
+    CVariableStream *varStream = qobject_cast<CVariableStream *>(CVariableFactory::buildTemporary(tempName, type_stream));
+    varStream->setLabel(label);
+    addNewMeasureToStream(varStream);
+
+    CAutomate *automate = CAutomate::getInstance();
+    automate->addStream(varStream, true);
+}
+
+
