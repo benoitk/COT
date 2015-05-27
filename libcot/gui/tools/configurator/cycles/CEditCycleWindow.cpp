@@ -1,5 +1,6 @@
 #include "CEditCycleWindow.h"
 #include "CEditCycleTab.h"
+#include "CEditStepListTab.h"
 
 #include <CAutomate.h>
 #include <IVariable.h>
@@ -8,10 +9,10 @@
 CEditCycleWindow::CEditCycleWindow(ICycle *cycle, QWidget *parent)
     : IConfiguratorEditWindow(QVariant::fromValue(cycle), parent)
     , m_ceditCycleTab(new CEditCycleTab(cycle, this))
-    , m_ceditCycleStepsTab(Q_NULLPTR)
+    , m_ceditCycleStepListTab(new CEditStepListTab(cycle, this))
 {
     addTab(m_ceditCycleTab);
-    //addTab(m_ceditCycleStepsTab);
+    addTab(m_ceditCycleStepListTab);
     initBaseWindow();
 }
 
@@ -26,7 +27,8 @@ void CEditCycleWindow::slotOkTriggered()
     CAutomate *automate = CAutomate::getInstance();
     ICycle *cycle = editedObject().value<ICycle *>();
     Q_ASSERT(cycle);
-    const QVariantMap oldData = cycle->serialise();
+    const bool isNew = !automate->getListCycles().contains(cycle);
+    const QVariantMap oldData = isNew ? QVariantMap() : cycle->serialise();
 
     applyProperties();
 

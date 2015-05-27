@@ -11,7 +11,6 @@ class CEditCycleTabUIHandler : public IConfiguratorUIHandler
 
 public:
     explicit  CEditCycleTabUIHandler(CScrollableWidget *scrollable = Q_NULLPTR, QObject *parent = Q_NULLPTR);
-    ~CEditCycleTabUIHandler();
 
     void layout(ICycle *cycle);
 };

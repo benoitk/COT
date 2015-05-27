@@ -6,6 +6,7 @@
 #include "CPCWindow.h"
 
 #include <CAutomate.h>
+#include <CVariableFactory.h>
 #include <CVariableStream.h>
 #include <CCycleFactory.h>
 
@@ -37,7 +38,7 @@ void CConfiguratorCycleTab::slotAddCycle()
     // Create cycle
     ICycle *cycle = CCycleFactory::build(cycleType);
     Q_ASSERT(cycle);
-    cycle->setName(QStringLiteral("new_cycle_%1").arg(qrand() %1000));
+    cycle->setName(CVariableFactory::buildTemporaryName(QStringLiteral("new_cycle")));
     cycle->setLbl(tr("New cycle"));
     cycle->setRelatedStreamName(streamName);
 

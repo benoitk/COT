@@ -219,7 +219,7 @@ void CVariableCStepDescriber::describe(const QVariant &object)
     clear();
 
     CVariableFloat *interval = CVariableFactory::castedBuild<CVariableFloat *>(type_float, VariableOrganTypeNone, step->getNumStep());
-    setVariableAccess(interval, access_read_write);
+    setVariableAccess(interval, step->getNumStep() < 0 ? access_read : access_read_write);
     interval->setName("interval");
     interval->setLabel(tr("Interval"));
 

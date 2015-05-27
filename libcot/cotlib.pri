@@ -127,6 +127,7 @@ HEADERS *= \
     gui/widgets/CSwitchButton.h \
     gui/widgets/CLabelledToolButtonGrid.h \
     gui/widgets/CMessageBox.h \
+    gui/widgets/CStepWidget.h \
     gui/widgets/CGenericVariablesEditor.h \
     gui/widgets/CGenericVariablesEditorWindow.h \
     gui/widgets/CGenericVariablesUIHandler.h \
@@ -215,7 +216,8 @@ HEADERS *= \
     gui/IScrollableUIWidget.h \
     gui/tools/configurator/IConfiguratorEditWindow.h \
     gui/tools/configurator/IConfiguratorEditTab.h \
-    gui/tools/configurator/steps/CEditStepTab.h
+    gui/tools/configurator/steps/CStepWidgetUIHandler.h \
+    gui/tools/configurator/steps/CEditStepListTab.h
 
 SOURCES *= \
     automate/CAutomate.cpp \
@@ -301,6 +303,7 @@ SOURCES *= \
     gui/widgets/CLedButton.cpp \
     gui/widgets/CLabelledToolButtonGrid.cpp \
     gui/widgets/CMessageBox.cpp \
+    gui/widgets/CStepWidget.cpp \
     gui/widgets/CGenericVariablesEditor.cpp \
     gui/widgets/CGenericVariablesEditorWindow.cpp \
     gui/widgets/CGenericVariablesUIHandler.cpp \
@@ -382,4 +385,5 @@ SOURCES *= \
     gui/tools/configurator/variables/ConfiguratorVariablesUIHandler.cpp \
     gui/IScrollableUIWidget.cpp \
     gui/tools/configurator/IConfiguratorEditWindow.cpp \
-    gui/tools/configurator/steps/CEditStepTab.cpp
+    gui/tools/configurator/steps/CStepWidgetUIHandler.cpp \
+    gui/tools/configurator/steps/CEditStepListTab.cpp

@@ -7,10 +7,6 @@ CEditCycleTabUIHandler::CEditCycleTabUIHandler(CScrollableWidget *scrollable, QO
     setDescriber(new CVariableICycleDescriber(this));
 }
 
-CEditCycleTabUIHandler::~CEditCycleTabUIHandler()
-{
-}
-
 void CEditCycleTabUIHandler::layout(ICycle *cycle)
 {
     describer()->describe(QVariant::fromValue(cycle));

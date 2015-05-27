@@ -5,7 +5,7 @@
 
 class ICycle;
 class CEditCycleTab;
-class CEditCycleStepsTab;
+class CEditStepListTab;
 
 class CEditCycleWindow : public IConfiguratorEditWindow
 {
@@ -21,7 +21,7 @@ private slots:
 
 private:
     CEditCycleTab *m_ceditCycleTab;
-    CEditCycleStepsTab *m_ceditCycleStepsTab;
+    CEditStepListTab *m_ceditCycleStepListTab;
 };
 
 #endif // CEDITCYCLEWINDOW_H
