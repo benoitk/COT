@@ -1,8 +1,9 @@
 #include "CMessageBox.h"
-
 #include "CToolButton.h"
+#include "CVerticalButtonBar.h"
 
 #include <QLabel>
+#include <QAction>
 
 CMessageBox::CMessageBox(const QString &message, QWidget *parent)
     : IWindow(parent),
@@ -22,4 +23,8 @@ void CMessageBox::setupWindow()
     label->setText(m_message);
 
     setMainWidget(label);
+
+    QAction *okAction = buttonBar()->addAction(CToolButton::Ok);
+    buttonBar()->removeAction(CToolButton::Back);
+    connect(okAction, &QAction::triggered, this, &QWidget::close);
 }
