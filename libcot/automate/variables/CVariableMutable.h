@@ -32,9 +32,10 @@ public:
     ~CVariableMutable();
 
     virtual VariableOrganType getOrganType() const;
+    QVariant toVariant() Q_DECL_OVERRIDE;
     QString toString() Q_DECL_OVERRIDE;
     int toInt() Q_DECL_OVERRIDE;
-    float toFloat()  Q_DECL_OVERRIDE;
+    float toFloat() Q_DECL_OVERRIDE;
     bool toBool() Q_DECL_OVERRIDE;
     QString getLabel()const  Q_DECL_OVERRIDE;
     QString getName()const Q_DECL_OVERRIDE;
@@ -62,7 +63,6 @@ public:
     //qvariantmap can be converted to a json object
     QVariantMap serialise() Q_DECL_OVERRIDE;
 
-    QVariant toVariant() const;
 
     CVariableMutable::Type mutableType() const;
     void setMutableType(CVariableMutable::Type mutableType);

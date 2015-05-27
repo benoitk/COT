@@ -43,7 +43,7 @@ bool CVariableMutable::toBool()
     return m_data.value("value").toBool();
 }
 
-QVariant CVariableMutable::toVariant() const
+QVariant CVariableMutable::toVariant()
 {
     return m_data.value("value");
 }

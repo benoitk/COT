@@ -43,6 +43,7 @@ public:
     IVariable() {}
     virtual ~IVariable() {}
     virtual VariableOrganType getOrganType() const { return VariableOrganTypeNone; }
+    virtual QVariant toVariant()=0;
     virtual QString toString()=0;
     virtual int toInt()=0;
     virtual float toFloat() =0;

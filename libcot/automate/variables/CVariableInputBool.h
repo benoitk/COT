@@ -29,7 +29,9 @@ public:
 
     //IVariable
    QString getName()const Q_DECL_OVERRIDE;
-    void setName(const QString&)Q_DECL_OVERRIDE; QString toString() Q_DECL_OVERRIDE;
+    void setName(const QString&)Q_DECL_OVERRIDE;
+    QVariant toVariant() Q_DECL_OVERRIDE { return toBool(); }
+    QString toString() Q_DECL_OVERRIDE;
     int toInt() Q_DECL_OVERRIDE;
     float toFloat() Q_DECL_OVERRIDE;
     bool toBool() Q_DECL_OVERRIDE;
