@@ -31,11 +31,11 @@ public:
     comType getType()const Q_DECL_OVERRIDE;
 
 private:
-    typedef QVector<uint8_t> BitArray;
+    typedef QVarLengthArray<uint8_t, 32> BitArray;
     BitArray readNBitsFunction1(int addrVar, int nbBitsToRead);
     void writeNBitsFunction15(int addrVar, const BitArray &data);
 
-    typedef QVector<uint16_t> WordArray;
+    typedef QVarLengthArray<uint16_t, 16> WordArray;
     WordArray readNWordsFunction3(int addrVar, int nbWordsToRead);
     void writeNWordsFunction16(int addrVar, const WordArray &data);
 

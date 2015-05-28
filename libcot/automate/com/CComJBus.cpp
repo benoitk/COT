@@ -233,7 +233,8 @@ bool CComJBus::readBool(int addrVar)
 
 void CComJBus::writeBool(int addrVar, bool value)
 {
-    BitArray bits(1, value);
+    BitArray bits(1);
+    bits[0] = value;
     writeNBitsFunction15(addrVar, bits);
 }
 

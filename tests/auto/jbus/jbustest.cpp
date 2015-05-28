@@ -191,13 +191,13 @@ void JBusTest::testSlave_data()
 
 void JBusTest::testSlave()
 {
-    QVector<uint8_t> masterBits = QVector<uint8_t>()
+    CComJBus::BitArray masterBits = CComJBus::BitArray()
         << 0 << 1 << 0 << 1 << 0 << 1 << 0 << 1;
-    QVector<uint8_t> masterInputBits = QVector<uint8_t>()
+    CComJBus::BitArray masterInputBits = CComJBus::BitArray()
         << 1 << 1 << 0 << 0;
-    QVector<uint16_t> masterInputWords = QVector<uint16_t>()
+    CComJBus::WordArray masterInputWords = CComJBus::WordArray()
         << 4 << 3 << 2 << 1 << 0;
-    QVector<uint16_t> masterWords = QVector<uint16_t>()
+    CComJBus::WordArray masterWords = CComJBus::WordArray()
         << 0 << 1 << 2 << 3 << 4 << 5 << 6 << 7;
 
     std::promise<bool> startSlave;
@@ -349,14 +349,14 @@ void JBusTest::testSlave()
         QCOMPARE(inputWordsRead, masterInputWords);
 
         qDebug() << "testing writeBit";
-        QVector<uint8_t> oldBits = masterBits;
+        const CComJBus::BitArray oldBits = masterBits;
         for (int i = 0; i < oldBits.size(); ++i) {
             slave.writeBitFunction5(i, !oldBits[i]);
             QCOMPARE(static_cast<bool>(masterBits[i]), !oldBits[i]);
         }
 
         qDebug() << "testing writeWord";
-        QVector<uint16_t> oldWords = masterWords;
+        const CComJBus::WordArray oldWords = masterWords;
         for (int i = 0; i < oldWords.size(); ++i) {
             slave.writeWordFunction6(i, oldWords[i] + 42);
             QCOMPARE(static_cast<int>(masterWords[i]), oldWords[i] + 42);
