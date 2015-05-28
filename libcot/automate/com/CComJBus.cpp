@@ -132,66 +132,41 @@ QVariant CComJBus::readData(){
     return QVariant();
 }
 QVariant CComJBus::readData(IVariableInput* arg_input){
-    BitArray bitArray;
-    WordArray wordArray;
-    QVariant returnedVar;
+    const int address = arg_input->getOrganneAddr().toInt();
 
     switch (arg_input->getIVariable()->getType())
     {
     case type_bool:
-        bitArray = readNBitsFunction1(arg_input->getOrganneAddr().toInt(), 1);
-        if(!bitArray.isEmpty()){
-            returnedVar = bitArray.at(0);
-        }
-        break;
+        return readBool(address);
     case type_int:
-        {
-            wordArray = readNWordsFunction3(arg_input->getOrganneAddr().toInt(), 2);
-
-            char byte;
-            int value =0;
-            int i=0;
-            foreach(byte, wordArray){
-                int value = value + ((byte << (8*i++)) & 0xffff);
-            }
-            returnedVar = value;
-            break;
-        }
+        return readInt(address);
     case type_float:
-        {
-            wordArray = readNWordsFunction3(arg_input->getOrganneAddr().toInt(), 4);
-            char byte;
-            float fValue =0;
-            int i=0;
-            foreach(byte, wordArray){
-                int fValue = fValue + ((byte << (8*i++)) & 0xffff);
-            }
-            returnedVar = fValue;
-            break;
-        }
+        return readFloat(address);
     case type_unknow:
     default:
         break;
     }
     return QVariant();
 }
-void CComJBus::writeData(IVariableOutput* arg_output){
-    switch (arg_output->getIVariable()->getType())
+void CComJBus::writeData(IVariableOutput* arg_output)
+{
+    const int address = arg_output->getOrganneAddr().toInt();
+    IVariable* variable = arg_output->getIVariable();
+    switch (variable->getType())
     {
     case type_bool:
-        writeNBitsFunction15(arg_output->getOrganneAddr().toInt(), BitArray(1, arg_output->getIVariable()->toInt()));
+        writeBool(address, variable->toBool());
         break;
     case type_int:
-        readNWordsFunction3(arg_output->getOrganneAddr().toInt(), 2);
+        writeInt(address, variable->toInt());
         break;
     case type_float:
-        readNWordsFunction3(arg_output->getOrganneAddr().toInt(), 4);
+        writeFloat(address, variable->toFloat());
         break;
     case type_unknow:
     default:
         break;
     }
-
 }
 
 CComJBus::BitArray CComJBus::readNBitsFunction1(int addrVar, int nbBitsToRead)
@@ -249,6 +224,49 @@ void CComJBus::writeWordFunction6(int addrVar, int word)
 {
     if (modbus_write_register(m_ctx.data(), addrVar, word) == -1)
         qCDebug(COTAUTOMATE_LOG) << "Failed to write word to" << addrVar << ':' << modbus_strerror(errno);
+}
+
+bool CComJBus::readBool(int addrVar)
+{
+    return readNBitsFunction1(addrVar, 1).at(0);
+}
+
+void CComJBus::writeBool(int addrVar, bool value)
+{
+    BitArray bits(1, value);
+    writeNBitsFunction15(addrVar, bits);
+}
+
+int CComJBus::readInt(int addrVar)
+{
+    const WordArray& words = readNWordsFunction3(addrVar, sizeof(int) / sizeof(uint16_t));
+    int value = 0;
+    int i = 0;
+    foreach(uint16_t word, words) {
+        value += ((word << (8 * i)) & 0xffff);
+        ++i;
+    }
+    return value;
+}
+
+void CComJBus::writeInt(int addrVar, int value)
+{
+    WordArray words(sizeof(int) / sizeof(uint16_t));
+    memcpy(words.data(), &value, sizeof(int));
+    writeNWordsFunction16(addrVar, words);
+}
+
+float CComJBus::readFloat(int addrVar)
+{
+    const WordArray& words = readNWordsFunction3(addrVar, sizeof(float) / sizeof(uint16_t));
+    return modbus_get_float(words.data());
+}
+
+void CComJBus::writeFloat(int addrVar, float value)
+{
+    WordArray words(sizeof(float) / sizeof(uint16_t));
+    modbus_set_float(value, words.data());
+    writeNWordsFunction16(addrVar, words);
 }
 
 void CComJBus::triggerUpdateAllData(){

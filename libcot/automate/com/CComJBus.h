@@ -45,6 +45,15 @@ private:
     void writeBitFunction5(int addrVar, bool bit);
     void writeWordFunction6(int addrVar, int word);
 
+    bool readBool(int addrVar);
+    void writeBool(int addrVar, bool value);
+
+    int readInt(int addrVar);
+    void writeInt(int addrVar, int value);
+
+    float readFloat(int addrVar);
+    void writeFloat(int addrVar, float value);
+
     void initializeModbus();
 
     struct FreeModbus;

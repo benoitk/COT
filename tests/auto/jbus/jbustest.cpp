@@ -361,6 +361,30 @@ void JBusTest::testSlave()
             slave.writeWordFunction6(i, oldWords[i] + 42);
             QCOMPARE(static_cast<int>(masterWords[i]), oldWords[i] + 42);
         }
+
+        qDebug() << "testing readBool/writeBool";
+        masterBits[0] = true;
+        const bool b = slave.readBool(0);
+        QCOMPARE(b, true);
+        slave.writeBool(0, !b);
+        QCOMPARE(slave.readBool(0), !b);
+
+        qDebug() << "testing readInt/writeInt";
+        const int intData = 42;
+        memcpy(masterWords.data() + 2, &intData, sizeof(intData));
+        const int i = slave.readInt(2);
+        QCOMPARE(i, intData);
+        slave.writeInt(2, 24);
+        QCOMPARE(slave.readInt(2), 24);
+
+        qDebug() << "testing readFloat/writeFloat";
+        const float floatData = 2.5;
+        const int floatAddress = 4;
+        memcpy(masterWords.data() + floatAddress, &floatData, sizeof(floatData));
+        const float f = slave.readFloat(floatAddress);
+        QCOMPARE(f, floatData);
+        slave.writeFloat(floatAddress, 4.5);
+        QCOMPARE(slave.readFloat(floatAddress), 4.5);
     }
     // destroy the slave to kill the tcpip connection, which stops the master loop as well
     // then we can join the thread
