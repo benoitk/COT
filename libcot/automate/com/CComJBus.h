@@ -49,8 +49,6 @@ private:
 
     struct FreeModbus;
     QScopedPointer<modbus_t, FreeModbus> m_ctx;
-    struct FreeModbusMapping;
-    QScopedPointer<modbus_mapping_t, FreeModbusMapping> m_mapping;
 
     int m_slave;
     QMap<int, IVariableInput*> m_mapInputTable;

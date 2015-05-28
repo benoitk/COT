@@ -79,7 +79,7 @@ private slots:
 private:
     bool isInitialized(const CComJBus &bus) const
     {
-        return bus.m_ctx.data() && bus.m_mapping.data();
+        return bus.m_ctx.data();
     }
 
     PseudoTerminal m_pty;

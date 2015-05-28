@@ -70,15 +70,6 @@ struct CComJBus::FreeModbus
     }
 };
 
-struct CComJBus::FreeModbusMapping
-{
-    static inline void cleanup(modbus_mapping_t *mapping)
-    {
-        if (mapping)
-            modbus_mapping_free(mapping);
-    }
-};
-
 CComJBus::CComJBus(const QVariantMap &mapCom, QObject *parent)
     : ICom(parent)
     , m_ctx(Q_NULLPTR)
@@ -132,13 +123,6 @@ void CComJBus::initializeModbus()
 
     if (modbus_connect(m_ctx.data()) == -1) {
         qWarning("Failed to connect to com bus: %s\n", modbus_strerror(errno));
-        m_ctx.reset();
-        return;
-    }
-
-    m_mapping.reset(modbus_mapping_new(MODBUS_MAX_READ_BITS, 0, MODBUS_MAX_READ_REGISTERS, 0));
-    if (!m_mapping) {
-        qWarning("Failed to allocate the mapping: %s\n", modbus_strerror(errno));
         m_ctx.reset();
         return;
     }
