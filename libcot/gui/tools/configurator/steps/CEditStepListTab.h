@@ -22,12 +22,21 @@ private:
     QVBoxLayout *m_layout;
 
     void ensureStepWidgetVisible(CStepWidget *stepWidget);
-    CStepWidget *addStep(CStep *step, bool ensureVisible);
+    CStepWidget *addStep(CStep *step);
+
+    CStepWidget *stepWidgetAt(int index) const;
+    QList<CStepWidget *> selectedSteps() const;
+    void copySteps(const QList<CStepWidget *> &stepWidgets, float to);
+    void moveSteps(const QList<CStepWidget *> &stepWidgets, float to);
+    void reorderStepWidgets(CStepWidget *ensureVisibleStep = Q_NULLPTR);
 
 private slots:
     void slotAddStep();
     void slotAddStopStep();
+    void slotCopyTriggered();
+    void slotMoveTriggered();
     void slotScrollToStopStep();
+    void slotHandleStepChanged(float from, float to);
 };
 
 #endif // CEDITSTEPLISTTAB_H

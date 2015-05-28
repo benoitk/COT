@@ -18,18 +18,28 @@ class CStepWidget : public QGroupBox
 public:
     CStepWidget(CStep *step, QWidget *parent = Q_NULLPTR);
 
+    bool isSelected() const;
+    void setSelected(bool selected);
+
+    float getInterval() const;
+    void setInterval(float value);
+
     bool isStopStep() const;
     void editStep();
     CStep *createNewStep() const;
+
+protected:
+    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 
 private:
     QLabel *m_interval;
     IScrollableUIWidget *m_scrollable;
     CStepWidgetUIHandler *m_handler;
     CVariableCStepDescriber *m_stepDescriber;
+    bool m_selected;
 
     QString getLabel() const;
-    float getInterval() const;
     QList<IAction *> getActions() const;
 
 private slots:
@@ -39,7 +49,7 @@ private slots:
     void slotEditTriggered();
 
 signals:
-    void signalStepChanged();
+    void signalStepChanged(float from, float to);
 };
 
 #endif // CSTEPWIDGET_H
