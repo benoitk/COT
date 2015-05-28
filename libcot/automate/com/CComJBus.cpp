@@ -239,6 +239,14 @@ void CComJBus::writeNWordsFunction16(int addrVar, const WordArray &data)
         qCDebug(COTAUTOMATE_LOG) << "Failed to write" << data.size() << "words from" << addrVar << ':' << modbus_strerror(errno);
 }
 
+CComJBus::BitArray CComJBus::readNInputBitsFunction2(int addrVar, int nbBitsToRead)
+{
+    BitArray ret(nbBitsToRead);
+    if (modbus_read_input_bits(m_ctx.data(), addrVar, nbBitsToRead, ret.data()) == -1)
+        qCDebug(COTAUTOMATE_LOG) << "Failed to read" << nbBitsToRead << "input bits from" << addrVar << ':' << modbus_strerror(errno);
+    return ret;
+}
+
 void CComJBus::triggerUpdateAllData(){
 
 }

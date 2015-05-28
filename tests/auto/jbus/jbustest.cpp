@@ -193,6 +193,8 @@ void JBusTest::testSlave()
 {
     QVector<uint8_t> masterBits = QVector<uint8_t>()
         << 0 << 1 << 0 << 1 << 0 << 1 << 0 << 1;
+    QVector<uint8_t> masterInputBits = QVector<uint8_t>()
+        << 1 << 1 << 0 << 0;
     QVector<uint16_t> masterWords = QVector<uint16_t>()
         << 0 << 1 << 2 << 3 << 4 << 5 << 6 << 7;
 
@@ -201,7 +203,7 @@ void JBusTest::testSlave()
 
     QFETCH(QVariantMap, config);
 
-    std::thread master([&masterBits, &masterWords, &startSlave, &stopMaster, &config] {
+    std::thread master([&masterBits, &masterInputBits, &masterWords, &startSlave, &stopMaster, &config] {
         std::unique_ptr<modbus_t, void(*)(modbus_t*)> ctx(Q_NULLPTR, [] (modbus_t *ctx) {
             if (ctx) {
                 modbus_close(ctx);
@@ -280,8 +282,8 @@ void JBusTest::testSlave()
         }
 
         modbus_mapping_t mapping = {
-            masterBits.size(), 0, 0, masterWords.size(),
-            masterBits.data(), Q_NULLPTR, Q_NULLPTR, masterWords.data()
+            masterBits.size(), masterInputBits.size(), 0, masterWords.size(),
+            masterBits.data(), masterInputBits.data(), Q_NULLPTR, masterWords.data()
         };
 
         for (;;) {
@@ -334,6 +336,10 @@ void JBusTest::testSlave()
         QVERIFY(wordsToWrite != wordsRead);
         slave.writeNWordsFunction16(address, wordsToWrite);
         QCOMPARE(wordsToWrite, slave.readNWordsFunction3(address, wordsToWrite.size()));
+
+        qDebug() << "testing readNInputBits";
+        const CComJBus::BitArray inputBitsRead = slave.readNInputBitsFunction2(0, masterInputBits.size());
+        QCOMPARE(inputBitsRead, masterInputBits);
     }
     // destroy the slave to kill the tcpip connection, which stops the master loop as well
     // then we can join the thread

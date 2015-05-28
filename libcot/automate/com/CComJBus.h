@@ -39,6 +39,8 @@ private:
     WordArray readNWordsFunction3(int addrVar, int nbWordsToRead);
     void writeNWordsFunction16(int addrVar, const WordArray &data);
 
+    BitArray readNInputBitsFunction2(int addrVar, int nbBitsToRead);
+
     void initializeModbus();
 
     struct FreeModbus;
