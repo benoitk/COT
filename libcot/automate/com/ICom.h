@@ -4,6 +4,8 @@
 #include <QObject>
 #include "qvariant.h"
 
+#include "cot_global.h"
+
 enum comType{
         type_tcpip = 0,
         type_jbus,
@@ -12,12 +14,12 @@ enum comType{
 
 };
 
-comType stringToComType(const QString &type);
+LIBCOT_EXPORT comType stringToComType(const QString &type);
 
 class IVariableInput;
 class IVariableOutput;
 class IVariable;
-class ICom : public QObject
+class LIBCOT_EXPORT ICom : public QObject
 {
     Q_OBJECT
 

@@ -73,8 +73,8 @@ private slots:
     void testInitialize_data();
     void testInitialize();
 
-    void testRtu();
-    void testTcpip();
+    void testSlave_data();
+    void testSlave();
 
 private:
     bool isInitialized(const CComJBus &bus) const
@@ -153,49 +153,68 @@ void JBusTest::testInitialize()
     QCOMPARE(isInitialized(bus), initialized);
 }
 
-void JBusTest::testRtu()
+void JBusTest::testSlave_data()
 {
-    QSKIP("not implemented yet");
+    QTest::addColumn<QVariantMap>("config");
 
-    QVariantMap masterConfig;
-    masterConfig["name"] = "rtu_master";
-    masterConfig["type"] = "jbus";
-    masterConfig["device"] = m_pty.name();
-    masterConfig["baudrate"] = 9600;
-    masterConfig["data"] = 8;
-    masterConfig["stop"] = 1;
-    CComJBus master(masterConfig);
-    QVERIFY(isInitialized(master));
-
-    QVariantMap slaveConfig = masterConfig;
-    slaveConfig["name"] = "rtu_slave";
-    slaveConfig["slave"] = 1;
-    CComJBus slave(slaveConfig);
-    QVERIFY(isInitialized(slave));
-
-    const int address = 42;
-    CComJBus::BitArray bitsToWrite(32);
-    for (int i = 0; i < bitsToWrite.size(); ++i) {
-        bitsToWrite[i] = i % 2;
+    {
+        QVariantMap config;
+        config["name"] = "tcpip_slave";
+        config["type"] = "tcpip";
+        config["slave"] = 255;
+        config["ip"] = "127.0.0.1";
+        config["port"] = 12346;
+        QTest::newRow("tcpip") << config;
     }
-    slave.writeNBitsFunction15(address, bitsToWrite);
-    const CComJBus::BitArray bitsRead = master.readNBitsFunction1(address, bitsToWrite.size());
-    qDebug() << bitsToWrite << bitsRead;
-    QCOMPARE(bitsToWrite, bitsRead);
+    {
+        QVariantMap config;
+        config["name"] = "rtutcpip_slave";
+        config["type"] = "jbus_over_tcpip";
+        config["slave"] = 255;
+        config["ip"] = "127.0.0.1";
+        config["port"] = 12346;
+        QTest::newRow("jbus_over_tcpip") << config;
+    }
 }
 
-void JBusTest::testTcpip()
+void JBusTest::testSlave()
 {
     uint8_t masterBits[8] = {0, 1, 0, 1, 0, 1, 0, 1};
-    const QByteArray ip = QByteArrayLiteral("127.0.0.1");
-    const int port = 12346;
+
+    QFETCH(QVariantMap, config);
 
     std::promise<bool> startSlave;
-    std::thread master([&masterBits, &startSlave, &ip, &port] {
-        modbus_t *ctx = modbus_new_tcp(ip.constData(), port);
+
+    std::thread master([&masterBits, &startSlave, &config] {
+        modbus_t *ctx = Q_NULLPTR;
+        const comType type = stringToComType(config["type"].toString());
+        switch (type)
+        {
+        case type_jbus_over_tcpip:
+        case type_tcpip:
+            {
+                const QByteArray ip = config["ip"].toByteArray();
+                const int port = config["port"].toInt();
+                if (type == type_tcpip)
+                    ctx = modbus_new_tcp(ip.constData(), port);
+                else
+                    ctx = modbus_new_rtutcp(ip.constData(), port);
+                if (!ctx) {
+                    fprintf(stderr, "%s failed on %s:%d: %s\n",
+                            (type == type_tcpip ? "modbus_new_tcp" : "modbus_new_rtutcp"),
+                            ip.constData(), port, modbus_strerror(errno));
+                }
+                break;
+            }
+
+        case type_jbus:
+        case type_com_unknow:
+            fprintf(stderr, "unhandled com type: %s\n",
+                    qPrintable(config["type"].toString()));
+            break;
+        }
+
         if (!ctx) {
-            fprintf(stderr, "modbus_new_tcp failed on %s:%d: %s\n",
-                    ip.constData(), port, modbus_strerror(errno));
             startSlave.set_value(false);
             return;
         }
@@ -233,6 +252,7 @@ void JBusTest::testTcpip()
         }
 
         close(socket);
+        modbus_close(ctx);
         modbus_free(ctx);
     });
 
@@ -240,13 +260,7 @@ void JBusTest::testTcpip()
     QVERIFY(startSlave.get_future().get());
 
     {
-        QVariantMap slaveConfig;
-        slaveConfig["name"] = "rtu_slave";
-        slaveConfig["type"] = "tcpip";
-        slaveConfig["slave"] = 1;
-        slaveConfig["ip"] = ip;
-        slaveConfig["port"] = port;
-        CComJBus slave(slaveConfig);
+        CComJBus slave(config);
         QVERIFY(isInitialized(slave));
 
         const int address = 0;
