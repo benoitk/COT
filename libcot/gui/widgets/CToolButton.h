@@ -42,7 +42,8 @@ public:
         AddStopStep,
         Edit,
         Remove,
-        Delete
+        Delete,
+        Empty
     };
 
     explicit CToolButton(QWidget *parent = Q_NULLPTR);

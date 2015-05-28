@@ -164,6 +164,7 @@ QIcon CToolButton::buttonIcon(CToolButton::Type type)
         case CToolButton::StopEndCycle:
         case CToolButton::NextStream:
         case CToolButton::Update:
+        case CToolButton::Empty:
             // SERES_TODO: Add correct icons. // COT-66
             break;
 
@@ -247,7 +248,7 @@ QIcon CToolButton::buttonIcon(CToolButton::Type type)
             break;
 
         case CToolButton::MeasureDetails:
-        case CToolButton::Configure: // TODO: need a different icon for this one
+        case CToolButton::Configure: // SERES_TODO: Add correct icons. // COT-66
             icon = iconFromPixmaps("35x35 detail mesure");
             break;
 
