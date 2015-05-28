@@ -6,11 +6,22 @@
 int main()
 {
     modbus_t *ctx = modbus_new_rtutcp("127.0.0.1", 12345);
+    if (!ctx) {
+        fprintf(stderr, "failed to create modbus context: %s\n", modbus_strerror(errno));
+        return 1;
+    }
 
     modbus_set_debug(ctx, true);
 
     int socket = modbus_tcp_listen(ctx, 1);
+    if (socket == -1) {
+        fprintf(stderr, "failed to listen for tcp connections: %s\n", modbus_strerror(errno));
+        return 1;
+    }
+
+    printf("waiting for slave to connect to 127.0.0.1:12345\n");
     modbus_tcp_accept(ctx, &socket);
+    printf("slave connected! handling requests\n");
 
     uint8_t bits[8] = {0, 1, 0, 1, 0, 1, 0, 1};
     uint8_t bits_input[8] = {1, 0, 1, 0, 1, 0, 1, 0};
@@ -40,7 +51,7 @@ int main()
         }
     }
 
-    printf("Quit the loop: %s\n", modbus_strerror(errno));
+    printf("slave disconnected, shutting down master\n");
     close(socket);
 
     modbus_free(ctx);
