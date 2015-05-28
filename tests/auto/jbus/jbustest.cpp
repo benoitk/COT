@@ -201,12 +201,11 @@ void JBusTest::testSlave()
         << 0 << 1 << 2 << 3 << 4 << 5 << 6 << 7;
 
     std::promise<bool> startSlave;
-    std::promise<bool> stopMaster;
 
     QFETCH(QVariantMap, config);
 
     std::thread master([&masterBits, &masterInputBits, &masterInputWords, &masterWords,
-                        &startSlave, &stopMaster, &config]
+                        &startSlave, &config]
     {
         std::unique_ptr<modbus_t, void(*)(modbus_t*)> ctx(Q_NULLPTR, [] (modbus_t *ctx) {
             if (ctx) {
