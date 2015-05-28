@@ -149,7 +149,7 @@ QVariant CComJBus::readData(){
 }
 QVariant CComJBus::readData(IVariableInput* arg_input){
     BitArray bitArray;
-    QList<char> byteArray;
+    WordArray wordArray;
     QVariant returnedVar;
 
     switch (arg_input->getIVariable()->getType())
@@ -162,12 +162,12 @@ QVariant CComJBus::readData(IVariableInput* arg_input){
         break;
     case type_int:
         {
-            byteArray = readNWordsFunction3(arg_input->getOrganneAddr().toInt(), 2);
+            wordArray = readNWordsFunction3(arg_input->getOrganneAddr().toInt(), 2);
 
             char byte;
             int value =0;
             int i=0;
-            foreach(byte, byteArray){
+            foreach(byte, wordArray){
                 int value = value + ((byte << (8*i++)) & 0xffff);
             }
             returnedVar = value;
@@ -175,11 +175,11 @@ QVariant CComJBus::readData(IVariableInput* arg_input){
         }
     case type_float:
         {
-            byteArray = readNWordsFunction3(arg_input->getOrganneAddr().toInt(), 4);
+            wordArray = readNWordsFunction3(arg_input->getOrganneAddr().toInt(), 4);
             char byte;
             float fValue =0;
             int i=0;
-            foreach(byte, byteArray){
+            foreach(byte, wordArray){
                 int fValue = fValue + ((byte << (8*i++)) & 0xffff);
             }
             returnedVar = fValue;
@@ -214,23 +214,28 @@ CComJBus::BitArray CComJBus::readNBitsFunction1(int addrVar, int nbBitsToRead)
 {
     BitArray ret(nbBitsToRead);
     if (modbus_read_bits(m_ctx.data(), addrVar, nbBitsToRead, ret.data()) == -1)
-        qCDebug(COTAUTOMATE_LOG) << "Failed to read" << nbBitsToRead << "bits from" << addrVar << ":" << modbus_strerror(errno);
+        qCDebug(COTAUTOMATE_LOG) << "Failed to read" << nbBitsToRead << "bits from" << addrVar << ':' << modbus_strerror(errno);
     return ret;
 }
 
 void CComJBus::writeNBitsFunction15(int addrVar, const BitArray &data)
 {
-    if (modbus_write_bits(m_ctx.data(), addrVar, data.size(), data.data()) == -1)
-        qCDebug(COTAUTOMATE_LOG) << "Failed to write" << data.size() << "bits to" << addrVar << ":" << modbus_strerror(errno);
+    if (modbus_write_bits(m_ctx.data(), addrVar, data.size(), data.constData()) == -1)
+        qCDebug(COTAUTOMATE_LOG) << "Failed to write" << data.size() << "bits to" << addrVar << ':' << modbus_strerror(errno);
 }
 
-QList<char> CComJBus::readNWordsFunction3( int addrVar, int nbBytesToRead){
-    QList<char> temp;
-    return temp;
+CComJBus::WordArray CComJBus::readNWordsFunction3(int addrVar, int nbWordsToRead)
+{
+    WordArray ret(nbWordsToRead);
+    if (modbus_read_registers(m_ctx.data(), addrVar, nbWordsToRead, ret.data()) == -1)
+        qCDebug(COTAUTOMATE_LOG) << "Failed to read" << nbWordsToRead << "words from" << addrVar << ':' << modbus_strerror(errno);
+    return ret;
 
 }
-void CComJBus::writeNWordsFunction16( int addrVar, const QList<char> &data){
-
+void CComJBus::writeNWordsFunction16( int addrVar, const WordArray &data)
+{
+    if (modbus_write_registers(m_ctx.data(), addrVar, data.size(), data.constData()) == -1)
+        qCDebug(COTAUTOMATE_LOG) << "Failed to write" << data.size() << "words from" << addrVar << ':' << modbus_strerror(errno);
 }
 
 void CComJBus::triggerUpdateAllData(){

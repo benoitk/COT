@@ -32,10 +32,12 @@ public:
 
 private:
     typedef QVector<uint8_t> BitArray;
-    BitArray readNBitsFunction1( int addrVar, int nbBitsToRead);
+    BitArray readNBitsFunction1(int addrVar, int nbBitsToRead);
     void writeNBitsFunction15(int addrVar, const BitArray &data);
-    QList<char> readNWordsFunction3( int addrVar, int nbBytesToRead);
-    void writeNWordsFunction16(int addrVar, const QList<char> &data);
+
+    typedef QVector<uint16_t> WordArray;
+    WordArray readNWordsFunction3(int addrVar, int nbWordsToRead);
+    void writeNWordsFunction16(int addrVar, const WordArray &data);
 
     void initializeModbus();
 

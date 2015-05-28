@@ -191,14 +191,17 @@ void JBusTest::testSlave_data()
 
 void JBusTest::testSlave()
 {
-    uint8_t masterBits[8] = {0, 1, 0, 1, 0, 1, 0, 1};
+    QVector<uint8_t> masterBits = QVector<uint8_t>()
+        << 0 << 1 << 0 << 1 << 0 << 1 << 0 << 1;
+    QVector<uint16_t> masterWords = QVector<uint16_t>()
+        << 0 << 1 << 2 << 3 << 4 << 5 << 6 << 7;
 
     std::promise<bool> startSlave;
     std::promise<bool> stopMaster;
 
     QFETCH(QVariantMap, config);
 
-    std::thread master([&masterBits, &startSlave, &stopMaster, &config] {
+    std::thread master([&masterBits, &masterWords, &startSlave, &stopMaster, &config] {
         std::unique_ptr<modbus_t, void(*)(modbus_t*)> ctx(Q_NULLPTR, [] (modbus_t *ctx) {
             if (ctx) {
                 modbus_close(ctx);
@@ -277,8 +280,8 @@ void JBusTest::testSlave()
         }
 
         modbus_mapping_t mapping = {
-            sizeof(masterBits), 0, 0, 0,
-            masterBits, Q_NULLPTR, Q_NULLPTR, Q_NULLPTR
+            masterBits.size(), 0, 0, masterWords.size(),
+            masterBits.data(), Q_NULLPTR, Q_NULLPTR, masterWords.data()
         };
 
         for (;;) {
@@ -306,17 +309,31 @@ void JBusTest::testSlave()
         CComJBus slave(config);
         QVERIFY(isInitialized(slave));
 
+        qDebug() << "testing readNBits / writeNBits";
         const int address = 0;
-        const CComJBus::BitArray bitsRead = slave.readNBitsFunction1(address, sizeof(masterBits));
-        QCOMPARE(static_cast<size_t>(bitsRead.size()), sizeof(masterBits));
+        const CComJBus::BitArray bitsRead = slave.readNBitsFunction1(address, masterBits.size());
+        QCOMPARE(bitsRead.size(), masterBits.size());
         CComJBus::BitArray bitsToWrite(bitsRead.size());
-        for (uint i = 0; i < sizeof(masterBits); ++i) {
-            QCOMPARE(bitsRead[i], masterBits[i]);
+        QCOMPARE(bitsRead, masterBits);
+        for (int i = 0; i < masterBits.size(); ++i) {
             bitsToWrite[i] = !bitsRead[i];
         }
         QVERIFY(bitsToWrite != bitsRead);
         slave.writeNBitsFunction15(address, bitsToWrite);
         QCOMPARE(bitsToWrite, slave.readNBitsFunction1(address, bitsToWrite.size()));
+
+        qDebug() << "testing readNWords / writeNWords";
+        const CComJBus::WordArray wordsRead = slave.readNWordsFunction3(address, masterWords.size());
+        QCOMPARE(wordsRead.size(), masterWords.size());
+        CComJBus::WordArray wordsToWrite(wordsRead.size());
+        QCOMPARE(wordsRead, masterWords);
+        for (int i = 0; i < masterWords.size(); ++i) {
+            QCOMPARE(wordsRead[i], masterWords[i]);
+            wordsToWrite[i] = wordsRead[i] + 1;
+        }
+        QVERIFY(wordsToWrite != wordsRead);
+        slave.writeNWordsFunction16(address, wordsToWrite);
+        QCOMPARE(wordsToWrite, slave.readNWordsFunction3(address, wordsToWrite.size()));
     }
     // destroy the slave to kill the tcpip connection, which stops the master loop as well
     // then we can join the thread
