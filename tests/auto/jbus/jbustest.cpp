@@ -7,6 +7,7 @@
 #include <QTcpServer>
 #include <QHostAddress>
 #include <QBitArray>
+#include <QSignalSpy>
 
 #include <thread>
 #include <future>
@@ -77,9 +78,10 @@ private slots:
     void testSlave();
 
 private:
-    bool isInitialized(const CComJBus &bus) const
+    bool waitForInitialization(const CComJBus &bus, int timeoutMs = 500) const
     {
-        return bus.m_ctx.data();
+        QSignalSpy spy(&bus, SIGNAL(connected(bool)));
+        return spy.wait(timeoutMs);
     }
 
     PseudoTerminal m_pty;
@@ -150,7 +152,7 @@ void JBusTest::testInitialize()
 #ifndef Q_OS_LINUX
     QEXPECT_FAIL("jbus", "no pseudo tty implementation available on this platform", Abort);
 #endif
-    QCOMPARE(isInitialized(bus), initialized);
+    QCOMPARE(waitForInitialization(bus), initialized);
 }
 
 void JBusTest::testSlave_data()
@@ -312,7 +314,7 @@ void JBusTest::testSlave()
 
     {
         CComJBus slave(config);
-        QVERIFY(isInitialized(slave));
+        QVERIFY(waitForInitialization(slave));
 
         qDebug() << "testing readNBits / writeNBits";
         const int address = 0;

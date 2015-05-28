@@ -6,6 +6,8 @@
 #include "CModelExtensionCard.h"
 #include "cotautomate_debug.h"
 
+#include <QThread>
+
 #include <cstring>
 
 namespace {
@@ -57,6 +59,39 @@ modbus_t *initTcp(const QVariantMap &options, InitFunction init)
         qCWarning(COTAUTOMATE_LOG) << "failed to initialize modbus over tcp:" << modbus_strerror(errno);
     return ret;
 }
+
+class Worker : public QObject
+{
+    Q_OBJECT
+public:
+    explicit Worker(modbus_t *ctx, QThread *thread)
+        : QObject(Q_NULLPTR)
+        , m_ctx(ctx)
+    {
+        moveToThread(thread);
+        connect(thread, &QThread::started,
+                this, &Worker::run);
+        connect(thread, &QThread::finished,
+                this, &Worker::deleteLater);
+    }
+
+signals:
+    void connected(bool success);
+
+private:
+    void run()
+    {
+        if (modbus_connect(m_ctx) == -1) {
+            qWarning("Failed to connect to com bus: %s\n", modbus_strerror(errno));
+            connected(false);
+            return;
+        }
+        emit connected(true);
+        // TODO: receive messages, reply to them
+    }
+
+    modbus_t *m_ctx;
+};
 }
 
 struct CComJBus::FreeModbus
@@ -73,6 +108,7 @@ struct CComJBus::FreeModbus
 CComJBus::CComJBus(const QVariantMap &mapCom, QObject *parent)
     : ICom(parent)
     , m_ctx(Q_NULLPTR)
+    , m_modbusThread(new QThread(this))
     , m_slave(-1)
     , m_type(type_com_unknow)
 {
@@ -110,6 +146,8 @@ CComJBus::CComJBus(const QVariantMap &mapCom, QObject *parent)
 
 CComJBus::~CComJBus()
 {
+    m_modbusThread->quit();
+    m_modbusThread->wait();
 }
 
 void CComJBus::initializeModbus()
@@ -121,11 +159,15 @@ void CComJBus::initializeModbus()
     if (m_slave >= 0)
         modbus_set_slave(m_ctx.data(), m_slave);
 
-    if (modbus_connect(m_ctx.data()) == -1) {
-        qWarning("Failed to connect to com bus: %s\n", modbus_strerror(errno));
-        m_ctx.reset();
-        return;
-    }
+    Worker *worker = new Worker(m_ctx.data(), m_modbusThread);
+    connect(worker, &Worker::connected,
+            this, [this] (bool success) {
+                if (!success) {
+                    m_ctx.reset();
+                }
+                emit connected(success);
+            });
+    m_modbusThread->start();
 }
 
 QVariant CComJBus::readData(){
@@ -284,3 +326,5 @@ QString CComJBus::getName()const{
 comType CComJBus::getType()const{
     return m_type; //typer slave et master ?
 }
+
+#include "CComJBus.moc"

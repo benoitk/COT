@@ -30,6 +30,9 @@ public:
     QString getName()const Q_DECL_OVERRIDE;
     comType getType()const Q_DECL_OVERRIDE;
 
+signals:
+    void connected(bool success);
+
 private:
     typedef QVarLengthArray<uint8_t, 32> BitArray;
     BitArray readNBitsFunction1(int addrVar, int nbBitsToRead);
@@ -58,6 +61,7 @@ private:
 
     struct FreeModbus;
     QScopedPointer<modbus_t, FreeModbus> m_ctx;
+    QThread *m_modbusThread;
 
     int m_slave;
     QMap<int, IVariableInput*> m_mapInputTable;
