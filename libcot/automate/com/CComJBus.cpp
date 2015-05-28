@@ -247,6 +247,14 @@ CComJBus::BitArray CComJBus::readNInputBitsFunction2(int addrVar, int nbBitsToRe
     return ret;
 }
 
+CComJBus::WordArray CComJBus::readNInputWordsFunction4(int addrVar, int nbWordsToRead)
+{
+    WordArray ret(nbWordsToRead);
+    if (modbus_read_input_registers(m_ctx.data(), addrVar, nbWordsToRead, ret.data()) == -1)
+        qCDebug(COTAUTOMATE_LOG) << "Failed to read" << nbWordsToRead << "input words from" << addrVar << ':' << modbus_strerror(errno);
+    return ret;
+}
+
 void CComJBus::triggerUpdateAllData(){
 
 }

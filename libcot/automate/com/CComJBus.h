@@ -40,6 +40,7 @@ private:
     void writeNWordsFunction16(int addrVar, const WordArray &data);
 
     BitArray readNInputBitsFunction2(int addrVar, int nbBitsToRead);
+    WordArray readNInputWordsFunction4(int addrVar, int nbWordsToRead);
 
     void initializeModbus();
 
