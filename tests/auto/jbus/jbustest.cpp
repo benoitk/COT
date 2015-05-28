@@ -348,6 +348,20 @@ void JBusTest::testSlave()
         qDebug() << "testing readNInputWords";
         const CComJBus::WordArray inputWordsRead = slave.readNInputWordsFunction4(0, masterInputWords.size());
         QCOMPARE(inputWordsRead, masterInputWords);
+
+        qDebug() << "testing writeBit";
+        QVector<uint8_t> oldBits = masterBits;
+        for (int i = 0; i < oldBits.size(); ++i) {
+            slave.writeBitFunction5(i, !oldBits[i]);
+            QCOMPARE(static_cast<bool>(masterBits[i]), !oldBits[i]);
+        }
+
+        qDebug() << "testing writeWord";
+        QVector<uint16_t> oldWords = masterWords;
+        for (int i = 0; i < oldWords.size(); ++i) {
+            slave.writeWordFunction6(i, oldWords[i] + 42);
+            QCOMPARE(static_cast<int>(masterWords[i]), oldWords[i] + 42);
+        }
     }
     // destroy the slave to kill the tcpip connection, which stops the master loop as well
     // then we can join the thread

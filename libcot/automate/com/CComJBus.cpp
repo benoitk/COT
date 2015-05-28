@@ -236,7 +236,7 @@ CComJBus::WordArray CComJBus::readNWordsFunction3(int addrVar, int nbWordsToRead
 void CComJBus::writeNWordsFunction16(int addrVar, const WordArray &data)
 {
     if (modbus_write_registers(m_ctx.data(), addrVar, data.size(), data.constData()) == -1)
-        qCDebug(COTAUTOMATE_LOG) << "Failed to write" << data.size() << "words from" << addrVar << ':' << modbus_strerror(errno);
+        qCDebug(COTAUTOMATE_LOG) << "Failed to write" << data.size() << "words to" << addrVar << ':' << modbus_strerror(errno);
 }
 
 CComJBus::BitArray CComJBus::readNInputBitsFunction2(int addrVar, int nbBitsToRead)
@@ -253,6 +253,18 @@ CComJBus::WordArray CComJBus::readNInputWordsFunction4(int addrVar, int nbWordsT
     if (modbus_read_input_registers(m_ctx.data(), addrVar, nbWordsToRead, ret.data()) == -1)
         qCDebug(COTAUTOMATE_LOG) << "Failed to read" << nbWordsToRead << "input words from" << addrVar << ':' << modbus_strerror(errno);
     return ret;
+}
+
+void CComJBus::writeBitFunction5(int addrVar, bool bit)
+{
+    if (modbus_write_bit(m_ctx.data(), addrVar, bit) == -1)
+        qCDebug(COTAUTOMATE_LOG) << "Failed to write bit to" << addrVar << ':' << modbus_strerror(errno);
+}
+
+void CComJBus::writeWordFunction6(int addrVar, int word)
+{
+    if (modbus_write_register(m_ctx.data(), addrVar, word) == -1)
+        qCDebug(COTAUTOMATE_LOG) << "Failed to write word to" << addrVar << ':' << modbus_strerror(errno);
 }
 
 void CComJBus::triggerUpdateAllData(){

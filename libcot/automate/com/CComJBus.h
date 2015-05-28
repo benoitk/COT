@@ -42,6 +42,9 @@ private:
     BitArray readNInputBitsFunction2(int addrVar, int nbBitsToRead);
     WordArray readNInputWordsFunction4(int addrVar, int nbWordsToRead);
 
+    void writeBitFunction5(int addrVar, bool bit);
+    void writeWordFunction6(int addrVar, int word);
+
     void initializeModbus();
 
     struct FreeModbus;
