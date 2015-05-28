@@ -15,6 +15,29 @@ bool lessThanStepWidget(CStepWidget *left, CStepWidget *right) {
     return left->getInterval() < right->getInterval();
 }
 
+int findTargetIndex(QBoxLayout *layout, float interval) {
+    int index = -1;
+    for (int i = 0; i < layout->count(); ++i) {
+        CStepWidget *stepWidget = qobject_cast<CStepWidget *>(layout->itemAt(i)->widget());
+        if (!layout->itemAt(i)->widget()) { continue; } else { Q_ASSERT(stepWidget); }
+
+        const float stepInterval = stepWidget->getInterval();
+
+        index = i;
+
+        if (stepInterval > interval) {
+            break;
+        }
+    }
+
+    CStepWidget *sw = qobject_cast<CStepWidget *>(layout->itemAt(index)->widget());
+    if (!sw || sw->getInterval() < interval) {
+        index = -1;
+    }
+
+    return index;
+}
+
 CEditStepListTab::CEditStepListTab(ICycle *cycle, QWidget *parent)
     : IConfiguratorEditTab(parent)
     , m_widget(new QWidget(this))
@@ -72,30 +95,31 @@ CStepWidget *CEditStepListTab::addStep(CStep *step)
 {
     CStepWidget *sw = new CStepWidget(step, this);
     connect(sw, &CStepWidget::signalStepChanged, this, &CEditStepListTab::slotHandleStepChanged);
-    m_layout->insertWidget(m_layout->count() -1, sw);
+    m_layout->insertWidget(m_layout->count() -1, sw); // -1 to add before last item which is stretch
     return sw;
 }
 
 CStepWidget *CEditStepListTab::stepWidgetAt(int index) const
 {
-    return qobject_cast<CStepWidget *>(m_layout->itemAt(index)->widget());
+    return index >= 0 && index < m_layout->count()
+            ? qobject_cast<CStepWidget *>(m_layout->itemAt(index)->widget()) : Q_NULLPTR;
 }
 
 QList<CStepWidget *> CEditStepListTab::selectedSteps() const
 {
     QList<CStepWidget *> steps;
 
-    for (int i = 0; i < m_layout->count() -1; ++i) { // -1 because last is a stretch item
-        CStepWidget *stepWidget = qobject_cast<CStepWidget *>(m_layout->itemAt(i)->widget());
-        Q_ASSERT(stepWidget);
+    for (int i = 0; i < m_layout->count(); ++i) {
+        CStepWidget *stepWidget = stepWidgetAt(i);
+        if (!m_layout->itemAt(i)->widget()) { continue; } else { Q_ASSERT(stepWidget); }
 
         if (stepWidget->isSelected()) {
             steps << stepWidget;
 
             // We need contiguous selection to operate
             if (steps.first() != stepWidget) {
-                const int previousIndex = m_layout->indexOf(steps.at(steps.count() -2));
-                const int index = m_layout->indexOf(steps.at(steps.count() -1));
+                const int previousIndex = m_layout->indexOf(steps.value(steps.count() -2));
+                const int index = m_layout->indexOf(steps.value(steps.count() -1));
 
                 if (index -1 != previousIndex) {
                     CPCWindow::openModal<CMessageBox>(tr("You must provide a contiguous selection."));
@@ -110,11 +134,69 @@ QList<CStepWidget *> CEditStepListTab::selectedSteps() const
 
 void CEditStepListTab::copySteps(const QList<CStepWidget *> &stepWidgets, float to)
 {
-
+    // SERES_TODO: Implement copy algorythm.
 }
 
 void CEditStepListTab::moveSteps(const QList<CStepWidget *> &stepWidgets, float to)
 {
+    // SERES_TODO: Implement move algorythm. (this one is bugguy and not finished)
+
+    // Reminder about each step durations
+    QMap<CStepWidget *, float> stepsDuration;
+    for (int i = 0; i < m_layout->count(); ++i) {
+        CStepWidget *stepWidget = stepWidgetAt(i);
+        CStepWidget *nextStepWidget = stepWidgetAt(i +1);
+        if (!m_layout->itemAt(i)->widget()) { continue; } else { Q_ASSERT(stepWidget); }
+
+        // assume a step run at least for 1 second for latest step.
+        stepsDuration[stepWidget] = nextStepWidget ? nextStepWidget->getInterval() -stepWidget->getInterval() : 1;
+    }
+
+    const QSet<CStepWidget *> movingStepWidgets = stepWidgets.toSet();
+    CStepWidget *targetStepWidget = stepWidgetAt(findTargetIndex(m_layout, to));
+    const float offset = to -stepWidgets.first()->getInterval();
+    QList<QLayoutItem *> items;
+
+    // remove items to move
+    const bool movingUp = offset < 0;
+    for (int i = m_layout->count() -1; i >= 0; --i) {
+        CStepWidget *stepWidget = stepWidgetAt(i);
+        if (!m_layout->itemAt(i)->widget()) { continue; } else { Q_ASSERT(stepWidget); }
+
+        if (movingStepWidgets.contains(stepWidget)) {
+            if (movingUp) {
+                items.prepend(m_layout->takeAt(i));
+            }
+            else {
+                items.append(m_layout->takeAt(i));
+            }
+        }
+    }
+
+    // reinsert them
+    foreach (QLayoutItem *item, items) {
+        // -1 because latest item is a stretch item
+        const int index = targetStepWidget ? m_layout->indexOf(targetStepWidget) : m_layout->count() -1;
+        m_layout->insertItem(index, item);
+        CStepWidget *stepWidget = stepWidgetAt(index);
+        Q_ASSERT(stepWidget);
+        stepWidget->setInterval(stepWidget->getInterval() +offset);
+
+        if (!targetStepWidget) {
+            targetStepWidget = stepWidget;
+        }
+    }
+
+    // Updating items interval
+    for (int i = 0; i < m_layout->count(); ++i) {
+        CStepWidget *stepWidget = stepWidgetAt(i);
+        CStepWidget *previousStepWidget = stepWidgetAt(i -1);
+        if (!m_layout->itemAt(i)->widget()) { continue; } else { Q_ASSERT(stepWidget); }
+
+        if (previousStepWidget) {
+            stepWidget->setInterval(previousStepWidget->getInterval() +stepsDuration.value(previousStepWidget, 0));
+        }
+    }
 }
 
 void CEditStepListTab::reorderStepWidgets(CStepWidget *ensureVisibleStep)
@@ -206,7 +288,7 @@ void CEditStepListTab::slotMoveTriggered()
         return;
     }
 
-    copySteps(steps, to);
+    moveSteps(steps, to);
 }
 
 void CEditStepListTab::slotScrollToStopStep()
