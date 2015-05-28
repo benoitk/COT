@@ -175,18 +175,38 @@ void JBusTest::testSlave_data()
         config["port"] = 12346;
         QTest::newRow("jbus_over_tcpip") << config;
     }
+    {
+        QVariantMap config;
+        config["name"] = "jbus_slave";
+        config["type"] = "jbus";
+        config["device"] = m_pty.name();
+        config["baudrate"] = "9600";
+        config["stop"] = "1";
+        config["data"] = "8";
+        config["slave"] = 1;
+        // FIXME: the pty does not work properly, and the test fails
+//         QTest::newRow("jbus") << config;
+    }
 }
 
 void JBusTest::testSlave()
 {
     uint8_t masterBits[8] = {0, 1, 0, 1, 0, 1, 0, 1};
 
+    std::promise<bool> startSlave;
+    std::promise<bool> stopMaster;
+
     QFETCH(QVariantMap, config);
 
-    std::promise<bool> startSlave;
+    std::thread master([&masterBits, &startSlave, &stopMaster, &config] {
+        std::unique_ptr<modbus_t, void(*)(modbus_t*)> ctx(Q_NULLPTR, [] (modbus_t *ctx) {
+            if (ctx) {
+                modbus_close(ctx);
+                modbus_free(ctx);
+            }
+        });
+        int socket = -1;
 
-    std::thread master([&masterBits, &startSlave, &config] {
-        modbus_t *ctx = Q_NULLPTR;
         const comType type = stringToComType(config["type"].toString());
         switch (type)
         {
@@ -195,19 +215,41 @@ void JBusTest::testSlave()
             {
                 const QByteArray ip = config["ip"].toByteArray();
                 const int port = config["port"].toInt();
+
                 if (type == type_tcpip)
-                    ctx = modbus_new_tcp(ip.constData(), port);
+                    ctx.reset(modbus_new_tcp(ip.constData(), port));
                 else
-                    ctx = modbus_new_rtutcp(ip.constData(), port);
+                    ctx.reset(modbus_new_rtutcp(ip.constData(), port));
+
                 if (!ctx) {
                     fprintf(stderr, "%s failed on %s:%d: %s\n",
                             (type == type_tcpip ? "modbus_new_tcp" : "modbus_new_rtutcp"),
                             ip.constData(), port, modbus_strerror(errno));
                 }
+
+                socket = modbus_tcp_listen(ctx.get(), 1);
+                if (socket == -1) {
+                    fprintf(stderr, "modbus_tcp_listen failed: %s\n", modbus_strerror(errno));
+                    startSlave.set_value(false);
+                    return;
+                }
+
                 break;
             }
-
         case type_jbus:
+            {
+                const QByteArray device = config["device"].toByteArray();
+                const int baudrate = config["baudrate"].toInt();
+                const int data = config["data"].toInt();
+                const int stop = config["stop"].toInt();
+                ctx.reset(modbus_new_rtu(device.constData(), baudrate, 'N', data, stop));
+                if (!ctx) {
+                    fprintf(stderr, "modbus_new_rtu failed on %s (baud=%d, data=%d, stop=%d): %s\n",
+                            device.constData(), baudrate, data, stop, modbus_strerror(errno));
+                }
+                break;
+            }
+            break;
         case type_com_unknow:
             fprintf(stderr, "unhandled com type: %s\n",
                     qPrintable(config["type"].toString()));
@@ -219,17 +261,20 @@ void JBusTest::testSlave()
             return;
         }
 
-        modbus_set_debug(ctx, true);
-
-        int socket = modbus_tcp_listen(ctx, 1);
-        if (socket == -1) {
-            fprintf(stderr, "modbus_tcp_listen: %s\n", modbus_strerror(errno));
-            startSlave.set_value(false);
-            return;
-        }
+        modbus_set_debug(ctx.get(), true);
 
         startSlave.set_value(true);
-        modbus_tcp_accept(ctx, &socket);
+        if (type == type_jbus) {
+            if (modbus_connect(ctx.get()) == -1) {
+                fprintf(stderr, "Unable to connect %s\n", modbus_strerror(errno));
+                return;
+            }
+        } else {
+            if (modbus_tcp_accept(ctx.get(), &socket) == -1) {
+                fprintf(stderr, "modbus_tcp_accept failed: %s\n", modbus_strerror(errno));
+                return;
+            }
+        }
 
         modbus_mapping_t mapping = {
             sizeof(masterBits), 0, 0, 0,
@@ -238,13 +283,13 @@ void JBusTest::testSlave()
 
         for (;;) {
             uint8_t query[MODBUS_TCP_MAX_ADU_LENGTH];
-            int rc = modbus_receive(ctx, query);
+            int rc = modbus_receive(ctx.get(), query);
             if (rc == -1) {
                 fprintf(stderr, "modbus_receive failed: %s\n", modbus_strerror(errno));
                 break;
             }
 
-            rc = modbus_reply(ctx, query, rc, &mapping);
+            rc = modbus_reply(ctx.get(), query, rc, &mapping);
             if (rc == -1) {
                 fprintf(stderr, "modbus_reply failed: %s\n", modbus_strerror(errno));
                 break;
@@ -252,8 +297,6 @@ void JBusTest::testSlave()
         }
 
         close(socket);
-        modbus_close(ctx);
-        modbus_free(ctx);
     });
 
     // wait until the master is ready to accept connections
