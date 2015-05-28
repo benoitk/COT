@@ -4,6 +4,7 @@
 #include <QTimer>
 #include <QPainter>
 #include <QFile>
+#include <QMetaEnum>
 #include "cotgui_debug.h"
 
 CToolButton::CToolButton(QWidget *parent)
@@ -42,7 +43,15 @@ void CToolButton::setType(CToolButton::Type type)
 {
     if (m_type != type) {
         m_type = type;
-        setIcon(buttonIcon(type));
+
+        if (defaultAction()) {
+            defaultAction()->setIcon(buttonIcon(type));
+        }
+        else {
+            setIcon(buttonIcon(type));
+        }
+
+        updateDefaultText();
     }
 }
 
@@ -73,6 +82,10 @@ void CToolButton::paintEvent(QPaintEvent *event)
     }
     else {
         icon().paint(&painter, rect(), Qt::AlignCenter, QIcon::Disabled, QIcon::Off);
+    }
+
+    if (m_type == CToolButton::Empty || icon().isNull()) {
+        painter.drawText(rect(), Qt::AlignCenter | Qt::TextWrapAnywhere, text());
     }
 
     // KDAB_TODO: Just for debug until all icons types are handled
@@ -123,11 +136,25 @@ void CToolButton::initialize(CToolButton::Type type, QAction *action)
         default:
             break;
     }
+
+    updateDefaultText();
 }
 
 void CToolButton::updateVisibility()
 {
     setVisible(defaultAction()->isVisible());
+}
+
+void CToolButton::updateDefaultText()
+{
+    if (text().isEmpty()) {
+        if (defaultAction()) {
+            defaultAction()->setText(CToolButton::typeToString(m_type));
+        }
+        else {
+            setText(CToolButton::typeToString(m_type));
+        }
+    }
 }
 
 QIcon CToolButton::iconFromPixmaps(const QString &baseName)
@@ -165,21 +192,15 @@ QIcon CToolButton::buttonIcon(CToolButton::Type type)
         case CToolButton::NextStream:
         case CToolButton::Update:
         case CToolButton::Empty:
+        case CToolButton::Copy:
+        case CToolButton::Move:
+        case CToolButton::AddStopStep:
+        case CToolButton::Edit:
             // SERES_TODO: Add correct icons. // COT-66
             break;
 
         case CToolButton::Add:
             icon = iconFromPixmaps("30x30 Plus");
-            break;
-
-        case CToolButton::Edit:
-            // SERES_TODO: Add correct icons. // COT-66
-            icon = iconFromPixmaps("30x30 rotation mvt");
-            break;
-
-        case CToolButton::AddStopStep:
-            // SERES_TODO: Add correct icons. // COT-66
-            icon = iconFromPixmaps("30x30 rotation mvt");
             break;
 
         case CToolButton::Remove:
@@ -275,4 +296,12 @@ QIcon CToolButton::buttonIcon(CToolButton::Type type)
     }
 
     return icon;
+}
+
+QString CToolButton::typeToString(CToolButton::Type type)
+{
+    const QMetaObject &mo = staticMetaObject;
+    const int index = mo.indexOfEnumerator("Type");
+    const QMetaEnum metaEnum = mo.enumerator(index);
+    return QString::fromLocal8Bit(metaEnum.valueToKey(type));
 }

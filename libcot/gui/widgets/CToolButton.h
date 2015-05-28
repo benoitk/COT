@@ -8,6 +8,7 @@
 class CToolButton : public QToolButton
 {
     Q_OBJECT
+    Q_ENUMS(Type)
 
 public:
     enum Type {
@@ -43,7 +44,9 @@ public:
         Edit,
         Remove,
         Delete,
-        Empty
+        Empty,
+        Copy,
+        Move
     };
 
     explicit CToolButton(QWidget *parent = Q_NULLPTR);
@@ -58,6 +61,7 @@ public:
     void setUserData(const QVariant &userData);
 
     static QIcon buttonIcon(CToolButton::Type type);
+    static QString typeToString(CToolButton::Type type);
 
 protected:
     virtual void paintEvent(QPaintEvent *event);
@@ -65,6 +69,7 @@ protected:
 private slots:
     void initialize(CToolButton::Type type = CToolButton::Invalid, QAction *action = Q_NULLPTR);
     void updateVisibility();
+    void updateDefaultText();
 
 private:
     static QIcon iconFromPixmaps(const QString &baseName);

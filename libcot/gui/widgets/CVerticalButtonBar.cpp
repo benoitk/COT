@@ -28,7 +28,7 @@ QAction *CVerticalButtonBar::addAction(CToolButton::Type type, QAction *action)
         m_actions[type] = act;
         m_buttons[type] = btn;
 
-        if (btn->icon().isNull()) {
+        if (btn->icon().isNull() && btn->text().isEmpty()) {
             act->setText(QString::number(type));
         }
     }
