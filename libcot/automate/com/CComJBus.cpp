@@ -241,12 +241,8 @@ void CComJBus::writeBool(int addrVar, bool value)
 int CComJBus::readInt(int addrVar)
 {
     const WordArray& words = readNWordsFunction3(addrVar, sizeof(int) / sizeof(uint16_t));
-    int value = 0;
-    int i = 0;
-    foreach(uint16_t word, words) {
-        value += ((word << (8 * i)) & 0xffff);
-        ++i;
-    }
+    int value;
+    memcpy(&value, words.data(), sizeof(int));
     return value;
 }
 
