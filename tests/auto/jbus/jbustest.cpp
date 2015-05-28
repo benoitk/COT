@@ -8,6 +8,9 @@
 #include <QHostAddress>
 #include <QBitArray>
 
+#include <thread>
+#include <future>
+
 #ifdef Q_OS_LINUX
 #include <stdlib.h>
 #include <fcntl.h>
@@ -71,6 +74,7 @@ private slots:
     void testInitialize();
 
     void testRtu();
+    void testTcpip();
 
 private:
     bool isInitialized(const CComJBus &bus) const
@@ -178,6 +182,88 @@ void JBusTest::testRtu()
     const CComJBus::BitArray bitsRead = master.readNBitsFunction1(address, bitsToWrite.size());
     qDebug() << bitsToWrite << bitsRead;
     QCOMPARE(bitsToWrite, bitsRead);
+}
+
+void JBusTest::testTcpip()
+{
+    uint8_t masterBits[8] = {0, 1, 0, 1, 0, 1, 0, 1};
+    const QByteArray ip = QByteArrayLiteral("127.0.0.1");
+    const int port = 12346;
+
+    std::promise<bool> startSlave;
+    std::thread master([&masterBits, &startSlave, &ip, &port] {
+        modbus_t *ctx = modbus_new_tcp(ip.constData(), port);
+        if (!ctx) {
+            fprintf(stderr, "modbus_new_tcp failed on %s:%d: %s\n",
+                    ip.constData(), port, modbus_strerror(errno));
+            startSlave.set_value(false);
+            return;
+        }
+
+        modbus_set_debug(ctx, true);
+
+        int socket = modbus_tcp_listen(ctx, 1);
+        if (socket == -1) {
+            fprintf(stderr, "modbus_tcp_listen: %s\n", modbus_strerror(errno));
+            startSlave.set_value(false);
+            return;
+        }
+
+        startSlave.set_value(true);
+        modbus_tcp_accept(ctx, &socket);
+
+        modbus_mapping_t mapping = {
+            sizeof(masterBits), 0, 0, 0,
+            masterBits, Q_NULLPTR, Q_NULLPTR, Q_NULLPTR
+        };
+
+        for (;;) {
+            uint8_t query[MODBUS_TCP_MAX_ADU_LENGTH];
+            int rc = modbus_receive(ctx, query);
+            if (rc == -1) {
+                fprintf(stderr, "modbus_receive failed: %s\n", modbus_strerror(errno));
+                break;
+            }
+
+            rc = modbus_reply(ctx, query, rc, &mapping);
+            if (rc == -1) {
+                fprintf(stderr, "modbus_reply failed: %s\n", modbus_strerror(errno));
+                break;
+            }
+        }
+
+        close(socket);
+        modbus_free(ctx);
+    });
+
+    // wait until the master is ready to accept connections
+    QVERIFY(startSlave.get_future().get());
+
+    {
+        QVariantMap slaveConfig;
+        slaveConfig["name"] = "rtu_slave";
+        slaveConfig["type"] = "tcpip";
+        slaveConfig["slave"] = 1;
+        slaveConfig["ip"] = ip;
+        slaveConfig["port"] = port;
+        CComJBus slave(slaveConfig);
+        QVERIFY(isInitialized(slave));
+
+        const int address = 0;
+        const CComJBus::BitArray bitsRead = slave.readNBitsFunction1(address, sizeof(masterBits));
+        QCOMPARE(static_cast<size_t>(bitsRead.size()), sizeof(masterBits));
+        CComJBus::BitArray bitsToWrite(bitsRead.size());
+        for (uint i = 0; i < sizeof(masterBits); ++i) {
+            QCOMPARE(bitsRead[i], masterBits[i]);
+            bitsToWrite[i] = !bitsRead[i];
+        }
+        QVERIFY(bitsToWrite != bitsRead);
+        slave.writeNBitsFunction15(address, bitsToWrite);
+        QCOMPARE(bitsToWrite, slave.readNBitsFunction1(address, bitsToWrite.size()));
+    }
+    // destroy the slave to kill the tcpip connection, which stops the master loop as well
+    // then we can join the thread
+    master.join();
 }
 
 QTEST_GUILESS_MAIN(JBusTest)
