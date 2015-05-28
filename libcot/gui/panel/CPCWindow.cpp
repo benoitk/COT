@@ -68,8 +68,17 @@ void CPCWindow::openModal(QWidget *widget) {
 #endif
     widget->setAttribute(Qt::WA_DeleteOnClose);
     widget->setWindowModality(Qt::ApplicationModal);
-    if (s_mainWindow)
+    if (s_mainWindow) {
         widget->setGeometry(s_mainWindow->geometry());
+
+        if (widget->inherits("CMessageBox")) {
+            widget->adjustSize();
+            QRect rect = widget->rect();
+            rect.setSize(rect.size().boundedTo(s_mainWindow->size()));
+            rect.moveCenter(s_mainWindow->geometry().center());
+            widget->setGeometry(rect);
+        }
+    }
     widget->show();
 }
 
