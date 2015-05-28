@@ -44,38 +44,38 @@ public:
     QGridLayout *containerLayout() const;
 
     // Ask user to enter a text value
-    bool enterText(QString &value, const QString &title = tr("Enter a new value"));
+    static bool enterText(QString &value, const QString &title = QString());
     // Ask user to enter an int value
-    bool enterInteger(int &value, const QString &title = tr("Enter a new value"));
+    static bool enterInteger(int &value, const QString &title = QString());
     // Ask user to enter a double value
-    bool enterDouble(double &value, const QString &title = tr("Enter a new value"));
+    static bool enterDouble(double &value, const QString &title = QString());
 
     // return an action type: calc_coef, calc_rien, block, etc.
-    bool selectActionType(int &value);
+    static bool selectActionType(int &value, const QString &title = QString());
     // Select a variable type (float, int, string)
-    bool selectVariableType(variableType &value);
+    static bool selectVariableType(variableType &value, const QString &title = QString());
     // Select a variable organ type (input, output, none)
-    bool selectOrganType(VariableOrganType &value);
+    static bool selectOrganType(VariableOrganType &value, const QString &title = QString());
     // Select a cycle type (maintenance, autonome, pause...)
-    bool selectCycleType(eTypeCycle &value);
-    // Select a variable
-    bool selectVariable(QString &value);
+    static bool selectCycleType(eTypeCycle &value, const QString &title = QString());
+    //Select a variable
+    static bool selectVariable(QString &value, const QString &title = QString());
     // Select a stream name
-    bool selectStream(QString &value);
+    static bool selectStream(QString &value, const QString &title = QString());
     // Select a measure
-    bool selectMeasure(QString &value);
+    static bool selectMeasure(QString &value, const QString &title = QString());
     // Select a cycle
-    bool selectCycle(QString &value);
+    static bool selectCycle(QString &value, const QString &title = QString());
     // Select an action
-    bool selectAction(QString &value);
+    static bool selectAction(QString &value, const QString &title = QString());
     // Select a stream and/or measure
-    bool selectStreamOrMeasure(QString &value);
+    static bool selectStreamOrMeasure(QString &value, const QString &title = QString());
     // Select extension
-    bool selectExtension(QString &value);
+    static bool selectExtension(QString &value, const QString &title = QString());
     // Select organ
-    bool selectOrgan(QString &value);
+    static bool selectOrgan(QString &value, const QString &title = QString());
     // Select an unit
-    bool selectUnit(QString &value);
+    static bool selectUnit(QString &value, const QString &title = QString());
 
     virtual IVariable *getVariable(const QString &name) const;
     QStringList variableNames() const;

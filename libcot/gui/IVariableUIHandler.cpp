@@ -316,7 +316,7 @@ QGridLayout *IVariableUIHandler::containerLayout() const
 bool IVariableUIHandler::enterText(QString &value, const QString &title)
 {
     CKeyboardDialog dlg;
-    dlg.setTitle(title);
+    dlg.setTitle(!title.isEmpty() ? title : tr("Enter a new value"));
     dlg.setStringValue(value);
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
@@ -330,7 +330,7 @@ bool IVariableUIHandler::enterText(QString &value, const QString &title)
 bool IVariableUIHandler::enterInteger(int &value, const QString &title)
 {
     CNumericalKeyboardDialog dlg(CNumericalKeyboardWidget::Integer);
-    dlg.setTitle(title);
+    dlg.setTitle(!title.isEmpty() ? title : tr("Enter a new value"));
     dlg.setIntegerValue(value);
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
@@ -344,7 +344,7 @@ bool IVariableUIHandler::enterInteger(int &value, const QString &title)
 bool IVariableUIHandler::enterDouble(double &value, const QString &title)
 {
     CNumericalKeyboardDialog dlg(CNumericalKeyboardWidget::Double);
-    dlg.setTitle(title);
+    dlg.setTitle(!title.isEmpty() ? title : tr("Enter a new value"));
     dlg.setDoubleValue(value);
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
@@ -355,12 +355,12 @@ bool IVariableUIHandler::enterDouble(double &value, const QString &title)
     return false;
 }
 
-bool IVariableUIHandler::selectActionType(int &value)
+bool IVariableUIHandler::selectActionType(int &value, const QString &title)
 {
     IVariablePtrList ivars = buildActionType();
     ScopedIVariablePtrList scoped(&ivars);
     CGenericItemSelector dlg(ivars);
-    dlg.setTitle(tr("Select an action type"));
+    dlg.setTitle(!title.isEmpty() ? title : tr("Select an action type"));
     dlg.setSelectedValue(value);
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
@@ -371,12 +371,12 @@ bool IVariableUIHandler::selectActionType(int &value)
     return false;
 }
 
-bool IVariableUIHandler::selectVariableType(variableType &value)
+bool IVariableUIHandler::selectVariableType(variableType &value, const QString &title)
 {
     IVariablePtrList ivars = buildVariableTypes();
     ScopedIVariablePtrList scoped(&ivars);
     CGenericItemSelector dlg(ivars);
-    dlg.setTitle(tr("Select a variable type"));
+    dlg.setTitle(!title.isEmpty() ? title : tr("Select a variable type"));
     dlg.setSelectedValue(value);
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
@@ -387,12 +387,12 @@ bool IVariableUIHandler::selectVariableType(variableType &value)
     return false;
 }
 
-bool IVariableUIHandler::selectOrganType(VariableOrganType &value)
+bool IVariableUIHandler::selectOrganType(VariableOrganType &value, const QString &title)
 {
     IVariablePtrList ivars = buildOrganTypes();
     ScopedIVariablePtrList scoped(&ivars);
     CGenericItemSelector dlg(ivars);
-    dlg.setTitle(tr("Select an organ type type"));
+    dlg.setTitle(!title.isEmpty() ? title : tr("Select an organ type type"));
     dlg.setSelectedValue(value);
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
@@ -403,12 +403,12 @@ bool IVariableUIHandler::selectOrganType(VariableOrganType &value)
     return false;
 }
 
-bool IVariableUIHandler::selectCycleType(eTypeCycle &value)
+bool IVariableUIHandler::selectCycleType(eTypeCycle &value, const QString &title)
 {
     IVariablePtrList ivars = buildCycleTypes();
     ScopedIVariablePtrList scoped(&ivars);
     CGenericItemSelector dlg(ivars);
-    dlg.setTitle(tr("Select a cycle type"));
+    dlg.setTitle(!title.isEmpty() ? title : tr("Select a cycle type"));
     dlg.setSelectedValue(value);
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
@@ -419,11 +419,11 @@ bool IVariableUIHandler::selectCycleType(eTypeCycle &value)
     return false;
 }
 
-bool IVariableUIHandler::selectVariable(QString &value)
+bool IVariableUIHandler::selectVariable(QString &value, const QString &title)
 {
     IVariablePtrList ivars = buildVariables(); // don't free, hold by automate
     CGenericItemSelector dlg(ivars);
-    dlg.setTitle(tr("Select a variable"));
+    dlg.setTitle(!title.isEmpty() ? title : tr("Select a variable"));
     dlg.setSelectedValue(value);
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
@@ -434,7 +434,7 @@ bool IVariableUIHandler::selectVariable(QString &value)
     return false;
 }
 
-bool IVariableUIHandler::selectStream(QString &value)
+bool IVariableUIHandler::selectStream(QString &value, const QString &title)
 {
     //TO DO : vérifier le fonctionnement
 
@@ -443,7 +443,7 @@ bool IVariableUIHandler::selectStream(QString &value)
         ivars << stream;
     }
     CGenericItemSelector dlg(ivars);
-    dlg.setTitle(tr("Select a stream"));
+    dlg.setTitle(!title.isEmpty() ? title : tr("Select a stream"));
     dlg.setSelectedValue(value);
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
@@ -454,11 +454,11 @@ bool IVariableUIHandler::selectStream(QString &value)
     return false;
 }
 
-bool IVariableUIHandler::selectMeasure(QString &value)
+bool IVariableUIHandler::selectMeasure(QString &value, const QString &title)
 {
     IVariablePtrList ivars = buildMeasures(); // don't free, hold by automate
     CGenericItemSelector dlg(ivars);
-    dlg.setTitle(tr("Select a measure"));
+    dlg.setTitle(!title.isEmpty() ? title : tr("Select a measure"));
     dlg.setSelectedValue(value);
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
@@ -469,11 +469,11 @@ bool IVariableUIHandler::selectMeasure(QString &value)
     return false;
 }
 
-bool IVariableUIHandler::selectCycle(QString &value)
+bool IVariableUIHandler::selectCycle(QString &value, const QString &title)
 {
     IVariablePtrList ivars = buildCycles();
     CGenericItemSelector dlg(ivars);
-    dlg.setTitle(tr("Select a cycle"));
+    dlg.setTitle(!title.isEmpty() ? title : tr("Select a cycle"));
     dlg.setSelectedValue(value);
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
@@ -485,12 +485,12 @@ bool IVariableUIHandler::selectCycle(QString &value)
     return false;
 }
 
-bool IVariableUIHandler::selectAction(QString &value)
+bool IVariableUIHandler::selectAction(QString &value, const QString &title)
 {
     IVariablePtrList ivars = buildActions();
     ScopedIVariablePtrList scoped(&ivars);
     CGenericItemSelector dlg(ivars);
-    dlg.setTitle(tr("Select an action"));
+    dlg.setTitle(!title.isEmpty() ? title : tr("Select an action"));
     dlg.setSelectedValue(value);
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
@@ -501,11 +501,11 @@ bool IVariableUIHandler::selectAction(QString &value)
     return false;
 }
 
-bool IVariableUIHandler::selectStreamOrMeasure(QString &value)
+bool IVariableUIHandler::selectStreamOrMeasure(QString &value, const QString &title)
 {
     IVariablePtrList ivars = buildStreamsMeasures(); // don't free, hold by automate
     CGenericItemSelector dlg(ivars);
-    dlg.setTitle(tr("Select a measure or measure"));
+    dlg.setTitle(!title.isEmpty() ? title : tr("Select a measure or measure"));
     dlg.setSelectedValue(value);
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
@@ -516,12 +516,12 @@ bool IVariableUIHandler::selectStreamOrMeasure(QString &value)
     return false;
 }
 
-bool IVariableUIHandler::selectExtension(QString &value)
+bool IVariableUIHandler::selectExtension(QString &value, const QString &title)
 {
     IVariablePtrList ivars = buildExtensions();
     ScopedIVariablePtrList scoped(&ivars);
     CGenericItemSelector dlg(ivars);
-    dlg.setTitle(tr("Select an extension"));
+    dlg.setTitle(!title.isEmpty() ? title : tr("Select an extension"));
     dlg.setSelectedValue(value);
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
@@ -532,12 +532,12 @@ bool IVariableUIHandler::selectExtension(QString &value)
     return false;
 }
 
-bool IVariableUIHandler::selectOrgan(QString &value)
+bool IVariableUIHandler::selectOrgan(QString &value, const QString &title)
 {
     IVariablePtrList ivars = buildOrgans();
     ScopedIVariablePtrList scoped(&ivars);
     CGenericItemSelector dlg(ivars);
-    dlg.setTitle(tr("Select an organ"));
+    dlg.setTitle(!title.isEmpty() ? title : tr("Select an organ"));
     dlg.setSelectedValue(value);
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
@@ -548,12 +548,12 @@ bool IVariableUIHandler::selectOrgan(QString &value)
     return false;
 }
 
-bool IVariableUIHandler::selectUnit(QString &value)
+bool IVariableUIHandler::selectUnit(QString &value, const QString &title)
 {
     IVariablePtrList ivars = buildUnits();
     ScopedIVariablePtrList scoped(&ivars);
     CGenericItemSelector dlg(ivars);
-    dlg.setTitle(tr("Select an unit"));
+    dlg.setTitle(!title.isEmpty() ? title : tr("Select an unit"));
     dlg.setSelectedValue(value);
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
