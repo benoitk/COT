@@ -232,7 +232,8 @@ CComJBus::WordArray CComJBus::readNWordsFunction3(int addrVar, int nbWordsToRead
     return ret;
 
 }
-void CComJBus::writeNWordsFunction16( int addrVar, const WordArray &data)
+
+void CComJBus::writeNWordsFunction16(int addrVar, const WordArray &data)
 {
     if (modbus_write_registers(m_ctx.data(), addrVar, data.size(), data.constData()) == -1)
         qCDebug(COTAUTOMATE_LOG) << "Failed to write" << data.size() << "words from" << addrVar << ':' << modbus_strerror(errno);
