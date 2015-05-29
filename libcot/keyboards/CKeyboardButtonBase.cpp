@@ -4,7 +4,7 @@ CKeyboardButtonBase::CKeyboardButtonBase(QWidget *parent)
     : QPushButton(parent)
 {
     setAutoDefault( false );
-    setMinimumSize( QSize( 44, 22 ) );
+    setMinimumSize( QSize( 41, 22 ) );
 }
 
 CKeyboardButtonBase::~CKeyboardButtonBase()
