@@ -72,6 +72,7 @@ private slots:
     void updateDefaultText();
 
 private:
+    static QPixmap createPixmap(const QString &filePath);
     static QIcon iconFromPixmaps(const QString &baseName);
     static QString pixmapFilePath(const QString& name);
 

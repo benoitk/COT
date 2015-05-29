@@ -157,6 +157,19 @@ void CToolButton::updateDefaultText()
     }
 }
 
+// SERES_TODO: Create uniforms icon size.
+// Upscale smaller icons until fixed.
+QPixmap CToolButton::createPixmap(const QString &filePath)
+{
+    QPixmap pixmap(filePath);
+
+    if (!pixmap.isNull() && pixmap.width() < 50) {
+        pixmap = pixmap.scaledToWidth(50, Qt::SmoothTransformation);
+    }
+
+    return pixmap;
+}
+
 QIcon CToolButton::iconFromPixmaps(const QString &baseName)
 {
     QIcon icon;
@@ -165,12 +178,12 @@ QIcon CToolButton::iconFromPixmaps(const QString &baseName)
         qCWarning(COTGUI_LOG) << "Icon not found:" << mainPixmapPath;
         return icon;
     }
-    icon.addPixmap(QPixmap(mainPixmapPath), QIcon::Normal, QIcon::Off);
+    icon.addPixmap(createPixmap(mainPixmapPath), QIcon::Normal, QIcon::Off);
 
     // Try adding the selected and disabled versions as well.
     // If they don't exist, we'll get a null QPixmap, and addPixmap won't do anything to the QIcon.
-    icon.addPixmap(QPixmap(pixmapFilePath(baseName + " active.png")), QIcon::Selected, QIcon::Off);
-    icon.addPixmap(QPixmap(pixmapFilePath(baseName + " grisee.png")), QIcon::Disabled, QIcon::Off);
+    icon.addPixmap(createPixmap(pixmapFilePath(baseName + " active.png")), QIcon::Selected, QIcon::Off);
+    icon.addPixmap(createPixmap(pixmapFilePath(baseName + " grisee.png")), QIcon::Disabled, QIcon::Off);
     return icon;
 }
 
@@ -191,12 +204,15 @@ QIcon CToolButton::buttonIcon(CToolButton::Type type)
         case CToolButton::StopEndCycle:
         case CToolButton::NextStream:
         case CToolButton::Update:
-        case CToolButton::Empty:
         case CToolButton::Copy:
         case CToolButton::Move:
         case CToolButton::AddStopStep:
         case CToolButton::Edit:
             // SERES_TODO: Add correct icons. // COT-66
+            break;
+
+        case CToolButton::Empty:
+            icon = iconFromPixmaps("30x30 empty");
             break;
 
         case CToolButton::Add:
