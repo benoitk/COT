@@ -39,6 +39,8 @@ class IVariable : public QObject
     friend class IVariableObjectDescriber;
 
 public:
+    static int FLOAT_PRECISION;
+
     IVariable(QObject *parent);
     IVariable() {}
     virtual ~IVariable() {}

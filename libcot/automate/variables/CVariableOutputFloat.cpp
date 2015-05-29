@@ -55,7 +55,7 @@ void CVariableOutputFloat::setAccess(variableAccess access)
     m_access = access;
 }
 QString CVariableOutputFloat::toString(){
-    return QString::number(m_fValeur);
+    return QString::number(m_fValeur, 'f', IVariable::FLOAT_PRECISION);
 }
 int CVariableOutputFloat::toInt(){
     return m_fValeur;

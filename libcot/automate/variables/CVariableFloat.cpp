@@ -26,7 +26,7 @@ void CVariableFloat::setName(const QString& name){
 }
 
 QString CVariableFloat::toString(){
-    return QString::number(m_fValeur);
+    return QString::number(m_fValeur, 'f', IVariable::FLOAT_PRECISION);
 }
 int CVariableFloat::toInt(){
     return m_fValeur;

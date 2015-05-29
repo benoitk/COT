@@ -1,5 +1,7 @@
 #include "IVariable.h"
 
+int IVariable::FLOAT_PRECISION = 3;
+
 IVariable::IVariable(QObject *parent)
     : QObject(parent)
 {

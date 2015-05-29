@@ -61,7 +61,7 @@ void CVariableInputFloat::setAccess(variableAccess access)
 }
 QString CVariableInputFloat::toString(){
     this->readValue();
-    return QString::number(m_fValeur);
+    return QString::number(m_fValeur, 'f', IVariable::FLOAT_PRECISION);
 }
 int CVariableInputFloat::toInt(){
     this->readValue();
