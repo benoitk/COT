@@ -20,7 +20,9 @@ CMeasureWindow::CMeasureWindow(IVariablePtr stream, QWidget *parent)
 
     foreach (IVariable *measure, streamVar->getListMeasures()) {
         CVariableMeasure *measureVar = static_cast<CVariableMeasure *>(measure);
-        addTab(new CMeasureMeasureTab(measureVar->getListVariables(), this), measureVar->getLabel().toUpper());
+        IVariablePtrList ivars = measureVar->getListVariables();
+        ivars.prepend(measureVar->getMeasureVariable());
+        addTab(new CMeasureMeasureTab(ivars, this), measureVar->getLabel().toUpper());
     }
 }
 
