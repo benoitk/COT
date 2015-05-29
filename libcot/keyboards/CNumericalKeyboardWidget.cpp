@@ -1,6 +1,9 @@
 #include "CKeyboardNormalButton.h"
 #include "CNumericalKeyboardWidget.h"
 #include "CKeyboardSpecialButton.h"
+
+#include <IVariable.h>
+
 #include <QEvent>
 #include <QKeyEvent>
 #include <QLineEdit>
@@ -9,6 +12,18 @@
 #include <QDebug>
 #include <QDoubleValidator>
 
+#include <limits>
+
+namespace {
+// We deal only with float so limits values.
+const float MIN_VALUE = 0.0;
+const float MAX_VALUE = std::numeric_limits<float>::max();
+
+QDoubleValidator *newValidator(QObject *parent = Q_NULLPTR) {
+    return new QDoubleValidator(MIN_VALUE, MAX_VALUE, IVariable::FLOAT_PRECISION, parent);
+}
+}
+
 CNumericalKeyboardWidget::CNumericalKeyboardWidget(QWidget *parent)
     : QWidget(parent)
     , m_mode(CNumericalKeyboardWidget::Double)
@@ -16,7 +31,7 @@ CNumericalKeyboardWidget::CNumericalKeyboardWidget(QWidget *parent)
     m_mainLayout = new QVBoxLayout(this);
 
     m_lineEdit = new QLineEdit(this);
-    m_lineEdit->setValidator(new QDoubleValidator(m_lineEdit) );
+    m_lineEdit->setValidator(newValidator(m_lineEdit));
     m_lineEdit->setReadOnly(true);
     m_lineEdit->setObjectName(QStringLiteral("lineedit"));
     m_mainLayout->addWidget(m_lineEdit);
@@ -30,7 +45,7 @@ CNumericalKeyboardWidget::CNumericalKeyboardWidget(CNumericalKeyboardWidget::Mod
     m_mainLayout = new QVBoxLayout(this);
 
     m_lineEdit = new QLineEdit(this);
-    m_lineEdit->setValidator(new QDoubleValidator(m_lineEdit) );
+    m_lineEdit->setValidator(newValidator(m_lineEdit));
     m_lineEdit->setReadOnly(true);
     m_lineEdit->setObjectName(QStringLiteral("lineedit"));
     m_mainLayout->addWidget(m_lineEdit);
@@ -57,22 +72,26 @@ void CNumericalKeyboardWidget::setMode(const CNumericalKeyboardWidget::Mode &mod
 
 int CNumericalKeyboardWidget::integerNumber() const
 {
-    return m_lineEdit->text().toInt();
+    const QString text = m_lineEdit->text();
+    const int value = lineEditLocale().toInt(text);
+    return value;
 }
 
 void CNumericalKeyboardWidget::setIntegerNumber(int number)
 {
-    m_lineEdit->setText(m_lineEdit->locale().toString(number));
+    m_lineEdit->setText(lineEditLocale().toString(number));
 }
 
 double CNumericalKeyboardWidget::doubleNumber() const
 {
-    return m_lineEdit->locale().toDouble(m_lineEdit->text());
+    const QString text = m_lineEdit->text();
+    const double value = lineEditLocale().toDouble(text);
+    return value;
 }
 
 void CNumericalKeyboardWidget::setDoubleNumber(double number)
 {
-    m_lineEdit->setText(m_lineEdit->locale().toString(number));
+    m_lineEdit->setText(lineEditLocale().toString(number, 'f', IVariable::FLOAT_PRECISION));
 }
 
 bool CNumericalKeyboardWidget::event(QEvent *ev)
@@ -86,18 +105,21 @@ bool CNumericalKeyboardWidget::event(QEvent *ev)
 
 void CNumericalKeyboardWidget::slotButtonClicked(QChar character)
 {
-
+    const QChar decimalSeparator = lineEditLocale().decimalPoint();
     QString text = m_lineEdit->text();
-    if ((character == QLocale::system().decimalPoint()) || text.startsWith(QStringLiteral("-"))) {
+    const double value = lineEditLocale().toDouble(text);
+
+    if ((character == decimalSeparator) || text.startsWith(QStringLiteral("-"))) {
         text.append(character);
-    } else if (text.contains(QLocale::system().decimalPoint())) {
+    } else if (text.contains(decimalSeparator)) {
         text.append(character);
-    } else if (qFuzzyCompare(m_lineEdit->locale().toDouble(text) + 1.0 ,1.0) ) {
+    } else if (qFuzzyCompare(value + 1.0, 1.0) ) {
         text = character;
     } else {
         text.append(character);
     }
-    m_lineEdit->setText(text);
+
+    setFixedText(text);
     m_lineEdit->setFocus();
 }
 
@@ -159,23 +181,46 @@ void CNumericalKeyboardWidget::slotChangeSign(bool)
 {
     QString number = m_lineEdit->text();
     if ( number.startsWith( QLatin1Char('-') ) )
-        number = number.mid( 1 );
+        number.remove(0, 1);
     else
         number.prepend( QLatin1Char('-') );
-    m_lineEdit->setText( number );
+    setFixedText(number);
 }
 
 void CNumericalKeyboardWidget::updateDigitalText()
 {
     if (m_digitalButton) {
-        m_digitalButton->setCharacter(QLocale::system().decimalPoint());
+        m_digitalButton->setCharacter(lineEditLocale().decimalPoint());
     }
 }
 
-void CNumericalKeyboardWidget::slotSpecialButtonClicked(Qt::Key key)
+void CNumericalKeyboardWidget::setFixedText(const QString &text)
 {
-    QKeyEvent ev( QEvent::KeyPress, key, 0 /*keyState*/, QString() );
-    qApp->sendEvent( m_lineEdit, &ev );
+    // Reformat text correctly according to locale so convertion does not fails (and thus return 0).
+    const QChar decimalSeparator = lineEditLocale().decimalPoint();
+    const QChar groupSeparator = lineEditLocale().groupSeparator();
+    QString fixedText = text.trimmed().remove(groupSeparator);
+    const bool endsWithDecimalSeparator = fixedText.endsWith(decimalSeparator);
+    QString decimals = fixedText.section(decimalSeparator, 1);
+
+    // The latest typed decimal become the maximal one
+    if (!decimals.isEmpty()) {
+        while (decimals.count() > IVariable::FLOAT_PRECISION) {
+            decimals.remove(decimals.length() -2, 1);
+        }
+
+        fixedText = fixedText.section(decimalSeparator, 0, 0) +decimalSeparator +decimals;
+    }
+
+    const double value = lineEditLocale().toDouble(fixedText);
+
+    fixedText = lineEditLocale().toString(value, 'f', decimals.count());
+
+    if (endsWithDecimalSeparator) {
+        fixedText.append(decimalSeparator);
+    }
+
+    m_lineEdit->setText(fixedText);
 }
 
 void CNumericalKeyboardWidget::slotDigitalButtonPressed(QChar character)
@@ -191,8 +236,14 @@ void CNumericalKeyboardWidget::slotDigitalButtonPressed(QChar character)
 
 void CNumericalKeyboardWidget::slotBlackspaceButtonClicked(Qt::Key /*key*/)
 {
-    QString originalText = m_lineEdit->text();
-    if (!originalText.isEmpty()) {
-        m_lineEdit->setText(originalText.remove(originalText.length()-1, 1));
+    QString text = m_lineEdit->text();
+    if (!text.isEmpty()) {
+        text.chop(1);
+        setFixedText(text);
     }
+}
+
+QLocale CNumericalKeyboardWidget::lineEditLocale() const
+{
+    return m_lineEdit->locale();
 }

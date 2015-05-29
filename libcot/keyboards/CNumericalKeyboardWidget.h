@@ -36,11 +36,12 @@ protected:
 private slots:
     void slotChangeSign(bool);
     void slotButtonClicked(QChar character);
-    void slotSpecialButtonClicked(Qt::Key key);
     void slotDigitalButtonPressed(QChar character);
     void slotBlackspaceButtonClicked(Qt::Key);
 private:
+    QLocale lineEditLocale() const;
     void updateDigitalText();
+    void setFixedText(const QString &text);
     CKeyboardNormalButton *createButton(QChar character);
     void initializeKeyboardLayout();
     QVBoxLayout *m_mainLayout;
