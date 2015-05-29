@@ -1,8 +1,11 @@
 #include "CGenericListModel.h"
 
+#include <QDebug>
+
 CGenericListModel::CGenericListModel(const IVariablePtrList &list, QObject *parent)
     : QAbstractListModel(parent),
       m_IVariableList(list)
+    , m_currentItem(Q_NULLPTR)
 {
 
 }
@@ -25,8 +28,13 @@ QVariant CGenericListModel::data(const QModelIndex &index, int role) const
     if (index.row() >= m_IVariableList.count() || index.row() < 0)
         return QVariant();
 
+    const IVariablePtr ivar = IVariableForIndex(index);
+
     if (role == Qt::DisplayRole) {
-        return IVariableForIndex(index)->getLabel();
+        return ivar->getLabel();
+    }
+    else if (role == CGenericListModel::IsCurrentItem) {
+        return ivar == m_currentItem;
     }
 
     return QVariant();
@@ -66,14 +74,29 @@ IVariablePtr CGenericListModel::IVAriableForName(const QString &name) const
 
 IVariablePtr CGenericListModel::IVAriableForValue(const QString &value) const
 {
-    IVariablePtr ivar = Q_NULLPTR;
-
     foreach (const IVariablePtr &var, m_IVariableList) {
-        if (var->toString() == value) {
-            ivar = var;
-            break;
+        if (var->toString() == value || var->getName() == value) {
+            return var;
         }
     }
 
-    return ivar;
+    return Q_NULLPTR;
+}
+
+IVariablePtr CGenericListModel::currentItem() const
+{
+    return m_currentItem;
+}
+
+void CGenericListModel::setCurrentItem(IVariablePtr currentItem)
+{
+    if (m_currentItem != currentItem) {
+        if (m_IVariableList.contains(currentItem)) {
+            m_currentItem = currentItem;
+
+            if (!m_IVariableList.isEmpty()) {
+                emit dataChanged(index(0, 0), index(rowCount() -1, 0));
+            }
+        }
+    }
 }

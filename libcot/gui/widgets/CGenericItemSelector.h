@@ -65,7 +65,6 @@ Q_SIGNALS:
 private:
     Ui::CGenericItemSelector *ui;
     CGenericListModel *m_model;
-    IVariablePtr m_currentItem;
 
     void updateScrollButtons();
 };

@@ -11,6 +11,10 @@
 class CGenericListModel : public QAbstractListModel
 {
 public:
+    enum Role {
+        IsCurrentItem = Qt::UserRole
+    };
+
     CGenericListModel(const IVariablePtrList &list, QObject *parent = Q_NULLPTR);
     ~CGenericListModel();
     int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
@@ -25,8 +29,12 @@ public:
     IVariablePtr IVAriableForName(const QString &name) const;
     IVariablePtr IVAriableForValue(const QString &value) const;
 
+    IVariablePtr currentItem() const;
+    void setCurrentItem(IVariablePtr currentItem);
+
 private:
     IVariablePtrList m_IVariableList;
+    IVariablePtr m_currentItem;
 };
 
 #endif // CGENERICLISTMODEL_H

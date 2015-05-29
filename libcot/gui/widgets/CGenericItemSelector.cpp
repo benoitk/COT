@@ -11,7 +11,6 @@ CGenericItemSelector::CGenericItemSelector(const IVariablePtrList &list, QWidget
     : QDialog(parent)
     , ui(new Ui::CGenericItemSelector)
     , m_model(new CGenericListModel(list, this))
-    , m_currentItem(Q_NULLPTR)
 {
     setMinimumSize(640, 480);
 
@@ -41,7 +40,7 @@ void CGenericItemSelector::setTitle(const QString &title)
 
 IVariablePtr CGenericItemSelector::selectedItem() const
 {
-    return m_currentItem;
+    return m_model->currentItem();
 }
 
 void CGenericItemSelector::itemSelected(const QModelIndex &index)
@@ -79,10 +78,13 @@ void CGenericItemSelector::setSelectedItem(IVariablePtr item)
             ui->lvItems->setCurrentIndex(index);
         }
 
+        if (m_model->currentItem() != item) {
+            m_model->setCurrentItem(item);
+        }
+
         ui->lvItems->blockSignals(locked);
         ui->lvItems->scrollTo(index);
-        m_currentItem = item;
-        emit selectedItemChanged(m_currentItem);
+        emit selectedItemChanged(item);
     }
 }
 

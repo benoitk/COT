@@ -1,4 +1,5 @@
 #include "CGenericListDelegate.h"
+#include "CGenericListModel.h"
 
 #include <QPainter>
 #include <QApplication>
@@ -27,7 +28,12 @@ void CGenericListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
     buttonOption.state = opt.state;
     buttonOption.rect = option.rect;
 
-    QStyle * style = option.widget ? option.widget->style() : QApplication::style();
+    // highlight selected / default value
+    if (index.data(CGenericListModel::IsCurrentItem).toBool()) {
+        buttonOption.features |= QStyleOptionButton::DefaultButton;
+    }
+
+    QStyle *style = option.widget ? option.widget->style() : QApplication::style();
     style->drawControl(QStyle::CE_PushButton, &buttonOption, painter);
     painter->drawText(buttonOption.rect, Qt::AlignCenter | Qt::TextWordWrap, index.data().toString());
 }
