@@ -8,7 +8,7 @@ class LIBCOT_EXPORT CKeyboardNormalButton : public CKeyboardButtonBase
 {
     Q_OBJECT
 public:
-    explicit CKeyboardNormalButton(QWidget *parent = Q_NULLPTR);
+    explicit CKeyboardNormalButton(CKeyboardButtonBase::Type type = CKeyboardButtonBase::Undefined, QWidget *parent = Q_NULLPTR);
     ~CKeyboardNormalButton();
 
 

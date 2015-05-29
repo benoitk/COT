@@ -1,8 +1,8 @@
 #include "CKeyboardNormalButton.h"
 #include <QDebug>
 
-CKeyboardNormalButton::CKeyboardNormalButton(QWidget *parent)
-    : CKeyboardButtonBase(parent)
+CKeyboardNormalButton::CKeyboardNormalButton(Type type, QWidget *parent)
+    : CKeyboardButtonBase(type, parent)
 {
     connect( this, &QAbstractButton::pressed, this, &CKeyboardNormalButton::slotButtonPressed );
     connect( this, &QAbstractButton::released, this, &CKeyboardNormalButton::slotButtonReleased );

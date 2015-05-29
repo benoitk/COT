@@ -7,7 +7,7 @@ class CKeyboardSpecialButton : public CKeyboardButtonBase
 {
     Q_OBJECT
 public:
-    explicit CKeyboardSpecialButton(QWidget *parent = Q_NULLPTR);
+    explicit CKeyboardSpecialButton(CKeyboardButtonBase::Type type = CKeyboardButtonBase::Undefined, QWidget *parent = Q_NULLPTR);
     ~CKeyboardSpecialButton();
 
     Qt::Key specialKey() const;

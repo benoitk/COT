@@ -125,7 +125,7 @@ void CNumericalKeyboardWidget::slotButtonClicked(QChar character)
 
 CKeyboardNormalButton *CNumericalKeyboardWidget::createButton(QChar character)
 {
-    CKeyboardNormalButton *normalButton = new CKeyboardNormalButton(this);
+    CKeyboardNormalButton *normalButton = new CKeyboardNormalButton(CKeyboardButtonBase::Numeric, this);
     normalButton->setCharacter(character);
     connect(normalButton, &CKeyboardNormalButton::clicked, this, &CNumericalKeyboardWidget::slotButtonClicked);
     return normalButton;
@@ -139,7 +139,7 @@ void CNumericalKeyboardWidget::initializeKeyboardLayout()
     gridLayout->addWidget( createButton( QLatin1Char('7') ), 0, 0 );
     gridLayout->addWidget( createButton( QLatin1Char('8') ), 0, 1 );
     gridLayout->addWidget( createButton( QLatin1Char('9') ), 0, 2 );
-    CKeyboardSpecialButton * specialButton = new CKeyboardSpecialButton(this);
+    CKeyboardSpecialButton * specialButton = new CKeyboardSpecialButton(CKeyboardButtonBase::Numeric, this);
     specialButton->setText( QChar(0x2190) );
     specialButton->setSpecialKey( Qt::Key_Backspace );
     specialButton->setAutoRepeat(true);
@@ -163,12 +163,12 @@ void CNumericalKeyboardWidget::initializeKeyboardLayout()
     gridLayout->addWidget( createButton( QLatin1Char('3') ), 2, 2 );
     gridLayout->addWidget( createButton( QLatin1Char('0') ), 3, 0, 1, 2  );
 
-    m_digitalButton = new CKeyboardNormalButton(this);
+    m_digitalButton = new CKeyboardNormalButton(CKeyboardButtonBase::Numeric, this);
     connect(m_digitalButton, &CKeyboardNormalButton::clicked, this, &CNumericalKeyboardWidget::slotDigitalButtonPressed);
     gridLayout->addWidget( m_digitalButton, 3, 2 );
     m_digitalButton->setVisible(m_mode == CNumericalKeyboardWidget::Double);
 
-    specialButton = new CKeyboardSpecialButton( this );
+    specialButton = new CKeyboardSpecialButton( CKeyboardButtonBase::Numeric, this );
     specialButton->setText( QChar(0xB1) ); // "plus/minus" sign
     connect( specialButton, SIGNAL(clicked(bool)), this, SLOT(slotChangeSign(bool)) );
     gridLayout->addWidget( specialButton, 3, 3 );

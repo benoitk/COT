@@ -116,7 +116,7 @@ void CKeyboardWidget::initializeKeyboardLayout()
             if (charValue.isUpper()) {
                 CKeyboardSpecialButton* specialButton = 0;
                 if( charValue == QLatin1Char( 'T' ) ) { // tab
-                    CKeyboardNormalButton* normalButton = new CKeyboardNormalButton( this );
+                    CKeyboardNormalButton* normalButton = new CKeyboardNormalButton( CKeyboardButtonBase::Alpha, this );
                     normalButton->setCharacter(QLatin1Char('\t'));
                     normalButton->setText( tr( "Tab" ) );
                     button = normalButton;
@@ -129,20 +129,20 @@ void CKeyboardWidget::initializeKeyboardLayout()
                     connect( specialButton, &CKeyboardSpecialButton::clicked, this, &CKeyboardWidget::returnPressed );
 #endif
                 } else if( charValue == QLatin1Char( 'S' ) ) { // shift
-                    specialButton = new CKeyboardSpecialButton( this );
+                    specialButton = new CKeyboardSpecialButton( CKeyboardButtonBase::Alpha, this );
                     specialButton->setText( tr( "Shift" ) );
                     specialButton->setSpecialKey( Qt::Key_Shift );
                     specialButton->setCheckable( true );
                     connect( specialButton, &CKeyboardSpecialButton::clicked, this, &CKeyboardWidget::slotShiftToggled );
                     m_shiftButtons.append( specialButton );
                 } else if( charValue == QLatin1Char( 'C' ) ) { // capslock
-                    specialButton = new CKeyboardSpecialButton( this );
+                    specialButton = new CKeyboardSpecialButton( CKeyboardButtonBase::Alpha, this );
                     specialButton->setText( tr( "Caps" ) );
                     specialButton->setSpecialKey( Qt::Key_CapsLock );
                     specialButton->setCheckable( true );
                     connect( specialButton, &CKeyboardSpecialButton::clicked, this, &CKeyboardWidget::slotCapsLockToggled );
                 } else if( charValue == QLatin1Char( 'B' ) ) { // backspace
-                    specialButton = new CKeyboardSpecialButton( this );
+                    specialButton = new CKeyboardSpecialButton( CKeyboardButtonBase::Alpha, this );
                     specialButton->setAutoRepeat(true);
                     specialButton->setText( QChar(0x2190) );
                     specialButton->setSpecialKey( Qt::Key_Backspace );
@@ -154,7 +154,7 @@ void CKeyboardWidget::initializeKeyboardLayout()
                     button = specialButton;
                 }
             }  else {
-                CKeyboardNormalButton* normalButton = new CKeyboardNormalButton( this );
+                CKeyboardNormalButton* normalButton = new CKeyboardNormalButton( CKeyboardButtonBase::Alpha, this );
                 connect(normalButton, &CKeyboardNormalButton::clicked, this, &CKeyboardWidget::slotButtonClicked);
                 normalButton->setCharacter(charValue);
                 m_normalButtons << normalButton;
@@ -172,7 +172,7 @@ void CKeyboardWidget::initializeKeyboardLayout()
     }
     if ( maxColumn > 0 ) {
         //Add Space bar.
-        CKeyboardNormalButton* spaceButton = new CKeyboardNormalButton( this );
+        CKeyboardNormalButton* spaceButton = new CKeyboardNormalButton( CKeyboardButtonBase::Alpha, this );
         connect(spaceButton, &CKeyboardNormalButton::clicked, this, &CKeyboardWidget::slotButtonClicked);
         spaceButton->setCharacter(QLatin1Char(' '));
         spaceButton->setText(tr("Space"));

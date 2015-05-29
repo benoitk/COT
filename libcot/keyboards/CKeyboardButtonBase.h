@@ -7,8 +7,23 @@ class CKeyboardButtonBase : public QPushButton
 {
     Q_OBJECT
 public:
-    explicit CKeyboardButtonBase(QWidget *parent = Q_NULLPTR);
+    enum Type {
+        Undefined,
+        Alpha,
+        Numeric
+    };
+
+    explicit CKeyboardButtonBase(CKeyboardButtonBase::Type type, QWidget *parent = Q_NULLPTR);
     ~CKeyboardButtonBase();
+
+    CKeyboardButtonBase::Type type() const;
+
+protected:
+    virtual void paintEvent(QPaintEvent *event);
+
+private:
+    CKeyboardButtonBase::Type m_type;
+    QIcon m_icon;
 };
 
 #endif // KEYBOARDBUTTONBASE_H

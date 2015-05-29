@@ -1,7 +1,7 @@
 #include "CKeyboardSpecialButton.h"
 
-CKeyboardSpecialButton::CKeyboardSpecialButton(QWidget *parent)
-    : CKeyboardButtonBase(parent),
+CKeyboardSpecialButton::CKeyboardSpecialButton(Type type, QWidget *parent)
+    : CKeyboardButtonBase(type, parent),
       m_specialKey(Qt::Key_Any)
 {
     connect( this, &QAbstractButton::pressed, this, &CKeyboardSpecialButton::slotButtonPressed );
