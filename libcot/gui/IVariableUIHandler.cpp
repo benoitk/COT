@@ -118,11 +118,7 @@ IVariablePtrList buildMeasures() {
     IVariablePtrList ivars;
 
     foreach (CVariableStream *streamVar, streams) {
-
-        foreach (IVariable *measure, streamVar->getListMeasures()) {
-            CVariableMeasure *measureVar = static_cast<CVariableMeasure *>(measure);
-            ivars << measureVar->getListVariables();
-        }
+        ivars << streamVar->getListMeasures();
     }
 
     return ivars;
