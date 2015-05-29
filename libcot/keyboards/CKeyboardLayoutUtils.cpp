@@ -152,12 +152,14 @@ QString CKeyboardLayoutUtils::chineseShiftMapping() const
 QString CKeyboardLayoutUtils::convertDeadKey(const QString &deadKey, const QString &newChar)
 {
     if (hashKeys.contains(deadKey)) {
+        const QString lower = newChar.toLower();
+        const bool isLower = lower == newChar;
         const QHash<QString, QString> valueDeadKey = hashKeys.value(deadKey);
-        const QString convertedString = valueDeadKey.value(newChar);
+        const QString convertedString = valueDeadKey.value(lower);
         if (convertedString.isEmpty()) {
             return deadKey;
         } else {
-            return convertedString;
+            return isLower ? convertedString : convertedString.toUpper();
         }
     } else {
         return deadKey;
