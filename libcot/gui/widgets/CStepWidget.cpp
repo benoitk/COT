@@ -27,7 +27,6 @@ CStepWidget::CStepWidget(CStep *step, QWidget *parent)
     Q_ASSERT(step);
 
     m_stepDescriber->describe(QVariant::fromValue(step));
-    m_scrollable->scrollableWidget()->setWidgetResizable(true);
 
     QSizePolicy policy = sizePolicy();
     policy.setVerticalPolicy(QSizePolicy::Fixed);

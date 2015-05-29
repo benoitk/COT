@@ -56,7 +56,6 @@ CEditStepListTab::CEditStepListTab(ICycle *cycle, QWidget *parent)
     }
 
     scrollableWidget()->setScrollableWidget(m_widget);
-    scrollableWidget()->setWidgetResizable(true);
 
     connect(buttonBar()->addAction(CToolButton::Add), &QAction::triggered, this, &CEditStepListTab::slotAddStep);
     connect(buttonBar()->addAction(CToolButton::AddStopStep), &QAction::triggered, this, &CEditStepListTab::slotAddStopStep);

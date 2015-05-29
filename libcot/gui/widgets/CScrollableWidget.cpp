@@ -13,6 +13,7 @@ CScrollableWidget::CScrollableWidget(QWidget *parent)
     m_moveUp = new QAction(tr("Move up"), this);
     connect(m_moveUp, &QAction::triggered, this, &CScrollableWidget::slotMoveUp);
 
+    setWidgetResizable(true);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     updateActions();
 }
@@ -26,6 +27,7 @@ CScrollableWidget::CScrollableWidget(bool scrollable, QWidget *parent)
     m_moveUp = new QAction(tr("Move up"), this);
     connect(m_moveUp, &QAction::triggered, this, &CScrollableWidget::slotMoveUp);
 
+    setWidgetResizable(true);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     updateActions();
 }
