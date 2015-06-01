@@ -4,14 +4,14 @@
 #include <QGridLayout>
 
 CLabelledToolButtonGrid::CLabelledToolButtonGrid(QWidget *parent)
-    : QWidget(parent)
+    : CScrollablePagerWidget(parent)
     , m_layout(Q_NULLPTR)
     , m_layoutWidth(2)
 {
 }
 
 CLabelledToolButtonGrid::CLabelledToolButtonGrid(int layoutWidth, QWidget *parent)
-    : QWidget(parent)
+    : CScrollablePagerWidget(parent)
     , m_layout(Q_NULLPTR)
     , m_layoutWidth(layoutWidth)
 {

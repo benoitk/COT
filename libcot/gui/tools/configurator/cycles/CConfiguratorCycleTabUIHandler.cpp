@@ -1,4 +1,5 @@
 #include "CConfiguratorCycleTabUIHandler.h"
+#include "CScrollablePagerWidget.h"
 #include "CPushButton.h"
 #include "CToolButton.h"
 #include "CEditCycleWindow.h"

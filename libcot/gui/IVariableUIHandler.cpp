@@ -1,6 +1,7 @@
 #include "IVariableUIHandler.h"
 #include "IVariableObjectDescriber.h"
 #include "CScrollableWidget.h"
+#include "CScrollablePagerWidget.h"
 #include "CSwitchButton.h"
 #include "CLedButton.h"
 #include "CPushButton.h"
@@ -210,9 +211,13 @@ IVariableUIHandler::IVariableUIHandler(CScrollableWidget *scrollable, QObject *p
     : QObject(parent)
     , m_container(Q_NULLPTR)
     , m_containerLayout(Q_NULLPTR)
-    , m_scrollable(scrollable)
+    , m_scrollable(Q_NULLPTR)
     , m_describer(Q_NULLPTR)
 {
+    if (scrollable) {
+        setScrollableWidget(scrollable);
+    }
+
     connect(CAutomate::getInstance(), &CAutomate::signalVariableChanged,
             this, &IVariableUIHandler::slotVariableChanged);
 }
@@ -229,7 +234,7 @@ void IVariableUIHandler::layout(const QList<IVariable *> &variables, bool addDel
     m_rows.clear();
 
     // Create new rows
-    m_container = new QWidget(m_scrollable);
+    m_container = new CScrollablePagerWidget(m_scrollable);
     m_containerLayout = new QGridLayout(m_container);
     m_containerLayout->setMargin(0);
 
@@ -263,11 +268,13 @@ void IVariableUIHandler::layout(const QList<IVariable *> &variables, bool addDel
         m_containerLayout->addItem(hspacer, 0, numberOfColumn, y, 1);
     }
 
-    m_scrollable->setScrollableWidget(m_container);
+    m_scrollable->setScrollablePagerWidget(m_container);
 }
 
 void IVariableUIHandler::setScrollableWidget(CScrollableWidget *scrollable)
 {
+    Q_ASSERT(scrollable);
+
     if (m_scrollable) {
         Q_ASSERT(false);
     }
@@ -299,7 +306,7 @@ IVariableObjectDescriber *IVariableUIHandler::describer() const
     return m_describer;
 }
 
-QWidget *IVariableUIHandler::container() const
+CScrollablePagerWidget *IVariableUIHandler::container() const
 {
     return m_container;
 }

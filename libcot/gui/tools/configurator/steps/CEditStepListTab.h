@@ -7,6 +7,7 @@ class ICycle;
 class CStep;
 class CStepWidget;
 class QVBoxLayout;
+class CScrollablePagerWidget;
 
 /*
 Duplication feature = multi-select contiguous steps (e.g. from step 3 to step 6),
@@ -28,7 +29,7 @@ public:
     void applyProperties(const QVariant &object) Q_DECL_OVERRIDE;
 
 private:
-    QWidget *m_widget;
+    CScrollablePagerWidget *m_widget;
     QVBoxLayout *m_layout;
 
     void ensureStepWidgetVisible(CStepWidget *stepWidget);

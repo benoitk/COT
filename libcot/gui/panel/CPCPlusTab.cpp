@@ -18,7 +18,7 @@ CPCPlusTab::CPCPlusTab(QWidget *parent)
                           << CToolButton::RestoreConfig);
 
     ui->setupUi(this);
-    ui->swCentral->setScrollableWidget(m_buttons);
+    ui->swCentral->setScrollablePagerWidget(m_buttons);
     ui->vbbButtons->addAction(CToolButton::ScrollUp, ui->swCentral->moveUp());
     ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->swCentral->moveDown());
 

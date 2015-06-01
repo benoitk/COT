@@ -9,6 +9,7 @@
 #include "ICycle.h"
 
 class CScrollableWidget;
+class CScrollablePagerWidget;
 class IVariableObjectDescriber;
 class QLabel;
 class QGridLayout;
@@ -40,7 +41,7 @@ public:
         return qobject_cast<T>(m_describer);
     }
 
-    QWidget *container() const;
+    CScrollablePagerWidget *container() const;
     QGridLayout *containerLayout() const;
 
     // Ask user to enter a text value
@@ -138,7 +139,7 @@ protected slots:
     void slotRequestUnit();
 
 private:
-    QWidget *m_container;
+    CScrollablePagerWidget *m_container;
     QGridLayout *m_containerLayout;
     CScrollableWidget *m_scrollable;
     IVariableObjectDescriber *m_describer;

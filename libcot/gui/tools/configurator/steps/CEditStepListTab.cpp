@@ -1,4 +1,5 @@
 #include "CEditStepListTab.h"
+#include "CScrollablePagerWidget.h"
 #include "IVariableUIHandler.h"
 #include "CStepWidget.h"
 #include "CMessageBox.h"
@@ -40,7 +41,7 @@ int findTargetIndex(QBoxLayout *layout, float interval) {
 
 CEditStepListTab::CEditStepListTab(ICycle *cycle, QWidget *parent)
     : IConfiguratorEditTab(parent)
-    , m_widget(new QWidget(this))
+    , m_widget(new CScrollablePagerWidget(this))
     , m_layout(new QVBoxLayout(m_widget))
 {
     m_layout->addStretch();
@@ -55,7 +56,7 @@ CEditStepListTab::CEditStepListTab(ICycle *cycle, QWidget *parent)
         addStep(step);
     }
 
-    scrollableWidget()->setScrollableWidget(m_widget);
+    scrollableWidget()->setScrollablePagerWidget(m_widget);
 
     connect(buttonBar()->addAction(CToolButton::Add), &QAction::triggered, this, &CEditStepListTab::slotAddStep);
     connect(buttonBar()->addAction(CToolButton::AddStopStep), &QAction::triggered, this, &CEditStepListTab::slotAddStopStep);

@@ -1,5 +1,6 @@
 #include "IVariableMeasuresUIHandler.h"
 #include "CScrollableWidget.h"
+#include "CScrollablePagerWidget.h"
 #include "CToolButton.h"
 #include "CPCWindow.h"
 #include "CMeasureWindow.h"

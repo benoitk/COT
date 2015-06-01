@@ -1,5 +1,6 @@
 #include "IVariableMaintenanceUIHandler.h"
 #include "CScrollableWidget.h"
+#include "CScrollablePagerWidget.h"
 #include "CToolButton.h"
 #include "CAutomate.h"
 #include "ICycle.h"

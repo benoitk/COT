@@ -1,4 +1,5 @@
 #include "ConfiguratorSequencerUIHandler.h"
+#include "CScrollablePagerWidget.h"
 #include "CPushButton.h"
 #include "CToolButton.h"
 

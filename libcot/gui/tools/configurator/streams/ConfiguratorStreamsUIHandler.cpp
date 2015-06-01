@@ -1,4 +1,5 @@
 #include "ConfiguratorStreamsUIHandler.h"
+#include "CScrollablePagerWidget.h"
 #include "CPushButton.h"
 #include "CToolButton.h"
 

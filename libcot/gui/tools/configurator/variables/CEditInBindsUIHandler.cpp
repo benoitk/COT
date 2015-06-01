@@ -1,4 +1,5 @@
 #include "CEditInBindsUIHandler.h"
+#include "CScrollablePagerWidget.h"
 #include "CPushButton.h"
 
 #include <QLabel>

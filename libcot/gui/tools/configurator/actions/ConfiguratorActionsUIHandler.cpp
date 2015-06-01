@@ -1,4 +1,5 @@
 #include "ConfiguratorActionsUIHandler.h"
+#include "CScrollablePagerWidget.h"
 
 #include <CAutomate.h>
 #include <CPushButton.h>

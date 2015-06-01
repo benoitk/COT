@@ -1,4 +1,5 @@
 #include "CScrollableWidget.h"
+#include "CScrollablePagerWidget.h"
 #include "cotgui_debug.h"
 
 #include <QAction>
@@ -72,7 +73,7 @@ QAction *CScrollableWidget::moveUp() const
     return m_moveUp;
 }
 
-void CScrollableWidget::setScrollableWidget(QWidget *w)
+void CScrollableWidget::setScrollablePagerWidget(CScrollablePagerWidget *w)
 {
     // QtDesigner do create a content child, let delete it if there.
     if (widget()) {
@@ -83,6 +84,11 @@ void CScrollableWidget::setScrollableWidget(QWidget *w)
     w->installEventFilter(this);
     w->show();
     updateActions();
+}
+
+CScrollablePagerWidget *CScrollableWidget::scrollablePagerWidget() const
+{
+    return qobject_cast<CScrollablePagerWidget *>(widget());
 }
 
 bool CScrollableWidget::eventFilter(QObject *obj, QEvent *event)
@@ -97,6 +103,11 @@ bool CScrollableWidget::eventFilter(QObject *obj, QEvent *event)
 void CScrollableWidget::resizeEvent(QResizeEvent *event)
 {
     QScrollArea::resizeEvent(event);
+
+    if (widget()) {
+        scrollablePagerWidget()->setHostHeight(event->size().height());
+    }
+
     updateActions();
 }
 

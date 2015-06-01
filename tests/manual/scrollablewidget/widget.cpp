@@ -1,5 +1,6 @@
 #include "widget.h"
 #include "CScrollableWidget.h"
+#include "CScrollablePagerWidget.h"
 #include <QVBoxLayout>
 #include <QToolBar>
 #include <QAction>
@@ -13,7 +14,7 @@ Widget::Widget(QWidget *parent)
     QToolBar *bar = new QToolBar(this);
     vbox->addWidget(bar);
 
-    QWidget *myWidget = new QWidget;
+    CScrollablePagerWidget *myWidget = new CScrollablePagerWidget;
     QVBoxLayout *myWidgetLayout = new QVBoxLayout;
     myWidget->setLayout(myWidgetLayout);
     for (int i = 0; i < 100 ;) {
@@ -27,7 +28,7 @@ Widget::Widget(QWidget *parent)
     }
 
     CScrollableWidget *scrollablewidget = new CScrollableWidget(this);
-    scrollablewidget->setScrollableWidget(myWidget);
+    scrollablewidget->setScrollablePagerWidget(myWidget);
     vbox->addWidget(scrollablewidget);
     bar->addAction(scrollablewidget->moveUp());
     bar->addAction(scrollablewidget->moveDown());

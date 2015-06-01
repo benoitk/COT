@@ -1,14 +1,14 @@
 #ifndef CLABELLEDTOOLBUTTONGRID_H
 #define CLABELLEDTOOLBUTTONGRID_H
 
-#include <QWidget>
+#include "CScrollablePagerWidget.h"
 
 #include "CToolButton.h"
 
 class QGridLayout;
 class CLabelledToolButton;
 
-class CLabelledToolButtonGrid : public QWidget
+class CLabelledToolButtonGrid : public CScrollablePagerWidget
 {
     Q_OBJECT
 

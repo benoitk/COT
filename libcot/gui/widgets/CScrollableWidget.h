@@ -3,8 +3,12 @@
 
 #include <QScrollArea>
 #include <QPlainTextEdit>
+
 #include "cot_global.h"
+
 class QAction;
+class CScrollablePagerWidget;
+
 class LIBCOT_EXPORT CScrollableWidget : public QScrollArea
 {
     Q_OBJECT
@@ -22,7 +26,8 @@ public:
     QAction *moveDown() const;
     QAction *moveUp() const;
 
-    void setScrollableWidget(QWidget *w);
+    void setScrollablePagerWidget(CScrollablePagerWidget *w);
+    CScrollablePagerWidget *scrollablePagerWidget() const;
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
@@ -51,7 +56,6 @@ public:
     ~CScrollablePlainTextEdit();
 
     QAction *moveDown() const;
-
     QAction *moveUp() const;
 
 protected:
@@ -62,9 +66,10 @@ private slots:
     void slotMoveDown();
 
 private:
-    void updateActions();
     QAction *m_moveUp;
     QAction *m_moveDown;
+
+    void updateActions();
 };
 
 #endif // CSCROLLABLEWIDGET_H
