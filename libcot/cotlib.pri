@@ -118,6 +118,7 @@ HEADERS *= \
     gui/widgets/CGenericListModel.h \
     gui/widgets/CPushButton.h \
     gui/widgets/CScrollableWidget.h \
+    gui/widgets/CScrollablePagerWidget.h \
     gui/widgets/CStatusLabel.h \
     gui/widgets/CStatusWidget.h \
     gui/widgets/CToolButton.h \
@@ -307,6 +308,7 @@ SOURCES *= \
     gui/widgets/CGenericVariablesEditor.cpp \
     gui/widgets/CGenericVariablesEditorWindow.cpp \
     gui/widgets/CGenericVariablesUIHandler.cpp \
+    gui/widgets/CScrollablePagerWidget.cpp \
     gui/panel/CAlarmsWindow.cpp \
     gui/panel/CPCDiagnosticTab.cpp \
     gui/panel/CPCHistogramTab.cpp \
