@@ -28,7 +28,7 @@ protected:
 
 private:
     CPushButton *newItemButton(IVariable *ivar);
-    CToolButton *addMeasureButton(IVariable *ivar);
+    CToolButton *newAddMeasureButton(IVariable *ivar);
 
     CVariableStream *getStreamForMeasure(CVariableMeasure *measure);
 
