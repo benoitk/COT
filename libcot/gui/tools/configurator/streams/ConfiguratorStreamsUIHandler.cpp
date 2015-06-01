@@ -190,8 +190,8 @@ void ConfiguratorStreamsUIHandler::slotAddItem()
     CToolButton *item = qobject_cast<CToolButton *>(sender());
     Q_ASSERT(item);
 
-    IVariable *ivar = qobject_cast<CVariableStream *>(getVariable(item->userData().toString()));
-    Q_ASSERT(ivar);
+    CVariableStream *varStream = qobject_cast<CVariableStream *>(getVariable(item->userData().toString()));
+    Q_ASSERT(varStream);
 
     addNewMeasureToStream(varStream);
 
