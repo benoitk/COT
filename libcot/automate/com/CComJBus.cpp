@@ -142,6 +142,8 @@ CComJBus::CComJBus(const QVariantMap &mapCom, QObject *parent)
 
     if (m_ctx)
         initializeModbus();
+    else
+        QMetaObject::invokeMethod(this, "connected", Qt::QueuedConnection, Q_ARG(bool, false));
 }
 
 CComJBus::~CComJBus()
@@ -179,11 +181,11 @@ QVariant CComJBus::readData(IVariableInput* arg_input){
     switch (arg_input->getIVariable()->getType())
     {
     case type_bool:
-        return readBool(address);
+        return readBool(address, Input);
     case type_int:
-        return readInt(address);
+        return readInt(address, Input);
     case type_float:
-        return readFloat(address);
+        return readFloat(address, Input);
     case type_unknow:
     default:
         break;
@@ -268,9 +270,12 @@ void CComJBus::writeWordFunction6(int addrVar, int word)
         qCDebug(COTAUTOMATE_LOG) << "Failed to write word to" << addrVar << ':' << modbus_strerror(errno);
 }
 
-bool CComJBus::readBool(int addrVar)
+bool CComJBus::readBool(int addrVar, Type type)
 {
-    return readNBitsFunction1(addrVar, 1).at(0);
+    if (type == Output)
+        return readNBitsFunction1(addrVar, 1).at(0);
+    else
+        return readNInputBitsFunction2(addrVar, 1).at(0);
 }
 
 void CComJBus::writeBool(int addrVar, bool value)
@@ -280,9 +285,16 @@ void CComJBus::writeBool(int addrVar, bool value)
     writeNBitsFunction15(addrVar, bits);
 }
 
-int CComJBus::readInt(int addrVar)
+CComJBus::WordArray CComJBus::readNWords(int addrVar, int nbWordsToRead, Type type)
 {
-    const WordArray& words = readNWordsFunction3(addrVar, sizeof(int) / sizeof(uint16_t));
+    return type == Output
+        ? readNWordsFunction3(addrVar, nbWordsToRead)
+        : readNInputWordsFunction4(addrVar, nbWordsToRead);
+}
+
+int CComJBus::readInt(int addrVar, Type type)
+{
+    const WordArray& words = readNWords(addrVar, sizeof(int) / sizeof(uint16_t), type);
     int value;
     memcpy(&value, words.data(), sizeof(int));
     return value;
@@ -295,9 +307,9 @@ void CComJBus::writeInt(int addrVar, int value)
     writeNWordsFunction16(addrVar, words);
 }
 
-float CComJBus::readFloat(int addrVar)
+float CComJBus::readFloat(int addrVar, Type type)
 {
-    const WordArray& words = readNWordsFunction3(addrVar, sizeof(float) / sizeof(uint16_t));
+    const WordArray& words = readNWords(addrVar, sizeof(int) / sizeof(uint16_t), type);
     return modbus_get_float(words.data());
 }
 

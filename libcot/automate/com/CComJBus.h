@@ -48,13 +48,20 @@ private:
     void writeBitFunction5(int addrVar, bool bit);
     void writeWordFunction6(int addrVar, int word);
 
-    bool readBool(int addrVar);
+    enum Type
+    {
+        Input,
+        Output
+    };
+    WordArray readNWords(int addrVar, int nbWordsToRead, Type type);
+
+    bool readBool(int addrVar, Type type);
     void writeBool(int addrVar, bool value);
 
-    int readInt(int addrVar);
+    int readInt(int addrVar, Type type);
     void writeInt(int addrVar, int value);
 
-    float readFloat(int addrVar);
+    float readFloat(int addrVar, Type type);
     void writeFloat(int addrVar, float value);
 
     void initializeModbus();

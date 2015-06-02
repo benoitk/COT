@@ -81,7 +81,8 @@ private:
     bool waitForInitialization(const CComJBus &bus, int timeoutMs = 500) const
     {
         QSignalSpy spy(&bus, SIGNAL(connected(bool)));
-        return spy.wait(timeoutMs);
+        spy.wait(timeoutMs);
+        return spy.isValid() && spy.size() == 1 && spy.first().size() == 1 && spy.first().first().toBool();
     }
 
     PseudoTerminal m_pty;
@@ -366,27 +367,27 @@ void JBusTest::testSlave()
 
         qDebug() << "testing readBool/writeBool";
         masterBits[0] = true;
-        const bool b = slave.readBool(0);
+        const bool b = slave.readBool(0, CComJBus::Output);
         QCOMPARE(b, true);
         slave.writeBool(0, !b);
-        QCOMPARE(slave.readBool(0), !b);
+        QCOMPARE(slave.readBool(0, CComJBus::Output), !b);
 
         qDebug() << "testing readInt/writeInt";
         const int intData = 42;
         memcpy(masterWords.data() + 2, &intData, sizeof(intData));
-        const int i = slave.readInt(2);
+        const int i = slave.readInt(2, CComJBus::Output);
         QCOMPARE(i, intData);
         slave.writeInt(2, 24);
-        QCOMPARE(slave.readInt(2), 24);
+        QCOMPARE(slave.readInt(2, CComJBus::Output), 24);
 
         qDebug() << "testing readFloat/writeFloat";
         const float floatData = 2.5;
         const int floatAddress = 4;
         memcpy(masterWords.data() + floatAddress, &floatData, sizeof(floatData));
-        const float f = slave.readFloat(floatAddress);
+        const float f = slave.readFloat(floatAddress, CComJBus::Output);
         QCOMPARE(f, floatData);
         slave.writeFloat(floatAddress, 4.5);
-        QCOMPARE(slave.readFloat(floatAddress), 4.5);
+        QCOMPARE(slave.readFloat(floatAddress, CComJBus::Output), 4.5);
     }
     // destroy the slave to kill the tcpip connection, which stops the master loop as well
     // then we can join the thread
