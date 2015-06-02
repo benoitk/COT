@@ -3,4 +3,5 @@ CONFIG *= ordered
 
 SUBDIRS *= \
     slave \
-    master
+    master \
+    ioboard
