@@ -140,10 +140,16 @@ CComJBus::CComJBus(const QVariantMap &mapCom, QObject *parent)
         m_slave = slave;
     }
 
-    if (m_ctx)
+    if (m_ctx) {
+        if (mapCom.value(QStringLiteral("debug")).toBool())
+            modbus_set_debug(m_ctx.data(), 1);
+
         initializeModbus();
-    else
+    } else {
+        // emit a delayed connection-failed signal, so that people can instantiate the object,
+        // connect to the connected signal, and still get their slot called.
         QMetaObject::invokeMethod(this, "connected", Qt::QueuedConnection, Q_ARG(bool, false));
+    }
 }
 
 CComJBus::~CComJBus()
@@ -154,9 +160,6 @@ CComJBus::~CComJBus()
 
 void CComJBus::initializeModbus()
 {
-    // TODO: disable
-    modbus_set_debug(m_ctx.data(), 1);
-
     // -1 == m_slave indicates master coms
     if (m_slave >= 0)
         modbus_set_slave(m_ctx.data(), m_slave);

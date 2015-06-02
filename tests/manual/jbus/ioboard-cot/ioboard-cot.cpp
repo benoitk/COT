@@ -85,6 +85,7 @@ int main(int argc, char** argv)
     busConfig[QStringLiteral("slave")] = 1;
     busConfig[QStringLiteral("name")] = QStringLiteral("ioboard_tcp");
     busConfig[QStringLiteral("type")] = QStringLiteral("tcpip");
+    busConfig[QStringLiteral("debug")] = true;
     CComJBus bus(busConfig);
 
     JBusTest test(&bus);

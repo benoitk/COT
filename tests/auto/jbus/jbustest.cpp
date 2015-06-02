@@ -108,6 +108,7 @@ void JBusTest::testInitialize_data()
         map["type"] = "jbus_over_tcpip";
         map["ip"] = m_tcp.serverAddress().toString();
         map["port"] = m_tcp.serverPort();
+        map["debug"] = true;
         QTest::newRow("jbus_over_tcpip") << map << "com_jbus_tcpip_master" << type_jbus_over_tcpip << true;
     }
     {
@@ -118,6 +119,7 @@ void JBusTest::testInitialize_data()
         map["baudrate"] = "9600";
         map["stop"] = "1";
         map["data"] = "8";
+        map["debug"] = true;
         QTest::newRow("jbus") << map << "com_jbus_master" << type_jbus << true;
     }
     {
@@ -126,16 +128,19 @@ void JBusTest::testInitialize_data()
         map["type"] = "tcpip";
         map["ip"] = m_tcp.serverAddress().toString();
         map["port"] = m_tcp.serverPort();
+        map["debug"] = true;
         QTest::newRow("tcpip") << map << "com_tcpip_master" << type_tcpip << true;
     }
     {
         QVariantMap map;
         map["name"] = "com_name";
+        map["debug"] = true;
         QTest::newRow("unknown_type") << map << "com_name" << type_com_unknow << false;
     }
     {
         QVariantMap map;
         map["type"] = "jbus";
+        map["debug"] = true;
         QTest::newRow("unknown_name") << map << "Com not named" << type_jbus << false;
     }
 }
@@ -167,6 +172,7 @@ void JBusTest::testSlave_data()
         config["slave"] = 255;
         config["ip"] = "127.0.0.1";
         config["port"] = 12346;
+        config["debug"] = true;
         QTest::newRow("tcpip") << config;
     }
     {
@@ -176,6 +182,7 @@ void JBusTest::testSlave_data()
         config["slave"] = 255;
         config["ip"] = "127.0.0.1";
         config["port"] = 12346;
+        config["debug"] = true;
         QTest::newRow("jbus_over_tcpip") << config;
     }
     {
@@ -187,6 +194,7 @@ void JBusTest::testSlave_data()
         config["stop"] = "1";
         config["data"] = "8";
         config["slave"] = 1;
+        config["debug"] = true;
         // FIXME: the pty does not work properly, and the test fails
 //         QTest::newRow("jbus") << config;
     }
