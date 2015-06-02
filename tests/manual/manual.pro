@@ -6,4 +6,5 @@ SUBDIRS *= \
     keyboard \
     scrollablewidget \
     graphicswidget \
-    selectors
+    selectors \
+    jbus

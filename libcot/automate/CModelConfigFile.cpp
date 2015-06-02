@@ -70,6 +70,8 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
             ICom* com = CComFactory::build(mapCom);
             if(com->getType() != type_com_unknow)
                 automate->addCom(com);
+            else
+                delete com;
         }
         qCDebug(COTAUTOMATE_LOG) << "mapComs " << automate->getMapComs();
     }

@@ -6,17 +6,18 @@
 #include "qlist.h"
 #include "qbitarray.h"
 #include "qvariant.h"
-class INetwork;
-class CComJBus : public ICom
+
+#include "cot_global.h"
+
+#include <modbus.h>
+
+class LIBCOT_EXPORT CComJBus : public ICom
 {
     Q_OBJECT
 
 public:
-    CComJBus(QObject *parent);
-    CComJBus(const QVariantMap&);
+    CComJBus(const QVariantMap &options, QObject *parent = 0);
     ~CComJBus();
-
-
 
     QVariant readData() Q_DECL_OVERRIDE;
     QVariant readData(IVariableInput*) Q_DECL_OVERRIDE;
@@ -26,24 +27,57 @@ public:
 
     void triggerUpdateAllData() Q_DECL_OVERRIDE;
 
-
-    QBitArray readNBitsFunction1( int addrVar, int nbBitsToRead);
-    void writeNBitsFunction15(int addrVar, const QBitArray &data);
-    QList<char> readNWordsFunction3( int addrVar, int nbBytesToRead);
-    void writeNWordsFunction16(int addrVar, const QList<char> &data);
-
     QString getName()const Q_DECL_OVERRIDE;
     comType getType()const Q_DECL_OVERRIDE;
 
-private:
+signals:
+    void connected(bool success);
 
-    INetwork* m_uart;
-    int m_numSlave;
+private:
+    typedef QVarLengthArray<uint8_t, 32> BitArray;
+    BitArray readNBitsFunction1(int addrVar, int nbBitsToRead);
+    void writeNBitsFunction15(int addrVar, const BitArray &data);
+
+    typedef QVarLengthArray<uint16_t, 16> WordArray;
+    WordArray readNWordsFunction3(int addrVar, int nbWordsToRead);
+    void writeNWordsFunction16(int addrVar, const WordArray &data);
+
+    BitArray readNInputBitsFunction2(int addrVar, int nbBitsToRead);
+    WordArray readNInputWordsFunction4(int addrVar, int nbWordsToRead);
+
+    void writeBitFunction5(int addrVar, bool bit);
+    void writeWordFunction6(int addrVar, int word);
+
+    enum Type
+    {
+        Input,
+        Output
+    };
+    WordArray readNWords(int addrVar, int nbWordsToRead, Type type);
+
+    bool readBool(int addrVar, Type type);
+    void writeBool(int addrVar, bool value);
+
+    int readInt(int addrVar, Type type);
+    void writeInt(int addrVar, int value);
+
+    float readFloat(int addrVar, Type type);
+    void writeFloat(int addrVar, float value);
+
+    void initializeModbus();
+
+    struct FreeModbus;
+    QScopedPointer<modbus_t, FreeModbus> m_ctx;
+    QThread *m_modbusThread;
+
+    int m_slave;
     QMap<int, IVariableInput*> m_mapInputTable;
     QMap<int, IVariableOutput*> m_mapOutputTable;
 
     QString m_name;
     comType m_type;
+
+    friend class JBusTest;
 };
 
 #endif // CComJBus_H

@@ -2,6 +2,7 @@ TEMPLATE = subdirs
 CONFIG *= ordered
 
 SUBDIRS *= \
+    3rd_party \
     libcot \
     cot \
     cot-translator \

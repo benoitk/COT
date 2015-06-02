@@ -4,14 +4,12 @@
 
 #include <QObject>
 
-class INetwork;
 class CComUnknow : public ICom
 {
     Q_OBJECT
 
 public:
-    CComUnknow(QObject *parent);
-    CComUnknow();
+    CComUnknow(QObject *parent = 0);
     ~CComUnknow();
 
     QVariant readData() Q_DECL_OVERRIDE;

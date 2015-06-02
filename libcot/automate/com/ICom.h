@@ -4,24 +4,27 @@
 #include <QObject>
 #include "qvariant.h"
 
+#include "cot_global.h"
+
 enum comType{
-        type_tcp = 0,
+        type_tcpip = 0,
         type_jbus,
         type_jbus_over_tcpip,
         type_com_unknow
 
 };
 
+LIBCOT_EXPORT comType stringToComType(const QString &type);
+
 class IVariableInput;
 class IVariableOutput;
 class IVariable;
-class ICom : public QObject
+class LIBCOT_EXPORT ICom : public QObject
 {
     Q_OBJECT
 
 public:
-    ICom(QObject *parent);
-    ICom();
+    ICom(QObject *parent = 0);
     ~ICom();
 
     virtual QVariant readData()=0;
@@ -39,5 +42,7 @@ public:
 private:
 
 };
+
+Q_DECLARE_METATYPE(comType)
 
 #endif // ICom_H

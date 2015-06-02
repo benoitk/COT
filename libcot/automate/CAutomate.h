@@ -27,7 +27,6 @@ class CControlerCycle;
 class CSequencer;
 class IVariable;
 class CModelExtensionCard;
-class INetwork;
 class IAction;
 class CUnit;
 class CDisplayConf;
@@ -185,7 +184,6 @@ private:
 
     mutable QMutex m_mutex;
 
-    QList<INetwork*> m_listNetworks;
     eStateCycle m_stateCycleMesure; //0 stoped, 1 run, 2 pause
     eStateCycle m_stateCycleIO; //0 stoped, 1 run, 2 pause
     eStateCycle m_stateCycleMaintenance; //0 stoped, 1 run, 2 pause
