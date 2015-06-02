@@ -19,7 +19,7 @@
 #include <QVariant>
 #include <QDateTime>
 
-IVariable* CVariableFactory::build(const QMap<QString, QVariant> &mapVar){
+IVariable* CVariableFactory::build(const QVariantMap &mapVar){
 
     int address = 0;
     if(mapVar.contains(QStringLiteral("address")))

@@ -10,7 +10,7 @@ class CVariableFactory : public QObject
     Q_OBJECT
 
 public:
-    static IVariable* build(const QMap<QString, QVariant> &);
+    static IVariable* build(const QVariantMap &config);
     static IVariable* build(variableType type, VariableOrganType organType = VariableOrganTypeNone, const QVariant &data = QVariant());
     static IVariable* build(const QString& type, const QVariantMap &data = QVariantMap());
 
