@@ -313,6 +313,8 @@ QList<ICycle*> CAutomate::getListCycles(int cycleType){
 }
 void CAutomate::slotClock(){
     qCDebug(COTAUTOMATE_LOG) << "Tick " << m_iClock++%600;
+    getVariable(QStringLiteral("measure_cot"))->setValue(QVariant(m_iClock));
+    emit signalUpdatePlotting(QStringLiteral("measure_cot"));
 }
 QList<IAction*>  CAutomate::getListActions(){
     QMutexLocker locker(&m_mutex);

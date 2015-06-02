@@ -32,6 +32,9 @@ CPCMeasureTab::CPCMeasureTab(QWidget *parent)
             this, &CPCMeasureTab::slotUpdateStreamsMeasures);
     connect(CAutomate::getInstance(), &CAutomate::signalVariableChanged,
             this, &CPCMeasureTab::slotVariableChanged);
+    connect(CAutomate::getInstance(), &CAutomate::signalUpdatePlotting,
+            this, &CPCMeasureTab::slotUpdatePlotting);
+
 }
 
 CPCMeasureTab::~CPCMeasureTab()
