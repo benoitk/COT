@@ -5,10 +5,8 @@
 
 #include "IVariable.h"
 
-class CVariableFactory : public QObject
+class CVariableFactory
 {
-    Q_OBJECT
-
 public:
     static IVariable* build(const QVariantMap &config);
     static IVariable* build(variableType type, VariableOrganType organType = VariableOrganTypeNone, const QVariant &data = QVariant());
@@ -28,9 +26,6 @@ public:
     static T castedBuild(variableType type, VariableOrganType organType = VariableOrganTypeNone, const QVariant &data = QVariant()) {
         return static_cast<T>(build(type, organType, data));
     }
-
-private:
-
 };
 
 #endif // CVARIABLEFACTORY_H
