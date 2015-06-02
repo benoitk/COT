@@ -93,40 +93,4 @@ int main(int argc, char** argv)
                      &test, &JBusTest::connected);
 
     return app.exec();
-
-    /*
-    {
-        uint8_t inputBusBools[2];
-        read(ctx, 0x0100, inputBusBools, 2, modbus_read_input_bits);
-    }
-    {
-        uint8_t outputBusBools[4];
-        read(ctx, 0x0200, outputBusBools, 4, modbus_read_bits);
-        for (int i = 0; i < 2; ++i) {
-            writeNegated(ctx, 0x0200, outputBusBools, 4);
-            read(ctx, 0x0200, outputBusBools, 4, modbus_read_bits);
-        }
-    }
-
-    {
-        uint8_t voltageOutputBusBools[2];
-        read(ctx, 0x0300, voltageOutputBusBools, 2, modbus_read_bits);
-        for (int i = 0; i < 2; ++i) {
-            writeNegated(ctx, 0x0300, voltageOutputBusBools, 2);
-            read(ctx, 0x0300, voltageOutputBusBools, 2, modbus_read_bits);
-        }
-    }
-
-    {
-        int loop;
-        uint16_t *loopRegisters = reinterpret_cast<uint16_t*>(&loop);
-        read(ctx, 0x0400, loopRegisters, 2, modbus_read_registers);
-        printf("loop = %d\n", loop);
-    }
-
-    modbus_free(ctx);
-    */
-    return 0;
 }
-
-#include "ioboard-cot.moc"

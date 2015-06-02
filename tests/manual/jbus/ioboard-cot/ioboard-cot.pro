@@ -1,4 +1,4 @@
-TARGET = ioboard
+TARGET = ioboard-cot
 
 include("$${top_srcdir}/config.pri")
 
