@@ -3,8 +3,7 @@
 #include "CUnit.h"
 
 CVariableOutputBool::CVariableOutputBool(QObject *parent)
-    : CVariableBool(parent)
-    , m_modelExtensionCard(Q_NULLPTR)
+    : CVariableBool(parent),IVariableOutput()
 {
 
 }
@@ -15,27 +14,9 @@ CVariableOutputBool::~CVariableOutputBool()
 }
 
 CVariableOutputBool::CVariableOutputBool(const QMap<QString, QVariant> &mapVar)
-    : CVariableBool()
-    , m_modelExtensionCard(Q_NULLPTR)
+    : CVariableBool(),IVariableOutput()
 {
 
-}
-
-CModelExtensionCard* CVariableOutputBool::getExtensionCard()const{
-    return m_modelExtensionCard;
-}
-IComObserver* CVariableOutputBool::getComObserver()const{
-    return m_modelExtensionCard;
-}
-QString CVariableOutputBool::getOrganneName()const{
-    return m_organneName;
-}
-QString CVariableOutputBool::getOrganneAddr()const{
-    return QStringLiteral("return ADDR");
-}
-void CVariableOutputBool::setOrganne(CModelExtensionCard* arg_model,const  QString  &arg_organneName){
-    m_modelExtensionCard = arg_model;
-    m_organneName = arg_organneName;
 }
 
 void CVariableOutputBool::writeValue(){

@@ -5,8 +5,7 @@
 #include "CUnit.h"
 
 CVariableInputBool::CVariableInputBool(QObject *parent)
-    : CVariableBool(parent)
-    , m_modelExtensionCard(Q_NULLPTR)
+    : CVariableBool(parent), IVariableInput()
 {
 
 }
@@ -16,48 +15,27 @@ CVariableInputBool::~CVariableInputBool()
 
 }
 CVariableInputBool::CVariableInputBool(const QMap<QString, QVariant> &mapVar)
-    : CVariableBool()
-    , m_modelExtensionCard(Q_NULLPTR)
+    : CVariableBool(), IVariableInput()
 {
 
-}
-
-CModelExtensionCard* CVariableInputBool::getExtensionCard()const{
-    return m_modelExtensionCard;
-}
-IComObserver* CVariableInputBool::getComObserver()const{
-    return m_modelExtensionCard;
-}
-
-QString CVariableInputBool::getOrganneName()const{
-    return m_organneName;
-}
-QString CVariableInputBool::getOrganneAddr()const{
-    return QStringLiteral("return ADDR");
-}
-void CVariableInputBool::setOrganne(CModelExtensionCard* arg_model,const QString &arg_organneName){
-    m_modelExtensionCard = arg_model;
-    m_organneName = arg_organneName;
 }
 
 IVariable* CVariableInputBool::readValue(){
     if (m_modelExtensionCard) {
         QVariant var = m_modelExtensionCard->readOrganneValue(this);
-        this->setValue(var.toFloat());
+        this->setValue(var.toBool());
     }
 
     return this;
 }
-
-
-
+IVariable* CVariableInputBool::getIVariable(){
+    return this;
+}
 
 variableType CVariableInputBool::getType()const{
     return type_bool;
 }
-IVariable* CVariableInputBool::getIVariable(){
-    return this;
-}
+
 QVariantMap CVariableInputBool::serialise(){
     QVariantMap mapSerialise;
     mapSerialise.insert(QStringLiteral("name"), m_name);

@@ -17,11 +17,6 @@ public:
     ~CVariableOutputListVariables();
 
     //IVariableOutput
-    CModelExtensionCard* getExtensionCard()const Q_DECL_OVERRIDE;
-    QString getOrganneName()const Q_DECL_OVERRIDE;
-    QString getOrganneAddr()const Q_DECL_OVERRIDE;
-    void setOrganne(CModelExtensionCard* , const QString &) Q_DECL_OVERRIDE;
-    IComObserver* getComObserver()const Q_DECL_OVERRIDE;
     IVariable* getIVariable() Q_DECL_OVERRIDE;
 
     //IVariable
@@ -42,11 +37,7 @@ public:
 private:
 
     void writeValue();
-    CModelExtensionCard* m_modelExtensionCard;
-    QString m_organneName;
-    QString m_organneAddr;
 
-    QList<IVariable*> m_listVariables;
 
 };
 

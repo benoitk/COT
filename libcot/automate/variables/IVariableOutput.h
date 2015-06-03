@@ -11,16 +11,22 @@ class IComObserver;
 class IVariableOutput
 {
 public:
-    virtual ~IVariableOutput() {}
-    virtual CModelExtensionCard* getExtensionCard()const=0;
-    virtual QString getOrganneName()const=0;
-    virtual void setOrganne(CModelExtensionCard* ,const QString &)=0;
-    virtual QString getOrganneAddr()const=0;
-    virtual IComObserver* getComObserver()const=0;
+    IVariableOutput();
+    virtual CModelExtensionCard* getExtensionCard()const;
+    virtual QString getOrganneName()const;
+    virtual void setOrganne(CModelExtensionCard* ,const QString &);
+    virtual QString getOrganneAddr()const;
+    virtual IComObserver* getComObserver()const;
+
     virtual IVariable* getIVariable()=0;
 
 private:
     virtual void writeValue()=0;
+
+protected:
+    CModelExtensionCard* m_modelExtensionCard;
+    QString m_organneName;
+    QString m_organneAddr;
 
 };
 

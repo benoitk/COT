@@ -3,8 +3,7 @@
 #include "CUnit.h"
 #include "cotautomate_debug.h"
 CVariableOutputFloat::CVariableOutputFloat(QObject *parent)
-    : CVariableFloat(parent)
-    , m_modelExtensionCard(Q_NULLPTR)
+    : CVariableFloat(parent),IVariableOutput()
 {
 
 }
@@ -15,34 +14,15 @@ CVariableOutputFloat::~CVariableOutputFloat()
 }
 
 CVariableOutputFloat::CVariableOutputFloat(const QMap<QString, QVariant> &mapVar)
-    : CVariableFloat()
-    , m_modelExtensionCard(Q_NULLPTR)
+    : CVariableFloat(),IVariableOutput()
 {
 
-}
-
-CModelExtensionCard* CVariableOutputFloat::getExtensionCard()const{
-    return m_modelExtensionCard;
-}
-IComObserver* CVariableOutputFloat::getComObserver()const{
-    return m_modelExtensionCard;
-}
-QString CVariableOutputFloat::getOrganneName()const{
-    return m_organneName;
-}
-QString CVariableOutputFloat::getOrganneAddr()const{
-    return QStringLiteral("return ADDR");
-}
-void CVariableOutputFloat::setOrganne(CModelExtensionCard* arg_model, const QString &arg_organneName){
-    m_modelExtensionCard = arg_model;
-    m_organneName = arg_organneName;
 }
 
 void CVariableOutputFloat::writeValue(){
 
 
 }
-
 
 void CVariableOutputFloat::setValue(float value){
     m_fValeur = value;
@@ -56,15 +36,12 @@ void CVariableOutputFloat::setValue(float value){
     emit signalVariableChanged();
 }
 
-
 variableType CVariableOutputFloat::getType()const{
     return type_float;
 }
 IVariable* CVariableOutputFloat::getIVariable(){
     return this;
 }
-
-
 
 QVariantMap CVariableOutputFloat::serialise()
 {

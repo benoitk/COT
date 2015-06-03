@@ -4,8 +4,7 @@
 #include "CUnit.h"
 
 CVariableInputFloat::CVariableInputFloat(QObject *parent)
-    : CVariableFloat(parent)
-    , m_modelExtensionCard(Q_NULLPTR)
+    : CVariableFloat(parent), IVariableInput()
 {
 
 }
@@ -16,28 +15,12 @@ CVariableInputFloat::~CVariableInputFloat()
 }
 
 CVariableInputFloat::CVariableInputFloat(const QMap<QString, QVariant> &mapVar)
-    : CVariableFloat()
-    , m_modelExtensionCard(Q_NULLPTR)
+    : CVariableFloat(), IVariableInput()
 {
 
 }
 
-CModelExtensionCard* CVariableInputFloat::getExtensionCard()const{
-    return m_modelExtensionCard;
-}
-IComObserver* CVariableInputFloat::getComObserver()const{
-    return m_modelExtensionCard;
-}
-QString CVariableInputFloat::getOrganneName()const{
-    return m_organneName;
-}
-QString CVariableInputFloat::getOrganneAddr()const{
-    return QStringLiteral("return ADDR");
-}
-void CVariableInputFloat::setOrganne(CModelExtensionCard* arg_model,const QString &arg_organneName){
-    m_modelExtensionCard = arg_model;
-    m_organneName = arg_organneName;
-}
+
 
 IVariable* CVariableInputFloat::readValue(){
     if (m_modelExtensionCard) {
