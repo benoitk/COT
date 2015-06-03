@@ -18,14 +18,16 @@ class IAction : public QObject
     Q_OBJECT
 
 public:
+    IAction(const QVariantMap &mapAction);
     IAction(QObject *parent);
     IAction();
     ~IAction();
 
-    virtual bool runAction()=0;
-    virtual QString getName()const=0;
-    virtual QString getLabel()const=0;
-    virtual void setLabel(const QString&)=0;
+    virtual QString getName()const;
+    virtual QString getLabel()const;
+    virtual void setLabel(const QString&);
+
+    virtual bool runAction()=0;   
     virtual QList<IVariable*> getListParameters()const=0;
     virtual actionType getType()const =0;
     virtual bool variableUsed(IVariable *)const =0;
@@ -33,6 +35,10 @@ public:
 
 signals:
     void finish(IAction* arg_this);
+
+protected:
+    QString m_label;
+    QString m_name;
 
 };
 

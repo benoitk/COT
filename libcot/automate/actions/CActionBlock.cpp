@@ -4,16 +4,14 @@
 #include "cotautomate_debug.h"
 
 CActionBlock::CActionBlock(const QVariantMap &mapAction)
-    : IAction()
+    : IAction(mapAction)
 {
-    m_label = mapAction[tr("FR_lbl")].toString();
-    m_name = mapAction[QStringLiteral("name")].toString();
+
 }
 CActionBlock::CActionBlock()
     : IAction()
 {
-    m_label = tr("Label non renseignée");
-    m_name =  tr("Nom non renseignée");
+
 }
 CActionBlock::~CActionBlock()
 {
@@ -40,20 +38,13 @@ bool CActionBlock::runAction(){
 }
 
 
-QString CActionBlock::getName()const{
-    return m_name;
-}
+
 
 QList<IVariable*> CActionBlock::getListParameters()const{
     QList<IVariable*> listParams;
     return listParams;
 }
-QString CActionBlock::getLabel()const{
-    return m_label;
-}
-void CActionBlock::setLabel(const QString& lbl){
-    m_label = lbl;
-}
+
 actionType CActionBlock::getType()const {
     return actionType::type_block;
 }

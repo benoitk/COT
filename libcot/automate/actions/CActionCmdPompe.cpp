@@ -13,11 +13,10 @@ CActionCmdPompe::CActionCmdPompe(QObject *parent)
 
 }
 CActionCmdPompe::CActionCmdPompe(const QVariantMap &mapAction)
-    : IAction()
+    : IAction(mapAction)
 {
     CAutomate* automate = CAutomate::getInstance();
-    m_name = mapAction[QStringLiteral("name")].toString();
-    m_label = mapAction[tr("fr_FR")].toString();
+
     if(mapAction.contains(QStringLiteral("pump")))
         m_pump = automate->getVariable(mapAction[QStringLiteral("pump")].toString());
     if(mapAction.contains(QStringLiteral("pump")))
@@ -70,15 +69,6 @@ bool CActionCmdPompe::runAction(){
     return true;
 }
 
-QString CActionCmdPompe::getName()const{
-    return m_name;
-}
-QString CActionCmdPompe::getLabel()const{
-    return m_label;
-}
-void CActionCmdPompe::setLabel(const QString& lbl){
-    m_label = lbl;
-}
 actionType CActionCmdPompe::getType()const {
     return actionType::type_cmd_pump;
 }

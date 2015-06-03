@@ -1,12 +1,18 @@
 #include "IAction.h"
-//#include "CActionCmdPompe.h"
-//#include "CActionCmdRelay.h"
 
-//#include "qvariant.h"
-//#include "qmap.h"
+#include "qvariant.h"
 
+
+IAction::IAction(const QVariantMap &mapAction){
+    m_label = mapAction[tr("FR_lbl")].toString();
+    m_name = mapAction[QStringLiteral("name")].toString();
+}
+IAction::IAction(): QObject(){
+    m_label = tr("Label non renseignée");
+    m_name =  tr("Nom non renseignée");
+}
 IAction::IAction(QObject *parent): QObject(parent){}
-IAction::IAction(): QObject(){}
+
 IAction::~IAction(){}
 
 /*IAction* IAction::factory(QVariantMap mapAction){
@@ -42,4 +48,13 @@ QString IAction::typeToString(actionType arg_type)
 
     }
     return QStringLiteral("**unhandled action type**");
+}
+QString IAction::getName()const{
+    return m_name;
+}
+QString IAction::getLabel()const{
+    return m_label;
+}
+void IAction::setLabel(const QString& lbl){
+    m_label = lbl;
 }

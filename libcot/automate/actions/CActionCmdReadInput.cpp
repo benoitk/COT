@@ -13,13 +13,11 @@ CActionCmdReadInput::CActionCmdReadInput(QObject *parent)
 
 }
 CActionCmdReadInput::CActionCmdReadInput(const QVariantMap &mapAction)
-    : IAction()
+    : IAction(mapAction)
 {
     CAutomate* automate = CAutomate::getInstance();
-    m_name = mapAction[QStringLiteral("name")].toString();
-    m_label = mapAction[tr("FR_lbl")].toString();
-    m_organneVar =  automate->getVariable(mapAction[QStringLiteral("organne_var")].toString());
 
+    m_organneVar =  automate->getVariable(mapAction[QStringLiteral("organne_var")].toString());
     m_variableDestination =  CAutomate::getInstance()->getVariable(mapAction[QStringLiteral("variable_destination_name")].toString());
 }
 CActionCmdReadInput::CActionCmdReadInput()
@@ -42,22 +40,11 @@ bool CActionCmdReadInput::runAction(){
     return true;
 }
 
-
-QString CActionCmdReadInput::getName()const{
-    return m_name;
-}
-
 QList<IVariable*> CActionCmdReadInput::getListParameters()const{
     QList<IVariable*> listParams;
     listParams.append(m_organneVar);
     listParams.append(m_variableDestination);
     return listParams;
-}
-QString CActionCmdReadInput::getLabel()const{
-    return m_label;
-}
-void CActionCmdReadInput::setLabel(const QString& lbl){
-    m_label = lbl;
 }
 actionType CActionCmdReadInput::getType()const {
     return actionType::type_cmd_read_input;

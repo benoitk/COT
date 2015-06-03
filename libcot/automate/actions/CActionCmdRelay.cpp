@@ -10,11 +10,8 @@ CActionCmdRelay::CActionCmdRelay(QObject *parent)
 
 }
 CActionCmdRelay::CActionCmdRelay(const QVariantMap &mapAction)
-    : IAction()
+    : IAction(mapAction)
 {
-    m_label = mapAction[tr("FR_lbl")].toString();
-    m_name = mapAction[QStringLiteral("name")].toString();
-
     CAutomate* automate = CAutomate::getInstance();
     m_RelayVar = automate->getVariable(mapAction[QStringLiteral("num_card_output")].toString());
 
@@ -39,22 +36,11 @@ bool CActionCmdRelay::runAction(){
     return true;
 }
 
-
-QString CActionCmdRelay::getName()const{
-    return m_name;
-}
-
 QList<IVariable*> CActionCmdRelay::getListParameters()const{
     QList<IVariable*> listParams;
     listParams.append(m_RelayVar);
 
     return listParams;
-}
-QString CActionCmdRelay::getLabel()const{
-    return m_label;
-}
-void CActionCmdRelay::setLabel(const QString& lbl){
-    m_label = lbl;
 }
 actionType CActionCmdRelay::getType()const {
     return actionType::type_cmd_relay;
