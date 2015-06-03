@@ -5,8 +5,7 @@ SUBDIRS *= \
     3rd_party \
     libcot \
     cot \
-    cot-translator \
-    tests
+    cot-translator
 
 DISTFILES *= \
     libcot/save.json \

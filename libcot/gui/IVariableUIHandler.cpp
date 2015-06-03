@@ -241,21 +241,24 @@ void IVariableUIHandler::layout(const QList<IVariable *> &variables, bool addDel
     const int numberOfColumn = addDeleteButton ? (columnCount() + 1) : columnCount();
     int y = 0;
     foreach (IVariable *ivar, variables) {
-        Row &row = m_rows[ivar->getName()];
+        // Attention si m_name est vide : comme était initialisé dans ConfiguratorVariablesUIHandler::layout()
+        // -> plante lors d'un appel à ConfiguratorVariablesUIHandler::rowChanged
+        if(ivar->getName() != ""){ //Fait par SERES : à modifier ?
+            Row &row = m_rows[ivar->getName()];
 
-        for (int x = 0; x < numberOfColumn; ++x) {
-            QWidget *widget = createWidget(x, ivar);
-            // it intentional to put possible null entry in list, so we can still rely on column to get correct widget.
-            row.widgets << widget;
+            for (int x = 0; x < numberOfColumn; ++x) {
+                QWidget *widget = createWidget(x, ivar);
+                // it intentional to put possible null entry in list, so we can still rely on column to get correct widget.
+                row.widgets << widget;
 
-            if (widget) {
-                m_containerLayout->addWidget(widget, y, x);
+                if (widget) {
+                    m_containerLayout->addWidget(widget, y, x);
+                }
             }
+            rowChanged(row, ivar);
+            rowInserted(row, ivar);
+            y++;
         }
-
-        rowChanged(row, ivar);
-        rowInserted(row, ivar);
-        y++;
     }
 
     if (verticalStretch()) {

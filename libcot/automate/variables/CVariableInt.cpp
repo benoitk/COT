@@ -3,7 +3,6 @@
 
 CVariableInt::CVariableInt(QObject *parent)
     : IVariable(parent)
-    , m_access(access_read_write)
     , m_iValeur(-1)
 {
 
@@ -19,13 +18,7 @@ CVariableInt::~CVariableInt()
 {
 
 }
-QString CVariableInt::getName()const{
-    return m_name;
-}
-void CVariableInt::setName(const QString& name){
-    m_name = name;
-    emit signalVariableChanged();
-}
+
 QString CVariableInt::toString(){
     return QString::number(m_iValeur);
 }
@@ -56,17 +49,7 @@ void CVariableInt::setToBindedValue(const QVariant & value){
 void CVariableInt::setValue(const QVariant & value){
     setValue(value.toInt());
 }
-QString CVariableInt::getLabel()const{
-    return m_label;
-}
-void CVariableInt::setLabel(const QString & label){
-    m_label = label;
-    emit signalVariableChanged();
-}
-void CVariableInt::addBind(IVariable* arg_var){
-    if(arg_var)
-        m_listBinds.append(arg_var);
-}
+
 variableType CVariableInt::getType()const{
     return type_int;
 }
@@ -76,34 +59,7 @@ void CVariableInt::switchToUnit(CUnit* targetUnit){
         m_iValeur = var.toFloat();
     m_unit = targetUnit;
 }
-void  CVariableInt::delBind(IVariable*){
 
-}
-CUnit * CVariableInt::getUnit() const{
-    return Q_NULLPTR;
-}
-bool  CVariableInt::isStreamRelated()const{
-    return false;
-}
-QString  CVariableInt::getRelatedStreamName()const{
-    return QStringLiteral("voie a changer");
-}
-bool  CVariableInt::isMeasureRelated()const{
-    return false;
-}
-QString  CVariableInt::getRelatedMeasureName()const{
-    return QStringLiteral("mesure a changer");
-}
-bool  CVariableInt::isDisplay()const{
-    return false;
-}
-QList<IVariable*>  CVariableInt::getListOutBinds()const{
-    return m_listBinds;
-}
-QList<IVariable*>  CVariableInt::getListInBinds()const{
-    return m_listBinds;
-
-}
 QVariantMap CVariableInt::serialise(){
     QVariantMap mapSerialise;
     mapSerialise.insert(QStringLiteral("name"), m_name);
@@ -112,34 +68,6 @@ QVariantMap CVariableInt::serialise(){
     mapSerialise.insert(QStringLiteral("value"), m_iValeur);
     return mapSerialise;
 }
-variableAccess CVariableInt::getAccess()const{
-    return m_access;
-}
-int CVariableInt::getAddress()const{
-    return m_address;
-}
-
-void CVariableInt::setRelatedStreamName(const QString &variableName)
-{
-
-}
-
-void CVariableInt::setListOutBinds(const QList<IVariable *> &)
-{
-    //SERES_TODO: Implement that for each variable
-}
-
-void CVariableInt::setListInBinds(const QList<IVariable *> &)
-{
-    //SERES_TODO: Implement that for each variable
-}
-
-void CVariableInt::setAccess(variableAccess access)
-{
-    m_access = access;
-}
-
-void CVariableInt::setAddress(int address)
-{
-    m_address = address;
+QVariant CVariableInt::toVariant(){
+    return toInt();
 }

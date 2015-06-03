@@ -48,7 +48,7 @@ void CConfiguratorCycleTabUIHandler::layout()
     }
 
     // Add fake global stream
-    IVariable *streamVar = CVariableFactory::buildTemporary(QString(), tr("Global"), type_stream);
+    IVariable *streamVar = CVariableFactory::buildTemporary(QString("fake_stream"), tr("Global"), type_stream);
     m_internalVariables[streamVar->getName()] = streamVar;
     ivars << streamVar;
 

@@ -2,7 +2,6 @@
 #include "CUnit.h"
 CVariableFloat::CVariableFloat(QObject *parent)
     : IVariable(parent)
-    , m_access(access_read_write)
 {
 
 }
@@ -16,13 +15,6 @@ CVariableFloat::CVariableFloat(float arg_value, int arg_address, variableAccess 
 CVariableFloat::~CVariableFloat()
 {
 
-}
-QString CVariableFloat::getName()const{
-    return m_name;
-}
-void CVariableFloat::setName(const QString& name){
-    m_name = name;
-    emit signalVariableChanged();
 }
 
 QString CVariableFloat::toString(){
@@ -55,17 +47,7 @@ void CVariableFloat::setValue(float value){
 void CVariableFloat::setToBindedValue(const QVariant & value){
     m_fValeur = value.toFloat();
 }
-QString CVariableFloat::getLabel()const{
-    return m_label;
-}
-void CVariableFloat::setLabel(const QString & lbl){
-    m_label = lbl;
-    emit signalVariableChanged();
-}
-void CVariableFloat::addBind(IVariable* arg_var){
-    if(arg_var)
-        m_listBinds.append(arg_var);
-}
+
 variableType CVariableFloat::getType()const{
     return type_float;
 }
@@ -74,44 +56,6 @@ void CVariableFloat::switchToUnit(CUnit* targetUnit){
     if(!var.isNull())
         m_fValeur = var.toFloat();
     m_unit = targetUnit;
-}
-void  CVariableFloat::delBind(IVariable*){
-
-}
-CUnit *CVariableFloat::getUnit() const{
-    return Q_NULLPTR;
-}
-bool  CVariableFloat::isStreamRelated()const{
-    return false;
-}
-QString  CVariableFloat::getRelatedStreamName()const{
-    return QStringLiteral("voie a changer");
-}
-bool  CVariableFloat::isMeasureRelated()const{
-    return false;
-}
-QString  CVariableFloat::getRelatedMeasureName()const{
-    return QStringLiteral("mesure a changer");
-}
-bool  CVariableFloat::isDisplay()const{
-    return false;
-}
-QList<IVariable*>  CVariableFloat::getListOutBinds()const{
-    return m_listBinds;
-}
-QList<IVariable*>  CVariableFloat::getListInBinds()const{
-    return m_listBinds;
-
-}
-
-void CVariableFloat::setListOutBinds(const QList<IVariable *> &)
-{
-    //SERES_TODO: Implement that for each variable
-}
-
-void CVariableFloat::setListInBinds(const QList<IVariable *> &)
-{
-    //SERES_TODO: Implement that for each variable
 }
 
 QVariantMap CVariableFloat::serialise(){
@@ -122,24 +66,8 @@ QVariantMap CVariableFloat::serialise(){
     mapSerialise.insert(QStringLiteral("value"), m_fValeur);
     return mapSerialise;
 }
-variableAccess CVariableFloat::getAccess()const{
-    return m_access;
-}
-int CVariableFloat::getAddress()const{
-    return m_address;
-}
 
-void CVariableFloat::setRelatedStreamName(const QString &variableName)
-{
+ QVariant CVariableFloat::toVariant() {
+     return toFloat();
+ }
 
-}
-
-void CVariableFloat::setAccess(variableAccess access)
-{
-    m_access = access;
-}
-
-void CVariableFloat::setAddress(int address)
-{
-    m_address = address;
-}

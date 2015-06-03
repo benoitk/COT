@@ -3,8 +3,7 @@
 #include "CUnit.h"
 
 CVariableOutputInt::CVariableOutputInt(QObject *parent)
-    : IVariable(parent)
-    , m_access(access_read_write)
+    : CVariableInt(parent)
     , m_modelExtensionCard(Q_NULLPTR)
 {
 
@@ -16,19 +15,12 @@ CVariableOutputInt::~CVariableOutputInt()
 }
 
 CVariableOutputInt::CVariableOutputInt(const QMap<QString, QVariant> &mapVar)
-    : IVariable()
-    , m_access(access_read_write)
+    : CVariableInt()
     , m_modelExtensionCard(Q_NULLPTR)
 {
 
 }
-QString CVariableOutputInt::getName()const{
-    return m_name;
-}
-void CVariableOutputInt::setName(const QString& name){
-    m_name = name;
-    emit signalVariableChanged();
-}
+
 CModelExtensionCard* CVariableOutputInt::getExtensionCard()const{
     return m_modelExtensionCard;
 }
@@ -50,22 +42,7 @@ void CVariableOutputInt::writeValue(){
 
 
 }
-void CVariableOutputInt::setAccess(variableAccess access)
-{
-    m_access = access;
-}
-QString CVariableOutputInt::toString(){
-    return QString::number(m_iValeur);
-}
-int CVariableOutputInt::toInt(){
-    return m_iValeur;
-}
-float CVariableOutputInt::toFloat(){
-    return m_iValeur;
-}
-void CVariableOutputInt::setValue(const QVariant & value){
-    setValue(value.toFloat());
-}
+
 void CVariableOutputInt::setValue(float value){
     m_iValeur = value;
     if(!m_listBinds.isEmpty()){
@@ -77,74 +54,15 @@ void CVariableOutputInt::setValue(float value){
 
     emit signalVariableChanged();
 }
-//Pas de récursivité dans les binds pour l'instant pour ne pas gérer les binds croisés({var1, var2}, {var2, var1})
-void CVariableOutputInt::setToBindedValue(const QVariant & value){
-    m_iValeur = value.toFloat();
-}
-QString CVariableOutputInt::getLabel()const{
-    return m_label;
-}
-void CVariableOutputInt::setLabel(const QString & lbl){
-    m_label = lbl;
-    emit signalVariableChanged();
-}
-void CVariableOutputInt::addBind(IVariable* arg_var){
-    if(arg_var)
-        m_listBinds.append(arg_var);
-}
+
 variableType CVariableOutputInt::getType()const{
     return type_int;
 }
 IVariable* CVariableOutputInt::getIVariable(){
     return this;
 }
-bool CVariableOutputInt::toBool(){
-    return m_iValeur;
-}
-void CVariableOutputInt::switchToUnit(CUnit* targetUnit){
-    QVariant var = m_unit->convert(targetUnit->getName(), QVariant(m_iValeur));
-    if(!var.isNull())
-        m_iValeur = var.toFloat();
-    m_unit = targetUnit;
-}
-void  CVariableOutputInt::delBind(IVariable*){
 
-}
-CUnit * CVariableOutputInt::getUnit() const{
-    return Q_NULLPTR;
-}
-bool  CVariableOutputInt::isStreamRelated()const{
-    return false;
-}
-QString  CVariableOutputInt::getRelatedStreamName()const{
-    return QStringLiteral("voie a changer");
-}
-bool  CVariableOutputInt::isMeasureRelated()const{
-    return false;
-}
-QString  CVariableOutputInt::getRelatedMeasureName()const{
-    return QStringLiteral("mesure a changer");
-}
-bool  CVariableOutputInt::isDisplay()const{
-    return false;
-}
-QList<IVariable*>  CVariableOutputInt::getListOutBinds()const{
-    return m_listBinds;
-}
-QList<IVariable*>  CVariableOutputInt::getListInBinds()const{
-    return m_listBinds;
 
-}
-
-void CVariableOutputInt::setListOutBinds(const QList<IVariable *> &)
-{
-    //SERES_TODO: Implement that for each variable
-}
-
-void CVariableOutputInt::setListInBinds(const QList<IVariable *> &)
-{
-    //SERES_TODO: Implement that for each variable
-}
 QVariantMap CVariableOutputInt::serialise(){
     QVariantMap mapSerialise;
     mapSerialise.insert(QStringLiteral("name"), m_name);
@@ -154,15 +72,4 @@ QVariantMap CVariableOutputInt::serialise(){
     mapSerialise.insert(QStringLiteral("extension_name"), m_modelExtensionCard->getName());
     mapSerialise.insert(QStringLiteral("organ_name"), m_organneName);
     return mapSerialise;
-}
-variableAccess CVariableOutputInt::getAccess()const{
-    return m_access;
-}
-int CVariableOutputInt::getAddress()const{
-    return m_address;
-}
-
-void CVariableOutputInt::setRelatedStreamName(const QString &variableName)
-{
-
 }

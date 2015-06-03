@@ -2,8 +2,7 @@
 #include "CModelExtensionCard.h"
 #include "CUnit.h"
 CVariableInputInt::CVariableInputInt(QObject *parent)
-    : IVariable(parent)
-    , m_access(access_read_write)
+    : CVariableInt(parent)
     , m_modelExtensionCard(Q_NULLPTR)
 {
 
@@ -15,19 +14,12 @@ CVariableInputInt::~CVariableInputInt()
 }
 
 CVariableInputInt::CVariableInputInt(const QMap<QString, QVariant> &mapVar)
-    : IVariable()
-    , m_access(access_read_write)
+    : CVariableInt()
     , m_modelExtensionCard(Q_NULLPTR)
 {
 
 }
-QString CVariableInputInt::getName()const{
-    return m_name;
-}
-void CVariableInputInt::setName(const QString& name){
-    m_name = name;
-    emit signalVariableChanged();
-}
+
 CModelExtensionCard* CVariableInputInt::getExtensionCard()const{
     return m_modelExtensionCard;
 }
@@ -53,95 +45,15 @@ IVariable* CVariableInputInt::readValue(){
 
     return this;
 }
-void CVariableInputInt::setAccess(variableAccess access)
-{
-    m_access = access;
-}
-QString CVariableInputInt::toString(){
-    this->readValue();
-    return QString::number(m_iValeur);
-}
-int CVariableInputInt::toInt(){
-    this->readValue();
-    return m_iValeur;
-}
-float CVariableInputInt::toFloat(){
-    this->readValue();
-    return m_iValeur;
-}
-bool CVariableInputInt::toBool(){
-    this->readValue();
-    return m_iValeur;
-}
-void CVariableInputInt::setValue(const QVariant & value){
-    setValue(value.toFloat());
-}
-void CVariableInputInt::setValue(float value){
-    m_iValeur = value;
-    if(!m_listBinds.isEmpty()){
-        IVariable* var;
-        foreach(var,  m_listBinds){
-            var->setValue(QVariant(value));
-        }
-    }
 
-    emit signalVariableChanged();
-}
-//Pas de récursivité dans les binds pour l'instant pour ne pas gérer les binds croisés({var1, var2}, {var2, var1})
-void CVariableInputInt::setToBindedValue(const QVariant & value){
-    m_iValeur = value.toFloat();
-}
-QString CVariableInputInt::getLabel()const{
-    return m_label;
-}
-void CVariableInputInt::setLabel(const QString & lbl){
-    m_label = lbl;
-    emit signalVariableChanged();
-}
-void CVariableInputInt::addBind(IVariable* arg_var){
-    if(arg_var)
-        m_listBinds.append(arg_var);
-}
+
 variableType CVariableInputInt::getType()const{
     return type_int;
 }
 IVariable* CVariableInputInt::getIVariable(){
     return this;
 }
-void CVariableInputInt::switchToUnit(CUnit* targetUnit){
-    QVariant var = m_unit->convert(targetUnit->getName(), QVariant(m_iValeur));
-    if(!var.isNull())
-        m_iValeur = var.toFloat();
-    m_unit = targetUnit;
-}
-void  CVariableInputInt::delBind(IVariable*){
 
-}
-CUnit * CVariableInputInt::getUnit() const{
-    return Q_NULLPTR;
-}
-bool  CVariableInputInt::isStreamRelated()const{
-    return false;
-}
-QString  CVariableInputInt::getRelatedStreamName()const{
-    return QStringLiteral("voie a changer");
-}
-bool  CVariableInputInt::isMeasureRelated()const{
-    return false;
-}
-QString  CVariableInputInt::getRelatedMeasureName()const{
-    return QStringLiteral("mesure a changer");
-}
-bool  CVariableInputInt::isDisplay()const{
-    return false;
-}
-QList<IVariable*>  CVariableInputInt::getListOutBinds()const{
-    return m_listBinds;
-}
-QList<IVariable*>  CVariableInputInt::getListInBinds()const{
-    return m_listBinds;
-
-}
 QVariantMap CVariableInputInt::serialise(){
     QVariantMap mapSerialise;
     mapSerialise.insert(QStringLiteral("name"), m_name);
@@ -151,25 +63,4 @@ QVariantMap CVariableInputInt::serialise(){
     mapSerialise.insert(QStringLiteral("extension_name"), m_modelExtensionCard->getName());
     mapSerialise.insert(QStringLiteral("organ_name"), m_organneName);
     return mapSerialise;
-}
-variableAccess CVariableInputInt::getAccess()const{
-    return m_access;
-}
-int CVariableInputInt::getAddress()const{
-    return m_address;
-}
-
-void CVariableInputInt::setRelatedStreamName(const QString &variableName)
-{
-
-}
-
-void CVariableInputInt::setListOutBinds(const QList<IVariable *> &)
-{
-    //SERES_TODO: Implement that for each variable
-}
-
-void CVariableInputInt::setListInBinds(const QList<IVariable *> &)
-{
-    //SERES_TODO: Implement that for each variable
 }

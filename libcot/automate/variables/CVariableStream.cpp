@@ -8,12 +8,10 @@
 #include "qlinkedlist.h"
 CVariableStream::CVariableStream(QObject *parent)
     : IVariable(parent)
-    , m_access(access_read_write)
 {
 }
 CVariableStream::CVariableStream(const QMap<QString, QVariant> &mapVar)
     : IVariable()
-    , m_access(access_read_write)
 {
     if(mapVar.contains(QStringLiteral("name")))
         m_name = mapVar.value(QStringLiteral("name")).toString();
@@ -117,21 +115,6 @@ void CVariableStream::delMeasure(IVariablePtr var)
     }
 }
 
-void CVariableStream::setRelatedStreamName(const QString &variableName)
-{
-
-}
-void CVariableStream::setAccess(variableAccess access)
-{
-    m_access = access;
-}
-QString CVariableStream::getName()const{
-    return m_name;
-}
-void CVariableStream::setName(const QString& name){
-    m_name = name;
-    emit signalVariableChanged();
-}
 QString CVariableStream::toString(){
     return m_label;
 }
@@ -144,12 +127,8 @@ float CVariableStream::toFloat(){
 bool CVariableStream::toBool(){
     return false;
 }
-QString CVariableStream::getLabel()const{
-    return m_label;
-}
-void CVariableStream::setLabel(const QString & label){
-    m_label = label;
-    emit signalVariableChanged();
+QVariant CVariableStream::toVariant(){
+    return QVariant(m_label);
 }
 
 void CVariableStream::setValue(int iValue){
@@ -166,39 +145,7 @@ variableType CVariableStream::getType()const{
 void CVariableStream::switchToUnit(CUnit* targetUnit){
 
 }
-void  CVariableStream::delBind(IVariable*){
 
-}
-void  CVariableStream::addBind(IVariable*){
-
-}
-CUnit * CVariableStream::getUnit() const{
-    return Q_NULLPTR;
-}
-bool  CVariableStream::isStreamRelated()const{
-    return false;
-}
-QString  CVariableStream::getRelatedStreamName()const{
-    return QStringLiteral("voie a changer");
-}
-bool  CVariableStream::isMeasureRelated()const{
-    return false;
-}
-QString  CVariableStream::getRelatedMeasureName()const{
-    return QStringLiteral("mesure a changer");
-}
-bool  CVariableStream::isDisplay()const{
-    return false;
-}
-QList<IVariable*>  CVariableStream::getListOutBinds()const{
-    QList<IVariable*> list;
-    return list;
-}
-QList<IVariable*>  CVariableStream::getListInBinds()const{
-    QList<IVariable*> list;
-    return list;
-
-}
 //TO DO : change name to CVariableStream()
 QVariantMap CVariableStream::serialise(){
     QVariantMap mapSerialise;
@@ -221,22 +168,6 @@ QVariantMap CVariableStream::serialise(){
     }
     mapSerialise.insert(QStringLiteral("measures"), listMeasures);
     return mapSerialise;
-}
-
-void CVariableStream::setListOutBinds(const QList<IVariable *> &)
-{
-    //SERES_TODO: Implement that for each variable
-}
-
-void CVariableStream::setListInBinds(const QList<IVariable *> &)
-{
-    //SERES_TODO: Implement that for each variable
-}
-variableAccess CVariableStream::getAccess()const{
-    return m_access;
-}
-int CVariableStream::getAddress()const{
-    return m_address;
 }
 
 void CVariableStream::addCycle(ICycle *cycle)

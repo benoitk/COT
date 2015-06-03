@@ -88,7 +88,7 @@
                     {"name":"coef_dilution", "fr_FR" : "Coefficient de dilution", "en_US" : "Dilution coefficient", "type":"float", "value" : 1},
                     {"name":"coef_current", "fr_FR" : "Coefficient actuel", "en_US" : "Current coefficient", "type":"float", "value" : 1},
                     {"name":"coef_ajustement", "fr_FR" : "Coefficient d'ajustement", "en_US" : "Adjustment coefficient ", "type":"float", "value" : 1},
-                    {"name":"offset_current", "fr_FR" : "Offset actuel", "en_US" : "Current offset ", "type":"float", "value" : 1},
+                    {"name":"offset_current", "fr_FR" : "Offset actuel", "en_US" : "Current offset ", "type":"integer", "value" : 1},
                     {"name":"alarm_defaut_eau", "fr_FR":"Défaut d'eau", "en_US":"Water default", "type":"boolean", "value":false},
                     {"name":"stream_1_state", "fr_FR":"Status voie COT", "en_US":"NaN", "type":"boolean", "value":true},
                     {"name":"stream_2_state", "fr_FR":"Status voie COV", "en_US":"NaA", "type":"boolean", "value":false},

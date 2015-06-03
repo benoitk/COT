@@ -2,7 +2,7 @@
 #include "CUnit.h"
 CVariableBool::CVariableBool(QObject *parent)
     : IVariable(parent)
-    , m_access(access_read_write)
+
 {
 
 }
@@ -21,13 +21,6 @@ CVariableBool::~CVariableBool()
 
 }
 
-QString CVariableBool::getName()const{
-    return m_name;
-}
-void CVariableBool::setName(const QString& name){
-    m_name = name;
-    emit signalVariableChanged();
-}
 
 QString CVariableBool::toString(){
     if(m_bValeur)
@@ -64,68 +57,8 @@ void CVariableBool::setValue(bool value){
 void CVariableBool::setToBindedValue(const QVariant & value){
     m_bValeur = value.toBool();
 }
-
-QString CVariableBool::getLabel()const{
-    return m_label;
-}
-void CVariableBool::setLabel(const QString & lbl){
-    m_label = lbl;
-    emit signalVariableChanged();
-}
-
-void CVariableBool::addBind(IVariable* arg_var){
-    if(arg_var)
-        m_listBinds.append(arg_var);
-}
-
 variableType CVariableBool::getType()const{
     return type_bool;
-}
-
-void CVariableBool::switchToUnit(CUnit* targetUnit){
-    QVariant var = m_unit->convert(targetUnit->getName(), QVariant(m_bValeur));
-    if(!var.isNull())
-        m_bValeur = var.toBool();
-    m_unit = targetUnit;
-}
-
-void  CVariableBool::delBind(IVariable*){
-
-}
-CUnit * CVariableBool::getUnit() const{
-    return Q_NULLPTR;
-}
-bool  CVariableBool::isStreamRelated()const{
-    return false;
-}
-QString  CVariableBool::getRelatedStreamName()const{
-    return QStringLiteral("voie a changer");
-}
-bool  CVariableBool::isMeasureRelated()const{
-    return false;
-}
-QString  CVariableBool::getRelatedMeasureName()const{
-    return QStringLiteral("mesure a changer");
-}
-bool  CVariableBool::isDisplay()const{
-    return false;
-}
-QList<IVariable*>  CVariableBool::getListOutBinds()const{
-    return m_listBinds;
-}
-QList<IVariable*>  CVariableBool::getListInBinds()const{
-    return m_listBinds;
-
-}
-
-void CVariableBool::setListOutBinds(const QList<IVariable *> &)
-{
-    //SERES_TODO: Implement that for each variable
-}
-
-void CVariableBool::setListInBinds(const QList<IVariable *> &)
-{
-    //SERES_TODO: Implement that for each variable
 }
 
 QVariantMap CVariableBool::serialise(){
@@ -136,24 +69,13 @@ QVariantMap CVariableBool::serialise(){
     mapSerialise.insert(QStringLiteral("value"), m_bValeur);
     return mapSerialise;
 }
-variableAccess CVariableBool::getAccess()const{
-    return m_access;
-}
-int CVariableBool::getAddress()const{
-    return m_address;
-}
 
-void CVariableBool::setRelatedStreamName(const QString &variableName)
-{
-
+void CVariableBool::switchToUnit(CUnit* targetUnit){
+    QVariant var = m_unit->convert(targetUnit->getName(), QVariant(m_bValeur));
+    if(!var.isNull())
+        m_bValeur = var.toBool();
+    m_unit = targetUnit;
 }
-
-void CVariableBool::setAccess(variableAccess access)
-{
-    m_access = access;
-}
-
-void CVariableBool::setAddress(int address)
-{
-    m_address = address;
+QVariant CVariableBool::toVariant() {
+    return toFloat();
 }
