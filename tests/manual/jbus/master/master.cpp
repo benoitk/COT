@@ -26,12 +26,12 @@ int main()
         modbus_free(ctx);
         return 1;
     }
-    for (uint i = 0; i < sizeof(output); ++i) {
+    for (int i = 0; i < (int)sizeof(output); ++i) {
         fprintf(stderr, "i = %d, c = %x\n", i, output[i]);
         output[i] = !output[i];
     }
     printf("now writing:\n");
-    for (uint i = 0; i < sizeof(output); ++i) {
+    for (int i = 0; i < (int)sizeof(output); ++i) {
         fprintf(stderr, "i = %d, c = %x\n", i, output[i]);
     }
     if (modbus_write_bits(ctx, 0, sizeof(output), output) == -1) {
@@ -46,7 +46,7 @@ int main()
         return 1;
     }
     printf("got:\n");
-    for (uint i = 0; i < sizeof(output); ++i) {
+    for (int i = 0; i < (int)sizeof(output); ++i) {
         fprintf(stderr, "i = %d, c = %x\n", i, output[i]);
     }
 

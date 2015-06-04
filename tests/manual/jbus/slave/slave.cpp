@@ -42,7 +42,7 @@ int main()
         printf("received query of length %d, sending reply.\n", rc);
 
         rc = modbus_reply(ctx, query, rc, &mapping);
-        for (uint i = 0; i < sizeof(bits); ++i) {
+        for (int i = 0; i < (int)sizeof(bits); ++i) {
             printf("i = %d, b = %x, bi = %x\n", i, bits[i], bits_input[i]);
         }
         if (rc == -1) {

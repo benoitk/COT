@@ -1,5 +1,9 @@
 QT -= core gui
 
+!linux {
+    DEFINES +=HAVE_DECL_TIOCSRS485=0
+}
+
 HEADERS += \
     config.h \
     src/modbus.h \

@@ -2,6 +2,7 @@
 # $$top_srcdir
 
 KPLOTTING_SRC_PWD = $${top_srcdir}/3rd_party/kplotting/
+MODBUS_SRC_PWD = $${top_srcdir}/3rd_party/libmodbus/
 LIBCOT_SRC_PWD = $${top_srcdir}/libcot
 LIBCOT_BUILD_PWD = $${top_builddir}/lib
 
@@ -67,11 +68,12 @@ INCLUDEPATH *= \
     $${LIBCOT_SRC_PWD}/graphics \
     $${LIBCOT_SRC_PWD}/automate/organs/ \
     $${KPLOTTING_SRC_PWD}/src \
+    $${MODBUS_SRC_PWD}/src
 
 QMAKE_RPATHDIR *= $${LIBCOT_BUILD_PWD}
 
 isEqual(TEMPLATE, "app") {
-    LIBS *= -L$${LIBCOT_BUILD_PWD} -lcotlib
+    LIBS *= -L$${LIBCOT_BUILD_PWD} -lcotlib  -lmodbus
 
     LIBCOT_STATIC_BUILD {
         PRE_TARGETDEPS *= $${LIBCOT_BUILD_PWD}

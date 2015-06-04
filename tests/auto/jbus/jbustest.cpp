@@ -12,7 +12,7 @@
 #include <thread>
 #include <future>
 
-#ifdef Q_OS_LINUX
+#if defined(Q_OS_LINUX) || defined(Q_OS_MAC)
 #include <stdlib.h>
 #include <fcntl.h>
 #include <unistd.h>

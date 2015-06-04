@@ -24,7 +24,7 @@ void writeNegated(modbus_t *ctx, int address, uint8_t *buffer, int N)
 {
     printf("writing negated values to 0x%04x + %d\n", address, N);
     uint8_t outputBitsToWrite[N];
-    for (uint i = 0; i < sizeof(buffer); ++i) {
+    for (int i = 0; i < (int)sizeof(buffer); ++i) {
         outputBitsToWrite[i] = !buffer[i];
     }
     if (modbus_write_bits(ctx, address, sizeof(outputBitsToWrite), outputBitsToWrite) == -1) {

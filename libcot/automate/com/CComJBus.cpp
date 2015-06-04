@@ -9,6 +9,7 @@
 #include <QThread>
 
 #include <cstring>
+#include <cerrno>
 
 namespace {
 modbus_t *initRtu(const QVariantMap &options)
