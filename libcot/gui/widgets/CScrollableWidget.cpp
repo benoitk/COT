@@ -104,7 +104,7 @@ void CScrollableWidget::resizeEvent(QResizeEvent *event)
 {
     QScrollArea::resizeEvent(event);
 
-    if (widget()) {
+    if (scrollablePagerWidget()) {
         scrollablePagerWidget()->setHostHeight(event->size().height());
     }
 
