@@ -23,3 +23,6 @@ TEMPLATE = lib
 TARGET = modbus
 DESTDIR = $${top_builddir}/lib
 
+target.path = /home/seres/
+INSTALLS += target
+
