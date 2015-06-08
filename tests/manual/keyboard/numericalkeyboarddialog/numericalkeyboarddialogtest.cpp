@@ -11,10 +11,11 @@ int main(int argc, char *argv[])
     dlg.setTitle("Enter a new value");
     dlg.setDoubleValue(42);
 
-    if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
+    while (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
         double value = dlg.doubleValue();
         qDebug() << "value=" << value;
-        return 0;
+
+        dlg.setDoubleValue(value);
     }
-    return -1;
+    return 0;
 }
