@@ -91,7 +91,7 @@ double CNumericalKeyboardWidget::doubleNumber() const
 
 void CNumericalKeyboardWidget::setDoubleNumber(double number)
 {
-    m_lineEdit->setText(lineEditLocale().toString(number, 'f', IVariable::FLOAT_PRECISION));
+    m_lineEdit->setText(formatDouble(number, IVariable::FLOAT_PRECISION));
 }
 
 bool CNumericalKeyboardWidget::event(QEvent *ev)
@@ -196,7 +196,7 @@ void CNumericalKeyboardWidget::updateDigitalText()
 
 void CNumericalKeyboardWidget::setFixedText(const QString &text)
 {
-    // Reformat text correctly according to locale so convertion does not fails (and thus return 0).
+    // Reformat text correctly according to locale so conversion does not fails (and thus return 0).
     const QChar decimalSeparator = lineEditLocale().decimalPoint();
     const QChar groupSeparator = lineEditLocale().groupSeparator();
     QString fixedText = text.trimmed().remove(groupSeparator);
@@ -221,6 +221,20 @@ void CNumericalKeyboardWidget::setFixedText(const QString &text)
     }
 
     m_lineEdit->setText(fixedText);
+}
+
+QString CNumericalKeyboardWidget::formatDouble(double value, int maxDecimals) const
+{
+    QString str = lineEditLocale().toString(value, 'f', maxDecimals);
+    // Remove trailing zeros after the decimal point
+    const int dot = str.indexOf(lineEditLocale().decimalPoint());
+    if (dot > -1) {
+        while (str.endsWith('0'))
+            str.chop(1);
+        if (dot == str.length() - 1)
+            str.chop(1); // remove lone trailing dot
+    }
+    return str;
 }
 
 void CNumericalKeyboardWidget::slotDigitalButtonPressed(QChar character)

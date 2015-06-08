@@ -42,6 +42,7 @@ private:
     QLocale lineEditLocale() const;
     void updateDigitalText();
     void setFixedText(const QString &text);
+    QString formatDouble(double value, int maxDecimals) const;
     CKeyboardNormalButton *createButton(QChar character);
     void initializeKeyboardLayout();
     QVBoxLayout *m_mainLayout;
