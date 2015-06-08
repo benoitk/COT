@@ -15,26 +15,14 @@
 #include <limits>
 
 namespace {
-// We deal only with float so limits values.
-const float MIN_VALUE = 0.0;
-const float MAX_VALUE = std::numeric_limits<float>::max();
-
-QDoubleValidator *newValidator(QObject *parent = Q_NULLPTR) {
-    return new QDoubleValidator(MIN_VALUE, MAX_VALUE, IVariable::FLOAT_PRECISION, parent);
-}
+const int MIN_INTEGER_VALUE = -std::numeric_limits<int>::max();
+const int MAX_INTEGER_VALUE = std::numeric_limits<int>::max();
 }
 
 CNumericalKeyboardWidget::CNumericalKeyboardWidget(QWidget *parent)
     : QWidget(parent)
     , m_mode(CNumericalKeyboardWidget::Double)
 {
-    m_mainLayout = new QVBoxLayout(this);
-
-    m_lineEdit = new QLineEdit(this);
-    m_lineEdit->setValidator(newValidator(m_lineEdit));
-    m_lineEdit->setReadOnly(true);
-    m_lineEdit->setObjectName(QStringLiteral("lineedit"));
-    m_mainLayout->addWidget(m_lineEdit);
     initializeKeyboardLayout();
 }
 
@@ -42,13 +30,6 @@ CNumericalKeyboardWidget::CNumericalKeyboardWidget(CNumericalKeyboardWidget::Mod
     : QWidget(parent)
     , m_mode(mode)
 {
-    m_mainLayout = new QVBoxLayout(this);
-
-    m_lineEdit = new QLineEdit(this);
-    m_lineEdit->setValidator(newValidator(m_lineEdit));
-    m_lineEdit->setReadOnly(true);
-    m_lineEdit->setObjectName(QStringLiteral("lineedit"));
-    m_mainLayout->addWidget(m_lineEdit);
     initializeKeyboardLayout();
 }
 
@@ -133,6 +114,13 @@ CKeyboardNormalButton *CNumericalKeyboardWidget::createButton(QChar character)
 
 void CNumericalKeyboardWidget::initializeKeyboardLayout()
 {
+    m_mainLayout = new QVBoxLayout(this);
+
+    m_lineEdit = new QLineEdit(this);
+    m_lineEdit->setReadOnly(true);
+    m_lineEdit->setObjectName(QStringLiteral("lineedit"));
+    m_mainLayout->addWidget(m_lineEdit);
+
     QGridLayout* gridLayout = new QGridLayout;
     m_mainLayout->addLayout(gridLayout);
 
@@ -174,7 +162,6 @@ void CNumericalKeyboardWidget::initializeKeyboardLayout()
     gridLayout->addWidget( specialButton, 3, 3 );
 
     updateDigitalText();
-
 }
 
 void CNumericalKeyboardWidget::slotChangeSign(bool)
@@ -200,24 +187,34 @@ void CNumericalKeyboardWidget::setFixedText(const QString &text)
     const QChar decimalSeparator = lineEditLocale().decimalPoint();
     const QChar groupSeparator = lineEditLocale().groupSeparator();
     QString fixedText = text.trimmed().remove(groupSeparator);
-    const bool endsWithDecimalSeparator = fixedText.endsWith(decimalSeparator);
-    QString decimals = fixedText.section(decimalSeparator, 1);
 
-    // The latest typed decimal become the maximal one
-    if (!decimals.isEmpty()) {
-        while (decimals.count() > IVariable::FLOAT_PRECISION) {
-            decimals.remove(decimals.length() -2, 1);
+    if (m_mode == Integer) {
+        // Use a type bigger than int, so we can compare with the max int.
+        qlonglong largeValue = lineEditLocale().toLongLong(fixedText);
+        if (largeValue > MAX_INTEGER_VALUE)
+            largeValue = MAX_INTEGER_VALUE;
+        if (largeValue < MIN_INTEGER_VALUE)
+            largeValue = MIN_INTEGER_VALUE;
+        fixedText = lineEditLocale().toString(largeValue);
+    } else {
+        const bool endsWithDecimalSeparator = fixedText.endsWith(decimalSeparator);
+        QString decimals = fixedText.section(decimalSeparator, 1);
+
+        // The latest typed decimal become the maximal one
+        if (!decimals.isEmpty()) {
+            while (decimals.count() > IVariable::FLOAT_PRECISION) {
+                decimals.remove(decimals.length() -2, 1);
+            }
+
+            fixedText = fixedText.section(decimalSeparator, 0, 0) +decimalSeparator +decimals;
         }
 
-        fixedText = fixedText.section(decimalSeparator, 0, 0) +decimalSeparator +decimals;
-    }
+        const double value = lineEditLocale().toDouble(fixedText);
+        fixedText = lineEditLocale().toString(value, 'f', decimals.count());
 
-    const double value = lineEditLocale().toDouble(fixedText);
-
-    fixedText = lineEditLocale().toString(value, 'f', decimals.count());
-
-    if (endsWithDecimalSeparator) {
-        fixedText.append(decimalSeparator);
+        if (endsWithDecimalSeparator) {
+            fixedText.append(decimalSeparator);
+        }
     }
 
     m_lineEdit->setText(fixedText);

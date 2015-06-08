@@ -5,17 +5,30 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
+    QApplication app(argc, argv);
 
-    CNumericalKeyboardDialog dlg(CNumericalKeyboardWidget::Double);
-    dlg.setTitle("Enter a new value");
-    dlg.setDoubleValue(42);
+    if (argc < 2 || QByteArray(argv[1]) == "double")
+    {
+        CNumericalKeyboardDialog dlg(CNumericalKeyboardWidget::Double);
+        dlg.setTitle("Enter a floating-point value");
+        dlg.setDoubleValue(42);
 
-    while (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
-        double value = dlg.doubleValue();
-        qDebug() << "value=" << value;
+        while (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
+            double value = dlg.doubleValue();
+            qDebug() << "value=" << value;
+            dlg.setDoubleValue(value);
+        }
+    } else {
+        CNumericalKeyboardDialog dlg(CNumericalKeyboardWidget::Integer);
+        dlg.setTitle("Enter an integer value");
+        dlg.setIntegerValue(42);
 
-        dlg.setDoubleValue(value);
+        while (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
+            int value = dlg.integerValue();
+            qDebug() << "value=" << value;
+
+            dlg.setIntegerValue(value);
+        }
     }
     return 0;
 }
