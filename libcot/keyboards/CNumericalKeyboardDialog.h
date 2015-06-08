@@ -9,7 +9,7 @@ namespace Ui {
 class CNumericalKeyboardDialog;
 }
 
-class CNumericalKeyboardDialog : public QDialog
+class LIBCOT_EXPORT CNumericalKeyboardDialog : public QDialog
 {
     Q_OBJECT
 public:

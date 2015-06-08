@@ -3,4 +3,5 @@ CONFIG *= ordered
 
 SUBDIRS *= \
     keyboardwidget \
-    numericalkeyboardwidget
+    numericalkeyboardwidget \
+    numericalkeyboarddialog
