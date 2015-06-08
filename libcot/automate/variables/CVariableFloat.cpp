@@ -18,6 +18,8 @@ CVariableFloat::~CVariableFloat()
 }
 
 QString CVariableFloat::toString(){
+    // ## this doesn't handle the locale, and always has trailing zeros.
+    // consider moving the code from CNumericalKeyboardWidget::formatDouble here.
     return QString::number(m_fValeur, 'f', IVariable::FLOAT_PRECISION);
 }
 int CVariableFloat::toInt(){
