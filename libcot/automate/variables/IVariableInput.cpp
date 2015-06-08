@@ -5,6 +5,10 @@
 IVariableInput::IVariableInput(): m_modelExtensionCard(Q_NULLPTR){
 }
 
+IVariableInput::~IVariableInput()
+{
+}
+
 CModelExtensionCard* IVariableInput::getExtensionCard()const{
     return m_modelExtensionCard;
 }

@@ -6,6 +6,10 @@ IVariableOutput::IVariableOutput(): m_modelExtensionCard(Q_NULLPTR){
 
 }
 
+IVariableOutput::~IVariableOutput()
+{
+}
+
 CModelExtensionCard* IVariableOutput::getExtensionCard()const{
     return m_modelExtensionCard;
 }

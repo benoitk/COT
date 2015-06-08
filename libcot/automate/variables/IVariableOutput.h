@@ -12,6 +12,7 @@ class IVariableOutput
 {
 public:
     IVariableOutput();
+    virtual ~IVariableOutput();
     virtual CModelExtensionCard* getExtensionCard()const;
     virtual QString getOrganneName()const;
     virtual void setOrganne(CModelExtensionCard* ,const QString &);

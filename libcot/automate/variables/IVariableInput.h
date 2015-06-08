@@ -12,6 +12,7 @@ class IVariableInput
 {
 public:
     IVariableInput();
+    virtual ~IVariableInput();
     virtual CModelExtensionCard* getExtensionCard()const;
     virtual QString getOrganneName()const;
     virtual void setOrganne(CModelExtensionCard* ,const QString &);
