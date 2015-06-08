@@ -176,6 +176,7 @@ Translator &CTranslator::getTranslator(const QString &locale, const QString &fil
 void CTranslator::insertTranslatorMessage(const QString &locale, const QString &context, const QString &source,
                                           const QString &translation)
 {
+    Q_ASSERT(!source.isEmpty());
     TranslatorMessage msg;
     msg.setContext(context);
     msg.setSourceText(source);
@@ -200,6 +201,8 @@ void CTranslator::exportArrayObjects(const QJsonArray &jsonArray, const QString 
         const QStringList keys = SUPPORTED_LOCALES;
         const QJsonObject object = jsonArray.at(i).toObject();
         const QString sourceKey = object.value(QStringLiteral("name")).toString();
+        if (sourceKey.isEmpty())
+            continue;
 
         foreach (const QString &key, keys) {
             if (QLocale(key) != QLocale::c()) {
