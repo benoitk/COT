@@ -2,6 +2,7 @@
 
 #include <QDir>
 #include <QDateTime>
+#include <QJsonDocument>
 
 namespace {
 static const QString RECOVERY_FILE_NAME = QStringLiteral("save-recovery.json");
@@ -67,8 +68,7 @@ bool CConfigurationBackup::overwriteConfigurationFile(QString *generatedBackupFi
         return false;
     }
 
-    writeToConfigurationFile(recoveryFile.readAll());
-    return true;
+    return writeToConfigurationFile(recoveryFile.readAll());
 }
 
 void CConfigurationBackup::setJsonDirectory(const QString &directory)
@@ -86,6 +86,11 @@ QString CConfigurationBackup::jsonDirectory() const
 bool CConfigurationBackup::writeToConfigurationFile(const QByteArray &newContents)
 {
     if (newContents.isEmpty()) {
+        return false;
+    }
+    QJsonParseError error;
+    QJsonDocument::fromJson(newContents, &error);
+    if (error.error != QJsonParseError::NoError) {
         return false;
     }
 
