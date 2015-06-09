@@ -133,8 +133,11 @@ void CScrollableWidget::updateActions()
 {
     const auto value = verticalScrollBar()->value();
     const auto maximum = verticalScrollBar()->maximum();
-    m_moveDown->setEnabled(value != maximum && maximum > verticalScrollBar()->pageStep());
+    const auto needsScrolling = maximum > verticalScrollBar()->pageStep();
+    m_moveDown->setEnabled(value != maximum && needsScrolling);
     m_moveUp->setEnabled(value > 0);
+    m_moveDown->setVisible(needsScrolling);
+    m_moveUp->setVisible(needsScrolling);
 }
 
 // CScrollablePlainTextEdit

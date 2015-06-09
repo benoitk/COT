@@ -19,10 +19,8 @@ CPCPlusTab::CPCPlusTab(QWidget *parent)
 
     ui->setupUi(this);
     ui->swCentral->setScrollablePagerWidget(m_buttons);
-    // NOTE: we expect this view to never need scrolling
-    //       if it gets extended in the future, uncomment the following two lines
-//     ui->vbbButtons->addAction(CToolButton::ScrollUp, ui->swCentral->moveUp());
-//     ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->swCentral->moveDown());
+    ui->vbbButtons->addAction(CToolButton::ScrollUp, ui->swCentral->moveUp());
+    ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->swCentral->moveDown());
 
     retranslate();
 
