@@ -192,9 +192,9 @@ void CNumericalKeyboardWidget::setFixedText(const QString &text)
         // Use a type bigger than int, so we can compare with the max int.
         qlonglong largeValue = lineEditLocale().toLongLong(fixedText);
         if (largeValue > MAX_INTEGER_VALUE)
-            largeValue = MAX_INTEGER_VALUE;
+            return; // refuse such a large value
         if (largeValue < MIN_INTEGER_VALUE)
-            largeValue = MIN_INTEGER_VALUE;
+            return; // refuse
         fixedText = lineEditLocale().toString(largeValue);
     } else {
         const bool endsWithDecimalSeparator = fixedText.endsWith(decimalSeparator);
