@@ -201,12 +201,11 @@ void CTranslator::exportArrayObjects(const QJsonArray &jsonArray, const QString 
         const QStringList keys = SUPPORTED_LOCALES;
         const QJsonObject object = jsonArray.at(i).toObject();
         const QString sourceKey = object.value(QStringLiteral("name")).toString();
-        if (sourceKey.isEmpty())
-            continue;
-
-        foreach (const QString &key, keys) {
-            if (QLocale(key) != QLocale::c()) {
-                insertTranslatorMessage(key, top, sourceKey, object.value(key).toString());
+        if (!sourceKey.isEmpty()) {
+            foreach (const QString &key, keys) {
+                if (QLocale(key) != QLocale::c()) {
+                    insertTranslatorMessage(key, top, sourceKey, object.value(key).toString());
+                }
             }
         }
 
