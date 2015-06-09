@@ -131,8 +131,10 @@ void CScrollableWidget::slotMoveDown()
 
 void CScrollableWidget::updateActions()
 {
-    m_moveDown->setEnabled(verticalScrollBar()->value() != verticalScrollBar()->maximum());
-    m_moveUp->setEnabled(verticalScrollBar()->value() > 0);
+    const auto value = verticalScrollBar()->value();
+    const auto maximum = verticalScrollBar()->maximum();
+    m_moveDown->setEnabled(value != maximum && maximum > verticalScrollBar()->pageStep());
+    m_moveUp->setEnabled(value > 0);
 }
 
 // CScrollablePlainTextEdit
