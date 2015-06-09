@@ -86,6 +86,7 @@ isEqual(TEMPLATE, "app") {
 
     isEqual(TARGET, "cotlib") {
         DESTDIR = $${LIBCOT_BUILD_PWD}
+        LIBS *= -L$${LIBCOT_BUILD_PWD}  -lmodbus
     }
 
     macx:CONFIG -= lib_bundle
