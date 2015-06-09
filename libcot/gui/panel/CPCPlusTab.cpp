@@ -64,11 +64,11 @@ void CPCPlusTab::slotButtonClicked(CLabelledToolButton *button)
 
     case CToolButton::CreateRecovery: {
         CConfigurationBackup bckp;
-        const bool success = bckp.createRecoveryFile();
-        if (success) {
+        const QString error = bckp.createRecoveryFile();
+        if (error.isEmpty()) {
             CPCWindow::openModal<CMessageBox>(tr("Backup file successfully created."));
         } else {
-            CPCWindow::openModal<CMessageBox>(tr("ERROR: The backup file couldn't be created."));
+            CPCWindow::openModal<CMessageBox>(tr("ERROR: The backup file couldn't be created.\n%1").arg(error));
         }
         break;
     }
@@ -76,11 +76,11 @@ void CPCPlusTab::slotButtonClicked(CLabelledToolButton *button)
     case CToolButton::RestoreConfig: {
         QString backupFile;
         CConfigurationBackup bckp;
-        const bool success = bckp.overwriteConfigurationFile(&backupFile);
-        if (success) {
+        const QString error = bckp.overwriteConfigurationFile(&backupFile);
+        if (error.isEmpty()) {
             CPCWindow::openModal<CMessageBox>(tr("Configuration file successfully overwritten.\nThe previous configuration file was saved under the name:\n%1").arg(backupFile));
         } else {
-            CPCWindow::openModal<CMessageBox>(tr("ERROR: The configuration file couldn't be overwritten."));
+            CPCWindow::openModal<CMessageBox>(tr("ERROR: The configuration file couldn't be overwritten.\n%1").arg(error));
         }
         break;
     }

@@ -25,17 +25,17 @@ public:
 
     /**
      * @brief Creates a save-recovery.json file with the contents of current save file.
-     * @return true if the file was successfully created
+     * @return empty string if the file was successfully created, error message otherwise
      * @warning if the file already exists, it is deleted.
      */
-    bool createRecoveryFile();
+    QString createRecoveryFile();
 
     /**
      * @brief Overwrite save.json with save-recovery.json
-     * @return true if the file was successfully overwritten
+     * @return empty string if the file was successfully overwritten, or an error message otherwise.
      * @param generatedBackupFileName, a way to get the generated backup file.
      */
-    bool overwriteConfigurationFile(QString *generatedBackupFileName = Q_NULLPTR);
+    QString overwriteConfigurationFile(QString *generatedBackupFileName = Q_NULLPTR);
 
     void setJsonDirectory(const QString &directory);
     QString jsonDirectory() const;
@@ -44,17 +44,18 @@ public:
 public slots:
     /**
      * @brief rewriteConfigurationFile writes the passed QByteArray into save.json.
-     * @return true if the file was successfully written (Also checks the integrity of newContents to some extend)
+     * @return empty string if the file was successfully written (Also checks the integrity of newContents to some extend)
+     *         or an error message otherwise.
      */
-    bool writeToConfigurationFile(const QByteArray &newContents);
+    QString writeToConfigurationFile(const QByteArray &newContents);
 
 private:
 
     /**
      * @brief Creates a file  with the name "filename" and the contents "contents"
-     * @return
+     * @return empty string if no error occurred, or an error message otherwise.
      */
-    bool createFile(const QString &fileName, const QByteArray &contents);
+    QString createFile(const QString &fileName, const QByteArray &contents);
 
     QString m_jsonDirectory;
 

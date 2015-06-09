@@ -61,8 +61,8 @@ void recoveryFileTest::testRecovery()
     CConfigurationBackup backup;
     backup.setJsonDirectory(TEST_DIR);
     QString backupFileName;
-    QVERIFY(backup.createRecoveryFile());
-    QVERIFY(backup.overwriteConfigurationFile(&backupFileName));
+    QVERIFY(backup.createRecoveryFile().isEmpty());
+    QVERIFY(backup.overwriteConfigurationFile(&backupFileName).isEmpty());
 
     // let's see if the files are here and populated with the expected data
     QByteArray saveFileContents = fileContents(jsonFilePath());
@@ -77,10 +77,10 @@ void recoveryFileTest::testRecovery()
     QCOMPARE(recoveryFileContents, backupFileContents);
 
     // test updating the contents of the save.json file
-    QVERIFY(!backup.writeToConfigurationFile("this is invalid json"));
+    QVERIFY(!backup.writeToConfigurationFile("this is invalid json").isEmpty());
     QCOMPARE(saveFileContents, fileContents(jsonFilePath()));
     QByteArray updatedContents("{\"answer\":42}\n");
-    QVERIFY(backup.writeToConfigurationFile(updatedContents));
+    QVERIFY(backup.writeToConfigurationFile(updatedContents).isEmpty());
     saveFileContents = fileContents(jsonFilePath());
     QVERIFY(!saveFileContents.isEmpty());
     QCOMPARE(saveFileContents, updatedContents);

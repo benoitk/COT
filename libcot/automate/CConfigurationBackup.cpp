@@ -29,27 +29,29 @@ QString CConfigurationBackup::jsonSaveFile() const
     return path;
 }
 
-bool CConfigurationBackup::createRecoveryFile()
+QString CConfigurationBackup::createRecoveryFile()
 {
     // remove the file if it exists
     if (QFile::exists(jsonRecoveryFile()) && !QFile::remove(jsonRecoveryFile())) {
-        return false;
+        return tr("Could not remove existing recovery file %1.").arg(jsonRecoveryFile());
     }
 
     QFile saveFile(jsonSaveFile());
     if (!saveFile.exists() || !saveFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        return false;
+        return tr("Could not open json save file %1 for reading.").arg(jsonSaveFile());
     }
     return createFile(jsonRecoveryFile(), saveFile.readAll());
 }
 
-bool CConfigurationBackup::overwriteConfigurationFile(QString *generatedBackupFileName)
+QString CConfigurationBackup::overwriteConfigurationFile(QString *generatedBackupFileName)
 {
     QFile recoveryFile(jsonRecoveryFile());
     QFile saveFile(jsonSaveFile());
 
-    if (!saveFile.exists() || !recoveryFile.exists()) {
-        return false;
+    if (!saveFile.exists()) {
+        return tr("Save file %1 does not exist.").arg(jsonSaveFile());
+    } else if (!recoveryFile.exists()) {
+        return tr("Recovery file %1 does not exist.").arg(jsonRecoveryFile());
     }
 
     // make a backup of save.json
@@ -61,16 +63,16 @@ bool CConfigurationBackup::overwriteConfigurationFile(QString *generatedBackupFi
 
 
     if (QFile::exists(backupFileName)) {
-        return false;
+        return tr("Backup file %1 exists already.").arg(backupFileName);
     }
 
     if (!saveFile.copy(backupFileName)) {
-        return false;
+        return tr("Could not create backup file %1.").arg(backupFileName);
     }
 
     // copy recovery-save.json into save.json
     if (!recoveryFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        return false;
+        return tr("Failed to read recovery file %1.").arg(jsonRecoveryFile());
     }
 
     return writeToConfigurationFile(recoveryFile.readAll());
@@ -88,41 +90,43 @@ QString CConfigurationBackup::jsonDirectory() const
     return m_jsonDirectory;
 }
 
-bool CConfigurationBackup::writeToConfigurationFile(const QByteArray &newContents)
+QString CConfigurationBackup::writeToConfigurationFile(const QByteArray &newContents)
 {
     if (newContents.isEmpty()) {
-        return false;
+        return tr("Cannot override configuration file with empty data.");
     }
     QJsonParseError error;
     QJsonDocument::fromJson(newContents, &error);
     if (error.error != QJsonParseError::NoError) {
-        qWarning() << "JSON data is invalid: " << error.errorString();
-        return false;
+        return tr("JSON data is invalid: %1").arg(error.errorString());
     }
 
     // remove save,json and create a new one
     if (!QFile::remove(jsonSaveFile())) {
-        return false;
+        return tr("Could not remove configuration file %1").arg(jsonSaveFile());
     }
 
     return createFile(jsonSaveFile(), newContents);
 
 }
 
-bool CConfigurationBackup::createFile(const QString &fileName, const QByteArray &contents)
+QString CConfigurationBackup::createFile(const QString &fileName, const QByteArray &contents)
 {
     QFile file(fileName);
 
     if (file.exists()) {
-        return false;
+        return tr("Not creating file %1, it exists already.").arg(fileName);
     }
 
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
-        return false;
+        return tr("Could not open file %1 for writing.").arg(fileName);
 
     qint64 writtenBytes = file.write(contents);
     const bool correctAmountOfBytesWritten = writtenBytes == contents.size();
 
-    return correctAmountOfBytesWritten && file.flush();
+    if (!correctAmountOfBytesWritten || !file.flush()) {
+        return tr("Failed to write data into file %1.").arg(fileName);
+    }
+    return QString();
 }
 
