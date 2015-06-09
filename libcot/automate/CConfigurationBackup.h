@@ -24,11 +24,11 @@ public:
     QString jsonSaveFile() const;
 
     /**
-     * @brief Creates a save-recovery.json file with the contents of the bytearray
+     * @brief Creates a save-recovery.json file with the contents of current save file.
      * @return true if the file was successfully created
      * @warning if the file already exists, it is deleted.
      */
-    bool createRecoveryFile(const QByteArray &contents);
+    bool createRecoveryFile();
 
     /**
      * @brief Overwrite save.json with save-recovery.json

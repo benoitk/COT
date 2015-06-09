@@ -64,7 +64,7 @@ void CPCPlusTab::slotButtonClicked(CLabelledToolButton *button)
 
     case CToolButton::CreateRecovery: {
         CConfigurationBackup bckp;
-        const bool success = bckp.createRecoveryFile(QString("hello world").toLatin1());
+        const bool success = bckp.createRecoveryFile();
         if (success) {
             CPCWindow::openModal<CMessageBox>(tr("Backup file successfully created."));
         } else {

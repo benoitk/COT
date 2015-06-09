@@ -29,14 +29,18 @@ QString CConfigurationBackup::jsonSaveFile() const
     return path;
 }
 
-bool CConfigurationBackup::createRecoveryFile(const QByteArray &contents)
+bool CConfigurationBackup::createRecoveryFile()
 {
     // remove the file if it exists
     if (QFile::exists(jsonRecoveryFile()) && !QFile::remove(jsonRecoveryFile())) {
         return false;
     }
 
-    return createFile(jsonRecoveryFile(), contents);
+    QFile saveFile(jsonSaveFile());
+    if (!saveFile.exists() || !saveFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        return false;
+    }
+    return createFile(jsonRecoveryFile(), saveFile.readAll());
 }
 
 bool CConfigurationBackup::overwriteConfigurationFile(QString *generatedBackupFileName)
