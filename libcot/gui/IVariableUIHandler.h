@@ -49,7 +49,7 @@ public:
     // Ask user to enter an int value
     static bool enterInteger(int &value, const QString &title = QString());
     // Ask user to enter a double value
-    static bool enterDouble(double &value, const QString &title = QString());
+    static bool enterFloat(float &value, const QString &title = QString());
 
     // return an action type: calc_coef, calc_rien, block, etc.
     static bool selectActionType(int &value, const QString &title = QString());

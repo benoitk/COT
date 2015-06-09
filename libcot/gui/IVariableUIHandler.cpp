@@ -347,14 +347,14 @@ bool IVariableUIHandler::enterInteger(int &value, const QString &title)
     return false;
 }
 
-bool IVariableUIHandler::enterDouble(double &value, const QString &title)
+bool IVariableUIHandler::enterFloat(float &value, const QString &title)
 {
     CNumericalKeyboardDialog dlg(CNumericalKeyboardWidget::Double);
     dlg.setTitle(!title.isEmpty() ? title : tr("Enter a new value"));
-    dlg.setDoubleValue(value);
+    dlg.setFloatValue(value);
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
-        value = dlg.doubleValue();
+        value = dlg.floatValue();
         return true;
     }
 
@@ -1137,9 +1137,9 @@ void IVariableUIHandler::slotRequestDouble()
 {
     CPushButton *editor = qobject_cast<CPushButton *>(sender());
     IVariable *ivar = getVariable(editor->userData().toString());
-    double value = ivar->toFloat();
+    float value = ivar->toFloat();
 
-    if (enterDouble(value)) {
+    if (enterFloat(value)) {
         ivar->setValue(value);
     }
 }

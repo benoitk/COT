@@ -25,8 +25,8 @@ public:
     int integerNumber() const;
     void setIntegerNumber(int number);
 
-    double doubleNumber() const;
-    void setDoubleNumber(double number);
+    float floatNumber() const;
+    void setFloatNumber(float number);
 
 Q_SIGNALS:
     void returnPressed();
@@ -42,7 +42,7 @@ private:
     QLocale lineEditLocale() const;
     void updateDigitalText();
     void setFixedText(const QString &text);
-    QString formatDouble(double value, int maxDecimals) const;
+    QString formatFloat(float value, int maxDecimals) const;
     CKeyboardNormalButton *createButton(QChar character);
     void initializeKeyboardLayout();
     QVBoxLayout *m_mainLayout;

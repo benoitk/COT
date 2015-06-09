@@ -63,16 +63,16 @@ void CNumericalKeyboardWidget::setIntegerNumber(int number)
     m_lineEdit->setText(lineEditLocale().toString(number));
 }
 
-double CNumericalKeyboardWidget::doubleNumber() const
+float CNumericalKeyboardWidget::floatNumber() const
 {
     const QString text = m_lineEdit->text();
-    const double value = lineEditLocale().toDouble(text);
+    const float value = lineEditLocale().toFloat(text);
     return value;
 }
 
-void CNumericalKeyboardWidget::setDoubleNumber(double number)
+void CNumericalKeyboardWidget::setFloatNumber(float number)
 {
-    m_lineEdit->setText(formatDouble(number, IVariable::FLOAT_PRECISION));
+    m_lineEdit->setText(formatFloat(number, IVariable::FLOAT_PRECISION));
 }
 
 bool CNumericalKeyboardWidget::event(QEvent *ev)
@@ -88,7 +88,7 @@ void CNumericalKeyboardWidget::slotButtonClicked(QChar character)
 {
     const QChar decimalSeparator = lineEditLocale().decimalPoint();
     QString text = m_lineEdit->text();
-    const double value = lineEditLocale().toDouble(text);
+    const float value = lineEditLocale().toFloat(text);
 
     if ((character == decimalSeparator) || text.startsWith(QStringLiteral("-"))) {
         text.append(character);
@@ -209,8 +209,17 @@ void CNumericalKeyboardWidget::setFixedText(const QString &text)
             fixedText = fixedText.section(decimalSeparator, 0, 0) +decimalSeparator +decimals;
         }
 
-        const double value = lineEditLocale().toDouble(fixedText);
+        const float value = lineEditLocale().toFloat(fixedText);
+        const double doubleValue = lineEditLocale().toDouble(fixedText);
+
         fixedText = lineEditLocale().toString(value, 'f', decimals.count());
+
+        // Check if we're not hitting the limits of the "float" precision,
+        // by comparing with what we would get with a "double".
+        const QString fixedTextFromDouble = lineEditLocale().toString(doubleValue, 'f', decimals.count());
+        if (fixedText != fixedTextFromDouble) {
+            return; // refuse adding a digit that would lead to unwanted changes for lack of precision
+        }
 
         if (endsWithDecimalSeparator) {
             fixedText.append(decimalSeparator);
@@ -220,7 +229,7 @@ void CNumericalKeyboardWidget::setFixedText(const QString &text)
     m_lineEdit->setText(fixedText);
 }
 
-QString CNumericalKeyboardWidget::formatDouble(double value, int maxDecimals) const
+QString CNumericalKeyboardWidget::formatFloat(float value, int maxDecimals) const
 {
     QString str = lineEditLocale().toString(value, 'f', maxDecimals);
     // Remove trailing zeros after the decimal point

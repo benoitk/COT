@@ -37,14 +37,14 @@ void CNumericalKeyboardDialog::setIntegerValue(int value)
     ui->nkwKeyboard->setIntegerNumber(value);
 }
 
-double CNumericalKeyboardDialog::doubleValue() const
+float CNumericalKeyboardDialog::floatValue() const
 {
-    return ui->nkwKeyboard->doubleNumber();
+    return ui->nkwKeyboard->floatNumber();
 }
 
-void CNumericalKeyboardDialog::setDoubleValue(double value)
+void CNumericalKeyboardDialog::setFloatValue(float value)
 {
-    ui->nkwKeyboard->setDoubleNumber(value);
+    ui->nkwKeyboard->setFloatNumber(value);
 }
 
 void CNumericalKeyboardDialog::initialize(CNumericalKeyboardWidget::Mode mode)

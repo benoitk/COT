@@ -11,12 +11,12 @@ int main(int argc, char *argv[])
     {
         CNumericalKeyboardDialog dlg(CNumericalKeyboardWidget::Double);
         dlg.setTitle("Enter a floating-point value");
-        dlg.setDoubleValue(42);
+        dlg.setFloatValue(42);
 
         while (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
-            double value = dlg.doubleValue();
+            float value = dlg.floatValue();
             qDebug() << "value=" << value;
-            dlg.setDoubleValue(value);
+            dlg.setFloatValue(value);
         }
     } else {
         CNumericalKeyboardDialog dlg(CNumericalKeyboardWidget::Integer);

@@ -22,8 +22,8 @@ public:
     int integerValue() const;
     void setIntegerValue(int value);
 
-    double doubleValue() const;
-    void setDoubleValue(double value);
+    float floatValue() const;
+    void setFloatValue(float value);
 
 private:
     Ui::CNumericalKeyboardDialog *ui;

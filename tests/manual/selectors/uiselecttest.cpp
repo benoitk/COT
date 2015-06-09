@@ -122,8 +122,8 @@ void UISelectTest::on_pbInteger_clicked()
 
 void UISelectTest::on_pbDouble_clicked()
 {
-    double r = rowLabel(sender()).toDouble();
-    handler->enterDouble(r);
+    float r = rowLabel(sender()).toFloat();
+    handler->enterFloat(r);
     setRowLabel(sender(), r);
 }
 
