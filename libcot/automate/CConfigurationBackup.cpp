@@ -3,6 +3,7 @@
 #include <QDir>
 #include <QDateTime>
 #include <QJsonDocument>
+#include <QDebug>
 
 namespace {
 static const QString RECOVERY_FILE_NAME = QStringLiteral("save-recovery.json");
@@ -91,6 +92,7 @@ bool CConfigurationBackup::writeToConfigurationFile(const QByteArray &newContent
     QJsonParseError error;
     QJsonDocument::fromJson(newContents, &error);
     if (error.error != QJsonParseError::NoError) {
+        qWarning() << "JSON data is invalid: " << error.errorString();
         return false;
     }
 
