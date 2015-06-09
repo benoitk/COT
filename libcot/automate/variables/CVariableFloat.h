@@ -27,6 +27,7 @@ public:
     void switchToUnit(CUnit*) Q_DECL_OVERRIDE;
     QVariantMap serialise() Q_DECL_OVERRIDE;
     void setToBindedValue(const QVariant &) Q_DECL_OVERRIDE;
+    int getPrecision();
 protected:
 
     float m_fValeur;
