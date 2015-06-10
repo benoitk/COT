@@ -90,7 +90,6 @@ IVariable *CVariableFactory::build(variableType type, VariableOrganType organTyp
         case VariableOrganTypeInput: {
             switch (type) {
                 case type_bool:
-                qDebug() << "et la cest le drame data : " << data;
                     return new CVariableInputBool(data.toMap());
 
                 case type_float:
@@ -113,7 +112,6 @@ IVariable *CVariableFactory::build(variableType type, VariableOrganType organTyp
         case VariableOrganTypeOutput: {
             switch (type) {
                 case type_bool:
-                qDebug() << "et la c'est le drame data : " << data;
                     return new CVariableOutputBool(data.toMap());
 
                 case type_float:

@@ -28,22 +28,18 @@ CVariableBool::~CVariableBool()
 
 
 QString CVariableBool::toString(){
-    if(m_name == "test_relay_1") qDebug() << "44444444444444444444444444444444444 value "  << m_bValeur;
     if(m_bValeur)
         return tr("vrai");
     else
         return tr("faux");
 }
 int CVariableBool::toInt(){
-    if(m_name == "test_relay_1") qDebug() << "44444444444444444444444444444444444 value "  << m_bValeur;
     return m_bValeur;
 }
 float CVariableBool::toFloat(){
-    if(m_name == "test_relay_1") qDebug() << "44444444444444444444444444444444444 value "  << m_bValeur;
     return m_bValeur;
 }
 bool CVariableBool::toBool(){
-    if(m_name == "test_relay_1") qDebug() << "44444444444444444444444444444444444 value "  << m_bValeur;
     return m_bValeur;
 }
 
