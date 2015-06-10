@@ -40,6 +40,9 @@ QTabBar::tab
     /* top right bottom left */
     padding: 1px 4px 1px 4px;
     margin: 0px 2px 0px 2px;
+    // HACK: this is required to ensure the bold selected tab
+    //       labels have the same width as the non-selected ones
+    font-family: "monospace";
 }
 
 QTabBar::tab:selected
