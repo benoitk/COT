@@ -10,6 +10,26 @@ IVariable::IVariable(QObject *parent)
     m_label = "label_IVariable";
     m_name = "name_IVariable";
 }
+IVariable::IVariable(const QVariantMap& arg_varMap): QObject(){
+    QString sAccess = arg_varMap.value(QStringLiteral("access")).toString();
+
+    if(sAccess == QStringLiteral("read_write")) m_access = access_read_write;
+    else if(sAccess == QStringLiteral("write")) m_access = access_write;
+    else /*if(sAccess == QStringLiteral("write"))*/ m_access = access_read;
+
+
+     m_name = arg_varMap.value(QStringLiteral("name")).toString();
+     m_label = arg_varMap.value(tr("fr_FR")).toString();
+
+     if(arg_varMap.contains(QStringLiteral("address"))) m_address = arg_varMap.value(QStringLiteral("address")).toInt();
+}
+
+IVariable::IVariable(): QObject()
+, m_access(access_read)
+, m_address(0){
+    m_label = "label_IVariable";
+    m_name = "name_IVariable";
+}
 
 QString IVariable::typeToString(variableType type)
 {
@@ -74,7 +94,6 @@ void IVariable::setName(const QString& name){
 
 
 QString IVariable::getLabel()const{
-    qDebug() << m_label << "  " << getType() << getName();
     return m_label;
 }
 void IVariable::setLabel(const QString & lbl){

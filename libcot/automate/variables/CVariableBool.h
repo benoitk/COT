@@ -12,6 +12,7 @@ class CVariableBool : public IVariable
 
 public:
     CVariableBool(QObject *parent = Q_NULLPTR);
+    CVariableBool(const QVariantMap&);
     CVariableBool(bool, int = 0, variableAccess =access_read);
     ~CVariableBool();
 

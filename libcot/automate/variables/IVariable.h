@@ -42,7 +42,8 @@ public:
     static int FLOAT_PRECISION;
 
     IVariable(QObject *parent);
-    IVariable() {}
+    IVariable(const QVariantMap&);
+    IVariable();
     virtual ~IVariable() {}
     virtual VariableOrganType getOrganType() const;
     virtual QVariant toVariant()=0;

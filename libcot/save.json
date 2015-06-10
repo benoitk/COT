@@ -26,6 +26,9 @@
                           {"name":"pump_2_speed", "type":"output_boolean", "address_data":"0x0200"},
                           {"name":"pump_2_clockwise", "type":"output_boolean", "address_data":"0x0201"},
                           {"name":"pump_2_step_by_step", "type":"output_boolean", "address_data":"0x0202"},
+                          {"name":"relay_1", "type":"output_boolean", "address_data":"0x0120"},
+                          {"name":"relay_2", "type":"output_boolean", "address_data":"0x0121"},
+                          {"name":"relay_3", "type":"output_boolean", "address_data":"0x0122"},
                           {"name":"pump_2_cmd_continu", "type":"output_boolean", "address_data":"0x0203"}
                         ]
         },
@@ -120,6 +123,15 @@
                     {"name":"emptying_solenoide", "fr_FR" : "EV vidange", "en_US" : "Emptying solenoid", "type":"output_boolean",
                             "value" : false, "extension_name":"io_card_1", "organ_name":"tor_output_2", "passive":false
                     },
+                    {"name":"test_relay_1", "fr_FR" : "Relais 1", "en_US" : "Relay 1", "type":"output_boolean", "access":"read_write",
+                            "value" : true, "extension_name":"measure_card_1", "organ_name":"relay_1", "passive":false
+                    },
+                    {"name":"test_relay_2", "fr_FR" : "Relais 2", "en_US" : "Relay 2", "type":"output_boolean","access":"read",
+                            "value" : false, "extension_name":"measure_card_1", "organ_name":"relay_2", "passive":false
+                    },
+                    {"name":"test_relay_3", "fr_FR" : "Relais 3", "en_US" : "Relay 3", "type":"output_boolean","access":"read_write",
+                            "value" : true, "extension_name":"measure_card_1", "organ_name":"relay_3", "passive":false
+                    },
 
                     {"name":"pump_persulfate", "fr_FR" : "Pompe persulfate", "en_US" : "Persulfate pump", "type":"output_list_variables",
                         "variables": [  {"name":"num_tour_pump", "fr_FR" : "Nombre de tour", "en_US" : "Tour number", "type":"integer", "value" : 4, "unit":"tr_min"},
@@ -141,7 +153,7 @@
     "display":[
         {"name":"diagnostic", "variables":["direct_measure", "temperature_cell"]},
         {"name":"elec_tests", "map_tabs":[{"name":"tab_EV", "variables":["emptying_solenoide", "sample_solenoide"]},
-                     {"name":"tab_Actionneurs", "variables":["actionneur_1", "actionneur_2"]},
+                     {"name":"tab_Actionneurs", "variables":["test_relay_1", "test_relay_2", "test_relay_3"]},
                      {"name":"tab_entrees", "variables":["selection_stream1", "arret_fin_cycle"]},
                      {"name":"tab_pump", "variables":["pump_persulfate"]},
                      {"name":"tab_selecteur","variables":["selecteur_position_stream1", "selecteur_position_stream2"],"pump":"pump_persulfate"  }
@@ -272,7 +284,7 @@
     "scheduler_autonome" : ["cycle_io", "nb_cycle"],
     "list_cycles_maintenaces" : ["azote_calibration", "zero_calibration"],
 
-    "streams" :[{"name":"stream_1", "fr_FR":"stream 1", "variables":["status", "defaut_eau"], "active_state": "stream_1_state",
+    "streams" :[{"name":"stream_1", "fr_FR":"stream 1", "variables":["baseline", "absorbance_corrected"], "active_state": "stream_1_state",
                     "measures":[{"name":"measure_a", "fr_FR":"absorbance de la measure 1", "variable_measure":"measure_cot", "variable_range_max":"measure_cot_max" , "variable_range_min":"measure_cot_min", "variables":["coef_calculated", "zero_standard"]},
                                 {"name":"measure_b", "fr_FR":"var relative a measure 2", "variable_measure":"phosphore", "variable_range_max":"measure_cot_max", "variable_range_min":"measure_cot_min", "variables":["coef_calculated", "zero_standard"]},
                                 {"name":"measure_c", "fr_FR":"var relative a measure 2 b", "variable_measure":"offset_current", "variable_range_max":"measure_cot_max", "variable_range_min":"measure_cot_min", "variables":["coef_calculated", "zero_standard"]},

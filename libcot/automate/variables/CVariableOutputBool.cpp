@@ -1,7 +1,7 @@
 #include "CVariableOutputBool.h"
 #include "CModelExtensionCard.h"
 #include "CUnit.h"
-
+#include "qdebug.h"
 CVariableOutputBool::CVariableOutputBool(QObject *parent)
     : CVariableBool(parent),IVariableOutput()
 {
@@ -14,9 +14,9 @@ CVariableOutputBool::~CVariableOutputBool()
 }
 
 CVariableOutputBool::CVariableOutputBool(const QMap<QString, QVariant> &mapVar)
-    : CVariableBool(),IVariableOutput()
+    : CVariableBool(mapVar),IVariableOutput(mapVar)
 {
-
+    m_passive = mapVar.value(QStringLiteral("passive")).toBool(); //false par défaut même si il n'y a de champs passive dans le json
 }
 
 void CVariableOutputBool::writeValue(){

@@ -12,6 +12,7 @@ class IVariableOutput
 {
 public:
     IVariableOutput();
+    IVariableOutput(const QVariantMap&);
     virtual ~IVariableOutput();
     virtual CModelExtensionCard* getExtensionCard()const;
     virtual QString getOrganneName()const;

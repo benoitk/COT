@@ -42,7 +42,7 @@ CAutomate::CAutomate()
     m_iClock = 0;
     connect(timer, &QTimer::timeout, this, &CAutomate::slotClock);
     timer->setInterval(1000);
-    timer->start();
+ //   timer->start();
 
  }
 
@@ -60,7 +60,7 @@ void CAutomate::initConfig(){
 
     connect(threadSequencer, &QThread::started, m_sequencer, &CSequencer::slotRequestPlaySequenceMesure);
     connect(m_sequencer, &CSequencer::signalUpdated, this, &CAutomate::signalSchedulerUpdated);
-    threadSequencer->start();
+//    threadSequencer->start();
 }
 
 CAutomate::~CAutomate()

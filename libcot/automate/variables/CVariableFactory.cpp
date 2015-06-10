@@ -57,7 +57,7 @@ IVariable *CVariableFactory::build(variableType type, VariableOrganType organTyp
         case VariableOrganTypeNone: {
             switch (type) {
                 case type_bool:
-                    return new CVariableBool(data.toBool());
+                return new CVariableBool(data.toBool());
 
                 case type_float:
                     return new CVariableFloat(data.toFloat());
@@ -90,6 +90,7 @@ IVariable *CVariableFactory::build(variableType type, VariableOrganType organTyp
         case VariableOrganTypeInput: {
             switch (type) {
                 case type_bool:
+                qDebug() << "et la cest le drame data : " << data;
                     return new CVariableInputBool(data.toMap());
 
                 case type_float:
@@ -112,6 +113,7 @@ IVariable *CVariableFactory::build(variableType type, VariableOrganType organTyp
         case VariableOrganTypeOutput: {
             switch (type) {
                 case type_bool:
+                qDebug() << "et la c'est le drame data : " << data;
                     return new CVariableOutputBool(data.toMap());
 
                 case type_float:
@@ -168,9 +170,15 @@ IVariable* CVariableFactory::build(const QString &type, const QVariantMap &data)
     }
 
     const QPair<variableType, VariableOrganType> pair = types.value(type, qMakePair(type_unknow, VariableOrganTypeNone));
-    return CVariableFactory::build(pair.first, pair.second, data.contains(QStringLiteral("value"))
-                                   ? data.value(QStringLiteral("value"))
-                                   : data );
+    if(data.contains(QStringLiteral("value")) && pair.second == VariableOrganTypeNone){
+        return CVariableFactory::build(pair.first, pair.second, data.value(QStringLiteral("value")));
+    }
+    else
+        return CVariableFactory::build(pair.first, pair.second, data);
+
+//    return CVariableFactory::build(pair.first, pair.second, data.contains(QStringLiteral("value"))
+//                                   ? data.value(QStringLiteral("value"))
+//                                   : data );
 }
 
 QString CVariableFactory::buildTemporaryName(const QString &baseName)

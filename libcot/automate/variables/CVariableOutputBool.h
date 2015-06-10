@@ -29,6 +29,8 @@ private:
 
     void writeValue() Q_DECL_OVERRIDE;
 
+    bool m_passive;
+
 };
 
 #endif // CVARIABLEOUTPUTBOOL_H
