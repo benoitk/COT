@@ -4,12 +4,7 @@
     "en_US" : "TOC",
     "version":"0.0.0",
 
-    "com_automate":[
-        {"name": "com_tcp_externe", "type":"tcpip", "ip":"192.168.1.10", "port":533},
-        {"name": "com_jbus_tcp_master", "type":"jbus_over_tcpip", "ip":"192.168.1.1", "port":502},
-        {"name": "com_jbus_tcp_slave", "type":"jbus_over_tcpip", "slave":2, "ip":"192.168.1.2", "port":532},
-        {"name": "com_jbus_rs_slave", "type":"jbus", "slave":2, "device": "/dev/ttyS0", "baudrate":115200, "stop":1, "data":8}
-    ],
+   
     "extensions" : [
         {"name" : "measure_card_1","fr_FR" : "Carte measure 1", "en_US" : "Measure card 1",
             "com" : {"name":"com_jbus_tcp_master","type":"tcpip", "slave":1 , "ip":"192.168.1.2", "port":502, "debug":true},
