@@ -36,17 +36,19 @@ public:
     static void openModal(QWidget *widget);
 
     template <typename T>
-    static void openModal() {
+    static T* openModal() {
         QWidget *parent = QApplication::activeWindow();
         T *window = new T(parent);
         openModal(window);
+        return window;
     }
 
     template <typename T, typename Arg>
-    static void openModal(const Arg &arg) {
+    static T* openModal(const Arg &arg) {
         QWidget *parent = QApplication::activeWindow();
         T *window = new T(arg, parent);
         openModal(window);
+        return window;
     }
 
 public slots:
