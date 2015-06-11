@@ -6,6 +6,7 @@
 
 #include "CControlerAutomate.h"
 #include "CPCWindow.h"
+#include "proxystyle.h"
 
 QString applicationStyleSheet()
 {
@@ -26,7 +27,9 @@ int main(int argc, char *argv[])
 #endif
 
     // Set default uniform style
-    QApplication::setStyle(QStyleFactory::create("Fusion"));
+    QStyle *baseStyle = QStyleFactory::create("Fusion");
+    QProxyStyle *proxy = new ProxyStyle(baseStyle);
+    QApplication::setStyle(proxy);
 
     // White background for windows
     QPalette pal = QApplication::palette();
