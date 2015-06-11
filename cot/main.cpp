@@ -2,6 +2,7 @@
 #include <QStyleFactory>
 #include <QFile>
 #include <QDesktopWidget>
+#include <QScreen>
 
 #include "CControlerAutomate.h"
 #include "CPCWindow.h"
@@ -47,6 +48,10 @@ int main(int argc, char *argv[])
     CPCWindow w;
 #if defined(DEVICE_BUILD)
     w.showFullScreen();
+    // NOTE: for some reason, the Qt version used here does not use the available size
+    //       to workaround this problem, we manually set the fixed size to make the
+    //       application use up all available screen space.
+    w.setFixedSize(app.primaryScreen()->availableSize());
 #else
     w.setFixedSize(QSize(800, 600));
     w.show();
