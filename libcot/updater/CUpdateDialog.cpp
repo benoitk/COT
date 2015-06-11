@@ -2,9 +2,9 @@
 #include "ui_CUpdateDialog.h"
 #include "CUpdateManager.h"
 
+#include <CMessageBox.h>
+#include <CPCWindow.h>
 #include <QCloseEvent>
-#include <QMessageBox>
-#include <QPushButton>
 
 CUpdateDialog::CUpdateDialog(CUpdateManager *updateManager, QWidget *parent)
     : QDialog(parent)
@@ -46,18 +46,18 @@ void CUpdateDialog::slotPerformUpdate()
 
 void CUpdateDialog::slotError(const QString &error)
 {
-    QMessageBox::critical(this, QString(), error);
-    reject();
+    CMessageBox *mb = CPCWindow::openModal<CMessageBox>(error);
+    connect(mb, &QWidget::destroyed, this, &CUpdateDialog::reject);
 }
 
 void CUpdateDialog::slotFinished(bool success)
 {
     if (success) {
-        QMessageBox::information(this, QString(), tr("The update were done correctly.\nThe application will restart."));
-        accept();
+        CMessageBox *mb = CPCWindow::openModal<CMessageBox>(tr("The update were done correctly.\nThe application will restart."));
+        connect(mb, &QWidget::destroyed, this, &CUpdateDialog::accept);
     }
     else {
-        QMessageBox::critical(this, QString(), tr("The update process fails."));
-        reject();
+        CMessageBox *mb = CPCWindow::openModal<CMessageBox>(tr("The update process failed."));
+        connect(mb, &QWidget::destroyed, this, &CUpdateDialog::reject);
     }
 }
