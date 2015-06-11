@@ -18,6 +18,7 @@ public:
 
     void init();
     bool isRunning() const;
+    QString availableVersion() const;
 
 public slots:
     void slotUpdateSoftware();
@@ -42,6 +43,7 @@ private:
     QFileSystemWatcher *m_fileSystemWatcher;
     QTimer *m_timer;
     QProcess *m_process;
+    QString m_version;
 
     QString settingsFilePath() const;
     QString scriptFilePath() const;

@@ -128,9 +128,7 @@ void CPCWindow::slotUpdateAvailable(const QString &version)
         ui->actionUpdate->setVisible(true);
 
         if (canShowUpdatePopup()) {
-            if (CUpdateDialog::requestUserUpdate(version)) {
-                ui->actionUpdate->trigger();
-            }
+            ui->actionUpdate->trigger();
         }
     }
 }

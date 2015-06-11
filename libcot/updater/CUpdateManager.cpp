@@ -90,6 +90,7 @@ void CUpdateManager::slotTimeout()
         return;
     }
     else {
+        m_version = version;
         emit signalUpdateAvailable(version);
     }
 }
@@ -138,4 +139,9 @@ QString CUpdateManager::settingsFilePath() const
 QString CUpdateManager::scriptFilePath() const
 {
     return QStringLiteral("%1/USB/cot-update.sh").arg(QStringLiteral(COT_USB_MOUNT_POINT));
+}
+
+QString CUpdateManager::availableVersion() const
+{
+    return m_version;
 }

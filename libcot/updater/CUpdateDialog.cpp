@@ -12,9 +12,12 @@ CUpdateDialog::CUpdateDialog(CUpdateManager *updateManager, QWidget *parent)
     , m_updateManager(updateManager)
 {
     ui->setupUi(this);
-    ui->dbbButtons->button(QDialogButtonBox::Apply)->setText(tr("Update"));
 
-    connect(ui->dbbButtons, &QDialogButtonBox::clicked, this, &CUpdateDialog::slotButtonClicked);
+    ui->lTitle->setText(tr("Update %1 is available, do you want to update now?").arg(updateManager->availableVersion()));
+
+    connect(ui->vbbButtons->addAction(CToolButton::Ok), &QAction::triggered, this, &CUpdateDialog::slotPerformUpdate);
+    connect(ui->vbbButtons->addAction(CToolButton::Cancel), &QAction::triggered, this, &CUpdateDialog::reject);
+
     connect(m_updateManager, &CUpdateManager::signalError, this, &CUpdateDialog::slotError);
     connect(m_updateManager, &CUpdateManager::signalFinished, this, &CUpdateDialog::slotFinished);
 }
@@ -22,12 +25,6 @@ CUpdateDialog::CUpdateDialog(CUpdateManager *updateManager, QWidget *parent)
 CUpdateDialog::~CUpdateDialog()
 {
     delete ui;
-}
-
-bool CUpdateDialog::requestUserUpdate(const QString &version)
-{
-    return QMessageBox::question(0, QString(), tr("Update %1 is available, do you want to update now ?").arg(version),
-                                 QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes) == QMessageBox::Yes;
 }
 
 void CUpdateDialog::closeEvent(QCloseEvent *event)
@@ -40,31 +37,17 @@ void CUpdateDialog::closeEvent(QCloseEvent *event)
     QDialog::closeEvent(event);
 }
 
-void CUpdateDialog::slotButtonClicked(QAbstractButton *button)
+void CUpdateDialog::slotPerformUpdate()
 {
-    const QDialogButtonBox::StandardButton standardButton = ui->dbbButtons->standardButton(button);
-
-    switch (standardButton) {
-    case QDialogButtonBox::Apply: {
-        ui->dbbButtons->button(QDialogButtonBox::Apply)->setEnabled(false);
-        ui->dbbButtons->button(QDialogButtonBox::Cancel)->setEnabled(false);
-        m_updateManager->slotUpdateSoftware();
-        break;
-    }
-
-    case QDialogButtonBox::Cancel: {
-        reject();
-        break;
-    }
-
-    default:
-        break;
-    }
+    ui->vbbButtons->action(CToolButton::Ok)->setEnabled(false);
+    ui->vbbButtons->action(CToolButton::Cancel)->setEnabled(false);
+    m_updateManager->slotUpdateSoftware();
 }
 
 void CUpdateDialog::slotError(const QString &error)
 {
     QMessageBox::critical(this, QString(), error);
+    reject();
 }
 
 void CUpdateDialog::slotFinished(bool success)

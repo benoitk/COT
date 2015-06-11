@@ -20,13 +20,11 @@ public:
     explicit CUpdateDialog(CUpdateManager *updateManager, QWidget *parent = Q_NULLPTR);
     ~CUpdateDialog();
 
-    static bool requestUserUpdate(const QString &version);
-
 protected:
     void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
 
 private slots:
-    void slotButtonClicked(QAbstractButton *button);
+    void slotPerformUpdate();
     void slotError(const QString &error);
     void slotFinished(bool success);
 
