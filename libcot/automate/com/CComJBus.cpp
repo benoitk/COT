@@ -220,21 +220,29 @@ void CComJBus::writeData(IVariableOutput* arg_output)
 CComJBus::BitArray CComJBus::readNBitsFunction1(int addrVar, int nbBitsToRead)
 {
     BitArray ret(nbBitsToRead);
-    if (modbus_read_bits(m_ctx.data(), addrVar, nbBitsToRead, ret.data()) == -1)
+    std::fill(ret.begin(), ret.end(), 0);
+    if (!m_ctx)
+        qCDebug(COTAUTOMATE_LOG) << "Cannot read data from uninitialized modbus context.";
+    else if (modbus_read_bits(m_ctx.data(), addrVar, nbBitsToRead, ret.data()) == -1)
         qCDebug(COTAUTOMATE_LOG) << "Failed to read" << nbBitsToRead << "bits from" << addrVar << ':' << modbus_strerror(errno);
     return ret;
 }
 
 void CComJBus::writeNBitsFunction15(int addrVar, const BitArray &data)
 {
-    if (modbus_write_bits(m_ctx.data(), addrVar, data.size(), data.constData()) == -1)
+    if (!m_ctx)
+        qCDebug(COTAUTOMATE_LOG) << "Cannot write data to uninitialized modbus context.";
+    else if (modbus_write_bits(m_ctx.data(), addrVar, data.size(), data.constData()) == -1)
         qCDebug(COTAUTOMATE_LOG) << "Failed to write" << data.size() << "bits to" << addrVar << ':' << modbus_strerror(errno);
 }
 
 CComJBus::WordArray CComJBus::readNWordsFunction3(int addrVar, int nbWordsToRead)
 {
     WordArray ret(nbWordsToRead);
-    if (modbus_read_registers(m_ctx.data(), addrVar, nbWordsToRead, ret.data()) == -1)
+    std::fill(ret.begin(), ret.end(), 0);
+    if (!m_ctx)
+        qCDebug(COTAUTOMATE_LOG) << "Cannot read data from uninitialized modbus context.";
+    else if (modbus_read_registers(m_ctx.data(), addrVar, nbWordsToRead, ret.data()) == -1)
         qCDebug(COTAUTOMATE_LOG) << "Failed to read" << nbWordsToRead << "words from" << addrVar << ':' << modbus_strerror(errno);
     return ret;
 
@@ -242,14 +250,19 @@ CComJBus::WordArray CComJBus::readNWordsFunction3(int addrVar, int nbWordsToRead
 
 void CComJBus::writeNWordsFunction16(int addrVar, const WordArray &data)
 {
-    if (modbus_write_registers(m_ctx.data(), addrVar, data.size(), data.constData()) == -1)
+    if (!m_ctx)
+        qCDebug(COTAUTOMATE_LOG) << "Cannot write data to uninitialized modbus context.";
+    else if (modbus_write_registers(m_ctx.data(), addrVar, data.size(), data.constData()) == -1)
         qCDebug(COTAUTOMATE_LOG) << "Failed to write" << data.size() << "words to" << addrVar << ':' << modbus_strerror(errno);
 }
 
 CComJBus::BitArray CComJBus::readNInputBitsFunction2(int addrVar, int nbBitsToRead)
 {
     BitArray ret(nbBitsToRead);
-    if (modbus_read_input_bits(m_ctx.data(), addrVar, nbBitsToRead, ret.data()) == -1)
+    std::fill(ret.begin(), ret.end(), 0);
+    if (!m_ctx)
+        qCDebug(COTAUTOMATE_LOG) << "Cannot read data from uninitialized modbus context.";
+    else if (modbus_read_input_bits(m_ctx.data(), addrVar, nbBitsToRead, ret.data()) == -1)
         qCDebug(COTAUTOMATE_LOG) << "Failed to read" << nbBitsToRead << "input bits from" << addrVar << ':' << modbus_strerror(errno);
     return ret;
 }
@@ -257,20 +270,27 @@ CComJBus::BitArray CComJBus::readNInputBitsFunction2(int addrVar, int nbBitsToRe
 CComJBus::WordArray CComJBus::readNInputWordsFunction4(int addrVar, int nbWordsToRead)
 {
     WordArray ret(nbWordsToRead);
-    if (modbus_read_input_registers(m_ctx.data(), addrVar, nbWordsToRead, ret.data()) == -1)
+    std::fill(ret.begin(), ret.end(), 0);
+    if (!m_ctx)
+        qCDebug(COTAUTOMATE_LOG) << "Cannot read data from uninitialized modbus context.";
+    else if (modbus_read_input_registers(m_ctx.data(), addrVar, nbWordsToRead, ret.data()) == -1)
         qCDebug(COTAUTOMATE_LOG) << "Failed to read" << nbWordsToRead << "input words from" << addrVar << ':' << modbus_strerror(errno);
     return ret;
 }
 
 void CComJBus::writeBitFunction5(int addrVar, bool bit)
 {
-    if (modbus_write_bit(m_ctx.data(), addrVar, bit) == -1)
+    if (!m_ctx)
+        qCDebug(COTAUTOMATE_LOG) << "Cannot write data to uninitialized modbus context.";
+    else if (modbus_write_bit(m_ctx.data(), addrVar, bit) == -1)
         qCDebug(COTAUTOMATE_LOG) << "Failed to write bit to" << addrVar << ':' << modbus_strerror(errno);
 }
 
 void CComJBus::writeWordFunction6(int addrVar, int word)
 {
-    if (modbus_write_register(m_ctx.data(), addrVar, word) == -1)
+    if (!m_ctx)
+        qCDebug(COTAUTOMATE_LOG) << "Cannot write data to uninitialized modbus context.";
+    else if (modbus_write_register(m_ctx.data(), addrVar, word) == -1)
         qCDebug(COTAUTOMATE_LOG) << "Failed to write word to" << addrVar << ':' << modbus_strerror(errno);
 }
 

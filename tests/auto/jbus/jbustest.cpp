@@ -76,6 +76,7 @@ private slots:
 
     void testSlave_data();
     void testSlave();
+    void testInvalidSlave();
 
 private:
     bool waitForInitialization(const CComJBus &bus, int timeoutMs = 500) const
@@ -400,6 +401,21 @@ void JBusTest::testSlave()
     // destroy the slave to kill the tcpip connection, which stops the master loop as well
     // then we can join the thread
     master.join();
+}
+
+void JBusTest::testInvalidSlave()
+{
+    // don't crash
+    CComJBus bus({});
+    bus.readBool(0, CComJBus::Input);
+    bus.readBool(0, CComJBus::Output);
+    bus.writeBool(0, true);
+    bus.readInt(0, CComJBus::Input);
+    bus.readInt(0, CComJBus::Output);
+    bus.writeInt(0, 1);
+    bus.readFloat(0, CComJBus::Input);
+    bus.readFloat(0, CComJBus::Output);
+    bus.writeFloat(0, 42.0);
 }
 
 QTEST_GUILESS_MAIN(JBusTest)
