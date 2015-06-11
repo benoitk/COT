@@ -5,20 +5,20 @@
 
 #include "IVariable.h"
 
-class CModelExtensionCard;
+class IOrgan;
 class IComObserver;
-
+class CModelExtensionCard;
 class IVariableOutput
 {
 public:
     IVariableOutput();
     IVariableOutput(const QVariantMap&);
     virtual ~IVariableOutput();
-    virtual CModelExtensionCard* getExtensionCard()const;
-    virtual QString getOrganneName()const;
-    virtual void setOrganne(CModelExtensionCard* ,const QString &);
-    virtual QString getOrganneAddr()const;
-    virtual IComObserver* getComObserver()const;
+    virtual IOrgan* getOrgan()const;
+    virtual QString getOrganName()const;
+    virtual void setOrgan(CModelExtensionCard* ,const QString &);
+    virtual QString getOrganAddr()const;
+//    virtual IComObserver* getComObserver()const;
 
     virtual IVariable* getIVariable()=0;
 
@@ -26,9 +26,7 @@ private:
     virtual void writeValue()=0;
 
 protected:
-    CModelExtensionCard* m_modelExtensionCard;
-    QString m_organneName;
-    QString m_organneAddr;
+    IOrgan* m_organ;
 
 };
 

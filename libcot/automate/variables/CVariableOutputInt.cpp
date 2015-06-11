@@ -1,7 +1,7 @@
 #include "CVariableOutputInt.h"
 #include "CModelExtensionCard.h"
 #include "CUnit.h"
-
+#include "IOrgan.h"
 CVariableOutputInt::CVariableOutputInt(QObject *parent)
     : CVariableInt(parent),IVariableOutput()
 {
@@ -49,7 +49,7 @@ QVariantMap CVariableOutputInt::serialise(){
     mapSerialise.insert(tr("fr_FR"), m_label);
     mapSerialise.insert(QStringLiteral("type"), QStringLiteral("output_integer"));
     mapSerialise.insert(QStringLiteral("value"), m_iValeur);
-    mapSerialise.insert(QStringLiteral("extension_name"), m_modelExtensionCard->getName());
-    mapSerialise.insert(QStringLiteral("organ_name"), m_organneName);
+    mapSerialise.insert(QStringLiteral("extension_name"), m_organ->getExtCard()->getName());
+    mapSerialise.insert(QStringLiteral("organ_name"), m_organ->getName());
     return mapSerialise;
 }

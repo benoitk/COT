@@ -1,5 +1,7 @@
 #include "CVariableOutputBool.h"
 #include "CModelExtensionCard.h"
+#include "IOrgan.h"
+#include "ICom.h"
 #include "CUnit.h"
 #include "qdebug.h"
 CVariableOutputBool::CVariableOutputBool(QObject *parent)
@@ -20,10 +22,13 @@ CVariableOutputBool::CVariableOutputBool(const QMap<QString, QVariant> &mapVar)
 }
 
 void CVariableOutputBool::writeValue(){
-
-
+    m_organ->getExtCard()->getICom()->writeData(this);
 }
 
+ void CVariableOutputBool::setValue(bool arg_value){
+     CVariableBool::setValue(arg_value);
+     this->writeValue();
+ }
 
 variableType CVariableOutputBool::getType()const{
     return type_bool;
@@ -39,7 +44,7 @@ QVariantMap CVariableOutputBool::serialise(){
     mapSerialise.insert(tr("fr_FR"), m_label);
     mapSerialise.insert(QStringLiteral("type"), QStringLiteral("output_boolean"));
     mapSerialise.insert(QStringLiteral("value"), m_bValeur);
-    mapSerialise.insert(QStringLiteral("extension_name"), m_modelExtensionCard->getName());
-    mapSerialise.insert(QStringLiteral("organ_name"), m_organneName);
+    mapSerialise.insert(QStringLiteral("extension_name"), m_organ->getExtCard()->getName());
+    mapSerialise.insert(QStringLiteral("organ_name"), m_organ->getName());
     return mapSerialise;
 }

@@ -44,7 +44,7 @@ bool CVariableBool::toBool(){
 }
 
 void CVariableBool::setValue(const QVariant & value){
-    setValue(value.toBool());
+    this->setValue(value.toBool());
 }
 void CVariableBool::setValue(bool value){
     m_bValeur = value;

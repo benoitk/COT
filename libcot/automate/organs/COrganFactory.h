@@ -4,12 +4,13 @@
 #include <QObject>
 
 class IOrgan;
+class CModelExtensionCard;
 class COrganFactory : public QObject
 {
     Q_OBJECT
 
 public:
-    static IOrgan* build(const QVariantMap&);
+    static IOrgan* build(const QVariantMap&, CModelExtensionCard* arg_extCard);
 
 
 private:

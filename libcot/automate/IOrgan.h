@@ -2,7 +2,6 @@
 #define IORGAN_H
 
 #include <QObject>
-
 #include "qstring.h"
 #include "qlist.h"
 #include "qvariant.h"
@@ -16,6 +15,7 @@ enum organType{
 };
 
 class IVariable;
+class CModelExtensionCard;
 class IOrgan : public QObject
 {
     Q_OBJECT
@@ -29,10 +29,10 @@ public:
     virtual void setAddress(const QString &)=0;
     virtual QString toString()const=0;
     //virtual QList<IVariable*> getListParamters()const=0;
-
+    virtual CModelExtensionCard* getExtCard()=0;
 
 private:
-
+    organType m_type;
 };
 
 #endif // IORGAN_H

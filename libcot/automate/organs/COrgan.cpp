@@ -1,14 +1,15 @@
 #include "COrgan.h"
-
-COrgan::COrgan(const QVariantMap& mapOrgan):IOrgan(){
+#include "CModelExtensionCard.h"
+#include "qdebug.h"
+COrgan::COrgan(const QVariantMap& mapOrgan, CModelExtensionCard* arg_extCard):IOrgan(){
+    if(arg_extCard) m_extCard = arg_extCard;
     if(mapOrgan.contains(QStringLiteral("name")))
         m_name = mapOrgan.value(QStringLiteral("name")).toString();
     else m_name = QStringLiteral("Organ not named");
 
     if(mapOrgan.contains(QStringLiteral("address_data")))
-        m_address = mapOrgan.value(QStringLiteral("address_data")).toInt(); //vérifier si le 0x (ou 0b) est pris en compte
-    else m_address = 0;
-
+        m_address = mapOrgan.value(QStringLiteral("address_data")).toString();//toInt(0, 16); //vérifier si le 0x (ou 0b) est pris en compte
+    else m_address = QStringLiteral("0x00");
     if(mapOrgan.contains(QStringLiteral("type"))){
         QString sType = mapOrgan.value(QStringLiteral("type")).toString();
         if(sType == QStringLiteral("output_boolean"))
@@ -26,6 +27,9 @@ COrgan::COrgan(const QVariantMap& mapOrgan):IOrgan(){
     }
     else m_type = organType::input_bool;
 }
+CModelExtensionCard* COrgan::getExtCard(){
+    return m_extCard;
+}
 
 QString COrgan::getName()const {
     return m_name;
@@ -38,14 +42,15 @@ organType COrgan::getType()const {
 }
 //adresse physique sur le materiel, varie selon protocol
 QString COrgan::getAddress()const {
-    QString sAddress = QStringLiteral("0x") + QString::number(m_address);
-    return sAddress;
+//    QString sAddress = QStringLiteral("0x") + QString::number(m_address);
+//    return sAddress;
+    return m_address;
 }
 void COrgan::setAddress(const QString & arg_address) {
     m_address = arg_address.toInt();
 }
 QString COrgan::toString()const {
-    QString sAddress = m_name + QStringLiteral(" addr:0x") + QString::number(m_address);
+    QString sAddress = m_name + QStringLiteral(" addr:0x") + m_address;//QString::number(m_address);
     return sAddress;
 }
 

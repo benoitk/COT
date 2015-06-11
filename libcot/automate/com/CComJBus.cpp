@@ -113,6 +113,7 @@ CComJBus::CComJBus(const QVariantMap &mapCom, QObject *parent)
     , m_slave(-1)
     , m_type(type_com_unknow)
 {
+    m_ip = mapCom.value(QStringLiteral("ip")).toString();
     m_name = mapCom.value(QStringLiteral("name")).toString();
     if(m_name.isEmpty()) {
         qCDebug(COTAUTOMATE_LOG) << "CComJBus not named.";
@@ -198,7 +199,7 @@ QVariant CComJBus::readData(IVariableInput* arg_input){
 }
 void CComJBus::writeData(IVariableOutput* arg_output)
 {
-    const int address = arg_output->getOrganneAddr().toInt();
+    const int address = arg_output->getOrganAddr().toInt(0,16);
     IVariable* variable = arg_output->getIVariable();
     switch (variable->getType())
     {
@@ -233,7 +234,7 @@ void CComJBus::writeNBitsFunction15(int addrVar, const BitArray &data)
     if (!m_ctx)
         qCDebug(COTAUTOMATE_LOG) << "Cannot write data to uninitialized modbus context.";
     else if (modbus_write_bits(m_ctx.data(), addrVar, data.size(), data.constData()) == -1)
-        qCDebug(COTAUTOMATE_LOG) << "Failed to write" << data.size() << "bits to" << addrVar << ':' << modbus_strerror(errno);
+        qCDebug(COTAUTOMATE_LOG) << "Failed to write" << data.size() << "bits to" << addrVar << ':' << modbus_strerror(errno) << " IP :" << m_ip;
 }
 
 CComJBus::WordArray CComJBus::readNWordsFunction3(int addrVar, int nbWordsToRead)
@@ -353,7 +354,7 @@ void CComJBus::addVariableOnDataTable(IVariableInput* arg_varInput){
 
 }
 void CComJBus::addVariableOnDataTable(IVariableOutput* arg_varOutput){
-    m_mapOutputTable.insert(arg_varOutput->getOrganneAddr().toInt(), arg_varOutput);
+    m_mapOutputTable.insert(arg_varOutput->getOrganAddr().toInt(), arg_varOutput);
 }
 
 QString CComJBus::getName()const{

@@ -21,7 +21,7 @@ public:
     float toFloat() Q_DECL_OVERRIDE;
     bool toBool() Q_DECL_OVERRIDE;
     QVariant toVariant() Q_DECL_OVERRIDE;
-    void setValue(bool);
+    virtual void setValue(bool);
     void setValue(const QVariant &) Q_DECL_OVERRIDE;
     void setToBindedValue(const QVariant &) Q_DECL_OVERRIDE;
     QVariantMap serialise() Q_DECL_OVERRIDE;

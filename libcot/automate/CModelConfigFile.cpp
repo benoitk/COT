@@ -59,22 +59,22 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
 
     CAutomate *automate = CAutomate::getInstance();
 
-    //com_automate
-     if(jsonObjectAll[QStringLiteral("com_automate")] == QJsonValue::Undefined){
-        qCDebug(COTAUTOMATE_LOG) << "jsonObject[\"com_automate\"] == QJsonValue::Undefined";
-    }
-    else {
-        QJsonArray jsonArrayComs = jsonObjectAll[QStringLiteral("com_automate")].toArray();
-        foreach(QJsonValue jsonValueCom, jsonArrayComs){
-            QVariantMap mapCom = jsonValueCom.toVariant().toMap();
-            ICom* com = CComFactory::build(mapCom);
-            if(com->getType() != type_com_unknow)
-                automate->addCom(com);
-            else
-                delete com;
-        }
-        qCDebug(COTAUTOMATE_LOG) << "mapComs " << automate->getMapComs();
-    }
+    //com_automate /!\ à supprimer
+//     if(jsonObjectAll[QStringLiteral("com_automate")] == QJsonValue::Undefined){
+//        qCDebug(COTAUTOMATE_LOG) << "jsonObject[\"com_automate\"] == QJsonValue::Undefined";
+//    }
+//    else {
+//        QJsonArray jsonArrayComs = jsonObjectAll[QStringLiteral("com_automate")].toArray();
+//        foreach(QJsonValue jsonValueCom, jsonArrayComs){
+//            QVariantMap mapCom = jsonValueCom.toVariant().toMap();
+//            ICom* com = CComFactory::build(mapCom);
+//            if(com->getType() != type_com_unknow)
+//                automate->addCom(com);
+//            else
+//                delete com;
+//        }
+//        qCDebug(COTAUTOMATE_LOG) << "mapComs " << automate->getMapComs();
+//    }
 
     //extension
     if(jsonObjectAll[QStringLiteral("extensions")] == QJsonValue::Undefined){

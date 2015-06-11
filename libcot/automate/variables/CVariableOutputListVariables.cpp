@@ -1,7 +1,7 @@
 ﻿#include "CVariableOutputListVariables.h"
 #include "CModelExtensionCard.h"
 #include "CUnit.h"
-
+#include "IOrgan.h"
 CVariableOutputListVariables::CVariableOutputListVariables(QObject *parent)
     : IVariable(parent),IVariableOutput()
 {
@@ -65,7 +65,7 @@ QVariantMap CVariableOutputListVariables::serialise(){
     mapSerialise.insert(QStringLiteral("name"), m_name);
     mapSerialise.insert(tr("fr_FR"), m_label);
     mapSerialise.insert(QStringLiteral("type"), QStringLiteral("output_integer"));
-    mapSerialise.insert(QStringLiteral("extension_name"), m_modelExtensionCard->getName());
-    mapSerialise.insert(QStringLiteral("organ_name"), m_organneName);
+    mapSerialise.insert(QStringLiteral("extension_name"), m_organ->getExtCard()->getName());
+    mapSerialise.insert(QStringLiteral("organ_name"), m_organ->getName());
     return mapSerialise;
 }

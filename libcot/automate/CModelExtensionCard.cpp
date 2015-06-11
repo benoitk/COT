@@ -1,6 +1,7 @@
 #include "CModelExtensionCard.h"
 #include "CAutomate.h"
 #include "ICom.h"
+#include "CComFactory.h"
 #include "IOrgan.h"
 #include "COrganFactory.h"
 
@@ -25,25 +26,25 @@ CModelExtensionCard::CModelExtensionCard(const QVariantMap& mapExt)
     else
         m_label = m_name;
 
-    QString nameCom(QStringLiteral(""));
     if(mapExt.contains(QStringLiteral("com"))){
         QVariantMap mapCom = mapExt.value(QStringLiteral("com")).toMap();
-        if(mapCom.contains(QStringLiteral("name"))){
-            nameCom = mapCom.value(QStringLiteral("name")).toString();
-        }
+        m_interfaceCom = CComFactory::build(mapCom);
     }
-    m_interfaceCom = CAutomate::getInstance()->getCom(nameCom);
+//    m_interfaceCom = CAutomate::getInstance()->getCom(nameCom);
 
     if(mapExt.contains(QStringLiteral("organs"))){
         QVariantList listOrgans = mapExt.value(QStringLiteral("organs")).toList();
         foreach(QVariant variantOrgan, listOrgans){
             QVariantMap mapOrgan = variantOrgan.toMap();
-            IOrgan* organ = COrganFactory::build(mapOrgan);
+            IOrgan* organ = COrganFactory::build(mapOrgan, this);
             if(organ)
                 m_mapOrgans.insert(organ->getName(), organ);
         }
 
     }
+}
+ICom* CModelExtensionCard::getICom()const{
+    return m_interfaceCom;
 }
 CModelExtensionCard::~CModelExtensionCard()
 {
@@ -59,7 +60,7 @@ IOrgan* CModelExtensionCard::getOrgan(const QString& arg_name){
         else{
             QVariantMap map;
             map.insert(QStringLiteral("name"),QStringLiteral("unknown_organ"));
-            organ = COrganFactory::build(map);
+            organ = COrganFactory::build(map, this);
             m_mapOrgans.insert(organ->getName(), organ);
         }
     }

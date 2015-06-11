@@ -1,6 +1,7 @@
 #include "CVariableOutputFloat.h"
 #include "CModelExtensionCard.h"
 #include "CUnit.h"
+#include "IOrgan.h"
 #include "cotautomate_debug.h"
 CVariableOutputFloat::CVariableOutputFloat(QObject *parent)
     : CVariableFloat(parent),IVariableOutput()
@@ -50,7 +51,7 @@ QVariantMap CVariableOutputFloat::serialise()
     mapSerialise.insert(tr("fr_FR"), m_label);
     mapSerialise.insert(QStringLiteral("type"), QStringLiteral("output_float"));
     mapSerialise.insert(QStringLiteral("value"), m_fValeur);
-    mapSerialise.insert(QStringLiteral("extension_name"), m_modelExtensionCard->getName());
-    mapSerialise.insert(QStringLiteral("organ_name"), m_organneName);
+    mapSerialise.insert(QStringLiteral("extension_name"), m_organ->getExtCard()->getName());
+    mapSerialise.insert(QStringLiteral("organ_name"), m_organ->getName());
     return mapSerialise;
 }

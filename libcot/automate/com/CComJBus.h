@@ -76,7 +76,7 @@ private:
 
     QString m_name;
     comType m_type;
-
+    QString m_ip;
     friend class JBusTest;
 };
 

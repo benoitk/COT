@@ -3,33 +3,32 @@
 #include "IOrgan.h"
 #include "IComObserver.h"
 #include "CAutomate.h"
-IVariableOutput::IVariableOutput(): m_modelExtensionCard(Q_NULLPTR){
+IVariableOutput::IVariableOutput(): m_organ(Q_NULLPTR){
 
 }
 IVariableOutput::IVariableOutput(const QVariantMap & mapVar){
     CAutomate* automate = CAutomate::getInstance();
-    m_modelExtensionCard = automate->getExtensionCard(mapVar.value(QStringLiteral("extension_name")).toString());
-    m_organneAddr = m_modelExtensionCard->getOrgan(mapVar.value(QStringLiteral("organ_name")).toString())->getAddress();
-    m_organneName = mapVar.value(QStringLiteral("organ_name")).toString();
+    CModelExtensionCard* extCard = automate->getExtensionCard(mapVar.value(QStringLiteral("extension_name")).toString());
+    m_organ  =extCard->getOrgan(mapVar.value(QStringLiteral("organ_name")).toString());
 }
 
 IVariableOutput::~IVariableOutput()
 {
 }
 
-CModelExtensionCard* IVariableOutput::getExtensionCard()const{
-    return m_modelExtensionCard;
+IOrgan* IVariableOutput::getOrgan()const{
+    return m_organ;
 }
-IComObserver* IVariableOutput::getComObserver()const{
-    return m_modelExtensionCard;
+//IComObserver* IVariableOutput::getComObserver()const{
+//    return m_modelExtensionCard;
+//}
+QString IVariableOutput::getOrganName()const{
+    return m_organ->getName();
 }
-QString IVariableOutput::getOrganneName()const{
-    return m_organneName;
+QString IVariableOutput::getOrganAddr()const{
+    return m_organ->getAddress();
 }
-QString IVariableOutput::getOrganneAddr()const{
-    return QStringLiteral("return ADDR");
-}
-void IVariableOutput::setOrganne(CModelExtensionCard* arg_model,const  QString  &arg_organneName){
-    m_modelExtensionCard = arg_model;
-    m_organneName = arg_organneName;
+void IVariableOutput::setOrgan(CModelExtensionCard* arg_model,const  QString  &arg_organneName){
+
+    m_organ = arg_model->getOrgan(arg_organneName);
 }

@@ -7,17 +7,17 @@
 #include "qvariant.h"
 
 
-
 //Class générique pour tous les organs pour l'instant
 //pas sur que l'on est des traitements spécifique pour chaque organ, les traitements se faisent dans les actions.
 
 class IVariable;
+class CModelExtensionCard;
 class COrgan : public IOrgan
 {
     Q_OBJECT
 
 public:
-    COrgan(const QVariantMap& mapOrgan);
+    COrgan(const QVariantMap& mapOrgan, CModelExtensionCard* arg_extCard);
 
     QString getName()const Q_DECL_OVERRIDE;
     void setName(const QString &) Q_DECL_OVERRIDE;
@@ -27,12 +27,15 @@ public:
     void setAddress(const QString &) Q_DECL_OVERRIDE;
     QString toString()const Q_DECL_OVERRIDE;
     //QList<IVariable*> getListParamters()const Q_DECL_OVERRIDE;
+    CModelExtensionCard* getExtCard();
 
 private:
 
-    int m_address;
+    QString m_address;
+//    int m_address;
     organType m_type;
     QString m_name;
+    CModelExtensionCard* m_extCard;
 
 };
 
