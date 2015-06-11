@@ -19,11 +19,6 @@ QTabWidget
     background-color: #dcdcdc;
 }
 
-QTabWidget::tab-bar
-{
-    left: 5px;
-}
-
 QTabWidget::pane
 {
     border-top: 1px solid black;
