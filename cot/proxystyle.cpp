@@ -59,7 +59,7 @@ QSize ProxyStyle::sizeFromContents(QStyle::ContentsType type, const QStyleOption
 {
     switch (type) {
     case QStyle::CT_TabBarTab:
-        return size + QSize(8, 0);
+        return size + QSize(8, 10);
     default:
         return QProxyStyle::sizeFromContents(type, option, size, widget);
     }
