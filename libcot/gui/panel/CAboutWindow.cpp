@@ -16,7 +16,7 @@ CAboutWindow::CAboutWindow(QWidget *parent)
                                .arg(analyzerString())
                                .arg(NUM_VERSION_5));
 
-    connect(ui->pbClose, &QPushButton::clicked, this, &CAboutWindow::close);
+    connect(ui->vbbButtons->addAction(CToolButton::Ok), &QAction::triggered, this, &CAboutWindow::close);
 }
 
 CAboutWindow::~CAboutWindow()
