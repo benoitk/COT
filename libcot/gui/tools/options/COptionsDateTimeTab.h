@@ -34,11 +34,13 @@ private Q_SLOTS:
     void btMinuteClicked();
 
 private:
+    void apply();
     int getYear() const;
     int getMonth() const;
     int getDay() const;
     int getHour() const;
     int getMinute() const;
+    QDateTime getDateTime() const;
 
     Ui::COptionsDateTimeTab *ui;
 };

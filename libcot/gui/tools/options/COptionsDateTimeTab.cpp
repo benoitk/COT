@@ -1,10 +1,16 @@
 #include "COptionsDateTimeTab.h"
 #include "ui_COptionsDateTimeTab.h"
+#include <cotgui_debug.h>
 
+#include <QDebug>
 #include <QLabel>
 #include <QPushButton>
 #include <QDateTime>
 #include <CNumericalKeyboardDialog.h>
+
+#ifdef Q_OS_UNIX
+#include <time.h>
+#endif
 
 COptionsDateTimeTab::COptionsDateTimeTab(QWidget *parent)
     : IOptionsTab(parent)
@@ -57,6 +63,7 @@ COptionsDateTimeTab::COptionsDateTimeTab(QWidget *parent)
 
 COptionsDateTimeTab::~COptionsDateTimeTab()
 {
+    apply();
     delete ui;
 }
 
@@ -198,6 +205,26 @@ void COptionsDateTimeTab::btMinuteClicked()
     }
 }
 
+void COptionsDateTimeTab::apply()
+{
+    const QDateTime newValue = getDateTime();
+    const QTime now = QTime::currentTime();
+    QDateTime oldValue(QDate::currentDate(), QTime(now.hour(), now.minute()));
+    if (newValue != oldValue) {
+        qCDebug(COTGUI_LOG) << "Setting new date/time" << newValue;
+#ifdef Q_OS_UNIX
+        struct timespec ts;
+        ts.tv_sec = newValue.toMSecsSinceEpoch() / 1000;
+        ts.tv_nsec = 0;
+        if (clock_settime(CLOCK_REALTIME, &ts) != 0) {
+            qWarning() << "Couldn't set system time:" << strerror(errno);
+        }
+#else
+        qWarning() << "This OS is not supported!";
+#endif
+    }
+}
+
 int COptionsDateTimeTab::getYear() const
 {
     return ui->btYear->text().toInt();
@@ -221,4 +248,9 @@ int COptionsDateTimeTab::getHour() const
 int COptionsDateTimeTab::getMinute() const
 {
     return ui->btMinute->text().toInt();
+}
+
+QDateTime COptionsDateTimeTab::getDateTime() const
+{
+    return QDateTime(QDate(getYear(), getMonth(), getDay()), QTime(getHour(), getMinute()));
 }
