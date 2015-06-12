@@ -1,25 +1,20 @@
 #ifndef CGENERICITEMSELECTOR_H
 #define CGENERICITEMSELECTOR_H
 
-#include <QDialog>
+#include "CDialog.h"
+#include "IVariable.h"
+
 #include <QModelIndex>
 #include <QVariant>
 
-#include "cot_global.h"
-#include "IVariable.h"
+class CGenericListModel;
+class QListView;
 
 /**
  * @brief The CGenericItemSelector dialog allows the user to select labelled icons in a grid.
  *  It is connected to a model that contains a list of IVariables. Clicked item can be retrieved via the "Item" property.
  */
-
-namespace Ui {
-class CGenericItemSelector;
-}
-
-class CGenericListModel;
-
-class LIBCOT_EXPORT CGenericItemSelector : public QDialog
+class LIBCOT_EXPORT CGenericItemSelector : public CDialog
 {
     Q_OBJECT
     Q_PROPERTY(IVariablePtr selectedItem READ selectedItem WRITE setSelectedItem NOTIFY selectedItemChanged)
@@ -27,8 +22,6 @@ class LIBCOT_EXPORT CGenericItemSelector : public QDialog
 public:
     explicit CGenericItemSelector(const IVariablePtrList &list, QWidget *parent = Q_NULLPTR);
     ~CGenericItemSelector();
-
-    void setTitle(const QString &title);
 
     IVariablePtr selectedItem() const;
 
@@ -63,7 +56,7 @@ Q_SIGNALS:
     void selectedItemChanged(IVariablePtr newItem);
 
 private:
-    Ui::CGenericItemSelector *ui;
+    QListView *m_lvItems;
     CGenericListModel *m_model;
 
     void updateScrollButtons();

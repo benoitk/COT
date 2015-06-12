@@ -84,7 +84,7 @@ void CPCWindow::openModal(QWidget *widget) {
 }
 
 // static
-int CPCWindow::openExec(QDialog *dialog)
+int CPCWindow::openExec(CDialog *dialog)
 {
 #if 0 //def QT_DEBUG
     // add windows decorations when debugging
@@ -92,7 +92,6 @@ int CPCWindow::openExec(QDialog *dialog)
 #else
     dialog->setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint);
 #endif
-    dialog->setProperty("modalStyle", true); // to trigger the rule in cot.qss
     dialog->adjustSize();
     QRect rect = QRect(QPoint(), dialog->minimumSize());
     if (s_mainWindow)

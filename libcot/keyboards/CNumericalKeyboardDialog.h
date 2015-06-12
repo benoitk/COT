@@ -1,23 +1,17 @@
 #ifndef NUMERICALKEYBOARDDIALOG_H
 #define NUMERICALKEYBOARDDIALOG_H
 
-#include <QDialog>
+#include <CDialog.h>
 
 #include "CNumericalKeyboardWidget.h"
 
-namespace Ui {
-class CNumericalKeyboardDialog;
-}
-
-class LIBCOT_EXPORT CNumericalKeyboardDialog : public QDialog
+class LIBCOT_EXPORT CNumericalKeyboardDialog : public CDialog
 {
     Q_OBJECT
 public:
     explicit CNumericalKeyboardDialog(QWidget *parent=Q_NULLPTR);
     explicit CNumericalKeyboardDialog(CNumericalKeyboardWidget::Mode mode, QWidget *parent=Q_NULLPTR);
     ~CNumericalKeyboardDialog();
-
-    void setTitle(const QString &title);
 
     int integerValue() const;
     void setIntegerValue(int value);
@@ -28,7 +22,7 @@ public:
     static bool getInteger(int &value, const QString &title, QWidget *parent = Q_NULLPTR);
 
 private:
-    Ui::CNumericalKeyboardDialog *ui;
+    CNumericalKeyboardWidget *m_nkwKeyboard;
 
     void initialize(CNumericalKeyboardWidget::Mode mode);
 };

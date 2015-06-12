@@ -1,41 +1,40 @@
 #include "CGenericItemSelector.h"
-#include "ui_CGenericItemSelector.h"
 #include "CGenericListModel.h"
 #include "CGenericListDelegate.h"
+#include "CToolButton.h"
+#include "CVerticalButtonBar.h"
 
 #include <QTimer>
+#include <QAction>
 #include <QScrollBar>
+#include <QListView>
+
 #include "cotgui_debug.h"
 
 CGenericItemSelector::CGenericItemSelector(const IVariablePtrList &list, QWidget *parent)
-    : QDialog(parent)
-    , ui(new Ui::CGenericItemSelector)
+    : CDialog(parent)
     , m_model(new CGenericListModel(list, this))
 {
     setMinimumSize(640, 480);
 
-    ui->setupUi(this);
-    ui->lvItems->setMouseTracking(true);
-    ui->lvItems->setModel(m_model);
-    ui->lvItems->setItemDelegate(new CGenericListDelegate(this));
-    ui->vbbButtons->addAction(CToolButton::ScrollUp);
-    ui->vbbButtons->addAction(CToolButton::ScrollDown);
-    ui->vbbButtons->addAction(CToolButton::Cancel);
+    m_lvItems = new QListView(this);
+    setMainWidget(m_lvItems);
 
-    connect(ui->lvItems, &QListView::clicked, this, &CGenericItemSelector::itemSelected);
-    connect(ui->vbbButtons->action(CToolButton::ScrollUp), &QAction::triggered, this, &CGenericItemSelector::scrollUp);
-    connect(ui->vbbButtons->action(CToolButton::ScrollDown), &QAction::triggered, this, &CGenericItemSelector::scrollDown);
-    connect(ui->vbbButtons->action(CToolButton::Cancel), &QAction::triggered, this, &CGenericItemSelector::reject);
+    m_lvItems->setMouseTracking(true);
+    m_lvItems->setModel(m_model);
+    m_lvItems->setItemDelegate(new CGenericListDelegate(this));
+    buttonBar()->addAction(CToolButton::ScrollUp);
+    buttonBar()->addAction(CToolButton::ScrollDown);
+    buttonBar()->addAction(CToolButton::Cancel);
+
+    connect(m_lvItems, &QListView::clicked, this, &CGenericItemSelector::itemSelected);
+    connect(buttonBar()->action(CToolButton::ScrollUp), &QAction::triggered, this, &CGenericItemSelector::scrollUp);
+    connect(buttonBar()->action(CToolButton::ScrollDown), &QAction::triggered, this, &CGenericItemSelector::scrollDown);
+    connect(buttonBar()->action(CToolButton::Cancel), &QAction::triggered, this, &CGenericItemSelector::reject);
 }
 
 CGenericItemSelector::~CGenericItemSelector()
 {
-    delete ui;
-}
-
-void CGenericItemSelector::setTitle(const QString &title)
-{
-    ui->twPages->setTabText(0, title);
 }
 
 IVariablePtr CGenericItemSelector::selectedItem() const
@@ -62,9 +61,9 @@ void CGenericItemSelector::scrollDown()
 
 void CGenericItemSelector::updateScrollButtons()
 {
-    QScrollBar *bar = ui->lvItems->verticalScrollBar();
-    ui->vbbButtons->button(CToolButton::ScrollDown)->setDisabled(bar->value() >= bar->maximum());
-    ui->vbbButtons->button(CToolButton::ScrollUp)->setDisabled(bar->value() <= bar->minimum());
+    QScrollBar *bar = m_lvItems->verticalScrollBar();
+    buttonBar()->button(CToolButton::ScrollDown)->setDisabled(bar->value() >= bar->maximum());
+    buttonBar()->button(CToolButton::ScrollUp)->setDisabled(bar->value() <= bar->minimum());
 }
 
 void CGenericItemSelector::setSelectedItem(IVariablePtr item)
@@ -72,18 +71,18 @@ void CGenericItemSelector::setSelectedItem(IVariablePtr item)
     const QModelIndex index = m_model->indexForIVariable(item);
 
     if (index.isValid()) {
-        const bool locked = ui->lvItems->blockSignals(true);
+        const bool locked = m_lvItems->blockSignals(true);
 
-        if (ui->lvItems->currentIndex() != index) {
-            ui->lvItems->setCurrentIndex(index);
+        if (m_lvItems->currentIndex() != index) {
+            m_lvItems->setCurrentIndex(index);
         }
 
         if (m_model->currentItem() != item) {
             m_model->setCurrentItem(item);
         }
 
-        ui->lvItems->blockSignals(locked);
-        ui->lvItems->scrollTo(index);
+        m_lvItems->blockSignals(locked);
+        m_lvItems->scrollTo(index);
         emit selectedItemChanged(item);
     }
 }
@@ -100,7 +99,7 @@ void CGenericItemSelector::setSelectedValue(const QVariant &value)
 
 void CGenericItemSelector::scroll(CGenericItemSelector::Direction dir)
 {
-    QScrollBar *bar = ui->lvItems->verticalScrollBar();
+    QScrollBar *bar = m_lvItems->verticalScrollBar();
 
     if (dir == ScrollUp) {
         bar->triggerAction(QAbstractSlider::SliderSingleStepSub);

@@ -1,13 +1,9 @@
 #ifndef CABOUTWINDOW_H
 #define CABOUTWINDOW_H
 
-#include <QDialog>
+#include <CDialog.h>
 
-namespace Ui {
-    class CAboutWindow;
-}
-
-class CAboutWindow : public QDialog
+class CAboutWindow : public CDialog
 {
     Q_OBJECT
 public:
@@ -15,8 +11,6 @@ public:
     ~CAboutWindow();
 
 private:
-    Ui::CAboutWindow *ui;
-
     QString analyzerString() const;
 };
 

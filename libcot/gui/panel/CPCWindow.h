@@ -14,6 +14,7 @@ class CPCWindow;
 
 class IPCTab;
 class CUpdateManager;
+class CDialog;
 
 class LIBCOT_EXPORT CPCWindow : public QWidget
 {
@@ -23,7 +24,7 @@ public:
     explicit CPCWindow(QWidget *parent = Q_NULLPTR);
     ~CPCWindow();
 
-    static int openExec(QDialog *dialog);
+    static int openExec(CDialog *dialog);
 
     template <typename T>
     static void openExec() {

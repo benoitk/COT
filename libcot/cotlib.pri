@@ -10,9 +10,7 @@ RESOURCES *= \
 FORMS *= \
     updater/CUpdateDialog.ui \
     keyboards/CKeyboardDialog.ui \
-    keyboards/CNumericalKeyboardDialog.ui \
     gui/widgets/CStatusWidget.ui \
-    gui/widgets/CGenericItemSelector.ui \
     gui/panel/CPCDiagnosticTab.ui \
     gui/panel/CPCHistogramTab.ui \
     gui/panel/CPCMeasureTab.ui \
@@ -38,7 +36,6 @@ FORMS *= \
     gui/tools/maintenance/CMaintenanceDiagnosticTab.ui \
     gui/tools/maintenance/CMaintenanceMaintenanceTab.ui \
     gui/tools/maintenance/CMaintenanceWindow.ui \
-    gui/panel/CAboutWindow.ui \
     gui/tools/configurator/CConfiguratorWindow.ui \
     gui/tools/configurator/IConfiguratorEditWindow.ui
 

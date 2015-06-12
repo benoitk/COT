@@ -5,7 +5,7 @@
 #include <QLabel>
 
 CMessageBox::CMessageBox(const QString &message, QWidget *parent)
-    : CDialog(tr("INFORMATION"), parent)
+    : CDialog(parent)
 {
     QLabel *label = new QLabel(this);
     label->setText(message);
@@ -13,6 +13,8 @@ CMessageBox::CMessageBox(const QString &message, QWidget *parent)
 
     QAction *okAction = buttonBar()->addAction(CToolButton::Ok);
     connect(okAction, &QAction::triggered, this, &QWidget::close);
+
+    setTitle(tr("INFORMATION"));
 }
 
 CMessageBox::~CMessageBox()

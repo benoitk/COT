@@ -1,35 +1,33 @@
 #include "CKeyboardDialog.h"
-#include "ui_CKeyboardDialog.h"
+#include "CKeyboardWidget.h"
+#include "CToolButton.h"
+#include "CVerticalButtonBar.h"
+
+#include <QAction>
 
 CKeyboardDialog::CKeyboardDialog(QWidget *parent)
-    : QDialog(parent)
-    , ui(new Ui::CKeyboardDialog)
+    : CDialog(parent)
 {
-    ui->setupUi(this);
+    m_kwKeyboard = new CKeyboardWidget(this);
+    setMainWidget(m_kwKeyboard);
 
-    connect(ui->vbbButtons->addAction(CToolButton::Ok), &QAction::triggered,
+    connect(buttonBar()->addAction(CToolButton::Ok), &QAction::triggered,
             this, &CKeyboardDialog::accept);
-    connect(ui->vbbButtons->addAction(CToolButton::Cancel), &QAction::triggered,
+    connect(buttonBar()->addAction(CToolButton::Cancel), &QAction::triggered,
             this, &CKeyboardDialog::reject);
 }
 
 CKeyboardDialog::~CKeyboardDialog()
 {
-    delete ui;
-}
-
-void CKeyboardDialog::setTitle(const QString &title)
-{
-    ui->twPages->setTabText(0, title);
 }
 
 QString CKeyboardDialog::stringValue() const
 {
-    return ui->kwKeyboard->text();
+    return m_kwKeyboard->text();
 }
 
 void CKeyboardDialog::setStringValue(const QString &value)
 {
-    ui->kwKeyboard->setText(value);
+    m_kwKeyboard->setText(value);
 }
 

@@ -7,10 +7,11 @@
 #include <QCloseEvent>
 
 CUpdateDialog::CUpdateDialog(CUpdateManager *updateManager, QWidget *parent)
-    : CDialog(tr("UPDATE"), parent)
+    : CDialog(parent)
     , ui(new Ui::CUpdateDialog)
     , m_updateManager(updateManager)
 {
+    setTitle(tr("UPDATE"));
     QWidget *main = new QWidget(this);
     ui->setupUi(main);
     setMainWidget(main);

@@ -1,52 +1,42 @@
 #include "CNumericalKeyboardDialog.h"
-#include "ui_CNumericalKeyboardDialog.h"
 
 #include <CPCWindow.h>
+#include <QAction>
 
 CNumericalKeyboardDialog::CNumericalKeyboardDialog(QWidget *parent)
-    : QDialog(parent)
-    , ui(new Ui::CNumericalKeyboardDialog)
+    : CDialog(parent)
 {
-    ui->setupUi(this);
     initialize(CNumericalKeyboardWidget::Double);
 }
 
 CNumericalKeyboardDialog::CNumericalKeyboardDialog(CNumericalKeyboardWidget::Mode mode, QWidget *parent)
-    : QDialog(parent)
-    , ui(new Ui::CNumericalKeyboardDialog)
+    : CDialog(parent)
 {
-    ui->setupUi(this);
     initialize(mode);
 }
 
 CNumericalKeyboardDialog::~CNumericalKeyboardDialog()
 {
-    delete ui;
-}
-
-void CNumericalKeyboardDialog::setTitle(const QString &title)
-{
-    ui->twPages->setTabText(0, title);
 }
 
 int CNumericalKeyboardDialog::integerValue() const
 {
-    return ui->nkwKeyboard->integerNumber();
+    return m_nkwKeyboard->integerNumber();
 }
 
 void CNumericalKeyboardDialog::setIntegerValue(int value)
 {
-    ui->nkwKeyboard->setIntegerNumber(value);
+    m_nkwKeyboard->setIntegerNumber(value);
 }
 
 float CNumericalKeyboardDialog::floatValue() const
 {
-    return ui->nkwKeyboard->floatNumber();
+    return m_nkwKeyboard->floatNumber();
 }
 
 void CNumericalKeyboardDialog::setFloatValue(float value)
 {
-    ui->nkwKeyboard->setFloatNumber(value);
+    m_nkwKeyboard->setFloatNumber(value);
 }
 
 bool CNumericalKeyboardDialog::getInteger(int &value, const QString &title, QWidget *parent)
@@ -65,11 +55,12 @@ bool CNumericalKeyboardDialog::getInteger(int &value, const QString &title, QWid
 
 void CNumericalKeyboardDialog::initialize(CNumericalKeyboardWidget::Mode mode)
 {
-    ui->nkwKeyboard->setMode(mode);
+    m_nkwKeyboard = new CNumericalKeyboardWidget(mode, this);
+    setMainWidget(m_nkwKeyboard);
 
-    connect(ui->vbbButtons->addAction(CToolButton::Ok), &QAction::triggered,
+    connect(buttonBar()->addAction(CToolButton::Ok), &QAction::triggered,
             this, &CNumericalKeyboardDialog::accept);
-    connect(ui->vbbButtons->addAction(CToolButton::Cancel), &QAction::triggered,
+    connect(buttonBar()->addAction(CToolButton::Cancel), &QAction::triggered,
             this, &CNumericalKeyboardDialog::reject);
 }
 
