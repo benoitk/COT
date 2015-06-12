@@ -8,8 +8,15 @@
 #include <QDateTime>
 #include <CNumericalKeyboardDialog.h>
 
+#include <cerrno>
+
 #ifdef Q_OS_UNIX
 #include <time.h>
+#endif
+
+#if defined(Q_OS_MAC)
+#include <mach/clock.h>
+#include <mach/mach.h>
 #endif
 
 COptionsDateTimeTab::COptionsDateTimeTab(QWidget *parent)
@@ -216,9 +223,26 @@ void COptionsDateTimeTab::apply()
         struct timespec ts;
         ts.tv_sec = newValue.toMSecsSinceEpoch() / 1000;
         ts.tv_nsec = 0;
+
+#if defined(Q_OS_MAC)
+        clock_serv_t cclock;
+        host_get_clock_service(mach_host_self(), CALENDAR_CLOCK, &cclock);
+
+        struct mach_timespec mts;
+        mts.tv_sec = ts.tv_sec;
+        mts.tv_nsec = ts.tv_nsec;
+
+        if (clock_set_time(cclock, mts) != KERN_SUCCESS) {
+            qWarning() << "Couldn't set system time:" << strerror(errno);
+        }
+
+        mach_port_deallocate(mach_task_self(), cclock);
+#else
         if (clock_settime(CLOCK_REALTIME, &ts) != 0) {
             qWarning() << "Couldn't set system time:" << strerror(errno);
         }
+#endif
+
 #else
         qWarning() << "This OS is not supported!";
 #endif
