@@ -503,7 +503,7 @@ bool IVariableUIHandler::selectStreamOrMeasure(QString &value, const QString &ti
 {
     IVariablePtrList ivars = buildStreamsMeasures(); // don't free, hold by automate
     CGenericItemSelector dlg(ivars);
-    dlg.setTitle(!title.isEmpty() ? title : tr("Select a measure or measure"));
+    dlg.setTitle(!title.isEmpty() ? title : tr("Select a stream or measure"));
     dlg.setSelectedValue(value);
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
