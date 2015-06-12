@@ -121,8 +121,6 @@ void CPCMeasureTab::slotUpdatePlotting(const QString &name)
 {
     CAutomate *automate = CAutomate::getInstance();
     IVariable *var = automate->getVariable(name);
-    if (var->getType() == type_float) {
-        const float value = var->toFloat();
-        ui->graphicsWidget->addOrUpdateCurve(value, name);
-    }
+    const float value = var->toFloat();
+    ui->graphicsWidget->addOrUpdateCurve(value, name);
 }
