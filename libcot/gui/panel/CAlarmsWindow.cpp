@@ -9,11 +9,6 @@
 CAlarmsWindow::CAlarmsWindow(QWidget *parent) :
     IWindow(parent)
 {
-    setupWindow();
-}
-
-void CAlarmsWindow::setupWindow()
-{
     m_alarmsHandler = new IVariableUIHandler(scrollable(), this);
     updateAlarms();
     connect(CAutomate::getInstance(), &CAutomate::signalDisplayUpdated,

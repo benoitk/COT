@@ -1,25 +1,24 @@
 #ifndef CMESSAGEBOX_H
 #define CMESSAGEBOX_H
 
-#include "IWindow.h"
+#include <QDialog>
 #include "cot_global.h"
+class CVerticalButtonBar;
 
 /**
- * @brief This dialog displays a modal message.
+ * @brief This dialog displays a message for the user, and an OK button.
+ * Use with CPCWindow::openModal to make it modal.
  */
-
-class QWidget;
-class IVariableUIHandler;
-
-class LIBCOT_EXPORT CMessageBox : public IWindow
+class LIBCOT_EXPORT CMessageBox : public QDialog
 {
     Q_OBJECT
 public:
     explicit CMessageBox(const QString &message, QWidget *parent = Q_NULLPTR);
     ~CMessageBox();
+
 private:
-    void setupWindow() Q_DECL_OVERRIDE;
     QString m_message;
+    CVerticalButtonBar *m_buttonBar;
 };
 
 #endif // CMESSAGEBOX_H

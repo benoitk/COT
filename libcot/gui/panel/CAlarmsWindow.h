@@ -22,7 +22,6 @@ protected slots:
     void updateAlarms();
 
 private:
-    void setupWindow() Q_DECL_OVERRIDE;
     IVariableUIHandler *m_alarmsHandler;
 };
 

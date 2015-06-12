@@ -1,5 +1,7 @@
-/* Make modal dialog nicer */
-QDialog[modal="true"]
+/* Give a border to modal dialogs.
+   The dynamic attribute modalStyle is set in CPCWindow::openExec and CMessageBox.
+*/
+* [modalStyle="true"]
 {
     border-color: black;
     border-radius: 7px;

@@ -1,30 +1,29 @@
 #include "CMessageBox.h"
-#include "CToolButton.h"
 #include "CVerticalButtonBar.h"
 
 #include <QLabel>
 #include <QAction>
+#include <QHBoxLayout>
 
 CMessageBox::CMessageBox(const QString &message, QWidget *parent)
-    : IWindow(parent),
+    : QDialog(parent),
       m_message(message)
 {
-    setupWindow();
+    QLabel *label = new QLabel(this);
+    label->setText(m_message);
+
+    m_buttonBar = new CVerticalButtonBar(this);
+    QAction *okAction = m_buttonBar->addAction(CToolButton::Ok);
+    connect(okAction, &QAction::triggered, this, &QWidget::close);
+
+    QHBoxLayout *hLayout = new QHBoxLayout(this);
+    hLayout->addWidget(label);
+    hLayout->addWidget(m_buttonBar);
+
+    setProperty("modalStyle", true); // see cot.qss
 }
 
 CMessageBox::~CMessageBox()
 {
 
-}
-
-void CMessageBox::setupWindow()
-{
-    QLabel *label = new QLabel(this);
-    label->setText(m_message);
-
-    setMainWidget(label);
-
-    QAction *okAction = buttonBar()->addAction(CToolButton::Ok);
-    buttonBar()->removeAction(CToolButton::Back);
-    connect(okAction, &QAction::triggered, this, &QWidget::close);
 }

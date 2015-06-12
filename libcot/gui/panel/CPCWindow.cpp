@@ -8,6 +8,7 @@
 #include "CMeasureWindow.h"
 #include "CUpdateManager.h"
 #include "CUpdateDialog.h"
+#include <QDebug>
 
 static CPCWindow *s_mainWindow = Q_NULLPTR;
 
@@ -60,7 +61,7 @@ CPCWindow::~CPCWindow()
 }
 
 void CPCWindow::openModal(QWidget *widget) {
-#ifdef QT_DEBUG
+#if 0 //def QT_DEBUG
     // add windows decorations when debugging
     widget->setWindowFlags(Qt::Window);
 #else
@@ -85,12 +86,13 @@ void CPCWindow::openModal(QWidget *widget) {
 // static
 int CPCWindow::openExec(QDialog *dialog)
 {
-#ifdef QT_DEBUG
+#if 0 //def QT_DEBUG
     // add windows decorations when debugging
     dialog->setWindowFlags(Qt::Dialog);
 #else
     dialog->setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint);
 #endif
+    dialog->setProperty("modalStyle", true); // to trigger the rule in cot.qss
     dialog->adjustSize();
     QRect rect = QRect(QPoint(), dialog->minimumSize());
     if (s_mainWindow)

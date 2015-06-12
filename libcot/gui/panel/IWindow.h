@@ -27,11 +27,6 @@ protected:
     CVerticalButtonBar *buttonBar();
     CScrollableWidget *scrollable();
 
-    /**
-     * @brief Initialize the window here
-     */
-    virtual void setupWindow() = 0;
-
 private:
     CScrollableWidget *m_scrollableWidget;
     CVerticalButtonBar *m_buttonBar;
