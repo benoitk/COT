@@ -15,6 +15,9 @@ public:
     explicit CStatusWidget(QWidget *parent = Q_NULLPTR);
     ~CStatusWidget();
 
+private Q_SLOTS:
+    void slotTimeChanged();
+
 private:
     Ui::CStatusWidget *ui;
 };
