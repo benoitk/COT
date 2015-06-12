@@ -49,9 +49,9 @@ QString CConfigurationBackup::overwriteConfigurationFile(QString *generatedBacku
     QFile saveFile(jsonSaveFile());
 
     if (!saveFile.exists()) {
-        return tr("Save file %1 does not exist.").arg(jsonSaveFile());
+        return tr("Save file %1 does not exist.").arg(SAVE_FILE_NAME);
     } else if (!recoveryFile.exists()) {
-        return tr("Recovery file %1 does not exist.").arg(jsonRecoveryFile());
+        return tr("Recovery file %1 does not exist.").arg(RECOVERY_FILE_NAME);
     }
 
     // make a backup of save.json
