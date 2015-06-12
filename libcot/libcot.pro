@@ -8,4 +8,12 @@ include(cotlib.pri)
 
 DEFINES += LIBCOT_BUILD
 
-DEFINES += JSON_DIRECTORY=\"\\\"$${top_srcdir}/libcot/\\\"\"
+DEVICE_BUILD {
+      DEFINES += JSON_DIRECTORY=\"\\\"/home/seres/\\\"\"
+} else {
+      DEFINES += JSON_DIRECTORY=\"\\\"$${top_srcdir}/libcot/\\\"\"
+}
+
+jsonfile.path = /home/seres/
+jsonfile.files = save.json
+INSTALLS += jsonfile
