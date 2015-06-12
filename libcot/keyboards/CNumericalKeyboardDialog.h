@@ -25,6 +25,8 @@ public:
     float floatValue() const;
     void setFloatValue(float value);
 
+    static bool getInteger(int &value, const QString &title, QWidget *parent = Q_NULLPTR);
+
 private:
     Ui::CNumericalKeyboardDialog *ui;
 

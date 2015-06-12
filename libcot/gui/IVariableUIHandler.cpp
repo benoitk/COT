@@ -335,16 +335,7 @@ bool IVariableUIHandler::enterText(QString &value, const QString &title)
 
 bool IVariableUIHandler::enterInteger(int &value, const QString &title)
 {
-    CNumericalKeyboardDialog dlg(CNumericalKeyboardWidget::Integer);
-    dlg.setTitle(!title.isEmpty() ? title : tr("Enter a new value"));
-    dlg.setIntegerValue(value);
-
-    if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
-        value = dlg.integerValue();
-        return true;
-    }
-
-    return false;
+    return CNumericalKeyboardDialog::getInteger(value, title);
 }
 
 bool IVariableUIHandler::enterFloat(float &value, const QString &title)

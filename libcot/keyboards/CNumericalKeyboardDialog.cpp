@@ -1,6 +1,8 @@
 #include "CNumericalKeyboardDialog.h"
 #include "ui_CNumericalKeyboardDialog.h"
 
+#include <CPCWindow.h>
+
 CNumericalKeyboardDialog::CNumericalKeyboardDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::CNumericalKeyboardDialog)
@@ -45,6 +47,20 @@ float CNumericalKeyboardDialog::floatValue() const
 void CNumericalKeyboardDialog::setFloatValue(float value)
 {
     ui->nkwKeyboard->setFloatNumber(value);
+}
+
+bool CNumericalKeyboardDialog::getInteger(int &value, const QString &title, QWidget *parent)
+{
+    CNumericalKeyboardDialog dlg(CNumericalKeyboardWidget::Integer, parent);
+    dlg.setTitle(!title.isEmpty() ? title : tr("Enter a new value"));
+    dlg.setIntegerValue(value);
+
+    if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
+        value = dlg.integerValue();
+        return true;
+    }
+
+    return false;
 }
 
 void CNumericalKeyboardDialog::initialize(CNumericalKeyboardWidget::Mode mode)
