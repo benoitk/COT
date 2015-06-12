@@ -7,6 +7,7 @@
 #include "CDisplayConf.h"
 #include "CVariableStream.h"
 #include "CVariableMeasure.h"
+#include <QDebug>
 
 CPCMeasureTab::CPCMeasureTab(QWidget *parent)
     : IPCTab(parent)
@@ -93,7 +94,6 @@ void CPCMeasureTab::slotUpdateStreamsMeasures()
 void CPCMeasureTab::slotVariableChanged(const QString &name)
 {
     slotUpdateAlarmsIcon(name);
-    slotUpdatePlotting(name);
 }
 
 void CPCMeasureTab::slotUpdateAlarmsIcon(const QString &name)
@@ -121,7 +121,7 @@ void CPCMeasureTab::slotUpdatePlotting(const QString &name)
 {
     CAutomate *automate = CAutomate::getInstance();
     IVariable *var = automate->getVariable(name);
-    if (var->isMeasureRelated()) {
+    if (true /* SERES_TODO var->isMeasureRelated()*/) {
         if (var->getType() == type_float) {
             const float value = var->toFloat();
             ui->graphicsWidget->addOrUpdateCurve(value, name);

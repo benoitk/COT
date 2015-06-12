@@ -4,15 +4,16 @@
 #include "kplotaxis.h"
 #include <QVBoxLayout>
 #include <QPen>
-#include <QDebug>
+#include "cotgui_debug.h"
 
-static int INCREMENT = 350;
+static int INCREMENT_X = 50;
+static int INCREMENT_Y = 50;
 
 CGraphicsWidget::CGraphicsWidget(QWidget *parent)
     : QWidget(parent),
       m_initDateTime(QDateTime::currentDateTime()),
-      m_horizontalMaximumValue(INCREMENT),
-      m_verticalMaximumValue(INCREMENT)
+      m_horizontalMaximumValue(10),
+      m_verticalMaximumValue(INCREMENT_Y)
 {
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->setMargin(0);
@@ -56,13 +57,8 @@ void CGraphicsWidget::addOrUpdateCurve(float value, const QString &measureName)
 {
     KPlotObject *searchPlot = m_plotObjectHash.value(measureName);
     if (searchPlot) {
-        int i = 0;
-        foreach(KPlotObject *plot, m_plotWidget->plotObjects()) {
-            if (searchPlot == plot) {
-                break;
-            }
-            ++i;
-        }
+        int i = m_plotWidget->plotObjects().indexOf(searchPlot);
+        Q_ASSERT(i >= 0);
         addPoint(value, measureName, searchPlot);
         m_plotWidget->replacePlotObject(i, searchPlot);
     } else {
@@ -75,21 +71,23 @@ void CGraphicsWidget::addOrUpdateCurve(float value, const QString &measureName)
 void CGraphicsWidget::addPoint(float value, const QString &measureName, KPlotObject *curve )
 {
     const QDateTime dt = QDateTime::currentDateTime();
-    const qint64 diffDtMinutes = m_initDateTime.msecsTo(dt) * 1000 * 60;
+    const qint64 diffDtSeconds = m_initDateTime.msecsTo(dt) / 1000;
     bool needToChangeGraphicLimit = false;
-    if (diffDtMinutes >= m_horizontalMaximumValue) {
+    if (diffDtSeconds >= m_horizontalMaximumValue) {
         needToChangeGraphicLimit = true;
-        m_horizontalMaximumValue += INCREMENT;
+        m_horizontalMaximumValue += INCREMENT_X;
     }
-    // SERES_TODO: add API for range, so KDAB can use a fixedrange here
+    // SERES_TODO: add API for range, so a fixedrange can be used here?
     if (value >= m_verticalMaximumValue) {
         needToChangeGraphicLimit = true;
-        m_verticalMaximumValue += INCREMENT;
+        m_verticalMaximumValue += INCREMENT_Y;
     }
     if (needToChangeGraphicLimit) {
+        qCDebug(COTGUI_LOG) << "new limits" << m_horizontalMaximumValue << m_verticalMaximumValue;
         changeLimits(0, m_horizontalMaximumValue, 0, m_verticalMaximumValue);
     }
-    curve->addPoint(QPointF(diffDtMinutes, value), tr("Mesure name: %1\nValue: %2\n Date: %3").arg(measureName).arg(value).arg(dt.toString()));
+    //qCDebug(COTGUI_LOG) << "addPoint" << QPointF(diffDtSeconds, value);
+    curve->addPoint(QPointF(diffDtSeconds, value), tr("Mesure name: %1\nValue: %2\n Date: %3").arg(measureName).arg(value).arg(dt.toString()));
 }
 
 KPlotObject *CGraphicsWidget::addCurve(double value, const QString &measureName, const QColor &col)
@@ -108,34 +106,29 @@ KPlotObject *CGraphicsWidget::addCurve(double value, const QString &measureName,
 }
 
 
-void CGraphicsWidget::addOrUpdateCurve(const QList<QPointF> &listPoints, const QString &mesureName)
+void CGraphicsWidget::addOrUpdateCurve(const QList<QPointF> &listPoints, const QString &measureName)
 {
-    KPlotObject *searchPlot = m_plotObjectHash.value(mesureName);
+    KPlotObject *searchPlot = m_plotObjectHash.value(measureName);
     if (searchPlot) {
-        int i = 0;
-        foreach(KPlotObject *plot, m_plotWidget->plotObjects()) {
-            if (searchPlot == plot) {
-                break;
-            }
-            ++i;
-        }
-        addPoints(listPoints, mesureName, searchPlot);
+        int i = m_plotWidget->plotObjects().indexOf(searchPlot);
+        Q_ASSERT(i >= 0);
+        addPoints(listPoints, measureName, searchPlot);
         m_plotWidget->replacePlotObject(i, searchPlot);
     } else {
-        KPlotObject *plot = addCurve(listPoints, mesureName, createNewColor());
-        m_plotObjectHash.insert(mesureName, plot);
+        KPlotObject *plot = addCurve(listPoints, measureName, createNewColor());
+        m_plotObjectHash.insert(measureName, plot);
     }
     m_plotWidget->update();
 }
 
-void CGraphicsWidget::addPoints(const QList<QPointF> &listPoints, const QString &mesureName, KPlotObject *curve )
+void CGraphicsWidget::addPoints(const QList<QPointF> &listPoints, const QString &measureName, KPlotObject *curve )
 {
     foreach(const QPointF &point, listPoints) {
-        curve->addPoint(point, QStringLiteral("%1\n%2-%3").arg(mesureName).arg(point.x()).arg(point.y()));
+        curve->addPoint(point, QStringLiteral("%1\n%2-%3").arg(measureName).arg(point.x()).arg(point.y()));
     }
 }
 
-KPlotObject *CGraphicsWidget::addCurve(const QList<QPointF> &listPoints, const QString &mesureName, const QColor &col)
+KPlotObject *CGraphicsWidget::addCurve(const QList<QPointF> &listPoints, const QString &measureName, const QColor &col)
 {
     KPlotObject *curve = new KPlotObject();
     if (col.isValid()) {
@@ -145,7 +138,7 @@ KPlotObject *CGraphicsWidget::addCurve(const QList<QPointF> &listPoints, const Q
         curve->setPen(pen);
     }
     curve->setShowLines(true);
-    addPoints(listPoints, mesureName, curve);
+    addPoints(listPoints, measureName, curve);
     m_plotWidget->addPlotObject(curve);
     return curve;
 }
