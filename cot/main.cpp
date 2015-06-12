@@ -44,6 +44,11 @@ int main(int argc, char *argv[])
     app.setStyleSheet(applicationStyleSheet());
     app.setQuitOnLastWindowClosed(true);
 
+    // Set default font
+    QFont defaultFont = QApplication::font(); // let the OS decide on the font name. Or should we specify it here?
+    defaultFont.setPointSize(12);
+    QApplication::setFont(defaultFont);
+
     // Create automate and run it
     CControlerAutomate controlerAutomate;
 
