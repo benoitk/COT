@@ -7,6 +7,7 @@
 #include "CVariableString.h"
 
 #include <QLabel>
+#include <QDebug>
 
 IVariableMaintenanceUIHandler::IVariableMaintenanceUIHandler(CScrollableWidget *scrollable, QObject *parent)
     : IVariableUIHandler(scrollable, parent)
@@ -90,6 +91,7 @@ CToolButton *IVariableMaintenanceUIHandler::newStartEditor(IVariable *ivar)
 {
     Q_UNUSED(ivar);
     CToolButton *button = new CToolButton(CToolButton::Play, container());
+    button->setUserData(ivar->getName());
     button->setFixedSize(30, 30);
     button->setCheckable(true);
     return button;
@@ -99,6 +101,7 @@ CToolButton *IVariableMaintenanceUIHandler::newStopEditor(IVariable *ivar)
 {
     Q_UNUSED(ivar);
     CToolButton *button = new CToolButton(CToolButton::Stop, container());
+    button->setUserData(ivar->getName());
     button->setFixedSize(30, 30);
     return button;
 }
@@ -122,13 +125,15 @@ void IVariableMaintenanceUIHandler::slotButtonStartClicked()
     const QString cycleName = button->userData().toString();
     CAutomate *automate = CAutomate::getInstance();
     ICycle *cycle = automate->getCycle(cycleName, CYCLE_MAINTENANCE);
-    Row *row = getRow(cycleName);
-
-    if (!row || !cycle) {
-        Q_ASSERT(false);
+    if (!cycle) {
+        qWarning() << "Automat returned null for cycle" << cycleName;
         return;
     }
-
+    Row *row = getRow(cycleName);
+    if (!row) {
+        qWarning() << "Cycle not found" << cycleName;
+        return;
+    }
     if (cycle->isPaused()) {
         cycle->slotUnPauseCycle();
     }
@@ -146,10 +151,13 @@ void IVariableMaintenanceUIHandler::slotButtonStopClicked()
     const QString cycleName = button->userData().toString();
     CAutomate *automate = CAutomate::getInstance();
     ICycle *cycle = automate->getCycle(cycleName, CYCLE_MAINTENANCE);
+    if (!cycle) {
+        qWarning() << "Automat returned null for cycle" << cycleName;
+        return;
+    }
     Row *row = getRow(cycleName);
-
-    if (!row || !cycle) {
-        Q_ASSERT(false);
+    if (!row) {
+        qWarning() << "Cycle not found" << cycleName;
         return;
     }
 
