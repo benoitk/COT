@@ -15,6 +15,7 @@
 #include <QLabel>
 #include <QAction>
 #include <QDebug>
+#include <StyleRepository.h>
 
 CStepWidget::CStepWidget(CStep *step, QWidget *parent)
     : QGroupBox(parent)
@@ -37,7 +38,7 @@ CStepWidget::CStepWidget(CStep *step, QWidget *parent)
     connect(vbb->addAction(CToolButton::Edit), &QAction::triggered, this, &CStepWidget::slotEditTriggered);
 
     foreach (CToolButton *button, m_scrollable->buttonBar()->findChildren<CToolButton *>()) {
-        button->setFixedSize(22, 22);
+        button->setFixedSize(StyleRepository::configuratorButtonSize());
     }
 
     QHBoxLayout *hl = new QHBoxLayout(this);

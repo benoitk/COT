@@ -21,6 +21,7 @@
 #include "IAction.h"
 #include "IOrgan.h"
 #include "CUnit.h"
+#include "StyleRepository.h"
 
 #include <QGridLayout>
 #include <QLabel>
@@ -679,7 +680,7 @@ QWidget *IVariableUIHandler::newEditor(IVariable *ivar)
                     editor->setUserData(ivar->getName());
 
                     foreach (CToolButton *button, editor->findChildren<CToolButton *>()) {
-                        button->setFixedSize(30, 30);
+                        button->setFixedSize(StyleRepository::configuratorButtonSize());
                     }
 
                     connect(editor, &CSwitchButton::clicked, this, &IVariableUIHandler::slotSwitchClicked);

@@ -9,6 +9,7 @@
 #include "CVariableStream.h"
 #include "CVariableMeasure.h"
 #include "CUnit.h"
+#include "StyleRepository.h"
 
 #include <QLabel>
 
@@ -82,7 +83,7 @@ QWidget *IVariableMeasuresUIHandler::newEditor(IVariable *ivar)
 {
     Q_UNUSED(ivar);
     CToolButton *button = new CToolButton(CToolButton::MeasureDetails, container());
-    button->setFixedSize(30, 30);
+    button->setFixedSize(StyleRepository::configuratorButtonSize());
     return button;
 }
 

@@ -1,5 +1,6 @@
 #include "IConfiguratorUIHandler.h"
 #include "CToolButton.h"
+#include "StyleRepository.h"
 
 IConfiguratorUIHandler::IConfiguratorUIHandler(CScrollableWidget *scrollable, QObject *parent)
     : IVariableUIHandler(scrollable, parent)
@@ -9,7 +10,7 @@ IConfiguratorUIHandler::IConfiguratorUIHandler(CScrollableWidget *scrollable, QO
 CToolButton *IConfiguratorUIHandler::newDeleteButton(IVariable *ivar)
 {
     CToolButton *editor = new CToolButton(CToolButton::Delete);
-    editor->setFixedSize(21, 21);
+    editor->setFixedSize(StyleRepository::configuratorButtonSize());
     editor->setUserData(ivar->getName());
     editor->setText(ivar->toString());
     connect(editor, &CToolButton::clicked, this, &IConfiguratorUIHandler::slotDeleteClicked);

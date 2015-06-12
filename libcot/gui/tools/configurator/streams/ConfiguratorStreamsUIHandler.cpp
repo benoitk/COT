@@ -12,6 +12,7 @@
 #include <QWidget>
 #include <QGridLayout>
 #include <QDebug>
+#include <StyleRepository.h>
 
 ConfiguratorStreamsUIHandler::ConfiguratorStreamsUIHandler(CScrollableWidget *scrollable, QObject *parent)
     : IConfiguratorUIHandler(scrollable, parent)
@@ -122,7 +123,7 @@ IVariable *ConfiguratorStreamsUIHandler::getVariable(const QString &name) const
 CToolButton *ConfiguratorStreamsUIHandler::newAddMeasureButton(IVariable *ivar)
 {    
     CToolButton *button = new CToolButton(CToolButton::Add);
-    button->setFixedSize(21, 21);
+    button->setFixedSize(StyleRepository::configuratorButtonSize());
     button->setUserData(ivar->getName());
     connect(button, &CToolButton::clicked, this, &ConfiguratorStreamsUIHandler::slotAddItem);
     return button;

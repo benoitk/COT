@@ -217,7 +217,8 @@ HEADERS *= \
     gui/tools/configurator/IConfiguratorEditWindow.h \
     gui/tools/configurator/IConfiguratorEditTab.h \
     gui/tools/configurator/steps/CStepWidgetUIHandler.h \
-    gui/tools/configurator/steps/CEditStepListTab.h
+    gui/tools/configurator/steps/CEditStepListTab.h \
+    gui/StyleRepository.h
 
 SOURCES *= \
     automate/CAutomate.cpp \
@@ -386,4 +387,5 @@ SOURCES *= \
     gui/IScrollableUIWidget.cpp \
     gui/tools/configurator/IConfiguratorEditWindow.cpp \
     gui/tools/configurator/steps/CStepWidgetUIHandler.cpp \
-    gui/tools/configurator/steps/CEditStepListTab.cpp
+    gui/tools/configurator/steps/CEditStepListTab.cpp \
+    gui/StyleRepository.cpp

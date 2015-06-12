@@ -5,6 +5,7 @@
 #include <QPainter>
 #include <QFile>
 #include <QMetaEnum>
+#include <StyleRepository.h>
 #include "cotgui_debug.h"
 
 CToolButton::CToolButton(QWidget *parent)
@@ -100,7 +101,7 @@ void CToolButton::initialize(CToolButton::Type type, QAction *action)
     Q_ASSERT(type != CToolButton::AlarmsActive); // That's not a real button but a state.
     m_type = type;
 
-    setFixedSize(50, 50);
+    setFixedSize(StyleRepository::verticalBarButtonSize());
 
     if (action && action->icon().isNull()) {
         action->setIcon(CToolButton::buttonIcon(type));

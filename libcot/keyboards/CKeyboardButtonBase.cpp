@@ -2,6 +2,7 @@
 #include "CToolButton.h"
 
 #include <QPainter>
+#include <StyleRepository.h>
 
 CKeyboardButtonBase::CKeyboardButtonBase(CKeyboardButtonBase::Type type, QWidget *parent)
     : QPushButton(parent)
@@ -19,7 +20,7 @@ CKeyboardButtonBase::CKeyboardButtonBase(CKeyboardButtonBase::Type type, QWidget
 
         setPalette(pal);
         setFont(QFont("Arial", font().pointSize() +6, QFont::Bold));
-        setFixedSize(50, 50);
+        setFixedSize(StyleRepository::keyboardButtonSize());
     }
 }
 

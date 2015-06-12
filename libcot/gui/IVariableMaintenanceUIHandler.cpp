@@ -5,6 +5,7 @@
 #include "CAutomate.h"
 #include "ICycle.h"
 #include "CVariableString.h"
+#include "StyleRepository.h"
 
 #include <QLabel>
 #include <QDebug>
@@ -92,7 +93,7 @@ CToolButton *IVariableMaintenanceUIHandler::newStartEditor(IVariable *ivar)
     Q_UNUSED(ivar);
     CToolButton *button = new CToolButton(CToolButton::Play, container());
     button->setUserData(ivar->getName());
-    button->setFixedSize(30, 30);
+    button->setFixedSize(StyleRepository::playStopButtonSize());
     button->setCheckable(true);
     return button;
 }
@@ -102,7 +103,7 @@ CToolButton *IVariableMaintenanceUIHandler::newStopEditor(IVariable *ivar)
     Q_UNUSED(ivar);
     CToolButton *button = new CToolButton(CToolButton::Stop, container());
     button->setUserData(ivar->getName());
-    button->setFixedSize(30, 30);
+    button->setFixedSize(StyleRepository::playStopButtonSize());
     return button;
 }
 
