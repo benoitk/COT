@@ -39,7 +39,7 @@ void CConfiguratorWindow::slotRetranslate()
     ui->twPages->setTabText(0, tr("Cycles"));
     ui->twPages->setTabText(1, tr("Actions"));
     ui->twPages->setTabText(2, tr("Variables"));
-    ui->twPages->setTabText(3, tr("Sequencer"));
+    ui->twPages->setTabText(3, tr("Scheduler"));
     ui->twPages->setTabText(4, tr("Streams / Measures"));
     ui->twPages->setTabText(5, tr("Extensions"));
     ui->twPages->setTabText(6, tr("Display"));
@@ -64,5 +64,5 @@ void CConfiguratorWindow::slotBackTriggered()
 void CConfiguratorWindow::addTab(IConfiguratorTab *tab)
 {
     ui->twPages->addTab(tab, QString());
-    connect(tab, &IConfiguratorTab::signalBackTriggered, this, &CConfiguratorWindow::slotBackTriggered);
+    connect(tab, &IConfiguratorTab::backTriggered, this, &CConfiguratorWindow::slotBackTriggered);
 }

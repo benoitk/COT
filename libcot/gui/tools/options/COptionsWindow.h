@@ -23,7 +23,7 @@ private slots:
 private:
     Ui::COptionsWindow *ui;
 
-    void addTab(IOptionsTab *tab, const QString &title);
+    void addTab(QWidget *tab, const QString &title);
 };
 
 #endif // COPTIONSWINDOW_H

@@ -31,7 +31,6 @@ FORMS *= \
     gui/tools/options/COptionsWindow.ui \
     gui/tools/options/COptionsOptionsTab.ui \
     gui/tools/options/COptionsAutoCyclesTab.ui \
-    gui/tools/options/COptionsSchedulerTab.ui \
     gui/tools/options/COptionsThresholdTab.ui \
     gui/tools/options/COptionsDateTimeTab.ui \
     gui/tools/log-files/CLogFilesWindow.ui \
@@ -155,7 +154,6 @@ HEADERS *= \
     gui/tools/options/IOptionsTab.h \
     gui/tools/options/COptionsOptionsTab.h \
     gui/tools/options/COptionsAutoCyclesTab.h \
-    gui/tools/options/COptionsSchedulerTab.h \
     gui/tools/options/COptionsThresholdTab.h \
     gui/tools/options/COptionsDateTimeTab.h \
     gui/tools/log-files/CLogFilesWindow.h \
@@ -328,7 +326,6 @@ SOURCES *= \
     gui/tools/options/COptionsWindow.cpp \
     gui/tools/options/COptionsOptionsTab.cpp \
     gui/tools/options/COptionsAutoCyclesTab.cpp \
-    gui/tools/options/COptionsSchedulerTab.cpp \
     gui/tools/options/COptionsThresholdTab.cpp \
     gui/tools/options/COptionsDateTimeTab.cpp \
     gui/tools/log-files/CLogFilesWindow.cpp \

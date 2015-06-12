@@ -8,8 +8,8 @@
 #include <QAction>
 
 /*
- * This is teh base class for tabs added in the Configurator window.
- * Each tabs has to inherits that and call initBaseTab() as last membr in your constructor.
+ * This is the base class for tabs added in the Configurator window.
+ * Each tabs has to inherits that and call initBaseTab() as last member in your constructor.
  */
 class IConfiguratorTab : public IScrollableUIWidget
 {
@@ -21,11 +21,11 @@ public:
     void initBaseTab() {
         buttonBar()->addAction(CToolButton::ScrollUp, scrollableWidget()->moveUp());
         buttonBar()->addAction(CToolButton::ScrollDown, scrollableWidget()->moveDown());
-        connect(buttonBar()->addAction(CToolButton::Back), &QAction::triggered, this, &IConfiguratorTab::signalBackTriggered);
+        connect(buttonBar()->addAction(CToolButton::Back), &QAction::triggered, this, &IConfiguratorTab::backTriggered);
     }
 
 signals:
-    void signalBackTriggered();
+    void backTriggered();
 };
 
 #endif // ICONFIGURATORTAB_H

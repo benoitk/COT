@@ -2,9 +2,9 @@
 #include "ui_COptionsWindow.h"
 #include "COptionsOptionsTab.h"
 #include "COptionsAutoCyclesTab.h"
-#include "COptionsSchedulerTab.h"
 #include "COptionsThresholdTab.h"
 #include "COptionsDateTimeTab.h"
+#include <CConfiguratorSequencerTab.h>
 
 COptionsWindow::COptionsWindow(QWidget *parent)
     : QWidget(parent)
@@ -13,7 +13,7 @@ COptionsWindow::COptionsWindow(QWidget *parent)
     ui->setupUi(this);
     addTab(new COptionsOptionsTab(this), tr("OPTIONS"));
     addTab(new COptionsAutoCyclesTab(this), tr("AUTO. CYCLES"));
-    addTab(new COptionsSchedulerTab(this), tr("SCHEDULER"));
+    addTab(new CConfiguratorSequencerTab(this), tr("SCHEDULER"));
     addTab(new COptionsThresholdTab(this), tr("THRESHOLD"));
     addTab(new COptionsDateTimeTab(this), tr("DATE/TIME"));
 }
@@ -28,8 +28,9 @@ void COptionsWindow::backTriggered()
     close();
 }
 
-void COptionsWindow::addTab(IOptionsTab *tab, const QString &title)
+void COptionsWindow::addTab(QWidget *tab, const QString &title)
 {
     ui->twPages->addTab(tab, title);
-    connect(tab, &IOptionsTab::backTriggered, this, &COptionsWindow::backTriggered);
+    // could be &IOptionsTab::backTriggered or &IConfiguratorTab::backTriggered so we use SIGNAL()
+    connect(tab, SIGNAL(backTriggered()), this, SLOT(backTriggered()));
 }
