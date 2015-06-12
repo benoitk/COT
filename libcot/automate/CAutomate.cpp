@@ -312,7 +312,8 @@ QList<ICycle*> CAutomate::getListCycles(int cycleType){
     return getListCyclesPrivate(cycleType);
 }
 void CAutomate::slotClock(){
-    qCDebug(COTAUTOMATE_LOG) << "Tick " << m_iClock++%600;
+    m_iClock = (m_iClock + 1) % 600;
+    qCDebug(COTAUTOMATE_LOG) << "Tick " << m_iClock;
     getVariable(QStringLiteral("measure_cot"))->setValue(QVariant(m_iClock));
     getVariable(QStringLiteral("alarm_defaut_eau"))->setValue(!getVariable(QStringLiteral("alarm_defaut_eau"))->toBool());
 
