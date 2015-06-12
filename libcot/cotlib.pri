@@ -126,6 +126,7 @@ HEADERS *= \
     gui/widgets/CSwitchButton.h \
     gui/widgets/CLabelledToolButtonGrid.h \
     gui/widgets/CMessageBox.h \
+    gui/widgets/CDialog.h \
     gui/widgets/CStepWidget.h \
     gui/widgets/CGenericVariablesEditor.h \
     gui/widgets/CGenericVariablesEditorWindow.h \
@@ -301,6 +302,7 @@ SOURCES *= \
     gui/widgets/CLedButton.cpp \
     gui/widgets/CLabelledToolButtonGrid.cpp \
     gui/widgets/CMessageBox.cpp \
+    gui/widgets/CDialog.cpp \
     gui/widgets/CStepWidget.cpp \
     gui/widgets/CGenericVariablesEditor.cpp \
     gui/widgets/CGenericVariablesEditorWindow.cpp \

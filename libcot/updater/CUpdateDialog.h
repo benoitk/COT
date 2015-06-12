@@ -1,9 +1,7 @@
 #ifndef CUPDATEDIALOG_H
 #define CUPDATEDIALOG_H
 
-#include <QDialog>
-
-#include "cot_global.h"
+#include "CDialog.h"
 
 namespace Ui {
 class CUpdateDialog;
@@ -12,7 +10,7 @@ class CUpdateDialog;
 class CUpdateManager;
 class QAbstractButton;
 
-class LIBCOT_EXPORT CUpdateDialog : public QDialog
+class LIBCOT_EXPORT CUpdateDialog : public CDialog
 {
     Q_OBJECT
 

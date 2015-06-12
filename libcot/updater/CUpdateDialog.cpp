@@ -7,16 +7,19 @@
 #include <QCloseEvent>
 
 CUpdateDialog::CUpdateDialog(CUpdateManager *updateManager, QWidget *parent)
-    : QDialog(parent)
+    : CDialog(tr("UPDATE"), parent)
     , ui(new Ui::CUpdateDialog)
     , m_updateManager(updateManager)
 {
-    ui->setupUi(this);
+    QWidget *main = new QWidget(this);
+    ui->setupUi(main);
+    setMainWidget(main);
 
-    ui->lTitle->setText(tr("Update %1 is available, do you want to update now?").arg(updateManager->availableVersion()));
+    ui->lTitle->setText(ui->lTitle->text().arg(updateManager->availableVersion()));
+    ui->lTitle->setMinimumWidth(300);
 
-    connect(ui->vbbButtons->addAction(CToolButton::Ok), &QAction::triggered, this, &CUpdateDialog::slotPerformUpdate);
-    connect(ui->vbbButtons->addAction(CToolButton::Cancel), &QAction::triggered, this, &CUpdateDialog::reject);
+    connect(buttonBar()->addAction(CToolButton::Ok), &QAction::triggered, this, &CUpdateDialog::slotPerformUpdate);
+    connect(buttonBar()->addAction(CToolButton::Cancel), &QAction::triggered, this, &CUpdateDialog::reject);
 
     connect(m_updateManager, &CUpdateManager::signalError, this, &CUpdateDialog::slotError);
     connect(m_updateManager, &CUpdateManager::signalFinished, this, &CUpdateDialog::slotFinished);
@@ -39,25 +42,25 @@ void CUpdateDialog::closeEvent(QCloseEvent *event)
 
 void CUpdateDialog::slotPerformUpdate()
 {
-    ui->vbbButtons->action(CToolButton::Ok)->setEnabled(false);
-    ui->vbbButtons->action(CToolButton::Cancel)->setEnabled(false);
+    buttonBar()->action(CToolButton::Ok)->setEnabled(false);
+    buttonBar()->action(CToolButton::Cancel)->setEnabled(false);
     m_updateManager->slotUpdateSoftware();
 }
 
 void CUpdateDialog::slotError(const QString &error)
 {
-    CMessageBox *mb = CPCWindow::openModal<CMessageBox>(error);
-    connect(mb, &QWidget::destroyed, this, &CUpdateDialog::reject);
+    CPCWindow::openExec<CMessageBox>(error);
+    reject();
 }
 
 void CUpdateDialog::slotFinished(bool success)
 {
     if (success) {
-        CMessageBox *mb = CPCWindow::openModal<CMessageBox>(tr("The update were done correctly.\nThe application will restart."));
-        connect(mb, &QWidget::destroyed, this, &CUpdateDialog::accept);
+        CPCWindow::openExec<CMessageBox>(tr("The update were done correctly.\nThe application will restart."));
+        accept();
     }
     else {
-        CMessageBox *mb = CPCWindow::openModal<CMessageBox>(tr("The update process failed."));
-        connect(mb, &QWidget::destroyed, this, &CUpdateDialog::reject);
+        CPCWindow::openExec<CMessageBox>(tr("The update process failed."));
+        reject();
     }
 }

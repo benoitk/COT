@@ -33,6 +33,14 @@ public:
         delete window;
     }
 
+    template <typename T, typename Arg>
+    static T* openExec(const Arg &arg) {
+        QWidget *parent = QApplication::activeWindow();
+        T *window = new T(arg, parent);
+        openExec(window);
+        return window;
+    }
+
     static void openModal(QWidget *widget);
 
     template <typename T>

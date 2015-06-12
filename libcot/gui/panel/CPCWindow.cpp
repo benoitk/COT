@@ -140,7 +140,7 @@ void CPCWindow::slotUpdateTriggered()
     const QString appFilePath = qApp->applicationFilePath();
     CUpdateDialog dlg(m_updateManager, this);
 
-    if (dlg.exec() == QDialog::Accepted) {
+    if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
         if (QProcess::startDetached(appFilePath)) {
             close();
         }
