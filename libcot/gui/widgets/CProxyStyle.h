@@ -3,10 +3,12 @@
 
 #include <QProxyStyle>
 
-class ProxyStyle : public QProxyStyle
+#include "cot_global.h"
+
+class LIBCOT_EXPORT CProxyStyle : public QProxyStyle
 {
 public:
-    ProxyStyle(QStyle *style) : QProxyStyle(style) {}
+    CProxyStyle(QStyle *style) : QProxyStyle(style) {}
 
     int styleHint(StyleHint hint, const QStyleOption *option, const QWidget *widget, QStyleHintReturn *returnData) const Q_DECL_OVERRIDE;
     int pixelMetric(PixelMetric metric, const QStyleOption *option, const QWidget *widget) const Q_DECL_OVERRIDE;

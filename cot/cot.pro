@@ -4,4 +4,4 @@ QT *= widgets
 
 include("$${top_srcdir}/config.pri")
 
-SOURCES *= main.cpp proxystyle.cpp
+SOURCES *= main.cpp

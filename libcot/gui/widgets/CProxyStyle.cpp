@@ -1,14 +1,14 @@
-#include "proxystyle.h"
+#include "CProxyStyle.h"
 
 #include <QPainter>
 #include <qstyleoption.h>
 
-int ProxyStyle::styleHint(QStyle::StyleHint hint, const QStyleOption *option, const QWidget *widget, QStyleHintReturn *returnData) const
+int CProxyStyle::styleHint(QStyle::StyleHint hint, const QStyleOption *option, const QWidget *widget, QStyleHintReturn *returnData) const
 {
     return QProxyStyle::styleHint(hint, option, widget, returnData);
 }
 
-int ProxyStyle::pixelMetric(QStyle::PixelMetric metric, const QStyleOption *option, const QWidget *widget) const
+int CProxyStyle::pixelMetric(QStyle::PixelMetric metric, const QStyleOption *option, const QWidget *widget) const
 {
     switch(metric) {
     case QStyle::PM_TabBarTabHSpace:
@@ -18,7 +18,7 @@ int ProxyStyle::pixelMetric(QStyle::PixelMetric metric, const QStyleOption *opti
     }
 }
 
-void ProxyStyle::drawControl(QStyle::ControlElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const
+void CProxyStyle::drawControl(QStyle::ControlElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const
 {
     switch(element) {
     case QStyle::CE_TabBarTabShape:
@@ -55,7 +55,7 @@ void ProxyStyle::drawControl(QStyle::ControlElement element, const QStyleOption 
     }
 }
 
-QSize ProxyStyle::sizeFromContents(QStyle::ContentsType type, const QStyleOption *option, const QSize &size, const QWidget *widget) const
+QSize CProxyStyle::sizeFromContents(QStyle::ContentsType type, const QStyleOption *option, const QSize &size, const QWidget *widget) const
 {
     switch (type) {
     case QStyle::CT_TabBarTab:

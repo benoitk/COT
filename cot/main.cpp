@@ -1,12 +1,11 @@
 #include <QApplication>
-#include <QStyleFactory>
 #include <QFile>
 #include <QDesktopWidget>
 #include <QScreen>
 
 #include "CControlerAutomate.h"
 #include "CPCWindow.h"
-#include "proxystyle.h"
+#include "StyleRepository.h"
 
 QString applicationStyleSheet()
 {
@@ -26,16 +25,6 @@ int main(int argc, char *argv[])
     Q_INIT_RESOURCE(cot_resources);
 #endif
 
-    // Set default uniform style
-    QStyle *baseStyle = QStyleFactory::create("Fusion");
-    QProxyStyle *proxy = new ProxyStyle(baseStyle);
-    QApplication::setStyle(proxy);
-
-    // White background for windows
-    QPalette pal = QApplication::palette();
-    pal.setColor(QPalette::Window, QColor(Qt::white));
-    QApplication::setPalette(pal);
-
     // Create application
     QApplication app(argc, argv);
     app.setApplicationName(QStringLiteral("COT"));
@@ -44,10 +33,11 @@ int main(int argc, char *argv[])
     app.setStyleSheet(applicationStyleSheet());
     app.setQuitOnLastWindowClosed(true);
 
+    // Set default uniform style
+    StyleRepository::installStyle();
+
     // Set default font
-    QFont defaultFont = QApplication::font(); // let the OS decide on the font name. Or should we specify it here?
-    defaultFont.setPointSize(12);
-    QApplication::setFont(defaultFont);
+    StyleRepository::installFont();
 
     // Create automate and run it
     CControlerAutomate controlerAutomate;

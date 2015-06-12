@@ -2,10 +2,14 @@
 #include <CPCWindow.h>
 #include <QDebug>
 #include "CNumericalKeyboardDialog.h"
+#include "StyleRepository.h"
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
+
+    StyleRepository::installStyle();
+    StyleRepository::installFont();
 
     if (argc < 2 || QByteArray(argv[1]) == "double")
     {

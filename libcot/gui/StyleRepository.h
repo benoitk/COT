@@ -2,8 +2,9 @@
 #define STYLEREPOSITORY_H
 
 #include <QSize>
+#include "cot_global.h"
 
-class StyleRepository
+class LIBCOT_EXPORT StyleRepository
 {
 public:
     // size of the new/delete/... buttons in the configurator
@@ -17,6 +18,12 @@ public:
 
     // size of the buttons in the keyboard dialogs
     static QSize keyboardButtonSize();
+
+    // Set default font
+    static void installFont();
+
+    // Set default widget style
+    static void installStyle();
 
 private:
     StyleRepository();

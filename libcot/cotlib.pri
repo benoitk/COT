@@ -128,6 +128,7 @@ HEADERS *= \
     gui/widgets/CGenericVariablesEditor.h \
     gui/widgets/CGenericVariablesEditorWindow.h \
     gui/widgets/CGenericVariablesUIHandler.h \
+    gui/widgets/CProxyStyle.h \
     gui/panel/CAlarmsWindow.h \
     gui/panel/CPCDiagnosticTab.h \
     gui/panel/CPCHistogramTab.h \
@@ -305,6 +306,7 @@ SOURCES *= \
     gui/widgets/CGenericVariablesEditorWindow.cpp \
     gui/widgets/CGenericVariablesUIHandler.cpp \
     gui/widgets/CScrollablePagerWidget.cpp \
+    gui/widgets/CProxyStyle.cpp \
     gui/panel/CAlarmsWindow.cpp \
     gui/panel/CPCDiagnosticTab.cpp \
     gui/panel/CPCHistogramTab.cpp \
