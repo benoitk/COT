@@ -1,4 +1,7 @@
 #include "IVariable.h"
+#include "CVariableMeasure.h"
+#include "CVariableStream.h"
+#include "CAutomate.h"
 #include "qdebug.h"
 int IVariable::FLOAT_PRECISION = 3;
 
@@ -116,16 +119,42 @@ CUnit * IVariable::getUnit() const{
     return Q_NULLPTR;
 }
 bool  IVariable::isStreamRelated()const{
+    foreach(CVariableStream* stream, CAutomate::getInstance()->getListStreams()){
+        foreach(IVariable* var, stream->getListVariables()){
+            if(var == this) return true;
+        }
+    }
+
     return false;
 }
 QString  IVariable::getRelatedStreamName()const{
-    return QStringLiteral("voie a changer");
+    foreach(CVariableStream* stream, CAutomate::getInstance()->getListStreams()){
+        foreach(IVariable* var, stream->getListVariables()){
+            if(var == this) return stream->getName();
+        }
+    }
+
+    return tr("Not related to a stream");
 }
 bool  IVariable::isMeasureRelated()const{
+    foreach(CVariableStream* stream, CAutomate::getInstance()->getListStreams()){
+        foreach(IVariable* measure,  stream->getListMeasures()){
+            foreach(IVariable* var, ((CVariableMeasure*)measure)->getListVariables()){
+                if(var == this) return true;
+            }
+        }
+    }
     return false;
 }
 QString  IVariable::getRelatedMeasureName()const{
-    return QStringLiteral("mesure a changer");
+    foreach(CVariableStream* stream, CAutomate::getInstance()->getListStreams()){
+        foreach(IVariable* measure,  stream->getListMeasures()){
+            foreach(IVariable* var, ((CVariableMeasure*)measure)->getListVariables()){
+                if(var == this) return var->getName();
+            }
+        }
+    }
+   return tr("Not related to a measure");
 }
 bool  IVariable::isDisplay()const{
     return false;
