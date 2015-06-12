@@ -42,7 +42,7 @@ CAutomate::CAutomate()
     m_iClock = 0;
     connect(timer, &QTimer::timeout, this, &CAutomate::slotClock);
     timer->setInterval(1000);
- //   timer->start();
+    timer->start();
 
  }
 
@@ -314,6 +314,9 @@ QList<ICycle*> CAutomate::getListCycles(int cycleType){
 void CAutomate::slotClock(){
     qCDebug(COTAUTOMATE_LOG) << "Tick " << m_iClock++%600;
     getVariable(QStringLiteral("measure_cot"))->setValue(QVariant(m_iClock));
+    getVariable(QStringLiteral("alarm_defaut_eau"))->setValue(!getVariable(QStringLiteral("alarm_defaut_eau"))->toBool());
+
+
     emit signalUpdatePlotting(QStringLiteral("measure_cot"));
 }
 QList<IAction*>  CAutomate::getListActions(){
