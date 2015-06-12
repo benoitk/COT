@@ -121,10 +121,8 @@ void CPCMeasureTab::slotUpdatePlotting(const QString &name)
 {
     CAutomate *automate = CAutomate::getInstance();
     IVariable *var = automate->getVariable(name);
-    if (true /* SERES_TODO var->isMeasureRelated()*/) {
-        if (var->getType() == type_float) {
-            const float value = var->toFloat();
-            ui->graphicsWidget->addOrUpdateCurve(value, name);
-        }
+    if (var->getType() == type_float) {
+        const float value = var->toFloat();
+        ui->graphicsWidget->addOrUpdateCurve(value, name);
     }
 }
