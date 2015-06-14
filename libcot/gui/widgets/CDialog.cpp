@@ -11,6 +11,8 @@
 CDialog::CDialog(QWidget *parent)
     : QDialog(parent)
 {
+    setAttribute(Qt::WA_TranslucentBackground, true);
+
     m_tabWidget = new QTabWidget(this);
     QWidget *page = new QWidget(m_tabWidget);
     m_tabWidget->addTab(page, QString() /* let's hope setTitle will be called! */);
@@ -42,6 +44,8 @@ void CDialog::paintEvent(QPaintEvent *event)
 {
     QPainter p(this);
 
+    p.setPen(palette().color(QPalette::WindowText));
+    p.setBrush(palette().brush(QPalette::Window));
     p.drawRoundedRect(rect().adjusted(0, 0, -1, -1), 7, 7);
 
     QDialog::paintEvent(event);
