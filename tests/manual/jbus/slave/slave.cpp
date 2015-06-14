@@ -2,10 +2,14 @@
 #include <unistd.h>
 #include <errno.h>
 #include <modbus.h>
+#include <stdlib.h>
 
-int main()
+int main(int argc, char** argv)
 {
-    modbus_t *ctx = modbus_new_rtutcp("127.0.0.1", 12345);
+    int port = 12345;
+    if (argc == 2)
+        port = atoi(argv[1]);
+    modbus_t *ctx = modbus_new_tcp("127.0.0.1", port);
     if (!ctx) {
         fprintf(stderr, "failed to create modbus context: %s\n", modbus_strerror(errno));
         return 1;
@@ -19,9 +23,9 @@ int main()
         return 1;
     }
 
-    printf("waiting for slave to connect to 127.0.0.1:12345\n");
+    printf("waiting for master to connect to 127.0.0.1:%d\n", port);
     modbus_tcp_accept(ctx, &socket);
-    printf("slave connected! handling requests\n");
+    printf("master connected! handling requests\n");
 
     uint8_t bits[8] = {0, 1, 0, 1, 0, 1, 0, 1};
     uint8_t bits_input[8] = {1, 0, 1, 0, 1, 0, 1, 0};
@@ -42,7 +46,7 @@ int main()
         printf("received query of length %d, sending reply.\n", rc);
 
         rc = modbus_reply(ctx, query, rc, &mapping);
-        for (int i = 0; i < (int)sizeof(bits); ++i) {
+        for (int i = 0; i < static_cast<int>(sizeof(bits)); ++i) {
             printf("i = %d, b = %x, bi = %x\n", i, bits[i], bits_input[i]);
         }
         if (rc == -1) {
@@ -51,7 +55,7 @@ int main()
         }
     }
 
-    printf("slave disconnected, shutting down master\n");
+    printf("master disconnected, shutting down slave\n");
     close(socket);
 
     modbus_free(ctx);

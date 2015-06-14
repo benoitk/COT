@@ -5,4 +5,5 @@ SUBDIRS *= \
     slave \
     master \
     ioboard \
-    ioboard-cot
+    ioboard-cot \
+    multimaster

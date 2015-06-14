@@ -4,10 +4,14 @@
 #include <errno.h>
 #include <unistd.h>
 #include <string.h>
+#include <stdlib.h>
 
-int main()
+int main(int argc, char** argv)
 {
-    modbus_t* ctx = modbus_new_rtutcp("127.0.0.1", 12345);
+    int port = 12345;
+    if (argc == 2)
+        port = atoi(argv[1]);
+    modbus_t* ctx = modbus_new_tcp("127.0.0.1", port);
     if (!ctx) {
         fprintf(stderr, "failed to create modbus context: %s\n", modbus_strerror(errno));
         return 1;
