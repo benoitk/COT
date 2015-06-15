@@ -118,7 +118,7 @@ signals:
     void signalRunCycle(int);
     // KDAB: Needed api
     // When the value of a variable changed
-    void signalVariableChanged(const QString &name, const QDateTime &dateTime = QDateTime());
+    void signalVariableChanged(const QString &name, const QDateTime &dateTime);
     // When internal state of a general cycle changed
     void signalCycleChanged(const QString &name);
     // When internal state of the current running maintenance cycle changed

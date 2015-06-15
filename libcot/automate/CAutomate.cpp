@@ -315,10 +315,14 @@ void CAutomate::slotClock(){
     m_iClock = (m_iClock + 1) % 600;
     qCDebug(COTAUTOMATE_LOG) << "Tick " << m_iClock;
     getVariable(QStringLiteral("measure_cot"))->setValue(QVariant(m_iClock));
-    getVariable(QStringLiteral("alarm_defaut_eau"))->setValue(!getVariable(QStringLiteral("alarm_defaut_eau"))->toBool());
-
-
     emit signalUpdatePlotting(QStringLiteral("measure_cot"));
+
+    // TEST CODE
+    IVariable *defectVar = getVariable(QStringLiteral("alarm_defaut_eau"));
+    defectVar->setValue(!defectVar->toBool());
+    // this signal isn't needed
+    //emit signalUpdateHistory(QDateTime::currentDateTime(), defectVar->toBool() ? "Défaut d'eau" : "Défaut d'eau résolu");
+
 }
 QList<IAction*>  CAutomate::getListActions(){
     QMutexLocker locker(&m_mutex);
@@ -572,7 +576,7 @@ CAutomate::eStateCycle CAutomate::getStateCycleMaintenance( ){
 void CAutomate::slotVariableChanged()
 {
     IVariable *ivar = qobject_cast<IVariable *>(sender());
-    emit signalVariableChanged(ivar->getName());
+    emit signalVariableChanged(ivar->getName(), QDateTime::currentDateTime());
 }
 
 CDisplayConf* CAutomate::getDisplayConf()const{
@@ -643,7 +647,7 @@ void CAutomate::informAboutVariableChanges(IVariable *variable, const QVariantMa
     locker.unlock();
 
     if (!isNew) {
-        emit signalVariableChanged(variable->getName());
+        emit signalVariableChanged(variable->getName(), QDateTime::currentDateTime());
     }
 
     emit signalVariablesUpdated();

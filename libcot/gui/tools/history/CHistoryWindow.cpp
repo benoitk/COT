@@ -30,6 +30,9 @@ void CHistoryWindow::backTriggered()
 
 void CHistoryWindow::slotVariableChanged(const QString &name)
 {
+    // The QTextDocument is modified by CPCToolsTab::slotVariableChanged
+    // All we have to do here is scroll down.
+
     CAutomate *automate = CAutomate::getInstance();
     IVariable *ivar = automate->getVariable(name);
 
