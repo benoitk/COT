@@ -33,7 +33,7 @@ void CProxyStyle::drawControl(QStyle::ControlElement element, const QStyleOption
             painter->setPen(Qt::black);
         }
         // To get only the top corners rounded, I draw a higher-than-visible rounded-rect
-        painter->drawRoundedRect(option->rect.adjusted(4, 0, -4, 7), 7, 7);
+        painter->drawRoundedRect(option->rect.adjusted(2, 0, -2, 7), 7, 7);
     }
         break;
     case QStyle::CE_TabBarTabLabel:
@@ -77,7 +77,7 @@ QSize CProxyStyle::sizeFromContents(QStyle::ContentsType type, const QStyleOptio
 {
     switch (type) {
     case QStyle::CT_TabBarTab:
-        return size + QSize(2, 10);
+        return size + QSize(-2, 10);
     default:
         return QProxyStyle::sizeFromContents(type, option, size, widget);
     }
