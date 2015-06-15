@@ -1,6 +1,7 @@
 #include "CProxyStyle.h"
 
 #include <QPainter>
+#include <QDebug>
 #include <qstyleoption.h>
 
 int CProxyStyle::styleHint(QStyle::StyleHint hint, const QStyleOption *option, const QWidget *widget, QStyleHintReturn *returnData) const
@@ -39,11 +40,13 @@ void CProxyStyle::drawControl(QStyle::ControlElement element, const QStyleOption
     {
         const bool selected = option->state & QStyle::State_Selected;
         const QFont oldFont = painter->font();
+        QFont font = oldFont;
         if (selected) {
-            QFont font = oldFont;
             font.setBold(true);
-            painter->setFont(font);
+        } else {
+            font.setBold(false);
         }
+        painter->setFont(font);
         QProxyStyle::drawControl(element, option, painter, widget);
         if (selected) {
             painter->setFont(oldFont);
@@ -55,12 +58,42 @@ void CProxyStyle::drawControl(QStyle::ControlElement element, const QStyleOption
     }
 }
 
+void CProxyStyle::drawPrimitive(QStyle::PrimitiveElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const
+{
+    switch (element) {
+    case QStyle::PE_FrameTabWidget:
+        if (const QStyleOptionTabWidgetFrameV2 *tabframe = qstyleoption_cast<const QStyleOptionTabWidgetFrameV2*>(option)) {
+            // just one line, 1 pixel under the tabbar
+            const QRect r = tabframe->tabBarRect;
+            painter->drawLine(r.left(), r.bottom() + 1, option->rect.right(), r.bottom() + 1);
+        }
+        break;
+    default:
+        QProxyStyle::drawPrimitive(element, option, painter, widget);
+    }
+}
+
 QSize CProxyStyle::sizeFromContents(QStyle::ContentsType type, const QStyleOption *option, const QSize &size, const QWidget *widget) const
 {
     switch (type) {
     case QStyle::CT_TabBarTab:
-        return size + QSize(8, 10);
+        return size + QSize(2, 10);
     default:
         return QProxyStyle::sizeFromContents(type, option, size, widget);
     }
+}
+
+void CProxyStyle::polish(QWidget *widget)
+{
+    if (QTabBar *tabBar = qobject_cast<QTabBar *>(widget)) {
+        // Make the QTabBar font bold by default, so that the size computation in QTabBar::sizeHint uses
+        // the (usually wider) font. We revert to a non-bold font at drawing time.
+        QFont boldFont = tabBar->font();
+        boldFont.setBold(true);
+        tabBar->setFont(boldFont);
+
+        tabBar->setUsesScrollButtons(false);
+    }
+
+    QProxyStyle::polish(widget);
 }

@@ -7,17 +7,6 @@
 #include "CPCWindow.h"
 #include "StyleRepository.h"
 
-QString applicationStyleSheet()
-{
-    QFile file("://qss/cot.qss");
-
-    if (file.open(QIODevice::ReadOnly)) {
-        return QString::fromUtf8(file.readAll());
-    }
-
-    return QString();
-}
-
 int main(int argc, char *argv[])
 {
 #if defined(LIBCOT_STATIC_BUILD)
@@ -30,7 +19,6 @@ int main(int argc, char *argv[])
     app.setApplicationName(QStringLiteral("COT"));
     app.setApplicationDisplayName(QStringLiteral("COT"));
     app.setApplicationVersion(QStringLiteral("1.1.0"));
-    app.setStyleSheet(applicationStyleSheet());
     app.setQuitOnLastWindowClosed(true);
 
     // Set default uniform style

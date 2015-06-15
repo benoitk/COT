@@ -1,10 +1,4 @@
 <RCC>
-    <qresource prefix="/">
-        <file>qss/application.qss</file>
-        <file>qss/cristal.qss</file>
-        <file>qss/cristalX86.qss</file>
-        <file>qss/cot.qss</file>
-    </qresource>
     <qresource prefix="/hd-icons">
         <file>pictohd/30x30 Ana-tor active.png</file>
         <file>pictohd/30x30 Ana-tor.png</file>
