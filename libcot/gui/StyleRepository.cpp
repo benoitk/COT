@@ -48,6 +48,11 @@ void StyleRepository::installStyle()
     QApplication::setStyle(proxy);
 }
 
+QSize StyleRepository::extraButtonSize()
+{
+    return QSize(0, 8);
+}
+
 StyleRepository::StyleRepository()
 {
 }

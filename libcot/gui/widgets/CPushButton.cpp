@@ -1,6 +1,7 @@
 #include "CPushButton.h"
 
 #include <QPainter>
+#include <StyleRepository.h>
 
 namespace {
     const int CORNER_RADIUS = 5;
@@ -42,5 +43,10 @@ QVariant CPushButton::userData() const
 void CPushButton::setUserData(const QVariant &userData)
 {
     m_userData = userData;
+}
+
+QSize CPushButton::sizeHint() const
+{
+    return QPushButton::sizeHint() + StyleRepository::extraButtonSize();
 }
 

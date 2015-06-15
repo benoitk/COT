@@ -25,6 +25,9 @@ public:
     // Set default widget style
     static void installStyle();
 
+    // Additional size for rounded push buttons
+    static QSize extraButtonSize();
+
 private:
     StyleRepository();
 };

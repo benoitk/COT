@@ -16,6 +16,8 @@ public:
     QVariant userData() const;
     void setUserData(const QVariant &userData);
 
+    QSize sizeHint() const Q_DECL_OVERRIDE;
+
 protected:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
 
