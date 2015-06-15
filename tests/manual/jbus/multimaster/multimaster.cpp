@@ -42,9 +42,18 @@ public:
             return;
         }
 
-        m_bus1->readInt(0, CComJBus::Input);
-        m_bus2->readInt(1, CComJBus::Output);
+//        m_bus1->readInt(0, CComJBus::Input);
+//        m_bus2->readInt(1, CComJBus::Output);
 
+        for(int i=0;i<100;++i){
+            m_bus1->writeBool(0x0120, true);
+            usleep(2000);
+            m_bus2->writeBool(0x0200, true);
+            usleep(2000);
+            m_bus1->writeBool(0x0120, false);
+            m_bus2->writeBool(0x0200, false);
+            usleep(2000);
+        }
         qApp->quit();
     }
 
@@ -59,15 +68,16 @@ int main(int argc, char** argv)
     QCoreApplication app(argc, argv);
 
     QVariantMap busConfig;
-    busConfig[QStringLiteral("ip")] = QByteArrayLiteral("127.0.0.1");
-    busConfig[QStringLiteral("port")] = 12345;
+    busConfig[QStringLiteral("ip")] = QByteArrayLiteral("192.168.1.2");
+    busConfig[QStringLiteral("port")] = 502;
     busConfig[QStringLiteral("slave")] = 1;
     busConfig[QStringLiteral("name")] = QStringLiteral("ioboard_tcp");
     busConfig[QStringLiteral("type")] = QStringLiteral("tcpip");
     busConfig[QStringLiteral("debug")] = true;
     CComJBus bus1(busConfig);
 
-    busConfig[QStringLiteral("port")] = 12344;
+     busConfig[QStringLiteral("ip")] = QByteArrayLiteral("192.168.1.10");
+    busConfig[QStringLiteral("port")] = 502;
     CComJBus bus2(busConfig);
 
     JBusTest test(&bus1, &bus2);
