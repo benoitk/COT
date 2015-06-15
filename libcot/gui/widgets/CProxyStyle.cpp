@@ -12,12 +12,17 @@ int CProxyStyle::styleHint(QStyle::StyleHint hint, const QStyleOption *option, c
 int CProxyStyle::pixelMetric(QStyle::PixelMetric metric, const QStyleOption *option, const QWidget *widget) const
 {
     switch(metric) {
-    case QStyle::PM_TabBarTabHSpace:
-        return 10;
+    case QStyle::PM_TabBarTabHSpace: // empty space on left+right of the text, within the tab
+        // Fusion style has 24 here... we need to make things tighter though
+        return 8;
+    case QStyle::PM_TabBarTabVSpace: // empty space below+above the text, within the tab
+        return 12 /* from fusion style */ + 10 /* extra height */;
     default:
         return QProxyStyle::pixelMetric(metric, option, widget);
     }
 }
+
+static const int emptySpaceBetweenTabs = 4;
 
 void CProxyStyle::drawControl(QStyle::ControlElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const
 {
@@ -33,7 +38,7 @@ void CProxyStyle::drawControl(QStyle::ControlElement element, const QStyleOption
             painter->setPen(Qt::black);
         }
         // To get only the top corners rounded, I draw a higher-than-visible rounded-rect
-        painter->drawRoundedRect(option->rect.adjusted(2, 0, -2, 7), 7, 7);
+        painter->drawRoundedRect(option->rect.adjusted(emptySpaceBetweenTabs / 2, 0, - emptySpaceBetweenTabs / 2, 7), 7, 7);
     }
         break;
     case QStyle::CE_TabBarTabLabel:
@@ -75,12 +80,8 @@ void CProxyStyle::drawPrimitive(QStyle::PrimitiveElement element, const QStyleOp
 
 QSize CProxyStyle::sizeFromContents(QStyle::ContentsType type, const QStyleOption *option, const QSize &size, const QWidget *widget) const
 {
-    switch (type) {
-    case QStyle::CT_TabBarTab:
-        return size + QSize(-2, 10);
-    default:
-        return QProxyStyle::sizeFromContents(type, option, size, widget);
-    }
+    // unused now
+    return QProxyStyle::sizeFromContents(type, option, size, widget);
 }
 
 void CProxyStyle::polish(QWidget *widget)
