@@ -40,7 +40,7 @@ public:
      * Create or update a curve based on measurename
      * If measurename doesn't exist this function will create a new curve
      * otherwise it will update curve data
-     * It will add a new Y value (X is based on QDateTime).
+     * It will add a new Y value (X is incremented every time).
      */
     void addOrUpdateCurve(float value, const QString &mesureName);
 
@@ -53,7 +53,6 @@ private:
     void addPoint(float value, const QString &measureName, KPlotObject *curve);
     void addPoints(const QList<QPointF> &listPoints, const QString &measureName, KPlotObject *curve);
     void initializeGraphic();
-    QDateTime m_initDateTime;
     int m_horizontalMaximumValue;
     int m_verticalMaximumValue;
     KPlotWidget *m_plotWidget;

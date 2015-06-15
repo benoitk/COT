@@ -11,7 +11,6 @@ static int INCREMENT_Y = 50;
 
 CGraphicsWidget::CGraphicsWidget(QWidget *parent)
     : QWidget(parent),
-      m_initDateTime(QDateTime::currentDateTime()),
       m_horizontalMaximumValue(10),
       m_verticalMaximumValue(INCREMENT_Y)
 {
@@ -71,9 +70,9 @@ void CGraphicsWidget::addOrUpdateCurve(float value, const QString &measureName)
 void CGraphicsWidget::addPoint(float value, const QString &measureName, KPlotObject *curve )
 {
     const QDateTime dt = QDateTime::currentDateTime();
-    const qint64 diffDtSeconds = m_initDateTime.msecsTo(dt) / 1000;
     bool needToChangeGraphicLimit = false;
-    if (diffDtSeconds >= m_horizontalMaximumValue) {
+    int x = curve->points().count();
+    if (x >= m_horizontalMaximumValue) {
         needToChangeGraphicLimit = true;
         m_horizontalMaximumValue += INCREMENT_X;
     }
@@ -86,8 +85,8 @@ void CGraphicsWidget::addPoint(float value, const QString &measureName, KPlotObj
         qCDebug(COTGUI_LOG) << "new limits" << m_horizontalMaximumValue << m_verticalMaximumValue;
         changeLimits(0, m_horizontalMaximumValue, 0, m_verticalMaximumValue);
     }
-    //qCDebug(COTGUI_LOG) << "addPoint" << QPointF(diffDtSeconds, value);
-    curve->addPoint(QPointF(diffDtSeconds, value), tr("Mesure name: %1\nValue: %2\n Date: %3").arg(measureName).arg(value).arg(dt.toString()));
+    //qCDebug(COTGUI_LOG) << "addPoint" << QPointF(x, value);
+    curve->addPoint(QPointF(x, value), tr("Mesure name: %1\nValue: %2\n Date: %3").arg(measureName).arg(value).arg(dt.toString()));
 }
 
 KPlotObject *CGraphicsWidget::addCurve(double value, const QString &measureName, const QColor &col)
