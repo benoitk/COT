@@ -117,6 +117,8 @@ void CPCToolsTab::slotInitializeHistoryDocument()
     // SERES_TODO: Call clear on an interval defined by the user - need api
 }
 
+// This is done here rather than in CHistoryWindow, so that the history document stores all
+// changes, even when the window isn't visible (created).
 void CPCToolsTab::slotVariableChanged(const QString &name, const QDateTime &dateTime)
 {
     CAutomate *automate = CAutomate::getInstance();
