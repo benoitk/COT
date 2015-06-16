@@ -317,8 +317,13 @@ QList<ICycle*> CAutomate::getListCycles(int cycleType){
 void CAutomate::slotClock(){
     m_iClock = (m_iClock + 1) % 600;
     qCDebug(COTAUTOMATE_LOG) << "Tick " << m_iClock;
+
+    // TEST CODE (for graph and history)
     getVariable(QStringLiteral("measure_cot"))->setValue(QVariant(m_iClock));
     emit signalUpdatePlotting(QStringLiteral("measure_cot"));
+    IVariable *phosphore = getVariable(QStringLiteral("phosphore"));
+    phosphore->setValue(m_iClock * 2);
+    emit signalUpdatePlotting(phosphore->getName());
 
     // TEST CODE (now unused)
     IVariable *defectVar = getVariable(QStringLiteral("alarm_defaut_eau"));
@@ -666,10 +671,9 @@ QString CAutomate::formatHistoryEntry(const QString &name, const QDateTime &date
 {
     IVariable *ivar = getInstance()->getVariable(name);
     Q_ASSERT(ivar);
-    return tr("%1: %2 (%3) updated to value %4")
+    return tr("%1: %2 updated to value %3")
             .arg(dateTime.toString())
             .arg(ivar->getLabel())
-            .arg(ivar->getName())
             .arg(ivar->toString());
 }
 
