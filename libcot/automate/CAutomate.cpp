@@ -97,7 +97,7 @@ void CAutomate::addCyclePrivate(ICycle * cycle)
             break;
     }
 }
-void acquitAlarms(){
+void CAutomate::acquitAlarms(){
     //a faire
 }
 

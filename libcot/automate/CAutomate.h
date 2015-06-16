@@ -51,7 +51,7 @@ public:
     QList<CVariableStream*> getListStreams();
     void setMapVariables(QMap<QString, IVariable*>);
     CDisplayConf* getDisplayConf()const;
-
+    void acquitAlarms();
     // Those members are called by configurator once the user clicks Ok
     void informAboutCycleChanges(ICycle *cycle, const QVariantMap &oldData);
     void informAboutVariableChanges(IVariable *variable, const QVariantMap &oldData);
