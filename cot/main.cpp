@@ -39,7 +39,10 @@ int main(int argc, char *argv[])
     //       application use up all available screen space.
     w.setFixedSize(app.primaryScreen()->availableSize());
 #else
-    w.setFixedSize(QSize(800, 480));
+    if (StyleRepository::screenSize() == StyleRepository::SevenInch)
+        w.setFixedSize(QSize(800, 480));
+    else
+        w.setFixedSize(QSize(1024, 600));
     w.show();
 
 #if defined(Q_OS_OSX)

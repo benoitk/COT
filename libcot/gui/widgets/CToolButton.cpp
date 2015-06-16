@@ -190,8 +190,7 @@ QIcon CToolButton::iconFromPixmaps(const QString &baseName)
 
 QString CToolButton::pixmapFilePath(const QString &name)
 {
-    // KDAB_TODO: To be computed
-    const bool isHd = true;
+    const bool isHd = StyleRepository::screenSize() == StyleRepository::TenInch;
     return isHd ? QString(":/hd-icons/pictohd/%1").arg(name)
                 : QString(":/icons/picto/%1").arg(name);
 }

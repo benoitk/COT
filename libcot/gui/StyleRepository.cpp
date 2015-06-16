@@ -14,8 +14,12 @@ StyleRepository::ScreenSize StyleRepository::screenSize()
         return SevenInch;
     if (sz == QSize(1024, 600))
         return TenInch;
-#endif
+    // Default value for unknown screens
     return SevenInch;
+#else
+    // Default value for the desktop
+    return SevenInch;
+#endif
 }
 
 QSize StyleRepository::configuratorButtonSize()
