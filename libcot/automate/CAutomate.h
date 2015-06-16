@@ -61,7 +61,7 @@ public:
     static QString formatHistoryEntry(const QString &name, const QDateTime &dateTime);
 
     enum eStateCycle{CYCLE_STATE_RUN = 1, CYCLE_STATE_PAUSE = 2, CYCLE_STATE_STOP = 0};
-    enum eStateAutomate{GENERAL_DEFAULT, RUNNING};
+    enum eStateAutomate{GENERAL_DEFAULT, RUNNING,PAUSED, CALIBRATION, WAITING,STOPPED};
     enum eStateStream{STREAM_DEFAULT, WATER_DEFAULT, ACTIVE, INACTIVE};
     static CAutomate* getInstance();
 
