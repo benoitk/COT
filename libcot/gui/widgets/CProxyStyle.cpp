@@ -6,7 +6,12 @@
 
 int CProxyStyle::styleHint(QStyle::StyleHint hint, const QStyleOption *option, const QWidget *widget, QStyleHintReturn *returnData) const
 {
-    return QProxyStyle::styleHint(hint, option, widget, returnData);
+    switch (hint) {
+    case QStyle::SH_TabBar_ElideMode:
+        return Qt::ElideRight;
+    default:
+        return QProxyStyle::styleHint(hint, option, widget, returnData);
+    }
 }
 
 int CProxyStyle::pixelMetric(QStyle::PixelMetric metric, const QStyleOption *option, const QWidget *widget) const
