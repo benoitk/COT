@@ -14,7 +14,7 @@ CMessageBox::CMessageBox(const QString &message, QWidget *parent)
     QAction *okAction = buttonBar()->addAction(CToolButton::Ok);
     connect(okAction, &QAction::triggered, this, &QWidget::close);
 
-    setTitle(tr("INFORMATION"));
+    setTitle(tr("ATTENTION!"));
 }
 
 CMessageBox::~CMessageBox()
