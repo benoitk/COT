@@ -83,7 +83,7 @@ QWidget *IVariableMeasuresUIHandler::newEditor(IVariable *ivar)
 {
     Q_UNUSED(ivar);
     CToolButton *button = new CToolButton(CToolButton::MeasureDetails, container());
-    button->setFixedSize(StyleRepository::configuratorButtonSize());
+    button->setFixedSize(StyleRepository::measuresStreamButtonSize());
     return button;
 }
 
@@ -95,6 +95,7 @@ QLabel *IVariableMeasuresUIHandler::newLabel(IVariable *ivar)
     QPalette pal = label->palette();
     pal.setColor(label->foregroundRole(), QColor(Qt::gray));
     label->setPalette(pal);
+    label->setFont(StyleRepository::measureFont());
     return label;
 }
 

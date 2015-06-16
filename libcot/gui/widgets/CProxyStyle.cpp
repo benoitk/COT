@@ -3,6 +3,7 @@
 #include <QPainter>
 #include <QDebug>
 #include <qstyleoption.h>
+#include <StyleRepository.h>
 
 int CProxyStyle::styleHint(QStyle::StyleHint hint, const QStyleOption *option, const QWidget *widget, QStyleHintReturn *returnData) const
 {
@@ -94,10 +95,9 @@ void CProxyStyle::polish(QWidget *widget)
     if (QTabBar *tabBar = qobject_cast<QTabBar *>(widget)) {
         // Make the QTabBar font bold by default, so that the size computation in QTabBar::sizeHint uses
         // the (usually wider) font. We revert to a non-bold font at drawing time.
-        QFont boldFont = tabBar->font();
+        QFont boldFont = StyleRepository::tabBarFont();
         boldFont.setBold(true);
         tabBar->setFont(boldFont);
-
         tabBar->setUsesScrollButtons(false);
     }
 

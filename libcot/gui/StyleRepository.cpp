@@ -9,6 +9,11 @@ QSize StyleRepository::configuratorButtonSize()
     return QSize(30, 30);
 }
 
+QSize StyleRepository::measuresStreamButtonSize()
+{
+    return QSize(50, 50);
+}
+
 QSize StyleRepository::playStopButtonSize()
 {
     return QSize(30, 30);
@@ -51,6 +56,20 @@ void StyleRepository::installStyle()
 QSize StyleRepository::extraButtonSize()
 {
     return QSize(0, 8);
+}
+
+QFont StyleRepository::tabBarFont()
+{
+    QFont font = QApplication::font();
+    font.setPointSize(12);
+    return font;
+}
+
+QFont StyleRepository::measureFont()
+{
+    QFont font = QApplication::font();
+    font.setPointSize(12);
+    return font;
 }
 
 StyleRepository::StyleRepository()
