@@ -101,8 +101,10 @@ void CPCMeasureTab::slotVariableChanged(const QString &name, const QDateTime &da
         return;
     }
 
-    if (ivar->toBool())
-        m_pendingAlarms->addAlarm(name, dateTime, ivar->getLabel()); // will emit changed, which will call updateAlarmsAction
+    if (ivar->toBool()) {
+        // will emit changed, which will call updateAlarmsAction
+        m_pendingAlarms->addAlarm(name, dateTime, ivar->getLabel());
+    }
 }
 
 void CPCMeasureTab::updateAlarmsAction()
