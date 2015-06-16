@@ -113,8 +113,8 @@ void CPCToolsTab::slotInitializeHistoryDocument()
     m_history->setDefaultTextOption(option);
 
     m_history->setUndoRedoEnabled(false);
-    m_history->setMaximumBlockCount(50000); // SERES_TODO: Need api to read this feature
-    // SERES_TODO: Call clear on an interval defined by the user - need api
+    // remove old lines once we reach 150 lines (approx 5 screens)
+    m_history->setMaximumBlockCount(150);
 }
 
 // This is done here rather than in CHistoryWindow, so that the history document stores all
