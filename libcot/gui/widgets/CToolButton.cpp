@@ -212,99 +212,99 @@ QIcon CToolButton::buttonIcon(CToolButton::Type type)
             break;
 
         case CToolButton::Empty:
-            icon = iconFromPixmaps("30x30 empty");
+            icon = iconFromPixmaps("empty");
             break;
 
         case CToolButton::Add:
-            icon = iconFromPixmaps("30x30 Plus");
+            icon = iconFromPixmaps("Plus");
             break;
 
         case CToolButton::Remove:
-            icon = iconFromPixmaps("30x30 moins");
+            icon = iconFromPixmaps("moins");
             break;
 
         case CToolButton::Play:
-            icon = iconFromPixmaps("30x30 lancer maintenance");
+            icon = iconFromPixmaps("lancer maintenance");
             break;
 
         case CToolButton::Stop:
-            icon = iconFromPixmaps("40x40 stop mesure");
+            icon = iconFromPixmaps("stop mesure");
             break;
 
         case CToolButton::Alarms:
-            icon = iconFromPixmaps("40x40 alarme mesure");
+            icon = iconFromPixmaps("alarme mesure");
             break;
 
         case CToolButton::AlarmsActive:
-            icon = iconFromPixmaps("40x40 alarme mesure gif");
+            icon = iconFromPixmaps("alarme mesure gif");
             break;
 
         case CToolButton::ScrollUp:
-            icon = iconFromPixmaps("75x75 fleche haut");
+            icon = iconFromPixmaps("fleche haut");
             break;
 
         case CToolButton::ScrollDown:
-            icon = iconFromPixmaps("75x75 fleche bas");
+            icon = iconFromPixmaps("fleche bas");
             break;
 
         case CToolButton::Back:
         case CToolButton::Quit:
-            icon = iconFromPixmaps("40x40 quitter");
+            icon = iconFromPixmaps("quitter");
             break;
 
         case CToolButton::On:
-            icon = iconFromPixmaps("30x30 on");
+            icon = iconFromPixmaps("on");
             break;
 
         case CToolButton::Off:
-            icon = iconFromPixmaps("30x30 off");
+            icon = iconFromPixmaps("off");
             break;
 
         case CToolButton::Led:
-            icon = iconFromPixmaps("30x30 Ana-tor");
+            icon = iconFromPixmaps("Ana-tor");
             break;
 
         case CToolButton::Maintenance:
-            icon = iconFromPixmaps("50x50 menu maintenance");
+            icon = iconFromPixmaps("menu maintenance");
             break;
 
         case CToolButton::ElectricalTests:
-            icon = iconFromPixmaps("50x50 menu carte mesure");
+            icon = iconFromPixmaps("menu carte mesure");
             break;
 
         case CToolButton::Options:
-            icon = iconFromPixmaps("50x50 menu sequenceur");
+            icon = iconFromPixmaps("menu sequenceur");
             break;
 
         case CToolButton::History:
-            icon = iconFromPixmaps("50x50 historique");
+            icon = iconFromPixmaps("historique");
             break;
 
         case CToolButton::LogFiles:
-            icon = iconFromPixmaps("50x50 transfert copie");
+            icon = iconFromPixmaps("transfert copie");
             break;
 
         case CToolButton::MeasureDetails:
         case CToolButton::Configure: // SERES_TODO: Add correct icons. // COT-66
-            icon = iconFromPixmaps("35x35 detail mesure");
+            icon = iconFromPixmaps("detail mesure");
             break;
 
         case CToolButton::Ok:
-            icon = iconFromPixmaps("40x40 appliquer");
+            icon = iconFromPixmaps("appliquer");
             break;
 
         case CToolButton::Cancel:
         case CToolButton::Delete:
-            icon = iconFromPixmaps("50x50 annule");
+            icon = iconFromPixmaps("annule");
             break;
 
         case CToolButton::Informations:
-            icon = iconFromPixmaps("50x50 menu information");
+            icon = iconFromPixmaps("menu information");
             break;
 
         case CToolButton::CreateRecovery:
         case CToolButton::RestoreConfig:
-            icon = iconFromPixmaps("50x50 menu sauvegarde");
+            icon = iconFromPixmaps("menu sauvegarde");
             break;
 
         case CToolButton::Invalid:
