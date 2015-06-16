@@ -97,6 +97,9 @@ void CAutomate::addCyclePrivate(ICycle * cycle)
             break;
     }
 }
+void acquitAlarms(){
+    //a faire
+}
 
 QList<ICycle *> CAutomate::getListCyclesPrivate(int cycleType)
 {
