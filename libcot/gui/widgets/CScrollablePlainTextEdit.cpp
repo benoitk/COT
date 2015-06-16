@@ -13,6 +13,11 @@ CScrollablePlainTextEdit::CScrollablePlainTextEdit(QWidget *parent)
 
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     updateActions();
+
+    connect(this, &QPlainTextEdit::blockCountChanged,
+            this, &CScrollablePlainTextEdit::updateActions);
+    connect(verticalScrollBar(), &QScrollBar::valueChanged,
+            this, &CScrollablePlainTextEdit::updateActions);
 }
 
 CScrollablePlainTextEdit::~CScrollablePlainTextEdit()
