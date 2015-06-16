@@ -212,4 +212,6 @@ private:
     QMap<QString, IVariable*> getMapVariablesPrivate();
 };
 
+Q_DECLARE_METATYPE(CAutomate::eStateAutomate)
+
 #endif // CAUTOMATE_H

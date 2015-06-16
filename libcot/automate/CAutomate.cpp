@@ -44,7 +44,9 @@ CAutomate::CAutomate()
     timer->setInterval(1000);
     timer->start();
 
- }
+    // for use in queued signal/slot connections
+    qRegisterMetaType<CAutomate::eStateAutomate>();
+}
 
 void CAutomate::initConfig(){
     m_sequencer = CSequencer::getInstance();
