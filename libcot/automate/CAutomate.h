@@ -147,7 +147,7 @@ signals:
     void signalUpdateCountStream(int);
     //desc : Statue de voie changée : Active, en défeau d'eau...
     //entrées : enum de l'état de la voie
-    void signalUpdateStateStream(CAutomate::eStateStream);
+    void signalUpdateStateStream(const QString& arg_streamName, CAutomate::eStateStream);
     //desc : Valeur des variables de mesures affichable sur l'écran principale  (JSon : champ "streams->variables->type = measure)
     //entrées : identifiant et valeur de la variable de mesure,
     void signalUpdateMeasureValues(int, const QVariant &);
