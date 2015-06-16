@@ -8,6 +8,7 @@ class CPCMeasureTab;
 }
 
 class IVariableMeasuresUIHandler;
+class CPendingAlarms;
 
 class CPCMeasureTab : public IPCTab
 {
@@ -25,13 +26,15 @@ private slots:
     void slotStopEndCycleTriggered();
     void slotNextStreamTriggered();
     void slotUpdateStreamsMeasures();
-    void slotVariableChanged(const QString &name);
-    void slotUpdateAlarmsIcon(const QString &name);
+    void slotUpdateAlarms(int id, const QDateTime &dateTime, const QString &description);
     void slotUpdatePlotting(const QString &name);
+    void updateAlarmsAction();
 
 private:
+
     Ui::CPCMeasureTab *ui;
     IVariableMeasuresUIHandler *m_measuresHandler;
+    CPendingAlarms *m_pendingAlarms;
 };
 
 #endif // CPCMEASURETAB_H

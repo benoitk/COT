@@ -320,12 +320,18 @@ void CAutomate::slotClock(){
     getVariable(QStringLiteral("measure_cot"))->setValue(QVariant(m_iClock));
     emit signalUpdatePlotting(QStringLiteral("measure_cot"));
 
-    // TEST CODE
+    // TEST CODE (now unused)
     IVariable *defectVar = getVariable(QStringLiteral("alarm_defaut_eau"));
     defectVar->setValue(!defectVar->toBool());
-    // this signal isn't needed
-    //emit signalUpdateHistory(QDateTime::currentDateTime(), defectVar->toBool() ? "Défaut d'eau" : "Défaut d'eau résolu");
 
+    // TEST CODE (for the alarms window)
+    if ((m_iClock % 3) == 0) {
+        emit signalUpdateAlarms(1, QDateTime::currentDateTime(), "Défaut d'eau");
+        emit signalUpdateAlarms(1, QDateTime::currentDateTime(), "Checking that this string is ignored");
+    }
+    if ((m_iClock % 5) == 0) {
+        emit signalUpdateAlarms(2, QDateTime::currentDateTime(), "Another alarm");
+    }
 }
 QList<IAction*>  CAutomate::getListActions(){
     QMutexLocker locker(&m_mutex);

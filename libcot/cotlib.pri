@@ -11,6 +11,7 @@ FORMS *= \
     updater/CUpdateDialog.ui \
     keyboards/CKeyboardDialog.ui \
     gui/widgets/CStatusWidget.ui \
+    gui/panel/CAlarmsWindow.ui \
     gui/panel/CPCDiagnosticTab.ui \
     gui/panel/CPCHistogramTab.ui \
     gui/panel/CPCMeasureTab.ui \

@@ -5,12 +5,12 @@
 
 #include <QScrollBar>
 
-CHistoryWindow::CHistoryWindow(QTextDocument *history, QWidget *parent)
+CHistoryWindow::CHistoryWindow(QTextDocument *document, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::CHistoryWindow)
 {
     ui->setupUi(this);
-    ui->pteHistory->setDocument(history);
+    ui->pteHistory->setDocument(document);
     ui->vbbButtons->addAction(CToolButton::ScrollUp, ui->pteHistory->moveUp());
     ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->pteHistory->moveDown());
     connect(ui->vbbButtons->addAction(CToolButton::Back), &QAction::triggered,

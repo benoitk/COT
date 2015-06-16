@@ -14,7 +14,7 @@ class CHistoryWindow : public QWidget
     Q_OBJECT
 
 public:
-    explicit CHistoryWindow(QTextDocument *history, QWidget *parent = Q_NULLPTR);
+    explicit CHistoryWindow(QTextDocument *document, QWidget *parent = Q_NULLPTR);
     ~CHistoryWindow();
 
 private:

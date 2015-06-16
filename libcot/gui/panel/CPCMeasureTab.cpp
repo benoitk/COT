@@ -12,6 +12,7 @@
 CPCMeasureTab::CPCMeasureTab(QWidget *parent)
     : IPCTab(parent)
     , ui(new Ui::CPCMeasureTab)
+    , m_pendingAlarms(new CPendingAlarms(this))
 {
     ui->setupUi(this);
     m_measuresHandler = new IVariableMeasuresUIHandler(ui->swCentral, this);
@@ -31,11 +32,13 @@ CPCMeasureTab::CPCMeasureTab(QWidget *parent)
     ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->swCentral->moveDown());
     connect(CAutomate::getInstance(), &CAutomate::signalStreamsUpdated,
             this, &CPCMeasureTab::slotUpdateStreamsMeasures);
-    connect(CAutomate::getInstance(), &CAutomate::signalVariableChanged,
-            this, &CPCMeasureTab::slotVariableChanged);
+    connect(CAutomate::getInstance(), &CAutomate::signalUpdateAlarms,
+            this, &CPCMeasureTab::slotUpdateAlarms);
     connect(CAutomate::getInstance(), &CAutomate::signalUpdatePlotting,
             this, &CPCMeasureTab::slotUpdatePlotting);
 
+    connect(m_pendingAlarms, &CPendingAlarms::changed, this, &CPCMeasureTab::updateAlarmsAction);
+    updateAlarmsAction();
 }
 
 CPCMeasureTab::~CPCMeasureTab()
@@ -50,7 +53,7 @@ CVerticalButtonBar *CPCMeasureTab::buttonBar() const
 
 void CPCMeasureTab::slotAlarmsTriggered()
 {
-    CPCWindow::openModal<CAlarmsWindow>();
+    CPCWindow::openModal<CAlarmsWindow>(m_pendingAlarms);
 }
 
 void CPCMeasureTab::slotPlayTriggered()
@@ -81,7 +84,6 @@ void CPCMeasureTab::slotUpdateStreamsMeasures()
 
     foreach (CVariableStream *streamVar, streams) {
 
-
         foreach (IVariable *measure, streamVar->getListMeasures()) {
             CVariableMeasure *measureVar = static_cast<CVariableMeasure *>(measure);
             ivars << measureVar->getMeasureVariable();
@@ -91,30 +93,17 @@ void CPCMeasureTab::slotUpdateStreamsMeasures()
     m_measuresHandler->layout(ivars);
 }
 
-void CPCMeasureTab::slotVariableChanged(const QString &name)
+void CPCMeasureTab::slotUpdateAlarms(int id, const QDateTime &dateTime, const QString &description)
 {
-    slotUpdateAlarmsIcon(name);
+    m_pendingAlarms->addAlarm(id, dateTime, description); // will emit changed, which will call updateAlarmsAction
 }
 
-void CPCMeasureTab::slotUpdateAlarmsIcon(const QString &name)
+void CPCMeasureTab::updateAlarmsAction()
 {
-    CAutomate *automate = CAutomate::getInstance();
-    IVariablePtrList ivars = automate->getDisplayConf()->getListForScreenAlarms();
-    IVariable *var = automate->getVariable(name);
-    bool alarmActive = false;
-
-    if (ivars.contains(var)) {
-        foreach (IVariable *ivar, ivars) {
-            if (ivar->toBool()) {
-                alarmActive = true;
-            }
-        }
-
-        QAction *action = ui->vbbButtons->action(CToolButton::Alarms);
-        action->setIcon(alarmActive
-                        ? CToolButton::buttonIcon(CToolButton::AlarmsActive)
-                        : CToolButton::buttonIcon(CToolButton::Alarms));
-    }
+    QAction *action = ui->vbbButtons->action(CToolButton::Alarms);
+    action->setIcon(!m_pendingAlarms->isEmpty()
+                    ? CToolButton::buttonIcon(CToolButton::AlarmsActive)
+                    : CToolButton::buttonIcon(CToolButton::Alarms));
 }
 
 void CPCMeasureTab::slotUpdatePlotting(const QString &name)
