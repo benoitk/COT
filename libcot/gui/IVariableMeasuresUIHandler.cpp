@@ -12,6 +12,7 @@
 #include "StyleRepository.h"
 
 #include <QLabel>
+#include <QDebug>
 
 namespace {
 QString valueAndUnit(IVariable *ivar) {
@@ -19,23 +20,26 @@ QString valueAndUnit(IVariable *ivar) {
     return QString("%1%2").arg(ivar->toString()).arg(unit ? unit->getLabel() : QString());
 }
 
-CVariableStream *findMeasureStream(const QString &measureName) {
+QPair<CVariableStream *, int> findStreamForMeasure(const QString &measureName) {
     CAutomate *automate = CAutomate::getInstance();
 
     foreach ( CVariableStream *streamVar, automate->getListStreams()) {
 
-        foreach (IVariable *measure, streamVar->getListMeasures()) {
-            CVariableMeasure *measureVar = static_cast<CVariableMeasure *>(measure);
+        const QList<IVariable *> measures = streamVar->getListMeasures();
+        for (int i = 0 ; i < measures.count(); ++i) {
+            CVariableMeasure *measureVar = static_cast<CVariableMeasure *>(measures.at(i));
             IVariable *measureMeasureVariable = measureVar->getMeasureVariable();
 
             if (measureMeasureVariable && measureMeasureVariable->getName() == measureName) {
-                return streamVar;
+                return qMakePair<CVariableStream *,int >(streamVar, i);
             }
         }
     }
 
-    return Q_NULLPTR;
+    qWarning() << "Stream not found for measure" << measureName;
+    return qMakePair<CVariableStream *,int >(Q_NULLPTR, -1);
 }
+
 }
 
 IVariableMeasuresUIHandler::IVariableMeasuresUIHandler(CScrollableWidget *scrollable, QObject *parent)
@@ -52,13 +56,13 @@ QWidget *IVariableMeasuresUIHandler::createWidget(int index, IVariable *ivar)
 {
     switch (index) {
         case 0:
-            return newEditor(ivar);
+            return newDetailsButton(ivar);
 
         case 1:
             return newLabel(ivar);
 
         case 2:
-            return newUnit(ivar);
+            return newValueLabel(ivar);
     }
 
     Q_ASSERT(false);
@@ -68,23 +72,34 @@ QWidget *IVariableMeasuresUIHandler::createWidget(int index, IVariable *ivar)
 void IVariableMeasuresUIHandler::rowInserted(const IVariableUIHandler::Row &row, IVariable *ivar)
 {
     Q_UNUSED(ivar);
-    connect(row.widgetAt<CToolButton *>(0), &CToolButton::clicked,
-            this, &IVariableMeasuresUIHandler::slotButtonMeasureDetailsClicked);
+    CToolButton *button = row.widgetAt<CToolButton *>(0);
+    if (button) {
+        connect(button, &CToolButton::clicked,
+                this, &IVariableMeasuresUIHandler::slotButtonMeasureDetailsClicked);
+    }
 }
 
 void IVariableMeasuresUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariable *ivar)
 {
+    CToolButton *button = row.widgetAt<CToolButton *>(0);
+    if (button) {
+        button->setUserData(ivar->getName());
+    }
     row.widgetAt<QLabel *>(1)->setText(ivar->getLabel());
-    row.widgetAt<CToolButton *>(0)->setUserData(ivar->getName());
     row.widgetAt<QLabel *>(2)->setText(valueAndUnit(ivar));
 }
 
-QWidget *IVariableMeasuresUIHandler::newEditor(IVariable *ivar)
+QWidget *IVariableMeasuresUIHandler::newDetailsButton(IVariable *ivar)
 {
-    Q_UNUSED(ivar);
-    CToolButton *button = new CToolButton(CToolButton::MeasureDetails, container());
-    button->setFixedSize(StyleRepository::measuresStreamButtonSize());
-    return button;
+    QWidget *widget;
+    if (findStreamForMeasure(ivar->getName()).second == 0) {
+        widget = new CToolButton(CToolButton::MeasureDetails, container());
+    } else {
+        // Empty widget, so that it takes the same height as a button
+        widget = new QWidget(container());
+    }
+    widget->setFixedSize(StyleRepository::measuresStreamButtonSize());
+    return widget;
 }
 
 QLabel *IVariableMeasuresUIHandler::newLabel(IVariable *ivar)
@@ -99,11 +114,12 @@ QLabel *IVariableMeasuresUIHandler::newLabel(IVariable *ivar)
     return label;
 }
 
-QLabel *IVariableMeasuresUIHandler::newUnit(IVariable *ivar)
+QLabel *IVariableMeasuresUIHandler::newValueLabel(IVariable *ivar)
 {
     Q_UNUSED(ivar);
     QLabel *label = new QLabel(container());
     label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
+    label->setFont(StyleRepository::measureFont());
     return label;
 }
 
@@ -111,6 +127,6 @@ void IVariableMeasuresUIHandler::slotButtonMeasureDetailsClicked()
 {
     const CToolButton *button = qobject_cast<CToolButton *>(sender());
     const QString measureName = button->userData().toString();
-    CVariableStream *streamVar = findMeasureStream(measureName);
+    CVariableStream *streamVar = findStreamForMeasure(measureName).first;
     CPCWindow::openModal<CMeasureWindow>(streamVar);
 }

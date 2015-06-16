@@ -17,9 +17,9 @@ protected:
     void rowChanged(const Row &row, IVariable *ivar) Q_DECL_OVERRIDE;
 
 private:
-    QWidget *newEditor(IVariable *ivar);
+    QWidget *newDetailsButton(IVariable *ivar);
     QLabel *newLabel(IVariable *ivar);
-    QLabel *newUnit(IVariable *ivar);
+    QLabel *newValueLabel(IVariable *ivar);
 
 private slots:
     void slotButtonMeasureDetailsClicked();

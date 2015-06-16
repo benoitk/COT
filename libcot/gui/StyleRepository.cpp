@@ -68,7 +68,7 @@ QFont StyleRepository::tabBarFont()
 QFont StyleRepository::measureFont()
 {
     QFont font = QApplication::font();
-    font.setPointSize(12);
+    font.setPointSize(24);
     return font;
 }
 
