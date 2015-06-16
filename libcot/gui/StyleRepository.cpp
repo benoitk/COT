@@ -2,31 +2,75 @@
 #include <CProxyStyle.h>
 #include <QApplication>
 #include <QStyleFactory>
+#include <QDebug>
+#include <QScreen>
 #include <qfont.h>
+
+StyleRepository::ScreenSize StyleRepository::screenSize()
+{
+#if defined(DEVICE_BUILD)
+    const QSize sz = qApp->primaryScreen()->availableSize();
+    if (sz == QSize(800, 480))
+        return SevenInch;
+    if (sz == QSize(1024, 600))
+        return TenInch;
+#endif
+    return SevenInch;
+}
 
 QSize StyleRepository::configuratorButtonSize()
 {
-    return QSize(30, 30);
+    switch (screenSize()) {
+    case SevenInch:
+        return QSize(30, 30);
+    case TenInch:
+        return QSize(50, 50);
+    }
+    return QSize(); // not reached
 }
 
 QSize StyleRepository::measuresStreamButtonSize()
 {
-    return QSize(50, 50);
+    switch (screenSize()) {
+    case SevenInch:
+        return QSize(50, 50);
+    case TenInch:
+        return QSize(50, 50);
+    }
+    return QSize(); // not reached
 }
 
 QSize StyleRepository::playStopButtonSize()
 {
-    return QSize(30, 30);
+    switch (screenSize()) {
+    case SevenInch:
+        return QSize(30, 30);
+    case TenInch:
+        return QSize(30, 30);
+    }
+    return QSize(); // not reached
 }
 
 QSize StyleRepository::verticalBarButtonSize()
 {
-    return QSize(50, 50);
+    switch (screenSize()) {
+    case SevenInch:
+        return QSize(50, 50);
+    case TenInch:
+        return QSize(75, 75);
+    }
+    return QSize(); // not reached
 }
 
 QSize StyleRepository::keyboardButtonSize()
 {
-    return QSize(50, 50);
+    switch (screenSize()) {
+    case SevenInch:
+        return QSize(50, 50);
+    case TenInch:
+        return QSize(50, 50);
+    }
+    return QSize(); // not reached
 }
 
 void StyleRepository::installFont()

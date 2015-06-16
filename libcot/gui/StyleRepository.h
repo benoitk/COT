@@ -8,6 +8,14 @@
 class LIBCOT_EXPORT StyleRepository
 {
 public:
+
+    enum ScreenSize
+    {
+        SevenInch,
+        TenInch
+    };
+    static ScreenSize screenSize();
+
     // size of the new/delete/... buttons in the configurator
     static QSize configuratorButtonSize();
 
