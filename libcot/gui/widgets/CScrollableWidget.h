@@ -46,30 +46,4 @@ private:
     void updateActions();
 };
 
-// CScrollablePlainTextEdit
-
-class LIBCOT_EXPORT CScrollablePlainTextEdit : public QPlainTextEdit
-{
-    Q_OBJECT
-public:
-    explicit CScrollablePlainTextEdit(QWidget *parent = Q_NULLPTR);
-    ~CScrollablePlainTextEdit();
-
-    QAction *moveDown() const;
-    QAction *moveUp() const;
-
-protected:
-    virtual void resizeEvent(QResizeEvent *event);
-
-private slots:
-    void slotMoveUp();
-    void slotMoveDown();
-
-private:
-    QAction *m_moveUp;
-    QAction *m_moveDown;
-
-    void updateActions();
-};
-
 #endif // CSCROLLABLEWIDGET_H

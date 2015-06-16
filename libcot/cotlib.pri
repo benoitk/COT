@@ -115,6 +115,7 @@ HEADERS *= \
     gui/widgets/CPushButton.h \
     gui/widgets/CScrollableWidget.h \
     gui/widgets/CScrollablePagerWidget.h \
+    gui/widgets/CScrollablePlainTextEdit.h \
     gui/widgets/CStatusLabel.h \
     gui/widgets/CStatusWidget.h \
     gui/widgets/CToolButton.h \
@@ -293,6 +294,7 @@ SOURCES *= \
     gui/widgets/CLabelledToolButton.cpp \
     gui/widgets/CPushButton.cpp \
     gui/widgets/CScrollableWidget.cpp \
+    gui/widgets/CScrollablePlainTextEdit.cpp \
     gui/widgets/CStatusLabel.cpp \
     gui/widgets/CStatusWidget.cpp \
     gui/widgets/CToolButton.cpp \

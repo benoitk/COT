@@ -39,7 +39,7 @@
   <customwidget>
    <class>CScrollablePlainTextEdit</class>
    <extends>QPlainTextEdit</extends>
-   <header>CScrollableWidget.h</header>
+   <header>CScrollablePlainTextEdit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
