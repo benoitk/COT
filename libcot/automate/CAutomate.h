@@ -127,18 +127,12 @@ signals:
     void signalUpdatePlotting(const QString & var_name);
 
 
-    //desc : nouvelle ligne d'alarme
-    //entrées : identifiant(pour acquitement), date, heure et descriptif
-    void signalUpdateAlarms(int, const QDateTime &, const QString &);
-    //desc : Nouvelle ligne d'historique de mesure
-    //entrées : date, heure, descriptif
-    void signalUpdateHistory(const QDateTime&, const QString&);
     //desc : Etat changé : En court, en pause, en arrêt
     //entrées : enum de l'état du cycle en cours
     void signalUpdateStateCycle(CAutomate::eStateCycle);
     //desc : Etat changé : En défaut, en cycle, en maintenance
     //entrées : enum de l'état de l'automate
-    void signalUpdateStateAutomoate(CAutomate::eStateAutomate);
+    void signalUpdateStateAutomate(CAutomate::eStateAutomate);
     //desc : Pas en cours changé
     //entrées : pas en cours; label du pas
     void signalUpdateCurrentStep(float, const QString &);

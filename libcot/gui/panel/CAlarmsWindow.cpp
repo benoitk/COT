@@ -9,7 +9,7 @@
 
 /// Backend class
 
-void CPendingAlarms::addAlarm(int id, const QDateTime &dateTime, const QString &description)
+void CPendingAlarms::addAlarm(const QString &id, const QDateTime &dateTime, const QString &description)
 {
     for (size_t i = 0 ; i < m_alarms.size() ; ++i) {
         if (m_alarms.at(i).id == id)

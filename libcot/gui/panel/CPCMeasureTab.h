@@ -26,7 +26,7 @@ private slots:
     void slotStopEndCycleTriggered();
     void slotNextStreamTriggered();
     void slotUpdateStreamsMeasures();
-    void slotUpdateAlarms(int id, const QDateTime &dateTime, const QString &description);
+    void slotVariableChanged(const QString &name, const QDateTime &dateTime);
     void slotUpdatePlotting(const QString &name);
     void updateAlarmsAction();
 

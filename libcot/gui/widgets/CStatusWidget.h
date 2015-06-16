@@ -2,6 +2,7 @@
 #define CSTATUSWIDGET_H
 
 #include <QWidget>
+#include <CAutomate.h>
 
 namespace Ui {
 class CStatusWidget;
@@ -17,6 +18,9 @@ public:
 
 private Q_SLOTS:
     void slotTimeChanged();
+    void slotUpdateStateAutomate(CAutomate::eStateAutomate state);
+    void slotUpdateCurrentStream(int stream, const QString &label);
+    void slotUpdateCurrentStep(float step, const QString &label);
 
 private:
     Ui::CStatusWidget *ui;

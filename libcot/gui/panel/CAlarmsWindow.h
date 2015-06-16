@@ -21,7 +21,8 @@ class CPendingAlarms : public QObject
     Q_OBJECT
 public:
     CPendingAlarms(QObject *parent) : QObject(parent) {}
-    void addAlarm(int id, const QDateTime &dateTime, const QString &description);
+    // The identifier is the alarm name
+    void addAlarm(const QString &id, const QDateTime &dateTime, const QString &description);
     void clearAlarms();
     bool isEmpty() const { return m_alarms.empty(); }
     QString alarmsFormattedText() const;
@@ -32,9 +33,9 @@ Q_SIGNALS:
 private:
     struct Alarm
     {
-        Alarm(int id, const QDateTime &dateTime, const QString &description)
+        Alarm(const QString &id, const QDateTime &dateTime, const QString &description)
             : id(id), dateTime(dateTime), description(description) {}
-        int id;
+        QString id;
         QDateTime dateTime;
         QString description;
     };

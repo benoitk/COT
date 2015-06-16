@@ -98,7 +98,10 @@ void CAutomate::addCyclePrivate(ICycle * cycle)
     }
 }
 void CAutomate::acquitAlarms(){
-    //a faire
+    // SERES_TODO: implement
+
+    IVariable *defectVar = getVariable(QStringLiteral("alarm_defaut_eau"));
+    defectVar->setValue(false);
 }
 
 QList<ICycle *> CAutomate::getListCyclesPrivate(int cycleType)
@@ -325,19 +328,25 @@ void CAutomate::slotClock(){
     phosphore->setValue(m_iClock * 2);
     emit signalUpdatePlotting(phosphore->getName());
 
-    // TEST CODE (now unused)
-    IVariable *defectVar = getVariable(QStringLiteral("alarm_defaut_eau"));
-    defectVar->setValue(!defectVar->toBool());
-
     // TEST CODE (for the alarms window)
     if ((m_iClock % 3) == 0) {
-        emit signalUpdateAlarms(1, QDateTime::currentDateTime(), "Défaut d'eau");
-        emit signalUpdateAlarms(1, QDateTime::currentDateTime(), "Checking that this string is ignored");
+        IVariable *defectVar = getVariable(QStringLiteral("alarm_defaut_eau"));
+        defectVar->setValue(true);
     }
-    if ((m_iClock % 5) == 0) {
-        emit signalUpdateAlarms(2, QDateTime::currentDateTime(), "Another alarm");
+
+    // TEST CODE (for the status widget)
+    if (m_iClock > 5 && m_iClock < 50) {
+        if (m_iClock == 5)
+            emit signalUpdateStateAutomate(RUNNING);
+        else if (m_iClock == 49)
+            emit signalUpdateStateAutomate(GENERAL_DEFAULT);
+
+        emit signalUpdateCurrentStep(m_iClock / 2, "Step Name Goes Here");
+        if ((m_iClock % 20) == 0)
+            emit signalUpdateCurrentStream(m_iClock / 20, "Stream Name");
     }
 }
+
 QList<IAction*>  CAutomate::getListActions(){
     QMutexLocker locker(&m_mutex);
     return m_listActions;
