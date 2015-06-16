@@ -6,7 +6,7 @@
 #include "CVariableStream.h"
 #include "CVariableMeasure.h"
 
-CMeasureWindow::CMeasureWindow(IVariablePtr stream, QWidget *parent)
+CMeasureWindow::CMeasureWindow(CVariableStream *stream, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::CMeasureWindow)
 {
@@ -14,11 +14,9 @@ CMeasureWindow::CMeasureWindow(IVariablePtr stream, QWidget *parent)
 
     ui->setupUi(this);
 
-    CVariableStream *streamVar = static_cast<CVariableStream *>(stream);
+    addTab(new CMeasureStreamTab(stream->getListVariables(), this), stream->getLabel().toUpper());
 
-    addTab(new CMeasureStreamTab(streamVar->getListVariables(), this), streamVar->getLabel().toUpper());
-
-    foreach (IVariable *measure, streamVar->getListMeasures()) {
+    foreach (IVariable *measure, stream->getListMeasures()) {
         CVariableMeasure *measureVar = static_cast<CVariableMeasure *>(measure);
         IVariablePtrList ivars = measureVar->getListVariables();
         ivars.prepend(measureVar->getMeasureVariable());

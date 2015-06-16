@@ -8,15 +8,13 @@ class CMeasureWindow;
 }
 
 class IMeasureTab;
-class IVariable;
-
-typedef IVariable* IVariablePtr;
+class CVariableStream;
 
 class CMeasureWindow : public QWidget
 {
     Q_OBJECT
 public:
-    explicit CMeasureWindow(IVariablePtr stream, QWidget *parent = Q_NULLPTR);
+    explicit CMeasureWindow(CVariableStream *stream, QWidget *parent = Q_NULLPTR);
     ~CMeasureWindow();
 
 private slots:

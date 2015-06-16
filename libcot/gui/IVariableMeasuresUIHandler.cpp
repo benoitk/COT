@@ -19,7 +19,7 @@ QString valueAndUnit(IVariable *ivar) {
     return QString("%1%2").arg(ivar->toString()).arg(unit ? unit->getLabel() : QString());
 }
 
-IVariable *findMeasureStream(const QString &measureName) {
+CVariableStream *findMeasureStream(const QString &measureName) {
     CAutomate *automate = CAutomate::getInstance();
 
     foreach ( CVariableStream *streamVar, automate->getListStreams()) {
@@ -111,6 +111,6 @@ void IVariableMeasuresUIHandler::slotButtonMeasureDetailsClicked()
 {
     const CToolButton *button = qobject_cast<CToolButton *>(sender());
     const QString measureName = button->userData().toString();
-    IVariable *streamVar = findMeasureStream(measureName);
+    CVariableStream *streamVar = findMeasureStream(measureName);
     CPCWindow::openModal<CMeasureWindow>(streamVar);
 }
