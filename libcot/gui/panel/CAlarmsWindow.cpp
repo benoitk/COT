@@ -45,7 +45,7 @@ CAlarmsWindow::CAlarmsWindow(CPendingAlarms *alarms, QWidget *parent)
 {
     ui->setupUi(this);
 
-    connect(ui->vbbButtons->addAction(CToolButton::Remove), &QAction::triggered,
+    connect(ui->vbbButtons->addAction(CToolButton::Ok), &QAction::triggered,
             this, &CAlarmsWindow::slotRemoveAlarms);
     ui->vbbButtons->addAction(CToolButton::ScrollUp, ui->pteHistory->moveUp());
     ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->pteHistory->moveDown());
