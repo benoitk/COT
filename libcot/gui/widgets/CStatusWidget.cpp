@@ -20,6 +20,8 @@ CStatusWidget::CStatusWidget(QWidget *parent)
             this, &CStatusWidget::slotUpdateCurrentStream);
     connect(automate, &CAutomate::signalUpdateCurrentStep,
             this, &CStatusWidget::slotUpdateCurrentStep);
+    connect(automate, &CAutomate::signalUpdateCountStep,
+            this, &CStatusWidget::slotUpdateCountStep);
 }
 
 CStatusWidget::~CStatusWidget()
@@ -35,7 +37,26 @@ void CStatusWidget::slotTimeChanged()
 
 void CStatusWidget::slotUpdateStateAutomate(CAutomate::eStateAutomate state)
 {
-    ui->lCycle->setText(state == CAutomate::GENERAL_DEFAULT ? QString() : tr("CYCLE IN PROGRESS"));
+    QString text;
+    switch (state) {
+    case CAutomate::RUNNING:
+        text = tr("CYCLE IN PROGRESS");
+        break;
+    case CAutomate::PAUSED:
+        text = tr("PAUSED");
+        break;
+    case CAutomate::CALIBRATION:
+        text = tr("CALIBRATION");
+        break;
+    case CAutomate::WAITING:
+        text = tr("WAITING");
+        break;
+    case CAutomate::STOPPED:
+        text = tr("STOPPED");
+        break;
+    }
+
+    ui->lCycle->setText(text);
 }
 
 void CStatusWidget::slotUpdateCurrentStream(int stream, const QString &label)
@@ -50,3 +71,7 @@ void CStatusWidget::slotUpdateCurrentStep(float step, const QString &label)
     ui->lLabel->setText(label);
 }
 
+void CStatusWidget::slotUpdateCountStep(int stepCount)
+{
+    ui->lTotalStep->setText(QString("On: %1").arg(stepCount));
+}
