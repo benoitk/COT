@@ -3,6 +3,7 @@
 
 #include "IVariable.h"
 #include <QObject>
+#include <QColor>
 
 class ICycle;
 class CVariableMeasure : public IVariable
@@ -36,6 +37,9 @@ public:
 
     void removeVariable(IVariable *ivar);
 
+    void setColor(const QColor& col);
+    QColor color() const;
+
 private:
 
     IVariable * m_measure;
@@ -43,7 +47,7 @@ private:
     IVariable * m_measureMin;
 
     QList<IVariable*> m_listVariables;
-
+    QColor m_color;
 };
 
 #endif // CVARIABLEMEASURE_H

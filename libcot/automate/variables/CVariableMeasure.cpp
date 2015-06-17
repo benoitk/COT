@@ -43,6 +43,16 @@ void CVariableMeasure::removeVariable(IVariable *ivar)
     m_listVariables.removeOne(ivar);
 }
 
+void CVariableMeasure::setColor(const QColor &col)
+{
+    m_color = col;
+}
+
+QColor CVariableMeasure::color() const
+{
+    return m_color;
+}
+
 QList<IVariable*>  CVariableMeasure::getListVariables(){
     return m_listVariables;
 }
