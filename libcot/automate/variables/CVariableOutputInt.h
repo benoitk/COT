@@ -25,6 +25,7 @@ public:
     variableType getType()const Q_DECL_OVERRIDE;
 
     void setValue(float);
+    using CVariableInt::setValue;
 
 private:
 

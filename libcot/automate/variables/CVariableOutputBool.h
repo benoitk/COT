@@ -24,6 +24,7 @@ public:
     variableType getType()const Q_DECL_OVERRIDE;
 
     void setValue(bool);
+    using CVariableBool::setValue;
 
 private:
 
