@@ -129,9 +129,11 @@ void CScrollableWidget::slotMoveDown()
 
 void CScrollableWidget::updateActions()
 {
+    if (!widget())
+        return;
     const auto value = verticalScrollBar()->value();
     const auto maximum = verticalScrollBar()->maximum();
-    const auto needsScrolling = maximum > verticalScrollBar()->pageStep();
+    const auto needsScrolling = widget()->height() > verticalScrollBar()->pageStep();
     m_moveDown->setEnabled(value != maximum && needsScrolling);
     m_moveUp->setEnabled(value > 0);
     m_moveDown->setVisible(needsScrolling);
