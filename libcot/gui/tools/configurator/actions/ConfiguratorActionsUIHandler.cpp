@@ -29,7 +29,7 @@ void ConfiguratorActionsUIHandler::layout()
     const QList<IAction *> actions = automate->getListActions();
     foreach ( IAction *action, actions ) {
         // All this assumes that actions have a unique name. But of course so does CAutomate::getAction.
-        qCDebug(COTGUI_LOG) << action->getName() << action->getLabel();
+        //qCDebug(COTGUI_LOG) << action->getName() << action->getLabel();
         IVariable *ivar = CVariableFactory::buildTemporary(action->getName(), action->getLabel(), type_string);
         if (m_internalVariables.contains(action->getName())) {
             qWarning(COTGUI_LOG) << "Already have an action called" << action->getName();
