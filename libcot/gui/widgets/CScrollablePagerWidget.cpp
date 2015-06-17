@@ -6,6 +6,7 @@
 CScrollablePagerWidget::CScrollablePagerWidget(QWidget *parent)
     : QWidget(parent)
     ,m_hostHeight(-1)
+    ,m_hostPageHeight(-1)
 {
 }
 
@@ -26,20 +27,19 @@ QSize CScrollablePagerWidget::sizeHint() const
         return sh;
     }
 
-    const int pages = qCeil((double)sh.height() /(double)m_hostHeight);
-    const QSize nsh = QSize(sh.width(), m_hostHeight *pages);
+    const int pages = qCeil(static_cast<double>(sh.height()) / static_cast<double>(m_hostPageHeight));
+    //qDebug() << "making height" << (m_hostHeight * pages) << "instead of" << height();
+
+    // The last page is the full height. All others are just page height (integer number of items).
+    const QSize nsh = QSize(sh.width(), m_hostPageHeight * (pages-1) + m_hostHeight);
     return nsh;
 }
 
-int CScrollablePagerWidget::hostHeight() const
+void CScrollablePagerWidget::setHostHeight(int hostHeight, int hostPageHeight)
 {
-    return m_hostHeight;
-}
-
-void CScrollablePagerWidget::setHostHeight(int hostHeight)
-{
-    if (m_hostHeight != hostHeight) {
+    if (m_hostHeight != hostHeight || m_hostPageHeight != hostPageHeight) {
         m_hostHeight = hostHeight;
+        m_hostPageHeight = hostPageHeight;
         updateGeometry();
     }
 }

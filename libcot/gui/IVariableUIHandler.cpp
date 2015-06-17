@@ -25,6 +25,7 @@
 
 #include <QGridLayout>
 #include <QLabel>
+#include <QDebug>
 #include "cotgui_debug.h"
 
 /*
@@ -239,6 +240,7 @@ void IVariableUIHandler::layout(const QList<IVariable *> &variables, bool addDel
     m_containerLayout = new QGridLayout(m_container);
     m_containerLayout->setMargin(0);
 
+    int minRowHeight = 0;
     const int numberOfColumn = addDeleteButton ? (columnCount() + 1) : columnCount();
     int y = 0;
     foreach (IVariable *ivar, variables) {
@@ -254,6 +256,7 @@ void IVariableUIHandler::layout(const QList<IVariable *> &variables, bool addDel
 
                 if (widget) {
                     m_containerLayout->addWidget(widget, y, x);
+                    minRowHeight = qMax(minRowHeight, widget->minimumSizeHint().height());
                 }
             }
             rowChanged(row, ivar);
@@ -262,14 +265,18 @@ void IVariableUIHandler::layout(const QList<IVariable *> &variables, bool addDel
         }
     }
 
+    // For pagination to work ok we need all rows to have the same height
+    //qDebug() << m_scrollable->parentWidget() << "minRowHeight=" << minRowHeight;
+    for (int row = 0 ; row < m_containerLayout->rowCount() ; ++row) {
+        m_containerLayout->setRowMinimumHeight(row, minRowHeight);
+    }
+
     if (verticalStretch()) {
-        QSpacerItem *vspacer = new QSpacerItem(8, 8, QSizePolicy::Expanding, QSizePolicy::Expanding);
-        m_containerLayout->addItem(vspacer, y, 0, 1, numberOfColumn);
+        m_containerLayout->setRowStretch(y, 1);
     }
 
     if (horizontalStretch()) {
-        QSpacerItem *hspacer = new QSpacerItem(8, 8, QSizePolicy::Expanding, QSizePolicy::Expanding);
-        m_containerLayout->addItem(hspacer, 0, numberOfColumn, y, 1);
+        m_containerLayout->setColumnStretch(numberOfColumn, 1);
     }
 
     m_scrollable->setScrollablePagerWidget(m_container);

@@ -44,6 +44,7 @@ private:
 
     QAction *m_moveUp;
     QAction *m_moveDown;
+    int m_pageStep;
     bool m_scrollable;
 };
 

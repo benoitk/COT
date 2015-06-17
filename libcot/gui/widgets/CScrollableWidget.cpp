@@ -4,6 +4,7 @@
 
 #include <QAction>
 #include <QScrollBar>
+#include <qlayout.h>
 
 CScrollableWidget::CScrollableWidget(QWidget *parent)
     : QScrollArea(parent)
@@ -21,6 +22,8 @@ CScrollableWidget::CScrollableWidget(bool scrollable, QWidget *parent)
 
 void CScrollableWidget::init()
 {
+    m_pageStep = 0;
+
     m_moveDown = new QAction(tr("Move down"), this);
     connect(m_moveDown, &QAction::triggered, this, &CScrollableWidget::slotMoveDown);
     m_moveUp = new QAction(tr("Move up"), this);
@@ -103,7 +106,20 @@ void CScrollableWidget::resizeEvent(QResizeEvent *event)
     QScrollArea::resizeEvent(event);
 
     if (scrollablePagerWidget()) {
-        scrollablePagerWidget()->setHostHeight(event->size().height());
+
+        QGridLayout *gridLayout = qobject_cast<QGridLayout *>(scrollablePagerWidget()->layout());
+        if (gridLayout) {
+            // Determine how many entire items fit into one page
+            // This assumes all items have the same height, but IVariableUIHandler::layout takes care of that.
+            const int itemHeight = gridLayout->cellRect(0, 0).height() + gridLayout->spacing();
+            const int numItems = height() / itemHeight; // truncation on purpose
+            m_pageStep = numItems * itemHeight;
+
+            //qDebug() << parentWidget() << "itemHeight=" << itemHeight << "host height" << height() << "numItems=" << numItems << "-> pagestep=" << m_pageStep;
+        } else {
+            m_pageStep = viewport()->height();
+        }
+        scrollablePagerWidget()->setHostHeight(viewport()->height(), m_pageStep);
     }
 
     updateActions();
@@ -117,23 +133,23 @@ void CScrollableWidget::wheelEvent(QWheelEvent *event)
 
 void CScrollableWidget::slotMoveUp()
 {
-    verticalScrollBar()->triggerAction(QAbstractSlider::SliderPageStepSub);
+    verticalScrollBar()->setSliderPosition(verticalScrollBar()->sliderPosition() - m_pageStep);
     updateActions();
 }
 
 void CScrollableWidget::slotMoveDown()
 {
-    verticalScrollBar()->triggerAction(QAbstractSlider::SliderPageStepAdd);
+    verticalScrollBar()->setSliderPosition(verticalScrollBar()->sliderPosition() + m_pageStep);
     updateActions();
 }
 
 void CScrollableWidget::updateActions()
 {
-    if (!widget())
+    if (!widget() || m_pageStep == 0)
         return;
     const auto value = verticalScrollBar()->value();
     const auto maximum = verticalScrollBar()->maximum();
-    const auto needsScrolling = widget()->height() > verticalScrollBar()->pageStep();
+    const auto needsScrolling = widget()->height() > m_pageStep;
     m_moveDown->setEnabled(value != maximum && needsScrolling);
     m_moveUp->setEnabled(value > 0);
     m_moveDown->setVisible(needsScrolling);
