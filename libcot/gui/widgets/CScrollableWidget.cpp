@@ -9,6 +9,18 @@ CScrollableWidget::CScrollableWidget(QWidget *parent)
     : QScrollArea(parent)
     , m_scrollable(true)
 {
+    init();
+}
+
+CScrollableWidget::CScrollableWidget(bool scrollable, QWidget *parent)
+    : QScrollArea(parent)
+    , m_scrollable(scrollable)
+{
+    init();
+}
+
+void CScrollableWidget::init()
+{
     m_moveDown = new QAction(tr("Move down"), this);
     connect(m_moveDown, &QAction::triggered, this, &CScrollableWidget::slotMoveDown);
     m_moveUp = new QAction(tr("Move up"), this);
@@ -20,23 +32,8 @@ CScrollableWidget::CScrollableWidget(QWidget *parent)
     updateActions();
 }
 
-CScrollableWidget::CScrollableWidget(bool scrollable, QWidget *parent)
-    : QScrollArea(parent)
-    , m_scrollable(scrollable)
-{
-    m_moveDown = new QAction(tr("Move down"), this);
-    connect(m_moveDown, &QAction::triggered, this, &CScrollableWidget::slotMoveDown);
-    m_moveUp = new QAction(tr("Move up"), this);
-    connect(m_moveUp, &QAction::triggered, this, &CScrollableWidget::slotMoveUp);
-
-    setWidgetResizable(true);
-    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    updateActions();
-}
-
 CScrollableWidget::~CScrollableWidget()
 {
-
 }
 
 QSize CScrollableWidget::minimumSizeHint() const
@@ -76,7 +73,7 @@ QAction *CScrollableWidget::moveUp() const
 
 void CScrollableWidget::setScrollablePagerWidget(CScrollablePagerWidget *w)
 {
-    // QtDesigner do create a content child, let delete it if there.
+    // QtDesigner creates a content child, let's delete it if there.
     if (widget()) {
         takeWidget()->deleteLater();
     }

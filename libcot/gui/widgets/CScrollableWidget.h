@@ -39,11 +39,12 @@ private slots:
     void slotMoveDown();
 
 private:
-    bool m_scrollable;
+    void init();
+    void updateActions();
+
     QAction *m_moveUp;
     QAction *m_moveDown;
-
-    void updateActions();
+    bool m_scrollable;
 };
 
 #endif // CSCROLLABLEWIDGET_H
