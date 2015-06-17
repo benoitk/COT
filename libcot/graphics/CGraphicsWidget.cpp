@@ -2,16 +2,16 @@
 #include "kplotwidget.h"
 #include "kplotobject.h"
 #include "kplotaxis.h"
+#include "kplotpoint.h"
 #include <QVBoxLayout>
 #include <QPen>
 #include "cotgui_debug.h"
 
-static int INCREMENT_X = 50;
-static int INCREMENT_Y = 50;
+static const int INCREMENT_Y = 50;
+static const int s_maxPointsInCurve = 30;
 
 CGraphicsWidget::CGraphicsWidget(QWidget *parent)
     : QWidget(parent),
-      m_horizontalMaximumValue(10),
       m_verticalMaximumValue(INCREMENT_Y)
 {
     QVBoxLayout *layout = new QVBoxLayout(this);
@@ -29,7 +29,7 @@ CGraphicsWidget::~CGraphicsWidget()
 
 void CGraphicsWidget::initializeGraphic()
 {
-    m_plotWidget->setLimits(0, m_horizontalMaximumValue, 0, m_verticalMaximumValue);
+    changeLimits(0, s_maxPointsInCurve - 1, 0, m_verticalMaximumValue);
     m_plotWidget->axis(KPlotWidget::LeftAxis)->setVisible(false);
     m_plotWidget->axis(KPlotWidget::TopAxis)->setVisible(false);
     m_plotWidget->setAntialiasing(true);
@@ -49,6 +49,7 @@ void CGraphicsWidget::clear()
 
 void CGraphicsWidget::changeLimits(double x1, double x2, double y1, double y2)
 {
+    qCDebug(COTGUI_LOG) << "new limits" << x1 << x2 << y1 << y2;
     m_plotWidget->setLimits(x1, x2, y1, y2);
 }
 
@@ -67,23 +68,29 @@ void CGraphicsWidget::addOrUpdateCurve(float value, const QString &measureName)
     m_plotWidget->update();
 }
 
-void CGraphicsWidget::addPoint(float value, const QString &measureName, KPlotObject *curve )
+void CGraphicsWidget::addPoint(float value, const QString &measureName, KPlotObject *curve)
 {
     const QDateTime dt = QDateTime::currentDateTime();
     bool needToChangeGraphicLimit = false;
-    int x = curve->points().count();
-    if (x >= m_horizontalMaximumValue) {
+    const QList<KPlotPoint *> points = curve->points();
+    const int x = points.isEmpty() ? 0 : (points.last()->x() + 1);
+
+    int x1 = 0;
+    int x2 = s_maxPointsInCurve - 1;
+    if (x >= s_maxPointsInCurve) {
         needToChangeGraphicLimit = true;
-        m_horizontalMaximumValue += INCREMENT_X;
+        curve->removePoint(0);
+        x2 = x;
+        x1 = x - s_maxPointsInCurve + 1;
     }
+
     // SERES_TODO: add API for range, so a fixedrange can be used here?
     if (value >= m_verticalMaximumValue) {
         needToChangeGraphicLimit = true;
         m_verticalMaximumValue += INCREMENT_Y;
     }
     if (needToChangeGraphicLimit) {
-        qCDebug(COTGUI_LOG) << "new limits" << m_horizontalMaximumValue << m_verticalMaximumValue;
-        changeLimits(0, m_horizontalMaximumValue, 0, m_verticalMaximumValue);
+        changeLimits(x1, x2, 0, m_verticalMaximumValue);
     }
     //qCDebug(COTGUI_LOG) << "addPoint" << QPointF(x, value);
     curve->addPoint(QPointF(x, value), tr("Mesure name: %1\nValue: %2\n Date: %3").arg(measureName).arg(value).arg(dt.toString()));
@@ -104,43 +111,6 @@ KPlotObject *CGraphicsWidget::addCurve(double value, const QString &measureName,
     return curve;
 }
 
-
-void CGraphicsWidget::addOrUpdateCurve(const QList<QPointF> &listPoints, const QString &measureName)
-{
-    KPlotObject *searchPlot = m_plotObjectHash.value(measureName);
-    if (searchPlot) {
-        int i = m_plotWidget->plotObjects().indexOf(searchPlot);
-        Q_ASSERT(i >= 0);
-        addPoints(listPoints, measureName, searchPlot);
-        m_plotWidget->replacePlotObject(i, searchPlot);
-    } else {
-        KPlotObject *plot = addCurve(listPoints, measureName, createNewColor());
-        m_plotObjectHash.insert(measureName, plot);
-    }
-    m_plotWidget->update();
-}
-
-void CGraphicsWidget::addPoints(const QList<QPointF> &listPoints, const QString &measureName, KPlotObject *curve )
-{
-    foreach(const QPointF &point, listPoints) {
-        curve->addPoint(point, QStringLiteral("%1\n%2-%3").arg(measureName).arg(point.x()).arg(point.y()));
-    }
-}
-
-KPlotObject *CGraphicsWidget::addCurve(const QList<QPointF> &listPoints, const QString &measureName, const QColor &col)
-{
-    KPlotObject *curve = new KPlotObject();
-    if (col.isValid()) {
-        QPen pen = curve->linePen();
-        pen.setColor(col);
-        curve->setLinePen(pen);
-        curve->setPen(pen);
-    }
-    curve->setShowLines(true);
-    addPoints(listPoints, measureName, curve);
-    m_plotWidget->addPlotObject(curve);
-    return curve;
-}
 
 QColor CGraphicsWidget::createNewColor()
 {

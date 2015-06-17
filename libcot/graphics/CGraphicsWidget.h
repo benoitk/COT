@@ -20,23 +20,6 @@ public:
     void clear();
 
     /*
-     * Change graphics limit.
-     */
-    void changeLimits(double x1, double x2, double y1, double y2);
-
-    /*
-     * Add a new curve to graphics and return curve object
-     */
-    KPlotObject *addCurve(const QList<QPointF> &listPoints, const QString &measureName = QString(), const QColor &col = QColor());
-
-    /*
-     * Create or update a curve based on measurename
-     * If measurename doesn't exist this function will create a new curve
-     * otherwise it will update curve data
-     */
-    void addOrUpdateCurve(const QList<QPointF> &listPoints, const QString &measureName);
-
-    /*
      * Create or update a curve based on measurename
      * If measurename doesn't exist this function will create a new curve
      * otherwise it will update curve data
@@ -50,8 +33,8 @@ public:
     static QColor createNewColor();
 private:
     KPlotObject *addCurve(double value, const QString &measureName, const QColor &col);
+    void changeLimits(double x1, double x2, double y1, double y2);
     void addPoint(float value, const QString &measureName, KPlotObject *curve);
-    void addPoints(const QList<QPointF> &listPoints, const QString &measureName, KPlotObject *curve);
     void initializeGraphic();
     int m_horizontalMaximumValue;
     int m_verticalMaximumValue;
