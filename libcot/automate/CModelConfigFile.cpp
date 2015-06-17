@@ -34,7 +34,7 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
     : QObject(parent)
 {
     qCDebug(COTAUTOMATE_LOG) << "CModelConfigFile(QObject *parent)";
-    QFile jsonFile(QString::fromLocal8Bit(COT_JSON_FILE));
+    QFile jsonFile(QString::fromLocal8Bit(JSON_DIRECTORY "/save.json"));
 
     qCDebug(COTAUTOMATE_LOG) << "jsonFile.exists()" << jsonFile.exists();
 

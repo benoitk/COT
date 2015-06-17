@@ -25,7 +25,12 @@ DEFINES *= \
     QT_USE_FAST_OPERATOR_PLUS \
     QT_STRICT_ITERATORS
 
-DEFINES *= "COT_JSON_FILE=\\\"$${LIBCOT_SRC_PWD}/save.json\\\""
+DEVICE_BUILD {
+      DEFINES += JSON_DIRECTORY=\"\\\"/home/seres/\\\"\"
+} else {
+      DEFINES += JSON_DIRECTORY=\"\\\"$${top_srcdir}/libcot/\\\"\"
+}
+
 macx:DEFINES *= "COT_USB_MOUNT_POINT=\\\"/Volumes\\\""
 else:DEFINES *= "COT_USB_MOUNT_POINT=\\\"/media\\\""
 

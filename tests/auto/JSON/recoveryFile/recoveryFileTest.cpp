@@ -41,16 +41,17 @@ QString recoveryFileTest::recoveryFilePath() const
 
 void recoveryFileTest::initTestCase()
 {
+    const QString filePath = JSON_DIRECTORY "/save.json";
     // check that we have the JSon file available and ready to read
-    QVERIFY(!QString(COT_JSON_FILE_PATH).isEmpty());
+    QVERIFY(QFile::exists(filePath));
 
     // put save.json in the current directory for the tests.
-    QFile jsonExampleFile(QStringLiteral(COT_JSON_FILE_PATH));
+    QFile jsonExampleFile(filePath);
     if (QFile::exists(jsonFilePath())) {
         QFile::remove(jsonFilePath());
     }
     QVERIFY(jsonExampleFile.copy(jsonFilePath()));
-    QCOMPARE(fileContents(QStringLiteral(COT_JSON_FILE_PATH)), fileContents(jsonFilePath()));
+    QCOMPARE(fileContents(filePath), fileContents(jsonFilePath()));
 }
 
 void recoveryFileTest::testRecovery()
