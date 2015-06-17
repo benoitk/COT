@@ -149,7 +149,11 @@ void CScrollableWidget::updateActions()
         return;
     const auto value = verticalScrollBar()->value();
     const auto maximum = verticalScrollBar()->maximum();
-    const auto needsScrolling = widget()->height() > m_pageStep;
+    CScrollablePagerWidget *pager = scrollablePagerWidget();
+    const auto needsScrolling = pager ? (pager->numPages() > 1) : (widget()->height() > m_pageStep);
+
+    //qDebug() << "pageStep=" << m_pageStep << "widget height=" << widget()->height() << "-> needsScrolling=" << needsScrolling;
+
     m_moveDown->setEnabled(value != maximum && needsScrolling);
     m_moveUp->setEnabled(value > 0);
     m_moveDown->setVisible(needsScrolling);

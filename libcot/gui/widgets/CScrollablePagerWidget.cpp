@@ -21,17 +21,17 @@ QSize CScrollablePagerWidget::minimumSizeHint() const
 
 QSize CScrollablePagerWidget::sizeHint() const
 {
-    const QSize sh = QWidget::sizeHint();
+    const QSize sh = QWidget::sizeHint(); // size hint from the layout
 
     if (m_hostHeight == -1) {
         return sh;
     }
 
-    const int pages = qCeil(static_cast<double>(sh.height()) / static_cast<double>(m_hostPageHeight));
-    //qDebug() << "making height" << (m_hostHeight * pages) << "instead of" << height();
+    const int pages = numPages();
 
     // The last page is the full height. All others are just page height (integer number of items).
     const QSize nsh = QSize(sh.width(), m_hostPageHeight * (pages-1) + m_hostHeight);
+    //qDebug() << "making height" << m_hostPageHeight << "*" << (pages-1) << "+" << m_hostHeight << "=" << nsh.height() << "instead of" << height();
     return nsh;
 }
 
@@ -42,4 +42,12 @@ void CScrollablePagerWidget::setHostHeight(int hostHeight, int hostPageHeight)
         m_hostPageHeight = hostPageHeight;
         updateGeometry();
     }
+}
+
+int CScrollablePagerWidget::numPages() const
+{
+    if (m_hostHeight == -1) {
+        return 0;
+    }
+    return qCeil(static_cast<double>(QWidget::sizeHint().height()) / static_cast<double>(m_hostPageHeight));
 }

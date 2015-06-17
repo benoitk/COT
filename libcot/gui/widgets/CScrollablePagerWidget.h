@@ -23,6 +23,8 @@ public:
     // hostPageHeight = height of an integer number of items, usually a bit smaller
     void setHostHeight(int hostHeight, int hostPageHeight);
 
+    int numPages() const;
+
 private:
     int m_hostHeight;
     int m_hostPageHeight;
