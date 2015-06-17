@@ -36,7 +36,6 @@ private:
     void changeLimits(double x1, double x2, double y1, double y2);
     void addPoint(float value, const QString &measureName, KPlotObject *curve);
     void initializeGraphic();
-    int m_horizontalMaximumValue;
     int m_verticalMaximumValue;
     KPlotWidget *m_plotWidget;
     QHash<QString, KPlotObject *> m_plotObjectHash;
