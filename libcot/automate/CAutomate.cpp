@@ -328,15 +328,13 @@ void CAutomate::slotClock(){
 
     // TEST CODE (for graph and history)
     getVariable(QStringLiteral("measure_cot"))->setValue(QVariant(m_iClock));
-    emit signalUpdatePlotting(QStringLiteral("measure_cot"));
     IVariable *phosphore = getVariable(QStringLiteral("phosphore"));
     phosphore->setValue(m_iClock * 2);
-    emit signalUpdatePlotting(phosphore->getName());
     if ((m_iClock % 5) == 2) {
         IVariable *azote= getVariable(QStringLiteral("azote"));
         azote->setValue(m_iClock * 1.5);
-        emit signalUpdatePlotting(azote->getName());
     }
+    emit signalUpdatePlotting();
     if (m_iClock == 6) {
         emit signalUpdateStateStream("stream_1", WATER_DEFAULT);
     } else if (m_iClock == 10) {

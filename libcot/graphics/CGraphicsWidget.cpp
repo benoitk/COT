@@ -1,6 +1,6 @@
 #include "CGraphicsWidget.h"
 #include "kplotwidget.h"
-#include "kplotobject.h"
+#include "CPlotObject.h"
 #include "kplotaxis.h"
 #include "kplotpoint.h"
 #include <QVBoxLayout>
@@ -8,11 +8,12 @@
 #include "cotgui_debug.h"
 
 static const int INCREMENT_Y = 50;
-static const int s_maxPointsInCurve = 30;
+int s_maxPointsInCurve = 30;
 
 CGraphicsWidget::CGraphicsWidget(QWidget *parent)
-    : QWidget(parent),
-      m_verticalMaximumValue(INCREMENT_Y)
+    : QWidget(parent)
+      , m_x(0)
+      , m_verticalMaximumValue(INCREMENT_Y)
 {
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->setMargin(0);
@@ -29,8 +30,9 @@ CGraphicsWidget::~CGraphicsWidget()
 
 void CGraphicsWidget::initializeGraphic()
 {
+    m_plotWidget->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
     changeLimits(0, s_maxPointsInCurve - 1, 0, m_verticalMaximumValue);
-    m_plotWidget->axis(KPlotWidget::LeftAxis)->setVisible(false);
+    m_plotWidget->axis(KPlotWidget::LeftAxis)->setVisible(true);
     m_plotWidget->axis(KPlotWidget::TopAxis)->setVisible(false);
     m_plotWidget->setAntialiasing(true);
     m_plotWidget->setShowGrid(true);
@@ -39,12 +41,31 @@ void CGraphicsWidget::initializeGraphic()
     m_plotWidget->axis(KPlotWidget::RightAxis)->setTickLabelsShown(true);
     m_plotWidget->axis(KPlotWidget::BottomAxis)->setTickLabelsShown(false);
     m_plotWidget->setObjectToolTipShown(true);
+    m_plotWidget->setLeftPadding(1);
+    m_plotWidget->setTopPadding(1);
+    m_plotWidget->setBottomPadding(1);
+    m_plotWidget->setMinimumSize(200, 100); // the 150 in KPlotWidget is too high
 }
 
 void CGraphicsWidget::clear()
 {
     m_plotWidget->removeAllPlotObjects();
     m_plotObjectHash.clear();
+}
+
+void CGraphicsWidget::doneUpdatingPlotting()
+{
+    m_x++;
+    m_plotWidget->update();
+}
+
+void CGraphicsWidget::showPlotObject(CPlotObject *object)
+{
+    if (m_plotWidget->plotObjects().count() == 1) {
+        m_plotWidget->replacePlotObject(0, object);
+    } else {
+        m_plotWidget->addPlotObject(object);
+    }
 }
 
 void CGraphicsWidget::changeLimits(double x1, double x2, double y1, double y2)
@@ -55,33 +76,30 @@ void CGraphicsWidget::changeLimits(double x1, double x2, double y1, double y2)
 
 void CGraphicsWidget::addOrUpdateCurve(float value, const QString &measureName)
 {
-    KPlotObject *searchPlot = m_plotObjectHash.value(measureName);
-    if (searchPlot) {
-        int i = m_plotWidget->plotObjects().indexOf(searchPlot);
-        Q_ASSERT(i >= 0);
-        addPoint(value, measureName, searchPlot);
-        m_plotWidget->replacePlotObject(i, searchPlot);
-    } else {
-        KPlotObject *plot = addCurve(value, measureName, createNewColor());
+    CPlotObject *plot = m_plotObjectHash.value(measureName);
+    if (!plot) {
+        plot = new CPlotObject();
         m_plotObjectHash.insert(measureName, plot);
+        m_plotWidget->addPlotObject(plot);
     }
-    m_plotWidget->update();
+    addPoint(value, plot);
 }
 
-void CGraphicsWidget::addPoint(float value, const QString &measureName, KPlotObject *curve)
+void CGraphicsWidget::addPoint(float value, CPlotObject *curve)
 {
-    const QDateTime dt = QDateTime::currentDateTime();
     bool needToChangeGraphicLimit = false;
-    const QList<KPlotPoint *> points = curve->points();
-    const int x = points.isEmpty() ? 0 : (points.last()->x() + 1);
+
+    curve->addValue(m_x, value);
+
+    // TODO move all this stuff about limits to doneUpdatingPlotting(), it's not per curve but global...
+    // OK for X but not for Y, yet.
 
     int x1 = 0;
     int x2 = s_maxPointsInCurve - 1;
-    if (x >= s_maxPointsInCurve) {
+    if (m_x >= s_maxPointsInCurve) {
         needToChangeGraphicLimit = true;
-        curve->removePoint(0);
-        x2 = x;
-        x1 = x - s_maxPointsInCurve + 1;
+        x2 = m_x;
+        x1 = m_x - s_maxPointsInCurve + 1;
     }
 
     // SERES_TODO: add API for range, so a fixedrange can be used here?
@@ -92,28 +110,5 @@ void CGraphicsWidget::addPoint(float value, const QString &measureName, KPlotObj
     if (needToChangeGraphicLimit) {
         changeLimits(x1, x2, 0, m_verticalMaximumValue);
     }
-    //qCDebug(COTGUI_LOG) << "addPoint" << QPointF(x, value);
-    curve->addPoint(QPointF(x, value), tr("Mesure name: %1\nValue: %2\n Date: %3").arg(measureName).arg(value).arg(dt.toString()));
-}
 
-KPlotObject *CGraphicsWidget::addCurve(double value, const QString &measureName, const QColor &col)
-{
-    KPlotObject *curve = new KPlotObject();
-    if (col.isValid()) {
-        QPen pen = curve->linePen();
-        pen.setColor(col);
-        curve->setLinePen(pen);
-        curve->setPen(pen);
-    }
-    curve->setShowLines(true);
-    addPoint(value, measureName, curve);
-    m_plotWidget->addPlotObject(curve);
-    return curve;
-}
-
-
-QColor CGraphicsWidget::createNewColor()
-{
-    const QColor col = QColor(qrand() % 256, qrand() % 256, qrand() % 256);
-    return col;
 }

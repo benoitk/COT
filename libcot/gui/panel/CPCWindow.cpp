@@ -8,7 +8,12 @@
 #include "CMeasureWindow.h"
 #include "CUpdateManager.h"
 #include "CUpdateDialog.h"
+#include <CAutomate.h>
+#include <CDisplayConf.h>
+#include <CVariableStream.h>
 #include <QDebug>
+
+static const int s_maxMeasuresMainScreen = 3;
 
 static CPCWindow *s_mainWindow = Q_NULLPTR;
 
@@ -29,10 +34,12 @@ CPCWindow::CPCWindow(QWidget *parent)
 
     ui->setupUi(this);
     ui->actionUpdate->setVisible(false);
-    addTab(new CPCMeasureTab(this), QString());
+    const bool showGraphInMeasureTab = showGraphInMainScreen();
+    addTab(new CPCMeasureTab(showGraphInMeasureTab, this), QString());
     addTab(new CPCDiagnosticTab(this), QString());
     addTab(new CPCToolsTab(this), QString());
-    addTab(new CPCHistogramTab(this), QString());
+    if (!showGraphInMeasureTab)
+        addTab(new CPCHistogramTab(this), QString());
     addTab(new CPCPlusTab(this), QStringLiteral("  +  "));
 
     CVerticalButtonBar *vbb = qobject_cast<IPCTab *>(ui->twPages->widget(0))->buttonBar();
@@ -106,7 +113,8 @@ void CPCWindow::retranslate()
     ui->twPages->setTabText(0, tr("MEASURE"));
     ui->twPages->setTabText(1, tr("DIAGNOSTIC"));
     ui->twPages->setTabText(2, tr("TOOLS"));
-    ui->twPages->setTabText(3, tr("GRAPHS"));
+    if (!showGraphInMainScreen())
+        ui->twPages->setTabText(3, tr("GRAPHS"));
 }
 
 void CPCWindow::changeEvent(QEvent *event)
@@ -155,4 +163,14 @@ bool CPCWindow::canShowUpdatePopup() const
 {
     // TODO: check running cycles etc
     return !QApplication::activeModalWidget();
+}
+
+bool CPCWindow::showGraphInMainScreen() const
+{
+    int numMeasures = 0;
+    const QList<CVariableStream*> streams = CAutomate::getInstance()->getListStreams();
+    foreach(CVariableStream *stream, streams) {
+        numMeasures += stream->getListMeasures().count();
+    }
+    return numMeasures <= s_maxMeasuresMainScreen;
 }

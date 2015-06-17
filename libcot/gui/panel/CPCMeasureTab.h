@@ -14,7 +14,7 @@ class CPCMeasureTab : public IPCTab
 {
     Q_OBJECT
 public:
-    explicit CPCMeasureTab(QWidget *parent = Q_NULLPTR);
+    explicit CPCMeasureTab(bool showGraph, QWidget *parent = Q_NULLPTR);
     ~CPCMeasureTab();
 
     CVerticalButtonBar *buttonBar() const Q_DECL_OVERRIDE;
@@ -27,7 +27,7 @@ private slots:
     void slotNextStreamTriggered();
     void slotUpdateStreamsMeasures();
     void slotVariableChanged(const QString &name, const QDateTime &dateTime);
-    void slotUpdatePlotting(const QString &name);
+    void slotUpdatePlotting();
     void updateAlarmsAction();
 
 private:

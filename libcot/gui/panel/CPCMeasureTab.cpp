@@ -9,7 +9,7 @@
 #include "CVariableMeasure.h"
 #include <QDebug>
 
-CPCMeasureTab::CPCMeasureTab(QWidget *parent)
+CPCMeasureTab::CPCMeasureTab(bool showGraph, QWidget *parent)
     : IPCTab(parent)
     , ui(new Ui::CPCMeasureTab)
     , m_pendingAlarms(new CPendingAlarms(this))
@@ -34,8 +34,14 @@ CPCMeasureTab::CPCMeasureTab(QWidget *parent)
             this, &CPCMeasureTab::slotUpdateStreamsMeasures);
     connect(CAutomate::getInstance(), &CAutomate::signalVariableChanged,
             this, &CPCMeasureTab::slotVariableChanged);
-    connect(CAutomate::getInstance(), &CAutomate::signalUpdatePlotting,
-            this, &CPCMeasureTab::slotUpdatePlotting);
+
+    if (showGraph) {
+        connect(CAutomate::getInstance(), &CAutomate::signalUpdatePlotting,
+                this, &CPCMeasureTab::slotUpdatePlotting);
+        ui->swCentral->setScrollable(false);
+    } else {
+        ui->graphicsWidget->hide();
+    }
 
     connect(m_pendingAlarms, &CPendingAlarms::changed, this, &CPCMeasureTab::updateAlarmsAction);
     updateAlarmsAction();
@@ -115,10 +121,16 @@ void CPCMeasureTab::updateAlarmsAction()
                     : CToolButton::buttonIcon(CToolButton::Alarms));
 }
 
-void CPCMeasureTab::slotUpdatePlotting(const QString &name)
+void CPCMeasureTab::slotUpdatePlotting()
 {
     CAutomate *automate = CAutomate::getInstance();
-    IVariable *var = automate->getVariable(name);
-    const float value = var->toFloat();
-    ui->graphicsWidget->addOrUpdateCurve(value, name);
+    const QList<CVariableStream*> streams = automate->getListStreams();
+    foreach (CVariableStream *streamVar, streams) {
+        foreach (IVariable *measure, streamVar->getListMeasures()) {
+            CVariableMeasure *measureVar = static_cast<CVariableMeasure *>(measure);
+            const float value = measureVar->toFloat();
+            ui->graphicsWidget->addOrUpdateCurve(value, measureVar->getName());
+        }
+    }
+    ui->graphicsWidget->doneUpdatingPlotting();
 }

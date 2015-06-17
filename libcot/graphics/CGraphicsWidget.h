@@ -6,7 +6,7 @@
 #include "cot_global.h"
 
 class KPlotWidget;
-class KPlotObject;
+class CPlotObject;
 class LIBCOT_EXPORT CGraphicsWidget : public QWidget
 {
     Q_OBJECT
@@ -19,26 +19,39 @@ public:
      */
     void clear();
 
-    /*
+    /**
+     * High-level
      * Create or update a curve based on measurename
      * If measurename doesn't exist this function will create a new curve
      * otherwise it will update curve data
-     * It will add a new Y value (X is incremented every time).
      */
     void addOrUpdateCurve(float value, const QString &mesureName);
 
-    /*
-     * Generate new randow color
+    /**
+     * High-level
+     * Updates X for next time and recalculates limits
      */
-    static QColor createNewColor();
+    void doneUpdatingPlotting();
+
+    /**
+     * Low-level
+     * Updates X for next time and recalculates limits
+     */
+    void addPoint(float value, CPlotObject *curve);
+
+    /**
+     * Low-level
+     * Ensure plot object is shown (TODO remove)
+     */
+    void showPlotObject(CPlotObject *object);
+
 private:
-    KPlotObject *addCurve(double value, const QString &measureName, const QColor &col);
     void changeLimits(double x1, double x2, double y1, double y2);
-    void addPoint(float value, const QString &measureName, KPlotObject *curve);
     void initializeGraphic();
+    int m_x;
     int m_verticalMaximumValue;
     KPlotWidget *m_plotWidget;
-    QHash<QString, KPlotObject *> m_plotObjectHash;
+    QHash<QString, CPlotObject *> m_plotObjectHash;
 };
 
 #endif // CGRAPHICSWIDGET_H

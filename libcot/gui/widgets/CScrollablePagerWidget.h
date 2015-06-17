@@ -20,14 +20,16 @@ public:
     QSize sizeHint() const Q_DECL_OVERRIDE;
 
     // hostHeight = the height of the CScrollableWidget viewport
-    // hostPageHeight = height of an integer number of items, usually a bit smaller
-    void setHostHeight(int hostHeight, int hostPageHeight);
+    void setHostHeight(int hostHeight);
+
+    // pageHeight = height of an integer number of items, usually a bit smaller than hostHeight
+    void setPageHeight(int pageHeight);
 
     int numPages() const;
 
 private:
     int m_hostHeight;
-    int m_hostPageHeight;
+    int m_pageHeight;
 };
 
 #endif // CSCROLLABLEPAGERWIDGET_H

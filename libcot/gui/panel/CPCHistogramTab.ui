@@ -12,27 +12,7 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <widget class="CScrollableWidget" name="swCentral">
-     <property name="frameShape">
-      <enum>QFrame::NoFrame</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Plain</enum>
-     </property>
-     <property name="widgetResizable">
-      <bool>true</bool>
-     </property>
-     <widget class="QWidget" name="swCentralContents">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>356</width>
-        <height>276</height>
-       </rect>
-      </property>
-     </widget>
-    </widget>
+    <widget class="CGraphicsWidget" name="graphicsWidget" native="true"/>
    </item>
    <item>
     <widget class="CVerticalButtonBar" name="vbbButtons" native="true"/>
@@ -47,9 +27,9 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>CScrollableWidget</class>
-   <extends>QScrollArea</extends>
-   <header>CScrollableWidget.h</header>
+   <class>CGraphicsWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">CGraphicsWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -2,6 +2,7 @@
 #include "CGraphicsWidget.h"
 #include <QVBoxLayout>
 #include <QDebug>
+
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
 {
@@ -10,9 +11,8 @@ Widget::Widget(QWidget *parent)
     vbox->addWidget(graph);
     for (int i = 0; i < 50; ++i) {
         graph->addOrUpdateCurve(i * 10, QStringLiteral("curve1"));
-    }
-    for (int i = 0; i < 50; ++i) {
         graph->addOrUpdateCurve(i * 15, QStringLiteral("curve2"));
+        graph->doneUpdatingPlotting();
     }
 }
 

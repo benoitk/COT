@@ -29,6 +29,7 @@ public:
     void setScrollablePagerWidget(CScrollablePagerWidget *w);
     CScrollablePagerWidget *scrollablePagerWidget() const;
 
+    void updatePageHeight();
 protected:
     bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
@@ -45,6 +46,7 @@ private:
     QAction *m_moveUp;
     QAction *m_moveDown;
     int m_pageStep;
+    int m_viewportMargin;
     bool m_scrollable;
 };
 

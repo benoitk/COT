@@ -76,6 +76,7 @@ private:
 
     void addTab(IPCTab *tab, const QString &title);
     bool canShowUpdatePopup() const;
+    bool showGraphInMainScreen() const;
 };
 
 #endif // CPCWINDOW_H

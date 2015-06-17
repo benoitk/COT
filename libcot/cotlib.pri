@@ -171,6 +171,7 @@ HEADERS *= \
     $$KPLOTTING_SRC_PWD/src/kplotpoint.h \
     $$KPLOTTING_SRC_PWD/src/kplotwidget.h \
     graphics/CGraphicsWidget.h \
+    graphics/CPlotObject.h \
     gui/IVariableMaintenanceUIHandler.h \
     gui/panel/CAboutWindow.h \
     automate/variables/CVariableOutputListVariables.h \
@@ -344,6 +345,7 @@ SOURCES *= \
     $$KPLOTTING_SRC_PWD/src/kplotpoint.cpp \
     $$KPLOTTING_SRC_PWD/src/kplotwidget.cpp \
     graphics/CGraphicsWidget.cpp \
+    graphics/CPlotObject.cpp \
     gui/IVariableMaintenanceUIHandler.cpp \
     gui/panel/CAboutWindow.cpp \
     automate/variables/CVariableOutputListVariables.cpp \
