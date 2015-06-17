@@ -330,7 +330,7 @@ void CAutomate::slotClock(){
     IVariable *phosphore = getVariable(QStringLiteral("phosphore"));
     phosphore->setValue(m_iClock * 2);
     emit signalUpdatePlotting(phosphore->getName());
-    if ((m_iClock % 10) == 0) {
+    if ((m_iClock % 5) == 2) {
         IVariable *azote= getVariable(QStringLiteral("azote"));
         azote->setValue(m_iClock * 1.5);
         emit signalUpdatePlotting(azote->getName());
