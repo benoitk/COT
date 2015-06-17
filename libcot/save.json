@@ -291,7 +291,7 @@
 
                 },
                 {"name":"stream_2", "fr_FR":"stream 2", "variables":["turbidity", "coef_current"], "active_state": "stream_2_state",
-                    "measures":[{"name":"measure_1", "fr_FR":"Mesure d'azote", "variable_measure":"azote", "variable_range_max":"measure_cot_max", "variable_range_min":"measure_cot_min", "variables":["coef_calculated", "zero_standard"]},
+                    "measures":[{"name":"measure_1", "fr_FR":"Mesure d'azote", "variable_measure":"azote", "variable_range_max":"measure_cot_max", "variable_range_min":"measure_cot_min", "variables":["coef_calculated", "zero_standard"]}
                     ],
                     "cycles":["cycle_measure_azote", "azote_calibration"]
 

@@ -164,6 +164,10 @@ void IVariableMeasuresUIHandler::slotUpdateStateStream(const QString &arg_stream
 {
     CAutomate *automate = CAutomate::getInstance();
     CVariableStream *stream = automate->getStream(arg_streamName);
+    if (!stream) {
+        qWarning() << "Automat error: updateStateStream emitted unknown stream name" << arg_streamName;
+        return;
+    }
     const QList<IVariable *> measures = stream->getListMeasures();
     if (!measures.isEmpty()) {
         CVariableMeasure *measureVar = static_cast<CVariableMeasure *>(measures.at(0));
