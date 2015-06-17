@@ -28,7 +28,22 @@
                         ]
         },
         {"name" : "io_card_1","fr_FR" : "Carte E/S 1", "en_US" : "I/O card 1",
-            "com" : {"name":"com_jbus_tcp_master","type":"tcpip", "slave":1, "ip":"192.168.1.10", "port":502, "debug":true},
+            "com" : {"name":"com_jbus_tcp_master","type":"tcpip", "slave":1, "ip":"192.168.1.11", "port":502, "debug":true},
+            "organs" : [{"name":"tor_input_0", "type":"input_bit", "address_data":"0x0100"},
+                       {"name":"tor_input_1", "type":"input_bit", "address_data":"0x0101"},
+                       {"name":"tor_input_2", "type":"input_bit", "address_data":"0x0102"},
+                       {"name":"tor_output_0", "type":"output_bit", "address_data":"0x0200"},
+                       {"name":"tor_output_1", "type":"output_bit", "address_data":"0x0201"},
+                       {"name":"tor_output_2", "type":"output_bit", "address_data":"0x0202"},
+                       {"name":"tor_output_3", "type":"output_bit", "address_data":"0x0203"},
+                       {"name":"voltage_output_0", "type":"output_bit", "address_data":"0x0300"},
+                       {"name":"voltage_output_1", "type":"output_bit", "address_data":"0x0301"},
+                       {"name":"loop_0_20_data", "type":"output_integer", "address_data":"0x0400"},
+                       {"name":"loop_0_20_status", "type":"output_integer", "address_data":"0x0403"},
+                       {"name":"loop_0_20_reset", "type":"output_integer", "address_data":"0x0406"}]
+        },
+        {"name" : "io_card_2","fr_FR" : "Carte E/S 1", "en_US" : "I/O card 2",
+            "com" : {"name":"com_jbus_tcp_master","type":"tcpip", "slave":1, "ip":"192.168.1.12", "port":502, "debug":true},
             "organs" : [{"name":"tor_input_0", "type":"input_bit", "address_data":"0x0100"},
                        {"name":"tor_input_1", "type":"input_bit", "address_data":"0x0101"},
                        {"name":"tor_input_2", "type":"input_bit", "address_data":"0x0102"},
@@ -65,7 +80,7 @@
                         {"source":"kelvin", "target":"deg_cel", "type":"offset", "offset":-273.15}
 
     ],
-    "variables" : [{"name":"measure_cot", "fr_FR" : "COT", "en_US" : "TOC", "type":"float", "value" : 2.3, "unit":"mg_l", "address":"0x0100", "access":"read", "com_name":"com_jbus_rs_slave"},
+    "variables" : [{"name":"measure_cot", "fr_FR" : "COTTT", "en_US" : "TOC", "type":"float", "value" : 2.3, "unit":"mg_l", "address":"0x0100", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"azote", "fr_FR" : "azote", "en_US" : "azote", "type":"float", "value" : 16.5, "unit":"mg_l", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"phosphore", "fr_FR" : "phosphore", "en_US" : "phosphore", "type":"float", "value" : 58.5, "unit":"mg_l", "address":"0x0104", "access":"read_write", "com_name":"com_jbus_rs_slave"},
                     {"name":"measure_cot_max", "fr_FR" : "Mesure max", "en_US" : "Max measure", "type":"float", "value" : 10, "unit":"mg_l", "address":"0x0106", "access":"read_write", "com_name":"com_jbus_rs_slave"},
@@ -118,6 +133,12 @@
                     {"name":"emptying_solenoide", "fr_FR" : "EV vidange", "en_US" : "Emptying solenoid", "type":"output_boolean", "access":"read_write",
                             "value" : false, "extension_name":"io_card_1", "organ_name":"tor_output_2", "passive":false
                     },
+                    {"name":"sample_solenoide_2", "fr_FR" : "EV echantillon 2", "en_US" : "Sample solenoid", "type":"output_boolean", "access":"read_write",
+                            "value" : false, "extension_name":"io_card_2", "organ_name":"tor_output_1", "passive":true
+                    },
+                    {"name":"emptying_solenoide_2", "fr_FR" : "EV vidange 2", "en_US" : "Emptying solenoid", "type":"output_boolean", "access":"read_write",
+                            "value" : false, "extension_name":"io_card_2", "organ_name":"tor_output_2", "passive":false
+                    },
                     {"name":"test_relay_1", "fr_FR" : "Relais CM 1", "en_US" : "Relay 1", "type":"output_boolean", "access":"read_write",
                             "value" : true, "extension_name":"measure_card_1", "organ_name":"relay_1", "passive":false
                     },
@@ -148,7 +169,7 @@
     "display":[
         {"name":"diagnostic", "variables":["direct_measure", "temperature_cell"]},
         {"name":"elec_tests", "map_tabs":[{"name":"tab_EV", "variables":["emptying_solenoide", "sample_solenoide"]},
-                     {"name":"tab_Actionneurs", "variables":["test_relay_1", "test_relay_2", "test_relay_3", "sample_solenoide", "emptying_solenoide"]},
+                     {"name":"tab_Actionneurs", "variables":["test_relay_1", "test_relay_2", "test_relay_3", "sample_solenoide", "emptying_solenoide", "sample_solenoide_2", "emptying_solenoide_2"]},
                      {"name":"tab_entrees", "variables":["selection_stream1", "arret_fin_cycle"]},
                      {"name":"tab_pump", "variables":["pump_persulfate"]},
                      {"name":"tab_selecteur","variables":["selecteur_position_stream1", "selecteur_position_stream2"],"pump":"pump_persulfate"  }
@@ -190,18 +211,19 @@
                 },
                 {
                     "name" : "open_sample_solenoide",
-                    "type" : "cmd_open_relay",
+                    "type" : "cmd_relay",
                     "fr_FR" : "Ouverture EV echantillon",
                     "en_US" : "Open sample solenoid",
-                    "target" : "sample_solenoide"
-
+                    "target" : "test_relay_1",
+                    "state" : "open"
                 },
                 {
                     "name" : "close_sample_solenoide",
-                    "type" : "cmd_close_relay",
+                    "type" : "cmd_relay",
                     "fr_FR" : "Fermeture EV echantillon",
                     "en_US" : "Close sample solenoid",
-                    "target" : "sample_solenoide"
+                    "target" : "test_relay_1",
+                    "state" : "close"
 
                 },
                 {
@@ -231,6 +253,13 @@
     ],
 
     "cycles" : [
+        {
+            "name" : "cycle_test",
+            "fr_FR" : "measure de test",
+            "en_US" : "measure of test",
+            "type" : "measure",
+            "steps" : [{"name":"step_1", "step":1,"fr_FR":"Open relay", "actions":["open_sample_solenoide"]}, {"name":"step_3", "step":3,"fr_FR":"close relay", "actions":["close_sample_solenoide"]}]
+        },
         {
             "name" : "zero_calibration",
             "fr_FR" : "Cycle d'étalonnage zéro",
@@ -275,7 +304,7 @@
         }
     ],
 
-    "scheduler_measure" : ["cycle_measure_cot_stream1", "cycle_measure_cot_stream1", "cycle_pause_0", "nb_cycle"],
+    "scheduler_measure" : ["cycle_test"],
     "scheduler_autonome" : ["cycle_io", "nb_cycle"],
     "list_cycles_maintenaces" : ["azote_calibration", "zero_calibration"],
 

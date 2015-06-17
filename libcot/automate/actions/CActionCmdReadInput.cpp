@@ -7,22 +7,13 @@
 #include "cotautomate_debug.h"
 
 
-CActionCmdReadInput::CActionCmdReadInput(QObject *parent)
-    : IAction(parent)
-{
-
-}
-CActionCmdReadInput::CActionCmdReadInput(const QVariantMap &mapAction)
-    : IAction(mapAction)
+CActionCmdReadInput::CActionCmdReadInput(const QVariantMap &mapAction, QObject *parent)
+    : IAction(mapAction, parent)
 {
     CAutomate* automate = CAutomate::getInstance();
 
     m_organneVar =  automate->getVariable(mapAction[QStringLiteral("organne_var")].toString());
     m_variableDestination =  CAutomate::getInstance()->getVariable(mapAction[QStringLiteral("variable_destination_name")].toString());
-}
-CActionCmdReadInput::CActionCmdReadInput()
-    : IAction()
-{
 }
 
 CActionCmdReadInput::~CActionCmdReadInput()

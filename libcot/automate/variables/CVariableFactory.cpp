@@ -56,32 +56,34 @@ IVariable *CVariableFactory::build(variableType type, VariableOrganType organTyp
     switch (organType) {
         case VariableOrganTypeNone: {
             switch (type) {
-                case type_bool:
+            case type_bool:
                 return new CVariableBool(data.toBool());
 
-                case type_float:
-                    return new CVariableFloat(data.toFloat());
+            case type_float:
+                return new CVariableFloat(data.toFloat());
 
-                case type_int:
-                    return new CVariableInt(data.toInt());
+            case type_int:
+                return new CVariableInt(data.toInt());
 
-                case type_string:
-                    return new CVariableString(data.toString());
+            case type_string:
+                return new CVariableString(data.toString());
 
-                case type_stream:
-                    return new CVariableStream(data.toMap());
+            case type_stream:
+                return new CVariableStream(data.toMap());
 
-                case type_measure:
-                    return new CVariableMeasure(data.toMap());
+            case type_measure:
+                return new CVariableMeasure(data.toMap());
 
-                case type_list_variables:
-                    break;
+            case type_list_variables:
+                break;
 
-                case type_unknow:
-                    return new CVariableUnknow;
+            case type_mutable:
+                return new CVariableMutable(data);
+                break;
+                //case type_unknow:
+                //       return new CVariableUnknow;
+                //break;
 
-                case type_mutable:
-                    return new CVariableMutable(data);
             }
 
             break;
@@ -89,21 +91,21 @@ IVariable *CVariableFactory::build(variableType type, VariableOrganType organTyp
 
         case VariableOrganTypeInput: {
             switch (type) {
-                case type_bool:
-                    return new CVariableInputBool(data.toMap());
+            case type_bool:
+                return new CVariableInputBool(data.toMap());
 
-                case type_float:
-                    return new CVariableInputFloat(data.toMap());
+            case type_float:
+                return new CVariableInputFloat(data.toMap());
 
-                case type_int:
-                    return new CVariableInputInt(data.toMap());
+            case type_int:
+                return new CVariableInputInt(data.toMap());
 
-                case type_string:
-                case type_stream:
-                case type_measure:
-                case type_list_variables:
-                case type_unknow:
-                    break;
+            case type_string:
+            case type_stream:
+            case type_measure:
+            case type_list_variables:
+            case type_unknow:
+                break;
             }
 
             break;
@@ -111,32 +113,33 @@ IVariable *CVariableFactory::build(variableType type, VariableOrganType organTyp
 
         case VariableOrganTypeOutput: {
             switch (type) {
-                case type_bool:
-                    return new CVariableOutputBool(data.toMap());
+            case type_bool:
+                return new CVariableOutputBool(data.toMap());
 
-                case type_float:
-                    return new CVariableOutputFloat(data.toMap());
+            case type_float:
+                return new CVariableOutputFloat(data.toMap());
 
-                case type_int:
-                    return new CVariableOutputInt(data.toMap());
+            case type_int:
+                return new CVariableOutputInt(data.toMap());
 
-                case type_string:
-                case type_stream:
-                case type_measure:
-                    break;
+            case type_string:
+            case type_stream:
+            case type_measure:
+                break;
 
-                case type_list_variables:
-                    return new CVariableOutputListVariables(data.toMap());
+            case type_list_variables:
+                return new CVariableOutputListVariables(data.toMap());
 
-                case type_unknow:
-                    break;
+//            case type_unknow:
+//                break;
             }
 
             break;
         }
     }
 
-    return Q_NULLPTR;
+//    return Q_NULLPTR;
+    return new CVariableUnknow;
 }
 
 IVariable* CVariableFactory::build(const QString &type, const QVariantMap &data){

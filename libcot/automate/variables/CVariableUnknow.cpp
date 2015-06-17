@@ -4,7 +4,7 @@
 CVariableUnknow::CVariableUnknow()
     : IVariable()
 {
-
+    m_name = QStringLiteral("unknown_var");
 }
 
 CVariableUnknow::~CVariableUnknow()

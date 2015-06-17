@@ -26,6 +26,7 @@ public:
     variableType getType()const Q_DECL_OVERRIDE;
     void switchToUnit(CUnit*) Q_DECL_OVERRIDE;
 
+
 private:
 
 };

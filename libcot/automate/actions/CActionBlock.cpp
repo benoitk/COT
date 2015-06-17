@@ -3,16 +3,12 @@
 #include "CAutomate.h"
 #include "cotautomate_debug.h"
 
-CActionBlock::CActionBlock(const QVariantMap &mapAction)
-    : IAction(mapAction)
+CActionBlock::CActionBlock(const QVariantMap &mapAction, QObject *parent)
+    : IAction(mapAction, parent)
 {
 
 }
-CActionBlock::CActionBlock()
-    : IAction()
-{
 
-}
 CActionBlock::~CActionBlock()
 {
 

@@ -63,7 +63,7 @@ void CAutomate::initConfig(){
 
     connect(threadSequencer, &QThread::started, m_sequencer, &CSequencer::slotRequestPlaySequenceMesure);
     connect(m_sequencer, &CSequencer::signalUpdated, this, &CAutomate::signalSchedulerUpdated);
-//    threadSequencer->start();
+    threadSequencer->start();
 }
 
 CAutomate::~CAutomate()
@@ -155,8 +155,9 @@ IVariable* CAutomate::getVariable(const QString &name){
     QMutexLocker locker(&m_mutex);
 
     IVariable* var = m_mapVariables.value(name);
-    if(!var){
-        var = CVariableFactory::build(name + QLatin1String("unknow in map"));
+    if(!var && !(var = m_mapVariables.value(QStringLiteral("unknown_var")))){
+         var = CVariableFactory::build(QVariantMap());
+         m_mapVariables.insert(var->getName(), var);
     }
     return var;
 }
@@ -168,8 +169,9 @@ QList<IVariable *> CAutomate::getVariables(const QStringList &names)
 
     foreach (const QString &name, names) {
         IVariable *ivar = m_mapVariables.value(name, 0);
-        if(!ivar){
-            ivar = CVariableFactory::build(name + QLatin1String("unknow in map"));
+        if(!ivar && !(ivar = m_mapVariables.value(QStringLiteral("unknown_var")))){
+            ivar = CVariableFactory::build(QVariantMap());
+            m_mapVariables.insert(ivar->getName(), ivar);
         }
         ivars << ivar;
     }
@@ -307,7 +309,7 @@ IAction* CAutomate::getAction(const QString &arg_name){
         if(m_mapActions.contains(QStringLiteral("unknow_action")))
             action = m_mapActions.value(QStringLiteral("unknow_action"));
         else{
-            action = CActionFactory::build(QVariantMap());
+            action = CActionFactory::build(QVariantMap(), this);
             m_mapActions.insert(QStringLiteral("unknow_action"), action);
         }
     }

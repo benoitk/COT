@@ -13,8 +13,8 @@ class CActionBlock : public IAction
 
 public:
 
-    CActionBlock(const QVariantMap&);
-    CActionBlock();
+    CActionBlock(const QVariantMap&, QObject *parent);
+
     ~CActionBlock();
 
     void setActions(const QList<IAction *>& actions);

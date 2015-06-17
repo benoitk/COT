@@ -9,9 +9,8 @@ class CActionCmdRelay : public IAction
 
 public:
 
-    CActionCmdRelay(QObject *parent);
-    CActionCmdRelay(const QVariantMap&);
-    CActionCmdRelay();
+
+    CActionCmdRelay(const QVariantMap&, QObject *parent);
     ~CActionCmdRelay();
 
     int getTiming();
@@ -21,10 +20,11 @@ public:
     QList<IVariable*> getListParameters()const Q_DECL_OVERRIDE;
     actionType getType()const Q_DECL_OVERRIDE;
     bool variableUsed(IVariable *)const Q_DECL_OVERRIDE;
+
 private:
 
     IVariable* m_RelayVar;
-
+    bool m_stateOpen;
 
 };
 

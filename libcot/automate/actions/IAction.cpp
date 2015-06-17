@@ -3,29 +3,15 @@
 #include "qvariant.h"
 
 
-IAction::IAction(const QVariantMap &mapAction){
+IAction::IAction(const QVariantMap &mapAction, QObject *parent):QObject(parent){
     m_label = mapAction[tr("FR_lbl")].toString();
+    if(m_label == "" ) m_label = tr("Label non renseignée");
     m_name = mapAction[QStringLiteral("name")].toString();
+    if(m_name == "") m_name =  tr("Nom non renseignée");
 }
-IAction::IAction(): QObject(){
-    m_label = tr("Label non renseignée");
-    m_name =  tr("Nom non renseignée");
-}
-IAction::IAction(QObject *parent): QObject(parent){}
 
 IAction::~IAction(){}
 
-/*IAction* IAction::factory(QVariantMap mapAction){
-    IAction* action = NULL;
-    if(mapAction["class"].toString() == "cmd_pump"){
-        action = new CActionCmdPompe(mapAction);
-        action->factory(mapAction);
-    }
-    if(mapAction["class"].toString() == "cmd_relay"){
-        action = new CActionCmdRelay(mapAction);
-    }
-    return action;
-}*/
 
 QString IAction::typeToString(actionType arg_type)
 {

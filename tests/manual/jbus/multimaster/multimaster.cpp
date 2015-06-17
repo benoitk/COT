@@ -8,15 +8,18 @@
 class JBusTest : public QObject
 {
 public:
-    explicit JBusTest(CComJBus *bus1, CComJBus *bus2, QObject* parent = 0)
+    explicit JBusTest(CComJBus *bus1, CComJBus *bus2, CComJBus *bus3, QObject* parent = 0)
         : QObject(parent)
         , m_bus1(bus1)
         , m_bus2(bus2)
+        , m_bus3(bus3)
         , m_connected(0)
     {
         connect(bus1, &CComJBus::connected,
                 this, &JBusTest::connected);
         connect(bus2, &CComJBus::connected,
+                this, &JBusTest::connected);
+        connect(bus3, &CComJBus::connected,
                 this, &JBusTest::connected);
     }
 
@@ -45,14 +48,16 @@ public:
 //        m_bus1->readInt(0, CComJBus::Input);
 //        m_bus2->readInt(1, CComJBus::Output);
 
-        for(int i=0;i<100;++i){
+        for(int i=0;i<1000;++i){
             m_bus1->writeBool(0x0120, true);
-            usleep(2000);
+            usleep(200000);
             m_bus2->writeBool(0x0200, true);
-            usleep(2000);
+            m_bus3->writeBool(0x0200, true);
+            usleep(200000);
             m_bus1->writeBool(0x0120, false);
             m_bus2->writeBool(0x0200, false);
-            usleep(2000);
+            m_bus3->writeBool(0x0200, false);
+            usleep(2000000);
         }
         qApp->quit();
     }
@@ -60,6 +65,7 @@ public:
 private:
     CComJBus *m_bus1;
     CComJBus *m_bus2;
+    CComJBus *m_bus3;
     int m_connected;
 };
 
@@ -76,11 +82,15 @@ int main(int argc, char** argv)
     busConfig[QStringLiteral("debug")] = true;
     CComJBus bus1(busConfig);
 
-     busConfig[QStringLiteral("ip")] = QByteArrayLiteral("192.168.1.10");
+     busConfig[QStringLiteral("ip")] = QByteArrayLiteral("192.168.1.12");
     busConfig[QStringLiteral("port")] = 502;
     CComJBus bus2(busConfig);
 
-    JBusTest test(&bus1, &bus2);
+    busConfig[QStringLiteral("ip")] = QByteArrayLiteral("192.168.1.11");
+   busConfig[QStringLiteral("port")] = 502;
+   CComJBus bus3(busConfig);
+
+    JBusTest test(&bus1, &bus2, &bus3);
 
     return app.exec();
 }

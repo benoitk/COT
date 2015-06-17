@@ -9,9 +9,9 @@ class CActionCmdPompe : public IAction
     Q_OBJECT
 
 public:
-    CActionCmdPompe(QObject *parent);
-    CActionCmdPompe(const QVariantMap &);
-    CActionCmdPompe();
+
+    CActionCmdPompe(const QVariantMap &, QObject *parent);
+
     ~CActionCmdPompe();
 
     bool runAction() Q_DECL_OVERRIDE;

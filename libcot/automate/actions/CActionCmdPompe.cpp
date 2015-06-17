@@ -7,13 +7,8 @@
 #include "cotautomate_debug.h"
 
 
-CActionCmdPompe::CActionCmdPompe(QObject *parent)
-    : IAction(parent)
-{
-
-}
-CActionCmdPompe::CActionCmdPompe(const QVariantMap &mapAction)
-    : IAction(mapAction)
+CActionCmdPompe::CActionCmdPompe(const QVariantMap &mapAction, QObject *parent)
+    : IAction(mapAction, parent)
 {
     CAutomate* automate = CAutomate::getInstance();
 
@@ -33,11 +28,6 @@ CActionCmdPompe::CActionCmdPompe(const QVariantMap &mapAction)
         m_clockwise =  automate->getVariable(mapAction[QStringLiteral("direction_trigo_pump")].toString());
     if(mapAction.contains(QStringLiteral("pump")))
         m_speed = automate->getVariable(mapAction[QStringLiteral("speed_pump")].toString());
-
-}
-CActionCmdPompe::CActionCmdPompe()
-    : IAction()
-{
 
 }
 

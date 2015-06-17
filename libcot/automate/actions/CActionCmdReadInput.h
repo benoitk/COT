@@ -9,9 +9,7 @@ class CActionCmdReadInput : public IAction
     Q_OBJECT
 
 public:
-    CActionCmdReadInput(QObject *parent);
-    CActionCmdReadInput(const QVariantMap&);
-    CActionCmdReadInput();
+    CActionCmdReadInput(const QVariantMap&, QObject *parent);
     ~CActionCmdReadInput();
 
     int getTiming();

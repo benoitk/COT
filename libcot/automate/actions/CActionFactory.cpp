@@ -10,51 +10,51 @@
 #include "cotautomate_debug.h"
 
 
-IAction* CActionFactory::build(const QVariantMap &mapAction){
+IAction* CActionFactory::build(const QVariantMap &mapAction, QObject *parent){
 
     IAction* action = Q_NULLPTR;
     const QString type = mapAction[QStringLiteral("type")].toString();
     if(type == QStringLiteral("cmd_pump")){
-        action = new CActionCmdPompe(mapAction);
+        action = new CActionCmdPompe(mapAction,parent);
     }
     else if(type == QStringLiteral("cmd_relay")){
-        action = new CActionCmdRelay(mapAction);
+        action = new CActionCmdRelay(mapAction,parent);
     }
     else if(type == QStringLiteral("cmd_read_input")){
-        action = new CActionCmdReadInput(mapAction);
+        action = new CActionCmdReadInput(mapAction,parent);
     }
     else if(type == QStringLiteral("block")){
-        action = new CActionBlock(mapAction);
+        action = new CActionBlock(mapAction,parent);
     }
     else{
-        action = new CActionUnknow(mapAction);
+        action = new CActionUnknow(mapAction,parent);
         qCDebug(COTAUTOMATE_LOG) << "Classe action INCONNUE :" << type;
     }
 
     return action;
 }
 
-IAction* CActionFactory::build(actionType arg_type){
+IAction* CActionFactory::build(actionType arg_type, QObject* parent){
     IAction* action = Q_NULLPTR;
     switch(arg_type){
     case actionType::type_block:
-        action = new CActionBlock();
+        action = new CActionBlock(QVariantMap(), parent);
         break;
 
     case actionType::type_cmd_pump:
-        action = new CActionCmdPompe();
+        action = new CActionCmdPompe(QVariantMap(), parent);
         break;
 
     case actionType::type_cmd_read_input:
-        action = new CActionCmdReadInput();
+        action = new CActionCmdReadInput(QVariantMap(), parent);
         break;
 
     case actionType::type_cmd_relay:
-        action = new CActionCmdRelay();
+        action = new CActionCmdRelay(QVariantMap(), parent);
         break;
 
     default:
-        action = new CActionUnknow();
+        action = new CActionUnknow(QVariantMap(), parent);
         qCDebug(COTAUTOMATE_LOG) << "Classe action INCONNUE :" << arg_type;
         break;
 

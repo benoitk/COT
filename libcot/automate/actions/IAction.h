@@ -18,8 +18,8 @@ class IAction : public QObject
     Q_OBJECT
 
 public:
-    IAction(const QVariantMap &mapAction);
-    IAction(QObject *parent);
+    IAction(const QVariantMap &mapAction, QObject *parent);
+
     IAction();
     ~IAction();
 

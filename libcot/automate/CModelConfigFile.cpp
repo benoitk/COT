@@ -181,7 +181,7 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
         QJsonArray jsonArrayActions = jsonObjectAll[QStringLiteral("actions")].toArray();
         foreach(QJsonValue jsonValueAction, jsonArrayActions){
             QVariantMap mapAction = jsonValueAction.toVariant().toMap();
-            IAction* action = CActionFactory::build(mapAction);
+            IAction* action = CActionFactory::build(mapAction, automate);
             if(action){
                 m_mapActions.insert(action->getName(),action);
                 automate->addAction(action);
