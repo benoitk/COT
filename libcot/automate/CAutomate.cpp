@@ -46,6 +46,7 @@ CAutomate::CAutomate()
 
     // for use in queued signal/slot connections
     qRegisterMetaType<CAutomate::eStateAutomate>();
+    qRegisterMetaType<CAutomate::eStateStream>();
 }
 
 void CAutomate::initConfig(){
@@ -329,6 +330,11 @@ void CAutomate::slotClock(){
     IVariable *phosphore = getVariable(QStringLiteral("phosphore"));
     phosphore->setValue(m_iClock * 2);
     emit signalUpdatePlotting(phosphore->getName());
+    if (m_iClock == 6) {
+        emit signalUpdateStateStream("stream_1", WATER_DEFAULT);
+    } else if (m_iClock == 10) {
+        emit signalUpdateStateStream("stream_1", ACTIVE);
+    }
 
     // TEST CODE (for the alarms window)
     if ((m_iClock % 3) == 0) {

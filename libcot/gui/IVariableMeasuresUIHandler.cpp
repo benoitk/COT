@@ -45,11 +45,14 @@ QPair<CVariableStream *, int> findStreamForMeasure(const QString &measureName) {
 IVariableMeasuresUIHandler::IVariableMeasuresUIHandler(CScrollableWidget *scrollable, QObject *parent)
     : IVariableUIHandler(scrollable, parent)
 {
+    CAutomate *automate = CAutomate::getInstance();
+    connect(automate, &CAutomate::signalUpdateStateStream,
+            this, &IVariableMeasuresUIHandler::slotUpdateStateStream);
 }
 
 int IVariableMeasuresUIHandler::columnCount() const
 {
-    return 3;
+    return 4;
 }
 
 QWidget *IVariableMeasuresUIHandler::createWidget(int index, IVariable *ivar)
@@ -63,6 +66,10 @@ QWidget *IVariableMeasuresUIHandler::createWidget(int index, IVariable *ivar)
 
         case 2:
             return newValueLabel(ivar);
+
+        case 3:
+            return newErrorLabel(ivar);
+
     }
 
     Q_ASSERT(false);
@@ -123,10 +130,47 @@ QLabel *IVariableMeasuresUIHandler::newValueLabel(IVariable *ivar)
     return label;
 }
 
+QLabel *IVariableMeasuresUIHandler::newErrorLabel(IVariable *ivar)
+{
+    Q_UNUSED(ivar);
+    QLabel *label = new QLabel(container());
+    label->setFont(StyleRepository::measureFont());
+    return label;
+}
+
 void IVariableMeasuresUIHandler::slotButtonMeasureDetailsClicked()
 {
     const CToolButton *button = qobject_cast<CToolButton *>(sender());
     const QString measureName = button->userData().toString();
     CVariableStream *streamVar = findStreamForMeasure(measureName).first;
     CPCWindow::openModal<CMeasureWindow>(streamVar);
+}
+
+QString IVariableMeasuresUIHandler::textForStreamState(CAutomate::eStateStream state) const
+{
+    switch (state) {
+    case CAutomate::STREAM_DEFAULT:
+        return tr("Default");
+    case CAutomate::WATER_DEFAULT:
+        return tr("Water default");
+    case CAutomate::ACTIVE:
+    case CAutomate::INACTIVE:
+        break;
+    }
+    return QString();
+}
+
+void IVariableMeasuresUIHandler::slotUpdateStateStream(const QString &arg_streamName, CAutomate::eStateStream state)
+{
+    CAutomate *automate = CAutomate::getInstance();
+    CVariableStream *stream = automate->getStream(arg_streamName);
+    const QList<IVariable *> measures = stream->getListMeasures();
+    if (!measures.isEmpty()) {
+        CVariableMeasure *measureVar = static_cast<CVariableMeasure *>(measures.at(0));
+        IVariable *var = measureVar->getMeasureVariable();
+        Row* row = getRow(var->getName());
+        if (row) {
+            row->widgetAt<QLabel *>(3)->setText(textForStreamState(state));
+        }
+    }
 }

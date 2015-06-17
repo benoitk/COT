@@ -213,5 +213,6 @@ private:
 };
 
 Q_DECLARE_METATYPE(CAutomate::eStateAutomate)
+Q_DECLARE_METATYPE(CAutomate::eStateStream)
 
 #endif // CAUTOMATE_H
