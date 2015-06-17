@@ -1,4 +1,15 @@
 <RCC>
+    <qresource prefix="/">
+        <file>fonts/LiberationSans-BoldItalic.ttf</file>
+        <file>fonts/LiberationSans-Bold.ttf</file>
+        <file>fonts/LiberationSans-Italic.ttf</file>
+        <file>fonts/LiberationSansNarrow-BoldItalic.ttf</file>
+        <file>fonts/LiberationSansNarrow-Bold.ttf</file>
+        <file>fonts/LiberationSansNarrow-Italic.ttf</file>
+        <file>fonts/LiberationSansNarrow-Regular.ttf</file>
+        <file>fonts/LiberationSans-Regular.ttf</file>
+    </qresource>
+
     <qresource prefix="/hd-icons">
         <file>pictohd/Ana-tor active.png</file>
         <file>pictohd/Ana-tor.png</file>

@@ -4,7 +4,9 @@
 #include <QStyleFactory>
 #include <QDebug>
 #include <QScreen>
-#include <qfont.h>
+#include <QFontInfo>
+#include <QFont>
+#include <QFontDatabase>
 
 StyleRepository::ScreenSize StyleRepository::screenSize()
 {
@@ -82,9 +84,35 @@ void StyleRepository::installFont()
     static bool done = false;
     if (!done) { // do this only once!
         done = true;
-        QFont defaultFont = QApplication::font(); // let the OS decide on the font name. Or should we specify it here?
-        defaultFont.setPointSize(12);
+
+        static const char* s_fonts[] = {
+            //"fonts/LiberationSansNarrow-BoldItalic.ttf",
+            //"fonts/LiberationSansNarrow-Bold.ttf",
+            //"fonts/LiberationSansNarrow-Italic.ttf",
+            //"fonts/LiberationSansNarrow-Regular.ttf",
+
+            "fonts/LiberationSans-BoldItalic.ttf",
+            "fonts/LiberationSans-Bold.ttf",
+            "fonts/LiberationSans-Italic.ttf",
+            "fonts/LiberationSans-Regular.ttf"
+            // The last font is the main font
+        };
+
+        QStringList mainFontFamilies;
+        for (size_t i = 0 ; i < sizeof(s_fonts) / sizeof(*s_fonts) ; ++i ) {
+            int result = QFontDatabase::addApplicationFont(QString(":/") + s_fonts[i]);
+            if (result == -1) {
+                qWarning() << "Couldn't load builtin font" << s_fonts[i];
+            } else {
+                //qDebug() << QFontDatabase::applicationFontFamilies(result);
+                mainFontFamilies = QFontDatabase::applicationFontFamilies(result);
+            }
+        }
+
+        //qDebug() << "system font" << qApp->font().family() << "resolved to" << QFontInfo(qApp->font()).family();
+        QFont defaultFont(mainFontFamilies.at(0), 12);
         QApplication::setFont(defaultFont);
+        //qDebug() << "our font" << qApp->font().family() << "resolved to" << QFontInfo(qApp->font()).family();
     }
 }
 
@@ -109,6 +137,7 @@ QSize StyleRepository::extraButtonSize()
 QFont StyleRepository::tabBarFont()
 {
     QFont font = QApplication::font();
+    // When changing this, ensure that the tabs of the configurator still fit ;)
     font.setPointSize(12);
     return font;
 }
