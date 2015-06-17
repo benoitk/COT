@@ -33,7 +33,7 @@ CPCWindow::CPCWindow(QWidget *parent)
     addTab(new CPCDiagnosticTab(this), QString());
     addTab(new CPCToolsTab(this), QString());
     addTab(new CPCHistogramTab(this), QString());
-    addTab(new CPCPlusTab(this), QStringLiteral("+"));
+    addTab(new CPCPlusTab(this), QStringLiteral("  +  "));
 
     CVerticalButtonBar *vbb = qobject_cast<IPCTab *>(ui->twPages->widget(0))->buttonBar();
     vbb->addAction(CToolButton::Update, ui->actionUpdate);
@@ -106,7 +106,7 @@ void CPCWindow::retranslate()
     ui->twPages->setTabText(0, tr("MEASURE"));
     ui->twPages->setTabText(1, tr("DIAGNOSTIC"));
     ui->twPages->setTabText(2, tr("TOOLS"));
-    ui->twPages->setTabText(3, tr("HISTOGRAM"));
+    ui->twPages->setTabText(3, tr("GRAPHS"));
 }
 
 void CPCWindow::changeEvent(QEvent *event)
