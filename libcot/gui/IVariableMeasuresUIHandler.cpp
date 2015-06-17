@@ -135,6 +135,9 @@ QLabel *IVariableMeasuresUIHandler::newErrorLabel(IVariable *ivar)
     Q_UNUSED(ivar);
     QLabel *label = new QLabel(container());
     label->setFont(StyleRepository::measureFont());
+    QPalette pal = label->palette();
+    pal.setColor(label->foregroundRole(), QColor(Qt::red));
+    label->setPalette(pal);
     return label;
 }
 
