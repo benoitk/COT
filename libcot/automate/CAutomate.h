@@ -124,7 +124,7 @@ signals:
     // When internal state of the current running maintenance cycle changed
     void signalCurrentMaintenanceCycleChanged(const QString &name);
     //Signal to update all data on the graphic
-    void signalUpdatePlotting();
+    void signalUpdatePlotting(const QString &);
 
 
     //desc : Etat changé : En court, en pause, en arrêt
