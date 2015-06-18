@@ -213,12 +213,10 @@ IVariableUIHandler::IVariableUIHandler(CScrollableWidget *scrollable, QObject *p
     : QObject(parent)
     , m_container(Q_NULLPTR)
     , m_containerLayout(Q_NULLPTR)
-    , m_scrollable(Q_NULLPTR)
+    , m_scrollable(scrollable)
     , m_describer(Q_NULLPTR)
 {
-    if (scrollable) {
-        setScrollableWidget(scrollable);
-    }
+    Q_ASSERT(scrollable);
 
     connect(CAutomate::getInstance(), &CAutomate::signalVariableChanged,
             this, &IVariableUIHandler::slotVariableChanged);
@@ -280,17 +278,6 @@ void IVariableUIHandler::layout(const QList<IVariable *> &variables, bool addDel
     }
 
     m_scrollable->setScrollablePagerWidget(m_container);
-}
-
-void IVariableUIHandler::setScrollableWidget(CScrollableWidget *scrollable)
-{
-    Q_ASSERT(scrollable);
-
-    if (m_scrollable) {
-        Q_ASSERT(false);
-    }
-
-    m_scrollable = scrollable;
 }
 
 CScrollableWidget *IVariableUIHandler::getScrollableWidget() const

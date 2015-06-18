@@ -25,12 +25,11 @@ CGraphicsWidget::CGraphicsWidget(QWidget *parent)
 
 CGraphicsWidget::~CGraphicsWidget()
 {
-   m_plotObjectHash.clear();
 }
 
 void CGraphicsWidget::initializeGraphic()
 {
-    m_plotWidget->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
+    setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
     changeLimits(0, s_maxPointsInCurve - 1, 0, m_verticalMaximumValue);
     m_plotWidget->axis(KPlotWidget::LeftAxis)->setVisible(true);
     m_plotWidget->axis(KPlotWidget::TopAxis)->setVisible(false);
@@ -45,12 +44,6 @@ void CGraphicsWidget::initializeGraphic()
     m_plotWidget->setTopPadding(1);
     m_plotWidget->setBottomPadding(1);
     m_plotWidget->setMinimumSize(200, 100); // the 150 in KPlotWidget is too high
-}
-
-void CGraphicsWidget::clear()
-{
-    m_plotWidget->removeAllPlotObjects();
-    m_plotObjectHash.clear();
 }
 
 void CGraphicsWidget::doneUpdatingPlotting()
@@ -68,21 +61,15 @@ void CGraphicsWidget::showPlotObject(CPlotObject *object)
     }
 }
 
+void CGraphicsWidget::addPlotObject(CPlotObject *object)
+{
+    m_plotWidget->addPlotObject(object);
+}
+
 void CGraphicsWidget::changeLimits(double x1, double x2, double y1, double y2)
 {
     //qCDebug(COTGUI_LOG) << "new limits" << x1 << x2 << y1 << y2;
     m_plotWidget->setLimits(x1, x2, y1, y2);
-}
-
-void CGraphicsWidget::addOrUpdateCurve(float value, const QString &measureName)
-{
-    CPlotObject *plot = m_plotObjectHash.value(measureName);
-    if (!plot) {
-        plot = new CPlotObject();
-        m_plotObjectHash.insert(measureName, plot);
-        m_plotWidget->addPlotObject(plot);
-    }
-    addPoint(value, plot);
 }
 
 void CGraphicsWidget::addPoint(float value, CPlotObject *curve)

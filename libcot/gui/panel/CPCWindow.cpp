@@ -13,7 +13,7 @@
 #include <CVariableStream.h>
 #include <QDebug>
 
-static const int s_maxMeasuresMainScreen = 3;
+static const int s_maxMeasuresMainScreen = 1;
 
 static CPCWindow *s_mainWindow = Q_NULLPTR;
 

@@ -9,7 +9,15 @@ class IVariableMeasuresUIHandler : public IVariableUIHandler
     Q_OBJECT
 
 public:
-    explicit IVariableMeasuresUIHandler(CScrollableWidget *scrollable = Q_NULLPTR, QObject *parent = Q_NULLPTR);
+    enum Flag
+    {
+        NoFlags = 0,
+        ShowStreamButton = 1,
+        ShowLegend = 2
+    };
+    Q_DECLARE_FLAGS(Flags, Flag)
+
+    explicit IVariableMeasuresUIHandler(Flags flags, CScrollableWidget *scrollable, QObject *parent = Q_NULLPTR);
 
 protected:
     int columnCount() const Q_DECL_OVERRIDE;
@@ -19,6 +27,7 @@ protected:
 
 private:
     QWidget *newDetailsButton(IVariable *ivar);
+    QWidget *newColorLegend(IVariable *ivar);
     QLabel *newLabel(IVariable *ivar);
     QLabel *newValueLabel(IVariable *ivar);
     QLabel *newErrorLabel(IVariable *ivar);
@@ -27,6 +36,11 @@ private:
 private slots:
     void slotButtonMeasureDetailsClicked();
     void slotUpdateStateStream(const QString& arg_streamName, CAutomate::eStateStream state);
+
+private:
+    Flags m_flags;
 };
+
+Q_DECLARE_OPERATORS_FOR_FLAGS(IVariableMeasuresUIHandler::Flags)
 
 #endif // IVARIABLEMEASURESUIHANDLER_H

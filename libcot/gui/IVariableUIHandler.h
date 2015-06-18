@@ -27,12 +27,11 @@ class LIBCOT_EXPORT IVariableUIHandler : public QObject
     Q_OBJECT
 
 public:
-    explicit IVariableUIHandler(CScrollableWidget *scrollable = Q_NULLPTR, QObject *parent = Q_NULLPTR);
+    explicit IVariableUIHandler(CScrollableWidget *scrollable, QObject *parent = Q_NULLPTR);
     virtual ~IVariableUIHandler();
 
     void layout(const QList<IVariable *> &variables, bool addDeleteButton = false);
 
-    void setScrollableWidget(CScrollableWidget *scrollable);
     CScrollableWidget *getScrollableWidget() const;
 
     void setDescriber(IVariableObjectDescriber *describer);

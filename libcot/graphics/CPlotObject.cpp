@@ -5,19 +5,10 @@
 
 extern int s_maxPointsInCurve; // see CGraphicsWidget.cpp
 
-static QColor createNewColor()
-{
-    const QColor col = QColor::fromHsv(qrand() % 360, 255, 200);
-    return col;
-}
-
-CPlotObject::CPlotObject()
+CPlotObject::CPlotObject(const QColor &col)
+    : KPlotObject(col)
 {
     setShowLines(true);
-    const QColor col = createNewColor();
-    QPen pen(col);
-    setLinePen(pen);
-    setPen(pen);
 }
 
 CPlotObject::~CPlotObject()
@@ -31,4 +22,11 @@ void CPlotObject::addValue(int x, float value)
     }
     //qCDebug(COTGUI_LOG) << "addPoint" << QPointF(x, value);
     addPoint(QPointF(x, value));
+}
+
+QColor CPlotObject::createNewColor()
+{
+    static int lastHue = 0;
+    lastHue = (lastHue + 149) % 360;
+    return QColor::fromHsv(lastHue, 255, 200);
 }

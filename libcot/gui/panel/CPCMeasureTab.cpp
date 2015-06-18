@@ -5,6 +5,7 @@
 #include "CPCWindow.h"
 #include "CAlarmsWindow.h"
 #include "CDisplayConf.h"
+#include "CPlotObject.h"
 #include "CVariableStream.h"
 #include "CVariableMeasure.h"
 #include <QDebug>
@@ -15,7 +16,10 @@ CPCMeasureTab::CPCMeasureTab(bool showGraph, QWidget *parent)
     , m_pendingAlarms(new CPendingAlarms(this))
 {
     ui->setupUi(this);
-    m_measuresHandler = new IVariableMeasuresUIHandler(ui->swCentral, this);
+    IVariableMeasuresUIHandler::Flags flags = IVariableMeasuresUIHandler::ShowStreamButton;
+    if (showGraph)
+        flags |= IVariableMeasuresUIHandler::ShowLegend;
+    m_measuresHandler = new IVariableMeasuresUIHandler(flags, ui->swCentral, this);
     slotUpdateStreamsMeasures();
 
     connect(ui->vbbButtons->addAction(CToolButton::Alarms), &QAction::triggered,
@@ -129,7 +133,13 @@ void CPCMeasureTab::slotUpdatePlotting()
         foreach (IVariable *measure, streamVar->getListMeasures()) {
             CVariableMeasure *measureVar = static_cast<CVariableMeasure *>(measure);
             const float value = measureVar->toFloat();
-            ui->graphicsWidget->addOrUpdateCurve(value, measureVar->getName());
+            CPlotObject *plot = m_plotObjectHash.value(measureVar->getName());
+            if (!plot) {
+                plot = new CPlotObject(measureVar->color());
+                m_plotObjectHash.insert(measureVar->getName(), plot);
+                ui->graphicsWidget->showPlotObject(plot);
+            }
+            ui->graphicsWidget->addPoint(value, plot);
         }
     }
     ui->graphicsWidget->doneUpdatingPlotting();

@@ -13,6 +13,7 @@
 
 #include <QLabel>
 #include <QDebug>
+#include <CPlotObject.h>
 
 namespace {
 QString valueAndUnit(IVariable *ivar) {
@@ -42,8 +43,9 @@ QPair<CVariableStream *, int> findStreamForMeasure(const QString &measureName) {
 
 }
 
-IVariableMeasuresUIHandler::IVariableMeasuresUIHandler(CScrollableWidget *scrollable, QObject *parent)
+IVariableMeasuresUIHandler::IVariableMeasuresUIHandler(Flags flags, CScrollableWidget *scrollable, QObject *parent)
     : IVariableUIHandler(scrollable, parent)
+    , m_flags(flags)
 {
     CAutomate *automate = CAutomate::getInstance();
     connect(automate, &CAutomate::signalUpdateStateStream,
@@ -52,23 +54,34 @@ IVariableMeasuresUIHandler::IVariableMeasuresUIHandler(CScrollableWidget *scroll
 
 int IVariableMeasuresUIHandler::columnCount() const
 {
-    return 4;
+    return 5;
 }
+
+enum {
+    POS_DETAILS = 0,
+    POS_COLOR = 1,
+    POS_LABEL = 2,
+    POS_VALUE = 3,
+    POS_ERROR = 4
+};
 
 QWidget *IVariableMeasuresUIHandler::createWidget(int index, IVariable *ivar)
 {
     switch (index) {
-        case 0:
-            return newDetailsButton(ivar);
+    case POS_DETAILS:
+        return (m_flags & ShowStreamButton) ? newDetailsButton(ivar) : Q_NULLPTR;
 
-        case 1:
-            return newLabel(ivar);
+    case POS_COLOR:
+        return (m_flags & ShowLegend) ? newColorLegend(ivar) : Q_NULLPTR;
 
-        case 2:
-            return newValueLabel(ivar);
+    case POS_LABEL:
+        return newLabel(ivar);
 
-        case 3:
-            return newErrorLabel(ivar);
+    case POS_VALUE:
+        return newValueLabel(ivar);
+
+    case POS_ERROR:
+        return newErrorLabel(ivar);
 
     }
 
@@ -79,7 +92,7 @@ QWidget *IVariableMeasuresUIHandler::createWidget(int index, IVariable *ivar)
 void IVariableMeasuresUIHandler::rowInserted(const IVariableUIHandler::Row &row, IVariable *ivar)
 {
     Q_UNUSED(ivar);
-    CToolButton *button = row.widgetAt<CToolButton *>(0);
+    CToolButton *button = row.widgetAt<CToolButton *>(POS_DETAILS);
     if (button) {
         connect(button, &CToolButton::clicked,
                 this, &IVariableMeasuresUIHandler::slotButtonMeasureDetailsClicked);
@@ -88,12 +101,12 @@ void IVariableMeasuresUIHandler::rowInserted(const IVariableUIHandler::Row &row,
 
 void IVariableMeasuresUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariable *ivar)
 {
-    CToolButton *button = row.widgetAt<CToolButton *>(0);
+    CToolButton *button = row.widgetAt<CToolButton *>(POS_DETAILS);
     if (button) {
         button->setUserData(ivar->getName());
     }
-    row.widgetAt<QLabel *>(1)->setText(ivar->getLabel());
-    row.widgetAt<QLabel *>(2)->setText(valueAndUnit(ivar));
+    row.widgetAt<QLabel *>(POS_LABEL)->setText(ivar->getLabel());
+    row.widgetAt<QLabel *>(POS_VALUE)->setText(valueAndUnit(ivar));
 }
 
 QWidget *IVariableMeasuresUIHandler::newDetailsButton(IVariable *ivar)
@@ -107,6 +120,20 @@ QWidget *IVariableMeasuresUIHandler::newDetailsButton(IVariable *ivar)
     }
     widget->setFixedSize(StyleRepository::measuresStreamButtonSize());
     return widget;
+}
+
+QWidget *IVariableMeasuresUIHandler::newColorLegend(IVariable *ivar)
+{
+    QPixmap pixmap(StyleRepository::measuresStreamButtonSize());
+    CVariableMeasure *measureVar = ivar->getRelatedMeasure();
+    Q_ASSERT(measureVar);
+    if (!measureVar->color().isValid()) {
+        measureVar->setColor(CPlotObject::createNewColor());
+    }
+    pixmap.fill(measureVar->color());
+    QLabel *label = new QLabel(container());
+    label->setPixmap(pixmap);
+    return label;
 }
 
 QLabel *IVariableMeasuresUIHandler::newLabel(IVariable *ivar)
@@ -177,7 +204,7 @@ void IVariableMeasuresUIHandler::slotUpdateStateStream(const QString &arg_stream
         IVariable *var = measureVar->getMeasureVariable();
         Row* row = getRow(var->getName());
         if (row) {
-            row->widgetAt<QLabel *>(3)->setText(textForStreamState(state));
+            row->widgetAt<QLabel *>(POS_ERROR)->setText(textForStreamState(state));
         }
     }
 }

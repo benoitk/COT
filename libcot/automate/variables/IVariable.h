@@ -29,8 +29,10 @@ enum VariableOrganType {
     VariableOrganTypeOutput,
 };
 
-//Interface pour toute les variables de l'automate
 class CUnit;
+class CVariableMeasure;
+
+//Interface pour toute les variables de l'automate
 class IVariable : public QObject
 {
     Q_OBJECT
@@ -65,7 +67,8 @@ public:
     virtual bool isStreamRelated()const;
     virtual QString getRelatedStreamName()const;
     virtual bool isMeasureRelated()const;
-    virtual QString getRelatedMeasureName()const;
+    QString getRelatedMeasureName() const;
+    CVariableMeasure *getRelatedMeasure() const;
     virtual bool isDisplay()const;
     virtual QList<IVariable*> getListOutBinds()const;
     virtual QList<IVariable*> getListInBinds()const;

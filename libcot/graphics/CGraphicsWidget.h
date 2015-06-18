@@ -14,36 +14,25 @@ public:
     explicit CGraphicsWidget(QWidget *parent = Q_NULLPTR);
     ~CGraphicsWidget();
 
-    /*
-     * Clear the graphic and remove hash list
+    /**
+     * Ensure plot object is shown (as the single plot object)
      */
-    void clear();
+    void showPlotObject(CPlotObject *object);
 
     /**
-     * High-level
-     * Create or update a curve based on measurename
-     * If measurename doesn't exist this function will create a new curve
-     * otherwise it will update curve data
+     * Add plot object
      */
-    void addOrUpdateCurve(float value, const QString &mesureName);
+    void addPlotObject(CPlotObject *object);
 
     /**
-     * High-level
-     * Updates X for next time and recalculates limits
-     */
-    void doneUpdatingPlotting();
-
-    /**
-     * Low-level
      * Updates X for next time and recalculates limits
      */
     void addPoint(float value, CPlotObject *curve);
 
     /**
-     * Low-level
-     * Ensure plot object is shown (TODO remove)
+     * Updates X for next time and recalculates limits
      */
-    void showPlotObject(CPlotObject *object);
+    void doneUpdatingPlotting();
 
 private:
     void changeLimits(double x1, double x2, double y1, double y2);
@@ -51,7 +40,6 @@ private:
     int m_x;
     int m_verticalMaximumValue;
     KPlotWidget *m_plotWidget;
-    QHash<QString, CPlotObject *> m_plotObjectHash;
 };
 
 #endif // CGRAPHICSWIDGET_H

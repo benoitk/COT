@@ -8,6 +8,7 @@ class CPCHistogramTab;
 }
 class CVariableMeasure;
 class CPlotObject;
+class IVariableMeasuresUIHandler;
 
 class CPCHistogramTab : public IPCTab
 {
@@ -26,12 +27,14 @@ private slots:
 
 private:
     void updateCurves();
+    void updateActions();
     void showCurve(int num);
     static QList<CVariableMeasure *> allMeasures();
 
     QList<CPlotObject *> m_plots;
     Ui::CPCHistogramTab *ui;
     int m_currentCurveNumber;
+    IVariableMeasuresUIHandler *m_measuresHandler;
 };
 
 #endif // CPCHISTOGRAMTAB_H

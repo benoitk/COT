@@ -9,6 +9,7 @@ class CPCMeasureTab;
 
 class IVariableMeasuresUIHandler;
 class CPendingAlarms;
+class CPlotObject;
 
 class CPCMeasureTab : public IPCTab
 {
@@ -34,6 +35,7 @@ private:
 
     Ui::CPCMeasureTab *ui;
     IVariableMeasuresUIHandler *m_measuresHandler;
+    QHash<QString, CPlotObject *> m_plotObjectHash;
     CPendingAlarms *m_pendingAlarms;
 };
 

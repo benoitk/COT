@@ -12,9 +12,8 @@
 
 CConfiguratorCycleTab::CConfiguratorCycleTab(QWidget *parent)
     : IConfiguratorTab(parent)
-    , m_handler(new CConfiguratorCycleTabUIHandler(0, this))
+    , m_handler(new CConfiguratorCycleTabUIHandler(scrollableWidget(), this))
 {
-    m_handler->setScrollableWidget(scrollableWidget());
     slotUpdateLayout();
 
     connect(buttonBar()->addAction(CToolButton::Add), &QAction::triggered, this, &CConfiguratorCycleTab::slotAddCycle);

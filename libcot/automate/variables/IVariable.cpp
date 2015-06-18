@@ -147,14 +147,22 @@ bool  IVariable::isMeasureRelated()const{
     return false;
 }
 QString  IVariable::getRelatedMeasureName()const{
-    foreach(CVariableStream* stream, CAutomate::getInstance()->getListStreams()){
-        foreach(IVariable* measure,  stream->getListMeasures()){
-            foreach(IVariable* var, ((CVariableMeasure*)measure)->getListVariables()){
-                if(var == this) return var->getName();
-            }
+    CVariableMeasure *var = getRelatedMeasure();
+    if (var)
+        return var->getName();
+    else
+        return tr("Not related to a measure");
+}
+CVariableMeasure *IVariable::getRelatedMeasure() const
+{
+    foreach (CVariableStream* stream, CAutomate::getInstance()->getListStreams()) {
+        foreach (IVariable* measure, stream->getListMeasures()) {
+            CVariableMeasure *measureVar = static_cast<CVariableMeasure*>(measure);
+            if (measureVar->getMeasureVariable() == this)
+                return measureVar;
         }
     }
-   return tr("Not related to a measure");
+    return Q_NULLPTR;
 }
 bool  IVariable::isDisplay()const{
     return false;
