@@ -26,7 +26,7 @@
                           
                           {"name":"relay_1", "type":"output_boolean", "address_data":"0x0120"},
                           {"name":"relay_2", "type":"output_boolean", "address_data":"0x0121"},
-                          {"name":"relay_3", "type":"output_boolean", "address_data":"0x0122"},
+                          {"name":"relay_3", "type":"output_boolean", "address_data":"0x0122"}
 
                         ]
         },
@@ -228,6 +228,7 @@
                     "steps" : [{"step":1, "actions":["open_sample_solenoide", "open_emptying_solenoide"] }, {"step":2, "actions":["close_emptying_solenoide"] }, {"step":3, "actions":["open_sample_solenoide", "4_tour_pompe_persulfate"] }, {"step":5, "actions":["close_sample_solenoide", "open_emptying_solenoide"] }, {"step":6, "actions":["open_sample_solenoide"] }, {"step":7, "actions":["close_sample_solenoide", "close_emptying_solenoide"] }]
 
                 },
+
                 {   "name" : "compressor_on", "type" : "cmd_digital_output",
                     "fr_FR" : "Compresseur ON", "en_US" : "Compressor ON",
                     "target" : "compressor_output", "state" : true
@@ -236,6 +237,18 @@
                     "fr_FR" : "Compresseur OFF", "en_US" : "Compressor OFF",
                     "target" : "compressor_output", "state" : false
                 },
+                {   "name" : "open_ev_4", "type" : "cmd_digital_output",
+                    "fr_FR" : "Ouverture EV 4", "en_US" : "Openning EV 4",
+                    "target" : "ev_4", "state" : true
+                },
+                {   "name" : "close_ev_4", "type" : "cmd_digital_output",
+                    "fr_FR" : "Fermeture EV 4", "en_US" : "Closing  EV 4",
+                    "target" : "ev_4", "state" : false
+                },
+                {   "name" : "set_consigne_debit_air", "type" : "cmd_float_output",
+                    "fr_FR" : "Initialisation débit d'air", "en_US" : "Init air flow",
+                    "target" : "compressor_output", "state" : false
+                }
     ],
 
     "cycles" : [
@@ -310,23 +323,12 @@
     "list_cycles_maintenaces" : ["azote_calibration", "zero_calibration"],
 
     "streams" :[{"name":"stream_1", "fr_FR":"stream 1", "variables":["baseline", "absorbance_corrected"], "active_state": "stream_1_state",
-                    "measures":[{"name":"measure_a", "fr_FR":"absorbance de la measure 1", "variable_measure":"measure_cot", "variable_range_max":"measure_cot_max" , "variable_range_min":"measure_cot_min", "variables":["coef_calculated", "zero_standard"]},
-                                {"name":"measure_b", "fr_FR":"var relative a measure 2", "variable_measure":"phosphore", "variable_range_max":"measure_cot_max", "variable_range_min":"measure_cot_min", "variables":["coef_calculated", "zero_standard"]},
-                                {"name":"measure_c", "fr_FR":"var relative a measure 2 b", "variable_measure":"offset_current", "variable_range_max":"measure_cot_max", "variable_range_min":"measure_cot_min", "variables":["coef_calculated", "zero_standard"]},
-                                
-                                {"name":"measure_z", "fr_FR":"var relative a measure 2 v", "variable_measure":"absorbance_gross", "variable_range_max":"measure_cot_max", "variable_range_min":"measure_cot_min", "variables":["coef_calculated", "zero_standard"]}
-                    
-                    ],
+                    "measures":[{"name":"measure_a", "fr_FR":"absorbance de la measure 1", "variable_measure":"measure_cot", "variable_range_max":"measure_cot_max" , "variable_range_min":"measure_cot_min", "variables":["coef_calculated", "zero_standard"]}
+                                 ],
                     "cycles":["zero_calibration", "cycle_measure_cot_stream1"]
 
-                },
-                {"name":"stream_2", "fr_FR":"stream 2", "variables":["turbidity", "coef_current"], "active_state": "stream_2_state",
-                    "measures":[{"name":"measure_1", "fr_FR":"Mesure d'azote", "variable_measure":"azote", "variable_range_max":"measure_cot_max", "variable_range_min":"measure_cot_min", "variables":["coef_calculated", "zero_standard"]},
-                                {"name":"measure_2", "fr_FR":"Optical gain", "variable_measure":"optical_gain", "variable_range_max":"measure_cot_max", "variable_range_min":"measure_cot_min", "variables":["coef_calculated", "zero_standard"]}
-                    ],
-                    "cycles":["cycle_measure_azote", "azote_calibration"]
-
                 }
+               
     ]
 
 
