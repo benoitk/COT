@@ -17,8 +17,6 @@ CPCMeasureTab::CPCMeasureTab(bool showGraph, QWidget *parent)
 {
     ui->setupUi(this);
     IVariableMeasuresUIHandler::Flags flags = IVariableMeasuresUIHandler::ShowStreamButton;
-    if (showGraph)
-        flags |= IVariableMeasuresUIHandler::ShowLegend;
     m_measuresHandler = new IVariableMeasuresUIHandler(flags, ui->swCentral, this);
     slotUpdateStreamsMeasures();
 

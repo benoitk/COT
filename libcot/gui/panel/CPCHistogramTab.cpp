@@ -14,7 +14,7 @@ CPCHistogramTab::CPCHistogramTab(QWidget *parent)
 {
     ui->setupUi(this);
 
-    m_measuresHandler = new IVariableMeasuresUIHandler(IVariableMeasuresUIHandler::ShowLegend, ui->swCentral, this);
+    m_measuresHandler = new IVariableMeasuresUIHandler(IVariableMeasuresUIHandler::NoFlags, ui->swCentral, this);
     ui->swCentral->setScrollable(false);
 
     connect(ui->vbbButtons->addAction(CToolButton::ScrollUp), &QAction::triggered,

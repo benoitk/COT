@@ -72,6 +72,7 @@ QWidget *IVariableMeasuresUIHandler::createWidget(int index, IVariable *ivar)
         return (m_flags & ShowStreamButton) ? newDetailsButton(ivar) : Q_NULLPTR;
 
     case POS_COLOR:
+        // not used anymore
         return (m_flags & ShowLegend) ? newColorLegend(ivar) : Q_NULLPTR;
 
     case POS_LABEL:
