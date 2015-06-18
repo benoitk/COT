@@ -2,6 +2,7 @@
 #include "CVariableMeasure.h"
 #include "CVariableStream.h"
 #include "CAutomate.h"
+#include "CUnit.h"
 #include "qdebug.h"
 int IVariable::FLOAT_PRECISION = 3;
 
@@ -12,6 +13,7 @@ IVariable::IVariable(QObject *parent)
 {
     m_label = "label_IVariable";
     m_name = "name_IVariable";
+     m_unit = new CUnit("tmp", "µg/l");
 }
 IVariable::IVariable(const QVariantMap& arg_varMap): QObject(){
     QString sAccess = arg_varMap.value(QStringLiteral("access")).toString();
@@ -25,6 +27,8 @@ IVariable::IVariable(const QVariantMap& arg_varMap): QObject(){
      m_label = arg_varMap.value(tr("fr_FR")).toString();
 
      if(arg_varMap.contains(QStringLiteral("address"))) m_address = arg_varMap.value(QStringLiteral("address")).toInt();
+
+    m_unit = new CUnit("tmp", "µg/l");
 }
 
 IVariable::IVariable(): QObject()
@@ -32,6 +36,7 @@ IVariable::IVariable(): QObject()
 , m_address(0){
     m_label = "label_IVariable";
     m_name = "name_IVariable";
+     m_unit = new CUnit("tmp", "µg/l");
 }
 
 QString IVariable::typeToString(variableType type)
@@ -116,7 +121,8 @@ void  IVariable::delBind(IVariable*){
 
 }
 CUnit * IVariable::getUnit() const{
-    return Q_NULLPTR;
+//    return Q_NULLPTR;
+    return m_unit;
 }
 bool  IVariable::isStreamRelated()const{
     foreach(CVariableStream* stream, CAutomate::getInstance()->getListStreams()){
