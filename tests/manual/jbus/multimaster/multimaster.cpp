@@ -48,6 +48,7 @@ public:
 //        m_bus1->readInt(0, CComJBus::Input);
 //        m_bus2->readInt(1, CComJBus::Output);
 
+
         for(int i=0;i<1000;++i){
             m_bus1->writeBool(0x0120, true);
             usleep(200000);
@@ -55,6 +56,7 @@ public:
             m_bus3->writeBool(0x0200, true);
             usleep(200000);
             m_bus1->writeBool(0x0120, false);
+
             m_bus2->writeBool(0x0200, false);
             m_bus3->writeBool(0x0200, false);
             usleep(2000000);
@@ -74,7 +76,7 @@ int main(int argc, char** argv)
     QCoreApplication app(argc, argv);
 
     QVariantMap busConfig;
-    busConfig[QStringLiteral("ip")] = QByteArrayLiteral("192.168.1.2");
+    busConfig[QStringLiteral("ip")] = QByteArrayLiteral("192.168.1.11");
     busConfig[QStringLiteral("port")] = 502;
     busConfig[QStringLiteral("slave")] = 1;
     busConfig[QStringLiteral("name")] = QStringLiteral("ioboard_tcp");
