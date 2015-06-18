@@ -92,6 +92,7 @@ void ConfiguratorSequencerUIHandler::rowChanged(const IVariableUIHandler::Row &r
 
 void ConfiguratorSequencerUIHandler::rowAboutToBeDeleted(const IVariableUIHandler::Row &row, IVariable *ivar)
 {
+    Q_UNUSED(row);
     const int index = ivar->getName().toInt();
     CSequencer *sequencer = CSequencer::getInstance();
     sequencer->removeCycleMeasureAt(index);
