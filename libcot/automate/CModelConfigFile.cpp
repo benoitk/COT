@@ -48,11 +48,11 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
 
     QJsonParseError * jsonError  = new QJsonParseError();
     m_jsonDoc = new QJsonDocument(QJsonDocument::fromJson(jsonData, jsonError));
-    if(m_jsonDoc->isEmpty()){
-        qCDebug(COTAUTOMATE_LOG) << "m_jsonDoc->isEmpty() " <<m_jsonDoc->isEmpty() ;
-        qCDebug(COTAUTOMATE_LOG) << "jsonError " <<jsonError->errorString() ;
-        qCDebug(COTAUTOMATE_LOG) << "jsonError offset" <<jsonError->offset ;
-        qCDebug(COTAUTOMATE_LOG) << "jsonData " <<jsonData.mid(jsonError->offset, jsonError->offset+60) ;
+    if(m_jsonDoc->isEmpty() || jsonError->error){
+        qWarning() << "m_jsonDoc->isEmpty() " <<m_jsonDoc->isEmpty() ;
+        qWarning() << "jsonError " <<jsonError->errorString() ;
+        qWarning() << "jsonError offset" <<jsonError->offset ;
+        qWarning() << "jsonData " <<jsonData.mid(jsonError->offset, jsonError->offset+60) ;
     }
 
     QJsonObject jsonObjectAll = m_jsonDoc->object();
