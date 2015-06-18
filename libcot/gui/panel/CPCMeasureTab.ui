@@ -19,6 +19,12 @@
    </item>
    <item row="0" column="0">
     <widget class="CScrollableWidget" name="swCentral">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="frameShape">
       <enum>QFrame::NoFrame</enum>
      </property>
@@ -33,15 +39,22 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>366</width>
-        <height>250</height>
+        <width>378</width>
+        <height>72</height>
        </rect>
       </property>
      </widget>
     </widget>
    </item>
    <item row="1" column="0">
-    <widget class="CGraphicsWidget" name="graphicsWidget" native="true"/>
+    <widget class="CGraphicsWidget" name="graphicsWidget" native="true">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
