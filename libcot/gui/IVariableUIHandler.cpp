@@ -658,7 +658,6 @@ QLabel *IVariableUIHandler::newLabel(IVariable *ivar)
 {
     Q_UNUSED(ivar);
     QLabel *label = new QLabel(m_container);
-    label->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
     return label;
 }
 
