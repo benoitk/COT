@@ -1,6 +1,6 @@
 #include "CActionFactory.h"
 #include "CActionCmdPompe.h"
-#include "CActionCmdRelay.h"
+#include "CActionCmdDigitalOutput.h"
 #include "CActionCmdReadInput.h"
 #include "CActionBlock.h"
 #include "CActionUnknow.h"
@@ -17,8 +17,8 @@ IAction* CActionFactory::build(const QVariantMap &mapAction, QObject *parent){
     if(type == QStringLiteral("cmd_pump")){
         action = new CActionCmdPompe(mapAction,parent);
     }
-    else if(type == QStringLiteral("cmd_relay")){
-        action = new CActionCmdRelay(mapAction,parent);
+    else if(type == QStringLiteral("cmd_digital_output")){
+        action = new CActionCmdDigitalOutput(mapAction,parent);
     }
     else if(type == QStringLiteral("cmd_read_input")){
         action = new CActionCmdReadInput(mapAction,parent);
@@ -50,7 +50,7 @@ IAction* CActionFactory::build(actionType arg_type, QObject* parent){
         break;
 
     case actionType::type_cmd_relay:
-        action = new CActionCmdRelay(QVariantMap(), parent);
+        action = new CActionCmdDigitalOutput(QVariantMap(), parent);
         break;
 
     default:

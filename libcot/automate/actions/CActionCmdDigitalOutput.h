@@ -1,17 +1,17 @@
-#ifndef CACTIONCMDRELAY_H
-#define CACTIONCMDRELAY_H
+#ifndef CACTIONCMDDIGITALOUTPUT_H
+#define CACTIONCMDDIGITALOUTPUT_H
 #include "IAction.h"
 
 class IVariable;
-class CActionCmdRelay : public IAction
+class CActionCmdDigitalOutput : public IAction
 {
     Q_OBJECT
 
 public:
 
 
-    CActionCmdRelay(const QVariantMap&, QObject *parent);
-    ~CActionCmdRelay();
+    CActionCmdDigitalOutput(const QVariantMap&, QObject *parent);
+    ~CActionCmdDigitalOutput();
 
     int getTiming();
     void setTiming(int);
@@ -23,9 +23,9 @@ public:
 
 private:
 
-    IVariable* m_RelayVar;
-    bool m_stateOpen;
+    IVariable* m_varDigitalOutput;
+    bool m_state;
 
 };
 
-#endif // CACTIONCMDRELAY_H
+#endif // CACTIONCMDDIGITALOUTPUT_H

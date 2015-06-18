@@ -359,6 +359,17 @@ void CAutomate::slotClock(){
             emit signalUpdateCurrentStream(m_iClock / 20, "Stream Name");
     }
 }
+void CAutomate::playScheduler(){
+
+}
+
+void CAutomate::stopScheduler(){
+
+}
+
+void CAutomate::pauseScheduler(){
+
+}
 
 QList<IAction*>  CAutomate::getListActions(){
     QMutexLocker locker(&m_mutex);

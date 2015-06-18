@@ -55,7 +55,6 @@ HEADERS *= \
     automate/IOrgan.h \
     automate/actions/CActionCmdPompe.h \
     automate/actions/CActionCmdReadInput.h \
-    automate/actions/CActionCmdRelay.h \
     automate/actions/CActionBlock.h \
     automate/actions/CActionFactory.h \
     automate/actions/CActionUnknow.h \
@@ -217,7 +216,8 @@ HEADERS *= \
     gui/tools/configurator/IConfiguratorEditTab.h \
     gui/tools/configurator/steps/CStepWidgetUIHandler.h \
     gui/tools/configurator/steps/CEditStepListTab.h \
-    gui/StyleRepository.h
+    gui/StyleRepository.h \
+    $$PWD/automate/actions/CActionCmdDigitalOutput.h
 
 SOURCES *= \
     automate/CAutomate.cpp \
@@ -234,7 +234,6 @@ SOURCES *= \
     automate/IOrgan.cpp \
     automate/actions/CActionCmdPompe.cpp \
     automate/actions/CActionCmdReadInput.cpp \
-    automate/actions/CActionCmdRelay.cpp \
     automate/actions/CActionBlock.cpp \
     automate/actions/CActionFactory.cpp \
     automate/actions/CActionUnknow.cpp \
@@ -389,4 +388,5 @@ SOURCES *= \
     gui/tools/configurator/IConfiguratorEditWindow.cpp \
     gui/tools/configurator/steps/CStepWidgetUIHandler.cpp \
     gui/tools/configurator/steps/CEditStepListTab.cpp \
-    gui/StyleRepository.cpp
+    gui/StyleRepository.cpp \
+    $$PWD/automate/actions/CActionCmdDigitalOutput.cpp

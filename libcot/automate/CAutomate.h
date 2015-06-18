@@ -56,6 +56,9 @@ public:
     void informAboutCycleChanges(ICycle *cycle, const QVariantMap &oldData);
     void informAboutVariableChanges(IVariable *variable, const QVariantMap &oldData);
 
+    void playScheduler();
+    void stopScheduler();
+    void pauseScheduler();
     //FIN API
 
     static QString formatHistoryEntry(const QString &name, const QDateTime &dateTime);

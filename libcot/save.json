@@ -21,10 +21,13 @@
                           {"name":"pump_2_speed", "type":"output_boolean", "address_data":"0x0200"},
                           {"name":"pump_2_clockwise", "type":"output_boolean", "address_data":"0x0201"},
                           {"name":"pump_2_step_by_step", "type":"output_boolean", "address_data":"0x0202"},
+                          {"name":"pump_2_cmd_continu", "type":"output_boolean", "address_data":"0x0203"},
+
+                          
                           {"name":"relay_1", "type":"output_boolean", "address_data":"0x0120"},
                           {"name":"relay_2", "type":"output_boolean", "address_data":"0x0121"},
                           {"name":"relay_3", "type":"output_boolean", "address_data":"0x0122"},
-                          {"name":"pump_2_cmd_continu", "type":"output_boolean", "address_data":"0x0203"}
+
                         ]
         },
         {"name" : "io_card_1","fr_FR" : "Carte E/S 1", "en_US" : "I/O card 1",
@@ -190,16 +193,14 @@
 
     "actions" : [
                 {
-                    "name":"absorbance_corection",
-                    "type":"multiplication",
+                    "name":"absorbance_corection", "type":"multiplication",
                     "fr_FR":"Calcul de l'absorbance réel",
                     "input_var_measure":"absorbance_gross",
                     "input_var_coeff":"coef_ajustement",
                     "target":"absorbance_corrected"
                 },
                 {
-                    "name" : "4_tour_pompe_persulfate",
-                    "type" : "cmd_pump",
+                    "name" : "4_tour_pompe_persulfate", "type" : "cmd_pump",
                     "fr_FR" : "4 tours de pompes persulfate",
                     "en_US" : "4 tours of pumps persulfate",
                     "pump" : "pump_persulfate",
@@ -210,49 +211,49 @@
                     "cmd_continu_pump" : "cmd_continus_pump_persulfate"
                 },
                 {
-                    "name" : "open_sample_solenoide",
-                    "type" : "cmd_relay",
-                    "fr_FR" : "Ouverture EV echantillon",
-                    "en_US" : "Open sample solenoid",
-                    "target" : "test_relay_1",
-                    "state" : "open"
+                    "name" : "open_sample_solenoide", "type" : "cmd_digital_output",
+                    "fr_FR" : "Ouverture EV echantillon", "en_US" : "Open sample solenoid",
+                    "target" : "test_relay_1", "state" : true
                 },
                 {
-                    "name" : "close_sample_solenoide",
-                    "type" : "cmd_relay",
-                    "fr_FR" : "Fermeture EV echantillon",
-                    "en_US" : "Close sample solenoid",
-                    "target" : "test_relay_1",
-                    "state" : "close"
+                    "name" : "close_sample_solenoide", "type" : "cmd_digital_output",
+                    "fr_FR" : "Fermeture EV echantillon", "en_US" : "Close sample solenoid",
+                    "target" : "test_relay_1", "state" : false
 
                 },
                 {
-                    "name" : "open_emptying_solenoide",
-                    "type" : "cmd_open_relay",
-                    "fr_FR" : "Ouverture EV echantillon",
-                    "en_US" : "Open sample solenoid",
-                    "target" : "emptying_solenoide"
-
-                },
-                {
-                    "name" : "close_emptying_solenoide",
-                    "type" : "cmd_close_relay",
-                    "fr_FR" : "Fermeture EV echantillon",
-                    "en_US" : "Close sample solenoid",
-                    "target" : "emptying_solenoide"
-
-                },
-                {
-                    "name" : "bloc_rincage",
-                    "type" : "block",
+                    "name" : "bloc_rincage", "type" : "block",
                     "fr_FR" : "Rinçage en cours",
                     "en_US" : "Cleaning in progress",
                     "steps" : [{"step":1, "actions":["open_sample_solenoide", "open_emptying_solenoide"] }, {"step":2, "actions":["close_emptying_solenoide"] }, {"step":3, "actions":["open_sample_solenoide", "4_tour_pompe_persulfate"] }, {"step":5, "actions":["close_sample_solenoide", "open_emptying_solenoide"] }, {"step":6, "actions":["open_sample_solenoide"] }, {"step":7, "actions":["close_sample_solenoide", "close_emptying_solenoide"] }]
 
-                }
+                },
+                {   "name" : "compressor_on", "type" : "cmd_digital_output",
+                    "fr_FR" : "Compresseur ON", "en_US" : "Compressor ON",
+                    "target" : "compressor_output", "state" : true
+                },
+                {   "name" : "compressor_off", "type" : "cmd_digital_output",
+                    "fr_FR" : "Compresseur OFF", "en_US" : "Compressor OFF",
+                    "target" : "compressor_output", "state" : false
+                },
     ],
 
     "cycles" : [
+         {
+            "name" : "cycle_control",
+            "fr_FR" : "Cycle de control au démarage",
+            "en_US" : "Control cycle",
+            "type" : "control",
+            "steps" : [{"name":"step_1", "step":1,"fr_FR":"Initialisation cycle de control",
+                        "actions":["compressor_on", "open_ev_4", "set_consigne_debit_air",  "heater_reactor_on"]}, 
+                       {"name":"step_2", "step":2,"fr_FR":"Control débit d'air", "actions":["control_debit_air"]},
+                       {"name":"step_3", "step":3,"fr_FR":"Control T° NDIR", "actions":["control_temperature_ndir"]},
+                       {"name":"step_4", "step":4,"fr_FR":"Control T° condenseur", "actions":["control_temperature_condenseur"]},
+                       {"name":"step_5", "step":5,"fr_FR":"Control T° Reacteur", "actions":["control_temperature_reactor"]},
+                       {"name":"step_6", "step":6,"fr_FR":"Control puissance emetteur", "actions":["control_power_emettor"]}
+
+                    ]
+        },
         {
             "name" : "cycle_test",
             "fr_FR" : "measure de test",

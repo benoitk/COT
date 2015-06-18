@@ -69,7 +69,7 @@ IVariablePtrList buildActionType() {
                                     PairPairStringString("calc_coef", qMakePair(IVariableUIHandler::tr("Calc Coef"), 1)) <<
                                     PairPairStringString("calc_rien", qMakePair(IVariableUIHandler::tr("Calc Rien"), 2)) <<
                                     PairPairStringString("cmd_pump", qMakePair(IVariableUIHandler::tr("Pump"), 3)) <<
-                                    PairPairStringString("cmd_relay", qMakePair(IVariableUIHandler::tr("Relay"), 3)) <<
+                                    PairPairStringString("cmd_digital_output", qMakePair(IVariableUIHandler::tr("Relay"), 3)) <<
                                     PairPairStringString("block", qMakePair(IVariableUIHandler::tr("Block"), 1000))
                                 );
 }
