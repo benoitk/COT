@@ -4,6 +4,7 @@
 #include "CActionCmdReadInput.h"
 #include "CActionBlock.h"
 #include "CActionUnknow.h"
+#include "CActionTest.h"
 
 #include "qvariant.h"
 #include "qmap.h"
@@ -25,6 +26,9 @@ IAction* CActionFactory::build(const QVariantMap &mapAction, QObject *parent){
     }
     else if(type == QStringLiteral("block")){
         action = new CActionBlock(mapAction,parent);
+    }
+    else if(type == QStringLiteral("test")){
+        action = new CActionTest(mapAction,parent);
     }
     else{
         action = new CActionUnknow(mapAction,parent);
@@ -51,6 +55,10 @@ IAction* CActionFactory::build(actionType arg_type, QObject* parent){
 
     case actionType::type_cmd_relay:
         action = new CActionCmdDigitalOutput(QVariantMap(), parent);
+        break;
+
+    case actionType::type_test:
+        action = new CActionTest(QVariantMap(), parent);
         break;
 
     default:

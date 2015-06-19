@@ -12,25 +12,30 @@ IAction::IAction(const QVariantMap &mapAction, QObject *parent):QObject(parent){
 
 IAction::~IAction(){}
 
+bool IAction::waitUnitlFinished(){
+  return false;
+}
 
 QString IAction::typeToString(actionType arg_type)
 {
     switch (arg_type) {
-        case actionType::type_action_unknow:
-            return tr("Unknow");
+    case actionType::type_action_unknow:
+        return tr("Unknow");
 
-        case actionType::type_block:
-            return tr("Steps block");
+    case actionType::type_block:
+        return tr("Steps block");
 
-        case actionType::type_cmd_pump:
-            return tr("Pump command");
+    case actionType::type_cmd_pump:
+        return tr("Pump command");
 
-        case actionType::type_cmd_read_input:
-            return tr("Read input");
+    case actionType::type_cmd_read_input:
+        return tr("Read input");
 
-        case actionType::type_cmd_relay:
-            return tr("Relay command");
+    case actionType::type_cmd_relay:
+        return tr("Relay command");
 
+    case actionType::type_test:
+        return tr("Test");
 
     }
     return QStringLiteral("**unhandled action type**");

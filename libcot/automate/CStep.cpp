@@ -5,8 +5,10 @@
 #include "qmap.h"
 #include "cotautomate_debug.h"
 
+#include "qthread.h"
+
 CStep::CStep(const QVariantMap &mapStep)
-    : QObject()
+    : QObject(), m_bWaitForActions(false), m_errorDuringActions(false)
 {
 
     m_numStep = mapStep.value(QStringLiteral("step")).toFloat();
@@ -78,9 +80,37 @@ void CStep::setNumStep(float numStep){
 //void CStep::setNextStep(CStep* step){
 //    m_nextStep = step;
 //}
-void CStep::execStep(){
-    //Connecter le signal IAction::finish(IAction*) si on veut que le pas attande la fin de l'action
+
+//true si pas d'erreur, false sinon
+bool CStep::execStep(){
+    m_errorDuringActions = false;
+
     foreach(IAction* action, m_listActions){
+        if(action->waitUnitlFinished()){
+            m_listActionsWaited.append(action);
+            connect(action, &IAction::signalActionFinished, this, &CStep::slotActionFinished);
+            connect(action, &IAction::signalActionFinishedWithError, this, &CStep::slotActionFinishedWithError);
+            m_bWaitForActions=true;
+        }
         action->runAction();
+    }
+    while(m_bWaitForActions || m_errorDuringActions){
+        QThread::usleep(10000);
+    }
+
+    return !m_errorDuringActions;
+}
+
+void CStep::slotActionFinished(IAction* action){
+    if(m_listActionsWaited.removeOne(action)){
+        disconnect(action,0,this,0);
+    }
+    if(m_listActionsWaited.isEmpty()) m_bWaitForActions = false;
+}
+
+void CStep::slotActionFinishedWithError(IAction * action){
+    if(m_listActionsWaited.removeOne(action)){
+        disconnect(action,0,this,0);
+        m_errorDuringActions = true;
     }
 }

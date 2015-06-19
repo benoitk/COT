@@ -217,7 +217,8 @@ HEADERS *= \
     gui/tools/configurator/steps/CStepWidgetUIHandler.h \
     gui/tools/configurator/steps/CEditStepListTab.h \
     gui/StyleRepository.h \
-    $$PWD/automate/actions/CActionCmdDigitalOutput.h
+    $$PWD/automate/actions/CActionCmdDigitalOutput.h \
+    $$PWD/automate/actions/CActionTest.h
 
 SOURCES *= \
     automate/CAutomate.cpp \
@@ -389,4 +390,5 @@ SOURCES *= \
     gui/tools/configurator/steps/CStepWidgetUIHandler.cpp \
     gui/tools/configurator/steps/CEditStepListTab.cpp \
     gui/StyleRepository.cpp \
-    $$PWD/automate/actions/CActionCmdDigitalOutput.cpp
+    $$PWD/automate/actions/CActionCmdDigitalOutput.cpp \
+    $$PWD/automate/actions/CActionTest.cpp

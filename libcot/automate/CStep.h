@@ -22,14 +22,23 @@ public:
     //CStep* getNextStep()const;
     //void setNextStep(CStep*);
     //FIN API
-    void execStep();
+    bool execStep();
     QVariantMap serialise();
     void addAction(IAction*);
     void removeAction(IAction*);
     void setListActions(const QList<IAction *> &actions);
+
+public slots:
+
+    void slotActionFinished(IAction* );
+    void slotActionFinishedWithError(IAction*);
 private:
 
     QList<IAction*> m_listActions;
+    QList<IAction*> m_listActionsWaited;
+    bool m_bWaitForActions;
+    bool m_errorDuringActions;
+
     float m_numStep; //peut gérer des pas flotant pour affiner le timming
     QString m_label;
 };

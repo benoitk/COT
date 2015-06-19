@@ -8,6 +8,7 @@ enum actionType{
         type_cmd_pump,
         type_cmd_relay,
         type_cmd_read_input,
+        type_test,
         type_action_unknow
 
 };
@@ -27,15 +28,16 @@ public:
     virtual QString getLabel()const;
     virtual void setLabel(const QString&);
 
-    virtual bool runAction()=0;   
+    virtual bool runAction()=0;
+    virtual bool waitUnitlFinished();
     virtual QList<IVariable*> getListParameters()const=0;
     virtual actionType getType()const =0;
     virtual bool variableUsed(IVariable *)const =0;
     static QString typeToString(actionType type);
 
 signals:
-    void finish(IAction* arg_this);
-
+    void signalActionFinished(IAction* arg_this);
+    void signalActionFinishedWithError(IAction*  arg_this);
 protected:
     QString m_label;
     QString m_name;

@@ -248,6 +248,64 @@
                 {   "name" : "set_consigne_debit_air", "type" : "cmd_float_output",
                     "fr_FR" : "Initialisation débit d'air", "en_US" : "Init air flow",
                     "target" : "compressor_output", "state" : false
+                },
+                {   "name" : "heater_reactor_on", "type" : "cmd_digital_output",
+                    "fr_FR" : "Chauffe réacteur ON", "en_US" : "Heating reactor ON",
+                    "target" : "heater_reactor", "state" : true
+                },
+                {   "name" : "heater_reactor_off", "type" : "cmd_digital_output",
+                    "fr_FR" : "Chauffe réacteur OFF", "en_US" : "Heating reactor OFF",
+                    "target" : "heater_reactor", "state" : false
+                },
+                {   "name" : "control_air_flow", "type" : "test",
+                    "fr_FR" : "Control débit d'air", "en_US" : "Air flow control",
+                    "setpoint" : "airflow_setpoint",
+                    "target" : "airflow",
+                    "result" : "airflow_default",
+                    "waiting" : "airflow_control_needed", 
+                    "condition" : "equal",
+                    "error_margin" : "airflow_error_margin", 
+                    "timeout" : "airflow_control_timeout" 
+                },
+                {   "name" : "control_temperature_ndir", "type" : "test",
+                    "fr_FR" : "Control température NDIR", "en_US" : "NDIR température control",
+                    "setpoint" : "ndir_temperature_setpoint",
+                    "target" : "ndir_temperature",
+                    "result" : "ndir_temperature_default",
+                    "waiting" : "ndir_temperature_control_needed", 
+                    "condition" : "equal",
+                    "error_margin" : "ndir_temperature_error_margin", 
+                    "timeout" : "ndir_temperature_control_timeout" 
+                },
+                {   "name" : "control_temperature_condenseur", "type" : "test",
+                    "fr_FR" : "Control température condenseur", "en_US" : "Condenseur température control",
+                    "setpoint" : "condenseur_temperature_setpoint",
+                    "target" : "condenseur_temperature",
+                    "result" : "condenseur_temperature_default",
+                    "waiting" : "condenseur_temperature_control_needed", 
+                    "condition" : "equal",
+                    "error_margin" : "condenseur_temperature_error_margin", 
+                    "timeout" : "condenseur_temperature_control_timeout" 
+                },
+                {   "name" : "control_temperature_reactor", "type" : "test",
+                    "fr_FR" : "Control température réacteur", "en_US" : "Reactor température control",
+                    "setpoint" : "reactor_temperature_setpoint",
+                    "target" : "reactor_temperature",
+                    "result" : "reactor_temperature_default",
+                    "waiting" : "reactor_temperature_control_needed", 
+                    "condition" : "equal",
+                    "error_margin" : "reactor_temperature_error_margin", 
+                    "timeout" : "reactor_temperature_control_timeout" 
+                },
+                {   "name" : "control_power_emitter", "type" : "test",
+                    "fr_FR" : "Control puissance émetteur", "en_US" : "Emitter control",
+                    "setpoint" : "emitter_temperature_setpoint",
+                    "target" : "emitter_temperature",
+                    "result" : "emitter_temperature_default",
+                    "waiting" : "emitter_temperature_control_needed", 
+                    "condition" : "equal",
+                    "error_margin" : "emitter_temperature_error_margin",
+                    "timeout" : "emitter_temperature_control_timeout" 
                 }
     ],
 
@@ -259,11 +317,11 @@
             "type" : "control",
             "steps" : [{"name":"step_1", "step":1,"fr_FR":"Initialisation cycle de control",
                         "actions":["compressor_on", "open_ev_4", "set_consigne_debit_air",  "heater_reactor_on"]}, 
-                       {"name":"step_2", "step":2,"fr_FR":"Control débit d'air", "actions":["control_debit_air"]},
+                       {"name":"step_2", "step":2,"fr_FR":"Control débit d'air", "actions":["control_air_flow"]},
                        {"name":"step_3", "step":3,"fr_FR":"Control T° NDIR", "actions":["control_temperature_ndir"]},
                        {"name":"step_4", "step":4,"fr_FR":"Control T° condenseur", "actions":["control_temperature_condenseur"]},
                        {"name":"step_5", "step":5,"fr_FR":"Control T° Reacteur", "actions":["control_temperature_reactor"]},
-                       {"name":"step_6", "step":6,"fr_FR":"Control puissance emetteur", "actions":["control_power_emettor"]}
+                       {"name":"step_6", "step":6,"fr_FR":"Control puissance emetteur", "actions":["control_power_emitter"]}
 
                     ]
         },
