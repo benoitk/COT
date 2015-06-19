@@ -31,7 +31,7 @@ public:
 public slots:
 
     void slotActionFinished(IAction* );
-    void slotActionFinishedWithError(IAction*);
+
 private:
 
     QList<IAction*> m_listActions;

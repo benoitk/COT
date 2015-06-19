@@ -9,11 +9,11 @@
 // JSON names for elec_tests, they are used to retrieve the correct IVariable array in a map.
 // the strings are coming from save.json
 // see getMapForScreenElectricalTests()
-const QString CDisplayConf::STR_ELEC_420 = QString("tab_EV");
-const QString CDisplayConf::STR_ELEC_RELAYS = QString("tab_Actionneurs");
+const QString CDisplayConf::STR_ELEC_420 = QString("tab_selecteur");
+const QString CDisplayConf::STR_ELEC_RELAYS = QString("tab_Actionneurs"); //TODO A remettre d'aplomb (actionneur inversé avec ev je sais pas ou)
 const QString CDisplayConf::STR_ELEC_INPUTS = QString("tab_entrees");
 const QString CDisplayConf::STR_ELEC_PUMP = QString("tab_pump");
-const QString CDisplayConf::STR_ELEC_ACTUATOR = QString("tab_selecteur");
+const QString CDisplayConf::STR_ELEC_ACTUATOR = QString("tab_EV");
 
 CDisplayConf::CDisplayConf(const QJsonArray& jsonArray, QObject *parent)
     : QObject(parent)

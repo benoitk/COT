@@ -42,7 +42,7 @@ CAutomate::CAutomate()
     m_iClock = 0;
     connect(timer, &QTimer::timeout, this, &CAutomate::slotClock);
     timer->setInterval(1000);
-    timer->start();
+  //  timer->start();
 
     // for use in queued signal/slot connections
     qRegisterMetaType<CAutomate::eStateAutomate>();
@@ -326,38 +326,38 @@ void CAutomate::slotClock(){
     m_iClock = (m_iClock + 1) % 600;
     qCDebug(COTAUTOMATE_LOG) << "Tick " << m_iClock;
 
-    // TEST CODE (for graph and history)
-    getVariable(QStringLiteral("measure_cot"))->setValue(QVariant(m_iClock));
-    IVariable *phosphore = getVariable(QStringLiteral("phosphore"));
-    phosphore->setValue(m_iClock * 2);
-    if ((m_iClock % 5) == 2) {
-        IVariable *azote= getVariable(QStringLiteral("azote"));
-        azote->setValue(m_iClock * 1.5);
-    }
-    emit signalUpdatePlotting();
-    if (m_iClock == 6) {
-        emit signalUpdateStateStream("stream_1", WATER_DEFAULT);
-    } else if (m_iClock == 10) {
-        emit signalUpdateStateStream("stream_1", ACTIVE);
-    }
+//    // TEST CODE (for graph and history)
+//    getVariable(QStringLiteral("measure_cot"))->setValue(QVariant(m_iClock));
+//    IVariable *phosphore = getVariable(QStringLiteral("phosphore"));
+//    phosphore->setValue(m_iClock * 2);
+//    if ((m_iClock % 5) == 2) {
+//        IVariable *azote= getVariable(QStringLiteral("azote"));
+//        azote->setValue(m_iClock * 1.5);
+//    }
+//    emit signalUpdatePlotting();
+//    if (m_iClock == 6) {
+//        emit signalUpdateStateStream("stream_1", WATER_DEFAULT);
+//    } else if (m_iClock == 10) {
+//        emit signalUpdateStateStream("stream_1", ACTIVE);
+//    }
 
-    // TEST CODE (for the alarms window)
-    if ((m_iClock % 3) == 0) {
-        IVariable *defectVar = getVariable(QStringLiteral("alarm_defaut_eau"));
-        defectVar->setValue(true);
-    }
+//    // TEST CODE (for the alarms window)
+//    if ((m_iClock % 3) == 0) {
+//        IVariable *defectVar = getVariable(QStringLiteral("alarm_defaut_eau"));
+//        defectVar->setValue(true);
+//    }
 
-    // TEST CODE (for the status widget)
-    if (m_iClock > 5 && m_iClock < 50) {
-        if (m_iClock == 5)
-            emit signalUpdateStateAutomate(RUNNING);
-        else if (m_iClock == 49)
-            emit signalUpdateStateAutomate(GENERAL_DEFAULT);
+//    // TEST CODE (for the status widget)
+//    if (m_iClock > 5 && m_iClock < 50) {
+//        if (m_iClock == 5)
+//            emit signalUpdateStateAutomate(RUNNING);
+//        else if (m_iClock == 49)
+//            emit signalUpdateStateAutomate(GENERAL_DEFAULT);
 
-        emit signalUpdateCurrentStep(m_iClock / 2, "Step Name Goes Here");
-        if ((m_iClock % 20) == 0)
-            emit signalUpdateCurrentStream(m_iClock / 20, "Stream Name");
-    }
+//        emit signalUpdateCurrentStep(m_iClock / 2, "Step Name Goes Here");
+//        if ((m_iClock % 20) == 0)
+//            emit signalUpdateCurrentStream(m_iClock / 20, "Stream Name");
+//    }
 }
 void CAutomate::playScheduler(){
 

@@ -226,11 +226,11 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
         foreach(QJsonValue jsonValueSequence, jsonArraySeqeuceur){
             QString sequenceName = jsonValueSequence.toVariant().toString();
             if(sequenceName != QStringLiteral(""))
-                m_listSequences.append(m_mapCycles[sequenceName]);
+                automate->getSequencer()->addCycleMeasure(m_mapCycles[sequenceName]);
             else
                 qCDebug(COTAUTOMATE_LOG) << "Sequence name cycle null : map = " << sequenceName;
         }
-        qCDebug(COTAUTOMATE_LOG) << "SEQUENCER : " << m_listSequences;
+        qCDebug(COTAUTOMATE_LOG) << "SEQUENCER MEASURE : " << automate->getSequencer()->getListSequenceCyclesMesures();
 
     }
 

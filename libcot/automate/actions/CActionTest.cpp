@@ -19,9 +19,9 @@ CActionTest::CActionTest(const QVariantMap &mapAction, QObject *parent)
     m_timeout = automate->getVariable(mapAction[QStringLiteral("timeout")].toString());
 
     QString sCondition = mapAction[QStringLiteral("condition")].toString();
-    if(sCondition == QStringLiteral("equal")) m_condition = m_eEqual;
-    else if(sCondition == QStringLiteral("diff_up")) m_condition = m_eDiffUp;
-    else m_condition = m_eDiffDown;
+    if(sCondition == QStringLiteral("equal")) m_condition = m_eEqualToSetpoint;
+    else if(sCondition == QStringLiteral("diff_up")) m_condition = m_eSuperiorToSetpoint;
+    else m_condition = m_eInferiorToSetPoint;
 
 }
 
@@ -48,33 +48,39 @@ void CActionTest::run(){
     int timeout = m_timeout->toInt();
     bool result = false;
 
-    switch(m_condition){
-        case m_eEqual:
-            for(int i=0 ; i < timeout & !result; ++i){
-                target = m_target->toFloat();
-                if(target < setpoint_max && target > setpoint_min) {
-                    result = true;
-                }
+    for(int i=0 ; i < timeout & !result; ++i){
+        target = m_target->toFloat();
+        switch(m_condition){
+        case m_eEqualToSetpoint:
+            if(target < setpoint_max && target > setpoint_min) {
+                result = true;
             }
             break;
-    case m_eDiffDown:
-    case m_eDiffUp:
-    default:
-        break;
+        case m_eInferiorToSetPoint:
+            if(target < setpoint_min) {
+                result = true;
+            }
+            break;
+        case m_eSuperiorToSetpoint:
+            if(target > setpoint_min) {
+                result = true;
+            }
+            break;
+        }
     }
 
 
     m_result->setValue(result);
-    if(result)
-        emit signalActionFinished(this);
-    else
-        emit signalActionFinishedWithError(this);
+    emit signalActionFinished(this);
+
 }
 
 bool CActionTest::waitUnitlFinished(){
     return m_waiting->toBool();
 }
-
+bool CActionTest::finishedWithError(){
+    return m_result->toBool();
+}
 QList<IVariable*> CActionTest::getListParameters()const{
     QList<IVariable*> listParams;
     listParams.append(m_errorMargin);

@@ -30,6 +30,7 @@ public:
 
     virtual bool runAction()=0;
     virtual bool waitUnitlFinished();
+    virtual bool finishedWithError();
     virtual QList<IVariable*> getListParameters()const=0;
     virtual actionType getType()const =0;
     virtual bool variableUsed(IVariable *)const =0;
@@ -37,7 +38,6 @@ public:
 
 signals:
     void signalActionFinished(IAction* arg_this);
-    void signalActionFinishedWithError(IAction*  arg_this);
 protected:
     QString m_label;
     QString m_name;

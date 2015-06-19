@@ -18,6 +18,7 @@ public:
     QList<ICycle*> getListSequenceCyclesMesures();
     void setListSequenceCyclesMesures(QList<ICycle*> );
     void addCycleMeasure(int index, ICycle*);
+    void addCycleMeasure(ICycle*);
     void replaceCycleMeasureAt(int index, ICycle*);
     void removeCycleMeasureAt(int index);
     ICycle* getCycleMeasureAt(int index) const;
@@ -103,7 +104,7 @@ private:
 
     static CSequencer* singleton;
 
-    QList<CyclePair> m_listSequenceCycles;
+    //QList<CyclePair> m_listSequenceCycles;
 
     QList<ICycle*> m_listSequenceCyclesMesures;
     QList<ICycle*> m_listSequenceCyclesAutonomes;

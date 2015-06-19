@@ -38,7 +38,7 @@ void CSequencer::apendSequenceMesureRunCycle(ICycle* arg_cycle, int arg_nbMesure
             arg_nbMesure--;
         }
 
-        m_listSequenceCycles << CyclePair(arg_cycle, arg_nbMesure);
+        //m_listSequenceCycles << CyclePair(arg_cycle, arg_nbMesure);
     }
 }
 
@@ -51,7 +51,7 @@ void CSequencer::apendSequenceMesurePause(int minute){
     CCyclePause* cyclePause = new CCyclePause(minute, this);
     //CControlerCycle* ctrlCycle = new CControlerCycle(this, cyclePause);
     m_listSequenceCyclesMesures.append(cyclePause);
-    m_listSequenceCycles << CyclePair(cyclePause, minute);
+    //m_listSequenceCycles << CyclePair(cyclePause, minute);
 }
 
 void CSequencer::setSequenceMesure(){
@@ -70,11 +70,12 @@ void CSequencer::setSequenceMesure(){
     if( m_itListSequenceCyclesMesures != m_listSequenceCyclesMesures.end()){
 
         // SERES_TODO: Fix null pointers.
-        m_cycleMesureEnCours = qobject_cast<ICycle*>(*m_itListSequenceCyclesMesures);
+        m_cycleMesureEnCours = (*m_itListSequenceCyclesMesures);
         if (!m_cycleMesureEnCours) {
+            qCDebug(COTAUTOMATE_LOG) << "m_cycleMesureEnCours ptr null";
             return;
         }
-
+        qCDebug(COTAUTOMATE_LOG) << "Cycle : " << m_cycleAutonomeEnCours->getName();
         //Si les signaux ne fonctionne pas, vérfier que le cycle à était déplacer dans un QThread à part(movethead)
         connect(this, &CSequencer::signalRunCycleMesure, m_cycleMesureEnCours, &ICycle::slotRunCycle);//, Qt::DirectConnection);
         connect(this, &CSequencer::signalPauseCycleMesure, m_cycleMesureEnCours, &ICycle::slotPauseCycle);
@@ -90,6 +91,7 @@ void CSequencer::setSequenceMesure(){
         disconnect(this, &CSequencer::signalGetReadyForPlayCycleMesure, this, &CSequencer::slotPlaySequenceMesure);
         connect(m_cycleMesureEnCours, &ICycle::signalReadyForPlayCycle, this, &CSequencer::slotPlaySequenceMesure);
     }
+    else qCDebug(COTAUTOMATE_LOG) << "liste m_listSequenceCyclesMesures vide :" << m_listSequenceCyclesMesures;
 
 }
 void CSequencer::disconnectCycle(ICycle* cycle){
@@ -145,12 +147,14 @@ void CSequencer::slotRequestUnPauseSequenceMesure(){
 
 //Play  cycle Mesure(démarre ou redémarre du début de la séquence)
 void CSequencer::slotRequestPlaySequenceMesure(){
+    qCDebug(COTAUTOMATE_LOG) << "CSequencer::slotRequestPlaySequenceMesure";
     emit signalGetReadyForPlayCycleMesure();
 }
 void CSequencer::slotPlaySequenceMesure(){
     qCDebug(COTAUTOMATE_LOG) << "CSequencer::slotPlaySequenceMesure()" << m_cycleMesureEnCours;
     if(!m_cycleMesureEnCours || (m_cycleMesureEnCours && !m_cycleMesureEnCours->isRunning()))
     {
+
         m_itListSequenceCyclesMesures = m_listSequenceCyclesMesures.begin();
         this->setSequenceMesure();
         emit signalRunCycleMesure();
@@ -200,14 +204,20 @@ void  CSequencer::setListCyclesMaintenances(QList<ICycle *> listCycles){
 }
 void CSequencer::addCycle(const CSequencer::CyclePair &pair)
 {
-    m_listSequenceCycles << pair;
-    emit signalUpdated();
+//    m_listSequenceCycles << pair;
+//    emit signalUpdated();
 }
 void CSequencer::addCycleMeasure(int arg_index, ICycle* arg_cycle){
     if(arg_cycle){
         if(arg_index < 0) arg_index = 0;
         else if(arg_index > m_listSequenceCyclesMesures.size()) arg_index = m_listSequenceCyclesMesures.size();
         m_listSequenceCyclesMesures.insert(arg_index, arg_cycle);
+    }
+}
+void CSequencer::addCycleMeasure(ICycle* arg_cycle){
+    if(arg_cycle){
+        m_listSequenceCyclesMesures.append(arg_cycle);
+        emit signalUpdated();
     }
 }
 void CSequencer::addCycleAutonome(int arg_index, ICycle* arg_cycle){
@@ -230,12 +240,12 @@ void CSequencer::addCycleMaintenance(ICycle* arg_cycle){
 }
 void CSequencer::replaceCycleAt(int index, const CSequencer::CyclePair &pair)
 {
-    if (index >= m_listSequenceCycles.count()) {
-        return;
-    }
+//    if (index >= m_listSequenceCycles.count()) {
+//        return;
+//    }
 
-    m_listSequenceCycles[index] = pair;
-    emit signalUpdated();
+//    m_listSequenceCycles[index] = pair;
+//    emit signalUpdated();
 }
 void CSequencer::replaceCycleMeasureAt(int arg_index, ICycle* arg_cycle){
     if(arg_cycle && arg_cycle->getType() != CYCLE_INVALID && arg_index > 0 && arg_index < m_listSequenceCyclesMesures.size()){
@@ -249,12 +259,12 @@ void CSequencer::replaceCycleAutonomeAt(int arg_index, ICycle* arg_cycle){
 }
 void CSequencer::removeAt(int index)
 {
-    if (index >= m_listSequenceCycles.count()) {
-        return;
-    }
+//    if (index >= m_listSequenceCycles.count()) {
+//        return;
+//    }
 
-    m_listSequenceCycles.removeAt(index);
-    emit signalUpdated();
+//    m_listSequenceCycles.removeAt(index);
+//    emit signalUpdated();
 }
 void CSequencer::removeCycleMeasureAt(int arg_index){
     if(arg_index >= 0 && arg_index < m_listSequenceCyclesMesures.size()){
@@ -295,12 +305,15 @@ void CSequencer::removeCycleAutonome(ICycle * arg_cycle){
 
 CSequencer::CyclePair CSequencer::getCycleAt(int index) const
 {
-    return m_listSequenceCycles.value(index, CyclePair(Q_NULLPTR, -1));
+//    return m_listSequenceCyclesMesures.value(index, CyclePair(Q_NULLPTR, -1));
+     return CyclePair(Q_NULLPTR, -1);
 }
 
 QList<CSequencer::CyclePair> CSequencer::getCycles() const
 {
-    return m_listSequenceCycles;
+    QList<CSequencer::CyclePair> list; //a virer avec toutes les listes<CyclePair>
+    return list;
+//    return m_listSequenceCycles;
 }
 ICycle*  CSequencer::getCycleMeasureAt(int arg_index) const{
     return m_listSequenceCyclesMesures.value(arg_index, Q_NULLPTR);

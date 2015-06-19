@@ -89,10 +89,12 @@ bool CStep::execStep(){
         if(action->waitUnitlFinished()){
             m_listActionsWaited.append(action);
             connect(action, &IAction::signalActionFinished, this, &CStep::slotActionFinished);
-            connect(action, &IAction::signalActionFinishedWithError, this, &CStep::slotActionFinishedWithError);
             m_bWaitForActions=true;
         }
         action->runAction();
+//        if(action->finishedWithError()){
+//            m_errorDuringActions = true;
+//        }
     }
     while(m_bWaitForActions || m_errorDuringActions){
         QThread::usleep(10000);
@@ -104,13 +106,11 @@ bool CStep::execStep(){
 void CStep::slotActionFinished(IAction* action){
     if(m_listActionsWaited.removeOne(action)){
         disconnect(action,0,this,0);
+        if(action->finishedWithError()){
+            m_errorDuringActions = true;
+        }
     }
     if(m_listActionsWaited.isEmpty()) m_bWaitForActions = false;
 }
 
-void CStep::slotActionFinishedWithError(IAction * action){
-    if(m_listActionsWaited.removeOne(action)){
-        disconnect(action,0,this,0);
-        m_errorDuringActions = true;
-    }
-}
+

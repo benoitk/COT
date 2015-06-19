@@ -15,6 +15,9 @@ IAction::~IAction(){}
 bool IAction::waitUnitlFinished(){
   return false;
 }
+bool IAction::finishedWithError(){
+    return false;
+}
 
 QString IAction::typeToString(actionType arg_type)
 {

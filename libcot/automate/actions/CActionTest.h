@@ -22,12 +22,14 @@ public:
 
     bool runAction() Q_DECL_OVERRIDE;
     bool waitUnitlFinished() Q_DECL_OVERRIDE;
+    bool finishedWithError() Q_DECL_OVERRIDE;
+
     QList<IVariable*> getListParameters()const Q_DECL_OVERRIDE;
     actionType getType()const Q_DECL_OVERRIDE;
     bool variableUsed(IVariable *)const Q_DECL_OVERRIDE;
 
 private:
-    enum eContidion{m_eEqual=0, m_eDiffUp, m_eDiffDown};
+    enum eContidion{m_eEqualToSetpoint=0, m_eSuperiorToSetpoint, m_eInferiorToSetPoint};
     IVariable* m_setpoint;
     IVariable* m_target;
     IVariable* m_result;
