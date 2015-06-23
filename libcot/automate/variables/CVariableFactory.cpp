@@ -21,33 +21,38 @@
 
 IVariable* CVariableFactory::build(const QVariantMap &mapVar){
 
-    int address = 0;
-    if(mapVar.contains(QStringLiteral("address")))
-         address = mapVar[QStringLiteral("address")].toInt();
+    QString type = mapVar.value(QStringLiteral("type")).toString();
+    IVariable *variable = Q_NULLPTR;
 
-    variableAccess access = access_read;
-    if(mapVar.contains(QStringLiteral("access"))){
-        if(mapVar[QStringLiteral("access")].toString() == QStringLiteral("write")) access = access_write;
-        if(mapVar[QStringLiteral("access")].toString() == QStringLiteral("read_write")) access = access_read_write;
+    if(type == QStringLiteral("boolean")){
+        variable = new CVariableBool(mapVar);
+    }else if(type == QStringLiteral("integer")){
+        variable = new CVariableInt(mapVar);
+    }else if(type == QStringLiteral("float")){
+        variable = new CVariableFloat(mapVar);
+    }else if(type == QStringLiteral("stream")){
+        variable = new CVariableStream(mapVar);
+    }else if(type == QStringLiteral("measure")){
+        variable = new CVariableMeasure(mapVar);
+    }else if(type == QStringLiteral("string")){
+        variable = new CVariableString(mapVar);
+    }else if(type == QStringLiteral("input_boolean")){
+        variable = new CVariableInputBool(mapVar);
+    }else if(type == QStringLiteral("input_integer")){
+        variable = new CVariableInputInt(mapVar);
+    }else if(type == QStringLiteral("input_float")){
+        variable = new CVariableInputFloat(mapVar);
+    }else if(type == QStringLiteral("output_boolean")){
+        variable = new CVariableOutputBool(mapVar);
+    }else if(type == QStringLiteral("output_integer")){
+        variable = new CVariableOutputInt(mapVar);
+    }else if(type == QStringLiteral("output_float")){
+        variable = new CVariableOutputFloat(mapVar);
+    }else if(type == QStringLiteral("output_list_variables")){
+        variable = new CVariableUnknow();
+    }else{
+        variable = new CVariableUnknow();
     }
-
-    const QString type = mapVar[QStringLiteral("type")].toString();
-    IVariable *variable = build(type, mapVar);
-
-    switch (variable->getType()) {
-        case type_int:
-        case type_float:
-        case type_bool:
-            variable->setAddress(address);
-            variable->setAccess(access);
-            break;
-
-        default:
-            break;
-    }
-
-    variable->setName(mapVar[QStringLiteral("name")].toString());
-    variable->setLabel(mapVar[QStringLiteral("fr_FR")].toString());
     return variable;
 }
 

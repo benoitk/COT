@@ -13,7 +13,7 @@
 #include "CUnit.h"
 #include "CDisplayConf.h"
 #include "CModelExtensionCard.h"
-#include "CSequencer.h"
+#include "CScheduler.h"
 #include "qfile.h"
 #include "qjsonobject.h"
 #include "qlocale.h"
@@ -58,23 +58,6 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
     QJsonObject jsonObjectAll = m_jsonDoc->object();
 
     CAutomate *automate = CAutomate::getInstance();
-
-    //com_automate /!\ à supprimer
-//     if(jsonObjectAll[QStringLiteral("com_automate")] == QJsonValue::Undefined){
-//        qCDebug(COTAUTOMATE_LOG) << "jsonObject[\"com_automate\"] == QJsonValue::Undefined";
-//    }
-//    else {
-//        QJsonArray jsonArrayComs = jsonObjectAll[QStringLiteral("com_automate")].toArray();
-//        foreach(QJsonValue jsonValueCom, jsonArrayComs){
-//            QVariantMap mapCom = jsonValueCom.toVariant().toMap();
-//            ICom* com = CComFactory::build(mapCom);
-//            if(com->getType() != type_com_unknow)
-//                automate->addCom(com);
-//            else
-//                delete com;
-//        }
-//        qCDebug(COTAUTOMATE_LOG) << "mapComs " << automate->getMapComs();
-//    }
 
     //extension
     if(jsonObjectAll[QStringLiteral("extensions")] == QJsonValue::Undefined){
@@ -128,6 +111,7 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
             }
         }
     }
+    automate->addUnit(new CUnit(QStringLiteral("no_unit"), QStringLiteral("")));
 
     //Variables
     if(jsonObjectAll[QStringLiteral("variables")] == QJsonValue::Undefined){
@@ -316,10 +300,10 @@ CModelConfigFile::~CModelConfigFile()
 
 QString CModelConfigFile::getLabelAnalyser(const QLocale &local){
     QJsonObject jsonObject = m_jsonDoc->object();
-    if(jsonObject[tr("FR_lbl_analyser")] == QJsonValue::Undefined)
+    if(jsonObject[tr("fr_FR")] == QJsonValue::Undefined)
         return tr("lbl_analyser not find see save.json file");
     else
-        return jsonObject[tr("FR_lbl_analyser")].toString();
+        return jsonObject[tr("l_analyser")].toString();
 }
 
 int CModelConfigFile::getNumberOfStream() const {

@@ -107,7 +107,13 @@ void CCycleMesure::slotPauseCycle(){
 
 }
 void CCycleMesure::slotStopCycle(){
-
+    qDebug() << "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggg";
+    if(m_itListStepsPasEnCours != m_listSteps.end()){
+        (*m_itListStepsPasEnCours)->abortStep();
+    }
+    if(m_stepStop)
+        m_stepStop->execStep();
+    emit signalStopped();
 }
 
 QString CCycleMesure::getRelatedStreamName()const{

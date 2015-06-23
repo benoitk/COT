@@ -5,7 +5,7 @@
 
 #include <CVariableFactory.h>
 #include <CAutomate.h>
-#include <CSequencer.h>
+#include <CScheduler.h>
 #include <ICycle.h>
 
 #include <QLabel>
@@ -24,11 +24,11 @@ void ConfiguratorSequencerUIHandler::layout()
 {
     CVariableFactory::deleteVariables(m_internalVariables);
 
-    const QList<CSequencer::CyclePair> cycles = CSequencer::getInstance()->getCycles();
+    const QList<CScheduler::CyclePair> cycles = CScheduler::getInstance()->getCycles();
     QList<IVariable *> ivars;
 
     for (int i = 0; i < cycles.count(); ++i) {
-        const CSequencer::CyclePair &pair = cycles[i];
+        const CScheduler::CyclePair &pair = cycles[i];
         ICycle *cycle = pair.first;
         Q_ASSERT(cycle);
         IVariable *ivar = CVariableFactory::buildTemporary(QString::number(i), cycle->getLabel(), type_string);
@@ -83,7 +83,7 @@ void ConfiguratorSequencerUIHandler::rowInserted(const IVariableUIHandler::Row &
 void ConfiguratorSequencerUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariable *ivar)
 {
     const int index = ivar->getName().toInt();
-    const CSequencer::CyclePair pair = CSequencer::getInstance()->getCycleAt(index);
+    const CScheduler::CyclePair pair = CScheduler::getInstance()->getCycleAt(index);
     row.widgetAt<CPushButton *>(0)->setText(ivar->getLabel());
     applyEditorConstraints(row.widgets.value(0), ivar);
     row.widgetAt<CPushButton *>(2)->setText(QString::number(pair.second));
@@ -94,7 +94,7 @@ void ConfiguratorSequencerUIHandler::rowAboutToBeDeleted(const IVariableUIHandle
 {
     Q_UNUSED(row);
     const int index = ivar->getName().toInt();
-    CSequencer *sequencer = CSequencer::getInstance();
+    CScheduler *sequencer = CScheduler::getInstance();
     sequencer->removeCycleMeasureAt(index);
     delete m_internalVariables.take(ivar->getName());
 }
@@ -124,8 +124,8 @@ void ConfiguratorSequencerUIHandler::slotEditCycleClicked()
 {
     const int index = qobject_cast<CPushButton *>(sender())->userData().toInt();
     CAutomate *automate = CAutomate::getInstance();
-    CSequencer *sequencer = CSequencer::getInstance();
-    CSequencer::CyclePair pair = sequencer->getCycleAt(index);
+    CScheduler *sequencer = CScheduler::getInstance();
+    CScheduler::CyclePair pair = sequencer->getCycleAt(index);
     Q_ASSERT(pair.first);
     QString cycleName = pair.first->getName();
 
@@ -141,8 +141,8 @@ void ConfiguratorSequencerUIHandler::slotEditCycleClicked()
 void ConfiguratorSequencerUIHandler::slotEditValueClicked()
 {
     const int index = qobject_cast<CPushButton *>(sender())->userData().toInt();
-    CSequencer *sequencer = CSequencer::getInstance();
-    CSequencer::CyclePair pair = sequencer->getCycleAt(index);
+    CScheduler *sequencer = CScheduler::getInstance();
+    CScheduler::CyclePair pair = sequencer->getCycleAt(index);
     Q_ASSERT(pair.first);
     int value = pair.second;
 

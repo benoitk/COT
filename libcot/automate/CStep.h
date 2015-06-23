@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QVariant>
 
+#include "qmutex.h"
+
 class IAction;
 class CStep : public QObject
 {
@@ -27,7 +29,7 @@ public:
     void addAction(IAction*);
     void removeAction(IAction*);
     void setListActions(const QList<IAction *> &actions);
-
+    void abortStep();
 public slots:
 
     void slotActionFinished(IAction* );
@@ -41,6 +43,8 @@ private:
 
     float m_numStep; //peut gérer des pas flotant pour affiner le timming
     QString m_label;
+
+    QMutex m_mutex;
 };
 
 #endif // CSTEP_H

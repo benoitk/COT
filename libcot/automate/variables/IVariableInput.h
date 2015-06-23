@@ -7,27 +7,26 @@
 
 class CModelExtensionCard;
 class IComObserver;
-
+class IOrgan;
 class IVariableInput
 {
 public:
     IVariableInput();
+    IVariableInput(const QVariantMap & mapVar);
     virtual ~IVariableInput();
-    virtual CModelExtensionCard* getExtensionCard()const;
-    virtual QString getOrganneName()const;
-    virtual void setOrganne(CModelExtensionCard* ,const QString &);
-    virtual QString getOrganneAddr()const;
-    virtual IComObserver* getComObserver()const;
+    virtual IOrgan* getOrgan()const;
+    virtual QString getOrganName()const;
+    virtual void setOrgan(CModelExtensionCard* ,const QString &);
+    virtual QString getOrganAddr()const;
+//    virtual IComObserver* getComObserver()const;
 
     virtual IVariable* getIVariable()=0;
-
-private:
     virtual IVariable* readValue()=0;
+private:
+
 
 protected:
-    CModelExtensionCard* m_modelExtensionCard;
-    QString m_organneName;
-    QString m_organneAddr;
+    IOrgan* m_organ;
 
 };
 

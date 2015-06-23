@@ -3,6 +3,8 @@
 #include "CAutomate.h"
 #include "CVariableBool.h"
 #include "CUnit.h"
+#include "IOrgan.h"
+#include "ICom.h"
 
 CVariableInputBool::CVariableInputBool(QObject *parent)
     : CVariableBool(parent), IVariableInput()
@@ -15,19 +17,41 @@ CVariableInputBool::~CVariableInputBool()
 
 }
 CVariableInputBool::CVariableInputBool(const QMap<QString, QVariant> &mapVar)
-    : CVariableBool(), IVariableInput()
+    : CVariableBool(mapVar), IVariableInput(mapVar)
 {
 
 }
 
-IVariable* CVariableInputBool::readValue(){
-    if (m_modelExtensionCard) {
-        QVariant var = m_modelExtensionCard->readOrganneValue(this);
-        this->setValue(var.toBool());
-    }
+QVariant CVariableInputBool::toVariant(){
+    readValue();
+    return CVariableBool::toVariant();
+}
 
+QString CVariableInputBool::toString() {
+    readValue();
+    return CVariableBool::toString();
+}
+
+int CVariableInputBool::toInt() {
+    readValue();
+    return CVariableBool::toInt();
+}
+
+float CVariableInputBool::toFloat() {
+    readValue();
+    return CVariableBool::toFloat();
+}
+
+bool CVariableInputBool::toBool() {
+    readValue();
+    return CVariableBool::toBool();
+}
+
+IVariable* CVariableInputBool::readValue(){
+    m_value = m_organ->getExtCard()->getICom()->readData(this).toFloat();
     return this;
 }
+
 IVariable* CVariableInputBool::getIVariable(){
     return this;
 }
@@ -41,8 +65,11 @@ QVariantMap CVariableInputBool::serialise(){
     mapSerialise.insert(QStringLiteral("name"), m_name);
     mapSerialise.insert(tr("fr_FR"), m_label);
     mapSerialise.insert(QStringLiteral("type"), QStringLiteral("input_boolean"));
-    mapSerialise.insert(QStringLiteral("value"), m_bValeur);
-    mapSerialise.insert(QStringLiteral("extension_name"), m_modelExtensionCard->getName());
-    mapSerialise.insert(QStringLiteral("organ_name"), m_organneName);
+    mapSerialise.insert(QStringLiteral("value"), m_value);
+    mapSerialise.insert(QStringLiteral("extension_name"), m_organ->getExtCard()->getName());
+    mapSerialise.insert(QStringLiteral("organ_name"), m_organ->getName());
     return mapSerialise;
+}
+VariableOrganType CVariableInputBool::getOrganType() const {
+    return VariableOrganTypeInput;
 }

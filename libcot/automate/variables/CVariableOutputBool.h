@@ -22,7 +22,7 @@ public:
     //IVariable
     QVariantMap serialise() Q_DECL_OVERRIDE;
     variableType getType()const Q_DECL_OVERRIDE;
-
+    VariableOrganType getOrganType() const Q_DECL_OVERRIDE;
     void setValue(bool);
     using CVariableBool::setValue;
 

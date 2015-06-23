@@ -2,6 +2,7 @@
 #include "IVariable.h"
 #include "CVariableFactory.h"
 #include "CAutomate.h"
+#include "IVariableInput.h"
 #include "cotautomate_debug.h"
 
 
@@ -23,6 +24,8 @@ CActionTest::CActionTest(const QVariantMap &mapAction, QObject *parent)
     else if(sCondition == QStringLiteral("diff_up")) m_condition = m_eSuperiorToSetpoint;
     else m_condition = m_eInferiorToSetPoint;
 
+    //si autodelete à true, risque d'utilisation de l'objet alors qu'il est détruit à la fin du run.
+    this->setAutoDelete(false);
 }
 
 CActionTest::~CActionTest()
@@ -32,47 +35,71 @@ CActionTest::~CActionTest()
 
 
 bool CActionTest::runAction(){
-    qCDebug(COTAUTOMATE_LOG)<< "Action test "
-            << " label fr " << m_label
-         ;
-    QThreadPool::globalInstance()->start(this);
+    IAction::runAction();
+
+    QThreadPool::globalInstance()->tryStart(this);
     return true;
 }
+
+
+
 void CActionTest::run(){
+
     qCDebug(COTAUTOMATE_LOG)<< "Action test 'qrunnable' "
             << " label fr " << m_label
          ;
-    float target = m_target->toFloat();
-    float setpoint_max = m_setpoint->toFloat() + (m_setpoint->toFloat() * m_errorMargin->toFloat());
-    float setpoint_min = m_setpoint->toFloat() - (m_setpoint->toFloat() * m_errorMargin->toFloat());
-    int timeout = m_timeout->toInt();
-    bool result = false;
+    IVariableInput* inputTarget = Q_NULLPTR;
+    if(m_target->getOrganType() == VariableOrganTypeInput)
+        inputTarget = dynamic_cast<IVariableInput*>(m_target);
 
-    for(int i=0 ; i < timeout & !result; ++i){
-        target = m_target->toFloat();
-        switch(m_condition){
-        case m_eEqualToSetpoint:
-            if(target < setpoint_max && target > setpoint_min) {
-                result = true;
+    if(inputTarget){
+        float target = m_target->toFloat();
+        float setpoint_max = m_setpoint->toFloat() + (m_setpoint->toFloat() * m_errorMargin->toFloat());
+        float setpoint_min = m_setpoint->toFloat() - (m_setpoint->toFloat() * m_errorMargin->toFloat());
+        int timeout = m_timeout->toInt();
+        bool result = false;
+
+        qCDebug(COTAUTOMATE_LOG)<< "timeout " << timeout;
+        qCDebug(COTAUTOMATE_LOG)<< "result " << result;
+        for(int i=0 ; i < timeout /*&& !result*/ && !m_abort; ++i){
+            target = inputTarget->readValue()->toFloat();
+
+            qCDebug(COTAUTOMATE_LOG)<< "for timeout " << timeout - i;
+            qCDebug(COTAUTOMATE_LOG)<< "for target " << target;
+            qCDebug(COTAUTOMATE_LOG)<< "for m_condition " << m_condition;
+            qCDebug(COTAUTOMATE_LOG)<< "for setpoint_max " << setpoint_max;
+            qCDebug(COTAUTOMATE_LOG)<< "for setpoint_min " << setpoint_min;
+            qCDebug(COTAUTOMATE_LOG)<< "for result " << result;
+
+            switch(m_condition){
+            case m_eEqualToSetpoint:
+                if(target < setpoint_max && target > setpoint_min) {
+                    result = true;
+                }
+                break;
+            case m_eInferiorToSetPoint:
+                if(target < setpoint_min) {
+                    result = true;
+                }
+                break;
+            case m_eSuperiorToSetpoint:
+                if(target > setpoint_min) {
+                    result = true;
+                }
+                break;
             }
-            break;
-        case m_eInferiorToSetPoint:
-            if(target < setpoint_min) {
-                result = true;
-            }
-            break;
-        case m_eSuperiorToSetpoint:
-            if(target > setpoint_min) {
-                result = true;
-            }
-            break;
+
+            QThread::usleep(1000000);
         }
+
+        qCDebug(COTAUTOMATE_LOG)<< "for timeout " << timeout;
+        qCDebug(COTAUTOMATE_LOG)<< "for result " << result;
+        m_result->setValue(result);
     }
-
-
-    m_result->setValue(result);
+    else{
+        //pas le type de target attendu
+    }
     emit signalActionFinished(this);
-
 }
 
 bool CActionTest::waitUnitlFinished(){
@@ -93,7 +120,7 @@ QList<IVariable*> CActionTest::getListParameters()const{
     return listParams;
 }
 actionType CActionTest::getType()const {
-    return actionType::type_cmd_relay;
+    return actionType::type_test;
 }
 
 bool CActionTest::variableUsed(IVariable *arg_var)const {

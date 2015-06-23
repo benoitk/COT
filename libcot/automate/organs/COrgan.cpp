@@ -13,19 +13,19 @@ COrgan::COrgan(const QVariantMap& mapOrgan, CModelExtensionCard* arg_extCard):IO
     if(mapOrgan.contains(QStringLiteral("type"))){
         QString sType = mapOrgan.value(QStringLiteral("type")).toString();
         if(sType == QStringLiteral("output_boolean"))
-            m_type = output_bool;
+            m_type = organ_type_output_bool;
         else if (sType == QStringLiteral("output_float"))
-            m_type = output_float;
+            m_type = organ_type_output_float;
         else if (sType == QStringLiteral("output_integer"))
-            m_type = output_int;
+            m_type = organ_type_output_int;
         else if (sType == QStringLiteral("input_boolean"))
-            m_type = input_bool;
+            m_type = organ_type_input_bool;
         else if (sType == QStringLiteral("input_float"))
-            m_type = input_float;
+            m_type = organ_type_input_float;
         else if (sType == QStringLiteral("input_integer"))
-            m_type = input_int;
+            m_type = organ_type_input_int;
     }
-    else m_type = organType::input_bool;
+    else m_type = organType::organ_type_input_bool;
 }
 CModelExtensionCard* COrgan::getExtCard(){
     return m_extCard;

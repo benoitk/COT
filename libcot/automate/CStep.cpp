@@ -5,6 +5,7 @@
 #include "qmap.h"
 #include "cotautomate_debug.h"
 
+#include <unistd.h>
 #include "qthread.h"
 
 CStep::CStep(const QVariantMap &mapStep)
@@ -29,6 +30,12 @@ CStep::~CStep()
 {
     //ne pas supprimer les actions de m_listActions.
 }
+void CStep::abortStep(){
+    foreach (IAction* action, m_listActions) {
+        action->abortAction();
+    }
+}
+
 QVariantMap CStep::serialise(){
     QVariantMap mapSerialise;
 //    mapSerialise.insert(QStringLiteral("name"), m_name);
@@ -84,7 +91,8 @@ void CStep::setNumStep(float numStep){
 //true si pas d'erreur, false sinon
 bool CStep::execStep(){
     m_errorDuringActions = false;
-
+    emit CAutomate::getInstance()->signalUpdateCurrentStep(m_numStep, m_label);
+    //emit signalUpdateCurrentStep(float, const QString &);
     foreach(IAction* action, m_listActions){
         if(action->waitUnitlFinished()){
             m_listActionsWaited.append(action);
@@ -96,7 +104,7 @@ bool CStep::execStep(){
 //            m_errorDuringActions = true;
 //        }
     }
-    while(m_bWaitForActions || m_errorDuringActions){
+    while(m_bWaitForActions){
         QThread::usleep(10000);
     }
 
@@ -104,13 +112,19 @@ bool CStep::execStep(){
 }
 
 void CStep::slotActionFinished(IAction* action){
+    QMutexLocker lock(&m_mutex);
+
+    qDebug() << "CStep::slotActionFinished  action " << action;
     if(m_listActionsWaited.removeOne(action)){
-        disconnect(action,0,this,0);
+        if(action)
+            disconnect(action,0,this,0);
+        else qDebug() << "fail disconnect " << action;
         if(action->finishedWithError()){
             m_errorDuringActions = true;
         }
     }
     if(m_listActionsWaited.isEmpty()) m_bWaitForActions = false;
+    qDebug() << "fin CStep::slotActionFinished " << m_bWaitForActions;
 }
 
 

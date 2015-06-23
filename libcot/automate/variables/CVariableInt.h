@@ -12,6 +12,7 @@ class CVariableInt : public IVariable
 
 public:
     CVariableInt(QObject *parent = Q_NULLPTR);
+    CVariableInt(const QVariantMap& mapVar);
     CVariableInt(int, int address = 0, variableAccess =access_read);
     ~CVariableInt();
 
@@ -30,7 +31,7 @@ public:
 
 protected:
 
-    int m_iValeur;
+    int m_value;
 
 };
 

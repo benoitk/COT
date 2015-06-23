@@ -1,12 +1,12 @@
-#ifndef CSEQUENCEUR_H
-#define CSEQUENCEUR_H
+#ifndef CSCHEDULER_H
+#define CSCHEDULER_H
 
 #include <QObject>
 
 //GEstion de l'éxecution des cycles
 class ICycle;
 class CControlerCycle;
-class CSequencer : public QObject
+class CScheduler : public QObject
 {
     Q_OBJECT
 
@@ -49,11 +49,11 @@ public:
 
     //FIN API
 
-    static CSequencer* getInstance();
+    static CScheduler* getInstance();
 
-    void apendSequenceMesureRunCycle(ICycle*, int nbCycle);
+    void apendSequenceMeasureRunCycle(ICycle*, int nbCycle);
     //void apendSequenceMesureRunCycle(CControlerCycle*, int nbCycle);
-    void apendSequenceMesurePause(int minute);
+    void apendSequenceMeasurePause(int minute);
 
 
 
@@ -93,8 +93,8 @@ signals:
 
 
 private:
-    CSequencer();
-    ~CSequencer();
+    CScheduler();
+    ~CScheduler();
 
     void disconnectCycle(ICycle*);
     void setSequenceMesure();
@@ -102,11 +102,11 @@ private:
     void playSequenceAutonome();
 
 
-    static CSequencer* singleton;
+    static CScheduler* singleton;
 
     //QList<CyclePair> m_listSequenceCycles;
 
-    QList<ICycle*> m_listSequenceCyclesMesures;
+    QList<ICycle*> m_listSequenceCyclesMeasures;
     QList<ICycle*> m_listSequenceCyclesAutonomes;
     QList<ICycle*> m_listCyclesMaintenances;
 
@@ -128,4 +128,4 @@ private:
     ICycle* m_cycleAutonomeEnCours;
 };
 
-#endif // CSEQUENCEUR_H
+#endif // CSCHEDULER_H

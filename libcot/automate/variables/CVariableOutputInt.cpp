@@ -25,7 +25,7 @@ void CVariableOutputInt::writeValue(){
 }
 
 void CVariableOutputInt::setValue(float value){
-    m_iValeur = value;
+    m_value = value;
     if(!m_listBinds.isEmpty()){
         IVariable* var;
         foreach(var,  m_listBinds){
@@ -48,8 +48,11 @@ QVariantMap CVariableOutputInt::serialise(){
     mapSerialise.insert(QStringLiteral("name"), m_name);
     mapSerialise.insert(tr("fr_FR"), m_label);
     mapSerialise.insert(QStringLiteral("type"), QStringLiteral("output_integer"));
-    mapSerialise.insert(QStringLiteral("value"), m_iValeur);
+    mapSerialise.insert(QStringLiteral("value"), m_value);
     mapSerialise.insert(QStringLiteral("extension_name"), m_organ->getExtCard()->getName());
     mapSerialise.insert(QStringLiteral("organ_name"), m_organ->getName());
     return mapSerialise;
+}
+VariableOrganType CVariableOutputInt::getOrganType() const {
+    return VariableOrganTypeOutput;
 }

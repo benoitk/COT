@@ -12,6 +12,9 @@ CVariableString::CVariableString(const QString &arg_value)
 {
     m_sValeur = arg_value;
 }
+CVariableString::CVariableString(const QVariantMap& mapVar):IVariable(mapVar){
+    m_sValeur = mapVar.value(QStringLiteral("value")).toString();
+}
 CVariableString::~CVariableString()
 {
 

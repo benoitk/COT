@@ -29,7 +29,7 @@ public:
     void switchToUnit(CUnit*) Q_DECL_OVERRIDE;
 protected:
 
-    bool m_bValeur;
+    bool m_value;
 
 };
 #endif // CVARIABLEBOOL_H

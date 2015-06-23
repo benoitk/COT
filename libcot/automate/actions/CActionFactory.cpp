@@ -53,7 +53,7 @@ IAction* CActionFactory::build(actionType arg_type, QObject* parent){
         action = new CActionCmdReadInput(QVariantMap(), parent);
         break;
 
-    case actionType::type_cmd_relay:
+    case actionType::type_cmd_digital_output:
         action = new CActionCmdDigitalOutput(QVariantMap(), parent);
         break;
 

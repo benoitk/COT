@@ -2,7 +2,7 @@
 #include "ConfiguratorSequencerUIHandler.h"
 
 #include <CAutomate.h>
-#include <CSequencer.h>
+#include <CScheduler.h>
 
 CConfiguratorSequencerTab::CConfiguratorSequencerTab(QWidget *parent)
     : IConfiguratorTab(parent)
@@ -34,7 +34,7 @@ void CConfiguratorSequencerTab::slotAddSequencer()
     }
 
     CAutomate *automate = CAutomate::getInstance();
-    CSequencer *sequencer = CSequencer::getInstance();
+    CScheduler *sequencer = CScheduler::getInstance();
     ICycle *cycle = automate->getCycle(cycleName);
     Q_ASSERT(cycle);
 

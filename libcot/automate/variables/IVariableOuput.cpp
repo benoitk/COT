@@ -28,7 +28,8 @@ QString IVariableOutput::getOrganName()const{
 QString IVariableOutput::getOrganAddr()const{
     return m_organ->getAddress();
 }
-void IVariableOutput::setOrgan(CModelExtensionCard* arg_model,const  QString  &arg_organneName){
+void IVariableOutput::setOrgan(CModelExtensionCard* arg_model,const  QString  &arg_organName){
 
-    m_organ = arg_model->getOrgan(arg_organneName);
+    m_organ = arg_model->getOrgan(arg_organName);
 }
+

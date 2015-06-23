@@ -7,7 +7,7 @@
    
     "extensions" : [
         {"name" : "measure_card_1","fr_FR" : "Carte measure 1", "en_US" : "Measure card 1",
-            "com" : {"name":"com_jbus_tcp_master","type":"tcpip", "slave":1 , "ip":"192.168.1.2", "port":502, "debug":true},
+            "com" : {"name":"com_jbus_tcp_master","type":"tcpip", "slave":1 , "ip":"192.168.1.2", "port":502, "debug":false},
             "organs" : [{"name":"measure_cell", "type":"input_float", "address_data":"0x0010"},
                          {"name":"heater", "type":"output_float", "address_data":"0x0002"},
                           {"name":"motor1", "type":"output_integer", "address_data":"0x0002"},
@@ -25,6 +25,11 @@
                           {"name":"relay_0", "type":"output_boolean", "address_data":"0x0120"},
                           {"name":"relay_1", "type":"output_boolean", "address_data":"0x0121"},
                           {"name":"relay_2", "type":"output_boolean", "address_data":"0x0122"},
+
+                          {"name":"voltage_output_0", "type":"output_boolean", "address_data":"0x0030"},
+                          {"name":"voltage_output_1", "type":"output_boolean", "address_data":"0x0031"},
+                          {"name":"voltage_output_2", "type":"output_boolean", "address_data":"0x0032"},
+                          {"name":"voltage_output_3", "type":"output_boolean", "address_data":"0x0033"},
 
                           {"name":"valve_output_0", "type":"output_boolean", "address_data":"0x0110"},
                           {"name":"valve_output_1", "type":"output_boolean", "address_data":"0x0111"},
@@ -55,7 +60,7 @@
                         ]
         },
         {"name" : "io_card_1","fr_FR" : "Carte E/S 1", "en_US" : "I/O card 1",
-            "com" : {"name":"com_jbus_tcp_master","type":"tcpip", "slave":1, "ip":"192.168.1.11", "port":502, "debug":true},
+            "com" : {"name":"com_jbus_tcp_master","type":"tcpip", "slave":1, "ip":"192.168.1.11", "port":502, "debug":false},
             "organs" : [{"name":"tor_input_0", "type":"input_bit", "address_data":"0x0100"},
                        {"name":"tor_input_1", "type":"input_bit", "address_data":"0x0101"},
                        {"name":"tor_input_2", "type":"input_bit", "address_data":"0x0102"},
@@ -73,7 +78,7 @@
     ],
 
     "units":[{"name":"g_l", "fr_FR":"g/l"}, {"name":"mg_l", "fr_FR":"mg/l"}, {"name":"µg_l", "fr_FR":"µg/l"}, {"name":"tr_min", "fr_FR":"tr/min"},
-             {"name":"deg_celsius", "fr_FR":"°C"}, {"name":"deg_fahrenheit", "fr_FR":"°F"}, {"name":"kelvin", "fr_FR":"K"},
+             {"name":"deg_celsius", "fr_FR":"°C"},{"name":"mdeg_celsius", "fr_FR":"m°C"}, {"name":"deg_fahrenheit", "fr_FR":"°F"}, {"name":"kelvin", "fr_FR":"K"},
              {"name":"pts", "fr_FR":"Points"}, {"name":"ntu", "fr_FR":"NTU"}, {"name":"percent", "fr_FR":"%"}, {"name":"ml_min", "fr_FR":"mL/min"},
              {"name":"second", "fr_FR":"s"},{"name":"miliwatt", "fr_FR":"s"}
     ],
@@ -89,37 +94,38 @@
                         {"source":"deg_fah", "target":"kelvin", "type":"offset_coef", "offset":458.67, "coef":0.555555},
                         {"source":"deg_cel", "target":"deg_fah", "type":"coef_offset", "offset":32, "coef":1.8},
                         {"source":"deg_cel", "target":"kelvin", "type":"offset", "offset":273.15},
+                        {"source":"deg_cel", "target":"mdeg_celsius", "type":"coef", "offset":0.001},
                         {"source":"kelvin", "target":"deg_fah", "type":"coef_offset", "offset":-458.67, "coef":1.8},
                         {"source":"kelvin", "target":"deg_cel", "type":"offset", "offset":-273.15}
 
     ],
-    "variables" : [{"name":"measure_cot", "fr_FR" : "COT", "en_US" : "TOC", "type":"float", "value" : 2.3, "unit":"mg_l", "address":"0x0100", "access":"read", "com_name":"com_jbus_rs_slave"},
+    "variables" : [{"name":"measure_cot", "fr_FR" : "COT", "en_US" : "TOC", "type":"float", "value" : 2.3, "unit":"g_l", "address":"0x0100", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"measure_cot_max", "fr_FR" : "Mesure max", "en_US" : "Max measure", "type":"float", "value" : 10, "unit":"mg_l", "address":"0x0106", "access":"read_write", "com_name":"com_jbus_rs_slave"},
                     {"name":"measure_cot_min", "fr_FR" : "Mesure min", "en_US" : "Min measure", "type":"float", "value" : 0, "unit":"mg_l"},
                     
                     {"name":"airflow_setpoint", "fr_FR" : "Consigne débit d'air", "type":"float", "value" : 300, "unit":"ml_min", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"airflow", "fr_FR" : "Débit d'air", "type":"float", "extension_name":"measure_card_1", "organ_name":"adc1_0_flowmeter_0", "value" : 0, "unit":"ml_min", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"airflow", "fr_FR" : "Débit d'air", "type":"input_integer", "extension_name":"measure_card_1", "organ_name":"adc1_0_flowmeter_0", "value" : 0, "unit":"ml_min", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"airflow_default", "fr_FR" : "Défaut débit d'air", "type":"boolean", "value" : false, "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"airflow_control_needed", "fr_FR" : "Débit d'air bloquant", "type":"boolean", "value" : true, "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"airflow_error_margin", "fr_FR" : "Marge d'erreur débit d'air", "type":"float", "integer" : 1, "unit":"percent", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"airflow_control_timeout", "fr_FR" : "Temps stabilisation débit d'air", "type":"integer", "value" : 10, "unit":"second", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"airflow_control_timeout", "fr_FR" : "Temps stabilisation débit d'air", "type":"integer", "value" : 2, "unit":"second", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                    
                     {"name":"ndir_temperature_setpoint", "fr_FR" : "Consigne température NDIR", "type":"float", "value" : 40, "unit":"deg_cel", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"ndir_temperature", "fr_FR" : "Température NDIR", "type":"input_float","extension_name":"measure_card_1", "organ_name":"adc2_1_t_cuve", "value" : 0, "unit":"ml_min", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"ndir_temperature", "fr_FR" : "Température NDIR", "type":"input_integer","extension_name":"measure_card_1", "organ_name":"adc2_1_t_cuve", "value" : 0, "unit":"deg_celsius", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"ndir_temperature_default", "fr_FR" : "Défaut température NDIR", "type":"boolean", "value" : false, "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"ndir_temperature_control_needed", "fr_FR" : "Régulation température NDIR bloquant", "type":"boolean", "value" : true, "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"ndir_temperature_error_margin", "fr_FR" : "Marge d'erreur régulation température NDIR", "type":"float", "integer" : 5, "unit":"percent", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"ndir_temperature_control_timeout", "fr_FR" : "Temps stabilisation régulation température NDIR", "type":"integer", "value" : 10, "unit":"second", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"ndir_temperature_control_timeout", "fr_FR" : "Temps stabilisation régulation température NDIR", "type":"integer", "value" : 2, "unit":"second", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     
                     {"name":"condenser_temperature_setpoint", "fr_FR" : "Consigne température condenseur", "type":"float", "value" : 8, "unit":"deg_cel", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"condenser_temperature", "fr_FR" : "Température condenseur", "type":"input_float","extension_name":"measure_card_1", "organ_name":"adc2_0_t_peltier", "value" : 0, "unit":"ml_min", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"condenser_temperature", "fr_FR" : "Température condenseur", "type":"input_integer","extension_name":"measure_card_1", "organ_name":"adc2_0_t_peltier", "value" : 0, "unit":"deg_celsius", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"condenser_temperature_default", "fr_FR" : "Défaut température condenseur", "type":"boolean", "value" : false, "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"condenser_temperature_control_needed", "fr_FR" : "Régulation température condenseur bloquant", "type":"boolean", "value" : true, "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"condenser_temperature_error_margin", "fr_FR" : "Marge d'erreur régulation température condenseur", "type":"float", "integer" : 10, "unit":"percent", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"condenser_temperature_control_timeout", "fr_FR" : "Temps stabilisation régulation température condenseur", "type":"integer", "value" : 10, "unit":"second", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"condenser_temperature_control_timeout", "fr_FR" : "Temps stabilisation régulation température condenseur", "type":"integer", "value" : 2, "unit":"second", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     
                     {"name":"reactor_temperature_setpoint", "fr_FR" : "Consigne température réacteur", "type":"float", "value" : 45, "unit":"deg_cel", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"reactor_temperature", "fr_FR" : "Température réacteur", "type":"input_float","extension_name":"measure_card_1", "organ_name":"adc2_2_t_elem", "value" : 0, "unit":"ml_min", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"reactor_temperature", "fr_FR" : "Température réacteur", "type":"input_integer","extension_name":"measure_card_1", "organ_name":"adc2_2_t_elem", "value" : 0, "unit":"deg_celsius", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"reactor_temperature_default", "fr_FR" : "Défaut température réacteur", "type":"boolean", "value" : false, "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"reactor_temperature_control_needed", "fr_FR" : "Régulation température réacteur bloquant", "type":"boolean", "value" : true, "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"reactor_temperature_error_margin", "fr_FR" : "Marge d'erreur régulation température réacteur", "type":"float", "integer" : 0, "unit":"percent", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
@@ -130,7 +136,7 @@
                     {"name":"emitter_power_default", "fr_FR" : "Défaut puissance émetteur", "type":"boolean", "value" : false, "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"emitter_power_control_needed", "fr_FR" : "Puissance émetteur insufisante bloquant", "type":"boolean", "value" : true, "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"emitter_power_error_margin", "fr_FR" : "Marge d'erreur puissance émetteur", "type":"float", "integer" : 10, "unit":"percent", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"emitter_power_control_timeout", "fr_FR" : "Temps stabilisation puissance émetteur", "type":"integer", "value" : 10, "unit":"second", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"emitter_power_control_timeout", "fr_FR" : "Temps stabilisation puissance émetteur", "type":"integer", "value" : 2, "unit":"second", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     
 
 
@@ -147,6 +153,11 @@
                             "value" : false, "extension_name":"measure_card_1", "organ_name":"valve_output_5", "passive":true
                     },
 
+                    {"name":"compressor_output", "fr_FR" : "Commande compresseur", "type":"output_boolean", "access":"read_write",
+                            "value" : false, "extension_name":"measure_card_1", "organ_name":"voltage_output_2", "passive":true
+                    },
+
+
                   
                     {"name":"test_relay_1", "fr_FR" : "Relais CM 1", "en_US" : "Relay 1", "type":"output_boolean", "access":"read_write",
                             "value" : true, "extension_name":"measure_card_1", "organ_name":"relay_0", "passive":false
@@ -157,6 +168,17 @@
                     {"name":"test_relay_3", "fr_FR" : "Relais CM 3", "en_US" : "Relay 3", "type":"output_boolean","access":"read_write",
                             "value" : true, "extension_name":"measure_card_1", "organ_name":"relay_2", "passive":false
                     },
+
+                    {"name":"test_tor_1", "fr_FR" : "Relais I/O 1", "en_US" : "Relay 1", "type":"output_boolean", "access":"read_write",
+                            "value" : true, "extension_name":"io_card_1", "organ_name":"tor_output_0", "passive":false
+                    },
+                    {"name":"test_tor_2", "fr_FR" : "Relais I/O 2", "en_US" : "Relay 2", "type":"output_boolean","access":"read_write",
+                            "value" : false, "extension_name":"io_card_1", "organ_name":"tor_output_1", "passive":false
+                    },
+                    {"name":"test_tor_3", "fr_FR" : "Relais I/O 3", "en_US" : "Relay 3", "type":"output_boolean","access":"read_write",
+                            "value" : true, "extension_name":"io_card_1", "organ_name":"tor_output_2", "passive":false
+                    },
+
 
                     {"name":"pump_persulfate", "fr_FR" : "Pompe persulfate", "en_US" : "Persulfate pump", "type":"output_list_variables",
                         "variables": [  {"name":"num_tour_pump", "fr_FR" : "Nombre de tour", "en_US" : "Tour number", "type":"integer", "value" : 4, "unit":"tr_min"},
@@ -178,7 +200,7 @@
     "display":[
         {"name":"diagnostic", "variables":["ndir_temperature", "condenser_temperature", "reactor_temperature"]},
         {"name":"elec_tests", "map_tabs":[{"name":"tab_EV", "variables":["ev_sample", "ev_air_direct", "ev_sample_inerting", "ev_reatcor_filling"]},
-                     {"name":"tab_Actionneurs", "variables":["test_relay_1", "test_relay_2", "test_relay_3"]},
+                     {"name":"tab_Actionneurs", "variables":["test_relay_1", "test_relay_2", "test_relay_3", "test_tor_1", "test_tor_2", "test_tor_3"]},
                      {"name":"tab_entrees", "variables":["selection_stream1", "arret_fin_cycle"]},
                      {"name":"tab_pump", "variables":["pump_persulfate"]},
                      {"name":"tab_selecteur","variables":[],"pump":"pump_persulfate"  }
@@ -235,7 +257,7 @@
                     "target" : "heater_reactor", "state" : false
                 },
                 {   "name" : "control_air_flow", "type" : "test",
-                    "fr_FR" : "Control débit d'air", "en_US" : "Air flow control",
+                    "fr_FR" : "Test débit d'air", "en_US" : "Air flow control",
                     "setpoint" : "airflow_setpoint",
                     "target" : "airflow",
                     "result" : "airflow_default",

@@ -36,7 +36,7 @@ public:
 
 private:
 
-    void writeValue();
+    void writeValue() Q_DECL_OVERRIDE;
 
 
 };

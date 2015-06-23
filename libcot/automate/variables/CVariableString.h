@@ -14,6 +14,7 @@ class LIBCOT_EXPORT CVariableString : public IVariable
 
 public:
     CVariableString(QObject *parent = Q_NULLPTR);
+    CVariableString(const QVariantMap& mapVar);
     CVariableString(const QString&);
     ~CVariableString();
 

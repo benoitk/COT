@@ -5,10 +5,13 @@ CVariableFloat::CVariableFloat(QObject *parent)
 {
 
 }
+CVariableFloat::CVariableFloat(const QVariantMap& mapVar):IVariable(mapVar){
+    m_value = mapVar.value(QStringLiteral("value")).toFloat();
+}
 CVariableFloat::CVariableFloat(float arg_value, int arg_address, variableAccess arg_access)
     : IVariable()
 {
-    m_fValeur = arg_value;
+    m_value = arg_value;
     m_access = arg_access;
     m_address = arg_address;
 }
@@ -20,26 +23,30 @@ CVariableFloat::~CVariableFloat()
 QString CVariableFloat::toString(){
     // ## this doesn't handle the locale, and always has trailing zeros.
     // consider moving the code from CNumericalKeyboardWidget::formatDouble here.
-    return QString::number(m_fValeur, 'f', IVariable::FLOAT_PRECISION);
+    return QString::number(m_value, 'f', IVariable::FLOAT_PRECISION);
 }
 int CVariableFloat::toInt(){
-    return m_fValeur;
+    return m_value;
 }
 float CVariableFloat::toFloat(){
-    return m_fValeur;
+    return m_value;
 }
 bool CVariableFloat::toBool(){
-    return m_fValeur;
+    return m_value;
 }
 void CVariableFloat::setValue(const QVariant & value){
     setValue(value.toFloat());
 }
 void CVariableFloat::setValue(float value){
-    m_fValeur = value;
+    m_value = value;
     if(!m_listBinds.isEmpty()){
         IVariable* var;
         foreach(var,  m_listBinds){
-            var->setValue(QVariant(value));
+            if(var->getUnit() != m_unit && var->getUnit()) {
+                QVariant variant = m_unit->convert(var->getUnit()->getName(), QVariant(m_value));
+                value = variant.toFloat();
+            }
+            var->setToBindedValue(QVariant(value));
         }
     }
 
@@ -47,16 +54,16 @@ void CVariableFloat::setValue(float value){
 }
 //Pas de récursivité dans les binds pour l'instant pour ne pas gérer les binds croisés({var1, var2}, {var2, var1})
 void CVariableFloat::setToBindedValue(const QVariant & value){
-    m_fValeur = value.toFloat();
+    m_value = value.toFloat();
 }
 
 variableType CVariableFloat::getType()const{
     return type_float;
 }
 void CVariableFloat::switchToUnit(CUnit* targetUnit){
-    QVariant var = m_unit->convert(targetUnit->getName(), QVariant(m_fValeur));
+    QVariant var = m_unit->convert(targetUnit->getName(), QVariant(m_value));
     if(!var.isNull())
-        m_fValeur = var.toFloat();
+        m_value = var.toFloat();
     m_unit = targetUnit;
 }
 
@@ -65,7 +72,7 @@ QVariantMap CVariableFloat::serialise(){
     mapSerialise.insert(QStringLiteral("name"), m_name);
     mapSerialise.insert(tr("fr_FR"), m_label);
     mapSerialise.insert(QStringLiteral("type"), QStringLiteral("float"));
-    mapSerialise.insert(QStringLiteral("value"), m_fValeur);
+    mapSerialise.insert(QStringLiteral("value"), m_value);
     return mapSerialise;
 }
 

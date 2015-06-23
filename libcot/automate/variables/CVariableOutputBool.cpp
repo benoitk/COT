@@ -43,8 +43,11 @@ QVariantMap CVariableOutputBool::serialise(){
     mapSerialise.insert(QStringLiteral("name"), m_name);
     mapSerialise.insert(tr("fr_FR"), m_label);
     mapSerialise.insert(QStringLiteral("type"), QStringLiteral("output_boolean"));
-    mapSerialise.insert(QStringLiteral("value"), m_bValeur);
+    mapSerialise.insert(QStringLiteral("value"), m_value);
     mapSerialise.insert(QStringLiteral("extension_name"), m_organ->getExtCard()->getName());
     mapSerialise.insert(QStringLiteral("organ_name"), m_organ->getName());
     return mapSerialise;
+}
+VariableOrganType CVariableOutputBool::getOrganType() const {
+    return VariableOrganTypeOutput;
 }

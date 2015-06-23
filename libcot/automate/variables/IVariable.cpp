@@ -28,7 +28,8 @@ IVariable::IVariable(const QVariantMap& arg_varMap): QObject(){
 
      if(arg_varMap.contains(QStringLiteral("address"))) m_address = arg_varMap.value(QStringLiteral("address")).toInt();
 
-    m_unit = new CUnit("tmp", "µg/l");
+    m_unit = CAutomate::getInstance()->getUnit(arg_varMap.value(QStringLiteral("unit")).toString());
+//    m_unit = new CUnit("tmp", "µg/l");
 }
 
 IVariable::IVariable(): QObject()
@@ -36,7 +37,7 @@ IVariable::IVariable(): QObject()
 , m_address(0){
     m_label = "label_IVariable";
     m_name = "name_IVariable";
-     m_unit = new CUnit("tmp", "µg/l");
+     m_unit = new CUnit("tmp", "µg/lkk");
 }
 
 QString IVariable::typeToString(variableType type)

@@ -24,6 +24,12 @@ public:
 
     variableType getType()const Q_DECL_OVERRIDE;
     QVariantMap serialise() Q_DECL_OVERRIDE;
+    VariableOrganType getOrganType() const Q_DECL_OVERRIDE;
+    QVariant toVariant() Q_DECL_OVERRIDE;
+    QString toString() Q_DECL_OVERRIDE;
+    int toInt() Q_DECL_OVERRIDE;
+    float toFloat() Q_DECL_OVERRIDE;
+    bool toBool() Q_DECL_OVERRIDE;
 
 private:
 

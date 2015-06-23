@@ -5,7 +5,7 @@
 #include "IComObserver.h"
 #include "CModelExtensionCard.h"
 #include "cotautomate_debug.h"
-
+#include "IOrgan.h"
 #include <QThread>
 
 #include <cstring>
@@ -44,6 +44,7 @@ modbus_t *initRtu(const QVariantMap &options)
 template<typename InitFunction>
 modbus_t *initTcp(const QVariantMap &options, InitFunction init)
 {
+    qDebug() << "modbus_t *initTcp " << options;
     QByteArray ip = options.value(QStringLiteral("ip")).toByteArray();
     if(ip.isEmpty()){
         qCWarning(COTAUTOMATE_LOG) << "missing ip:" << options;
@@ -162,14 +163,14 @@ CComJBus::~CComJBus()
 
 void CComJBus::initializeModbus()
 {
-    //control erreus
-    if (modbus_set_error_recovery(m_ctx.data(),  static_cast<modbus_error_recovery_mode>(MODBUS_ERROR_RECOVERY_LINK |   MODBUS_ERROR_RECOVERY_PROTOCOL)) == -1)
-    {
-        qCDebug(COTAUTOMATE_LOG) << "CComJBus failed to set error recovery:"    << modbus_strerror(errno);
-    }
-    timeval timeout = {30, 0};
-    modbus_set_response_timeout(m_ctx.data(), &timeout);
-    //fin control erreur
+//    //control erreus
+//    if (modbus_set_error_recovery(m_ctx.data(),  static_cast<modbus_error_recovery_mode>(MODBUS_ERROR_RECOVERY_LINK |   MODBUS_ERROR_RECOVERY_PROTOCOL)) == -1)
+//    {
+//        qCDebug(COTAUTOMATE_LOG) << "CComJBus failed to set error recovery:"    << modbus_strerror(errno);
+//    }
+//    timeval timeout = {30, 0};
+//    modbus_set_response_timeout(m_ctx.data(), &timeout);
+//    //fin control erreur
 
     // -1 == m_slave indicates master coms
     if (m_slave >= 0)
@@ -191,17 +192,18 @@ QVariant CComJBus::readData(){
     return QVariant();
 }
 QVariant CComJBus::readData(IVariableInput* arg_input){
-    const int address = arg_input->getOrganneAddr().toInt();
+    const int address = arg_input->getOrganAddr().toInt(0,16);
 
-    switch (arg_input->getIVariable()->getType())
+//    switch (arg_input->getIVariable()->getType())
+    switch(arg_input->getOrgan()->getType())
     {
-    case type_bool:
+    case organ_type_input_bool:
         return readBool(address, Input);
-    case type_int:
+    case organ_type_input_int:
         return readInt(address, Input);
-    case type_float:
+    case organ_type_input_float:
         return readFloat(address, Input);
-    case type_unknow:
+//    case type_unknow:
     default:
         break;
     }
@@ -360,7 +362,7 @@ void CComJBus::triggerUpdateAllData(){
 }
 
 void CComJBus::addVariableOnDataTable(IVariableInput* arg_varInput){
-    m_mapInputTable.insert(arg_varInput->getOrganneAddr().toInt(), arg_varInput);
+    m_mapInputTable.insert(arg_varInput->getOrganAddr().toInt(), arg_varInput);
 
 }
 void CComJBus::addVariableOnDataTable(IVariableOutput* arg_varOutput){

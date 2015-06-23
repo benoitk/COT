@@ -36,7 +36,7 @@ QList<IVariable*> CActionCmdDigitalOutput::getListParameters()const{
     return listParams;
 }
 actionType CActionCmdDigitalOutput::getType()const {
-    return actionType::type_cmd_relay;
+    return actionType::type_cmd_digital_output;
 }
 
 bool CActionCmdDigitalOutput::variableUsed(IVariable *arg_var)const {

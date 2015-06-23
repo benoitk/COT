@@ -8,9 +8,9 @@
 class IVariable;
 class CActionTest : public IAction, QRunnable
 {
+    Q_OBJECT
+
 public:
-
-
     CActionTest(const QVariantMap&, QObject *parent);
     ~CActionTest();
 
@@ -27,6 +27,7 @@ public:
     QList<IVariable*> getListParameters()const Q_DECL_OVERRIDE;
     actionType getType()const Q_DECL_OVERRIDE;
     bool variableUsed(IVariable *)const Q_DECL_OVERRIDE;
+
 
 private:
     enum eContidion{m_eEqualToSetpoint=0, m_eSuperiorToSetpoint, m_eInferiorToSetPoint};

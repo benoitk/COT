@@ -15,7 +15,7 @@ CCyclePause::CCyclePause(const QVariantMap &mapCycle)
     : ICycle(), m_stepStop(Q_NULLPTR)
 {
     m_name = mapCycle[QStringLiteral("name")].toString();
-    m_label = mapCycle[tr("FR_lbl")].toString();
+    m_label = mapCycle[tr("fr_FR")].toString();
     m_iTempsCycle = mapCycle[QStringLiteral("timer")].toInt();
 
     initTimer();

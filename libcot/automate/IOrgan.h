@@ -6,12 +6,12 @@
 #include "qlist.h"
 #include "qvariant.h"
 enum organType{
-        output_bool = 0,
-        output_float,
-        output_int,
-        input_bool,
-        input_float,
-        input_int
+        organ_type_output_bool = 0,
+        organ_type_output_float,
+        organ_type_output_int,
+        organ_type_input_bool,
+        organ_type_input_float,
+        organ_type_input_int
 };
 
 class IVariable;

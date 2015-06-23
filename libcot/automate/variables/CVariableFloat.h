@@ -12,6 +12,7 @@ class CVariableFloat : public IVariable
 
 public:
     CVariableFloat(QObject *parent = Q_NULLPTR);
+    CVariableFloat(const QVariantMap& mapVar);
     CVariableFloat(float, int = 0, variableAccess =access_read);
     ~CVariableFloat();
 
@@ -21,7 +22,7 @@ public:
     int toInt() Q_DECL_OVERRIDE;
     float toFloat() Q_DECL_OVERRIDE;
     bool toBool() Q_DECL_OVERRIDE;
-    void setValue(float);
+    virtual void setValue(float);
     void setValue(const QVariant &) Q_DECL_OVERRIDE;
     variableType getType()const Q_DECL_OVERRIDE;
     void switchToUnit(CUnit*) Q_DECL_OVERRIDE;
@@ -30,7 +31,7 @@ public:
     int getPrecision();
 protected:
 
-    float m_fValeur;
+    float m_value;
 
 };
 

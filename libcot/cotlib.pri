@@ -50,7 +50,6 @@ HEADERS *= \
     automate/CModelConfigFile.h \
     automate/CModelExtensionCard.h \
     automate/CRunnableCycle.h \
-    automate/CSequencer.h \
     automate/CStep.h \
     automate/IOrgan.h \
     automate/actions/CActionCmdPompe.h \
@@ -218,7 +217,8 @@ HEADERS *= \
     gui/tools/configurator/steps/CEditStepListTab.h \
     gui/StyleRepository.h \
     $$PWD/automate/actions/CActionCmdDigitalOutput.h \
-    $$PWD/automate/actions/CActionTest.h
+    $$PWD/automate/actions/CActionTest.h \
+    $$PWD/automate/CScheduler.h
 
 SOURCES *= \
     automate/CAutomate.cpp \
@@ -230,7 +230,6 @@ SOURCES *= \
     automate/CModelConfigFile.cpp \
     automate/CModelExtensionCard.cpp \
     automate/CRunnableCycle.cpp \
-    automate/CSequencer.cpp \
     automate/CStep.cpp \
     automate/IOrgan.cpp \
     automate/actions/CActionCmdPompe.cpp \
@@ -391,4 +390,5 @@ SOURCES *= \
     gui/tools/configurator/steps/CEditStepListTab.cpp \
     gui/StyleRepository.cpp \
     $$PWD/automate/actions/CActionCmdDigitalOutput.cpp \
-    $$PWD/automate/actions/CActionTest.cpp
+    $$PWD/automate/actions/CActionTest.cpp \
+    $$PWD/automate/CScheduler.cpp

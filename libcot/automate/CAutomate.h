@@ -24,7 +24,7 @@
 //Automade de gestion des cycles
 class ICycle;
 class CControlerCycle;
-class CSequencer;
+class CScheduler;
 class IVariable;
 class CModelExtensionCard;
 class IAction;
@@ -103,7 +103,7 @@ public:
     void delCycle(ICycle *cycle);
     void delStream(CVariableStream *ivar);
 
-    CSequencer* getSequencer()const;
+    CScheduler* getSequencer()const;
 
     //IComObserver
     IVariable* getVariableByAddr(const QString &addr_var)const Q_DECL_OVERRIDE;
@@ -187,7 +187,7 @@ private:
     eStateCycle m_stateCycleIO; //0 stoped, 1 run, 2 pause
     eStateCycle m_stateCycleMaintenance; //0 stoped, 1 run, 2 pause
 
-    CSequencer* m_sequencer;
+    CScheduler* m_scheduler;
     CDisplayConf* m_displayConf;
     QMap<QString, ICycle*> m_listCycleMesures;
     QMap<QString, ICycle*> m_listCycleMaintenances;

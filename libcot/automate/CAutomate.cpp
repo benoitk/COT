@@ -1,6 +1,6 @@
 #include "CAutomate.h"
 #include "CControlerCycle.h"
-#include "CSequencer.h"
+#include "CScheduler.h"
 #include "ICycle.h"
 #include "IVariable.h"
 #include "CCycleMesure.h"
@@ -50,30 +50,30 @@ CAutomate::CAutomate()
 }
 
 void CAutomate::initConfig(){
-    m_sequencer = CSequencer::getInstance();
+    m_scheduler = CScheduler::getInstance();
     CModelConfigFile configFile(this);
 
     QMap<QString, ICycle*> mapCycles = configFile.getMapCycle();
 
-    m_sequencer->setListSequenceCyclesMesures(configFile.getListSequencesMesure());
+//    m_sequencer->setListSequenceCyclesMesures(configFile.getListSequencesMesure());
 
     QThread* threadSequencer = new QThread(this);
 
-    m_sequencer->moveToThread(threadSequencer);
+    m_scheduler->moveToThread(threadSequencer);
 
-    connect(threadSequencer, &QThread::started, m_sequencer, &CSequencer::slotRequestPlaySequenceMesure);
-    connect(m_sequencer, &CSequencer::signalUpdated, this, &CAutomate::signalSchedulerUpdated);
+    connect(threadSequencer, &QThread::started, m_scheduler, &CScheduler::slotRequestPlaySequenceMesure);
+    connect(m_scheduler, &CScheduler::signalUpdated, this, &CAutomate::signalSchedulerUpdated);
     threadSequencer->start();
 }
 
 CAutomate::~CAutomate()
 {
-    QThread* threadSequencer = m_sequencer->thread();
+    QThread* threadSequencer = m_scheduler->thread();
     threadSequencer->quit();
     threadSequencer->wait();
 }
-CSequencer* CAutomate::getSequencer()const{
-    return m_sequencer;
+CScheduler* CAutomate::getSequencer()const{
+    return m_scheduler;
 }
 void CAutomate::addCyclePrivate(ICycle * cycle)
 {
@@ -365,6 +365,7 @@ void CAutomate::playScheduler(){
 
 void CAutomate::stopScheduler(){
 
+    m_scheduler->slotRequestStopSequenceMesure();
 }
 
 void CAutomate::pauseScheduler(){
@@ -442,9 +443,9 @@ void CAutomate::delCycle(ICycle *cycle)
         stream->delCycle(cycle->getName());
     }
 
-    m_sequencer->removeCycleMeasure(cycle);
-    m_sequencer->removeCycleMaintenance(cycle);
-    m_sequencer->removeCycleAutonome(cycle);
+    m_scheduler->removeCycleMeasure(cycle);
+    m_scheduler->removeCycleMaintenance(cycle);
+    m_scheduler->removeCycleAutonome(cycle);
 
     switch(cycle->getType()){
         case CYCLE_MESURE:
@@ -541,13 +542,24 @@ ICycle *CAutomate::getCycle(const QString &name, int type) const
 
 CUnit *CAutomate::getUnit(const QString &name) const
 {
-    foreach (CUnit *unit, m_listUnits) {
-        if (unit->getName() == name) {
-            return unit;
+    CUnit* unit = Q_NULLPTR;
+    foreach (CUnit *u, m_listUnits) {
+        if (u->getName() == name) {
+            unit = u;
         }
     }
 
-    return Q_NULLPTR;
+    if(!unit){
+        foreach (CUnit *u, m_listUnits) {
+            if (u->getName() == QStringLiteral("no_unit")) {
+                unit = u;
+            }
+        }
+        if(!unit){
+            unit = new CUnit(QStringLiteral("no_unit"), QStringLiteral(""));
+        }
+    }
+    return unit;
 }
 
 IOrgan *CAutomate::getOrgan(const QString &name) const

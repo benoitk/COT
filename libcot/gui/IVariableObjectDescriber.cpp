@@ -73,7 +73,6 @@ void IVariableObjectDescriber::slotVariableChanged()
 }
 
 // ICycle Describer
-
 CVariableICycleDescriber::CVariableICycleDescriber(IVariableUIHandler *parent)
     : IVariableObjectDescriber(parent)
 {

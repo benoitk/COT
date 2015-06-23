@@ -102,6 +102,8 @@ protected:
     QString m_label;
     QList<IVariable*> m_listBinds;
     CUnit* m_unit;
+
+
 };
 
 // Typedefs
