@@ -32,8 +32,7 @@ public: //acces multithread possible sur tout les get, penser au mutex sur tous 
     void setListSteps(const QList<CStep *> &steps, CStep *stopStep = Q_NULLPTR) Q_DECL_OVERRIDE;
     int getCurrentStepIndex() const Q_DECL_OVERRIDE;
 
-    bool isRunning() Q_DECL_OVERRIDE;
-    bool isPaused() Q_DECL_OVERRIDE;
+
     QVariantMap serialise() Q_DECL_OVERRIDE;
 public slots:
     void slotRunCycle() Q_DECL_OVERRIDE;

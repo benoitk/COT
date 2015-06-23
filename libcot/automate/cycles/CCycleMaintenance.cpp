@@ -105,8 +105,7 @@ int CCycleMaintenance::getCurrentStepIndex() const
     return -1;
 }
 
-bool CCycleMaintenance::isRunning(){return true;}
-bool CCycleMaintenance::isPaused(){return true;}
+
 void CCycleMaintenance::slotUnPauseCycle(){}
 void CCycleMaintenance::slotStopEndCycle(){}
 void CCycleMaintenance::slotGoToEndCycle(){}

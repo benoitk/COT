@@ -66,9 +66,9 @@ eTypeCycle CCycleMesure::getType()const{
     return CYCLE_MESURE;
 }
 void CCycleMesure::slotExecNextStep(){
+    QMutexLocker lock(&m_mutex);
 
-
-    if(m_itListStepsPasEnCours != m_listSteps.end()){// && (*m_itListStepsPasEnCours)->getNumStep() == m_iTimer){
+    if(m_itListStepsPasEnCours != m_listSteps.end()){
         qCDebug(COTAUTOMATE_LOG) << "CCycleMesure slotExecNextStep. Setp : " << (*m_itListStepsPasEnCours)->getLabel() << " step : " << (*m_itListStepsPasEnCours)->getNumStep();
         (*m_itListStepsPasEnCours++)->execStep();
 
@@ -76,6 +76,7 @@ void CCycleMesure::slotExecNextStep(){
 
     if(m_itListStepsPasEnCours == m_listSteps.end()) { //fin du cycle
         //m_timer->stop();
+        m_isRunning = false; //a changer avec m_itListStepsPasEnCours == m_listSteps.end pour savoir si un cycle est en cours ou pas
         emit signalReadyForPlayNextCycle();
     }else{
         int delay;
@@ -91,9 +92,11 @@ void CCycleMesure::slotExecNextStep(){
 
 }
 void CCycleMesure::slotRunCycle(){
+    QMutexLocker lock(&m_mutex);
     qCDebug(COTAUTOMATE_LOG) << "CCycleMesure::slotRunCycle()";
 
     if(!m_listSteps.isEmpty()){
+        m_isRunning = true;
         m_itListStepsPasEnCours = m_listSteps.begin();
         m_timeout = m_listSteps.first()->getNumStep() * 1000; //step en seconde
         qCDebug(COTAUTOMATE_LOG) << "time out before next step : " << m_timeout;
@@ -106,13 +109,18 @@ void CCycleMesure::slotRunCycle(){
 void CCycleMesure::slotPauseCycle(){
 
 }
+
 void CCycleMesure::slotStopCycle(){
+    QMutexLocker lock(&m_mutex);
     qDebug() << "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggg";
     if(m_itListStepsPasEnCours != m_listSteps.end()){
         (*m_itListStepsPasEnCours)->abortStep();
+        m_itListStepsPasEnCours = m_listSteps.end();
     }
     if(m_stepStop)
         m_stepStop->execStep();
+
+    m_isRunning = false;
     emit signalStopped();
 }
 
@@ -149,7 +157,7 @@ QString CCycleMesure::getLabel()const{ return m_label;}
 void CCycleMesure::setLbl(const QString &lbl){ m_label = lbl;}
 
 void CCycleMesure::addAction(float arg_step, IAction* action){
-    //TODO ajouter un mutex
+    QMutexLocker lock(&m_mutex);
     QList<CStep*>::iterator itListStep;
     for(itListStep=m_listSteps.begin(); itListStep != m_listSteps.end(); ++itListStep){
         if((*itListStep)->getNumStep() == arg_step){
@@ -161,6 +169,7 @@ void CCycleMesure::addAction(float arg_step, IAction* action){
 }
 //enlève toutes les référence à arg_action
 void CCycleMesure::removeAction(IAction* arg_action){
+    QMutexLocker lock(&m_mutex);
     QList<CStep*>::iterator itListStep;
     for(itListStep=m_listSteps.begin(); itListStep != m_listSteps.end(); ++itListStep){
         (*itListStep)->removeAction(arg_action);
@@ -179,8 +188,6 @@ void CCycleMesure::setName(const QString &name){
 
 }
 
-bool CCycleMesure::isRunning(){return true;}
-bool CCycleMesure::isPaused(){return true;}
 
 void CCycleMesure::slotUnPauseCycle(){}
 

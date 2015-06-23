@@ -360,7 +360,7 @@ void CAutomate::slotClock(){
 //    }
 }
 void CAutomate::playScheduler(){
-
+    m_scheduler->slotPlaySequenceMesure();
 }
 
 void CAutomate::stopScheduler(){
@@ -601,7 +601,17 @@ CVariableMeasure *CAutomate::getMeasure(const QString &name) const
 
 void CAutomate::setStateCycleMesure(eStateCycle state){
     QMutexLocker locker(&m_mutex);
-    // TODO
+    switch(state){
+    case CYCLE_STATE_STOP:
+        emit signalUpdateStateAutomate(STOPPED);
+        break;
+    case CYCLE_STATE_RUN:
+        emit signalUpdateStateAutomate(RUNNING);
+        break;
+    default:
+        break;
+    }
+
 }
 
 void CAutomate::setStateCycleIO(eStateCycle state){

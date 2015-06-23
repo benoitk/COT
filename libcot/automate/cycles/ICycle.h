@@ -16,7 +16,7 @@ class ICycle : public QObject
 public:
     explicit ICycle(QObject *parent);
     ICycle();
-    ~ICycle();
+
 
     virtual void addAction(float, IAction*)=0;
     virtual void removeAction(IAction*)=0;
@@ -32,8 +32,8 @@ public:
     virtual QList<CStep*> getListSteps()const=0;
     virtual void setListSteps(const QList<CStep *> &steps, CStep *stopStep = Q_NULLPTR)=0;
     virtual CStep* getStepStop()const=0;
-    virtual bool isRunning()=0;
-    virtual bool isPaused()=0;
+    virtual bool isRunning() const;
+    virtual bool isPaused()const;
     virtual int getCurrentStepIndex() const = 0;
     virtual QVariantMap serialise()=0;
 
@@ -63,7 +63,9 @@ signals:
     void signalRunning();
     void signalReadyForPlayNextCycle();
     void signalReadyForPlayCycle();
-
+protected:
+    bool m_isRunning;
+    bool m_isPaused;
 
 };
 

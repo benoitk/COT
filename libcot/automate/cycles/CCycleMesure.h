@@ -4,6 +4,7 @@
 #include "ICycle.h"
 #include <qlinkedlist.h>
 
+#include "qmutex.h"
 #include "qthread.h"
 
 class CLinkAction;
@@ -25,8 +26,7 @@ public:
     void setName(const QString &) Q_DECL_OVERRIDE;
     QString getLabel()const Q_DECL_OVERRIDE;
     void setLbl(const QString&) Q_DECL_OVERRIDE;
-    bool isRunning() Q_DECL_OVERRIDE;
-    bool isPaused() Q_DECL_OVERRIDE;
+
     QString getRelatedStreamName()const Q_DECL_OVERRIDE;
     void setRelatedStreamName(const QString &name) Q_DECL_OVERRIDE;
     CVariableStream* getRelatedStream()const Q_DECL_OVERRIDE;
@@ -49,6 +49,8 @@ public slots:
     void slotExecNextStep() Q_DECL_OVERRIDE;
 
 private:
+    QMutex m_mutex;
+
     void initTimer();
     int m_idCycle;
     QString m_name;

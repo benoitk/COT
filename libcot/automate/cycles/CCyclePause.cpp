@@ -90,8 +90,7 @@ void CCyclePause::removeAction(IAction*){}
 void CCyclePause::setType(eTypeCycle){
 
 }
-bool CCyclePause::isRunning(){ return true;}
-bool CCyclePause::isPaused(){ return true;}
+
 
 QString CCyclePause::getName()const{
     return m_name;

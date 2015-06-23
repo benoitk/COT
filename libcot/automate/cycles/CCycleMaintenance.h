@@ -18,8 +18,7 @@ public:
     void removeAction(IAction*)Q_DECL_OVERRIDE;
     QString getName()const Q_DECL_OVERRIDE;
     void setName(const QString&) Q_DECL_OVERRIDE;
-    bool isRunning() Q_DECL_OVERRIDE;
-    bool isPaused() Q_DECL_OVERRIDE;
+
     QString getLabel()const Q_DECL_OVERRIDE;
     void setLbl(const QString&) Q_DECL_OVERRIDE;
     QString getRelatedStreamName()const Q_DECL_OVERRIDE;

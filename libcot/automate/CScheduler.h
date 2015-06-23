@@ -123,7 +123,7 @@ private:
 
     QList<ICycle*>::iterator m_itListSequenceCyclesMesures;
 
-    ICycle* m_cycleMesureEnCours;
+    ICycle* m_cycleMeasureEnCours;
     ICycle* m_cycleMaintenanceEnCours;
     ICycle* m_cycleAutonomeEnCours;
 };
