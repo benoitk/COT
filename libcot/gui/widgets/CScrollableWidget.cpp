@@ -98,6 +98,9 @@ CScrollablePagerWidget *CScrollableWidget::scrollablePagerWidget() const
 void CScrollableWidget::updatePageHeight()
 {
     CScrollablePagerWidget *pager = scrollablePagerWidget();
+    if (!pager) {
+        return;
+    }
     QGridLayout *gridLayout = qobject_cast<QGridLayout *>(pager->layout());
     if (gridLayout) {
         // Determine how many entire items fit into one page
