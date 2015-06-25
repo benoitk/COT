@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QVariant>
-
+#include "qrunnable.h"
 #include "qmutex.h"
 
 class IAction;
@@ -12,7 +12,8 @@ class CStep : public QObject
     Q_OBJECT
 
 public:
-    CStep(const QVariantMap & = QVariantMap());
+    CStep(QObject *parent, const QVariantMap & = QVariantMap());
+    CStep();
     ~CStep();
 
     //use for API
@@ -30,9 +31,14 @@ public:
     void removeAction(IAction*);
     void setListActions(const QList<IAction *> &actions);
     void abortStep();
+
 public slots:
 
     void slotActionFinished(IAction* );
+
+signals:
+
+    void signalStepFinished(CStep*);
 
 private:
 

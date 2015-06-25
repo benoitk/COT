@@ -75,7 +75,7 @@ void CScheduler::setSequenceMesure(){
             qCDebug(COTAUTOMATE_LOG) << "m_cycleMesureEnCours ptr null";
             return;
         }
-        qCDebug(COTAUTOMATE_LOG) << "Cycle : " << m_cycleMeasureEnCours->getName();
+        qCDebug(COTAUTOMATE_LOG) << "Cycle : " << m_cycleMeasureEnCours->getName() << m_cycleMeasureEnCours->thread();
         //Si les signaux ne fonctionne pas, vérfier que le cycle à était déplacer dans un QThread à part(movethead)
         connect(this, &CScheduler::signalRunCycleMesure, m_cycleMeasureEnCours, &ICycle::slotRunCycle);//, Qt::DirectConnection);
         connect(this, &CScheduler::signalPauseCycleMesure, m_cycleMeasureEnCours, &ICycle::slotPauseCycle);
@@ -109,7 +109,7 @@ void CScheduler::playSequenceAutonome(){
 }
 //Play Next cycle Mesure
 void CScheduler::slotRequestPlayNextSequenceMesure(){
-    this->signalGetReadyForPlayNextCycleMesure();
+    emit signalGetReadyForPlayNextCycleMesure();
 }
 void CScheduler::slotPlayNextSequenceMesure(){
     if(m_cycleMeasureEnCours){

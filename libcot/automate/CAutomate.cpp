@@ -35,7 +35,7 @@ CAutomate::CAutomate()
     m_stateCycleIO = CYCLE_STATE_STOP;
     m_stateCycleMaintenance = CYCLE_STATE_STOP;
 
-    m_mappingCom.insert(QStringLiteral("0xffff"), CVariableFactory::build(QVariantMap())); //unknown address com
+   // m_mappingCom.insert(QStringLiteral("0xffff"), CVariableFactory::build(QVariantMap())); //unknown address com
 
 
     QTimer* timer = new QTimer(this);
@@ -50,20 +50,25 @@ CAutomate::CAutomate()
 }
 
 void CAutomate::initConfig(){
+//    m_scheduler = CScheduler::getInstance();
+//    CModelConfigFile configFile(this);
+
+    //QThread* threadScheduler = new QThread(this);
+
+//    m_scheduler->moveToThread(threadScheduler);
+
+//    connect(threadScheduler, &QThread::started, m_scheduler, &CScheduler::slotRequestPlaySequenceMesure);
+//    connect(threadScheduler, &QThread::finished, m_scheduler, &QObject::deleteLater);
+//    connect(m_scheduler, &CScheduler::signalUpdated, this, &CAutomate::signalSchedulerUpdated);
+
+//    threadScheduler->start();
+}
+void CAutomate::slotStartAutomate(){
     m_scheduler = CScheduler::getInstance();
     CModelConfigFile configFile(this);
 
-    QMap<QString, ICycle*> mapCycles = configFile.getMapCycle();
+    m_scheduler->slotRequestPlayNextSequenceMesure();
 
-//    m_sequencer->setListSequenceCyclesMesures(configFile.getListSequencesMesure());
-
-    QThread* threadSequencer = new QThread(this);
-
-    m_scheduler->moveToThread(threadSequencer);
-
-    connect(threadSequencer, &QThread::started, m_scheduler, &CScheduler::slotRequestPlaySequenceMesure);
-    connect(m_scheduler, &CScheduler::signalUpdated, this, &CAutomate::signalSchedulerUpdated);
-    threadSequencer->start();
 }
 
 CAutomate::~CAutomate()

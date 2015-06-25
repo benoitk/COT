@@ -77,11 +77,11 @@ CDisplayConf::CDisplayConf(const QJsonArray& jsonArray, QObject *parent)
         }
     }
 
-    qCDebug(COTAUTOMATE_LOG) << "diagnostic" << m_listForScrenDiagnostic;
-    qCDebug(COTAUTOMATE_LOG) << "elec_tests" << m_mapForScrenElectricalTests;
-    qCDebug(COTAUTOMATE_LOG) << "options" << m_listForScrenOptions;
-    qCDebug(COTAUTOMATE_LOG) << "history" << m_listForScrenHistory;
-    qCDebug(COTAUTOMATE_LOG) << "alarms" << m_listForScrenAlarms;
+//    qCDebug(COTAUTOMATE_LOG) << "diagnostic" << m_listForScrenDiagnostic;
+//    qCDebug(COTAUTOMATE_LOG) << "elec_tests" << m_mapForScrenElectricalTests;
+//    qCDebug(COTAUTOMATE_LOG) << "options" << m_listForScrenOptions;
+//    qCDebug(COTAUTOMATE_LOG) << "history" << m_listForScrenHistory;
+//    qCDebug(COTAUTOMATE_LOG) << "alarms" << m_listForScrenAlarms;
 }
 
 CDisplayConf::~CDisplayConf()

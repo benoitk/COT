@@ -10,7 +10,10 @@ class LIBCOT_EXPORT CControlerAutomate : public QObject
 {
     Q_OBJECT
 private:
-    QThread automateThread;
+    QThread m_automateThread;
+
+public slots:
+    void automateStopped();
 public:
     CControlerAutomate();
     ~CControlerAutomate();

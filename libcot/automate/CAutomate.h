@@ -114,9 +114,10 @@ public:
     void initConfig();
     void quit();
 
-private slots:
-    void slotClock();
 
+public slots:
+    void slotClock();
+    void slotStartAutomate();
 signals:
     void signalRunCycle(int);
     // KDAB: Needed api

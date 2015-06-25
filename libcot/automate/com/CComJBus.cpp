@@ -44,7 +44,7 @@ modbus_t *initRtu(const QVariantMap &options)
 template<typename InitFunction>
 modbus_t *initTcp(const QVariantMap &options, InitFunction init)
 {
-    qDebug() << "modbus_t *initTcp " << options;
+
     QByteArray ip = options.value(QStringLiteral("ip")).toByteArray();
     if(ip.isEmpty()){
         qCWarning(COTAUTOMATE_LOG) << "missing ip:" << options;

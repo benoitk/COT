@@ -48,10 +48,12 @@ public slots:
 
     void slotExecNextStep() Q_DECL_OVERRIDE;
 
+
+    void slotStepFinished(CStep*);
+
 private:
     QMutex m_mutex;
 
-    void initTimer();
     int m_idCycle;
     QString m_name;
     eTypeCycle m_typeCycle;

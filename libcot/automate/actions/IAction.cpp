@@ -60,7 +60,7 @@ bool IAction::runAction(){
    qCDebug(COTAUTOMATE_LOG)<< "Action  "
            << " label fr " << m_label
         ;
-
+    return true;
 }
 
 void IAction::abortAction(){

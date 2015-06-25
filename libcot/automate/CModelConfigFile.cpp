@@ -33,7 +33,7 @@
 CModelConfigFile::CModelConfigFile(QObject *parent)
     : QObject(parent)
 {
-    qCDebug(COTAUTOMATE_LOG) << "CModelConfigFile(QObject *parent)";
+    qCDebug(COTAUTOMATE_LOG) << "CModelConfigFile(QObject *parent) thread " << this->thread();
     QFile jsonFile(QString::fromLocal8Bit(JSON_DIRECTORY "/save.json"));
 
     qCDebug(COTAUTOMATE_LOG) << "jsonFile.exists()" << jsonFile.exists();
@@ -172,7 +172,7 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
             }else
                 qCDebug(COTAUTOMATE_LOG) << "Action null : map = " << mapAction;
         }
-        qCDebug(COTAUTOMATE_LOG) << "ACTIONS : " << m_mapActions;
+        //qCDebug(COTAUTOMATE_LOG) << "ACTIONS : " << m_mapActions;
 
     }
 
@@ -197,7 +197,7 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
             if(cycle)
             qCDebug(COTAUTOMATE_LOG) << "INFO CYCLE : " << cycle->getListSteps();
         }
-        qCDebug(COTAUTOMATE_LOG) << "CYCLES : " << m_mapCycles;
+        //qCDebug(COTAUTOMATE_LOG) << "CYCLES : " << m_mapCycles;
     }
 
     //Séquenceur mesure
@@ -214,7 +214,7 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
             else
                 qCDebug(COTAUTOMATE_LOG) << "Sequence name cycle null : map = " << sequenceName;
         }
-        qCDebug(COTAUTOMATE_LOG) << "SEQUENCER MEASURE : " << automate->getSequencer()->getListSequenceCyclesMesures();
+        //qCDebug(COTAUTOMATE_LOG) << "SEQUENCER MEASURE : " << automate->getSequencer()->getListSequenceCyclesMesures();
 
     }
 
@@ -232,7 +232,7 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
             else
                 qCDebug(COTAUTOMATE_LOG) << "Sequence name cycle null : map = " << sequenceName;
         }
-        qCDebug(COTAUTOMATE_LOG) << "SEQUENCER : " << automate->getSequencer()->getListSequenceCyclesAutonomes();
+        //qCDebug(COTAUTOMATE_LOG) << "SEQUENCER : " << automate->getSequencer()->getListSequenceCyclesAutonomes();
 
     }
 
@@ -250,7 +250,7 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
             else
                 qCDebug(COTAUTOMATE_LOG) << "Sequence name cycle null : map = " << sequenceName;
         }
-        qCDebug(COTAUTOMATE_LOG) << "SEQUENCER : " << automate->getSequencer()->getListCyclesMaintenances();
+        //qCDebug(COTAUTOMATE_LOG) << "SEQUENCER : " << automate->getSequencer()->getListCyclesMaintenances();
 
     }
 

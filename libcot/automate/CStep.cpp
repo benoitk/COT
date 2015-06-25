@@ -8,8 +8,12 @@
 #include <unistd.h>
 #include "qthread.h"
 
-CStep::CStep(const QVariantMap &mapStep)
-    : QObject(), m_bWaitForActions(false), m_errorDuringActions(false)
+CStep::CStep(){
+    qDebug() << "Ne pas utiliser, uniquement là pour que l'ihm compile"; //A virer
+}
+
+CStep::CStep(QObject *parent, const QVariantMap &mapStep)
+    : QObject(parent), m_bWaitForActions(false), m_errorDuringActions(false)
 {
 
     m_numStep = mapStep.value(QStringLiteral("step")).toFloat();
@@ -88,7 +92,7 @@ void CStep::setNumStep(float numStep){
 //    m_nextStep = step;
 //}
 
-//true si pas d'erreur, false sinon
+
 bool CStep::execStep(){
     m_errorDuringActions = false;
     emit CAutomate::getInstance()->signalUpdateCurrentStep(m_numStep, m_label);
@@ -99,22 +103,24 @@ bool CStep::execStep(){
             connect(action, &IAction::signalActionFinished, this, &CStep::slotActionFinished);
             m_bWaitForActions=true;
         }
-        action->runAction();
-//        if(action->finishedWithError()){
-//            m_errorDuringActions = true;
-//        }
-    }
-    while(m_bWaitForActions){
-        QThread::usleep(10000);
+        if(!action->runAction())
+            m_errorDuringActions = true; //pour les actions qui ne demande pas de thread séparé.
+
     }
 
-    return !m_errorDuringActions;
+    if(!m_bWaitForActions){
+        emit signalStepFinished(this);
+        return false;
+    }
+    return true;
+
 }
 
 void CStep::slotActionFinished(IAction* action){
+
     QMutexLocker lock(&m_mutex);
 
-    qDebug() << "CStep::slotActionFinished  action " << action;
+
     if(m_listActionsWaited.removeOne(action)){
         if(action)
             disconnect(action,0,this,0);
@@ -124,7 +130,8 @@ void CStep::slotActionFinished(IAction* action){
         }
     }
     if(m_listActionsWaited.isEmpty()) m_bWaitForActions = false;
-    qDebug() << "fin CStep::slotActionFinished " << m_bWaitForActions;
+
+    emit signalStepFinished(this);
 }
 
 

@@ -91,13 +91,11 @@ void CActionTest::run(){
 
             QThread::usleep(1000000);
         }
-
-        qCDebug(COTAUTOMATE_LOG)<< "for timeout " << timeout;
-        qCDebug(COTAUTOMATE_LOG)<< "for result " << result;
-        m_result->setValue(result);
+        m_result->setValue(false);
+//        m_result->setValue(result);
     }
     else{
-        //pas le type de target attendu
+        qDebug()<< "pas le type de target attendu";
     }
     emit signalActionFinished(this);
 }
