@@ -68,7 +68,7 @@ public:
     enum eStateStream{STREAM_DEFAULT, WATER_DEFAULT, ACTIVE, INACTIVE};
     static CAutomate* getInstance();
 
-    void setStateCycleMesure(eStateCycle);
+    void setStateCycleMesure(eStateCycle, bool arg_criticalError = false);
     eStateCycle getStateCycleMesure();
     void setStateCycleIO(eStateCycle);
     eStateCycle getStateCycleIO();
@@ -187,6 +187,7 @@ private:
     eStateCycle m_stateCycleMesure; //0 stoped, 1 run, 2 pause
     eStateCycle m_stateCycleIO; //0 stoped, 1 run, 2 pause
     eStateCycle m_stateCycleMaintenance; //0 stoped, 1 run, 2 pause
+    eStateAutomate m_stateAutomate;
 
     CScheduler* m_scheduler;
     CDisplayConf* m_displayConf;

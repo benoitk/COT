@@ -126,11 +126,11 @@ void CScheduler::slotPlayNextSequenceMesure(){
 void CScheduler::slotRequestStopSequenceMesure(){
    emit signalStopCycleMesure();
 }
-void CScheduler::slotCycleMesureIsStopped(){
+void CScheduler::slotCycleMesureIsStopped(bool withCriticalError){
     if(m_cycleMeasureEnCours){
         this->disconnectCycle(m_cycleMeasureEnCours);
     }
-    CAutomate::getInstance()->setStateCycleMesure(CAutomate::CYCLE_STATE_STOP);
+    CAutomate::getInstance()->setStateCycleMesure(CAutomate::CYCLE_STATE_STOP, withCriticalError);
 }
 //Fin Stop cycle Mesure
 

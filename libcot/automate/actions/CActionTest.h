@@ -22,7 +22,7 @@ public:
 
     bool runAction() Q_DECL_OVERRIDE;
     bool waitUnitlFinished() Q_DECL_OVERRIDE;
-    bool finishedWithError() Q_DECL_OVERRIDE;
+    bool finishedWithCriticalError() Q_DECL_OVERRIDE;
 
     QList<IVariable*> getListParameters()const Q_DECL_OVERRIDE;
     actionType getType()const Q_DECL_OVERRIDE;
@@ -38,7 +38,7 @@ private:
     eContidion m_condition;
     IVariable* m_errorMargin;
     IVariable* m_timeout;
-
+    bool m_criticalError;
 };
 
 #endif // CACTIONTEST_H

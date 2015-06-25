@@ -13,7 +13,7 @@ CStep::CStep(){
 }
 
 CStep::CStep(QObject *parent, const QVariantMap &mapStep)
-    : QObject(parent), m_bWaitForActions(false), m_errorDuringActions(false)
+    : QObject(parent), m_bWaitForActions(false), m_criticalErrorDuringActions(false)
 {
 
     m_numStep = mapStep.value(QStringLiteral("step")).toFloat();
@@ -94,7 +94,7 @@ void CStep::setNumStep(float numStep){
 
 
 bool CStep::execStep(){
-    m_errorDuringActions = false;
+    m_criticalErrorDuringActions = false;
     emit CAutomate::getInstance()->signalUpdateCurrentStep(m_numStep, m_label);
     //emit signalUpdateCurrentStep(float, const QString &);
     foreach(IAction* action, m_listActions){
@@ -104,7 +104,7 @@ bool CStep::execStep(){
             m_bWaitForActions=true;
         }
         if(!action->runAction())
-            m_errorDuringActions = true; //pour les actions qui ne demande pas de thread séparé.
+            m_criticalErrorDuringActions = true; //pour les actions qui ne demande pas de thread séparé.
 
     }
 
@@ -125,13 +125,17 @@ void CStep::slotActionFinished(IAction* action){
         if(action)
             disconnect(action,0,this,0);
         else qDebug() << "fail disconnect " << action;
-        if(action->finishedWithError()){
-            m_errorDuringActions = true;
+        if(action->finishedWithCriticalError()){
+            m_criticalErrorDuringActions = true;
         }
     }
     if(m_listActionsWaited.isEmpty()) m_bWaitForActions = false;
 
     emit signalStepFinished(this);
+}
+
+bool CStep::finishedWithcriticalError(){
+    return m_criticalErrorDuringActions;
 }
 
 

@@ -193,12 +193,13 @@
                     {"name":"speed_pump_persulfate", "fr_FR" : "Vitesse", "en_US" : "Speed pump", "type":"integer", "value" : 30, "unit":"tr_min"},
                     {"name":"direction_clockwise_pump_persulfate", "fr_FR" : "Pompe en sens anti-trigo", "en_US" : "Pump set to clockwise", "type":"boolean", "value" : true, "unit":"tr_min"},
                     {"name":"step_by_step_pump_persulfate", "fr_FR" : "Pompe en pas à pas", "en_US" : "Pump set to step by step", "type":"boolean", "value" : true, "unit":"tr_min"},
-                    {"name":"cmd_continus_pump_persulfate", "fr_FR" : "Pompe alimenté au repos", "en_US" : "Pump always powered", "type":"boolean", "value" : true, "unit":"tr_min"}
+                    {"name":"cmd_continus_pump_persulfate", "fr_FR" : "Pompe alimenté au repos", "en_US" : "Pump always powered", "type":"boolean", "value" : true, "unit":"tr_min"},
+                    {"name":"stream_1_state", "fr_FR" : "Etat analyseur", "type":"boolean", "value" : true, "unit":"tr_min"}
 
     ],
 
     "display":[
-        {"name":"diagnostic", "variables":["airflow", "ndir_temperature", "condenser_temperature", "reactor_temperature"]},
+        {"name":"diagnostic", "variables":["airflow", "ndir_temperature", "condenser_temperature", "reactor_temperature","airflow_default"]},
         {"name":"elec_tests", "map_tabs":[{"name":"tab_EV", "variables":["ev_sample", "ev_air_direct", "ev_sample_inerting", "ev_reatcor_filling"]},
                      {"name":"tab_Actionneurs", "variables":["test_relay_1", "test_relay_2", "test_relay_3", "test_tor_1", "test_tor_2", "test_tor_3"]},
                      {"name":"tab_entrees", "variables":["selection_stream1", "arret_fin_cycle"]},
@@ -263,6 +264,7 @@
                     "result" : "airflow_default",
                     "waiting" : "airflow_control_needed", 
                     "condition" : "target_equal_to_setpoint",
+                    "critical_error" : true,
                     "error_margin" : "airflow_error_margin", 
                     "timeout" : "airflow_control_timeout" 
                 },
@@ -273,6 +275,7 @@
                     "result" : "ndir_temperature_default",
                     "waiting" : "ndir_temperature_control_needed", 
                     "condition" : "target_equal_to_setpoint",
+                    "critical_error" : true,
                     "error_margin" : "ndir_temperature_error_margin", 
                     "timeout" : "ndir_temperature_control_timeout" 
                 },
@@ -283,6 +286,7 @@
                     "result" : "condenser_temperature_default",
                     "waiting" : "condenser_temperature_control_needed", 
                     "condition" : "target_equal_to_setpoint",
+                    "critical_error" : true,
                     "error_margin" : "condenser_temperature_error_margin", 
                     "timeout" : "condenser_temperature_control_timeout" 
                 },
@@ -293,6 +297,7 @@
                     "result" : "reactor_temperature_default",
                     "waiting" : "reactor_temperature_control_needed", 
                     "condition" : "target_superior_to_setpoint",
+                    "critical_error" : true,
                     "error_margin" : "reactor_temperature_error_margin", 
                     "timeout" : "reactor_temperature_control_timeout" 
                 },
@@ -303,6 +308,7 @@
                     "result" : "emitter_power_default",
                     "waiting" : "emitter_power_control_needed", 
                     "condition" : "target_equal_to_setpoint",
+                    "critical_error" : true,
                     "error_margin" : "emitter_power_error_margin",
                     "timeout" : "emitter_power_control_timeout" 
                 }

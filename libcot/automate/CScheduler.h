@@ -70,7 +70,7 @@ public slots:
     void slotPlayNextSequenceAutonome();
 
     void slotCycleMesureIsRunning();
-    void slotCycleMesureIsStopped();
+    void slotCycleMesureIsStopped(bool withCriticalError);
     void slotCycleMesureIsPaused();
 
 signals:

@@ -15,7 +15,7 @@ IAction::~IAction(){}
 bool IAction::waitUnitlFinished(){
   return false;
 }
-bool IAction::finishedWithError(){
+bool IAction::finishedWithCriticalError(){
     return false;
 }
 

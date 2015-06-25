@@ -64,6 +64,7 @@ void CCycleMesure::slotStepFinished(CStep* arg_step){
     qCDebug(COTAUTOMATE_LOG) << "CCycleMesure::slotStepFinished(CStep* arg_step) ";
     QMutexLocker lock(&m_mutex);
 
+    if(arg_step)
     disconnect(arg_step,&CStep::signalStepFinished,this,&CCycleMesure::slotStepFinished);
     if(m_itListStepsPasEnCours != m_listSteps.end())
         m_itListStepsPasEnCours++;
@@ -120,14 +121,19 @@ void CCycleMesure::slotStopCycle(){
     QMutexLocker lock(&m_mutex);
 
    if(m_itListStepsPasEnCours != m_listSteps.end()){
-        (*m_itListStepsPasEnCours)->abortStep();
-
+        (*m_itListStepsPasEnCours)->abortStep(); 
     }
     if(m_stepStop)
         m_stepStop->execStep();
-m_itListStepsPasEnCours = m_listSteps.end();
+
+    if(m_itListStepsPasEnCours != m_listSteps.end()){
+        emit signalStopped((*m_itListStepsPasEnCours)->finishedWithcriticalError());
+        m_itListStepsPasEnCours = m_listSteps.end();
+    }else
+        emit signalStopped(false);
+
+
     m_isRunning = false;
-    emit signalStopped();
 
     qCDebug(COTAUTOMATE_LOG) << "Fin slotStopCycle";
 }

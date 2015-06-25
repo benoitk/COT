@@ -58,7 +58,7 @@ public slots:
     virtual void slotExecNextStep()=0;
 
 signals:
-    void signalStopped();
+    void signalStopped(bool withCriticalError);
     void signalPaused();
     void signalRunning();
     void signalReadyForPlayNextCycle();

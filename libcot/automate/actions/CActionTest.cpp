@@ -18,6 +18,7 @@ CActionTest::CActionTest(const QVariantMap &mapAction, QObject *parent)
     m_waiting = automate->getVariable(mapAction[QStringLiteral("waiting")].toString());
     m_errorMargin = automate->getVariable(mapAction[QStringLiteral("error_margin")].toString());
     m_timeout = automate->getVariable(mapAction[QStringLiteral("timeout")].toString());
+    m_criticalError = mapAction[QStringLiteral("critical_error")].toBool();
 
     QString sCondition = mapAction[QStringLiteral("condition")].toString();
     if(sCondition == QStringLiteral("equal")) m_condition = m_eEqualToSetpoint;
@@ -103,8 +104,12 @@ void CActionTest::run(){
 bool CActionTest::waitUnitlFinished(){
     return m_waiting->toBool();
 }
-bool CActionTest::finishedWithError(){
-    return m_result->toBool();
+
+bool CActionTest::finishedWithCriticalError(){
+    if(m_criticalError && m_result->toBool())
+        return true;
+    return false;
+
 }
 QList<IVariable*> CActionTest::getListParameters()const{
     QList<IVariable*> listParams;

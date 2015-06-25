@@ -604,11 +604,15 @@ CVariableMeasure *CAutomate::getMeasure(const QString &name) const
     return Q_NULLPTR;
 }
 
-void CAutomate::setStateCycleMesure(eStateCycle state){
+void CAutomate::setStateCycleMesure(eStateCycle arg_state, bool arg_criticalError){
     QMutexLocker locker(&m_mutex);
-    switch(state){
+    m_stateCycleMesure = arg_state;
+    switch(arg_state){
     case CYCLE_STATE_STOP:
-        emit signalUpdateStateAutomate(STOPPED);
+        if(arg_criticalError)
+            emit signalUpdateStateAutomate(STOPPED);
+        else
+            emit signalUpdateStateAutomate(GENERAL_DEFAULT);
         break;
     case CYCLE_STATE_RUN:
         emit signalUpdateStateAutomate(RUNNING);

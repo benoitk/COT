@@ -38,6 +38,7 @@ void CStatusWidget::slotTimeChanged()
 void CStatusWidget::slotUpdateStateAutomate(CAutomate::eStateAutomate state)
 {
     QString text;
+     ui->lCycle->setStyleSheet("QLabel { color : black; }");
     switch (state) {
     case CAutomate::RUNNING:
         text = tr("CYCLE IN PROGRESS");
@@ -54,9 +55,14 @@ void CStatusWidget::slotUpdateStateAutomate(CAutomate::eStateAutomate state)
     case CAutomate::STOPPED:
         text = tr("STOPPED");
         break;
+    case CAutomate::GENERAL_DEFAULT:
+        text = tr("DEFAULT");
+        ui->lCycle->setStyleSheet("QLabel { color : red; }");
+        break;
     }
 
     ui->lCycle->setText(text);
+
 }
 
 void CStatusWidget::slotUpdateCurrentStream(int stream, const QString &label)

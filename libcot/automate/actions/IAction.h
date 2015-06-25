@@ -30,7 +30,7 @@ public:
 
     virtual bool runAction();
     virtual bool waitUnitlFinished();
-    virtual bool finishedWithError();
+    virtual bool finishedWithCriticalError();
     virtual QList<IVariable*> getListParameters()const=0;
     virtual actionType getType()const =0;
     virtual bool variableUsed(IVariable *)const =0;
