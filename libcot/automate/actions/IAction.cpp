@@ -12,7 +12,7 @@ IAction::IAction(const QVariantMap &mapAction, QObject *parent):QObject(parent),
 
 IAction::~IAction(){}
 
-bool IAction::waitUnitlFinished(){
+bool IAction::waitUntilFinished(){
   return false;
 }
 bool IAction::finishedWithCriticalError(){

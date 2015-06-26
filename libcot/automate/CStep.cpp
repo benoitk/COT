@@ -42,7 +42,6 @@ void CStep::abortStep(){
 
 QVariantMap CStep::serialise(){
     QVariantMap mapSerialise;
-//    mapSerialise.insert(QStringLiteral("name"), m_name);
     mapSerialise.insert(tr("fr_FR"), m_label);
     mapSerialise.insert(QStringLiteral("type"), QStringLiteral("measure"));
     QStringList listActionName;
@@ -93,27 +92,27 @@ void CStep::setNumStep(float numStep){
 //}
 
 
-bool CStep::execStep(){
+void CStep::execStep(){
+    qCDebug(COTAUTOMATE_LOG) << "CStep::execStep()";
     m_criticalErrorDuringActions = false;
+    m_bWaitForActions = false;
     emit CAutomate::getInstance()->signalUpdateCurrentStep(m_numStep, m_label);
-    //emit signalUpdateCurrentStep(float, const QString &);
+
     foreach(IAction* action, m_listActions){
-        if(action->waitUnitlFinished()){
+        if(action->waitUntilFinished()){
             m_listActionsWaited.append(action);
             connect(action, &IAction::signalActionFinished, this, &CStep::slotActionFinished);
             m_bWaitForActions=true;
         }
-        if(!action->runAction())
-            m_criticalErrorDuringActions = true; //pour les actions qui ne demande pas de thread séparé.
-
+        action->runAction();
     }
 
+    //si on doit attendre une action de celles lancées
     if(!m_bWaitForActions){
-        emit signalStepFinished(this);
-        return false;
+        qCDebug(COTAUTOMATE_LOG) << "CStep::execStep() EMIT ";
+        emit signalStepFinished(this); 
     }
-    return true;
-
+    qCDebug(COTAUTOMATE_LOG) << "FIN CStep::execStep()";
 }
 
 void CStep::slotActionFinished(IAction* action){
@@ -129,9 +128,9 @@ void CStep::slotActionFinished(IAction* action){
             m_criticalErrorDuringActions = true;
         }
     }
-    if(m_listActionsWaited.isEmpty()) m_bWaitForActions = false;
-
-    emit signalStepFinished(this);
+    if(m_listActionsWaited.isEmpty()){
+        emit signalStepFinished(this);
+    }
 }
 
 bool CStep::finishedWithcriticalError(){

@@ -101,7 +101,7 @@ void CActionTest::run(){
     emit signalActionFinished(this);
 }
 
-bool CActionTest::waitUnitlFinished(){
+bool CActionTest::waitUntilFinished(){
     return m_waiting->toBool();
 }
 

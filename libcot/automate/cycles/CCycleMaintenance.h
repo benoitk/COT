@@ -10,6 +10,7 @@ class CCycleMaintenance : public ICycle
 public:
     CCycleMaintenance(QObject *parent = Q_NULLPTR);
     CCycleMaintenance(eTypeCycle type, QObject *parent = Q_NULLPTR);
+     CCycleMaintenance(const QVariantMap&);
     ~CCycleMaintenance();
 
     void setType(eTypeCycle) Q_DECL_OVERRIDE;

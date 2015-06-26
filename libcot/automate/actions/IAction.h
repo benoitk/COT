@@ -29,7 +29,7 @@ public:
     virtual void setLabel(const QString&);
 
     virtual bool runAction();
-    virtual bool waitUnitlFinished();
+    virtual bool waitUntilFinished();
     virtual bool finishedWithCriticalError();
     virtual QList<IVariable*> getListParameters()const=0;
     virtual actionType getType()const =0;

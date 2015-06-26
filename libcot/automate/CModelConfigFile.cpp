@@ -250,7 +250,7 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
             else
                 qCDebug(COTAUTOMATE_LOG) << "Sequence name cycle null : map = " << sequenceName;
         }
-        //qCDebug(COTAUTOMATE_LOG) << "SEQUENCER : " << automate->getSequencer()->getListCyclesMaintenances();
+        qCDebug(COTAUTOMATE_LOG) << "SEQUENCER : " << automate->getSequencer()->getListCyclesMaintenances();
 
     }
 

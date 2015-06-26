@@ -237,7 +237,7 @@ void CScheduler::addCycleAutonome(ICycle* arg_cycle){
 }
 void CScheduler::addCycleMaintenance(ICycle* arg_cycle){
     if(arg_cycle){
-        m_listSequenceCyclesAutonomes.append(arg_cycle);
+        m_listCyclesMaintenances.append(arg_cycle);
     }
 }
 void CScheduler::replaceCycleAt(int index, const CScheduler::CyclePair &pair)

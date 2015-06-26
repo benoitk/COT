@@ -8,6 +8,22 @@ CCycleMaintenance::CCycleMaintenance(QObject *parent)
 {
 
 }
+CCycleMaintenance::CCycleMaintenance(const QVariantMap& mapCycle){
+    if(mapCycle.contains(QStringLiteral("name")))
+        m_name = mapCycle[QStringLiteral("name")].toString();
+    else
+        m_name = QStringLiteral("Action not named");
+    m_label = mapCycle[tr("fr_FR")].toString();
+
+    const QVariantList listSteps = mapCycle[QStringLiteral("steps")].toList();
+    foreach(const QVariant &varStep, listSteps){
+        const QVariantMap mapStep = varStep.toMap();
+        CStep* step = new CStep(this, mapStep);
+        m_listSteps.append(step);
+    }
+
+}
+
 CCycleMaintenance::CCycleMaintenance(eTypeCycle typeCycle, QObject* parent): ICycle(parent), m_stepStop(Q_NULLPTR) {
     m_typeCycle = typeCycle;
 }

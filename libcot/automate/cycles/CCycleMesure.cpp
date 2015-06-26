@@ -63,16 +63,21 @@ eTypeCycle CCycleMesure::getType()const{
 void CCycleMesure::slotStepFinished(CStep* arg_step){
     qCDebug(COTAUTOMATE_LOG) << "CCycleMesure::slotStepFinished(CStep* arg_step) ";
     QMutexLocker lock(&m_mutex);
-
+    bool criticalErrorOnPreviousStep = false;
     if(arg_step)
-    disconnect(arg_step,&CStep::signalStepFinished,this,&CCycleMesure::slotStepFinished);
-    if(m_itListStepsPasEnCours != m_listSteps.end())
+        disconnect(arg_step,&CStep::signalStepFinished,this,&CCycleMesure::slotStepFinished);
+    if(m_itListStepsPasEnCours != m_listSteps.end()){
+        criticalErrorOnPreviousStep = (*m_itListStepsPasEnCours)->finishedWithcriticalError();
         m_itListStepsPasEnCours++;
+    }
 
     if(m_itListStepsPasEnCours == m_listSteps.end()) { //fin du cycle
 
         m_isRunning = false; //a changer avec m_itListStepsPasEnCours == m_listSteps.end pour savoir si un cycle est en cours ou pas
-        emit signalReadyForPlayNextCycle();
+        if(!criticalErrorOnPreviousStep)
+            emit signalReadyForPlayNextCycle();
+        else
+            emit signalStopped(criticalErrorOnPreviousStep);
     }else{
         if((m_itListStepsPasEnCours != m_listSteps.begin())){
             m_timeout = (*m_itListStepsPasEnCours)->getNumStep()*1000 - (*m_itListStepsPasEnCours.operator-(1))->getNumStep()*1000;

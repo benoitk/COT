@@ -16,6 +16,8 @@ ICycle* CCycleFactory::build(const QVariantMap &mapCycle){
         cycle = new CCyclePause(mapCycle);
     }else if(mapCycle[QStringLiteral("type")].toString() == QStringLiteral("autonome")){
         cycle = new CCycleAutonome(mapCycle);
+    }else if(mapCycle[QStringLiteral("type")].toString() == QStringLiteral("maintenance")){
+        cycle = new CCycleMaintenance(mapCycle);
     }else{
         qCDebug(COTAUTOMATE_LOG) << "Type cycle INCONNU " << mapCycle[QStringLiteral("type")].toString();
     }

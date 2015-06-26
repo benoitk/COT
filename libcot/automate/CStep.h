@@ -25,7 +25,7 @@ public:
     //CStep* getNextStep()const;
     //void setNextStep(CStep*);
     //FIN API
-    bool execStep();
+    void execStep();
     QVariantMap serialise();
     void addAction(IAction*);
     void removeAction(IAction*);

@@ -21,7 +21,7 @@ public:
     void setTiming(int);
 
     bool runAction() Q_DECL_OVERRIDE;
-    bool waitUnitlFinished() Q_DECL_OVERRIDE;
+    bool waitUntilFinished() Q_DECL_OVERRIDE;
     bool finishedWithCriticalError() Q_DECL_OVERRIDE;
 
     QList<IVariable*> getListParameters()const Q_DECL_OVERRIDE;
