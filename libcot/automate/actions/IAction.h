@@ -4,12 +4,13 @@
 #include <QObject>
 #include "qmutex.h"
 enum actionType{
-        type_block = 0,
-        type_cmd_pump,
-        type_cmd_digital_output,
-        type_cmd_read_input,
-        type_test,
-        type_action_unknow
+    type_block = 0,
+    type_cmd_pump,
+    type_cmd_digital_output,
+    type_cmd_read_input,
+    type_test,
+    type_acquisition_cit_npoc,
+    type_action_unknow
 
 };
 

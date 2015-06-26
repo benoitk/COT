@@ -5,7 +5,7 @@
 #include "CActionBlock.h"
 #include "CActionUnknow.h"
 #include "CActionTest.h"
-
+#include "CActionAcquisitionCitNpoc.h"
 #include "qvariant.h"
 #include "qmap.h"
 #include "cotautomate_debug.h"
@@ -29,6 +29,9 @@ IAction* CActionFactory::build(const QVariantMap &mapAction, QObject *parent){
     }
     else if(type == QStringLiteral("test")){
         action = new CActionTest(mapAction,parent);
+    }
+    else if(type == QStringLiteral("acquisition_cit_npoc")){
+        action = new CActionAcquisitionCitNpoc(mapAction,parent);
     }
     else{
         action = new CActionUnknow(mapAction,parent);

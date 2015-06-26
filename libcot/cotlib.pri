@@ -218,7 +218,8 @@ HEADERS *= \
     gui/StyleRepository.h \
     $$PWD/automate/actions/CActionCmdDigitalOutput.h \
     $$PWD/automate/actions/CActionTest.h \
-    $$PWD/automate/CScheduler.h
+    $$PWD/automate/CScheduler.h \
+    $$PWD/automate/actions/CActionAcquisitionCitNpoc.h
 
 SOURCES *= \
     automate/CAutomate.cpp \
@@ -391,4 +392,5 @@ SOURCES *= \
     gui/StyleRepository.cpp \
     $$PWD/automate/actions/CActionCmdDigitalOutput.cpp \
     $$PWD/automate/actions/CActionTest.cpp \
-    $$PWD/automate/CScheduler.cpp
+    $$PWD/automate/CScheduler.cpp \
+    $$PWD/automate/actions/CActionAcquisitionCitNpoc.cpp
