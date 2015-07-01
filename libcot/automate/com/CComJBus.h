@@ -6,6 +6,7 @@
 #include "qlist.h"
 #include "qbitarray.h"
 #include "qvariant.h"
+#include "qmutex.h"
 
 #include "cot_global.h"
 
@@ -78,6 +79,8 @@ private:
     comType m_type;
     QString m_ip;
     friend class JBusTest;
+
+    QMutex m_mutex;
 };
 
 #endif // CComJBus_H

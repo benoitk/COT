@@ -3,8 +3,9 @@
 #include "CVariableFactory.h"
 #include "CAutomate.h"
 #include "IVariableInput.h"
+#include "IVariableOutput.h"
 #include "cotautomate_debug.h"
-
+#include "CUnit.h"
 
 #include "qthreadpool.h"
 
@@ -50,8 +51,15 @@ void CActionTest::run(){
             << " label fr " << m_label
          ;
     IVariableInput* inputTarget = Q_NULLPTR;
-    if(m_target->getOrganType() == VariableOrganTypeInput)
+
+    if(m_target->getOrganType() == type_organ_input)
         inputTarget = dynamic_cast<IVariableInput*>(m_target);
+
+    //envois de la consigne si la carte mesure attend une consigne
+    if(m_setpoint->getOrganType() == type_organ_output){
+        IVariableOutput* outputSetpoint = dynamic_cast<IVariableOutput*>(m_setpoint);
+        if(outputSetpoint) outputSetpoint->writeValue();
+    }
 
     if(inputTarget){
         float target = m_target->toFloat();
@@ -65,12 +73,18 @@ void CActionTest::run(){
         for(int i=0 ; i < timeout /*&& !result*/ && !m_abort; ++i){
             target = inputTarget->readValue()->toFloat();
 
+            QString  sActionInfo =  tr("Lecture ") + QString::number(i+1) + "/"  +QString::number(timeout) + " "
+                                    + m_target->getLabel() + " " +  QString::number(target, 'f', 2)
+                                    + m_target->getUnit()->getLabel() ;
+            emit CAutomate::getInstance()->signalUpdateCurrentAction(sActionInfo);
+
             qCDebug(COTAUTOMATE_LOG)<< "for timeout " << timeout - i;
             qCDebug(COTAUTOMATE_LOG)<< "for target " << target;
             qCDebug(COTAUTOMATE_LOG)<< "for m_condition " << m_condition;
             qCDebug(COTAUTOMATE_LOG)<< "for setpoint_max " << setpoint_max;
             qCDebug(COTAUTOMATE_LOG)<< "for setpoint_min " << setpoint_min;
             qCDebug(COTAUTOMATE_LOG)<< "for result " << result;
+
 
             switch(m_condition){
             case m_eEqualToSetpoint:
@@ -98,6 +112,7 @@ void CActionTest::run(){
     else{
         qDebug()<< "pas le type de target attendu";
     }
+    emit CAutomate::getInstance()->signalUpdateCurrentAction(m_label + tr(" finit"));
     emit signalActionFinished(this);
 }
 

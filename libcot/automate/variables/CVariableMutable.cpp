@@ -78,7 +78,7 @@ variableType CVariableMutable::getType() const
 { return type_mutable; }
 
 VariableOrganType CVariableMutable::getOrganType() const
-{ return VariableOrganTypeNone; }
+{ return type_organ_none; }
 
 void CVariableMutable::switchToUnit(CUnit *)
 {}

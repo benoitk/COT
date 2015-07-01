@@ -3,6 +3,7 @@
 
 #include <QVariant>
 #include <QList>
+#include "qmutex.h"
 
 enum variableType{
         type_bool = 0,
@@ -24,9 +25,9 @@ enum variableAccess{
 };
 
 enum VariableOrganType {
-    VariableOrganTypeNone = 0,
-    VariableOrganTypeInput,
-    VariableOrganTypeOutput,
+    type_organ_none = 0,
+    type_organ_input,
+    type_organ_output,
 };
 
 class CUnit;
@@ -102,6 +103,7 @@ protected:
     QString m_label;
     QList<IVariable*> m_listBinds;
     CUnit* m_unit;
+    QMutex m_mutex;
 
 
 };

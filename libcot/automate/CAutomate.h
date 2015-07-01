@@ -32,6 +32,7 @@ class CUnit;
 class CDisplayConf;
 class IOrgan;
 class CVariableStream;
+class CThreadDiag;
 class CVariableMeasure;
 
 class CAutomate : public QObject, IComObserver
@@ -140,6 +141,7 @@ signals:
     //desc : Pas en cours changé
     //entrées : pas en cours; label du pas
     void signalUpdateCurrentStep(float, const QString &);
+    void signalUpdateCurrentAction(const QString &);
     //desc : Nombre total de pas changé
     //entrées : Nombre de pas total
     void signalUpdateCountStep(int);
@@ -190,6 +192,7 @@ private:
     eStateAutomate m_stateAutomate;
 
     CScheduler* m_scheduler;
+    CThreadDiag* m_threadDiag;
     CDisplayConf* m_displayConf;
     QMap<QString, ICycle*> m_listCycleMesures;
     QMap<QString, ICycle*> m_listCycleMaintenances;

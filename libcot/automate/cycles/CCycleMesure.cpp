@@ -109,6 +109,7 @@ void CCycleMesure::slotRunCycle(){
         m_isRunning = true;
         m_itListStepsPasEnCours = m_listSteps.begin();
         m_timeout = m_listSteps.first()->getNumStep() * 1000; //step en seconde
+        emit CAutomate::getInstance()->signalUpdateCountStep(m_listSteps.last()->getNumStep());
         qCDebug(COTAUTOMATE_LOG) << "time out before next step : " << m_timeout;
         QTimer::singleShot(m_timeout, this, SLOT(slotExecNextStep()));
     }

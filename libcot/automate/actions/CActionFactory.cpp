@@ -2,9 +2,11 @@
 #include "CActionCmdPompe.h"
 #include "CActionCmdDigitalOutput.h"
 #include "CActionCmdReadInput.h"
+#include "CActionDCEngine.h"
 #include "CActionBlock.h"
 #include "CActionUnknow.h"
 #include "CActionTest.h"
+#include "CActionRewriteOutput.h"
 #include "CActionAcquisitionCitNpoc.h"
 #include "qvariant.h"
 #include "qmap.h"
@@ -32,6 +34,12 @@ IAction* CActionFactory::build(const QVariantMap &mapAction, QObject *parent){
     }
     else if(type == QStringLiteral("acquisition_cit_npoc")){
         action = new CActionAcquisitionCitNpoc(mapAction,parent);
+    }
+    else if(type == QStringLiteral("cmd_dc_engine")){
+        action = new CActionDCEngine(mapAction,parent);
+    }
+    else if(type == QStringLiteral("rewrite_output")){
+        action = new CActionRewriteOutput(mapAction,parent);
     }
     else{
         action = new CActionUnknow(mapAction,parent);

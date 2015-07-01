@@ -18,6 +18,8 @@
 #include "IOrgan.h"
 #include "CVariableStream.h"
 #include "CVariableMeasure.h"
+#include "CThreadDiag.h"
+
 
 #include "cotautomate_debug.h"
 #include "qtimer.h"
@@ -50,25 +52,16 @@ CAutomate::CAutomate()
 }
 
 void CAutomate::initConfig(){
-//    m_scheduler = CScheduler::getInstance();
-//    CModelConfigFile configFile(this);
 
-    //QThread* threadScheduler = new QThread(this);
-
-//    m_scheduler->moveToThread(threadScheduler);
-
-//    connect(threadScheduler, &QThread::started, m_scheduler, &CScheduler::slotRequestPlaySequenceMesure);
-//    connect(threadScheduler, &QThread::finished, m_scheduler, &QObject::deleteLater);
-//    connect(m_scheduler, &CScheduler::signalUpdated, this, &CAutomate::signalSchedulerUpdated);
-
-//    threadScheduler->start();
 }
 void CAutomate::slotStartAutomate(){
     m_scheduler = CScheduler::getInstance();
+    m_threadDiag = new CThreadDiag(this);
+
     CModelConfigFile configFile(this);
 
     m_scheduler->slotRequestPlayNextSequenceMesure();
-
+    m_threadDiag->slotStart();
 }
 
 CAutomate::~CAutomate()

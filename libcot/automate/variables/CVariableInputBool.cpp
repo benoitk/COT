@@ -6,6 +6,8 @@
 #include "IOrgan.h"
 #include "ICom.h"
 
+#include "qmutex.h"
+
 CVariableInputBool::CVariableInputBool(QObject *parent)
     : CVariableBool(parent), IVariableInput()
 {
@@ -48,6 +50,7 @@ bool CVariableInputBool::toBool() {
 }
 
 IVariable* CVariableInputBool::readValue(){
+    QMutexLocker lock(&m_mutex);
     m_value = m_organ->getExtCard()->getICom()->readData(this).toFloat();
     return this;
 }
@@ -71,5 +74,5 @@ QVariantMap CVariableInputBool::serialise(){
     return mapSerialise;
 }
 VariableOrganType CVariableInputBool::getOrganType() const {
-    return VariableOrganTypeInput;
+    return type_organ_input;
 }

@@ -22,6 +22,8 @@ CStatusWidget::CStatusWidget(QWidget *parent)
             this, &CStatusWidget::slotUpdateCurrentStep);
     connect(automate, &CAutomate::signalUpdateCountStep,
             this, &CStatusWidget::slotUpdateCountStep);
+    connect(automate, &CAutomate::signalUpdateCurrentAction,
+            this, &CStatusWidget::slotUpdateCurrentAction);
 }
 
 CStatusWidget::~CStatusWidget()
@@ -73,10 +75,15 @@ void CStatusWidget::slotUpdateCurrentStream(int stream, const QString &label)
 
 void CStatusWidget::slotUpdateCurrentStep(float step, const QString &label)
 {
+    m_lblInfoStep = label;
     ui->lCurrentStep->setText(QString("Step: %1").arg(step));
     ui->lLabel->setText(label);
 }
 
+ void CStatusWidget::slotUpdateCurrentAction(const QString &label)
+ {
+     ui->lLabel->setText(m_lblInfoStep + " : " + label);
+ }
 void CStatusWidget::slotUpdateCountStep(int stepCount)
 {
     ui->lTotalStep->setText(QString("On: %1").arg(stepCount));

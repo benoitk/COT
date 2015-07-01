@@ -1,6 +1,7 @@
 #include "CVariableOutputInt.h"
 #include "CModelExtensionCard.h"
 #include "CUnit.h"
+#include "ICom.h"
 #include "IOrgan.h"
 CVariableOutputInt::CVariableOutputInt(QObject *parent)
     : CVariableInt(parent),IVariableOutput()
@@ -14,13 +15,13 @@ CVariableOutputInt::~CVariableOutputInt()
 }
 
 CVariableOutputInt::CVariableOutputInt(const QMap<QString, QVariant> &mapVar)
-    : CVariableInt(),IVariableOutput()
+    : CVariableInt(mapVar),IVariableOutput(mapVar)
 {
 
 }
 
 void CVariableOutputInt::writeValue(){
-
+    m_organ->getExtCard()->getICom()->writeData(this);
 
 }
 
@@ -54,5 +55,5 @@ QVariantMap CVariableOutputInt::serialise(){
     return mapSerialise;
 }
 VariableOrganType CVariableOutputInt::getOrganType() const {
-    return VariableOrganTypeOutput;
+    return type_organ_output;
 }

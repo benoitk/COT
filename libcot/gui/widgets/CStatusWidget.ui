@@ -10,6 +10,9 @@
     <height>88</height>
    </rect>
   </property>
+  <property name="lLabelAction" stdset="0">
+   <string/>
+  </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="leftMargin">
     <number>0</number>
@@ -90,16 +93,6 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="0" colspan="3">
-    <widget class="CStatusLabel" name="lLabel">
-     <property name="autoFillBackground">
-      <bool>true</bool>
-     </property>
-     <property name="text">
-      <string>Step Zero Measure</string>
-     </property>
-    </widget>
-   </item>
    <item row="3" column="0" colspan="3">
     <widget class="QLabel" name="lDateTime">
      <property name="palette">
@@ -141,6 +134,19 @@
      </property>
      <property name="text">
       <string>Thur Mar 12 16:19:12 2013</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="3">
+    <widget class="CStatusLabel" name="lLabel">
+     <property name="mouseTracking">
+      <bool>false</bool>
+     </property>
+     <property name="autoFillBackground">
+      <bool>true</bool>
+     </property>
+     <property name="text">
+      <string>Step Zero Measure</string>
      </property>
     </widget>
    </item>

@@ -1,17 +1,14 @@
-#ifndef CACTIONCMDDIGITALOUTPUT_H
-#define CACTIONCMDDIGITALOUTPUT_H
-#include "IAction.h"
+#ifndef CACTIONREWRITEOUTPUT_H
+#define CACTIONREWRITEOUTPUT_H
 
+#include "IAction.h"
 class IVariable;
-class CActionCmdDigitalOutput : public IAction
+class CActionRewriteOutput : public IAction
 {
     Q_OBJECT
-
 public:
-
-
-    CActionCmdDigitalOutput(const QVariantMap&, QObject *parent);
-    ~CActionCmdDigitalOutput();
+    CActionRewriteOutput(const QVariantMap&, QObject *parent);
+    ~CActionRewriteOutput();
 
 
     bool runAction() Q_DECL_OVERRIDE;
@@ -22,8 +19,6 @@ public:
 private:
 
     IVariable* m_varDigitalOutput;
-    bool m_state;
-
 };
 
-#endif // CACTIONCMDDIGITALOUTPUT_H
+#endif // CACTIONREWRITEOUTPUT_H

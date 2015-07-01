@@ -21,10 +21,13 @@ private Q_SLOTS:
     void slotUpdateStateAutomate(CAutomate::eStateAutomate state);
     void slotUpdateCurrentStream(int stream, const QString &label);
     void slotUpdateCurrentStep(float step, const QString &label);
+    void slotUpdateCurrentAction(const QString &label);
     void slotUpdateCountStep(int stepCount);
 
 private:
     Ui::CStatusWidget *ui;
+
+    QString m_lblInfoStep;
 };
 
 #endif // CSTATUSWIDGET_H

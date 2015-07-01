@@ -2,6 +2,7 @@
 #include "CModelExtensionCard.h"
 #include "CUnit.h"
 #include "IOrgan.h"
+#include "ICom.h"
 #include "cotautomate_debug.h"
 CVariableOutputFloat::CVariableOutputFloat(QObject *parent)
     : CVariableFloat(parent),IVariableOutput()
@@ -15,16 +16,14 @@ CVariableOutputFloat::~CVariableOutputFloat()
 }
 
 CVariableOutputFloat::CVariableOutputFloat(const QMap<QString, QVariant> &mapVar)
-    : CVariableFloat(),IVariableOutput()
+    : CVariableFloat(mapVar),IVariableOutput(mapVar)
 {
 
 }
 
 void CVariableOutputFloat::writeValue(){
-
-
+    m_organ->getExtCard()->getICom()->writeData(this);
 }
-
 void CVariableOutputFloat::setValue(float value){
     m_value = value;
     if(!m_listBinds.isEmpty()){
@@ -56,5 +55,5 @@ QVariantMap CVariableOutputFloat::serialise()
     return mapSerialise;
 }
 VariableOrganType CVariableOutputFloat::getOrganType() const {
-    return VariableOrganTypeOutput;
+    return type_organ_output;
 }

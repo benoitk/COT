@@ -27,8 +27,6 @@ public:
     void setValue(float);
     using CVariableFloat::setValue;
 
-private:
-
     void writeValue() Q_DECL_OVERRIDE;
 
 };

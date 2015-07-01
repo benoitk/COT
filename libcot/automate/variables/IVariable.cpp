@@ -77,13 +77,13 @@ QString IVariable::typeToString(variableType type)
 QString IVariable::organTypeToString(VariableOrganType type)
 {
     switch (type) {
-        case VariableOrganTypeNone:
+        case type_organ_none:
             return tr("None");
 
-        case VariableOrganTypeInput:
+        case type_organ_input:
             return tr("Input");
 
-        case VariableOrganTypeOutput:
+        case type_organ_output:
             return tr("Output");
     }
 
@@ -215,7 +215,7 @@ void IVariable::setAddress(int address)
     m_address = address;
 }
 VariableOrganType IVariable::getOrganType() const {
-    return VariableOrganTypeNone;
+    return type_organ_none;
 }
 IVariable* IVariable::getIVariable(){
     return this;

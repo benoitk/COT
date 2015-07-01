@@ -7,6 +7,8 @@ enum actionType{
     type_block = 0,
     type_cmd_pump,
     type_cmd_digital_output,
+    type_rewrite_output,
+    type_cmd_dc_engine,
     type_cmd_read_input,
     type_test,
     type_acquisition_cit_npoc,
@@ -22,7 +24,6 @@ class IAction : public QObject
 public:
     IAction(const QVariantMap &mapAction, QObject *parent);
 
-    IAction();
     ~IAction();
 
     virtual QString getName()const;

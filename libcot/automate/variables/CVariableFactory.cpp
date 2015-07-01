@@ -59,7 +59,7 @@ IVariable* CVariableFactory::build(const QVariantMap &mapVar){
 IVariable *CVariableFactory::build(variableType type, VariableOrganType organType, const QVariant &data)
 {
     switch (organType) {
-        case VariableOrganTypeNone: {
+        case type_organ_none: {
             switch (type) {
             case type_bool:
                 return new CVariableBool(data.toBool());
@@ -94,7 +94,7 @@ IVariable *CVariableFactory::build(variableType type, VariableOrganType organTyp
             break;
         }
 
-        case VariableOrganTypeInput: {
+        case type_organ_input: {
             switch (type) {
             case type_bool:
                 return new CVariableInputBool(data.toMap());
@@ -116,7 +116,7 @@ IVariable *CVariableFactory::build(variableType type, VariableOrganType organTyp
             break;
         }
 
-        case VariableOrganTypeOutput: {
+        case type_organ_output: {
             switch (type) {
             case type_bool:
                 return new CVariableOutputBool(data.toMap());
@@ -151,21 +151,21 @@ IVariable* CVariableFactory::build(const QString &type, const QVariantMap &data)
     static QHash<QString, QPair<variableType, VariableOrganType>> types;
 
     if (types.isEmpty()) {
-        types[QStringLiteral("boolean")] = qMakePair(type_bool, VariableOrganTypeNone);
-        types[QStringLiteral("float")] = qMakePair(type_float, VariableOrganTypeNone);
-        types[QStringLiteral("integer")] = qMakePair(type_int, VariableOrganTypeNone);
-        types[QStringLiteral("string")] = qMakePair(type_string, VariableOrganTypeNone);
-        types[QStringLiteral("stream")] = qMakePair(type_stream, VariableOrganTypeNone);
-        types[QStringLiteral("measure")] = qMakePair(type_measure, VariableOrganTypeNone);
+        types[QStringLiteral("boolean")] = qMakePair(type_bool, type_organ_none);
+        types[QStringLiteral("float")] = qMakePair(type_float, type_organ_none);
+        types[QStringLiteral("integer")] = qMakePair(type_int, type_organ_none);
+        types[QStringLiteral("string")] = qMakePair(type_string, type_organ_none);
+        types[QStringLiteral("stream")] = qMakePair(type_stream, type_organ_none);
+        types[QStringLiteral("measure")] = qMakePair(type_measure, type_organ_none);
         //
-        types[QStringLiteral("input_boolean")] = qMakePair(type_bool, VariableOrganTypeInput);
-        types[QStringLiteral("input_float")] = qMakePair(type_float, VariableOrganTypeInput);
-        types[QStringLiteral("input_integer")] = qMakePair(type_int, VariableOrganTypeInput);
+        types[QStringLiteral("input_boolean")] = qMakePair(type_bool, type_organ_input);
+        types[QStringLiteral("input_float")] = qMakePair(type_float, type_organ_input);
+        types[QStringLiteral("input_integer")] = qMakePair(type_int, type_organ_input);
         //
-        types[QStringLiteral("output_boolean")] = qMakePair(type_bool, VariableOrganTypeOutput);
-        types[QStringLiteral("output_float")] = qMakePair(type_float, VariableOrganTypeOutput);
-        types[QStringLiteral("output_integer")] = qMakePair(type_int, VariableOrganTypeOutput);
-        types[QStringLiteral("output_list_variables")] = qMakePair(type_list_variables, VariableOrganTypeOutput);
+        types[QStringLiteral("output_boolean")] = qMakePair(type_bool, type_organ_output);
+        types[QStringLiteral("output_float")] = qMakePair(type_float, type_organ_output);
+        types[QStringLiteral("output_integer")] = qMakePair(type_int, type_organ_output);
+        types[QStringLiteral("output_list_variables")] = qMakePair(type_list_variables, type_organ_output);
         //types[QStringLiteral("map_float_float")] = type_;
         //types[QStringLiteral("output_struct")] = type_;
         //types[QStringLiteral("")] = type_;
@@ -175,8 +175,8 @@ IVariable* CVariableFactory::build(const QString &type, const QVariantMap &data)
         qCDebug(COTAUTOMATE_LOG) << "Type variable INCONNU " << type;
     }
 
-    const QPair<variableType, VariableOrganType> pair = types.value(type, qMakePair(type_unknow, VariableOrganTypeNone));
-    if(data.contains(QStringLiteral("value")) && pair.second == VariableOrganTypeNone){
+    const QPair<variableType, VariableOrganType> pair = types.value(type, qMakePair(type_unknow, type_organ_none));
+    if(data.contains(QStringLiteral("value")) && pair.second == type_organ_none){
         return CVariableFactory::build(pair.first, pair.second, data.value(QStringLiteral("value")));
     }
     else

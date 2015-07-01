@@ -49,5 +49,5 @@ QVariantMap CVariableOutputBool::serialise(){
     return mapSerialise;
 }
 VariableOrganType CVariableOutputBool::getOrganType() const {
-    return VariableOrganTypeOutput;
+    return type_organ_output;
 }

@@ -22,7 +22,7 @@ public:
 
     virtual IVariable* getIVariable()=0;
 
-private:
+
     virtual void writeValue()=0;
 
 protected:

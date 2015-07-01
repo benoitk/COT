@@ -4,6 +4,8 @@
 #include "ICom.h"
 #include "IOrgan.h"
 
+#include "qmutex.h"
+
 CVariableInputInt::CVariableInputInt(QObject *parent)
     : CVariableInt(parent)
 {
@@ -24,6 +26,8 @@ CVariableInputInt::CVariableInputInt(const QMap<QString, QVariant> &mapVar)
 
 
 IVariable* CVariableInputInt::readValue(){
+    QMutexLocker lock(&m_mutex);
+
     m_value = m_organ->getExtCard()->getICom()->readData(this).toInt();
     CVariableInt::setValue(m_value);
     return this;
@@ -47,5 +51,5 @@ QVariantMap CVariableInputInt::serialise(){
     return mapSerialise;
 }
 VariableOrganType CVariableInputInt::getOrganType() const {
-    return VariableOrganTypeInput;
+    return type_organ_input;
 }

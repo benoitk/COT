@@ -192,6 +192,8 @@ QVariant CComJBus::readData(){
     return QVariant();
 }
 QVariant CComJBus::readData(IVariableInput* arg_input){
+    QMutexLocker lock(&m_mutex);
+
     const int address = arg_input->getOrganAddr().toInt(0,16);
 
 //    switch (arg_input->getIVariable()->getType())
@@ -211,6 +213,8 @@ QVariant CComJBus::readData(IVariableInput* arg_input){
 }
 void CComJBus::writeData(IVariableOutput* arg_output)
 {
+    QMutexLocker lock(&m_mutex);
+
     const int address = arg_output->getOrganAddr().toInt(0,16);
     IVariable* variable = arg_output->getIVariable();
     switch (variable->getType())

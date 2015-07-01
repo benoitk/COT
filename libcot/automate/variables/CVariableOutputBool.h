@@ -26,10 +26,9 @@ public:
     void setValue(bool);
     using CVariableBool::setValue;
 
-private:
-
     void writeValue() Q_DECL_OVERRIDE;
 
+private:
     bool m_passive;
 
 };

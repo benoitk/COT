@@ -88,9 +88,9 @@ IVariablePtrList buildVariableTypes() {
 IVariablePtrList buildOrganTypes() {
     // SERES_TODO: Provide api (COT-56)
     return buildTemporaryString(PairPairStringStringList() <<
-                                    PairPairStringString("VariableOrganTypeNone", qMakePair(IVariableUIHandler::tr("None"), VariableOrganTypeNone)) <<
-                                    PairPairStringString("VariableOrganTypeInput", qMakePair(IVariableUIHandler::tr("Input"), VariableOrganTypeInput)) <<
-                                    PairPairStringString("VariableOrganTypeOutput", qMakePair(IVariableUIHandler::tr("Output"), VariableOrganTypeOutput))
+                                    PairPairStringString("VariableOrganTypeNone", qMakePair(IVariableUIHandler::tr("None"), type_organ_none)) <<
+                                    PairPairStringString("VariableOrganTypeInput", qMakePair(IVariableUIHandler::tr("Input"), type_organ_input)) <<
+                                    PairPairStringString("VariableOrganTypeOutput", qMakePair(IVariableUIHandler::tr("Output"), type_organ_output))
                                 );
 }
 
@@ -667,8 +667,8 @@ QWidget *IVariableUIHandler::newEditor(IVariable *ivar)
     switch (ivar->getType()) {
         case type_bool: {
             switch (ivar->getOrganType()) {
-                case VariableOrganTypeNone:
-                case VariableOrganTypeOutput: {
+                case type_organ_none:
+                case type_organ_output: {
                     CSwitchButton *editor = new CSwitchButton(m_container);
                     editor->setUserData(ivar->getName());
 
@@ -680,7 +680,7 @@ QWidget *IVariableUIHandler::newEditor(IVariable *ivar)
                     return editor;
                 }
 
-                case VariableOrganTypeInput: {
+                case type_organ_input: {
                     break;
                 }
             }
@@ -695,13 +695,13 @@ QWidget *IVariableUIHandler::newEditor(IVariable *ivar)
             editor->setUserData(ivar->getName());
 
             switch (ivar->getOrganType()) {
-                case VariableOrganTypeNone:
-                case VariableOrganTypeOutput: {
+                case type_organ_none:
+                case type_organ_output: {
                     connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestDouble);
                     break;
                 }
 
-                case VariableOrganTypeInput: {
+                case type_organ_input: {
                     break;
                 }
             }
@@ -714,13 +714,13 @@ QWidget *IVariableUIHandler::newEditor(IVariable *ivar)
             editor->setUserData(ivar->getName());
 
             switch (ivar->getOrganType()) {
-                case VariableOrganTypeNone:
-                case VariableOrganTypeOutput: {
+                case type_organ_none:
+                case type_organ_output: {
                     connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestInteger);
                     break;
                 }
 
-                case VariableOrganTypeInput: {
+                case type_organ_input: {
                     break;
                 }
             }
@@ -733,13 +733,13 @@ QWidget *IVariableUIHandler::newEditor(IVariable *ivar)
             editor->setUserData(ivar->getName());
 
             switch (ivar->getOrganType()) {
-                case VariableOrganTypeNone:
-                case VariableOrganTypeOutput: {
+                case type_organ_none:
+                case type_organ_output: {
                     connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestString);
                     break;
                 }
 
-                case VariableOrganTypeInput: {
+                case type_organ_input: {
                     break;
                 }
             }
@@ -752,13 +752,13 @@ QWidget *IVariableUIHandler::newEditor(IVariable *ivar)
             editor->setUserData(ivar->getName());
 
             switch (ivar->getOrganType()) {
-                case VariableOrganTypeNone:
-                case VariableOrganTypeOutput: {
+                case type_organ_none:
+                case type_organ_output: {
                     connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestStream);
                     break;
                 }
 
-                case VariableOrganTypeInput: {
+                case type_organ_input: {
                     break;
                 }
             }
@@ -768,12 +768,12 @@ QWidget *IVariableUIHandler::newEditor(IVariable *ivar)
 
         case type_unknow: {
             switch (ivar->getOrganType()) {
-                case VariableOrganTypeNone:
-                case VariableOrganTypeOutput: {
+                case type_organ_none:
+                case type_organ_output: {
                     break;
                 }
 
-                case VariableOrganTypeInput: {
+                case type_organ_input: {
                     break;
                 }
             }
@@ -915,13 +915,13 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
     switch (ivar->getType()) {
         case type_bool: {
             switch (ivar->getOrganType()) {
-                case VariableOrganTypeNone:
-                case VariableOrganTypeOutput: {
+                case type_organ_none:
+                case type_organ_output: {
                     qobject_cast<CSwitchButton *>(editor)->setChecked(ivar->toBool());
                     return;
                 }
 
-                case VariableOrganTypeInput: {
+                case type_organ_input: {
                     break;
                 }
             }
@@ -932,12 +932,12 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
 
         case type_float: {
             switch (ivar->getOrganType()) {
-                case VariableOrganTypeNone:
-                case VariableOrganTypeOutput: {
+                case type_organ_none:
+                case type_organ_output: {
                     break;
                 }
 
-                case VariableOrganTypeInput: {
+                case type_organ_input: {
                     break;
                 }
             }
@@ -948,12 +948,12 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
 
         case type_int: {
             switch (ivar->getOrganType()) {
-                case VariableOrganTypeNone:
-                case VariableOrganTypeOutput: {
+                case type_organ_none:
+                case type_organ_output: {
                     break;
                 }
 
-                case VariableOrganTypeInput: {
+                case type_organ_input: {
                     break;
                 }
             }
@@ -964,12 +964,12 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
 
         case type_string: {
             switch (ivar->getOrganType()) {
-                case VariableOrganTypeNone:
-                case VariableOrganTypeOutput: {
+                case type_organ_none:
+                case type_organ_output: {
                     break;
                 }
 
-                case VariableOrganTypeInput: {
+                case type_organ_input: {
                     break;
                 }
             }
@@ -980,12 +980,12 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
 
         case type_stream: {
             switch (ivar->getOrganType()) {
-                case VariableOrganTypeNone:
-                case VariableOrganTypeOutput: {
+                case type_organ_none:
+                case type_organ_output: {
                     break;
                 }
 
-                case VariableOrganTypeInput: {
+                case type_organ_input: {
                     break;
                 }
             }
@@ -996,12 +996,12 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
 
         case type_unknow: {
             switch (ivar->getOrganType()) {
-                case VariableOrganTypeNone:
-                case VariableOrganTypeOutput: {
+                case type_organ_none:
+                case type_organ_output: {
                     break;
                 }
 
-                case VariableOrganTypeInput: {
+                case type_organ_input: {
                     break;
                 }
             }

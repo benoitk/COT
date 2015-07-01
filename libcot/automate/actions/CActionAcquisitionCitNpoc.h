@@ -10,7 +10,7 @@ class CActionAcquisitionCitNpoc : public IAction, QRunnable
     Q_OBJECT
 public:
     CActionAcquisitionCitNpoc(const QVariantMap&, QObject *parent);
-    CActionAcquisitionCitNpoc();
+
 
     void run() Q_DECL_OVERRIDE; //fom QRunnable
 

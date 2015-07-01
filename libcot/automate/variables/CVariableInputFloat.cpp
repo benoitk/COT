@@ -5,6 +5,7 @@
 #include "IOrgan.h"
 #include "ICom.h"
 
+#include "qmutex.h"
 
 CVariableInputFloat::CVariableInputFloat(QObject *parent)
     : CVariableFloat(parent), IVariableInput()
@@ -24,6 +25,7 @@ CVariableInputFloat::CVariableInputFloat(const QMap<QString, QVariant> &mapVar)
 }
 
 IVariable* CVariableInputFloat::readValue(){
+    QMutexLocker lock(&m_mutex);
     m_value = m_organ->getExtCard()->getICom()->readData(this).toFloat();
     CVariableFloat::setValue(m_value);
     return this;
@@ -47,5 +49,5 @@ QVariantMap CVariableInputFloat::serialise(){
     return mapSerialise;
 }
 VariableOrganType CVariableInputFloat::getOrganType() const {
-    return VariableOrganTypeInput;
+    return type_organ_input;
 }

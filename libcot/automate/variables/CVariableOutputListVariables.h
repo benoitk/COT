@@ -33,10 +33,10 @@ public:
 
     IVariable* getVariable(const QString&);
     void addVaraiable(IVariable*);
-
+    void writeValue() Q_DECL_OVERRIDE;
 private:
 
-    void writeValue() Q_DECL_OVERRIDE;
+
 
 
 };
