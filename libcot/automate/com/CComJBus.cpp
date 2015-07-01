@@ -321,9 +321,10 @@ bool CComJBus::readBool(int addrVar, Type type)
 
 void CComJBus::writeBool(int addrVar, bool value)
 {
-    BitArray bits(1);
-    bits[0] = value;
-    writeNBitsFunction15(addrVar, bits);
+    //BitArray bits(1);
+    //bits[0] = value;
+    //writeNBitsFunction15(addrVar, bits);
+    writeBitFunction5(addrVar, value);
 }
 
 CComJBus::WordArray CComJBus::readNWords(int addrVar, int nbWordsToRead, Type type)
