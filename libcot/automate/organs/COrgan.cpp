@@ -40,6 +40,17 @@ void COrgan::setName(const QString & name) {
 organType COrgan::getType()const {
     return m_type;
 }
+QString COrgan::typeToString()const{
+    switch(m_type){
+    case organ_type_input_bool: return tr("Digital input");
+    case organ_type_input_float: return tr("Float input");
+    case organ_type_input_int: return tr("Integer input");
+    case organ_type_output_bool: return tr("Digital input");
+    case organ_type_output_float: return tr("Float input");
+    case organ_type_output_int : return tr("Integer input");
+
+    }
+}
 //adresse physique sur le materiel, varie selon protocol
 QString COrgan::getAddress()const {
 //    QString sAddress = QStringLiteral("0x") + QString::number(m_address);

@@ -4,11 +4,11 @@
 #include "CVariableStream.h"
 #include "CAutomate.h"
 CCycleAutonome::CCycleAutonome(QObject *parent)
-    :CCycleMesure(parent), m_stepStop(Q_NULLPTR) {}
+    :CCycleMesure(parent) {}
 CCycleAutonome::CCycleAutonome(const QVariantMap &variantMap)
-    :CCycleMesure(variantMap), m_stepStop(Q_NULLPTR) {}
+    :CCycleMesure(variantMap){}
 CCycleAutonome::CCycleAutonome(const QVariantMap &variantMap, const QMap<QString, IAction *> &actionMap)
-    :CCycleMesure(variantMap), m_stepStop(Q_NULLPTR) {}
+    :CCycleMesure(variantMap){}
 CCycleAutonome::~CCycleAutonome(){
     delete m_stepStop;
     foreach (CStep* step, m_listSteps) {

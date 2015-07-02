@@ -10,12 +10,12 @@
 #include "CVariableStream.h"
 
 CCycleMesure::CCycleMesure(QObject *parent)
-    : ICycle(parent), m_stepStop(Q_NULLPTR), m_mutex(QMutex::Recursive)
+    : ICycle(parent), m_mutex(QMutex::Recursive)
 {
 
 }
 
-CCycleMesure::CCycleMesure(const QVariantMap &mapCycle): ICycle(), m_stepStop(Q_NULLPTR), m_mutex(QMutex::Recursive) {
+CCycleMesure::CCycleMesure(const QVariantMap &mapCycle): ICycle(), m_mutex(QMutex::Recursive) {
     //qCDebug(COTAUTOMATE_LOG) << "constructor CCycleMesure(const QVariantMap &mapCycle) mapCycle:" << mapCycle;
     if(mapCycle.contains(QStringLiteral("name")))
         m_name = mapCycle[QStringLiteral("name")].toString();

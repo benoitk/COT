@@ -22,12 +22,14 @@ public:
     QString getName()const Q_DECL_OVERRIDE;
     void setName(const QString &) Q_DECL_OVERRIDE;
     organType getType()const Q_DECL_OVERRIDE;
+    QString typeToString()const;
     //adresse physique sur le materiel, varie selon protocol
     QString getAddress()const Q_DECL_OVERRIDE;
     void setAddress(const QString &) Q_DECL_OVERRIDE;
     QString toString()const Q_DECL_OVERRIDE;
     //QList<IVariable*> getListParamters()const Q_DECL_OVERRIDE;
     CModelExtensionCard* getExtCard();
+
 
 private:
 

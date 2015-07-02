@@ -52,7 +52,6 @@ private:
     QString m_name;
     QString m_label;
 
-    CStep* m_stepStop;
-    QList<CStep*> m_listSteps;
+
 };
 #endif // CCYCLEAUTONOME_H

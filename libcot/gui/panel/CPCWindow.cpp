@@ -47,6 +47,7 @@ CPCWindow::CPCWindow(QWidget *parent)
 
     connect(m_updateManager, &CUpdateManager::signalUpdateAvailable, this, &CPCWindow::slotUpdateAvailable);
     connect(ui->actionUpdate, &QAction::triggered, this, &CPCWindow::slotUpdateTriggered);
+    connect(ui->twPages, &QTabWidget::currentChanged, CAutomate::getInstance(), &CAutomate::slotTabChanged);
 
 #if !defined(DEVICE_BUILD)
     // Allow to quit the application on desktop

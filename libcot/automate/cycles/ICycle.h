@@ -42,6 +42,14 @@ public:
 
     static QString typeToString(eTypeCycle type);
 
+     bool swapStep(float from, float to);
+     bool copySteps(float from, float length, float to);
+     bool copyStep(float from, float to);
+     bool moveSteps(float from, float length, float to);
+     bool moveStep(float from, float to);
+     bool deleteSteps(float from, float length);
+     bool deleteStep(float at);
+     virtual CStep* addStep(float pos, const QString& lbl);
 
 public slots:
     virtual void slotRunCycle()=0;
@@ -66,6 +74,10 @@ signals:
 protected:
     bool m_isRunning;
     bool m_isPaused;
+
+    CStep* m_stepStop;
+    QList<CStep*> m_listSteps;
+    QList<CStep*>::iterator m_itListStepsPasEnCours;
 
 };
 

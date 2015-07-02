@@ -119,6 +119,7 @@ public:
 public slots:
     void slotClock();
     void slotStartAutomate();
+    void slotTabChanged(int tab_index);
 signals:
     void signalRunCycle(int);
     // KDAB: Needed api

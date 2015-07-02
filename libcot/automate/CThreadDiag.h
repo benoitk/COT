@@ -15,12 +15,13 @@ public:
     void run();
 
 public slots:
-    void slotPause();
+    void slotStop();
     void slotStart();
     void slotReadVariables();
 
 private:
     QList<IVariableInput*> m_listDiagInputVars;
+    bool m_stoped;
     //QTimer m_timer;
 };
 

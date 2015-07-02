@@ -61,7 +61,7 @@ void CAutomate::slotStartAutomate(){
     CModelConfigFile configFile(this);
 
     m_scheduler->slotRequestPlayNextSequenceMesure();
-    m_threadDiag->slotStart();
+
 }
 
 CAutomate::~CAutomate()
@@ -73,6 +73,12 @@ CAutomate::~CAutomate()
 CScheduler* CAutomate::getSequencer()const{
     return m_scheduler;
 }
+void CAutomate::slotTabChanged(int tab_index){
+    qDebug() << "slotTabChange " << tab_index;
+      if(tab_index == 1) m_threadDiag->slotStart();
+      else m_threadDiag->slotStop();
+}
+
 void CAutomate::addCyclePrivate(ICycle * cycle)
 {
     //CControlerCycle* controlerCycle = new CControlerCycle(this, cycle);

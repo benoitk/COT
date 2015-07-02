@@ -63,7 +63,7 @@ void CActionAcquisitionCitNpoc::run(){
         float airflow = 0;
         int zero = measureCell->readValue()->toInt();
         m_zero->setValue(zero);
-        for(int i = 0; i < m_timeout->toInt(); ++i){
+        for(int i = 0; i < m_timeout->toInt() && !m_abort; ++i){
             sActionInfo =  tr("Mesure ") + QString::number(i+1) + "/"  + m_timeout->toString() + " "
                     + m_measureCell->getLabel() + " " +  QString::number(mesure, 'f', 2)
                     + m_airflow->getLabel() + " " +  QString::number(airflow, 'f', 2)

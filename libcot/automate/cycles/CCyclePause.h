@@ -61,9 +61,6 @@ private :
 
     QThread m_thread;
 
-    CStep* m_stepStop;
-    QList<CStep*> m_listSteps;
-
 };
 
 #endif // CCYCLEPAUSE_H

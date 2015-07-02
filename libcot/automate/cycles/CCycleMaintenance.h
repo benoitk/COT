@@ -50,8 +50,7 @@ private:
     QString m_label;
     QString m_streamName;
     eTypeCycle m_typeCycle;
-    CStep* m_stepStop;
-    QList<CStep*> m_listSteps;
+
 
 };
 #endif // CCYCLEMAINTENANCE_H

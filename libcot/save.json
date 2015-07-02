@@ -237,7 +237,7 @@
 
     "display":[
         {"name":"diagnostic", "variables":["airflow", "ndir_temperature", "condenser_temperature", "reactor_temperature","emitter_power"]},
-        {"name":"elec_tests", "map_tabs":[{"name":"tab_EV", "variables":["ev_sample", "ev_air_direct", "ev_sample_inerting", "ev_reatcor_filling", "pump_sample", "pump_sample_clockwise"]},
+        {"name":"elec_tests", "map_tabs":[{"name":"tab_EV", "variables":["ev_sample", "ev_air_direct", "ev_sample_inerting", "ev_reatcor_filling", "pump_sample", "pump_sample_clockwise", "pump_sample_timeout"]},
                      {"name":"tab_Actionneurs", "variables":["test_relay_1", "test_relay_2", "test_relay_3", "test_tor_1", "test_tor_2", "test_tor_3"]},
                      {"name":"tab_entrees", "variables":["selection_stream1", "arret_fin_cycle"]},
                      {"name":"tab_pump", "variables":["pump_persulfate"]},

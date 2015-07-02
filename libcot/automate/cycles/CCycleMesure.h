@@ -65,8 +65,6 @@ private:
     QThread m_thread;
     QString m_streamName;
 
-    CStep* m_stepStop;
-    QList<CStep*> m_listSteps;
-    QList<CStep*>::iterator m_itListStepsPasEnCours;
+
 };
 #endif // CCYCLEMESURE_H
