@@ -10,25 +10,11 @@ class CCycleMaintenance : public ICycle
 public:
     CCycleMaintenance(QObject *parent = Q_NULLPTR);
     CCycleMaintenance(eTypeCycle type, QObject *parent = Q_NULLPTR);
-     CCycleMaintenance(const QVariantMap&);
+     CCycleMaintenance(const QVariantMap&,QObject *parent);
     ~CCycleMaintenance();
 
-    void setType(eTypeCycle) Q_DECL_OVERRIDE;
     eTypeCycle getType()const Q_DECL_OVERRIDE;
-    void addAction(float arg_step, IAction* action) Q_DECL_OVERRIDE;
-    void removeAction(IAction*)Q_DECL_OVERRIDE;
-    QString getName()const Q_DECL_OVERRIDE;
-    void setName(const QString&) Q_DECL_OVERRIDE;
 
-    QString getLabel()const Q_DECL_OVERRIDE;
-    void setLbl(const QString&) Q_DECL_OVERRIDE;
-    QString getRelatedStreamName()const Q_DECL_OVERRIDE;
-    CVariableStream* getRelatedStream()const Q_DECL_OVERRIDE;
-    void setRelatedStreamName(const QString &name) Q_DECL_OVERRIDE;
-    QList<CStep*> getListSteps()const Q_DECL_OVERRIDE;
-    CStep* getStepStop()const Q_DECL_OVERRIDE;
-    void setListSteps(const QList<CStep *> &steps, CStep *stopStep = Q_NULLPTR) Q_DECL_OVERRIDE;
-    int getCurrentStepIndex() const Q_DECL_OVERRIDE;
     QVariantMap serialise() Q_DECL_OVERRIDE;
 public slots:
     void slotRunCycle() Q_DECL_OVERRIDE;
@@ -45,11 +31,8 @@ public slots:
 
 
 private:
-    int m_idCycle;
-    QString m_name;
-    QString m_label;
-    QString m_streamName;
-    eTypeCycle m_typeCycle;
+
+
 
 
 };

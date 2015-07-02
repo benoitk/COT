@@ -4,14 +4,29 @@
 //#include "cotautomate_debug.h"
 
 ICycle::ICycle(QObject *parent)
-    : QObject(parent), m_stepStop(Q_NULLPTR)
+    : QObject(parent), m_stepStop(Q_NULLPTR), m_mutex(QMutex::Recursive)
 {
 
 }
 ICycle::ICycle()
-    : QObject(), m_isRunning(false), m_stepStop(Q_NULLPTR)
+    : QObject(), m_isRunning(false), m_stepStop(Q_NULLPTR), m_mutex(QMutex::Recursive)
 {
 
+}
+ICycle::ICycle(const QVariantMap &mapCycle, QObject *parent)
+    : QObject(parent), m_isRunning(false), m_stepStop(Q_NULLPTR), m_mutex(QMutex::Recursive){
+    if(mapCycle.contains(QStringLiteral("name")))
+        m_name = mapCycle[QStringLiteral("name")].toString();
+    else
+        m_name = QStringLiteral("Cycle not named");
+    m_label = mapCycle[tr("fr_FR")].toString();
+
+    const QVariantList listSteps = mapCycle[QStringLiteral("steps")].toList();
+    foreach(const QVariant &varStep, listSteps){
+        const QVariantMap mapStep = varStep.toMap();
+        CStep* step = new CStep(this, mapStep);
+        m_listSteps.append(step);
+    }
 }
 
 bool ICycle::isRunning()const {return m_isRunning;}
@@ -260,3 +275,82 @@ CStep* ICycle::addStep(float pos, const QString& lbl){
     return newStep;
 }
 
+QVariantMap ICycle::serialise(){
+
+    QVariantMap mapSerialise = ICycle::serialise();
+    mapSerialise.insert(QStringLiteral("name"), m_name);
+    mapSerialise.insert(tr("fr_FR"), m_label);
+
+
+    QVariantList listSteps;
+    foreach(CStep* step, m_listSteps){
+        listSteps.append(step->serialise());
+    }
+    mapSerialise.insert(QStringLiteral("steps"), listSteps);
+
+    return mapSerialise;
+}
+
+QString ICycle::getRelatedStreamName()const{
+    return "méthode à supprimer";//m_streamName;
+}
+CVariableStream* ICycle::getRelatedStream()const{
+    return Q_NULLPTR; //méthode à supprimer
+}
+void ICycle::setRelatedStreamName(const QString &name)
+{
+    //m_streamName = name;
+}
+QList<CStep*> ICycle::getListSteps()const{
+    return m_listSteps;
+}
+CStep* ICycle::getStepStop()const{
+    return m_stepStop;
+}
+
+void ICycle::setListSteps(const QList<CStep *> &steps, CStep *stopStep)
+{
+    qDeleteAll(m_listSteps);
+    delete m_stepStop;
+    m_listSteps = steps;
+    m_stepStop = stopStep;
+}
+
+int ICycle::getCurrentStepIndex() const
+{
+    return -1;
+}
+QString ICycle::getLabel()const{ return m_label;}
+void ICycle::setLbl(const QString &lbl){ m_label = lbl;}
+
+void ICycle::addAction(float arg_step, IAction* action){
+    QMutexLocker lock(&m_mutex);
+
+    QList<CStep*>::iterator itListStep;
+    for(itListStep=m_listSteps.begin(); itListStep != m_listSteps.end(); ++itListStep){
+        if((*itListStep)->getNumStep() == arg_step){
+            (*itListStep)->addAction(action);
+            itListStep = m_listSteps.end();
+        }
+    }
+}
+//enlève toutes les référence à arg_action
+void ICycle::removeAction(IAction* arg_action){
+    QMutexLocker lock(&m_mutex);
+
+    QList<CStep*>::iterator itListStep;
+    for(itListStep=m_listSteps.begin(); itListStep != m_listSteps.end(); ++itListStep){
+        (*itListStep)->removeAction(arg_action);
+    }
+}
+
+
+
+QString ICycle::getName()const{
+    return m_name;
+
+}
+void ICycle::setName(const QString &name){
+    m_name = name;
+
+}

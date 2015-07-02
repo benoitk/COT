@@ -2,7 +2,7 @@
 #define ICYCLE_H
 
 #include <QObject>
-
+#include "qmutex.h"
 
 enum eTypeCycle{CYCLE_INVALID = -1, CYCLE_ALL = 0, CYCLE_MESURE, CYCLE_AUTONOME, CYCLE_MAINTENANCE, CYCLE_PAUSE};
 
@@ -15,27 +15,26 @@ class ICycle : public QObject
 
 public:
     explicit ICycle(QObject *parent);
+    ICycle(const QVariantMap &mapCycle, QObject *parent);
     ICycle();
 
-
-    virtual void addAction(float, IAction*)=0;
-    virtual void removeAction(IAction*)=0;
     virtual eTypeCycle getType()const=0;
-    virtual void setType(eTypeCycle)=0;
-    virtual QString getName()const =0;
-    virtual void setName(const QString&)=0;
-    virtual QString getLabel()const=0;
-    virtual void setLbl(const QString&)=0;
-    virtual QString getRelatedStreamName()const=0;
-    virtual void setRelatedStreamName(const QString &name)=0;
-    virtual CVariableStream* getRelatedStream()const=0;
-    virtual QList<CStep*> getListSteps()const=0;
-    virtual void setListSteps(const QList<CStep *> &steps, CStep *stopStep = Q_NULLPTR)=0;
-    virtual CStep* getStepStop()const=0;
+    virtual void addAction(float arg_step, IAction* action);
+    void removeAction(IAction* arg_action);
+    virtual QString getName()const ;
+    virtual void setName(const QString&);
+    virtual QString getLabel()const;
+    virtual void setLbl(const QString&);
+    virtual QString getRelatedStreamName()const;
+    virtual void setRelatedStreamName(const QString &name);
+    virtual CVariableStream* getRelatedStream()const;
+    virtual QList<CStep*> getListSteps()const;
+    virtual void setListSteps(const QList<CStep *> &steps, CStep *stopStep = Q_NULLPTR);
+    virtual CStep* getStepStop()const;
     virtual bool isRunning() const;
     virtual bool isPaused()const;
-    virtual int getCurrentStepIndex() const = 0;
-    virtual QVariantMap serialise()=0;
+    virtual int getCurrentStepIndex() const;
+    virtual QVariantMap serialise();
 
     bool isStreamRelated()const;
     CStep *getStep(int index) const;
@@ -79,6 +78,12 @@ protected:
     QList<CStep*> m_listSteps;
     QList<CStep*>::iterator m_itListStepsPasEnCours;
 
+    //QString m_streamName;
+    QString m_label;
+    int m_idCycle;
+    QString m_name;
+
+    QMutex m_mutex;
 };
 
 #endif // ICYCLE_H

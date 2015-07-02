@@ -41,7 +41,15 @@ IVariable* CVariableMeasure::getMeasureMin(){
 void CVariableMeasure::removeVariable(IVariable *ivar)
 {
     m_listVariables.removeOne(ivar);
+
+    emit signalVariableChanged();
 }
+void CVariableMeasure::addVariable(IVariable *ivar){
+    m_listVariables.append(ivar);
+
+    emit signalVariableChanged();
+}
+
 
 void CVariableMeasure::setColor(const QColor &col)
 {

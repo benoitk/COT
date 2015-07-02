@@ -15,25 +15,12 @@ class CCycleMesure : public ICycle
 
 public:
     CCycleMesure(QObject *parent = Q_NULLPTR);
-    CCycleMesure(const QVariantMap&);
+    CCycleMesure(const QVariantMap&, QObject *parent);
     ~CCycleMesure();
 
-    void setType(eTypeCycle) Q_DECL_OVERRIDE;
-    eTypeCycle getType()const Q_DECL_OVERRIDE;
-    void addAction(float, IAction*) Q_DECL_OVERRIDE;
-    void removeAction(IAction*)Q_DECL_OVERRIDE;
-    QString getName()const Q_DECL_OVERRIDE;
-    void setName(const QString &) Q_DECL_OVERRIDE;
-    QString getLabel()const Q_DECL_OVERRIDE;
-    void setLbl(const QString&) Q_DECL_OVERRIDE;
 
-    QString getRelatedStreamName()const Q_DECL_OVERRIDE;
-    void setRelatedStreamName(const QString &name) Q_DECL_OVERRIDE;
-    CVariableStream* getRelatedStream()const Q_DECL_OVERRIDE;
-    QList<CStep*> getListSteps()const Q_DECL_OVERRIDE;
-    CStep* getStepStop()const Q_DECL_OVERRIDE;
-    void setListSteps(const QList<CStep *> &steps, CStep *stopStep = Q_NULLPTR) Q_DECL_OVERRIDE;
-    int getCurrentStepIndex() const Q_DECL_OVERRIDE;
+    eTypeCycle getType()const Q_DECL_OVERRIDE;
+
     QVariantMap serialise() Q_DECL_OVERRIDE;
 public slots:
     void slotRunCycle() Q_DECL_OVERRIDE;
@@ -52,18 +39,10 @@ public slots:
     void slotStepFinished(CStep*);
 
 private:
-    QMutex m_mutex;
 
-    int m_idCycle;
-    QString m_name;
-    eTypeCycle m_typeCycle;
-
-    //QTimer* m_timer;
-    int m_iTimer;
-    QString m_label;
     int m_timeout;
     QThread m_thread;
-    QString m_streamName;
+
 
 
 };

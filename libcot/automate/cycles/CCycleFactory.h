@@ -12,7 +12,7 @@ class CCycleFactory : public QObject
 
 public:
     static ICycle* build(eTypeCycle type);
-    static ICycle* build(const QVariantMap &mapCycle);
+    static ICycle* build(const QVariantMap &mapCycle, QObject* paren);
 
 
 private:

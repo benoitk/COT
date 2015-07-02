@@ -7,17 +7,17 @@
 #include "cotautomate_debug.h"
 #include "qvariant.h"
 
-ICycle* CCycleFactory::build(const QVariantMap &mapCycle){
+ICycle* CCycleFactory::build(const QVariantMap &mapCycle, QObject* parent){
     //qCDebug(COTAUTOMATE_LOG) << "CCycleFactory::build mapCycle:"<< mapCycle;
     ICycle* cycle = NULL;
     if(mapCycle[QStringLiteral("type")].toString() == QStringLiteral("measure")){
-        cycle = new CCycleMesure(mapCycle);
+        cycle = new CCycleMesure(mapCycle, parent);
     }else if(mapCycle[QStringLiteral("type")].toString() == QStringLiteral("pause")){
-        cycle = new CCyclePause(mapCycle);
+        cycle = new CCyclePause(mapCycle, parent);
     }else if(mapCycle[QStringLiteral("type")].toString() == QStringLiteral("autonome")){
-        cycle = new CCycleAutonome(mapCycle);
+        cycle = new CCycleAutonome(mapCycle, parent);
     }else if(mapCycle[QStringLiteral("type")].toString() == QStringLiteral("maintenance")){
-        cycle = new CCycleMaintenance(mapCycle);
+        cycle = new CCycleMaintenance(mapCycle, parent);
     }else{
         qCDebug(COTAUTOMATE_LOG) << "Type cycle INCONNU " << mapCycle[QStringLiteral("type")].toString();
     }

@@ -104,7 +104,7 @@ public:
     void delCycle(ICycle *cycle);
     void delStream(CVariableStream *ivar);
 
-    CScheduler* getSequencer()const;
+    CScheduler* getScheduler()const;
 
     //IComObserver
     IVariable* getVariableByAddr(const QString &addr_var)const Q_DECL_OVERRIDE;

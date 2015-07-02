@@ -70,7 +70,7 @@ CAutomate::~CAutomate()
     threadSequencer->quit();
     threadSequencer->wait();
 }
-CScheduler* CAutomate::getSequencer()const{
+CScheduler* CAutomate::getScheduler()const{
     return m_scheduler;
 }
 void CAutomate::slotTabChanged(int tab_index){

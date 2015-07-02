@@ -186,7 +186,7 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
         QJsonArray jsonArrayCycles = jsonObjectCycle[QStringLiteral("cycles")].toArray();
         foreach(QJsonValue jsonValueCycle, jsonArrayCycles){
             QVariantMap mapCycle = jsonValueCycle.toVariant().toMap();
-            ICycle* cycle = CCycleFactory::build(mapCycle);
+            ICycle* cycle = CCycleFactory::build(mapCycle, automate->getScheduler());
             if(cycle) {
                 m_mapCycles.insert(cycle->getName(),cycle);
                 automate->addCycle(cycle);
@@ -210,7 +210,7 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
         foreach(QJsonValue jsonValueSequence, jsonArraySeqeuceur){
             QString sequenceName = jsonValueSequence.toVariant().toString();
             if(sequenceName != QStringLiteral(""))
-                automate->getSequencer()->addCycleMeasure(m_mapCycles[sequenceName]);
+                automate->getScheduler()->addCycleMeasure(m_mapCycles[sequenceName]);
             else
                 qCDebug(COTAUTOMATE_LOG) << "Sequence name cycle null : map = " << sequenceName;
         }
@@ -228,7 +228,7 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
         foreach(QJsonValue jsonValueSequence, jsonArraySeqeuceur){
             QString sequenceName = jsonValueSequence.toVariant().toString();
             if(sequenceName != QStringLiteral(""))
-                automate->getSequencer()->addCycleAutonome(m_mapCycles[sequenceName]);
+                automate->getScheduler()->addCycleAutonome(m_mapCycles[sequenceName]);
             else
                 qCDebug(COTAUTOMATE_LOG) << "Sequence name cycle null : map = " << sequenceName;
         }
@@ -246,11 +246,11 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
         foreach(QJsonValue jsonValueSequence, jsonArraySeqeuceur){
             QString sequenceName = jsonValueSequence.toVariant().toString();
             if(sequenceName != QStringLiteral(""))
-                automate->getSequencer()->addCycleMaintenance(m_mapCycles[sequenceName]);
+                automate->getScheduler()->addCycleMaintenance(m_mapCycles[sequenceName]);
             else
                 qCDebug(COTAUTOMATE_LOG) << "Sequence name cycle null : map = " << sequenceName;
         }
-        qCDebug(COTAUTOMATE_LOG) << "SEQUENCER : " << automate->getSequencer()->getListCyclesMaintenances();
+        qCDebug(COTAUTOMATE_LOG) << "SEQUENCER : " << automate->getScheduler()->getListCyclesMaintenances();
 
     }
 

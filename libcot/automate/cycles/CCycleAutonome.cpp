@@ -5,10 +5,13 @@
 #include "CAutomate.h"
 CCycleAutonome::CCycleAutonome(QObject *parent)
     :CCycleMesure(parent) {}
-CCycleAutonome::CCycleAutonome(const QVariantMap &variantMap)
-    :CCycleMesure(variantMap){}
-CCycleAutonome::CCycleAutonome(const QVariantMap &variantMap, const QMap<QString, IAction *> &actionMap)
-    :CCycleMesure(variantMap){}
+
+CCycleAutonome::CCycleAutonome(const QVariantMap &variantMap, QObject *parent)
+    :CCycleMesure(variantMap, parent){}
+
+CCycleAutonome::CCycleAutonome(const QVariantMap &variantMap, const QMap<QString, IAction *> &actionMap, QObject *parent)
+    :CCycleMesure(variantMap, parent){}
+
 CCycleAutonome::~CCycleAutonome(){
     delete m_stepStop;
     foreach (CStep* step, m_listSteps) {

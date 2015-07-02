@@ -10,42 +10,23 @@
 #include "CVariableStream.h"
 
 CCycleMesure::CCycleMesure(QObject *parent)
-    : ICycle(parent), m_mutex(QMutex::Recursive)
+    : ICycle(parent)
 {
 
 }
 
-CCycleMesure::CCycleMesure(const QVariantMap &mapCycle): ICycle(), m_mutex(QMutex::Recursive) {
+CCycleMesure::CCycleMesure(const QVariantMap &mapCycle, QObject *parent): ICycle(mapCycle, parent) {
     //qCDebug(COTAUTOMATE_LOG) << "constructor CCycleMesure(const QVariantMap &mapCycle) mapCycle:" << mapCycle;
-    if(mapCycle.contains(QStringLiteral("name")))
-        m_name = mapCycle[QStringLiteral("name")].toString();
-    else
-        m_name = QStringLiteral("Action not named");
-    m_label = mapCycle[tr("fr_FR")].toString();
-
-    const QVariantList listSteps = mapCycle[QStringLiteral("steps")].toList();
-    foreach(const QVariant &varStep, listSteps){
-        const QVariantMap mapStep = varStep.toMap();
-        CStep* step = new CStep(this, mapStep);
-        m_listSteps.append(step);
-    }
 
     this->moveToThread(&m_thread);
     m_thread.start();
 
 }
 QVariantMap CCycleMesure::serialise(){
-    QVariantMap mapSerialise;
-    mapSerialise.insert(QStringLiteral("name"), m_name);
-    mapSerialise.insert(tr("fr_FR"), m_label);
+
+    QVariantMap mapSerialise = ICycle::serialise();
     mapSerialise.insert(QStringLiteral("type"), QStringLiteral("measure"));
 
-    QVariantList listSteps;
-    foreach(CStep* step, m_listSteps){
-        listSteps.append(step->serialise());
-    }
-    mapSerialise.insert(QStringLiteral("steps"), listSteps);
-    mapSerialise.insert(QStringLiteral("related_stream_name"), getRelatedStreamName());
     return mapSerialise;
 }
 
@@ -144,73 +125,10 @@ void CCycleMesure::slotStopCycle(){
     qCDebug(COTAUTOMATE_LOG) << "Fin slotStopCycle";
 }
 
-QString CCycleMesure::getRelatedStreamName()const{
-    return m_streamName;
-}
-CVariableStream* CCycleMesure::getRelatedStream()const{
-    return CAutomate::getInstance()->getStream(m_streamName);
-}
-void CCycleMesure::setRelatedStreamName(const QString &name)
-{
-    m_streamName = name;
-}
-QList<CStep*> CCycleMesure::getListSteps()const{
-    return m_listSteps;
-}
-CStep* CCycleMesure::getStepStop()const{
-    return m_stepStop;
-}
 
-void CCycleMesure::setListSteps(const QList<CStep *> &steps, CStep *stopStep)
-{
-    qDeleteAll(m_listSteps);
-    delete m_stepStop;
-    m_listSteps = steps;
-    m_stepStop = stopStep;
-}
-
-int CCycleMesure::getCurrentStepIndex() const
-{
-    return -1;
-}
-QString CCycleMesure::getLabel()const{ return m_label;}
-void CCycleMesure::setLbl(const QString &lbl){ m_label = lbl;}
-
-void CCycleMesure::addAction(float arg_step, IAction* action){
-    QMutexLocker lock(&m_mutex);
-
-    QList<CStep*>::iterator itListStep;
-    for(itListStep=m_listSteps.begin(); itListStep != m_listSteps.end(); ++itListStep){
-        if((*itListStep)->getNumStep() == arg_step){
-            (*itListStep)->addAction(action);
-            itListStep = m_listSteps.end();
-        }
-    }
-}
-//enlève toutes les référence à arg_action
-void CCycleMesure::removeAction(IAction* arg_action){
-    QMutexLocker lock(&m_mutex);
-
-    QList<CStep*>::iterator itListStep;
-    for(itListStep=m_listSteps.begin(); itListStep != m_listSteps.end(); ++itListStep){
-        (*itListStep)->removeAction(arg_action);
-    }
-}
-
-void CCycleMesure::setType(eTypeCycle){}
-
-QString CCycleMesure::getName()const{
-    return m_name;
-
-}
-void CCycleMesure::setName(const QString &name){
-    m_name = name;
-
-}
 
 
 void CCycleMesure::slotUnPauseCycle(){}
-
 void CCycleMesure::slotStopEndCycle(){}
 void CCycleMesure::slotGoToEndCycle(){}
 void CCycleMesure::slotGoToStepCycle(int numStep){}

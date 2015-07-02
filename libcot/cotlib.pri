@@ -63,7 +63,6 @@ HEADERS *= \
     automate/com/IComObserver.h \
     automate/cycles/CCycleAutonome.h \
     automate/cycles/CCycleFactory.h \
-    automate/cycles/CCycleIO.h \
     automate/cycles/CCycleMaintenance.h \
     automate/cycles/CCycleMesure.h \
     automate/cycles/CCyclePause.h \
@@ -247,7 +246,6 @@ SOURCES *= \
     automate/com/IComObserver.cpp \
     automate/cycles/CCycleAutonome.cpp \
     automate/cycles/CCycleFactory.cpp \
-    automate/cycles/CCycleIO.cpp \
     automate/cycles/CCycleMaintenance.cpp \
     automate/cycles/CCycleMesure.cpp \
     automate/cycles/CCyclePause.cpp \

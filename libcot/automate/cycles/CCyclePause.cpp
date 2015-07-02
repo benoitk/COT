@@ -11,11 +11,9 @@ CCyclePause::CCyclePause(QObject *parent)
 {
     initTimer();
 }
-CCyclePause::CCyclePause(const QVariantMap &mapCycle)
-    : ICycle()
+CCyclePause::CCyclePause(const QVariantMap &mapCycle, QObject* parent)
+    : ICycle(mapCycle, parent)
 {
-    m_name = mapCycle[QStringLiteral("name")].toString();
-    m_label = mapCycle[tr("fr_FR")].toString();
     m_iTempsCycle = mapCycle[QStringLiteral("timer")].toInt();
 
     initTimer();
@@ -35,18 +33,11 @@ CCyclePause::~CCyclePause()
 
 }
 QVariantMap CCyclePause::serialise(){
-    QVariantMap mapSerialise;
-    mapSerialise.insert(QStringLiteral("name"), m_name);
-    mapSerialise.insert(tr("fr_FR"), m_label);
+    QVariantMap mapSerialise = ICycle::serialise();
+
     mapSerialise.insert(QStringLiteral("type"), QStringLiteral("pause"));
     mapSerialise.insert(QStringLiteral("timer"), m_iTimer);
 
-    QVariantList listSteps;
-    foreach(CStep* step, m_listSteps){
-        listSteps.append(step->serialise());
-    }
-    mapSerialise.insert(QStringLiteral("steps"), listSteps);
-    mapSerialise.insert(QStringLiteral("related_stream_name"), getRelatedStreamName());
     return mapSerialise;
 }
 void CCyclePause::initTimer(){
@@ -72,8 +63,7 @@ void CCyclePause::slotExecNextStep(){
     }
 
 }
-QString CCyclePause::getLabel()const{ return m_label;}
-void CCyclePause::setLbl(const QString &lbl){ m_label = lbl;}
+
 void CCyclePause::slotPauseCycle(){
 
 }
@@ -83,52 +73,8 @@ void CCyclePause::slotUnPauseCycle(){
 void CCyclePause::slotStopCycle(){
 }
 
-void CCyclePause::addAction(float arg_step, IAction* action){
-
-}
-void CCyclePause::removeAction(IAction*){}
-void CCyclePause::setType(eTypeCycle){
-
-}
-
-
-QString CCyclePause::getName()const{
-    return m_name;
-}
-void CCyclePause::setName(const QString&){
-}
-void CCyclePause::slotStopEndCycle(){}
-void CCyclePause::slotGoToEndCycle(){}
-void CCyclePause::slotGoToStepCycle(int){}
-void CCyclePause::slotGetReadyForPlayNextCycle(){}
-void CCyclePause::slotGetReadyForPlayCycle(){}
-
-QString CCyclePause::getRelatedStreamName()const{
-    return m_streamName;
-}
-CVariableStream* CCyclePause::getRelatedStream()const{
-    return CAutomate::getInstance()->getStream(m_streamName);
-}
-void CCyclePause::setRelatedStreamName(const QString &name)
-{
-    m_streamName = name;
-}
-QList<CStep*> CCyclePause::getListSteps()const{
-    return m_listSteps;
-}
-CStep* CCyclePause::getStepStop()const{
-    return m_stepStop;
-}
-
-void CCyclePause::setListSteps(const QList<CStep *> &steps, CStep *stopStep)
-{
-    qDeleteAll(m_listSteps);
-    delete m_stepStop;
-    m_listSteps = steps;
-    m_stepStop = stopStep;
-}
-
-int CCyclePause::getCurrentStepIndex() const
-{
-    return -1;
-}
+void CCyclePause::slotStopEndCycle() {}
+void CCyclePause::slotGoToEndCycle() {}
+void CCyclePause::slotGoToStepCycle(int) {}
+void CCyclePause::slotGetReadyForPlayNextCycle()  {}
+void CCyclePause::slotGetReadyForPlayCycle()  {}
