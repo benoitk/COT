@@ -284,8 +284,9 @@ void CScheduler::removeCycleMeasure(ICycle * arg_cycle){
     QList<ICycle*>::iterator itListCycles;
     for(itListCycles = m_listSequenceCyclesMeasures.begin(); itListCycles != m_listSequenceCyclesMeasures.end(); ++itListCycles){
         if(arg_cycle == (*itListCycles)){
-            itListCycles = m_listSequenceCyclesMeasures.erase(itListCycles);
+            itListCycles = m_listSequenceCyclesMeasures.erase(itListCycles); 
             m_itListSequenceCyclesMesures = m_listSequenceCyclesMeasures.begin();
+            if(itListCycles== m_listSequenceCyclesMeasures.end()) break;
         }
     }
 }
