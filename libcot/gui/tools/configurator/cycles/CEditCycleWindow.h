@@ -22,6 +22,7 @@ private slots:
 private:
     CEditCycleTab *m_ceditCycleTab;
     CEditStepListTab *m_ceditCycleStepListTab;
+    ICycle * m_cycle;
 };
 
 #endif // CEDITCYCLEWINDOW_H

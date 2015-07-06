@@ -26,6 +26,7 @@ private:
     CEditVariableTab *m_ceditVariableTab;
     CEditOutBindsTab *m_ceditOutBindsTab;
     CEditInBindsTab *m_ceditInBindsTab;
+    IVariable * m_variable;
 };
 
 #endif // CEDITVARIABLEWINDOW_H

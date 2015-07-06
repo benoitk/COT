@@ -9,6 +9,7 @@ CEditActionWindow::CEditActionWindow(IAction *action, QWidget *parent)
     : IConfiguratorEditWindow(QVariant::fromValue(action), parent)
     , m_ceditActionTab(new CEditActionTab(action, this))
     , m_ceditActionStepsTab(Q_NULLPTR)
+    , m_action(action)
 {
     addTab(m_ceditActionTab);
     //addTab(m_ceditActionStepsTab);
@@ -17,7 +18,7 @@ CEditActionWindow::CEditActionWindow(IAction *action, QWidget *parent)
 
 void CEditActionWindow::slotRetranslate()
 {
-    setTabText(0, tr("General"));
+    setTabText(0, m_action->getLabel());
     setTabText(1, tr("Steps"));
 }
 

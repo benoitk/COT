@@ -82,7 +82,7 @@ void CVariableICycleDescriber::describe(const QVariant &object)
 {
     ICycle *cycle = object.value<ICycle *>();
     Q_ASSERT(cycle);
-    QString streamName = cycle->getRelatedStreamName();
+    QString streamName = cycle->getRelatedStreamName(); // SERES_TODO: Add api to get / set stream of a cycle.
 
     clear();
 
@@ -291,6 +291,7 @@ void CVariableCStepActionsDescriber::describe(const QVariant &object)
         CVariableMutable *ivar = CVariableFactory::castedBuild<CVariableMutable *>(type_mutable, type_organ_none, action->getName());
         ivar->setName(CVariableFactory::buildTemporaryName(QStringLiteral("actionName")));
         ivar->setMutableType(CVariableMutable::Action);
+        ivar->setLabel(action->getLabel());
         ivars << ivar;
     }
 

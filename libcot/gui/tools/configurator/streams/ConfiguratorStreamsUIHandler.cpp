@@ -156,7 +156,7 @@ void ConfiguratorStreamsUIHandler::addNewMeasureToStream(CVariableStream *stream
     Q_ASSERT(stream);
 
     QString label;
-    if (!enterText(label, tr("Measure")))
+    if (!enterText(label, tr("New measure label")))
         return;
 
     const QString tempName = CVariableFactory::buildTemporaryName("Measure");
@@ -176,7 +176,7 @@ void ConfiguratorStreamsUIHandler::slotItemClicked()
     Q_ASSERT(ivar);
 
     QString label = ivar->getLabel();
-    if (!enterText(label, tr("New label")))
+    if (!enterText(label, tr("New label (%1)").arg(label)))
         return;
 
     ivar->setLabel(label);
@@ -205,7 +205,7 @@ void ConfiguratorStreamsUIHandler::slotAddStreams()
 {
     //select stream name and create it
     QString label;
-    if (!enterText(label, tr("Stream")))
+    if (!enterText(label, tr("New stream label")))
         return;
 
     const QString tempName = CVariableFactory::buildTemporaryName("Stream");

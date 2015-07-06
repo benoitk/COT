@@ -66,6 +66,9 @@ void CStepWidgetUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVaria
         text = action->getName();
     }
 
+    const bool locked = ivar->blockSignals(true);
+    ivar->setLabel(action->getLabel());
+    ivar->blockSignals(locked);
     row.widgetAt<CPushButton *>(0)->setText(text);
 }
 

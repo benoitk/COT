@@ -10,6 +10,7 @@ CEditVariableWindow::CEditVariableWindow(IVariable *ivar, QWidget *parent)
     , m_ceditVariableTab(new CEditVariableTab(this))
     , m_ceditOutBindsTab(new CEditOutBindsTab(this))
     , m_ceditInBindsTab(new CEditInBindsTab(this))
+    , m_variable(ivar)
 {
     addTab(m_ceditVariableTab);
     addTab(m_ceditOutBindsTab);
@@ -29,7 +30,7 @@ void CEditVariableWindow::setVariables(IVariable *ivar)
 
 void CEditVariableWindow::slotRetranslate()
 {
-   setTabText(0, tr("Variables"));
+   setTabText(0, m_variable->getLabel());
    setTabText(1, tr("Out Binds"));
    setTabText(2, tr("In Binds"));
 }

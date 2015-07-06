@@ -22,6 +22,7 @@ private slots:
 private:
     CEditActionTab *m_ceditActionTab;
     CEditActionStepsTab *m_ceditActionStepsTab;
+    IAction * m_action;
 };
 
 #endif // CEDITACTIONWINDOW_H

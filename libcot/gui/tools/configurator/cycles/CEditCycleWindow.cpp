@@ -10,6 +10,7 @@ CEditCycleWindow::CEditCycleWindow(ICycle *cycle, QWidget *parent)
     : IConfiguratorEditWindow(QVariant::fromValue(cycle), parent)
     , m_ceditCycleTab(new CEditCycleTab(cycle, this))
     , m_ceditCycleStepListTab(new CEditStepListTab(cycle, this))
+    , m_cycle(cycle)
 {
     addTab(m_ceditCycleTab);
     addTab(m_ceditCycleStepListTab);
@@ -18,7 +19,7 @@ CEditCycleWindow::CEditCycleWindow(ICycle *cycle, QWidget *parent)
 
 void CEditCycleWindow::slotRetranslate()
 {
-    setTabText(0, tr("General"));
+    setTabText(0, m_cycle->getLabel());
     setTabText(1, tr("Steps"));
 }
 
