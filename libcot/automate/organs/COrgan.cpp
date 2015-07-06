@@ -8,7 +8,7 @@ COrgan::COrgan(const QVariantMap& mapOrgan, CModelExtensionCard* arg_extCard):IO
     else m_name = QStringLiteral("Organ not named");
 
     if(mapOrgan.contains(QStringLiteral("address_data")))
-        m_address = mapOrgan.value(QStringLiteral("address_data")).toString();//toInt(0, 16); //vérifier si le 0x (ou 0b) est pris en compte
+        m_address = mapOrgan.value(QStringLiteral("address_data")).toString();//toInt(0, 16); //vÃ©rifier si le 0x (ou 0b) est pris en compte
     else m_address = QStringLiteral("0x00");
     if(mapOrgan.contains(QStringLiteral("type"))){
         QString sType = mapOrgan.value(QStringLiteral("type")).toString();

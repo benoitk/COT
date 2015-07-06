@@ -7,8 +7,8 @@
 #include "qvariant.h"
 
 
-//Class générique pour tous les organs pour l'instant
-//pas sur que l'on est des traitements spécifique pour chaque organ, les traitements se faisent dans les actions.
+//Class gÃ©nÃ©rique pour tous les organs pour l'instant
+//pas sur que l'on est des traitements spÃ©cifique pour chaque organ, les traitements se faisent dans les actions.
 
 class IVariable;
 class CModelExtensionCard;
