@@ -54,7 +54,7 @@ void CCycleMesure::slotStepFinished(CStep* arg_step){
 
     if(m_itListStepsPasEnCours == m_listSteps.end()) { //fin du cycle
 
-        m_isRunning = false; //a changer avec m_itListStepsPasEnCours == m_listSteps.end pour savoir si un cycle est en cours ou pas
+        m_isRunning = false; //a changer avec m_itListStepsPasEnCours = m_listSteps.end pour savoir si un cycle est en cours ou pas
         if(!criticalErrorOnPreviousStep)
             emit signalReadyForPlayNextCycle();
         else

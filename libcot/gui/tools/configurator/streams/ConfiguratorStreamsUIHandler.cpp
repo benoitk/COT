@@ -88,7 +88,7 @@ void ConfiguratorStreamsUIHandler::rowAboutToBeDeleted(const IVariableUIHandler:
 
         varStream = getStreamForMeasure(varMeasure);
         Q_ASSERT(varStream);
-        varStream->delMeasure(varMeasure);
+        varStream->removeMeasure(varMeasure);
     }
 }
 

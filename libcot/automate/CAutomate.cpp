@@ -363,8 +363,56 @@ void CAutomate::slotClock(){
 //            emit signalUpdateCurrentStream(m_iClock / 20, "Stream Name");
 //    }
 }
+
+void CAutomate::changeCycleStream(ICycle* arg_cycle, CVariableStream* arg_dest_stream){
+    foreach(CVariableStream* stream, m_listStreams){
+        if(stream->getListCycles().contains(arg_cycle)){
+            stream->removeCycle(arg_cycle->getName());
+        }
+    }
+
+    if(!arg_dest_stream->getListCycles().contains(arg_cycle)){
+        arg_dest_stream->addCycle(arg_cycle);
+    }
+
+}
+
+void CAutomate::changeVariableStream(IVariable* arg_var, CVariableStream* arg_dest_stream){
+    foreach(CVariableStream* stream, m_listStreams){
+        if(stream->getListVariables().contains(arg_var)){
+            stream->removeVariable(arg_var);
+        }
+    }
+
+    if(!arg_dest_stream->getListVariables().contains(arg_var)){
+        arg_dest_stream->addVariable(arg_var);
+    }
+}
+
+CVariableStream* CAutomate::getCycleStream(ICycle* arg_cycle) const{
+    CVariableStream* returnStream = Q_NULLPTR;
+    foreach(CVariableStream* stream, m_listStreams){
+        if(stream->getListCycles().contains(arg_cycle)){
+            returnStream = stream;
+            break;
+        }
+    }
+
+    return returnStream;
+}
+CVariableStream* CAutomate::getVariableStream(IVariable* arg_var) const{
+    CVariableStream* returnStream = Q_NULLPTR;
+    foreach(CVariableStream* stream, m_listStreams){
+        if(stream->getListVariables().contains(arg_var)){
+            returnStream = stream;
+            break;
+        }
+    }
+
+    return returnStream;
+}
 void CAutomate::playScheduler(){
-    m_scheduler->slotPlaySequenceMesure();
+    m_scheduler->slotPlaySequenceMeasure();
 }
 
 void CAutomate::stopScheduler(){
@@ -444,7 +492,7 @@ void CAutomate::delCycle(ICycle *cycle)
     CVariableStream *stream = cycle->getRelatedStream();
 
     if (stream) {
-        stream->delCycle(cycle->getName());
+        stream->removeCycle(cycle->getName());
     }
 
     m_scheduler->removeCycleMeasure(cycle);
@@ -692,7 +740,7 @@ void CAutomate::informAboutCycleChanges(ICycle *cycle, const QVariantMap &oldDat
 
     if (oldStream != newStream) {
         if (oldStream) {
-            oldStream->delCycle(cycle->getName());
+            oldStream->removeCycle(cycle->getName());
         }
 
         if (newStream) {

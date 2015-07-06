@@ -20,7 +20,7 @@ CScheduler::CScheduler()
     m_cycleMaintenanceEnCours = 0;
     m_cycleAutonomeEnCours = 0;
 
-    connect(this, &CScheduler::signalGetReadyForPlayCycleMesure, this, &CScheduler::slotPlaySequenceMesure);
+    connect(this, &CScheduler::signalGetReadyForPlayCycleMesure, this, &CScheduler::slotPlaySequenceMeasure);
 }
 
 CScheduler::~CScheduler()
@@ -54,13 +54,14 @@ void CScheduler::apendSequenceMeasurePause(int minute){
     //m_listSequenceCycles << CyclePair(cyclePause, minute);
 }
 
-void CScheduler::setSequenceMesure(){
+void CScheduler::setSequenceMeasure(){
     qCDebug(COTAUTOMATE_LOG) << "void CSequencer::setSequenceMesure()";
     if(m_cycleMaintenanceEnCours){
-        this->signalStopCycleMaintenance();
-        while(m_cycleMaintenanceEnCours->isRunning()){
-            QThread::msleep(50);
-        }
+        emit this->signalStopCycleMaintenance();
+        // A revoir pour ne pas mettre de boucle bloquante
+        //        while(m_cycleMaintenanceEnCours->isRunning()){
+//            QThread::msleep(50);
+//        }
         this->disconnectCycle(m_cycleMaintenanceEnCours);
     }
 
@@ -87,9 +88,9 @@ void CScheduler::setSequenceMesure(){
         connect(m_cycleMeasureEnCours, &ICycle::signalRunning, this, &CScheduler::slotCycleMesureIsRunning);
         connect(m_cycleMeasureEnCours, &ICycle::signalStopped, this, &CScheduler::slotCycleMesureIsStopped);
         connect(m_cycleMeasureEnCours, &ICycle::signalPaused, this, &CScheduler::slotCycleMesureIsPaused);
-        connect(m_cycleMeasureEnCours, &ICycle::signalReadyForPlayNextCycle, this, &CScheduler::slotPlayNextSequenceMesure);
-        disconnect(this, &CScheduler::signalGetReadyForPlayCycleMesure, this, &CScheduler::slotPlaySequenceMesure);
-        connect(m_cycleMeasureEnCours, &ICycle::signalReadyForPlayCycle, this, &CScheduler::slotPlaySequenceMesure);
+        connect(m_cycleMeasureEnCours, &ICycle::signalReadyForPlayNextCycle, this, &CScheduler::slotPlayNextSequenceMeasure);
+        disconnect(this, &CScheduler::signalGetReadyForPlayCycleMesure, this, &CScheduler::slotPlaySequenceMeasure);
+        connect(m_cycleMeasureEnCours, &ICycle::signalReadyForPlayCycle, this, &CScheduler::slotPlaySequenceMeasure);
     }
     else qCDebug(COTAUTOMATE_LOG) << "liste m_listSequenceCyclesMesures vide :" << m_listSequenceCyclesMeasures;
     qCDebug(COTAUTOMATE_LOG) << "FIN void CSequencer::setSequenceMesure()";
@@ -98,7 +99,7 @@ void CScheduler::disconnectCycle(ICycle* cycle){
     if(cycle){
         disconnect(this, 0, cycle, 0);
         disconnect(cycle, 0, this, 0);
-        connect(this, &CScheduler::signalGetReadyForPlayCycleMesure, this, &CScheduler::slotPlaySequenceMesure);
+        connect(this, &CScheduler::signalGetReadyForPlayCycleMesure, this, &CScheduler::slotPlaySequenceMeasure);
     }
 }
 void CScheduler::playMaintenance(int id_cycle){
@@ -111,12 +112,12 @@ void CScheduler::playSequenceAutonome(){
 void CScheduler::slotRequestPlayNextSequenceMesure(){
     emit signalGetReadyForPlayNextCycleMesure();
 }
-void CScheduler::slotPlayNextSequenceMesure(){
+void CScheduler::slotPlayNextSequenceMeasure(){
     if(m_cycleMeasureEnCours){
         if( (++m_itListSequenceCyclesMesures) == m_listSequenceCyclesMeasures.end()){
             m_itListSequenceCyclesMesures = m_listSequenceCyclesMeasures.begin();
         }
-        this->setSequenceMesure();
+        this->setSequenceMeasure();
         emit signalRunCycleMesure();
     }
 }
@@ -151,13 +152,13 @@ void CScheduler::slotRequestPlaySequenceMesure(){
     qCDebug(COTAUTOMATE_LOG) << "CSequencer::slotRequestPlaySequenceMesure";
     emit signalGetReadyForPlayCycleMesure();
 }
-void CScheduler::slotPlaySequenceMesure(){
+void CScheduler::slotPlaySequenceMeasure(){
     qCDebug(COTAUTOMATE_LOG) << "CSequencer::slotPlaySequenceMesure()" << m_cycleMeasureEnCours;
     if(!m_cycleMeasureEnCours || (m_cycleMeasureEnCours && !m_cycleMeasureEnCours->isRunning()))
     {
 
         m_itListSequenceCyclesMesures = m_listSequenceCyclesMeasures.begin();
-        this->setSequenceMesure();
+        this->setSequenceMeasure();
         emit signalRunCycleMesure();
         CAutomate::getInstance()->setStateCycleMesure(CAutomate::CYCLE_STATE_RUN);
     }

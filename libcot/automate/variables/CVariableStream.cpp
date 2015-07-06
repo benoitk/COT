@@ -78,8 +78,11 @@ void CVariableStream::removeVariable(IVariable *var)
 {
     m_listVariables.removeOne(var);
 }
+void CVariableStream::addVariable(IVariable *var){
+    m_listVariables.append(var);
+}
 
-void CVariableStream::delCycle(const QString &name)
+void CVariableStream::removeCycle(const QString &name)
 {
     for (int i = 0; i < m_listCycles.count(); ++i) {
         ICycle *cycle = m_listCycles[i];
@@ -111,7 +114,7 @@ void CVariableStream::addMeasure(IVariablePtr var)
     emit signalVariableChanged();
 }
 
-void CVariableStream::delMeasure(IVariablePtr var)
+void CVariableStream::removeMeasure(IVariablePtr var)
 {
     // SERES_TODO propagate change to the automate so the right signal is emitted
     if (m_listMeasures.contains(var)) {

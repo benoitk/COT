@@ -64,8 +64,8 @@ public slots:
     void slotRequestPauseSequenceMesure();
     void slotRequestUnPauseSequenceMesure();
 
-    void slotPlaySequenceMesure();
-    void slotPlayNextSequenceMesure();
+    void slotPlaySequenceMeasure();
+    void slotPlayNextSequenceMeasure();
     void slotPlayNextMaintenance();
     void slotPlayNextSequenceAutonome();
 
@@ -97,7 +97,7 @@ private:
     ~CScheduler();
 
     void disconnectCycle(ICycle*);
-    void setSequenceMesure();
+    void setSequenceMeasure();
     void playMaintenance(int id_cycle);
     void playSequenceAutonome();
 

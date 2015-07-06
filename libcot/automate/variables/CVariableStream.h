@@ -34,10 +34,11 @@ public:
     QList<ICycle*> getListCycles();
     IVariable* getActiveState();
     void removeVariable(IVariable *var);
+    void addVariable(IVariable *var);
     void addCycle(ICycle *cycle);
-    void delCycle(const QString &name);
+    void removeCycle(const QString &name);
     void addMeasure(IVariablePtr var);
-    void delMeasure(IVariablePtr var);
+    void removeMeasure(IVariablePtr var);
 
 private:
 

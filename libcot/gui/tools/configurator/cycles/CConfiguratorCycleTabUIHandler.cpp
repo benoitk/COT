@@ -148,7 +148,7 @@ void CConfiguratorCycleTabUIHandler::rowAboutToBeDeleted(const IVariableUIHandle
     }
 
     Q_ASSERT(streamVar);
-    streamVar->delCycle(cycle->getName());
+    streamVar->removeCycle(cycle->getName());
     delete m_internalVariables.take(cycle->getName());
 
     if (isGlobal) {

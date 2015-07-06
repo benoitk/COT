@@ -60,6 +60,12 @@ public:
     void playScheduler();
     void stopScheduler();
     void pauseScheduler();
+
+
+    void changeCycleStream(ICycle*, CVariableStream* arg_dest_stream);
+    void changeVariableStream(IVariable*, CVariableStream* arg_dest_stream);
+    CVariableStream* getCycleStream(ICycle*) const;
+    CVariableStream* getVariableStream(IVariable*) const;
     //FIN API
 
     static QString formatHistoryEntry(const QString &name, const QDateTime &dateTime);
