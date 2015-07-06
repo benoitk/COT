@@ -36,6 +36,7 @@ CStepWidget::CStepWidget(CStep *step, QWidget *parent)
     CVerticalButtonBar *vbb = m_scrollable->buttonBar();
     connect(vbb->addAction(CToolButton::Add), &QAction::triggered, this, &CStepWidget::slotAddTriggered);
     connect(vbb->addAction(CToolButton::Edit), &QAction::triggered, this, &CStepWidget::slotEditTriggered);
+    connect(vbb->addAction(CToolButton::Remove), &QAction::triggered, this, &CStepWidget::signalDeleteRequested);
 
     foreach (CToolButton *button, m_scrollable->buttonBar()->findChildren<CToolButton *>()) {
         button->setFixedSize(StyleRepository::configuratorButtonSize());

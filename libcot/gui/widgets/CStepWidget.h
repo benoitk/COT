@@ -50,6 +50,7 @@ private slots:
 
 signals:
     void signalStepChanged(float from, float to);
+    void signalDeleteRequested();
 };
 
 #endif // CSTEPWIDGET_H

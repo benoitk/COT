@@ -48,6 +48,7 @@ private slots:
     void slotMoveTriggered();
     void slotScrollToStopStep();
     void slotHandleStepChanged(float from, float to);
+    void slotHandleDeleteRequest();
 };
 
 #endif // CEDITSTEPLISTTAB_H

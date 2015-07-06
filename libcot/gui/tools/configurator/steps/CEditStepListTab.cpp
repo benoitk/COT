@@ -95,6 +95,7 @@ CStepWidget *CEditStepListTab::addStep(CStep *step)
 {
     CStepWidget *sw = new CStepWidget(step, this);
     connect(sw, &CStepWidget::signalStepChanged, this, &CEditStepListTab::slotHandleStepChanged);
+    connect(sw, &CStepWidget::signalDeleteRequested, this, &CEditStepListTab::slotHandleDeleteRequest);
     m_layout->insertWidget(m_layout->count() -1, sw); // -1 to add before last item which is stretch
     return sw;
 }
@@ -320,4 +321,14 @@ void CEditStepListTab::slotHandleStepChanged(float from, float to)
     /*sw->setInterval(from);
     moveSteps(QList<CStepWidget *>() << sw, to);*/
     reorderStepWidgets(sw);
+}
+
+void CEditStepListTab::slotHandleDeleteRequest()
+{
+    CStepWidget *sw = qobject_cast<CStepWidget *>(sender());
+    m_layout->removeWidget(sw);
+    sw->deleteLater();
+    // SERES_TODO: Handle algorythm behavior on step deletion
+    // For now just reusing standard reordering algo
+    reorderStepWidgets();
 }

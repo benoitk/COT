@@ -230,6 +230,7 @@ void CVariableCStepDescriber::describe(const QVariant &object)
     interval->setLabel(tr("Interval"));
 
     CVariableString *label = CVariableFactory::castedBuild<CVariableString *>(type_string, type_organ_none, step->getLabel());
+    setVariableAccess(label, access_read_write);
     label->setName("label");
     label->setLabel(tr("Label"));
 
