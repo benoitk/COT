@@ -7,6 +7,7 @@
 
 #include "IVariable.h"
 #include "ICycle.h"
+#include "IAction.h"
 
 class CScrollableWidget;
 class CScrollablePagerWidget;
@@ -51,7 +52,7 @@ public:
     static bool enterFloat(float &value, const QString &title = QString());
 
     // return an action type: calc_coef, calc_rien, block, etc.
-    static bool selectActionType(int &value, const QString &title = QString());
+    static bool selectActionType(actionType &value, const QString &title = QString());
     // Select a variable type (float, int, string)
     static bool selectVariableType(variableType &value, const QString &title = QString());
     // Select a variable organ type (input, output, none)

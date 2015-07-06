@@ -65,12 +65,18 @@ IVariablePtrList buildTemporaryString(const PairPairStringStringList& pairs) {
 IVariablePtrList buildActionType() {
     // SERES_TODO: Provide api (COT-54)
     // Note: this relates to CActionFactory::build()
-    return buildTemporaryString(PairPairStringStringList() <<
-                                    PairPairStringString("calc_coef", qMakePair(IVariableUIHandler::tr("Calc Coef"), 1)) <<
-                                    PairPairStringString("calc_rien", qMakePair(IVariableUIHandler::tr("Calc Rien"), 2)) <<
-                                    PairPairStringString("cmd_pump", qMakePair(IVariableUIHandler::tr("Pump"), 3)) <<
-                                    PairPairStringString("cmd_digital_output", qMakePair(IVariableUIHandler::tr("Relay"), 3)) <<
-                                    PairPairStringString("block", qMakePair(IVariableUIHandler::tr("Block"), 1000))
+    return buildTemporaryString(PairPairStringStringList()
+                                    << PairPairStringString("type_block", qMakePair(IAction::typeToString(type_block), type_block))
+                                    << PairPairStringString("type_cmd_pump", qMakePair(IAction::typeToString(type_cmd_pump), type_cmd_pump))
+                                    << PairPairStringString("type_cmd_digital_output", qMakePair(IAction::typeToString(type_cmd_digital_output), type_cmd_digital_output))
+                                    << PairPairStringString("type_rewrite_output", qMakePair(IAction::typeToString(type_rewrite_output), type_rewrite_output))
+                                    << PairPairStringString("type_cmd_dc_engine", qMakePair(IAction::typeToString(type_cmd_dc_engine), type_cmd_dc_engine))
+                                    << PairPairStringString("type_cmd_read_input", qMakePair(IAction::typeToString(type_cmd_read_input), type_cmd_read_input))
+                                    << PairPairStringString("type_test", qMakePair(IAction::typeToString(type_test), type_test))
+                                    << PairPairStringString("type_acquisition_cit_npoc", qMakePair(IAction::typeToString(type_acquisition_cit_npoc), type_acquisition_cit_npoc))
+                                    << PairPairStringString("type_block", qMakePair(IAction::typeToString(type_block), type_block))
+                                    << PairPairStringString("type_block", qMakePair(IAction::typeToString(type_block), type_block))
+                                    << PairPairStringString("type_block", qMakePair(IAction::typeToString(type_block), type_block))
                                 );
 }
 
@@ -347,7 +353,7 @@ bool IVariableUIHandler::enterFloat(float &value, const QString &title)
     return false;
 }
 
-bool IVariableUIHandler::selectActionType(int &value, const QString &title)
+bool IVariableUIHandler::selectActionType(actionType &value, const QString &title)
 {
     IVariablePtrList ivars = buildActionType();
     ScopedIVariablePtrList scoped(&ivars);
@@ -356,7 +362,7 @@ bool IVariableUIHandler::selectActionType(int &value, const QString &title)
     dlg.setSelectedValue(value);
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
-        value = dlg.selectedItem()->toInt();
+        value = static_cast<actionType>(dlg.selectedItem()->toInt());
         return true;
     }
 
@@ -766,6 +772,25 @@ QWidget *IVariableUIHandler::newEditor(IVariable *ivar)
             return editor;
         }
 
+        case type_measure: {
+            CPushButton *editor = new CPushButton(m_container);
+            editor->setUserData(ivar->getName());
+
+            switch (ivar->getOrganType()) {
+                case type_organ_none:
+                case type_organ_output: {
+                    connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestMeasure);
+                    break;
+                }
+
+                case type_organ_input: {
+                    break;
+                }
+            }
+
+            return editor;
+        }
+
         case type_unknow: {
             switch (ivar->getOrganType()) {
                 case type_organ_none:
@@ -987,6 +1012,22 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
             return;
         }
 
+        case type_measure: {
+            switch (ivar->getOrganType()) {
+                case type_organ_none:
+                case type_organ_output: {
+                    break;
+                }
+
+                case type_organ_input: {
+                    break;
+                }
+            }
+
+            qobject_cast<CPushButton *>(editor)->setText(ivar->toString());
+            return;
+        }
+
         case type_unknow: {
             switch (ivar->getOrganType()) {
                 case type_organ_none:
@@ -1062,6 +1103,18 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
                     button->setText(measure ? measure->getLabel() : QString());
                     break;
                 }
+
+                case CVariableMutable::Variable: {
+                    IVariable *variable = automate->getVariable(ivar->toString());
+                    button->setText(variable ? variable->getLabel() : QString());
+                    break;
+                }
+
+                case CVariableMutable::Action: {
+                    IAction *action = automate->getAction(ivar->toString());
+                    button->setText(action ? action->getLabel() : QString());
+                    break;
+                }
             }
 
             break;
@@ -1133,7 +1186,7 @@ void IVariableUIHandler::slotRequestActionType()
 {
     CPushButton *editor = qobject_cast<CPushButton *>(sender());
     IVariable *ivar = getVariable(editor->userData().toString());
-    int value = ivar->toInt();
+    actionType value = static_cast<actionType>(ivar->toInt());
 
     if (selectActionType(value, ivar->getLabel())) {
         ivar->setValue(value);

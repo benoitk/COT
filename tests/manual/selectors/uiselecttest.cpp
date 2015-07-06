@@ -17,7 +17,7 @@ UISelectTest::~UISelectTest()
 
 void UISelectTest::on_pbActionType_clicked()
 {
-    int r = rowLabel(sender()).toInt();
+    actionType r = static_cast<actionType>(rowLabel(sender()).toInt());
     handler->selectActionType(r);
     setRowLabel(sender(), r);
 }
