@@ -18,11 +18,20 @@ CGenericItemSelector::CGenericItemSelector(const IVariablePtrList &list, QWidget
     setMinimumSize(640, 480);
 
     m_lvItems = new QListView(this);
-    setMainWidget(m_lvItems);
-
     m_lvItems->setMouseTracking(true);
+    m_lvItems->setFrameStyle(QFrame::NoFrame | QFrame::Plain);
+    m_lvItems->setViewMode(QListView::IconMode);
+    m_lvItems->setMovement(QListView::Static);
+    m_lvItems->setSpacing(3);
+    m_lvItems->setUniformItemSizes(true);
+    m_lvItems->setResizeMode(QListView::Adjust);
+    m_lvItems->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_lvItems->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
     m_lvItems->setModel(m_model);
     m_lvItems->setItemDelegate(new CGenericListDelegate(this));
+    setMainWidget(m_lvItems);
+
     buttonBar()->addAction(CToolButton::ScrollUp);
     buttonBar()->addAction(CToolButton::ScrollDown);
     buttonBar()->addAction(CToolButton::Cancel);

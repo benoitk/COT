@@ -61,9 +61,9 @@ QSize StyleRepository::verticalBarButtonSize()
 {
     switch (screenSize()) {
     case SevenInch:
-        return QSize(50, 50);
+        return QSize(44, 44);
     case TenInch:
-        return QSize(75, 75);
+        return QSize(65, 65);
     }
     return QSize(); // not reached
 }

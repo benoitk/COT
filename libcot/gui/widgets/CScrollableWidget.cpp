@@ -31,6 +31,10 @@ void CScrollableWidget::init()
     m_moveUp = new QAction(tr("Move up"), this);
     connect(m_moveUp, &QAction::triggered, this, &CScrollableWidget::slotMoveUp);
 
+    QPalette pal = palette();
+    pal.setColor(backgroundRole(), Qt::transparent);
+    setPalette(pal);
+
     setFrameStyle(QFrame::NoFrame);
     setWidgetResizable(true);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
