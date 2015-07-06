@@ -286,6 +286,9 @@ void CAutomate::delAction(IAction* arg_action){
             }
         }
     }
+
+    locker.unlock();
+    emit signalActionsUpdated();
 }
 
 
