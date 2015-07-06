@@ -39,7 +39,10 @@ void CConfiguratorCycleTab::slotAddCycle()
     Q_ASSERT(cycle);
     cycle->setName(CVariableFactory::buildTemporaryName(QStringLiteral("new_cycle")));
     cycle->setLbl(tr("New cycle"));
-    cycle->setRelatedStreamName(streamName);
+
+    CAutomate * automate = CAutomate::getInstance();
+    CVariableStream * stream = automate->getStream(streamName);
+    automate->changeCycleStream(cycle, stream);
 
     // Edit the new cycle
     CPCWindow::openModal<CEditCycleWindow>(cycle);

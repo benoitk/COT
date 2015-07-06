@@ -134,21 +134,13 @@ void CConfiguratorCycleTabUIHandler::rowAboutToBeDeleted(const IVariableUIHandle
     CAutomate *automate = CAutomate::getInstance();
     ICycle *cycle = automate->getCycle(ivar->getName());
     Q_ASSERT(cycle);
-    const QString streamName = cycle->getRelatedStreamName();
-    const bool isGlobal = streamName.isEmpty();
-    CVariableStream *streamVar = Q_NULLPTR;
+    CVariableStream * streamVar = automate->getCycleStream(cycle);
+    const bool isGlobal = streamVar == Q_NULLPTR;
 
-    // Delete cycle
-    if (isGlobal) {
-        streamVar = static_cast<CVariableStream *>(getVariable(QString()));
-    }
-    // Become a global cycle
-    else {
-        streamVar = static_cast<CVariableStream *>(automate->getStream(cycle->getRelatedStreamName()));
+    if (!isGlobal) {
+       automate->changeCycleStream(cycle, Q_NULLPTR);
     }
 
-    Q_ASSERT(streamVar);
-    streamVar->removeCycle(cycle->getName());
     delete m_internalVariables.take(cycle->getName());
 
     if (isGlobal) {

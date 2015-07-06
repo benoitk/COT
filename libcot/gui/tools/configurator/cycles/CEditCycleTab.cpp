@@ -4,6 +4,7 @@
 #include "IVariableObjectDescriber.h"
 
 #include <IVariable.h>
+#include <CAutomate.h>
 
 CEditCycleTab::CEditCycleTab(ICycle *cycle, QWidget *parent)
     : IConfiguratorEditTab(parent)
@@ -16,6 +17,7 @@ CEditCycleTab::CEditCycleTab(ICycle *cycle, QWidget *parent)
 
 void CEditCycleTab::applyProperties(const QVariant &object)
 {
+    CAutomate * automate = CAutomate::getInstance();
     IVariableObjectDescriber *describer = m_handler->describer();
     ICycle *cycle = object.value<ICycle *>();
     Q_ASSERT(cycle);
@@ -25,5 +27,9 @@ void CEditCycleTab::applyProperties(const QVariant &object)
     cycle->setLbl(describer->getVariable(QStringLiteral("label"))->toString());
     //cycle->setType(eTypeCycle(describer->getVariable(QStringLiteral("type"))->toInt())); // read only
     //cycle->setTimer(describer->getVariable(QStringLiteral("timer"))->toInt()); // SERES_TODO: add api
-    cycle->setRelatedStreamName(describer->getVariable(QStringLiteral("stream"))->toString());
+    CVariableStream * stream = automate->getStream(describer->getVariable(QStringLiteral("stream"))->toString());
+
+    if (automate->getCycleStream(cycle) != stream) {
+        automate->changeCycleStream(cycle, stream);
+    }
 }

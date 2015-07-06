@@ -371,7 +371,7 @@ void CAutomate::changeCycleStream(ICycle* arg_cycle, CVariableStream* arg_dest_s
         }
     }
 
-    if(!arg_dest_stream->getListCycles().contains(arg_cycle)){
+    if(arg_dest_stream && !arg_dest_stream->getListCycles().contains(arg_cycle)){
         arg_dest_stream->addCycle(arg_cycle);
     }
 
@@ -384,7 +384,7 @@ void CAutomate::changeVariableStream(IVariable* arg_var, CVariableStream* arg_de
         }
     }
 
-    if(!arg_dest_stream->getListVariables().contains(arg_var)){
+    if(arg_dest_stream && !arg_dest_stream->getListVariables().contains(arg_var)){
         arg_dest_stream->addVariable(arg_var);
     }
 }
@@ -711,42 +711,20 @@ CDisplayConf* CAutomate::getDisplayConf()const{
 
 void CAutomate::informAboutCycleChanges(ICycle *cycle, const QVariantMap &oldData)
 {
+    Q_UNUSED(oldData);
+
     QMutexLocker locker(&m_mutex);
 
     // SERES_TODO: implement automate internal change handling.
     // There is probably more to update, like in CSequencer etc.
     // SERES_TODO: add api for changing a stream name (COT-52)
     const bool isNew = !getListCyclesPrivate().contains(cycle);
-    const QString oldStreamName = oldData.value(QStringLiteral("related_stream_name")).toString();
 
     if (isNew) {
         addCyclePrivate(cycle);
     }
 
-    CVariableStream *oldStream = Q_NULLPTR;
-    CVariableStream *newStream = Q_NULLPTR;
-    foreach (CVariableStream* stream, m_listStreams) {
-        if(stream->getName() == oldStreamName) oldStream = stream;
-        if(stream->getName() == cycle->getRelatedStreamName()) newStream = stream;
-    }
-
-    if (!oldStreamName.isEmpty() && !oldStream) {
-        Q_ASSERT(false);
-    }
-
-    if (!cycle->getRelatedStreamName().isEmpty() && !newStream) {
-        Q_ASSERT(false);
-    }
-
-    if (oldStream != newStream) {
-        if (oldStream) {
-            oldStream->removeCycle(cycle->getName());
-        }
-
-        if (newStream) {
-            newStream->addCycle(cycle);
-        }
-    }
+    // Due to api depreciation, moving cycle to new stream is done previsouly.
 
     locker.unlock();
 

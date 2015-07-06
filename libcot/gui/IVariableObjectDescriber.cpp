@@ -11,6 +11,7 @@
 #include <CVariableBool.h>
 #include <CVariableFloat.h>
 #include <CVariableMeasure.h>
+#include <CVariableStream.h>
 #include <IAction.h>
 #include <CStep.h>
 
@@ -82,7 +83,8 @@ void CVariableICycleDescriber::describe(const QVariant &object)
 {
     ICycle *cycle = object.value<ICycle *>();
     Q_ASSERT(cycle);
-    QString streamName = cycle->getRelatedStreamName(); // SERES_TODO: Add api to get / set stream of a cycle.
+    CVariableStream * cycleStream = CAutomate::getInstance()->getCycleStream(cycle);
+    QString streamName = cycleStream ? cycleStream->getName() : QString();
 
     clear();
 
@@ -107,6 +109,7 @@ void CVariableICycleDescriber::describe(const QVariant &object)
     timer->setLabel(tr("Timer"));
 
     CVariableMutable *stream = CVariableFactory::castedBuild<CVariableMutable *>(type_mutable, type_organ_none, streamName);
+    setVariableAccess(stream, access_read_write);
     stream->setName("stream");
     stream->setLabel(tr("Stream"));
     stream->setMutableType(CVariableMutable::Stream);

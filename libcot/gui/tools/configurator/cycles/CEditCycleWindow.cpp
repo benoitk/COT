@@ -48,6 +48,7 @@ void CEditCycleWindow::slotCancelTriggered()
     const bool isNew = !automate->getListCycles().contains(cycle);
 
     if (isNew) {
+        automate->changeCycleStream(cycle, Q_NULLPTR);
         delete cycle;
     }
 
