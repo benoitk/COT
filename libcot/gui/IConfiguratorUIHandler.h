@@ -20,6 +20,7 @@ protected:
     virtual CToolButton *newDeleteButton(IVariable *ivar);
     virtual void rowAboutToBeDeleted(const Row &row, IVariable *ivar);
     virtual void rowDeleted(const QString &name);
+    virtual void applyEditorConstraints(QWidget *editor, IVariable *ivar);
 
 protected slots:
     void slotDeleteClicked();

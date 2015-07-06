@@ -883,13 +883,6 @@ QLabel *IVariableUIHandler::newUnit(IVariable *ivar)
     return label;
 }
 
-void IVariableUIHandler::applyEditorConstraints(QWidget *editor, IVariable *ivar)
-{
-    if (editor) {
-        editor->setEnabled(ivar->getAccess() != access_read);
-    }
-}
-
 void IVariableUIHandler::rowInserted(const IVariableUIHandler::Row &row, IVariable *ivar)
 {
     Q_UNUSED(ivar);
@@ -1073,6 +1066,13 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
 
             break;
         }
+    }
+}
+
+void IVariableUIHandler::applyEditorConstraints(QWidget *editor, IVariable *ivar)
+{
+    if (editor) {
+        editor->setEnabled(ivar->getAccess() != access_read);
     }
 }
 

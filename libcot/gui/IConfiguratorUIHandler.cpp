@@ -28,6 +28,15 @@ void IConfiguratorUIHandler::rowDeleted(const QString &name)
     Q_UNUSED(name);
 }
 
+void IConfiguratorUIHandler::applyEditorConstraints(QWidget *editor, IVariable *ivar)
+{
+    // The configurator always allow editing properties.
+    // The only allowed constraints comes from the CVariableMutable type
+    if (editor && ivar->getType() == type_mutable) {
+        editor->setEnabled(ivar->getAccess() != access_read);
+    }
+}
+
 void IConfiguratorUIHandler::slotDeleteClicked()
 {
     CToolButton *editor = qobject_cast<CToolButton *>(sender());

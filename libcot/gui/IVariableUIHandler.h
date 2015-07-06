@@ -111,11 +111,11 @@ protected:
     // This is therefore the best method where to implement showing the value of the variable
     virtual void rowChanged(const Row &row, IVariable *ivar);
 
+    virtual void applyEditorConstraints(QWidget *editor, IVariable *ivar);
     virtual CToolButton *newDeleteButton(IVariable *ivar);
     QLabel *newLabel(IVariable *ivar);
     QWidget *newEditor(IVariable *ivar);
     QLabel *newUnit(IVariable *ivar);
-    void applyEditorConstraints(QWidget *editor, IVariable *ivar);
 
 protected slots:
     void slotVariableChanged(const QString &name);
