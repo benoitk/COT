@@ -15,8 +15,7 @@ CConfiguratorActionsTab::CConfiguratorActionsTab(QWidget *parent)
     slotUpdateLayout();
 
     connect(buttonBar()->addAction(CToolButton::Add), &QAction::triggered, this, &CConfiguratorActionsTab::slotAddAction);
-    // We don't need to react to value changes
-    //connect(CAutomate::getInstance(), &CAutomate::signalVariableChanged, this, &CConfiguratorActionsTab::slotUpdateLayout);
+    connect(CAutomate::getInstance(), &CAutomate::signalActionsUpdated, this, &CConfiguratorActionsTab::slotUpdateLayout);
 
     initBaseTab();
 }

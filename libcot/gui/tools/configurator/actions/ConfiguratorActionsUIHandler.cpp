@@ -86,7 +86,6 @@ void ConfiguratorActionsUIHandler::rowAboutToBeDeleted(const IVariableUIHandler:
 void ConfiguratorActionsUIHandler::rowDeleted(const QString &name)
 {
     Q_UNUSED(name);
-    layout();
 }
 
 IVariable *ConfiguratorActionsUIHandler::getVariable(const QString &name) const
