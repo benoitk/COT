@@ -294,8 +294,11 @@ void CScheduler::removeCycleMeasure(ICycle * arg_cycle){
 void CScheduler::removeCycleMaintenance(ICycle * arg_cycle){
     QList<ICycle*>::iterator itListCycles;
     for(itListCycles = m_listCyclesMaintenances.begin(); itListCycles != m_listCyclesMaintenances.end(); ++itListCycles){
-        if(arg_cycle == (*itListCycles))
+        if(arg_cycle == (*itListCycles)){
             itListCycles = m_listCyclesMaintenances.erase(itListCycles);
+            if(itListCycles == m_listCyclesMaintenances.end()) break;
+        }
+
     }
 }
 
