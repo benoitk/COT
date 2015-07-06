@@ -276,7 +276,7 @@ CStep* ICycle::addStep(float pos, const QString& lbl){
 
 QVariantMap ICycle::serialise(){
 
-    QVariantMap mapSerialise = ICycle::serialise();
+    QVariantMap mapSerialise;
     mapSerialise.insert(QStringLiteral("name"), m_name);
     mapSerialise.insert(tr("fr_FR"), m_label);
 
