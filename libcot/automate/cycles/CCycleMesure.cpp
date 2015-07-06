@@ -33,10 +33,12 @@ QVariantMap CCycleMesure::serialise(){
 
 CCycleMesure::~CCycleMesure()
 {
-    delete m_stepStop;
-    foreach (CStep* step, m_listSteps) {
-        delete step;
-    }
+    //TODO supprésion des pas qui fait planter
+//    delete m_stepStop;
+//    foreach (CStep* step, m_listSteps) {
+//        if(step)
+//            delete step;
+//    }
 }
 eTypeCycle CCycleMesure::getType()const{
     return CYCLE_MESURE;

@@ -303,6 +303,7 @@ void CScheduler::removeCycleAutonome(ICycle * arg_cycle){
     for(itListCycles = m_listSequenceCyclesAutonomes.begin(); itListCycles != m_listSequenceCyclesAutonomes.end(); ++itListCycles){
         if(arg_cycle == (*itListCycles))
             itListCycles = m_listSequenceCyclesAutonomes.erase(itListCycles);
+        if(itListCycles == m_listSequenceCyclesAutonomes.end()) break;
     }
 }
 

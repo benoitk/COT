@@ -23,9 +23,9 @@ CConfiguratorActionsTab::CConfiguratorActionsTab(QWidget *parent)
 void CConfiguratorActionsTab::slotAddAction()
 {
     int type;
-    if (!m_iactionUIHandler->selectActionType(type)) {
-        return;
-    }
+//    if (!m_iactionUIHandler->selectActionType(type)) {
+//        return;
+//    }
     //TODO cycle block ?
 }
 
