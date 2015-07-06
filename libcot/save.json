@@ -7,7 +7,7 @@
    
     "extensions" : [
         {"name" : "measure_card_1","fr_FR" : "Carte measure 1", "en_US" : "Measure card 1",
-            "com" : {"name":"com_jbus_tcp_master","type":"tcpip", "slave":1 , "ip":"192.168.1.2", "port":502, "debug":false},
+            "com" : {"name":"com_jbus_tcp_master","type":"tcpip", "slave":1 , "ip":"192.168.1.2", "port":502, "debug":true},
             "organs" : [{"name":"measure_cell", "type":"input_integer", "address_data":"0x0200"},
                          
                           {"name":"relay_0", "type":"output_boolean", "address_data":"0x0120"},

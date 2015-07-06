@@ -2,6 +2,7 @@
 #include "IVariableUIHandler.h"
 #include "CVariableFactory.h"
 #include "CVariableString.h"
+#include "CVariableStream.h"
 #include "CVariableInt.h"
 #include "CVariableMutable.h"
 #include "ICycle.h"
@@ -81,10 +82,13 @@ CVariableICycleDescriber::CVariableICycleDescriber(IVariableUIHandler *parent)
 
 void CVariableICycleDescriber::describe(const QVariant &object)
 {
+    CAutomate* automate = CAutomate::getInstance();
     ICycle *cycle = object.value<ICycle *>();
     Q_ASSERT(cycle);
+
     CVariableStream * cycleStream = CAutomate::getInstance()->getCycleStream(cycle);
     QString streamName = cycleStream ? cycleStream->getName() : QString();
+
 
     clear();
 

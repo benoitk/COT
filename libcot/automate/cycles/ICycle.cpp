@@ -1,5 +1,4 @@
 #include "ICycle.h"
-
 #include "CStep.h"
 //#include "cotautomate_debug.h"
 
@@ -292,6 +291,7 @@ QVariantMap ICycle::serialise(){
 }
 
 QString ICycle::getRelatedStreamName()const{
+
     return "méthode à supprimer";//m_streamName;
 }
 CVariableStream* ICycle::getRelatedStream()const{
