@@ -23,13 +23,13 @@ IOrgan* IVariableOutput::getOrgan()const{
 //    return m_modelExtensionCard;
 //}
 QString IVariableOutput::getOrganName()const{
-    return m_organ->getName();
+    return m_organ ? m_organ->getName() : QString();
 }
 QString IVariableOutput::getOrganAddr()const{
-    return m_organ->getAddress();
+    return m_organ ? m_organ->getAddress() : QString();
 }
 void IVariableOutput::setOrgan(CModelExtensionCard* arg_model,const  QString  &arg_organName){
 
-    m_organ = arg_model->getOrgan(arg_organName);
+    m_organ = arg_model ? arg_model->getOrgan(arg_organName) : Q_NULLPTR;
 }
 

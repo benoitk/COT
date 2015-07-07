@@ -24,7 +24,8 @@ public:
         Measure,
         Variable,
         Action,
-        ActionType
+        ActionType,
+        StreamOrMeasure
     };
 
     explicit CVariableMutable(QObject *parent = 0);

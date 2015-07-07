@@ -18,13 +18,13 @@ IOrgan* IVariableInput::getOrgan()const{
     return m_organ;
 }
 QString IVariableInput::getOrganName()const{
-    return m_organ->getName();
+    return m_organ ? m_organ->getName() : QString();
 }
 QString IVariableInput::getOrganAddr()const{
-    return m_organ->getAddress();
+    return m_organ ? m_organ->getAddress() : QString();
 }
 void IVariableInput::setOrgan(CModelExtensionCard* arg_model,const QString &arg_organName){
-    m_organ = arg_model->getOrgan(arg_organName);
+    m_organ = arg_model ? arg_model->getOrgan(arg_organName) : Q_NULLPTR;
 }
 
 

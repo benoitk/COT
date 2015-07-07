@@ -88,8 +88,7 @@ void CModelExtensionCard::setCom(ICom* com){
 
 QList<IOrgan *> CModelExtensionCard::getListOrgans() const
 {
-    qCDebug(COTAUTOMATE_LOG)<<" QList<IOrgan *> CModelExtensionCard::getListOrgans() const not implemented";
-    return QList<IOrgan *>();
+    return m_mapOrgans.values();
 }
 
 QString CModelExtensionCard::getLabel() const

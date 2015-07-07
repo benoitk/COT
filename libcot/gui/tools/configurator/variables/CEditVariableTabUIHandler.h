@@ -14,6 +14,9 @@ public:
     ~CEditVariableTabUIHandler();
 
     void layout(IVariable *ivar);
+
+protected:
+    virtual void rowChanged(const Row &row, IVariable *ivar);
 };
 
 #endif // CEDITVARIABLETABUIHANDLER_H
