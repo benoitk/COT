@@ -8,6 +8,7 @@ class CStep;
 class CStepWidget;
 class QVBoxLayout;
 class CScrollablePagerWidget;
+class CGenericVariablesEditor;
 
 /*
 Duplication feature = multi-select contiguous steps (e.g. from step 3 to step 6),
@@ -28,6 +29,8 @@ public:
 
     void applyProperties(const QVariant &object) Q_DECL_OVERRIDE;
 
+    static bool validateStepWidget(CGenericVariablesEditor *editor, void *userData1, void *userData2);
+
 private:
     CScrollablePagerWidget *m_widget;
     QVBoxLayout *m_layout;
@@ -40,6 +43,7 @@ private:
     void copySteps(const QList<CStepWidget *> &stepWidgets, float to);
     void moveSteps(const QList<CStepWidget *> &stepWidgets, float to);
     void reorderStepWidgets(CStepWidget *ensureVisibleStep = Q_NULLPTR);
+    bool hasExistingInterval(float interval, CStepWidget *byPass = Q_NULLPTR) const;
 
 private slots:
     void slotAddStep();

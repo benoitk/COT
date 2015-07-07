@@ -1,4 +1,5 @@
 #include "CStepWidget.h"
+#include "CEditStepListTab.h"
 #include "IScrollableUIWidget.h"
 #include "CStepWidgetUIHandler.h"
 #include "IVariableObjectDescriber.h"
@@ -17,15 +18,19 @@
 #include <QDebug>
 #include <StyleRepository.h>
 
-CStepWidget::CStepWidget(CStep *step, QWidget *parent)
+const float CStepWidget::STEP_STOP_INTERVAL = -1.0;
+
+CStepWidget::CStepWidget(CStep *step, CEditStepListTab *parent)
     : QGroupBox(parent)
     , m_interval(new QLabel(this))
     , m_scrollable(new IScrollableUIWidget(false, this))
     , m_handler(new CStepWidgetUIHandler(m_scrollable->scrollableWidget(), this))
     , m_stepDescriber(new CVariableCStepDescriber(m_handler)) // m_handler is absolutly not related to this describer, but ctor do need one.
     , m_selected(false)
+    , m_oldValue(step->getNumStep())
 {
     Q_ASSERT(step);
+    Q_ASSERT(parent);
 
     m_stepDescriber->describe(QVariant::fromValue(step));
 
@@ -75,7 +80,7 @@ void CStepWidget::setInterval(float value)
 
 bool CStepWidget::isStopStep() const
 {
-    return getInterval() < 0;
+    return qFuzzyCompare(getInterval() +1.0, STEP_STOP_INTERVAL +1.0);
 }
 
 void CStepWidget::editStep()
@@ -90,7 +95,7 @@ QString CStepWidget::getLabel() const
 
 float CStepWidget::getInterval() const
 {
-    return m_interval->text().toFloat();
+    return m_stepDescriber->getVariable("interval")->toFloat();
 }
 
 QList<IAction *> CStepWidget::getActions() const
@@ -142,14 +147,13 @@ void CStepWidget::mouseReleaseEvent(QMouseEvent *event)
 
 void CStepWidget::slotUpdateInfos(bool emitSignal)
 {
-    const float oldValue = m_interval->text().toFloat();
     const float newValue = m_stepDescriber->getVariable("interval")->toFloat();
     setTitle(m_stepDescriber->getVariable("label")->toString());
-    m_interval->setText(m_stepDescriber->getVariable("interval")->toString());
+    m_interval->setText(newValue < 0 ? tr("Stop") : m_stepDescriber->getVariable("interval")->toString());
 
     if (emitSignal) {
-        if (!qFuzzyCompare(oldValue +1.0, newValue +1.0)) {
-            emit signalStepChanged(oldValue, newValue);
+        if (!qFuzzyCompare(m_oldValue +1.0, newValue +1.0)) {
+            emit signalStepChanged(m_oldValue, newValue);
         }
     }
 }
@@ -175,7 +179,9 @@ void CStepWidget::slotAddTriggered()
 
 void CStepWidget::slotEditTriggered()
 {
+    m_oldValue = getInterval();
     CGenericVariablesEditorWindow *window = new CGenericVariablesEditorWindow(this);
+    window->setValidator(CEditStepListTab::validateStepWidget, this, parentWidget());
     window->setVariables(tr("Step"), m_stepDescriber->getVariables(), true);
     connect(window, &CGenericVariablesEditorWindow::signalPropertiesApplied, this, &CStepWidget::slotUpdateInfosWithSignal);
     CPCWindow::openModal(window);

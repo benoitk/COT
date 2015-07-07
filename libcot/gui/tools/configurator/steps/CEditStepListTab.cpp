@@ -2,6 +2,7 @@
 #include "CScrollablePagerWidget.h"
 #include "IVariableUIHandler.h"
 #include "CStepWidget.h"
+#include "CGenericVariablesEditor.h"
 #include "CMessageBox.h"
 #include "CPCWindow.h"
 
@@ -221,10 +222,41 @@ void CEditStepListTab::reorderStepWidgets(CStepWidget *ensureVisibleStep)
     }
 }
 
+bool CEditStepListTab::hasExistingInterval(float interval, CStepWidget *byPass) const
+{
+    foreach (CStepWidget *sw, findChildren<CStepWidget *>()) {
+        if (sw == byPass) {
+            continue;
+        }
+
+        if (qFuzzyCompare(sw->getInterval() +1.0, interval +1.0)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool CEditStepListTab::validateStepWidget(CGenericVariablesEditor *editor, void *userData1, void *userData2)
+{
+    const float interval = editor->getVariable("interval")->toFloat();
+    CStepWidget *stepWidget = static_cast<CStepWidget *>(userData1);
+    CEditStepListTab *editStepListTab = static_cast<CEditStepListTab *>(userData2);
+
+    if (editStepListTab->hasExistingInterval(interval, stepWidget)) {
+        CPCWindow::openModal<CMessageBox>(tr("You can't use interval %1, it's already used by another step.\n"
+                                             "Please change your interval.").arg(interval));
+        return false;
+    }
+
+    return true;
+}
+
 void CEditStepListTab::slotAddStep()
 {
+    const CStepWidget *sw = stepWidgetAt(m_layout->count() -2); // last item is a stretch
     CStep *step = new CStep;
-    step->setNumStep(0);
+    step->setNumStep(sw ? sw->getInterval() +1.0 : 0.0);
     step->setLabel(tr("New step"));
     CStepWidget *stepWidget = addStep(step);
     reorderStepWidgets(stepWidget);
@@ -233,17 +265,15 @@ void CEditStepListTab::slotAddStep()
 
 void CEditStepListTab::slotAddStopStep()
 {
-    foreach (CStepWidget *stepWidget, findChildren<CStepWidget*>()) {
-        if (stepWidget->isStopStep()) {
-            CMessageBox *mb = new CMessageBox(tr("You already have a stop step, scrolling to it."));
-            connect(mb, &QWidget::destroyed, this, &CEditStepListTab::slotScrollToStopStep);
-            CPCWindow::openModal(mb);
-            return;
-        }
+    if (hasExistingInterval(CStepWidget::STEP_STOP_INTERVAL)) {
+        CMessageBox *mb = new CMessageBox(tr("You already have a stop step, scrolling to it."));
+        connect(mb, &QWidget::destroyed, this, &CEditStepListTab::slotScrollToStopStep);
+        CPCWindow::openModal(mb);
+        return;
     }
 
     CStep *step = new CStep;
-    step->setNumStep(-1);
+    step->setNumStep(CStepWidget::STEP_STOP_INTERVAL);
     step->setLabel(tr("New stop step"));
     CStepWidget *stepWidget = addStep(step);
     reorderStepWidgets(stepWidget);

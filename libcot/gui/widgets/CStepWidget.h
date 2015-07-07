@@ -3,6 +3,7 @@
 
 #include <QGroupBox>
 
+class CEditStepListTab;
 class CStep;
 class IAction;
 class CStepWidgetUIHandler;
@@ -16,7 +17,9 @@ class CStepWidget : public QGroupBox
     Q_OBJECT
 
 public:
-    CStepWidget(CStep *step, QWidget *parent = Q_NULLPTR);
+    static const float STEP_STOP_INTERVAL;
+
+    CStepWidget(CStep *step, CEditStepListTab *parent);
 
     bool isSelected() const;
     void setSelected(bool selected);
@@ -38,6 +41,7 @@ private:
     CStepWidgetUIHandler *m_handler;
     CVariableCStepDescriber *m_stepDescriber;
     bool m_selected;
+    float m_oldValue;
 
     QString getLabel() const;
     QList<IAction *> getActions() const;
