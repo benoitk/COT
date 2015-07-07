@@ -367,6 +367,28 @@ void CAutomate::slotClock(){
 //    }
 }
 
+
+void CAutomate::removeVariableFromTree(IVariable* arg_var){
+    foreach(CVariableStream* stream, m_listStreams){
+        if(stream->getListVariables().contains(arg_var)){
+            stream->removeVariable(arg_var);
+        }
+        foreach(IVariable* measure, stream->getListMeasures()){
+            if(static_cast<CVariableMeasure *>(measure)->getListVariables().contains(arg_var)){
+                static_cast<CVariableMeasure *>(measure)->removeVariable(arg_var);
+            }
+        }
+    }
+}
+
+void CAutomate::changeVariableMeasure(IVariable* arg_var, CVariableMeasure* arg_dest_measure){
+    removeVariableFromTree(arg_var);
+
+    if(arg_dest_measure && !arg_dest_measure->getListVariables().contains(arg_var)){
+        arg_dest_measure->addVariable(arg_var);
+    }
+}
+
 void CAutomate::changeCycleStream(ICycle* arg_cycle, CVariableStream* arg_dest_stream){
     foreach(CVariableStream* stream, m_listStreams){
         if(stream->getListCycles().contains(arg_cycle)){
@@ -381,17 +403,24 @@ void CAutomate::changeCycleStream(ICycle* arg_cycle, CVariableStream* arg_dest_s
 }
 
 void CAutomate::changeVariableStream(IVariable* arg_var, CVariableStream* arg_dest_stream){
-    foreach(CVariableStream* stream, m_listStreams){
-        if(stream->getListVariables().contains(arg_var)){
-            stream->removeVariable(arg_var);
-        }
-    }
+   removeVariableFromTree(arg_var);
 
     if(arg_dest_stream && !arg_dest_stream->getListVariables().contains(arg_var)){
         arg_dest_stream->addVariable(arg_var);
     }
 }
-
+CVariableMeasure* CAutomate::getVariableMeasure(IVariable* arg_var) const{
+    CVariableMeasure* returnMeasure = Q_NULLPTR;
+    foreach(CVariableStream* stream, m_listStreams){
+        foreach(IVariable* measure, stream->getListMeasures()){
+            if(static_cast<CVariableMeasure *>(measure)->getListVariables().contains(arg_var)){
+                returnMeasure = static_cast<CVariableMeasure *>(measure);
+                break;
+            }
+        }
+    }
+    return returnMeasure;
+}
 CVariableStream* CAutomate::getCycleStream(ICycle* arg_cycle) const{
     CVariableStream* returnStream = Q_NULLPTR;
     foreach(CVariableStream* stream, m_listStreams){

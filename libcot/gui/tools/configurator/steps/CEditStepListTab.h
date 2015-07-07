@@ -34,6 +34,7 @@ public:
 private:
     CScrollablePagerWidget *m_widget;
     QVBoxLayout *m_layout;
+    ICycle* m_cycle;
 
     void ensureStepWidgetVisible(CStepWidget *stepWidget);
     CStepWidget *addStep(CStep *step);
@@ -53,6 +54,7 @@ private slots:
     void slotScrollToStopStep();
     void slotHandleStepChanged(float from, float to);
     void slotHandleDeleteRequest();
+    void slotDeleteAll();
 };
 
 #endif // CEDITSTEPLISTTAB_H

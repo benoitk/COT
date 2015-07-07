@@ -1,19 +1,19 @@
 #include "ICycle.h"
 #include "CStep.h"
-//#include "cotautomate_debug.h"
+#include "cotautomate_debug.h"
 
 ICycle::ICycle(QObject *parent)
-    : QObject(parent), m_stepStop(Q_NULLPTR), m_mutex(QMutex::Recursive)
+    : QObject(parent), m_stepStop(Q_NULLPTR), m_mutex(QMutex::Recursive), m_editInProgress(false)
 {
 
 }
 ICycle::ICycle()
-    : QObject(), m_isRunning(false), m_stepStop(Q_NULLPTR), m_mutex(QMutex::Recursive)
+    : QObject(), m_isRunning(false), m_stepStop(Q_NULLPTR), m_mutex(QMutex::Recursive), m_editInProgress(false)
 {
 
 }
 ICycle::ICycle(const QVariantMap &mapCycle, QObject *parent)
-    : QObject(parent), m_isRunning(false), m_stepStop(Q_NULLPTR), m_mutex(QMutex::Recursive){
+    : QObject(parent), m_isRunning(false), m_stepStop(Q_NULLPTR), m_mutex(QMutex::Recursive), m_editInProgress(false){
     if(mapCycle.contains(QStringLiteral("name")))
         m_name = mapCycle[QStringLiteral("name")].toString();
     else
@@ -66,7 +66,35 @@ QString ICycle::typeToString(eTypeCycle type)
     return QStringLiteral("**unhandled cycle type**");
 }
 
+void ICycle::startEditing(){
+    if(!m_editInProgress){
+        m_savedListSteps = m_listSteps;
+        m_editInProgress = true;
+    }
+}
+void ICycle::slotValidateEditing(){
+    if(m_editInProgress)
+        clearSavedListSteps();
+    m_editInProgress = false;
+}
+ void ICycle::slotCancelEditing(){
+     if(m_editInProgress)
+         m_listSteps.swap(m_savedListSteps);
+     clearSavedListSteps();
+     m_editInProgress = false;
+ }
+void ICycle::clearSavedListSteps(){
+    foreach(CStep* step, m_savedListSteps){
+        if(!m_listSteps.contains(step)){
+            delete step;
+        }
+    }
+    m_savedListSteps.clear();
+}
+
 bool ICycle::swapStep(float from, float to){
+    startEditing();
+
     int indexFrom = m_listSteps.count();
     int indexTo = m_listSteps.count();
 
@@ -96,6 +124,8 @@ bool ICycle::swapStep(float from, float to){
 }
 
 bool ICycle::copySteps(float from, float length, float to){
+    startEditing();
+
     int indexFrom = m_listSteps.count();
     int indexTo = m_listSteps.count();
     QList<CStep*> listTemp;
@@ -130,6 +160,8 @@ bool ICycle::copySteps(float from, float length, float to){
 }
 
 bool ICycle::copyStep(float from, float to){
+    startEditing();
+
     int indexFrom = m_listSteps.count();
     int indexTo = m_listSteps.count();
 
@@ -159,26 +191,29 @@ bool ICycle::copyStep(float from, float to){
 }
 
 bool ICycle::moveSteps(float from, float length, float to){
+    startEditing();
+
     int indexFrom = m_listSteps.count();
-    int indexTo = m_listSteps.count();
+
     QList<CStep*> listTemp;
 
-    for(int  i = 0; i < m_listSteps.count() && m_listSteps.at(i)->getNumStep() <= from+length; ++i){
+    for(int  i = 0; i < m_listSteps.count() && m_listSteps.at(i)->getNumStep() < from+length; ++i){
         if(!listTemp.isEmpty()){
-            listTemp.append(m_listSteps.takeAt(i));
+            listTemp.append(m_listSteps.takeAt(i--));
         }else if(m_listSteps.at(i)->getNumStep() == from ){
-            listTemp.append(m_listSteps.takeAt(i));
+            listTemp.append(m_listSteps.takeAt(i--));
         }
     }
     if(listTemp.isEmpty()) return false; //pas de pas dans l'intervale
 
+    int indexTo = m_listSteps.count();
     for(int  i = 0; i < m_listSteps.count() && indexTo == m_listSteps.count(); ++i){
-        if(m_listSteps.value(i)->getNumStep() >= to && m_listSteps.value(i)->getNumStep() <= to+length){
+        if(m_listSteps.at(i)->getNumStep() >= to && m_listSteps.value(i)->getNumStep() <= to+length){
             indexTo = i; //déjà un pas présent, on le met à la place
             if(this->moveSteps(m_listSteps.value(i)->getNumStep()
                                , length-m_listSteps.value(i)->getNumStep()
-                               , to+length+0.1)); //décale les pas suivants
-        }else if(m_listSteps.value(i)->getNumStep() > to ){
+                               , to+length)); //décale les pas suivants
+        }else if(m_listSteps.at(i)->getNumStep() > to ){
             indexTo = i;
         }
     }
@@ -194,6 +229,8 @@ bool ICycle::moveSteps(float from, float length, float to){
 
 //Les pas from doitt exister.
 bool ICycle::moveStep(float from, float to){
+    startEditing();
+
     int indexFrom = m_listSteps.count();
     int indexTo = m_listSteps.count();
 
@@ -223,6 +260,8 @@ bool ICycle::moveStep(float from, float to){
 }
 
 bool ICycle::deleteSteps(float from, float length){
+    startEditing();
+
     QList<CStep*>::iterator it;
     bool someStepErased = false;
 
@@ -236,6 +275,8 @@ bool ICycle::deleteSteps(float from, float length){
 }
 
 bool ICycle::deleteStep(float at){
+    startEditing();
+
     QList<CStep*>::iterator it;
     CStep* step = Q_NULLPTR;
     for(int i =0; i < m_listSteps.count(); ++i){
@@ -248,6 +289,14 @@ bool ICycle::deleteStep(float at){
 }
 
 CStep* ICycle::addStep(float pos, const QString& lbl){
+    startEditing();
+
+    //debug
+    foreach(CStep* s, m_listSteps){
+        qCDebug(COTAUTOMATE_LOG)  << "step name : " << s->getLabel() << " num : " << s->getNumStep();
+    }
+
+    //fin debug
     QList<CStep*>::iterator it;
     CStep* newStep = Q_NULLPTR;
     bool stepInserted= false;
@@ -270,6 +319,10 @@ CStep* ICycle::addStep(float pos, const QString& lbl){
     if(newStep){
         newStep->setNumStep(pos);
         newStep->setLabel(lbl);
+    }
+
+    foreach(CStep* s, m_listSteps){
+        qCDebug(COTAUTOMATE_LOG)  << "step name : " << s->getLabel() << " num : " << s->getNumStep();
     }
     return newStep;
 }

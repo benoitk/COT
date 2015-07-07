@@ -30,6 +30,7 @@ public:
     void setValue(int iNumVoie);
 
     QList<IVariable*> getListVariables();
+//    QList<CVariableMeasure*> getListMeasures();
     QList<IVariable*> getListMeasures();
     QList<ICycle*> getListCycles();
     IVariable* getActiveState();

@@ -46,7 +46,7 @@ CEditStepListTab::CEditStepListTab(ICycle *cycle, QWidget *parent)
     , m_layout(new QVBoxLayout(m_widget))
 {
     m_layout->addStretch();
-
+    m_cycle = cycle;
     QList<CStep *> steps = cycle->getListSteps();
 
     if (cycle->getStepStop()) {
@@ -137,6 +137,12 @@ QList<CStepWidget *> CEditStepListTab::selectedSteps() const
 void CEditStepListTab::copySteps(const QList<CStepWidget *> &stepWidgets, float to)
 {
     // SERES_TODO: Implement copy algorythm.
+    m_cycle->moveSteps(stepWidgets.first()->getInterval(), stepWidgets.count(), to);
+    this->slotDeleteAll();
+    foreach(CStep* step, m_cycle->getListSteps()){
+        addStep(step);
+    }
+
 }
 
 void CEditStepListTab::moveSteps(const QList<CStepWidget *> &stepWidgets, float to)
@@ -351,6 +357,11 @@ void CEditStepListTab::slotHandleStepChanged(float from, float to)
     /*sw->setInterval(from);
     moveSteps(QList<CStepWidget *>() << sw, to);*/
     reorderStepWidgets(sw);
+}
+void CEditStepListTab::slotDeleteAll(){
+    for (int i = m_layout->count() -1; i >= 0; --i) {
+        delete m_layout->takeAt(i);
+    }
 }
 
 void CEditStepListTab::slotHandleDeleteRequest()

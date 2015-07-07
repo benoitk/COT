@@ -119,7 +119,6 @@ void CStep::slotActionFinished(IAction* action){
 
     QMutexLocker lock(&m_mutex);
 
-
     if(m_listActionsWaited.removeOne(action)){
         if(action)
             disconnect(action,0,this,0);

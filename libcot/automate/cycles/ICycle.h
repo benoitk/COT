@@ -61,8 +61,10 @@ public slots:
     virtual void slotGetReadyForPlayNextCycle()=0;
     virtual void slotGetReadyForPlayCycle()=0;
 
-
     virtual void slotExecNextStep()=0;
+
+    void slotValidateEditing();
+    void slotCancelEditing();
 
 signals:
     void signalStopped(bool withCriticalError);
@@ -71,11 +73,14 @@ signals:
     void signalReadyForPlayNextCycle();
     void signalReadyForPlayCycle();
 protected:
+    void startEditing();
+    void clearSavedListSteps();
     bool m_isRunning;
     bool m_isPaused;
 
     CStep* m_stepStop;
     QList<CStep*> m_listSteps;
+    QList<CStep*> m_savedListSteps;
     QList<CStep*>::iterator m_itListStepsPasEnCours;
 
     //QString m_streamName;
@@ -83,6 +88,7 @@ protected:
     int m_idCycle;
     QString m_name;
 
+    bool m_editInProgress;
     QMutex m_mutex;
 };
 

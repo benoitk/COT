@@ -64,7 +64,9 @@ QList<IVariable*> CVariableStream::getListVariables()
 {
     return m_listVariables;
 }
+//QList<CVariableMeasure*> CVariableStream::getListMeasures(){
 QList<IVariable*> CVariableStream::getListMeasures(){
+    //TO DO à changer en liste de mesure
     return m_listMeasures;
 }
 QList<ICycle*> CVariableStream::getListCycles(){

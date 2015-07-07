@@ -66,6 +66,9 @@ public:
     void changeVariableStream(IVariable*, CVariableStream* arg_dest_stream);
     CVariableStream* getCycleStream(ICycle*) const;
     CVariableStream* getVariableStream(IVariable*) const;
+
+    CVariableMeasure* getVariableMeasure(IVariable*) const;
+    void changeVariableMeasure(IVariable*, CVariableMeasure* arg_dest_measure);
     //FIN API
 
     static QString formatHistoryEntry(const QString &name, const QDateTime &dateTime);
@@ -186,6 +189,7 @@ protected slots:
     void slotVariableChanged();
 
 private:
+    void removeVariableFromTree(IVariable* arg_var);
     static CAutomate* singleton;
     CAutomate();
     ~CAutomate();
