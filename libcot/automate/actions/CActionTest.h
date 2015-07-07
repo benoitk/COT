@@ -6,6 +6,7 @@
 #include "qrunnable.h"
 
 class IVariable;
+class CVariableBool;
 class CActionTest : public IAction, QRunnable
 {
     Q_OBJECT
@@ -27,7 +28,8 @@ public:
     QList<IVariable*> getListParameters()const Q_DECL_OVERRIDE;
     actionType getType()const Q_DECL_OVERRIDE;
     bool variableUsed(IVariable *)const Q_DECL_OVERRIDE;
-
+    QMap<QString, IVariable*> getMapIVariableParameters() Q_DECL_OVERRIDE;
+    QMap<QString, IVariable*> getMapCstParameters() Q_DECL_OVERRIDE;
 
 private:
     enum eContidion{m_eEqualToSetpoint=0, m_eSuperiorToSetpoint, m_eInferiorToSetPoint};
@@ -38,7 +40,7 @@ private:
     eContidion m_condition;
     IVariable* m_errorMargin;
     IVariable* m_timeout;
-    bool m_criticalError;
+    CVariableBool* m_criticalError;
 };
 
 #endif // CACTIONTEST_H

@@ -47,3 +47,15 @@ bool CActionCmdReadInput::variableUsed(IVariable *arg_var)const {
 
     return false;
 }
+
+QMap<QString, IVariable*> CActionCmdReadInput::getMapIVariableParameters(){
+    QMap<QString, IVariable*>  map;
+    map.insert(tr("Target input"), m_organneVar);
+    map.insert(tr("Variable destination"), m_variableDestination);
+    return map;
+}
+
+QMap<QString, IVariable*> CActionCmdReadInput::getMapCstParameters(){
+    QMap<QString, IVariable*>  map;
+    return map;
+}

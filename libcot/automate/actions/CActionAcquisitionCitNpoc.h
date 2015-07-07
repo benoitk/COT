@@ -5,6 +5,7 @@
 #include "IAction.h"
 #include "qrunnable.h"
 
+class CVariableBool;
 class CActionAcquisitionCitNpoc : public IAction, QRunnable
 {
     Q_OBJECT
@@ -25,7 +26,8 @@ public:
     actionType getType()const Q_DECL_OVERRIDE;
     bool variableUsed(IVariable *)const Q_DECL_OVERRIDE;
 
-
+    QMap<QString, IVariable*> getMapIVariableParameters() Q_DECL_OVERRIDE;
+    QMap<QString, IVariable*> getMapCstParameters() Q_DECL_OVERRIDE;
 private:
 
     IVariable* m_measureCell;
@@ -42,7 +44,7 @@ private:
     IVariable* m_CstConversion;
 
     IVariable* m_timeout;
-    bool m_criticalError;
+    CVariableBool* m_criticalError;
 };
 
 #endif // CACTIONACQUISITIONCITNPOC_H

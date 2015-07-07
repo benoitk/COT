@@ -6,7 +6,7 @@
 #include "IVariableOutput.h"
 #include "cotautomate_debug.h"
 #include "CUnit.h"
-
+#include "qmap.h"
 #include "qthreadpool.h"
 
 CActionTest::CActionTest(const QVariantMap &mapAction, QObject *parent)
@@ -19,7 +19,13 @@ CActionTest::CActionTest(const QVariantMap &mapAction, QObject *parent)
     m_waiting = automate->getVariable(mapAction[QStringLiteral("waiting")].toString());
     m_errorMargin = automate->getVariable(mapAction[QStringLiteral("error_margin")].toString());
     m_timeout = automate->getVariable(mapAction[QStringLiteral("timeout")].toString());
-    m_criticalError = mapAction[QStringLiteral("critical_error")].toBool();
+
+    QVariantMap variantMap;
+    variantMap.insert(QStringLiteral("name"), QStringLiteral("critical_error"));
+    variantMap.insert(QStringLiteral("fr_FR"), tr("Generate critical error"));
+    variantMap.insert(QStringLiteral("type"), QStringLiteral("boolean"));
+    variantMap.insert(QStringLiteral("value"), mapAction[QStringLiteral("critical_error")].toBool());
+    m_criticalError = dynamic_cast<CVariableBool*>(CVariableFactory::build(variantMap));
 
     QString sCondition = mapAction[QStringLiteral("condition")].toString();
     if(sCondition == QStringLiteral("equal")) m_condition = m_eEqualToSetpoint;
@@ -136,6 +142,25 @@ QList<IVariable*> CActionTest::getListParameters()const{
     listParams.append(m_waiting);
 
     return listParams;
+}
+
+QMap<QString, IVariable*> CActionTest::getMapIVariableParameters(){
+    QMap<QString, IVariable*>  map;
+    map.insert(tr("Setpoint"), m_setpoint);
+    map.insert(tr("Target"), m_target);
+    map.insert(tr("Result"), m_result);
+    map.insert(tr("Waiting"), m_waiting);
+    map.insert(tr("Error margin"), m_errorMargin);
+    map.insert(tr("Timeout"), m_timeout);
+    return map;
+}
+
+QMap<QString, IVariable*> CActionTest::getMapCstParameters(){
+    QMap<QString, IVariable*>  map;
+
+    map.insert(tr("Generate critical error"), m_criticalError);
+
+    return map;
 }
 actionType CActionTest::getType()const {
     return actionType::type_test;

@@ -60,3 +60,16 @@ bool CActionDCEngine::variableUsed(IVariable *arg_var)const {
 
     return false;
 }
+
+QMap<QString, IVariable*> CActionDCEngine::getMapIVariableParameters(){
+    QMap<QString, IVariable*>  map;
+    map.insert(tr("target engine"), m_varPump);
+    map.insert(tr("Clockwise way"), m_varClockwise);
+    map.insert(tr("Drive time"), m_varTimeout);
+    return map;
+}
+
+QMap<QString, IVariable*> CActionDCEngine::getMapCstParameters(){
+    QMap<QString, IVariable*>  map;
+    return map;
+}

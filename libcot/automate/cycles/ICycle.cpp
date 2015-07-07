@@ -210,9 +210,8 @@ bool ICycle::moveSteps(float from, float length, float to){
     for(int  i = 0; i < m_listSteps.count() && indexTo == m_listSteps.count(); ++i){
         if(m_listSteps.at(i)->getNumStep() >= to && m_listSteps.value(i)->getNumStep() <= to+length){
             indexTo = i; //déjà un pas présent, on le met à la place
-            if(this->moveSteps(m_listSteps.value(i)->getNumStep()
-                               , length-m_listSteps.value(i)->getNumStep()
-                               , to+length)); //décale les pas suivants
+            if(this->moveStep(m_listSteps.value(i)->getNumStep()
+                                         , to+length)); //décale les pas suivants
         }else if(m_listSteps.at(i)->getNumStep() > to ){
             indexTo = i;
         }
@@ -247,7 +246,7 @@ bool ICycle::moveStep(float from, float to){
     for(int  i = 0; i < m_listSteps.count() && indexTo == m_listSteps.count(); ++i){
         if(m_listSteps.value(i)->getNumStep() == to ){
             indexTo = i; //déjà un pas présent, on le met à la place
-            if(this->moveStep(to, to+0.1)); //décale le pas suivant
+            if(this->moveStep(to, to+1)); //décale le pas suivant
         }else if(m_listSteps.value(i)->getNumStep() > to ){
             indexTo = i;
         }

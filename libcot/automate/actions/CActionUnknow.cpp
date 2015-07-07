@@ -29,3 +29,13 @@ actionType CActionUnknow::getType()const {
 bool CActionUnknow::variableUsed(IVariable *)const {
     return false;
 }
+
+QMap<QString, IVariable*> CActionUnknow::getMapIVariableParameters(){
+    QMap<QString, IVariable*>  map;
+    return map;
+}
+
+QMap<QString, IVariable*> CActionUnknow::getMapCstParameters(){
+    QMap<QString, IVariable*>  map;
+    return map;
+}

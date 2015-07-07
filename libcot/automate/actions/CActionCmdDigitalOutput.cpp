@@ -11,7 +11,14 @@ CActionCmdDigitalOutput::CActionCmdDigitalOutput(const QVariantMap &mapAction, Q
 {
     CAutomate* automate = CAutomate::getInstance();
     m_varDigitalOutput = automate->getVariable(mapAction[QStringLiteral("target")].toString()); //l'automate assure qu'il n'y ai pas de pointeur vide
-    m_state = mapAction[QStringLiteral("state")].toBool();
+
+    QVariantMap variantMap;
+    variantMap.insert(QStringLiteral("name"), QStringLiteral("state"));
+    variantMap.insert(QStringLiteral("fr_FR"), tr("State output"));
+    variantMap.insert(QStringLiteral("type"), QStringLiteral("boolean"));
+    variantMap.insert(QStringLiteral("value"), mapAction[QStringLiteral("state")].toBool());
+    m_state = dynamic_cast<CVariableBool*>(CVariableFactory::build(variantMap));
+
 
 }
 
@@ -22,7 +29,7 @@ CActionCmdDigitalOutput::~CActionCmdDigitalOutput()
 
 
 bool CActionCmdDigitalOutput::runAction(){
-    m_varDigitalOutput->setValue(QVariant(m_state));
+    m_varDigitalOutput->setValue(QVariant(m_state->toBool()));
     qCDebug(COTAUTOMATE_LOG)<< "Action relay "
             << " label fr " << m_label
             << " Etat relais " << m_varDigitalOutput->toString();
@@ -43,4 +50,15 @@ bool CActionCmdDigitalOutput::variableUsed(IVariable *arg_var)const {
     if(m_varDigitalOutput == arg_var) return true;
 
     return false;
+}
+
+QMap<QString, IVariable*> CActionCmdDigitalOutput::getMapIVariableParameters(){
+    QMap<QString, IVariable*>  map;
+    map.insert(tr("target"), m_varDigitalOutput);
+    return map;
+}
+
+QMap<QString, IVariable*> CActionCmdDigitalOutput::getMapCstParameters(){
+    QMap<QString, IVariable*>  map;
+    return map;
 }

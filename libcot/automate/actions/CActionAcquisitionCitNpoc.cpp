@@ -26,7 +26,14 @@ CActionAcquisitionCitNpoc::CActionAcquisitionCitNpoc(const QVariantMap &mapActio
     m_airflow = automate->getVariable(mapAction[QStringLiteral("debit_airflow")].toString());
     m_vesselVolume = automate->getVariable(mapAction[QStringLiteral("vessel_volume")].toString());
     m_timeout = automate->getVariable(mapAction[QStringLiteral("timeout")].toString());
-    m_criticalError = mapAction[QStringLiteral("critical_error")].toBool();
+
+
+    QVariantMap variantMap;
+    variantMap.insert(QStringLiteral("name"), QStringLiteral("critical_error"));
+    variantMap.insert(QStringLiteral("fr_FR"), tr("Generate critical error"));
+    variantMap.insert(QStringLiteral("type"), QStringLiteral("boolean"));
+    variantMap.insert(QStringLiteral("value"), mapAction[QStringLiteral("critical_error")].toBool());
+    m_criticalError = dynamic_cast<CVariableBool*>(CVariableFactory::build(variantMap));
 
 
 
@@ -64,12 +71,14 @@ void CActionAcquisitionCitNpoc::run(){
         int zero = measureCell->readValue()->toInt();
         m_zero->setValue(zero);
         for(int i = 0; i < m_timeout->toInt() && !m_abort; ++i){
+
             sActionInfo =  tr("Mesure ") + QString::number(i+1) + "/"  + m_timeout->toString() + " "
                     + m_measureCell->getLabel() + " " +  QString::number(mesure, 'f', 2)
                     + m_airflow->getLabel() + " " +  QString::number(airflow, 'f', 2)
-                    + tr("Co2 g") + QString::number(co2g, 'f', 2);
+                    + tr("Co2 g") + QString::number(co2g, 'f', 2);     
             qCDebug(COTAUTOMATE_LOG)<< sActionInfo;
             emit CAutomate::getInstance()->signalUpdateCurrentAction(sActionInfo);
+
             mesure = measureCell->readValue()->toInt();
             airflow = measureAirflow->readValue()->toFloat();
             x = mesure - zero;
@@ -80,6 +89,7 @@ void CActionAcquisitionCitNpoc::run(){
                     + m_coef5->toFloat() * x
                     - m_Offset->toFloat();
             co2g += (co2ppmv * m_CstConversion->toFloat()) * ((airflow/60000)*0.01);
+
             QThread::msleep(500);
         }
         m_result->setValue( (co2g * 12000) / ( (m_vesselVolume->toFloat() / 1000) * 44));
@@ -112,4 +122,29 @@ bool CActionAcquisitionCitNpoc::variableUsed(IVariable *arg_var)const {
     if(m_measureCell == arg_var) return true;
 
     return false;
+}
+
+QMap<QString, IVariable*> CActionAcquisitionCitNpoc::getMapIVariableParameters(){
+    QMap<QString, IVariable*>  map;
+
+    map.insert(tr("Cellule"), m_measureCell);
+    map.insert(tr("Zero point"), m_zero);
+    map.insert(tr("Result"), m_result);
+    map.insert(tr("Air flow"), m_airflow);
+    map.insert(tr("Vessel volume"), m_vesselVolume);
+    map.insert(tr("Coefficient 1"), m_coef1);
+    map.insert(tr("Coefficient 2"), m_coef2);
+    map.insert(tr("Coefficient 3"), m_coef3);
+    map.insert(tr("Coefficient 4"), m_coef4);
+    map.insert(tr("Coefficient 5"), m_coef5);
+    map.insert(tr("Co2 ppmv to Co2 g/m3"), m_CstConversion);
+    map.insert(tr("Time acquisition"), m_timeout);
+
+    return map;
+}
+
+QMap<QString, IVariable*> CActionAcquisitionCitNpoc::getMapCstParameters(){
+    QMap<QString, IVariable*>  map;
+    map.insert(tr("Generate critical error"), m_criticalError);
+    return map;
 }

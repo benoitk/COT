@@ -73,3 +73,13 @@ bool CActionCmdPompe::variableUsed(IVariable * arg_var)const {
 
     return false;
 }
+
+QMap<QString, IVariable*> CActionCmdPompe::getMapIVariableParameters(){
+    QMap<QString, IVariable*>  map;
+    return map;
+}
+
+QMap<QString, IVariable*> CActionCmdPompe::getMapCstParameters(){
+    QMap<QString, IVariable*>  map;
+    return map;
+}

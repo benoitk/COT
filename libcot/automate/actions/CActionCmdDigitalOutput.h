@@ -3,6 +3,7 @@
 #include "IAction.h"
 
 class IVariable;
+class CVariableBool;
 class CActionCmdDigitalOutput : public IAction
 {
     Q_OBJECT
@@ -18,11 +19,12 @@ public:
     QList<IVariable*> getListParameters()const Q_DECL_OVERRIDE;
     actionType getType()const Q_DECL_OVERRIDE;
     bool variableUsed(IVariable *)const Q_DECL_OVERRIDE;
-
+    QMap<QString, IVariable*> getMapIVariableParameters() Q_DECL_OVERRIDE;
+    QMap<QString, IVariable*> getMapCstParameters() Q_DECL_OVERRIDE;
 private:
 
     IVariable* m_varDigitalOutput;
-    bool m_state;
+    CVariableBool* m_state;
 
 };
 

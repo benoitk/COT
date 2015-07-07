@@ -49,3 +49,13 @@ bool CActionBlock::variableUsed(IVariable *)const {
     //foreach(IAction* action, m_listAction){if(action->variableUsed()) bReturn=true;}
     return false;
 }
+
+QMap<QString, IVariable*> CActionBlock::getMapIVariableParameters(){
+    QMap<QString, IVariable*>  map;
+    return map;
+}
+
+QMap<QString, IVariable*> CActionBlock::getMapCstParameters(){
+    QMap<QString, IVariable*>  map;
+    return map;
+}

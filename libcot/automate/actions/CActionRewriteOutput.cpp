@@ -42,3 +42,14 @@ bool CActionRewriteOutput::variableUsed(IVariable *arg_var)const {
 
     return false;
 }
+
+QMap<QString, IVariable*> CActionRewriteOutput::getMapIVariableParameters(){
+    QMap<QString, IVariable*>  map;
+    map.insert(tr("target"), m_varDigitalOutput);
+    return map;
+}
+
+QMap<QString, IVariable*> CActionRewriteOutput::getMapCstParameters(){
+    QMap<QString, IVariable*>  map;
+    return map;
+}

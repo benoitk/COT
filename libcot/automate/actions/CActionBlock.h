@@ -24,6 +24,8 @@ public:
     QList<IVariable*> getListParameters()const Q_DECL_OVERRIDE;
     actionType getType()const Q_DECL_OVERRIDE;
     bool variableUsed(IVariable *)const Q_DECL_OVERRIDE;
+    QMap<QString, IVariable*> getMapIVariableParameters() Q_DECL_OVERRIDE;
+    QMap<QString, IVariable*> getMapCstParameters() Q_DECL_OVERRIDE;
 private:
 
     QList<IAction*> m_actions;
