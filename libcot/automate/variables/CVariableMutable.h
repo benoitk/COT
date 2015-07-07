@@ -23,7 +23,8 @@ public:
         Format,
         Measure,
         Variable,
-        Action
+        Action,
+        ActionType
     };
 
     explicit CVariableMutable(QObject *parent = 0);

@@ -891,6 +891,13 @@ QWidget *IVariableUIHandler::newEditor(IVariable *ivar)
                     connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestAction);
                     return editor;
                 }
+
+                case CVariableMutable::ActionType: {
+                    CPushButton *editor = new CPushButton(m_container);
+                    editor->setUserData(ivar->getName());
+                    connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestActionType);
+                    return editor;
+                }
             }
 
             break;
@@ -1113,6 +1120,12 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
                 case CVariableMutable::Action: {
                     IAction *action = automate->getAction(ivar->toString());
                     button->setText(action ? action->getLabel() : QString());
+                    break;
+                }
+
+                case CVariableMutable::ActionType: {
+                    actionType type = static_cast<actionType>(ivar->toInt());
+                    button->setText(IAction::typeToString(type));
                     break;
                 }
             }
