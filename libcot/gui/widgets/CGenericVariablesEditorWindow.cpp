@@ -27,6 +27,11 @@ CGenericVariablesEditorWindow::CGenericVariablesEditorWindow(QWidget *parent)
     connect(m_editor, &CGenericVariablesEditor::signalPropertiesApplied, this, &CGenericVariablesEditorWindow::signalPropertiesApplied);
 }
 
+void CGenericVariablesEditorWindow::setValidator(CGenericVariablesEditorWindow::ValidatorFunc validator, void *userData1, void *userData2)
+{
+    m_editor->setValidator(validator, userData1, userData2);
+}
+
 void CGenericVariablesEditorWindow::setVariables(const QString &title, const IVariablePtrList &variables, bool makeCopies)
 {
     m_tabWidget->setTabText(0, title);
@@ -35,8 +40,9 @@ void CGenericVariablesEditorWindow::setVariables(const QString &title, const IVa
 
 void CGenericVariablesEditorWindow::slotOkTriggered()
 {
-    m_editor->applyProperties();
-    close();
+    if (m_editor->applyProperties()) {
+        close();
+    }
 }
 
 void CGenericVariablesEditorWindow::slotCancelTriggered()

@@ -14,14 +14,21 @@ class CGenericVariablesEditor : public IScrollableUIWidget
     Q_OBJECT
 
 public:
+    typedef bool (*ValidatorFunc)(CGenericVariablesEditor *editor, void *userData1, void *userData2);
     explicit CGenericVariablesEditor(QWidget *parent = Q_NULLPTR);
 
+    IVariable *getVariable(const QString &name) const;
+
+    void setValidator(ValidatorFunc validator, void *userData1 = Q_NULLPTR, void *userData2 = Q_NULLPTR);
     void setVariables(const IVariablePtrList &variables, bool makeCopies);
 
-    void applyProperties();
+    bool applyProperties();
 
 private:
     CGenericVariablesUIHandler *m_handler;
+    ValidatorFunc m_validator;
+    void *m_userData1;
+    void *m_userData2;
 
 signals:
     void signalPropertiesApplied();
