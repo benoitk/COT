@@ -9,10 +9,9 @@
 
 CEditActionTab::CEditActionTab(IAction *action, QWidget *parent)
     : IConfiguratorEditTab(parent)
+    , m_handler(new CEditActionTabUIHandler(scrollableWidget(), this))
 {
-    m_handler = new CEditActionTabUIHandler(scrollableWidget(), this);
     m_handler->layout(action);
-
     initBaseTab();
 }
 

@@ -14,6 +14,15 @@ public:
     ~CEditActionTabUIHandler();
 
     void layout(IAction *action);
+
+protected:
+    virtual int columnCount() const Q_DECL_OVERRIDE;
+    virtual QWidget *createWidget(int column, IVariable *ivar) Q_DECL_OVERRIDE;
+    virtual void rowInserted(const Row &row, IVariable *ivar) Q_DECL_OVERRIDE;
+    virtual void rowChanged(const Row &row, IVariable *ivar) Q_DECL_OVERRIDE;
+
+protected slots:
+    void slotRequestVariable();
 };
 
 #endif // CEDITACTIONTABUIHANDLER_H
