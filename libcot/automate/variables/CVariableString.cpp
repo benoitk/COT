@@ -42,18 +42,15 @@ void CVariableString::setValue(const QVariant & value){
 }
 void CVariableString::setValue(QString value){
     m_sValeur = value;
-    if(!m_listBinds.isEmpty()){
-        IVariable* var;
-        foreach(var,  m_listBinds){
-            var->setValue(QVariant(value));
-        }
-    }
+    checkBindedVariable(QVariant(value));
 
     emit signalVariableChanged();
 }
 //Pas de récursivité dans les binds pour l'instant pour ne pas gérer les binds croisés({var1, var2}, {var2, var1})
 void CVariableString::setToBindedValue(const QVariant & value){
     m_sValeur = value.toString();
+
+    emit signalVariableChanged();
 }
 
 variableType CVariableString::getType()const{

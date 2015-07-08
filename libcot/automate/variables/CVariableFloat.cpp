@@ -39,22 +39,15 @@ void CVariableFloat::setValue(const QVariant & value){
 }
 void CVariableFloat::setValue(float value){
     m_value = value;
-    if(!m_listBinds.isEmpty()){
-        IVariable* var;
-        foreach(var,  m_listBinds){
-            if(var->getUnit() != m_unit && var->getUnit()) {
-                QVariant variant = m_unit->convert(var->getUnit()->getName(), QVariant(m_value));
-                value = variant.toFloat();
-            }
-            var->setToBindedValue(QVariant(value));
-        }
-    }
+    checkBindedVariable(QVariant(value));
 
     emit signalVariableChanged();
 }
 //Pas de récursivité dans les binds pour l'instant pour ne pas gérer les binds croisés({var1, var2}, {var2, var1})
 void CVariableFloat::setToBindedValue(const QVariant & value){
     m_value = value.toFloat();
+
+    emit signalVariableChanged();
 }
 
 variableType CVariableFloat::getType()const{

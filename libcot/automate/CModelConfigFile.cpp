@@ -95,9 +95,10 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
                     automate->addUnit(unit);
                     foreach(QJsonValue jsonValueConverter, jsonArrayConverters){
                         QVariantMap mapConverter = jsonValueConverter.toVariant().toMap();
-                        if(!mapConverter[QStringLiteral("source")].isNull()) {
+                        if(!mapConverter[QStringLiteral("source")].isNull()
+                                && mapConverter[QStringLiteral("source")].toString() == unit->getName()) {
                             IConverter* converter = CConverterFactory::build(mapConverter);
-                            unit->addConverter(mapConverter[QStringLiteral("source")].toString(),converter);
+                            unit->addConverter(mapConverter[QStringLiteral("target")].toString(),converter);
 
                         }else{
                             qCDebug(COTAUTOMATE_LOG) << "Converter null : map = " << mapConverter;
@@ -148,8 +149,8 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
         QJsonArray jsonArrayBinds = jsonObjectAll[QStringLiteral("binds")].toArray();
         foreach(QJsonValue jsonValueBind, jsonArrayBinds){
             QVariantMap mapBind = jsonValueBind.toVariant().toMap();
-            IVariable* var = automate->getVariable(mapBind[QStringLiteral("variable_origin_name")].toString());
-            IVariable* var_binded = automate->getVariable(mapBind[QStringLiteral("variable_destination_name")].toString());
+            IVariable* var = automate->getVariable(mapBind[QStringLiteral("source")].toString());
+            IVariable* var_binded = automate->getVariable(mapBind[QStringLiteral("target")].toString());
             if(var && var_binded)
                 var->addBind(var_binded);
             else

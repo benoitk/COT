@@ -63,23 +63,26 @@ void CActionAcquisitionCitNpoc::run(){
         measureAirflow = dynamic_cast<IVariableInput*>(m_airflow);
 
     if(measureCell && measureAirflow){
-        int mesure = 0;
+
+        float mesure = 0;
         int x = 0;
         float co2ppmv=0;
         float co2g=0;
         float airflow = 0;
-        int zero = measureCell->readValue()->toInt();
+        float zero = measureCell->readValue()->toInt();
+        zero = (zero*2.048) / 0x3fffff;
         m_zero->setValue(zero);
         for(int i = 0; i < m_timeout->toInt() && !m_abort; ++i){
 
             sActionInfo =  tr("Mesure ") + QString::number(i+1) + "/"  + m_timeout->toString() + " "
                     + m_measureCell->getLabel() + " " +  QString::number(mesure, 'f', 2)
                     + m_airflow->getLabel() + " " +  QString::number(airflow, 'f', 2)
-                    + tr("Co2 g") + QString::number(co2g, 'f', 2);     
+                    + tr("Co2 g") + QString::number(co2g, 'f', 8);
             qCDebug(COTAUTOMATE_LOG)<< sActionInfo;
             emit CAutomate::getInstance()->signalUpdateCurrentAction(sActionInfo);
 
             mesure = measureCell->readValue()->toInt();
+            mesure = (mesure*2.048) / 0x3fffff;
             airflow = measureAirflow->readValue()->toFloat();
             x = mesure - zero;
             co2ppmv = m_coef1->toFloat() * pow(x, 5)

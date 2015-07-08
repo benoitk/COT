@@ -222,7 +222,8 @@ HEADERS *= \
     $$PWD/automate/actions/CActionDCEngine.h \
     $$PWD/automate/actions/CActionRewriteOutput.h \
     $$PWD/automate/CThreadDiag.h \
-    $$PWD/gui/widgets/CClickableLabel.h
+    $$PWD/gui/widgets/CClickableLabel.h\
+    $$PWD/automate/units/CConverterCrossProduct.h
 
 SOURCES *= \
     $$PWD/automate/CAutomate.cpp \
@@ -399,4 +400,8 @@ SOURCES *= \
     $$PWD/automate/actions/CActionDCEngine.cpp \
     $$PWD/automate/actions/CActionRewriteOutput.cpp \
     $$PWD/automate/CThreadDiag.cpp \
+<<<<<<< HEAD
     $$PWD/gui/widgets/CClickableLabel.cpp
+=======
+    $$PWD/automate/units/CConverterCrossProduct.cpp
+>>>>>>> fix system de convertion

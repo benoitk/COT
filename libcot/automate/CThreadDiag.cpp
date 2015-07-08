@@ -27,7 +27,7 @@ void CThreadDiag::run(){
             var->readValue();
         }
 
-        QThread::msleep(10);
+        QThread::msleep(250);
     }
 }
 void CThreadDiag::slotReadVariables(){

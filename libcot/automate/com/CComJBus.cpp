@@ -163,14 +163,14 @@ CComJBus::~CComJBus()
 
 void CComJBus::initializeModbus()
 {
-//    //control erreus
-//    if (modbus_set_error_recovery(m_ctx.data(),  static_cast<modbus_error_recovery_mode>(MODBUS_ERROR_RECOVERY_LINK |   MODBUS_ERROR_RECOVERY_PROTOCOL)) == -1)
-//    {
-//        qCDebug(COTAUTOMATE_LOG) << "CComJBus failed to set error recovery:"    << modbus_strerror(errno);
-//    }
-//    timeval timeout = {30, 0};
-//    modbus_set_response_timeout(m_ctx.data(), &timeout);
-//    //fin control erreur
+    //control erreus
+    if (modbus_set_error_recovery(m_ctx.data(),  static_cast<modbus_error_recovery_mode>(MODBUS_ERROR_RECOVERY_LINK |   MODBUS_ERROR_RECOVERY_PROTOCOL)) == -1)
+    {
+        qCDebug(COTAUTOMATE_LOG) << "CComJBus failed to set error recovery:"    << modbus_strerror(errno);
+    }
+    timeval timeout = {1, 0};
+    modbus_set_response_timeout(m_ctx.data(), &timeout);
+    //fin control erreur
 
     // -1 == m_slave indicates master coms
     if (m_slave >= 0)

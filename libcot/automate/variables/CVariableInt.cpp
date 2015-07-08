@@ -37,18 +37,15 @@ bool CVariableInt::toBool(){
 }
 void CVariableInt::setValue(int value){
     m_value = value;
-    if(!m_listBinds.isEmpty()){
-        IVariable* var;
-        foreach(var,  m_listBinds){
-            var->setValue(QVariant(value));
-        }
-    }
+    checkBindedVariable(QVariant(value));
 
     emit signalVariableChanged();
 }
 //Pas de récursivité dans les binds pour l'instant pour ne pas gérer les binds croisés({var1, var2}, {var2, var1})
 void CVariableInt::setToBindedValue(const QVariant & value){
     m_value = value.toInt();
+
+    emit signalVariableChanged();
 }
 void CVariableInt::setValue(const QVariant & value){
     setValue(value.toInt());

@@ -96,6 +96,8 @@ signals:
     void signalVariableChanged(); // SERES_TODO: handle it in each variable (COT-64)
 
 protected:
+
+    void checkBindedVariable(QVariant var);
     int m_address;
     variableAccess m_access;
 

@@ -4,6 +4,7 @@
 #include "CConverterOffset.h"
 #include "CConverterOffsetCoef.h"
 #include "CConverterUnknow.h"
+#include "CConverterCrossProduct.h"
 #include "IConverter.h"
 
 #include "qvariant.h"
@@ -25,7 +26,12 @@ IConverter* CConverterFactory::build(const QVariantMap &mapConverter){
     else if(mapConverter[QStringLiteral("type")].toString() == QStringLiteral("offset_coef")){
         converter = new CConverterOffsetCoef(mapConverter);
 
-    }else{
+    }
+    else if(mapConverter[QStringLiteral("type")].toString() == QStringLiteral("cross_product")){
+        converter = new CConverterCrossProduct(mapConverter);
+
+    }
+    else{
         converter = new CConverterUnknow();
         qCDebug(COTAUTOMATE_LOG) << "Classe converter INCONNUE :  " << mapConverter[QStringLiteral("type")].toString();
 

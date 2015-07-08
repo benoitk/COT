@@ -174,6 +174,18 @@ CVariableMeasure *IVariable::getRelatedMeasure() const
 bool  IVariable::isDisplay()const{
     return false;
 }
+void IVariable::checkBindedVariable(QVariant arg_variant){
+    if(!m_listBinds.isEmpty()){
+        IVariable* var;
+        foreach(var,  m_listBinds){
+            if(var->getUnit() != m_unit && var->getUnit()) {
+                arg_variant.setValue(m_unit->convert(var->getUnit()->getName(), arg_variant));
+            }
+            var->setToBindedValue(arg_variant);
+        }
+    }
+}
+
 QList<IVariable*>  IVariable::getListOutBinds()const{
     return m_listBinds;
 }

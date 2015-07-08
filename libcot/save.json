@@ -7,7 +7,7 @@
    
     "extensions" : [
         {"name" : "measure_card_1","fr_FR" : "Carte measure 1", "en_US" : "Measure card 1",
-            "com" : {"name":"com_jbus_tcp_master","type":"tcpip", "slave":1 , "ip":"192.168.1.2", "port":502, "debug":true},
+            "com" : {"name":"com_jbus_tcp_master","type":"tcpip", "slave":1 , "ip":"192.168.1.2", "port":502, "debug":false},
             "organs" : [{"name":"measure_cell", "type":"input_integer", "address_data":"0x0200"},
                          
                           {"name":"relay_0", "type":"output_boolean", "address_data":"0x0120"},
@@ -77,12 +77,13 @@
     ],
 
     "units":[{"name":"g_l", "fr_FR":"g/l"}, {"name":"mg_l", "fr_FR":"mg/l"}, {"name":"µg_l", "fr_FR":"µg/l"}, {"name":"tr_min", "fr_FR":"tr/min"},
-             {"name":"deg_celsius", "fr_FR":"°C"},{"name":"mdeg_celsius", "fr_FR":"m°C"}, {"name":"deg_fahrenheit", "fr_FR":"°F"}, {"name":"kelvin", "fr_FR":"K"},
+             {"name":"deg_cel", "fr_FR":"°C"},{"name":"mdeg_cel", "fr_FR":"m°C"}, {"name":"deg_fah", "fr_FR":"°F"}, {"name":"kelvin", "fr_FR":"K"},
              {"name":"pts", "fr_FR":"Points"}, {"name":"ntu", "fr_FR":"NTU"}, {"name":"percent", "fr_FR":"%"}, {"name":"ml_min", "fr_FR":"mL/min"},
              {"name":"second", "fr_FR":"s"},{"name":"miliwatt", "fr_FR":"mW"},{"name":"volt", "fr_FR":"V"}
     ],
 
-    "units_convertion":[{"source":"g_l", "target":"mg_l", "type":"coef", "coef":0.001},
+    "units_convertion":[{"source":"pts", "target":"volt", "type":"cross_product", "coef":4.99, "divisor":4194303},
+                        {"source":"g_l", "target":"mg_l", "type":"coef", "coef":0.001},
                         {"source":"g_l", "target":"µg_l", "type":"coef","coef":0.0001},
                         {"source":"mg_l", "target":"g_l", "type":"coef","coef":1000},
                         {"source":"mg_l", "target":"µg_l", "type":"coef","coef":0.1},
@@ -103,6 +104,7 @@
                     {"name":"measure_cot_min", "fr_FR" : "Mesure min", "en_US" : "Min measure", "type":"float", "value" : 0, "unit":"mg_l"},
                    
                     {"name":"ndir_measure_cell", "fr_FR" : "Cellule NDIR", "type":"input_integer","extension_name":"measure_card_1", "organ_name":"measure_cell", "value" : 0, "unit":"pts", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"ndir_measure_cell_v", "fr_FR" : "Cellule NDIR", "type":"float", "value" : 0, "unit":"volt", "address":"0x0102", "access":"read_write", "com_name":"com_jbus_rs_slave"},
                     {"name":"zero_cit", "fr_FR" : "Zéro CIT", "type":"integer", "value" : 0, "unit":"pts", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"measure_cit", "fr_FR" : "Mesure CIT", "type":"float", "value" : 0, "unit":"mg_l", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"measure_cit_min", "fr_FR" : "Mesure CIT", "type":"float", "value" : 0, "unit":"mg_l", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
@@ -222,21 +224,12 @@
                     },
 
 
-                    {"name":"pump_persulfate", "fr_FR" : "Pompe persulfate", "en_US" : "Persulfate pump", "type":"output_list_variables",
-                        "variables": [  {"name":"num_tour_pump", "fr_FR" : "Nombre de tour", "en_US" : "Tour number", "type":"integer", "value" : 4, "unit":"tr_min"},
-                                        {"name":"speed_pump", "fr_FR" : "Vitesse", "en_US" : "Speed pump", "type":"integer", "value" : 30, "unit":"tr_min"},
-                                        {"name":"direction_clockwise_pump", "fr_FR" : "Pompe en sens anti-trigo", "en_US" : "Pump set to clockwise", "type":"boolean", "value" : true, "unit":"tr_min"},
-                                        {"name":"step_by_step_pump", "fr_FR" : "Pompe en pas à pas", "en_US" : "Pump set to step by step", "type":"boolean", "value" : true, "unit":"tr_min"},
-                                        {"name":"cmd_continus_pump", "fr_FR" : "Pompe alimenté au repos", "en_US" : "Pump always powered", "type":"boolean", "value" : true, "unit":"tr_min"}]
-
-                    },
-
                     {"name":"stream_1_state", "fr_FR" : "Etat analyseur", "type":"boolean", "value" : true, "unit":"tr_min"}
 
     ],
 
     "display":[
-        {"name":"diagnostic", "variables":["airflow", "ndir_temperature", "condenser_temperature", "reactor_temperature","emitter_power"]},
+        {"name":"diagnostic", "variables":["ndir_measure_cell", "ndir_measure_cell_v", "airflow", "ndir_temperature", "condenser_temperature", "reactor_temperature","emitter_power"]},
         {"name":"elec_tests", "map_tabs":[{"name":"tab_EV", "variables":["ev_sample", "ev_air_direct", "ev_sample_inerting", "ev_reatcor_filling", "pump_sample", "pump_sample_clockwise", "pump_sample_timeout"]},
                      {"name":"tab_Actionneurs", "variables":["test_relay_1", "test_relay_2", "test_relay_3", "test_tor_1", "test_tor_2", "test_tor_3"]},
                      {"name":"tab_entrees", "variables":["selection_stream1", "arret_fin_cycle"]},
@@ -250,7 +243,7 @@
     ],
 
     "binds" : [
-        {"source":"measure_cot", "target":"loop_4_20"}
+        {"source":"ndir_measure_cell", "target":"ndir_measure_cell_v"}
 
     ],
 
@@ -466,7 +459,7 @@
             "en_US" : "Control cycle",
             "type" : "measure",
             "steps" : [{"name":"step_1", "step":1,"fr_FR":"Initialisation cycle de control",
-                        "actions":["compressor_on", "ev_air_direct_close",  "heater_reactor_on"]}, 
+                        "actions":["acquisition_measure_cit", "compressor_on", "ev_air_direct_close",  "heater_reactor_on"]}, 
                        {"name":"step_2", "step":2,"fr_FR":"Control débit d'air", "actions":["control_air_flow"]},
                        {"name":"step_3", "step":3,"fr_FR":"Control T° NDIR", "actions":["control_temperature_ndir"]},
                        {"name":"step_4", "step":4,"fr_FR":"Control T° condenseur", "actions":["control_temperature_condenser"]},
@@ -521,6 +514,13 @@
     "list_cycles_maintenaces" : ["cycle_maintenance_cot"],
 
     "streams" :[{"name":"stream_1", "fr_FR":"stream 1", "variables":["ndir_temperature_setpoint", "condenser_temperature_setpoint", "airflow_setpoint", "pump_sample_timeout", "pump_sample_clockwise", "pump_sample"], "active_state": "stream_1_state",
+                    "measures":[{"name":"measure_1", "fr_FR":"mesure de CIT", "variable_measure":"measure_cit", "variable_range_max":"measure_cit_max" , "variable_range_min":"measure_cit_min", "variables":["zero_cit", "acquisition_measure_cit_timeout"]},
+                               {"name":"measure_2", "fr_FR":"mesure du NPOC", "variable_measure":"measure_npoc", "variable_range_max":"measure_npoc_max" , "variable_range_min":"measure_npoc_min", "variables":["zero_npoc", "acquisition_measure_npoc_timeout"]}
+                               ],
+                    "cycles":["cycle_control", "cycle_test"]
+
+                },
+                {"name":"stream_2", "fr_FR":"stream 2", "variables":["ndir_temperature_setpoint", "condenser_temperature_setpoint", "airflow_setpoint", "pump_sample_timeout", "pump_sample_clockwise", "pump_sample"], "active_state": "stream_1_state",
                     "measures":[{"name":"measure_1", "fr_FR":"mesure de CIT", "variable_measure":"measure_cit", "variable_range_max":"measure_cit_max" , "variable_range_min":"measure_cit_min", "variables":["zero_cit", "acquisition_measure_cit_timeout"]},
                                {"name":"measure_2", "fr_FR":"mesure du NPOC", "variable_measure":"measure_npoc", "variable_range_max":"measure_npoc_max" , "variable_range_min":"measure_npoc_min", "variables":["zero_npoc", "acquisition_measure_npoc_timeout"]}
                                ],

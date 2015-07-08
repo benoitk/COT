@@ -48,12 +48,7 @@ void CVariableBool::setValue(const QVariant & value){
 }
 void CVariableBool::setValue(bool value){
     m_value = value;
-    if(!m_listBinds.isEmpty()){
-        IVariable* var;
-        foreach(var,  m_listBinds){
-            var->setToBindedValue(QVariant(value));
-        }
-    }
+    checkBindedVariable(QVariant(value));
 
     emit signalVariableChanged();
 }
@@ -61,6 +56,8 @@ void CVariableBool::setValue(bool value){
 //Pas de récursivité dans les binds pour l'instant pour ne pas gérer les binds croisés({var1, var2}, {var2, var1})
 void CVariableBool::setToBindedValue(const QVariant & value){
     m_value = value.toBool();
+
+    emit signalVariableChanged();
 }
 variableType CVariableBool::getType()const{
     return type_bool;
