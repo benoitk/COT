@@ -118,8 +118,8 @@ void IVariable::addBind(IVariable* arg_var){
 
 
 
-void  IVariable::delBind(IVariable*){
-
+void  IVariable::delBind(IVariable* arg_var){
+    m_listBinds.removeAll(arg_var);
 }
 CUnit * IVariable::getUnit() const{
 //    return Q_NULLPTR;
@@ -178,13 +178,21 @@ QList<IVariable*>  IVariable::getListOutBinds()const{
     return m_listBinds;
 }
 QList<IVariable*>  IVariable::getListInBinds()const{
-    return m_listBinds;
-
+    QList<IVariable*>  list;
+    foreach (IVariable* var, CAutomate::getInstance()->getMapVariables()) {
+        foreach(IVariable* varFromBinds, var->getListOutBinds()){
+            if(varFromBinds == this) {
+                list.append(var);
+                break;
+            }
+        }
+    }
+    return list;
 }
 
-void IVariable::setListOutBinds(const QList<IVariable *> &)
+void IVariable::setListOutBinds(const QList<IVariable *> & arg_list)
 {
-    //SERES_TODO: Implement that for each variable
+    m_listBinds = arg_list;
 }
 
 void IVariable::setListInBinds(const QList<IVariable *> &)
