@@ -24,16 +24,9 @@ CVariableOutputFloat::CVariableOutputFloat(const QMap<QString, QVariant> &mapVar
 void CVariableOutputFloat::writeValue(){
     m_organ->getExtCard()->getICom()->writeData(this);
 }
-void CVariableOutputFloat::setValue(float value){
-    m_value = value;
-    if(!m_listBinds.isEmpty()){
-        IVariable* var;
-        foreach(var,  m_listBinds){
-            var->setValue(QVariant(value));
-        }
-    }
-
-    emit signalVariableChanged();
+void CVariableOutputFloat::setValue(float arg_value){
+    CVariableFloat::setValue(arg_value);
+    this->writeValue();
 }
 
 variableType CVariableOutputFloat::getType()const{

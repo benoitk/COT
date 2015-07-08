@@ -25,16 +25,9 @@ void CVariableOutputInt::writeValue(){
 
 }
 
-void CVariableOutputInt::setValue(float value){
-    m_value = value;
-    if(!m_listBinds.isEmpty()){
-        IVariable* var;
-        foreach(var,  m_listBinds){
-            var->setValue(QVariant(value));
-        }
-    }
-
-    emit signalVariableChanged();
+void CVariableOutputInt::setValue(float arg_value){
+    CVariableInt::setValue(arg_value);
+    this->writeValue();
 }
 
 variableType CVariableOutputInt::getType()const{
