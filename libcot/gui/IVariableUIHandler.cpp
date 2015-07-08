@@ -664,6 +664,7 @@ CClickableLabel *IVariableUIHandler::newLabel(IVariable *ivar)
 {
     Q_UNUSED(ivar);
     CClickableLabel *label = new CClickableLabel(m_container);
+    label->setUserData(ivar->getName());
     return label;
 }
 

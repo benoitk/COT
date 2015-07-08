@@ -15,3 +15,14 @@ void CClickableLabel::mouseReleaseEvent(QMouseEvent *ev)
     QLabel::mouseReleaseEvent(ev);
     emit clicked();
 }
+
+QVariant CClickableLabel::userData() const
+{
+    return m_userData;
+}
+
+void CClickableLabel::setUserData(const QVariant &userData)
+{
+    m_userData = userData;
+}
+

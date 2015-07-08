@@ -81,13 +81,6 @@ void IVariableMaintenanceUIHandler::rowChanged(const IVariableUIHandler::Row &ro
     row.widgetAt<CToolButton *>(2)->setVisible(cycle->isRunning());
 }
 
-CClickableLabel *IVariableMaintenanceUIHandler::newLabel(IVariable *ivar)
-{
-    Q_UNUSED(ivar);
-    CClickableLabel *label = new CClickableLabel(container());
-    return label;
-}
-
 CToolButton *IVariableMaintenanceUIHandler::newStartEditor(IVariable *ivar)
 {
     Q_UNUSED(ivar);

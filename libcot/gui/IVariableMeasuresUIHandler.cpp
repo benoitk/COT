@@ -140,7 +140,7 @@ QWidget *IVariableMeasuresUIHandler::newColorLegend(IVariable *ivar)
 CClickableLabel *IVariableMeasuresUIHandler::newLabel(IVariable *ivar)
 {
     Q_UNUSED(ivar);
-    CClickableLabel *label = new CClickableLabel(container());
+    CClickableLabel *label = IVariableUIHandler::newLabel(ivar);
     QPalette pal = label->palette();
     pal.setColor(label->foregroundRole(), QColor(Qt::gray));
     label->setPalette(pal);
@@ -151,7 +151,7 @@ CClickableLabel *IVariableMeasuresUIHandler::newLabel(IVariable *ivar)
 CClickableLabel *IVariableMeasuresUIHandler::newValueLabel(IVariable *ivar)
 {
     Q_UNUSED(ivar);
-    CClickableLabel *label = new CClickableLabel(container());
+    CClickableLabel *label = IVariableUIHandler::newLabel(ivar);
     label->setFont(StyleRepository::measureFont());
     return label;
 }
@@ -159,7 +159,7 @@ CClickableLabel *IVariableMeasuresUIHandler::newValueLabel(IVariable *ivar)
 CClickableLabel *IVariableMeasuresUIHandler::newErrorLabel(IVariable *ivar)
 {
     Q_UNUSED(ivar);
-    CClickableLabel *label = new CClickableLabel(container());
+    CClickableLabel *label = IVariableUIHandler::newLabel(ivar);
     label->setFont(StyleRepository::measureFont());
     QPalette pal = label->palette();
     pal.setColor(label->foregroundRole(), QColor(Qt::red));
