@@ -231,7 +231,7 @@ IVariablePtrList CVariableFactory::buildTemporary(const QStringList& names, vari
 IVariablePtr CVariableFactory::duplicateTemporary(IVariablePtr variable)
 {
     IVariable *ivar = CVariableFactory::buildTemporary(variable->getName(), variable->getLabel(), variable->toVariant(),
-                                                       variable->getType(), variable->getOrganType());
+                                                       variable->getType(), type_organ_none);
     ivar->setAccess(variable->getAccess());
     return ivar;
 }
