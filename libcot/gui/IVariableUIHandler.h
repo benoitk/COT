@@ -12,7 +12,7 @@
 class CScrollableWidget;
 class CScrollablePagerWidget;
 class IVariableObjectDescriber;
-class QLabel;
+class CClickableLabel;
 class QGridLayout;
 class CToolButton;
 
@@ -114,9 +114,9 @@ protected:
 
     virtual void applyEditorConstraints(QWidget *editor, IVariable *ivar);
     virtual CToolButton *newDeleteButton(IVariable *ivar);
-    QLabel *newLabel(IVariable *ivar);
+    CClickableLabel *newLabel(IVariable *ivar);
     QWidget *newEditor(IVariable *ivar);
-    QLabel *newUnit(IVariable *ivar);
+    CClickableLabel *newUnit(IVariable *ivar);
 
 protected slots:
     void slotVariableChanged(const QString &name);

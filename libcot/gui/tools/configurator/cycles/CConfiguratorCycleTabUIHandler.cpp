@@ -4,13 +4,12 @@
 #include "CToolButton.h"
 #include "CEditCycleWindow.h"
 #include "CPCWindow.h"
+#include "CClickableLabel.h"
 #include "cotgui_debug.h"
 
 #include <CAutomate.h>
 #include <CVariableFactory.h>
 #include <CVariableStream.h>
-
-#include <QLabel>
 
 CConfiguratorCycleTabUIHandler::CConfiguratorCycleTabUIHandler(CScrollableWidget *scrollable, QObject *parent)
     : IConfiguratorUIHandler(scrollable, parent)
@@ -120,7 +119,7 @@ void CConfiguratorCycleTabUIHandler::rowChanged(const IVariableUIHandler::Row &r
     const bool isStream = ivar && ivar->getType() == type_stream;
 
     if (isStream) {
-        row.widgetAt<QLabel *>(0)->setText(ivar->getLabel());
+        row.widgetAt<CClickableLabel *>(0)->setText(ivar->getLabel());
     }
     else {
         row.widgetAt<CPushButton *>(1)->setText(ivar->getLabel());

@@ -22,9 +22,9 @@
 #include "IOrgan.h"
 #include "CUnit.h"
 #include "StyleRepository.h"
+#include "CClickableLabel.h"
 
 #include <QGridLayout>
-#include <QLabel>
 #include <QDebug>
 #include "cotgui_debug.h"
 
@@ -660,10 +660,10 @@ CToolButton *IVariableUIHandler::newDeleteButton(IVariable *ivar)
     return Q_NULLPTR;
 }
 
-QLabel *IVariableUIHandler::newLabel(IVariable *ivar)
+CClickableLabel *IVariableUIHandler::newLabel(IVariable *ivar)
 {
     Q_UNUSED(ivar);
-    QLabel *label = new QLabel(m_container);
+    CClickableLabel *label = new CClickableLabel(m_container);
     return label;
 }
 
@@ -920,10 +920,10 @@ QWidget *IVariableUIHandler::newEditor(IVariable *ivar)
     return Q_NULLPTR;
 }
 
-QLabel *IVariableUIHandler::newUnit(IVariable *ivar)
+CClickableLabel *IVariableUIHandler::newUnit(IVariable *ivar)
 {
     Q_UNUSED(ivar);
-    QLabel *label = new QLabel(m_container);
+    CClickableLabel *label = new CClickableLabel(m_container);
     label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
     return label;
 }
@@ -940,9 +940,9 @@ void IVariableUIHandler::rowInserted(const IVariableUIHandler::Row &row, IVariab
 
 void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariable *ivar)
 {
-    QLabel *label = row.widgetAt<QLabel *>(0);
+    CClickableLabel *label = row.widgetAt<CClickableLabel *>(0);
     QWidget *editor = row.widgetAt<QWidget *>(1);
-    QLabel *labelUnit = row.widgetAt<QLabel *>(2);
+    CClickableLabel *labelUnit = row.widgetAt<CClickableLabel *>(2);
     CUnit *unit = ivar->getUnit();
     label->setText(ivar->getLabel());
     labelUnit->setText(unit ? unit->getLabel() : QString());

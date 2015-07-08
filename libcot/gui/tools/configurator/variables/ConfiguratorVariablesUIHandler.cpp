@@ -1,14 +1,15 @@
 #include "ConfiguratorVariablesUIHandler.h"
 #include "CScrollablePagerWidget.h"
+#include "CClickableLabel.h"
+#include "cotgui_debug.h"
 
 #include <CPushButton.h>
 #include <CToolButton.h>
 #include <CAutomate.h>
 #include <CVariableFactory.h>
-#include <QLabel>
-#include "cotgui_debug.h"
 #include <CVariableMeasure.h>
 #include <CVariableStream.h>
+
 #include <QDebug>
 
 ConfiguratorVariablesUIHandler::ConfiguratorVariablesUIHandler(CScrollableWidget *scrollable, QObject *parent)
@@ -165,9 +166,9 @@ void ConfiguratorVariablesUIHandler::rowChanged(const IVariableUIHandler::Row &r
     //IVariable *varParent = isVariable ? getStreamOrMeasure(ivar) : Q_NULLPTR;
 
     if (isStream) {
-        row.widgetAt<QLabel *>(0)->setText(ivar->getLabel());
+        row.widgetAt<CClickableLabel *>(0)->setText(ivar->getLabel());
     } else if (isMeasure) {
-        row.widgetAt<QLabel *>(1)->setText(ivar->getLabel());
+        row.widgetAt<CClickableLabel *>(1)->setText(ivar->getLabel());
     } else {
      CPushButton *button = row.widgetAt<CPushButton *>(1);
      if (!button) {

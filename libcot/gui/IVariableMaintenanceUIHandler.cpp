@@ -6,8 +6,8 @@
 #include "ICycle.h"
 #include "CVariableString.h"
 #include "StyleRepository.h"
+#include "CClickableLabel.h"
 
-#include <QLabel>
 #include <QDebug>
 
 IVariableMaintenanceUIHandler::IVariableMaintenanceUIHandler(CScrollableWidget *scrollable, QObject *parent)
@@ -75,16 +75,16 @@ void IVariableMaintenanceUIHandler::rowChanged(const IVariableUIHandler::Row &ro
         return;
     }
 
-    row.widgetAt<QLabel *>(0)->setText(cycle->getLabel());
+    row.widgetAt<CClickableLabel *>(0)->setText(cycle->getLabel());
     row.widgetAt<CToolButton *>(1)->setEnabled(!cycle->isRunning());
     row.widgetAt<CToolButton *>(1)->setChecked(cycle->isRunning());
     row.widgetAt<CToolButton *>(2)->setVisible(cycle->isRunning());
 }
 
-QLabel *IVariableMaintenanceUIHandler::newLabel(IVariable *ivar)
+CClickableLabel *IVariableMaintenanceUIHandler::newLabel(IVariable *ivar)
 {
     Q_UNUSED(ivar);
-    QLabel *label = new QLabel(container());
+    CClickableLabel *label = new CClickableLabel(container());
     return label;
 }
 

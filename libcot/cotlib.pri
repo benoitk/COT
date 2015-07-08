@@ -221,7 +221,8 @@ HEADERS *= \
     $$PWD/automate/actions/CActionAcquisitionCitNpoc.h \
     $$PWD/automate/actions/CActionDCEngine.h \
     $$PWD/automate/actions/CActionRewriteOutput.h \
-    $$PWD/automate/CThreadDiag.h
+    $$PWD/automate/CThreadDiag.h \
+    $$PWD/gui/widgets/CClickableLabel.h
 
 SOURCES *= \
     $$PWD/automate/CAutomate.cpp \
@@ -397,4 +398,5 @@ SOURCES *= \
     $$PWD/automate/actions/CActionAcquisitionCitNpoc.cpp \
     $$PWD/automate/actions/CActionDCEngine.cpp \
     $$PWD/automate/actions/CActionRewriteOutput.cpp \
-    $$PWD/automate/CThreadDiag.cpp
+    $$PWD/automate/CThreadDiag.cpp \
+    $$PWD/gui/widgets/CClickableLabel.cpp

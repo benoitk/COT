@@ -2,13 +2,12 @@
 #include "CScrollablePagerWidget.h"
 #include "CPushButton.h"
 #include "CToolButton.h"
+#include "CClickableLabel.h"
 
 #include <CVariableFactory.h>
 #include <CAutomate.h>
 #include <CScheduler.h>
 #include <ICycle.h>
-
-#include <QLabel>
 
 ConfiguratorSequencerUIHandler::ConfiguratorSequencerUIHandler(CScrollableWidget *scrollable, QObject *parent)
     : IConfiguratorUIHandler(scrollable, parent)
@@ -62,7 +61,7 @@ QWidget *ConfiguratorSequencerUIHandler::createWidget(int column, IVariable *iva
             return newCycleButton(ivar);
 
         case 1:
-            return new QLabel(QStringLiteral("X"), container());
+            return new CClickableLabel(QStringLiteral("X"), container());
 
         case 2:
             return newValueButton(ivar);

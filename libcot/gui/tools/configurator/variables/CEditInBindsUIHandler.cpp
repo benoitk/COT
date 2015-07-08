@@ -2,10 +2,9 @@
 #include "IVariableObjectDescriber.h"
 #include "CPushButton.h"
 #include "CToolButton.h"
+#include "CClickableLabel.h"
 
 #include <CAutomate.h>
-
-#include <QLabel>
 
 CEditInBindsUIHandler::CEditInBindsUIHandler(CScrollableWidget *scrollable, QObject *parent)
     : IConfiguratorUIHandler(scrollable, parent)
@@ -52,6 +51,6 @@ void CEditInBindsUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVari
 {
     CAutomate *automate = CAutomate::getInstance();
     applyEditorConstraints(row.widgetAt<CPushButton *>(1), ivar);
-    row.widgetAt<QLabel *>(0)->setText(tr("Source"));
+    row.widgetAt<CClickableLabel *>(0)->setText(tr("Source"));
     row.widgetAt<CPushButton *>(1)->setText(automate->getVariable(ivar->toString())->getLabel());
 }

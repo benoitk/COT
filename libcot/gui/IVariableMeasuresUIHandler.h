@@ -28,9 +28,9 @@ protected:
 private:
     QWidget *newDetailsButton(IVariable *ivar);
     QWidget *newColorLegend(IVariable *ivar);
-    QLabel *newLabel(IVariable *ivar);
-    QLabel *newValueLabel(IVariable *ivar);
-    QLabel *newErrorLabel(IVariable *ivar);
+    CClickableLabel *newLabel(IVariable *ivar);
+    CClickableLabel *newValueLabel(IVariable *ivar);
+    CClickableLabel *newErrorLabel(IVariable *ivar);
     QString textForStreamState(CAutomate::eStateStream state) const;
 
 private slots:

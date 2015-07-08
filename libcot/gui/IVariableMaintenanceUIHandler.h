@@ -21,7 +21,7 @@ protected:
     void rowChanged(const Row &row, IVariable *ivar) Q_DECL_OVERRIDE;
 
 private:
-    QLabel *newLabel(IVariable *ivar);
+    CClickableLabel *newLabel(IVariable *ivar);
     CToolButton *newStartEditor(IVariable *ivar);
     CToolButton *newStopEditor(IVariable *ivar);
 

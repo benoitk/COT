@@ -10,8 +10,8 @@
 #include "CVariableMeasure.h"
 #include "CUnit.h"
 #include "StyleRepository.h"
+#include "CClickableLabel.h"
 
-#include <QLabel>
 #include <QDebug>
 #include <CPlotObject.h>
 
@@ -106,8 +106,8 @@ void IVariableMeasuresUIHandler::rowChanged(const IVariableUIHandler::Row &row, 
     if (button) {
         button->setUserData(ivar->getName());
     }
-    row.widgetAt<QLabel *>(POS_LABEL)->setText(ivar->getLabel());
-    row.widgetAt<QLabel *>(POS_VALUE)->setText(valueAndUnit(ivar));
+    row.widgetAt<CClickableLabel *>(POS_LABEL)->setText(ivar->getLabel());
+    row.widgetAt<CClickableLabel *>(POS_VALUE)->setText(valueAndUnit(ivar));
 }
 
 QWidget *IVariableMeasuresUIHandler::newDetailsButton(IVariable *ivar)
@@ -132,15 +132,15 @@ QWidget *IVariableMeasuresUIHandler::newColorLegend(IVariable *ivar)
         measureVar->setColor(CPlotObject::createNewColor());
     }
     pixmap.fill(measureVar->color());
-    QLabel *label = new QLabel(container());
+    CClickableLabel *label = new CClickableLabel(container());
     label->setPixmap(pixmap);
     return label;
 }
 
-QLabel *IVariableMeasuresUIHandler::newLabel(IVariable *ivar)
+CClickableLabel *IVariableMeasuresUIHandler::newLabel(IVariable *ivar)
 {
     Q_UNUSED(ivar);
-    QLabel *label = new QLabel(container());
+    CClickableLabel *label = new CClickableLabel(container());
     QPalette pal = label->palette();
     pal.setColor(label->foregroundRole(), QColor(Qt::gray));
     label->setPalette(pal);
@@ -148,18 +148,18 @@ QLabel *IVariableMeasuresUIHandler::newLabel(IVariable *ivar)
     return label;
 }
 
-QLabel *IVariableMeasuresUIHandler::newValueLabel(IVariable *ivar)
+CClickableLabel *IVariableMeasuresUIHandler::newValueLabel(IVariable *ivar)
 {
     Q_UNUSED(ivar);
-    QLabel *label = new QLabel(container());
+    CClickableLabel *label = new CClickableLabel(container());
     label->setFont(StyleRepository::measureFont());
     return label;
 }
 
-QLabel *IVariableMeasuresUIHandler::newErrorLabel(IVariable *ivar)
+CClickableLabel *IVariableMeasuresUIHandler::newErrorLabel(IVariable *ivar)
 {
     Q_UNUSED(ivar);
-    QLabel *label = new QLabel(container());
+    CClickableLabel *label = new CClickableLabel(container());
     label->setFont(StyleRepository::measureFont());
     QPalette pal = label->palette();
     pal.setColor(label->foregroundRole(), QColor(Qt::red));
@@ -204,7 +204,7 @@ void IVariableMeasuresUIHandler::slotUpdateStateStream(const QString &arg_stream
         IVariable *var = measureVar->getMeasureVariable();
         Row* row = getRow(var->getName());
         if (row) {
-            row->widgetAt<QLabel *>(POS_ERROR)->setText(textForStreamState(state));
+            row->widgetAt<CClickableLabel *>(POS_ERROR)->setText(textForStreamState(state));
         }
     }
 }
