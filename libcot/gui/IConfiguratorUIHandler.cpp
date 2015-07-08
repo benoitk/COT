@@ -33,7 +33,7 @@ void IConfiguratorUIHandler::applyEditorConstraints(QWidget *editor, IVariable *
     // The configurator always allow editing properties.
     // The only allowed constraints comes from the CVariableMutable type
     if (editor && ivar->getType() == type_mutable) {
-        editor->setEnabled(ivar->getAccess() != access_read);
+        editor->setEnabled(ivar->getAccess() == access_read_write);
     }
 }
 

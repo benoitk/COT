@@ -808,6 +808,9 @@ QWidget *IVariableUIHandler::newEditor(IVariable *ivar)
             return editor;
         }
 
+        case type_list_variables:
+            break;
+
         case type_mutable: {
             CVariableMutable *vmutable = static_cast<CVariableMutable *>(ivar);
 
@@ -1057,6 +1060,9 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
             qobject_cast<CPushButton *>(editor)->setText(ivar->toString());
             return;
         }
+
+        case type_list_variables:
+            break;
 
         case type_mutable: {
             CAutomate *automate = CAutomate::getInstance();

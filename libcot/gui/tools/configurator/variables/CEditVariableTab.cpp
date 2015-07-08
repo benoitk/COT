@@ -7,21 +7,18 @@
 #include <CUnit.h>
 #include <IOrgan.h>
 
-CEditVariableTab::CEditVariableTab(QWidget *parent)
+CEditVariableTab::CEditVariableTab(IVariable *ivar, QWidget *parent)
     : IConfiguratorEditTab(parent)
+    , m_handler(new CEditVariableTabUIHandler(scrollableWidget(), this))
 {
-    m_configuratorUIHandler = new CEditVariableTabUIHandler(scrollableWidget(), this);
+    Q_ASSERT(ivar);
+    m_handler->layout(ivar);
     initBaseTab();
-}
-
-void CEditVariableTab::setVariables(IVariable *ivar)
-{
-    m_configuratorUIHandler->layout(ivar);
 }
 
 void CEditVariableTab::applyProperties(const QVariant &object)
 {
-    const IVariableObjectDescriber *describer = m_configuratorUIHandler->describer();
+    const IVariableObjectDescriber *describer = m_handler->describer();
     CAutomate * automate = CAutomate::getInstance();
     IVariable *ivar = object.value<IVariable *>();
     Q_ASSERT(ivar);
@@ -63,10 +60,9 @@ void CEditVariableTab::applyProperties(const QVariant &object)
     CVariableMeasure *measure = automate->getMeasure(describer->getVariable(QStringLiteral("streamOrMeasure"))->toString());
 
     if (measure) {
-        // SERES_TODO: need getVariableMeasure / changeVariableMeasure
-        /*if (automate->getVariableMeasure(ivar) != measure) {
+        if (automate->getVariableMeasure(ivar) != measure) {
             automate->changeVariableMeasure(ivar, measure);
-        }*/
+        }
     }
     else if (stream) {
         if (automate->getVariableStream(ivar) != stream) {
@@ -74,7 +70,7 @@ void CEditVariableTab::applyProperties(const QVariant &object)
         }
     }
     else {
-        //automate->changeVariableMeasure(ivar, Q_NULLPTR); // SERES_TODO
+        automate->changeVariableMeasure(ivar, Q_NULLPTR);
         automate->changeVariableStream(ivar, Q_NULLPTR);
     }
 }

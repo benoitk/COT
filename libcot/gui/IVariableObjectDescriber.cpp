@@ -19,6 +19,8 @@
 
 #include "cotgui_debug.h"
 
+// IVariableObjectDescriber
+
 IVariableObjectDescriber::IVariableObjectDescriber(IVariableUIHandler *parent)
     : QObject(parent)
 {
@@ -45,6 +47,17 @@ QHash<QString, IVariablePtr> IVariableObjectDescriber::getVariablesHash() const
 IVariablePtr IVariableObjectDescriber::getVariable(const QString &name) const
 {
     return m_variablesHash.value(name, Q_NULLPTR);
+}
+
+bool IVariableObjectDescriber::hasValue(const QVariant &value) const
+{
+    foreach (IVariable *ivar, m_variables) {
+        if (ivar->toVariant() == value) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 void IVariableObjectDescriber::clear() {
@@ -75,7 +88,8 @@ void IVariableObjectDescriber::slotVariableChanged()
     emit signalVariableChanged(variable->getName());
 }
 
-// ICycle Describer
+// CVariableICycleDescriber
+
 CVariableICycleDescriber::CVariableICycleDescriber(IVariableUIHandler *parent)
     : IVariableObjectDescriber(parent)
 {
@@ -116,6 +130,7 @@ void CVariableICycleDescriber::describe(const QVariant &object)
     setVariables(IVariablePtrList() << label << type << timer << stream);
 }
 
+// CVariableIVariableDescriber
 
 CVariableIVariableDescriber::CVariableIVariableDescriber(IVariableUIHandler *parent)
     : IVariableObjectDescriber(parent)
@@ -205,7 +220,7 @@ void CVariableIVariableDescriber::describe(const QVariant &object)
     }
 
     CVariableStream *stream = automate->getVariableStream(ivar);
-    CVariableMeasure *measure = Q_NULLPTR; // SERES_TODO automate->getVariableMeasure(ivar);
+    CVariableMeasure *measure = automate->getVariableMeasure(ivar);
     const QString streamOrMeasureName = stream ? stream->getName() : (measure ? measure->getName() : QString());
     CVariableMutable *streamOrMeasure = CVariableFactory::castedBuild<CVariableMutable *>(type_mutable, type_organ_none, streamOrMeasureName);
     setVariableAccess(streamOrMeasure, access_read_write);
@@ -224,6 +239,7 @@ void CVariableIVariableDescriber::describe(const QVariant &object)
     setVariables(ivars);
 }
 
+// CVariableIActionDescriber
 
 CVariableIActionDescriber::CVariableIActionDescriber(IVariableUIHandler *parent)
     : IVariableObjectDescriber(parent)
@@ -244,6 +260,7 @@ void CVariableIActionDescriber::describe(const QVariant &object)
     setVariables(ivars);
 }
 
+// CVariableCStepDescriber
 
 CVariableCStepDescriber::CVariableCStepDescriber(IVariableUIHandler *parent)
     : IVariableObjectDescriber(parent)
@@ -270,6 +287,7 @@ void CVariableCStepDescriber::describe(const QVariant &object)
     setVariables(IVariablePtrList() << interval << label);
 }
 
+// CVariableIVariableOutBindsDescriber
 
 CVariableIVariableOutBindsDescriber::CVariableIVariableOutBindsDescriber(IVariableUIHandler *parent)
     :  IVariableObjectDescriber(parent)
@@ -279,22 +297,81 @@ CVariableIVariableOutBindsDescriber::CVariableIVariableOutBindsDescriber(IVariab
 
 void CVariableIVariableOutBindsDescriber::describe(const QVariant &object)
 {
-    IVariable *var = object.value<IVariable *>();
-    Q_ASSERT(var);
+    QList<IVariable *> bindings;
+    QList<IVariable *> bindingsMapping;
+
+    if (object.canConvert<IVariable *>()) {
+        const IVariable *ivar = object.value<IVariable *>();
+        Q_ASSERT(ivar);
+        bindings = ivar->getListOutBinds();
+    }
+    else if (object.canConvert<QStringList>()) {
+        CAutomate *automate = CAutomate::getInstance();
+        const QStringList names = object.toStringList();
+        bindings = automate->getVariables(names);
+    }
+    else {
+        Q_ASSERT(false);
+    }
+
+    int i = 0;
+    foreach (IVariable *ivar, bindings) {
+        CVariableMutable *outBind = CVariableFactory::castedBuild<CVariableMutable *>(type_mutable, type_organ_none, ivar->getName());
+        setVariableAccess(outBind, access_read_write);
+        outBind->setName(QString("target_%1").arg(++i));
+        outBind->setLabel(ivar->getLabel());
+        outBind->setMutableType(CVariableMutable::Variable);
+        bindingsMapping << outBind;
+    }
 
     clear();
-    IVariablePtrList lst;
-    const QList<IVariable *> listOutBind = var->getListOutBinds();
-    foreach(IVariable *var, listOutBind) {
-        CVariableMutable *outBind = CVariableFactory::castedBuild<CVariableMutable *>(type_mutable, type_organ_none, var->getLabel());
-        outBind->setName(QStringLiteral("target"));
-        outBind->setLabel(tr("Target"));
-        outBind->setMutableType(CVariableMutable::Variable);
-        lst << outBind;
-    }
-    setVariables(lst);
+
+    setVariables(bindingsMapping);
 }
 
+// CVariableIVariableInBindsDescriber
+
+CVariableIVariableInBindsDescriber::CVariableIVariableInBindsDescriber(IVariableUIHandler *parent)
+    :  IVariableObjectDescriber(parent)
+{
+
+}
+
+void CVariableIVariableInBindsDescriber::describe(const QVariant &object)
+{
+    QList<IVariable *> bindings;
+    QList<IVariable *> bindingsMapping;
+
+    if (object.canConvert<IVariable *>()) {
+        const IVariable *ivar = object.value<IVariable *>();
+        Q_ASSERT(ivar);
+        bindings = ivar->getListInBinds();
+    }
+    else if (object.canConvert<QStringList>()) {
+        CAutomate *automate = CAutomate::getInstance();
+        const QStringList names = object.toStringList();
+        bindings = automate->getVariables(names);
+    }
+    else {
+        Q_ASSERT(false);
+    }
+
+    int i = 0;
+    foreach (IVariable *ivar, bindings) {
+        CVariableMutable *inBind = CVariableFactory::castedBuild<CVariableMutable *>(type_mutable, type_organ_none, ivar->getName());
+        setVariableAccess(inBind, access_read);
+        inBind->setName(QString("source_%1").arg(++i));
+        inBind->setLabel(ivar->getLabel());
+        inBind->setMutableType(CVariableMutable::Variable);
+        bindingsMapping << inBind;
+    }
+
+    clear();
+
+    setVariables(bindingsMapping);
+}
+
+// CVariableCStepActionsDescriber
 
 CVariableCStepActionsDescriber::CVariableCStepActionsDescriber(IVariableUIHandler *parent)
     : IVariableObjectDescriber(parent)

@@ -24,6 +24,7 @@ public:
     IVariablePtrList getVariables() const;
     // currently unused QHash<QString, IVariablePtr> getVariablesHash() const;
     IVariablePtr getVariable(const QString &name) const;
+    bool hasValue(const QVariant &value) const;
     void clear();
 
     /// Subclasses reimplement this to create the list of variables, by calling setVariables.
@@ -71,6 +72,16 @@ class CVariableIVariableOutBindsDescriber : public IVariableObjectDescriber
 
 public:
     explicit CVariableIVariableOutBindsDescriber(IVariableUIHandler *parent);
+    void describe(const QVariant &object) Q_DECL_OVERRIDE;
+};
+
+// IVariable In Binds Describer, to edit one variable
+class CVariableIVariableInBindsDescriber : public IVariableObjectDescriber
+{
+    Q_OBJECT
+
+public:
+    explicit CVariableIVariableInBindsDescriber(IVariableUIHandler *parent);
     void describe(const QVariant &object) Q_DECL_OVERRIDE;
 };
 

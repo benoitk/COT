@@ -12,10 +12,10 @@ CConfiguratorVariablesTab::CConfiguratorVariablesTab(QWidget *parent)
     m_ivariableUIHandler = new ConfiguratorVariablesUIHandler(scrollableWidget(), this);
     slotUpdateLayout();
 
+    connect(buttonBar()->addAction(CToolButton::Add), &QAction::triggered, this, &CConfiguratorVariablesTab::slotAddVariable);
     connect(m_ivariableUIHandler, &ConfiguratorVariablesUIHandler::editVariable, this, &CConfiguratorVariablesTab::editVariable);
     connect(CAutomate::getInstance(), &CAutomate::signalStreamsUpdated, this, &CConfiguratorVariablesTab::slotUpdateLayout);
     connect(CAutomate::getInstance(), &CAutomate::signalVariablesUpdated, this, &CConfiguratorVariablesTab::slotUpdateLayout);
-    connect(buttonBar()->addAction(CToolButton::Add), &QAction::triggered, this, &CConfiguratorVariablesTab::slotAddVariable);
     initBaseTab();
 }
 

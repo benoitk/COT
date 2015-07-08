@@ -11,13 +11,15 @@ class CEditOutBindsTab : public IConfiguratorEditTab
     Q_OBJECT
 
 public:
-    explicit CEditOutBindsTab(QWidget *parent = Q_NULLPTR);
+    explicit CEditOutBindsTab(IVariable *ivar, QWidget *parent = Q_NULLPTR);
 
-    void setVariables(IVariable *ivar);
     void applyProperties(const QVariant &object) Q_DECL_OVERRIDE;
 
 private:
-    CEditOutBindsUIHandler *m_configuratorUIHandler;
+    CEditOutBindsUIHandler *m_handler;
+
+private slots:
+    void slotAddBinding();
 };
 
 #endif // CEDITOUTBINDSTAB_H

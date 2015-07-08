@@ -7,25 +7,13 @@
 
 CEditVariableWindow::CEditVariableWindow(IVariable *ivar, QWidget *parent)
     : IConfiguratorEditWindow(QVariant::fromValue(ivar), parent)
-    , m_ceditVariableTab(new CEditVariableTab(this))
-    , m_ceditOutBindsTab(new CEditOutBindsTab(this))
-    , m_ceditInBindsTab(new CEditInBindsTab(this))
     , m_variable(ivar)
 {
-    addTab(m_ceditVariableTab);
-    addTab(m_ceditOutBindsTab);
-    addTab(m_ceditInBindsTab);
-    initBaseWindow();
-    if (ivar) {
-        setVariables(ivar);
-    }
-}
+    addTab(new CEditVariableTab(ivar, this));
+    addTab(new CEditOutBindsTab(ivar, this));
+    addTab(new CEditInBindsTab(ivar, this));
 
-void CEditVariableWindow::setVariables(IVariable *ivar)
-{
-    m_ceditVariableTab->setVariables(ivar);
-    m_ceditOutBindsTab->setVariables(ivar);
-    m_ceditInBindsTab->setVariables(ivar);
+    initBaseWindow();
 }
 
 void CEditVariableWindow::slotRetranslate()

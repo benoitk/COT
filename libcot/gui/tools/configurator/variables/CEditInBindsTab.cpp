@@ -1,26 +1,20 @@
 #include "CEditInBindsTab.h"
 #include "CAutomate.h"
 #include "CEditInBindsUIHandler.h"
-#include <IConfiguratorUIHandler.h>
 
-CEditInBindsTab::CEditInBindsTab(QWidget *parent)
+#include <IVariableObjectDescriber.h>
+
+CEditInBindsTab::CEditInBindsTab(IVariable *ivar, QWidget *parent)
     : IConfiguratorEditTab(parent)
-{
-
-    m_configuratorUIHandler = new CEditInBindsUIHandler(scrollableWidget(), this);
-
-    initBaseTab();
-}
-
-void CEditInBindsTab::setVariables(IVariable *ivar)
+    , m_handler(new CEditInBindsUIHandler(scrollableWidget(), this))
 {
     Q_ASSERT(ivar);
-    const QList<IVariable *> listInBinds = ivar->getListInBinds();
-    m_configuratorUIHandler->layout(listInBinds);
+    m_handler->layout(ivar);
+    initBaseTab();
 }
 
 void CEditInBindsTab::applyProperties(const QVariant &object)
 {
     Q_UNUSED(object);
-    //ReadOnly => nothing to do
+    // Nothing to do here
 }
