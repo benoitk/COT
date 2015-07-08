@@ -30,6 +30,8 @@ public:
     bool variableUsed(IVariable *)const Q_DECL_OVERRIDE;
     QMap<QString, IVariable*> getMapIVariableParameters() Q_DECL_OVERRIDE;
     QMap<QString, IVariable*> getMapCstParameters() Q_DECL_OVERRIDE;
+    void setParameter(QString arg_key, IVariable* arg_parameter)Q_DECL_OVERRIDE;
+
 
 private:
     enum eContidion{m_eEqualToSetpoint=0, m_eSuperiorToSetpoint, m_eInferiorToSetPoint};

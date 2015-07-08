@@ -148,3 +148,19 @@ QMap<QString, IVariable*> CActionAcquisitionCitNpoc::getMapCstParameters(){
     map.insert(tr("Generate critical error"), m_criticalError);
     return map;
 }
+void CActionAcquisitionCitNpoc::setParameter(QString arg_key, IVariable* arg_parameter){
+    if(tr("Cellule")== arg_key) m_measureCell= arg_parameter;
+    else if(tr("Zero point")== arg_key)m_zero= arg_parameter;
+    else if(tr("Result")== arg_key)m_result= arg_parameter;
+    else if(tr("Air flow")== arg_key)m_airflow= arg_parameter;
+    else if(tr("Vessel volume")== arg_key)m_vesselVolume= arg_parameter;
+    else if(tr("Coefficient 1")== arg_key)m_coef1= arg_parameter;
+    else if(tr("Coefficient 2")== arg_key)m_coef2= arg_parameter;
+    else if(tr("Coefficient 3")== arg_key)m_coef3= arg_parameter;
+    else if(tr("Coefficient 4")== arg_key)m_coef4= arg_parameter;
+    else if(tr("Coefficient 5")== arg_key)m_coef5= arg_parameter;
+    else if(tr("Co2 ppmv to Co2 g/m3")== arg_key)m_CstConversion= arg_parameter;
+    else if(tr("Time acquisition")== arg_key)m_timeout= arg_parameter;
+
+    else if(tr("Generate critical error")== arg_key)m_criticalError->setValue(arg_parameter->toBool());
+}

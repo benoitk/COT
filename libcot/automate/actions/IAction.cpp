@@ -66,3 +66,4 @@ bool IAction::runAction(){
 void IAction::abortAction(){
     m_abort = true;
 }
+

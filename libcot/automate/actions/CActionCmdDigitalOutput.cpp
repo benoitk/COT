@@ -62,3 +62,7 @@ QMap<QString, IVariable*> CActionCmdDigitalOutput::getMapCstParameters(){
     QMap<QString, IVariable*>  map;
     return map;
 }
+void CActionCmdDigitalOutput::setParameter(QString arg_key, IVariable* arg_parameter){
+    if(tr("Target")== arg_key)m_varDigitalOutput= arg_parameter;
+
+}

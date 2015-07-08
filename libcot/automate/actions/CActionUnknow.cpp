@@ -39,3 +39,6 @@ QMap<QString, IVariable*> CActionUnknow::getMapCstParameters(){
     QMap<QString, IVariable*>  map;
     return map;
 }
+void CActionUnknow::setParameter(QString arg_key, IVariable* arg_parameter){
+
+}

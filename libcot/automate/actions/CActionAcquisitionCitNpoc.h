@@ -28,6 +28,7 @@ public:
 
     QMap<QString, IVariable*> getMapIVariableParameters() Q_DECL_OVERRIDE;
     QMap<QString, IVariable*> getMapCstParameters() Q_DECL_OVERRIDE;
+    void setParameter(QString arg_key, IVariable* arg_parameter)Q_DECL_OVERRIDE;
 private:
 
     IVariable* m_measureCell;

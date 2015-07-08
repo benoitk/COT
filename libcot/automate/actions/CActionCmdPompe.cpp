@@ -83,3 +83,12 @@ QMap<QString, IVariable*> CActionCmdPompe::getMapCstParameters(){
     QMap<QString, IVariable*>  map;
     return map;
 }
+void CActionCmdPompe::setParameter(QString arg_key, IVariable* arg_parameter){
+//    if(tr("Setpoint")== arg_key) m_setpoint= arg_parameter;
+//    else if(tr("Target")== arg_key)m_target= arg_parameter;
+//    else if(tr("Result")== arg_key)m_result= arg_parameter;
+//    else if(tr("Waiting")== arg_key)m_waiting= arg_parameter;
+//    else if(tr("Error margin")== arg_key)m_errorMargin= arg_parameter;
+//    else if(tr("Timeout")== arg_key)m_timeout= arg_parameter;
+//    else if(tr("Generate critical error")== arg_key)m_criticalError->setValue(arg_parameter->toBool());
+}

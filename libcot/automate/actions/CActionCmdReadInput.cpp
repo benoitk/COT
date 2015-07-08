@@ -59,3 +59,8 @@ QMap<QString, IVariable*> CActionCmdReadInput::getMapCstParameters(){
     QMap<QString, IVariable*>  map;
     return map;
 }
+void CActionCmdReadInput::setParameter(QString arg_key, IVariable* arg_parameter){
+    if(tr("Target input")== arg_key) m_organneVar= arg_parameter;
+    else if(tr("Variable destination")== arg_key)m_variableDestination= arg_parameter;
+
+}
