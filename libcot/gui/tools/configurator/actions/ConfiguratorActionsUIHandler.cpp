@@ -6,6 +6,7 @@
 #include <CPCWindow.h>
 #include <CToolButton.h>
 #include <CVariableFactory.h>
+#include <CVariableMutable.h>
 #include <IAction.h>
 #include <cotgui_debug.h>
 #include <CEditActionWindow.h>
@@ -32,7 +33,8 @@ void ConfiguratorActionsUIHandler::layout()
         // All this assumes that actions have a unique name. But of course so does CAutomate::getAction.
         QString actionName = action->getName();
         QString actionLbl = action->getLabel();
-        IVariable *ivar = CVariableFactory::buildTemporary(actionName, actionLbl, type_string);
+        CVariableMutable *ivar = qobject_cast<CVariableMutable *>(CVariableFactory::buildTemporary(actionName, actionLbl, type_mutable));
+        ivar->setAccess(access_read_write);
 
         if (m_internalVariables.contains(action->getName())) {
             qWarning(COTGUI_LOG) << "Already have an action called" << action->getName();

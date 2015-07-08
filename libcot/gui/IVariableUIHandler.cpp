@@ -818,7 +818,7 @@ QWidget *IVariableUIHandler::newEditor(IVariable *ivar)
                 case CVariableMutable::Undefined: {
                     CPushButton *editor = new CPushButton(m_container);
                     editor->setUserData(ivar->getName());
-                    break;
+                    return editor;
                 }
 
                 case CVariableMutable::CycleType: {

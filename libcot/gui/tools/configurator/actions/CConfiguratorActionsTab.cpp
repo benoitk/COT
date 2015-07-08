@@ -3,8 +3,11 @@
 #include "CVerticalButtonBar.h"
 #include "ConfiguratorActionsUIHandler.h"
 #include "IVariableObjectDescriber.h"
+#include "CEditActionWindow.h"
+#include "CPCWindow.h"
 
-#include "CAutomate.h"
+#include <CAutomate.h>
+#include <CActionFactory.h>
 
 #include <QAction>
 
@@ -25,6 +28,16 @@ void CConfiguratorActionsTab::slotAddAction()
     actionType type;
     if (!m_iactionUIHandler->selectActionType(type)) {
         return;
+    }
+
+    IAction * action = CActionFactory::build(type, CAutomate::getInstance());
+    Q_ASSERT(action);
+
+    if (type == type_block) {
+        // not yet handled.
+    }
+    else {
+        CPCWindow::openModal<CEditActionWindow>(action);
     }
 }
 
