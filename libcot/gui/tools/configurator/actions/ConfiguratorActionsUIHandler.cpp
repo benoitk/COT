@@ -23,24 +23,27 @@ ConfiguratorActionsUIHandler::~ConfiguratorActionsUIHandler()
 void ConfiguratorActionsUIHandler::layout()
 {
     CVariableFactory::deleteVariables(m_internalVariables);
-    IVariablePtrList ivars;
 
     CAutomate *automate = CAutomate::getInstance();
     const QList<IAction *> actions = automate->getListActions();
-    foreach ( IAction *action, actions ) {
+    IVariablePtrList ivars;
+
+    foreach (IAction *action, actions) {
         // All this assumes that actions have a unique name. But of course so does CAutomate::getAction.
-        //qCDebug(COTGUI_LOG) << action->getName() << action->getLabel();
         QString actionName = action->getName();
         QString actionLbl = action->getLabel();
-        IVariable *ivar = CVariableFactory::buildTemporary(action->getName(), action->getLabel(), type_string);
+        IVariable *ivar = CVariableFactory::buildTemporary(actionName, actionLbl, type_string);
+
         if (m_internalVariables.contains(action->getName())) {
             qWarning(COTGUI_LOG) << "Already have an action called" << action->getName();
+            Q_ASSERT(false);
         }
+
         m_internalVariables.insert(action->getName(), ivar);
         ivars << ivar;
     }
 
-    IConfiguratorUIHandler::layout(ivars, true);
+    IConfiguratorUIHandler::layout(ivars);
 }
 
 int ConfiguratorActionsUIHandler::columnCount() const
@@ -51,11 +54,14 @@ int ConfiguratorActionsUIHandler::columnCount() const
 QWidget *ConfiguratorActionsUIHandler::createWidget(int column, IVariable *ivar)
 {
     switch (column) {
-    case 0:
-        return newButton(ivar);
-    case 1:
-        return newDeleteButton(ivar);
+        case 0:
+            return newEditor(ivar);
+
+        case 1:
+            return newDeleteButton(ivar);
     }
+
+    Q_ASSERT(false);
     return Q_NULLPTR;
 }
 
@@ -67,8 +73,8 @@ void ConfiguratorActionsUIHandler::rowInserted(const IVariableUIHandler::Row &ro
 
 void ConfiguratorActionsUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariable *ivar)
 {
-    row.widgetAt<QPushButton *>(0)->setText(ivar->getLabel());
     applyEditorConstraints(row.widgets.value(0), ivar);
+    row.widgetAt<CPushButton *>(0)->setText(ivar->getLabel());
 }
 
 void ConfiguratorActionsUIHandler::rowAboutToBeDeleted(const IVariableUIHandler::Row &row, IVariable *ivar)
@@ -95,19 +101,9 @@ IVariable *ConfiguratorActionsUIHandler::getVariable(const QString &name) const
 
 void ConfiguratorActionsUIHandler::slotEditClicked()
 {
-    CPushButton *editor = qobject_cast<CPushButton *>(sender());
     CAutomate *automate = CAutomate::getInstance();
+    CPushButton *editor = qobject_cast<CPushButton *>(sender());
     IAction *action = automate->getAction(editor->userData().toString());
     Q_ASSERT(action);
-    qCDebug(COTGUI_LOG) << "Editing action" << action << action->getName();
-    // KDAB_TODO
     CPCWindow::openModal<CEditActionWindow>(action);
-}
-
-CPushButton *ConfiguratorActionsUIHandler::newButton(IVariable *ivar)
-{
-    CPushButton *button = new CPushButton(container());
-    button->setText(ivar->getLabel());
-    button->setUserData(ivar->getName());
-    return button;
 }

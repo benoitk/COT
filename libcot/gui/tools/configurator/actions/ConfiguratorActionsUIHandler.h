@@ -28,7 +28,6 @@ private slots:
     void slotEditClicked();
 
 private:
-    CPushButton *newButton(IVariable *ivar);
     QHash<QString, IVariable *> m_internalVariables;
 };
 

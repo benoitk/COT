@@ -252,11 +252,50 @@ void CVariableIActionDescriber::describe(const QVariant &object)
     Q_ASSERT(action);
 
     clear();
+
     IVariablePtrList ivars;
+
     CVariableString *label = CVariableFactory::castedBuild<CVariableString *>(type_string, type_organ_none, action->getLabel());
     label->setName("label");
     label->setLabel(tr("Label"));
-    ivars << label;
+
+    CVariableMutable *type = CVariableFactory::castedBuild<CVariableMutable *>(type_mutable, type_organ_none, action->getType());
+    setVariableAccess(type, access_read);
+    type->setName("type");
+    type->setLabel(tr("Type"));
+    type->setMutableType(CVariableMutable::ActionType);
+
+    ivars << label << type;
+
+    // handle properties
+    const QMap<QString, IVariable *> properties = action->getMapIVariableParameters();
+    const QMap<QString, IVariable *>::ConstIterator propertiesEnd = properties.constEnd();
+    QMap<QString, IVariable *>::ConstIterator propertiesIt = properties.constBegin();
+    for(; propertiesIt != propertiesEnd; ++propertiesIt) {
+        IVariable *ivar = propertiesIt.value();
+        // We stock current value in ivar value and current variable name in ivar label
+        CVariableMutable *property = CVariableFactory::castedBuild<CVariableMutable *>(type_mutable, type_organ_none, ivar ? ivar->toVariant() : QVariant());
+        setVariableAccess(property, access_read_write);
+        property->setName(QString("property_%1").arg(propertiesIt.key()));
+        property->setLabel(ivar ? ivar->getName() : QString());
+        property->setMutableType(CVariableMutable::Variable);
+        ivars << property;
+    }
+
+    // handle constants
+    const QMap<QString, IVariable *> constants = action->getMapCstParameters();
+    const QMap<QString, IVariable *>::ConstIterator constantsEnd = constants.constEnd();
+    QMap<QString, IVariable *>::ConstIterator constantsIt = constants.constBegin();
+    for(; constantsIt != constantsEnd; ++constantsIt) {
+        IVariable *ivar = constantsIt.value();
+        // We stock current value in ivar value and current variable name in ivar label
+        IVariable *constant = CVariableFactory::castedBuild<IVariable *>(constantsIt.value()->getType(), type_organ_none, ivar ? ivar->toVariant() : QVariant());
+        setVariableAccess(constant, access_read_write);
+        constant->setName(QString("constant_%1").arg(constantsIt.key()));
+        constant->setLabel(ivar ? ivar->getName() : QString());
+        ivars << constant;
+    }
+
     setVariables(ivars);
 }
 
