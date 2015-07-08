@@ -22,11 +22,10 @@ CConfiguratorActionsTab::CConfiguratorActionsTab(QWidget *parent)
 
 void CConfiguratorActionsTab::slotAddAction()
 {
-    int type;
-//    if (!m_iactionUIHandler->selectActionType(type)) {
-//        return;
-//    }
-    //TODO cycle block ?
+    actionType type;
+    if (!m_iactionUIHandler->selectActionType(type)) {
+        return;
+    }
 }
 
 void CConfiguratorActionsTab::slotUpdateLayout()

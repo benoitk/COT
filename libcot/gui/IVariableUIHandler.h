@@ -43,6 +43,8 @@ public:
 
     CScrollablePagerWidget *container() const;
     QGridLayout *containerLayout() const;
+    virtual bool horizontalStretch() const;
+    virtual bool verticalStretch() const;
 
     // Ask user to enter a text value
     static bool enterText(QString &value, const QString &title = QString());
@@ -99,8 +101,6 @@ protected:
     int layoutRow(const Row &row) const;
 
     virtual int columnCount() const;
-    virtual bool horizontalStretch() const;
-    virtual bool verticalStretch() const;
 
     // Called by layout() for every row, every column
     virtual QWidget *createWidget(int column, IVariable *ivar);

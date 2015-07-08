@@ -30,6 +30,7 @@ public:
     CScrollablePagerWidget *scrollablePagerWidget() const;
 
     void updatePageHeight();
+
 protected:
     bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
