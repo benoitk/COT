@@ -88,7 +88,7 @@ public:
 
     virtual IVariable* getIVariable();
 
-private:
+protected:
     virtual void setAccess(variableAccess access);
     virtual void setAddress(int address);
 

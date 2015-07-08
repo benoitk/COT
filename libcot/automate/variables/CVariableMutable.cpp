@@ -83,6 +83,11 @@ VariableOrganType CVariableMutable::getOrganType() const
 void CVariableMutable::switchToUnit(CUnit *)
 {}
 
+void CVariableMutable::setAccess(variableAccess access)
+{
+    IVariable::setAccess(access);
+}
+
 void CVariableMutable::setToBindedValue(const QVariant &)
 {}
 

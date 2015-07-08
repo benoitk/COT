@@ -45,7 +45,7 @@ public:
     QVariantMap serialise() Q_DECL_OVERRIDE;
     variableType getType()const Q_DECL_OVERRIDE;
     void switchToUnit(CUnit*) Q_DECL_OVERRIDE;
-
+    virtual void setAccess(variableAccess access) Q_DECL_OVERRIDE;
 
     CVariableMutable::Type mutableType() const;
     void setMutableType(CVariableMutable::Type mutableType);
