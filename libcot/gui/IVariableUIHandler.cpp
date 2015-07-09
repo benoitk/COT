@@ -660,6 +660,13 @@ CToolButton *IVariableUIHandler::newDeleteButton(IVariable *ivar)
     return Q_NULLPTR;
 }
 
+void IVariableUIHandler::setVariableAccess(IVariable *ivar, variableAccess access)
+{
+    if (ivar) {
+        ivar->setAccess(access);
+    }
+}
+
 CClickableLabel *IVariableUIHandler::newLabel(IVariable *ivar)
 {
     Q_UNUSED(ivar);
@@ -945,7 +952,7 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
     QWidget *editor = row.widgetAt<QWidget *>(1);
     CClickableLabel *labelUnit = row.widgetAt<CClickableLabel *>(2);
     CUnit *unit = ivar->getUnit();
-    label->setText(ivar->getLabel());
+    label->setText(getVariableLabel(ivar));
     labelUnit->setText(unit ? unit->getLabel() : QString());
 
     applyEditorConstraints(editor, ivar);
@@ -1161,6 +1168,11 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
     }
 }
 
+QString IVariableUIHandler::getVariableLabel(IVariable *ivar) const
+{
+    return ivar ? ivar->getLabel() : QString();
+}
+
 void IVariableUIHandler::applyEditorConstraints(QWidget *editor, IVariable *ivar)
 {
     if (editor) {
@@ -1194,7 +1206,7 @@ void IVariableUIHandler::slotRequestString()
     IVariable *ivar = getVariable(editor->userData().toString());
     QString value = ivar->toString();
 
-    if (enterText(value, ivar->getLabel())) {
+    if (enterText(value, getVariableLabel(ivar))) {
         ivar->setValue(value);
     }
 }
@@ -1205,7 +1217,7 @@ void IVariableUIHandler::slotRequestInteger()
     IVariable *ivar = getVariable(editor->userData().toString());
     int value = ivar->toInt();
 
-    if (enterInteger(value, ivar->getLabel())) {
+    if (enterInteger(value, getVariableLabel(ivar))) {
         ivar->setValue(value);
     }
 }
@@ -1216,7 +1228,7 @@ void IVariableUIHandler::slotRequestDouble()
     IVariable *ivar = getVariable(editor->userData().toString());
     float value = ivar->toFloat();
 
-    if (enterFloat(value, ivar->getLabel())) {
+    if (enterFloat(value, getVariableLabel(ivar))) {
         ivar->setValue(value);
     }
 }
@@ -1227,7 +1239,7 @@ void IVariableUIHandler::slotRequestActionType()
     IVariable *ivar = getVariable(editor->userData().toString());
     actionType value = static_cast<actionType>(ivar->toInt());
 
-    if (selectActionType(value, ivar->getLabel())) {
+    if (selectActionType(value, getVariableLabel(ivar))) {
         ivar->setValue(value);
     }
 }
@@ -1238,7 +1250,7 @@ void IVariableUIHandler::slotRequestVariableType()
     IVariable *ivar = getVariable(editor->userData().toString());
     variableType value = variableType(ivar->toInt());
 
-    if (selectVariableType(value, ivar->getLabel())) {
+    if (selectVariableType(value, getVariableLabel(ivar))) {
         ivar->setValue(value);
     }
 }
@@ -1249,7 +1261,7 @@ void IVariableUIHandler::slotRequestOrganType()
     IVariable *ivar = getVariable(editor->userData().toString());
     VariableOrganType value = VariableOrganType(ivar->toInt());
 
-    if (selectOrganType(value)) {
+    if (selectOrganType(value, getVariableLabel(ivar))) {
         ivar->setValue(value);
     }
 }
@@ -1260,7 +1272,7 @@ void IVariableUIHandler::slotRequestCycleType()
     IVariable *ivar = getVariable(editor->userData().toString());
     eTypeCycle value = eTypeCycle(ivar->toInt());
 
-    if (selectCycleType(value, ivar->getLabel())) {
+    if (selectCycleType(value, getVariableLabel(ivar))) {
         ivar->setValue(value);
     }
 }
@@ -1271,7 +1283,7 @@ void IVariableUIHandler::slotRequestVariable()
     IVariable *ivar = getVariable(editor->userData().toString());
     QString value = ivar->toString();
 
-    if (selectVariable(value, ivar->getLabel())) {
+    if (selectVariable(value, getVariableLabel(ivar))) {
         ivar->setValue(value);
     }
 }
@@ -1282,7 +1294,7 @@ void IVariableUIHandler::slotRequestStream()
     IVariable *ivar = getVariable(editor->userData().toString());
     QString value = ivar->toString();
 
-    if (selectStream(value, ivar->getLabel())) {
+    if (selectStream(value, getVariableLabel(ivar))) {
         ivar->setValue(value);
     }
 }
@@ -1293,7 +1305,7 @@ void IVariableUIHandler::slotRequestMeasure()
     IVariable *ivar = getVariable(editor->userData().toString());
     QString value = ivar->toString();
 
-    if (selectMeasure(value, ivar->getLabel())) {
+    if (selectMeasure(value, getVariableLabel(ivar))) {
         ivar->setValue(value);
     }
 }
@@ -1304,7 +1316,7 @@ void IVariableUIHandler::slotRequestCycle()
     IVariable *ivar = getVariable(editor->userData().toString());
     QString value = ivar->toString();
 
-    if (selectCycle(value, ivar->getLabel())) {
+    if (selectCycle(value, getVariableLabel(ivar))) {
         ivar->setValue(value);
     }
 }
@@ -1315,7 +1327,7 @@ void IVariableUIHandler::slotRequestAction()
     IVariable *ivar = getVariable(editor->userData().toString());
     QString value = ivar->toString();
 
-    if (selectAction(value, ivar->getLabel())) {
+    if (selectAction(value, getVariableLabel(ivar))) {
         ivar->setValue(value);
     }
 }
@@ -1326,7 +1338,7 @@ void IVariableUIHandler::slotRequestStreamOrMeasure()
     IVariable *ivar = getVariable(editor->userData().toString());
     QString value = ivar->toString();
 
-    if (selectStreamOrMeasure(value, ivar->getLabel())) {
+    if (selectStreamOrMeasure(value, getVariableLabel(ivar))) {
         ivar->setValue(value);
     }
 }
@@ -1337,7 +1349,7 @@ void IVariableUIHandler::slotRequestExtension()
     IVariable *ivar = getVariable(editor->userData().toString());
     QString value = ivar->toString();
 
-    if (selectExtension(value, ivar->getLabel())) {
+    if (selectExtension(value, getVariableLabel(ivar))) {
         ivar->setValue(value);
     }
 }
@@ -1348,7 +1360,7 @@ void IVariableUIHandler::slotRequestOrgan()
     IVariable *ivar = getVariable(editor->userData().toString());
     QString value = ivar->toString();
 
-    if (selectOrgan(value, ivar->getLabel())) {
+    if (selectOrgan(value, getVariableLabel(ivar))) {
         ivar->setValue(value);
     }
 }
@@ -1359,7 +1371,7 @@ void IVariableUIHandler::slotRequestUnit()
     IVariable *ivar = getVariable(editor->userData().toString());
     QString value = ivar->toString();
 
-    if (selectUnit(value, ivar->getLabel())) {
+    if (selectUnit(value, getVariableLabel(ivar))) {
         ivar->setValue(value);
     }
 }

@@ -60,6 +60,22 @@ bool IVariableObjectDescriber::hasValue(const QVariant &value) const
     return false;
 }
 
+void IVariableObjectDescriber::changeVariable(const QString &name, IVariable *ivar)
+{
+    IVariable *oldIVar = m_variablesHash.take(name);
+
+    if (!oldIVar) {
+        return;
+    }
+
+    delete oldIVar;
+
+    const int index = m_variables.indexOf(oldIVar);
+    m_variablesHash[name] = ivar;
+    m_variables[index] = ivar;
+    connect(ivar, &IVariable::signalVariableChanged, this, &IVariableObjectDescriber::slotVariableChanged);
+}
+
 void IVariableObjectDescriber::clear() {
     CVariableFactory::deleteVariables(m_variables);
     m_variables.clear();
@@ -274,11 +290,10 @@ void CVariableIActionDescriber::describe(const QVariant &object)
     for(; propertiesIt != propertiesEnd; ++propertiesIt) {
         IVariable *ivar = propertiesIt.value();
         // We stock current value in ivar value and current variable name in ivar label
-        CVariableMutable *property = CVariableFactory::castedBuild<CVariableMutable *>(type_mutable, type_organ_none, ivar ? ivar->toVariant() : QVariant());
+        IVariable *property = CVariableFactory::castedBuild<IVariable *>(propertiesIt.value()->getType(), type_organ_none, ivar ? ivar->toVariant() : QVariant());
         setVariableAccess(property, access_read_write);
         property->setName(QString("property_%1").arg(propertiesIt.key()));
         property->setLabel(ivar ? ivar->getName() : QString());
-        property->setMutableType(CVariableMutable::Variable);
         ivars << property;
     }
 

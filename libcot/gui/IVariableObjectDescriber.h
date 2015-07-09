@@ -25,6 +25,7 @@ public:
     // currently unused QHash<QString, IVariablePtr> getVariablesHash() const;
     IVariablePtr getVariable(const QString &name) const;
     bool hasValue(const QVariant &value) const;
+    void changeVariable(const QString &name, IVariable *ivar);
     void clear();
 
     /// Subclasses reimplement this to create the list of variables, by calling setVariables.

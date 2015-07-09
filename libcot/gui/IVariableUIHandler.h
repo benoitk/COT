@@ -112,8 +112,11 @@ protected:
     // This is therefore the best method where to implement showing the value of the variable
     virtual void rowChanged(const Row &row, IVariable *ivar);
 
+    virtual QString getVariableLabel(IVariable *ivar) const;
+
     virtual void applyEditorConstraints(QWidget *editor, IVariable *ivar);
     virtual CToolButton *newDeleteButton(IVariable *ivar);
+    void setVariableAccess(IVariable *ivar, variableAccess access);
     CClickableLabel *newLabel(IVariable *ivar);
     QWidget *newEditor(IVariable *ivar);
     CClickableLabel *newUnit(IVariable *ivar);
