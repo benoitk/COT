@@ -6,6 +6,7 @@
 #include <CAutomate.h>
 #include <IAction.h>
 
+#include <QGridLayout>
 #include <QDebug>
 
 CEditActionTabUIHandler::CEditActionTabUIHandler(CScrollableWidget *scrollable, QObject *parent)
@@ -26,14 +27,13 @@ void CEditActionTabUIHandler::layout(IAction *action)
 
 int CEditActionTabUIHandler::columnCount() const
 {
-    return IConfiguratorUIHandler::columnCount();
+    return IConfiguratorUIHandler::columnCount() +1;
 }
 
 QWidget *CEditActionTabUIHandler::createWidget(int column, IVariable *ivar)
 {
     const QString name = ivar->getName();
     const bool isProperty = name.startsWith("property_");
-    const bool isConstant = name.startsWith("constant_");
 
     switch (column) {
         case 0: {
@@ -48,24 +48,15 @@ QWidget *CEditActionTabUIHandler::createWidget(int column, IVariable *ivar)
         }
 
         case 1: {
-            if (isProperty || isConstant) {
-                const QString mappedVariableName = ivar->getLabel(); // the current variable is in the label
-                const QVariant mappedVariableValue = ivar->toVariant(); // the current value is in value
-                const IVariable *mappedVariable = getVariable(mappedVariableName);
-
-                // Build a temporary ivar to create the widget of the wanted type
-                const QString displayText = name.section("_", 1); // the name contains type + display text
-                IVariable *tmpVar = CVariableFactory::buildTemporary(name, displayText, mappedVariableValue, mappedVariable ? mappedVariable->getType() : type_unknow);
-                QWidget *editor = IConfiguratorUIHandler::createWidget(column, tmpVar);
-                delete tmpVar;
-                return editor;
-            }
-
             return IConfiguratorUIHandler::createWidget(column, ivar);
         }
 
         case 2: {
             return IConfiguratorUIHandler::createWidget(column, ivar);
+        }
+
+        case 3: {
+            return isProperty ? IConfiguratorUIHandler::newLabel(ivar) : Q_NULLPTR;
         }
     }
 
@@ -73,31 +64,35 @@ QWidget *CEditActionTabUIHandler::createWidget(int column, IVariable *ivar)
     return Q_NULLPTR;
 }
 
-void CEditActionTabUIHandler::rowInserted(const IVariableUIHandler::Row &row, IVariable *ivar)
-{
-    IConfiguratorUIHandler::rowInserted(row, ivar);
-}
-
 void CEditActionTabUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariable *ivar)
 {
+    IConfiguratorUIHandler::rowChanged(row, ivar);
+
+    // Make the selected varible name in parenthesis
+    CClickableLabel *label = row.widgetAt<CClickableLabel *>(3);
+    if (label) {
+        const QString variableName = ivar->getLabel();
+        IVariable *selectedVariable = getVariable(variableName);
+        label->setText(QString("(%1)").arg(selectedVariable ? selectedVariable->getLabel() : tr("Undefined")));
+    }
+}
+
+QString CEditActionTabUIHandler::getVariableLabel(IVariable *ivar) const
+{
+    if (!ivar) {
+        return IConfiguratorUIHandler::getVariableLabel(ivar);
+    }
+
     const QString name = ivar->getName();
     const bool isProperty = name.startsWith("property_");
     const bool isConstant = name.startsWith("constant_");
 
     if (isProperty || isConstant) {
-        const QString mappedVariableName = ivar->getLabel(); // the current variable is in the label
-        const QVariant mappedVariableValue = ivar->toVariant(); // the current value is in value
-        const IVariable *mappedVariable = getVariable(mappedVariableName);
-
-        // Build a temporary ivar to create the widget of the wanted type
         const QString displayText = name.section("_", 1); // the name contains type + display text
-        IVariable *tmpVar = CVariableFactory::buildTemporary(name, displayText, mappedVariableValue, mappedVariable ? mappedVariable->getType() : type_unknow);
-        IConfiguratorUIHandler::rowChanged(row, tmpVar);
-        delete tmpVar;
+        return displayText;
     }
-    else {
-        IConfiguratorUIHandler::rowChanged(row, ivar);
-    }
+
+    return IConfiguratorUIHandler::getVariableLabel(ivar);
 }
 
 void CEditActionTabUIHandler::slotRequestVariable()
@@ -106,11 +101,44 @@ void CEditActionTabUIHandler::slotRequestVariable()
     const QString name = label->userData().toString();
     IVariable *ivar = getVariable(name);
     Q_ASSERT(ivar);
-    QString newName = ivar->getLabel();
+    const QString oldVariableName = ivar->getLabel();
+    QString newVariableName = oldVariableName;
 
-    if (selectVariable(newName, QString())) {
-        //ivar->setLabel(newName);
+    if (selectVariable(newVariableName, QString())) {
+        if (oldVariableName == newVariableName) {
+            return;
+        }
+
+        // Build new variable, see CVariableIActionDescriber::describe for logic here.
+        IVariable *selectedVariable = getVariable(newVariableName);
+        IVariable *property = CVariableFactory::castedBuild<IVariable *>(selectedVariable->getType(), type_organ_none, selectedVariable->toVariant());
+        setVariableAccess(property, access_read_write);
+        property->setName(name);
+        property->setLabel(newVariableName);
+
+        // Update describer variable
+        describer()->changeVariable(name, property);
+
+        // Dynamically update the editors, this was not something built for that at first so, let tweak ourselves the layout.
+        Row *row = getRow(name);
+        Q_ASSERT(row);
+        const int columnLayout = 1;
+        const int rowLayout = layoutRow(*row);
+        QWidget *oldEditor = row->widgets.value(columnLayout);
+        QWidget *editor = createWidget(columnLayout, property);
+
+        if (oldEditor) {
+            containerLayout()->removeWidget(oldEditor);
+            delete oldEditor;
+            row->widgets[columnLayout] = Q_NULLPTR;
+        }
+
+        if (editor) {
+            containerLayout()->addWidget(editor, rowLayout, columnLayout);
+            row->widgets[columnLayout] = editor;
+        }
+
+        rowInserted(*row, property);
+        rowChanged(*row, property);
     }
-
-    qDebug() << name;
 }
