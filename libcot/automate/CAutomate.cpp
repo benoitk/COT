@@ -56,6 +56,7 @@ void CAutomate::initConfig(){
 }
 void CAutomate::slotStartAutomate(){
     m_scheduler = CScheduler::getInstance();
+    connect(m_scheduler, &CScheduler::signalUpdated, this, &CAutomate::signalSchedulerUpdated);
     m_threadDiag = new CThreadDiag(this);
 
     CModelConfigFile configFile(this);
@@ -615,11 +616,11 @@ ICycle *CAutomate::getCycle(const QString &name, int type) const
             ICycle * cycle = m_listCycleMesures.value(name, Q_NULLPTR);
 
             if (!cycle) {
-                m_listCycleMaintenances.value(name, Q_NULLPTR);
+                cycle = m_listCycleMaintenances.value(name, Q_NULLPTR);
             }
 
             if (!cycle) {
-                m_listlCycleAutonomes.value(name, Q_NULLPTR);
+                cycle = m_listlCycleAutonomes.value(name, Q_NULLPTR);
             }
 
             return cycle;

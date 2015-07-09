@@ -191,13 +191,17 @@ QList<ICycle*>  CScheduler::getListSequenceCyclesAutonomes(){
 QList<ICycle*>  CScheduler::getListCyclesMaintenances(){
     return m_listCyclesMaintenances;
 }
-void  CScheduler::setListSequenceCyclesMesures(QList<ICycle *> listCycles){
+void  CScheduler::setListSequenceCyclesMesures(QList<ICycle *> listCycles, bool emitSignal){
     // remove null pointers.
     auto itFirst = std::remove_if(listCycles.begin(), listCycles.end(), [](ICycle *cycle) { return cycle == Q_NULLPTR; });
     listCycles.erase(itFirst, listCycles.end());
 
     m_listSequenceCyclesMeasures.swap(listCycles);
     m_itListSequenceCyclesMesures = m_listSequenceCyclesMeasures.begin();
+
+    if (emitSignal) {
+        emit signalUpdated();
+    }
 }
 void  CScheduler::setListSequenceCyclesAutonomes(QList<ICycle *> listCycles){
     m_listSequenceCyclesAutonomes.swap(listCycles);
@@ -205,11 +209,7 @@ void  CScheduler::setListSequenceCyclesAutonomes(QList<ICycle *> listCycles){
 void  CScheduler::setListCyclesMaintenances(QList<ICycle *> listCycles){
     m_listCyclesMaintenances.swap(listCycles);
 }
-void CScheduler::addCycle(const CScheduler::CyclePair &pair)
-{
-//    m_listSequenceCycles << pair;
-//    emit signalUpdated();
-}
+
 void CScheduler::addCycleMeasure(int arg_index, ICycle* arg_cycle){
     if(arg_cycle){
         if(arg_index < 0) arg_index = 0;
@@ -241,15 +241,7 @@ void CScheduler::addCycleMaintenance(ICycle* arg_cycle){
         m_listCyclesMaintenances.append(arg_cycle);
     }
 }
-void CScheduler::replaceCycleAt(int index, const CScheduler::CyclePair &pair)
-{
-//    if (index >= m_listSequenceCycles.count()) {
-//        return;
-//    }
 
-//    m_listSequenceCycles[index] = pair;
-//    emit signalUpdated();
-}
 void CScheduler::replaceCycleMeasureAt(int arg_index, ICycle* arg_cycle){
     if(arg_cycle && arg_cycle->getType() != CYCLE_INVALID && arg_index > 0 && arg_index < m_listSequenceCyclesMeasures.size()){
         m_listSequenceCyclesMeasures.replace(arg_index, arg_cycle);
@@ -260,15 +252,7 @@ void CScheduler::replaceCycleAutonomeAt(int arg_index, ICycle* arg_cycle){
         m_listSequenceCyclesAutonomes.replace(arg_index, arg_cycle);
     }
 }
-void CScheduler::removeAt(int index)
-{
-//    if (index >= m_listSequenceCycles.count()) {
-//        return;
-//    }
 
-//    m_listSequenceCycles.removeAt(index);
-//    emit signalUpdated();
-}
 void CScheduler::removeCycleMeasureAt(int arg_index){
     if(arg_index >= 0 && arg_index < m_listSequenceCyclesMeasures.size()){
         m_listSequenceCyclesMeasures.removeAt(arg_index);
@@ -311,18 +295,6 @@ void CScheduler::removeCycleAutonome(ICycle * arg_cycle){
     }
 }
 
-CScheduler::CyclePair CScheduler::getCycleAt(int index) const
-{
-//    return m_listSequenceCyclesMesures.value(index, CyclePair(Q_NULLPTR, -1));
-     return CyclePair(Q_NULLPTR, -1);
-}
-
-QList<CScheduler::CyclePair> CScheduler::getCycles() const
-{
-    QList<CScheduler::CyclePair> list; //a virer avec toutes les listes<CyclePair>
-    return list;
-//    return m_listSequenceCycles;
-}
 ICycle*  CScheduler::getCycleMeasureAt(int arg_index) const{
     return m_listSequenceCyclesMeasures.value(arg_index, Q_NULLPTR);
 }

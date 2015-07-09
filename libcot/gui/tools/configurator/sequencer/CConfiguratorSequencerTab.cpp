@@ -2,41 +2,52 @@
 #include "ConfiguratorSequencerUIHandler.h"
 
 #include <CAutomate.h>
-#include <CScheduler.h>
 
 CConfiguratorSequencerTab::CConfiguratorSequencerTab(QWidget *parent)
     : IConfiguratorTab(parent)
+    , m_handler(new ConfiguratorSequencerUIHandler(scrollableWidget(), this))
 {
-    m_isequencerUIHandler = new ConfiguratorSequencerUIHandler(scrollableWidget(), this);
     slotUpdateLayout();
 
-    connect(CAutomate::getInstance(), &CAutomate::signalSchedulerUpdated, this, &CConfiguratorSequencerTab::slotUpdateLayout);
     connect(buttonBar()->addAction(CToolButton::Add), &QAction::triggered, this, &CConfiguratorSequencerTab::slotAddSequencer);
+    connect(CAutomate::getInstance(), &CAutomate::signalSchedulerUpdated, this, &CConfiguratorSequencerTab::slotUpdateLayout);
     initBaseTab();
 }
 
 void CConfiguratorSequencerTab::slotUpdateLayout()
 {
-    m_isequencerUIHandler->layout();
+    m_handler->layout();
 }
 
 void CConfiguratorSequencerTab::slotAddSequencer()
 {
     QString cycleName;
-    int value = 1;
+    int count = 1;
 
-    if (!m_isequencerUIHandler->selectCycle(cycleName) || cycleName.isEmpty()) {
-        return;
-    }
-
-    if (!m_isequencerUIHandler->enterInteger(value) || value <= 0) {
+    if (!m_handler->selectCycle(cycleName) || cycleName.isEmpty()) {
         return;
     }
 
     CAutomate *automate = CAutomate::getInstance();
-    CScheduler *sequencer = CScheduler::getInstance();
     ICycle *cycle = automate->getCycle(cycleName);
     Q_ASSERT(cycle);
 
-    sequencer->addCycle(qMakePair(cycle, value));
+    if (cycle->getType() != CYCLE_MESURE) {
+        return;
+    }
+
+    if (!m_handler->enterInteger(count) || count <= 0) {
+        return;
+    }
+
+    ConfiguratorSequencerUIHandler::CyclePairList pairs = m_handler->cyclePairList();
+
+    if (pairs.isEmpty() || pairs.last().first != cycle) {
+        pairs << qMakePair(cycle, count);
+    }
+    else {
+        pairs.last().second += count;
+    }
+
+    m_handler->setCyclePairList(pairs);
 }

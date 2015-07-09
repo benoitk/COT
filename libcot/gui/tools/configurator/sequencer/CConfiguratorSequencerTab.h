@@ -17,7 +17,7 @@ private slots:
     void slotAddSequencer();
 
 private:
-    ConfiguratorSequencerUIHandler *m_isequencerUIHandler;
+    ConfiguratorSequencerUIHandler *m_handler;
 };
 
 #endif // CCONFIGURATORSEQUENCERTAB_H

@@ -9,11 +9,21 @@ class CPushButton;
 class LIBCOT_EXPORT ConfiguratorSequencerUIHandler : public IConfiguratorUIHandler
 {
     Q_OBJECT
+
 public:
+    typedef QPair<ICycle *, int> CyclePair;
+    typedef QList<CyclePair> CyclePairList;
+
     explicit ConfiguratorSequencerUIHandler(CScrollableWidget *scrollable = Q_NULLPTR, QObject *parent = Q_NULLPTR);
     ~ConfiguratorSequencerUIHandler();
 
     void layout();
+
+    CyclePairList cyclePairList() const;
+    void setCyclePairList(const CyclePairList &pairs);
+
+    static QList<ICycle*> fromCyclePairList(const CyclePairList &pairs);
+    static CyclePairList fromCycleList(const QList<ICycle*> &cycles);
 
 protected:
     IVariable *getVariable(const QString &name) const Q_DECL_OVERRIDE;

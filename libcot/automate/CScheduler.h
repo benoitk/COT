@@ -13,10 +13,8 @@ class CScheduler : public QObject
 public:
 
     //API
-    typedef QPair<ICycle *, int> CyclePair;
-
     QList<ICycle*> getListSequenceCyclesMesures();
-    void setListSequenceCyclesMesures(QList<ICycle*> );
+    void setListSequenceCyclesMesures(QList<ICycle*>, bool = false );
     void addCycleMeasure(int index, ICycle*);
     void addCycleMeasure(ICycle*);
     void replaceCycleMeasureAt(int index, ICycle*);
@@ -35,17 +33,9 @@ public:
     void setListCyclesMaintenances(QList<ICycle*> );
     void addCycleMaintenance(ICycle*);
 
-
-    // SERES_TODO: Proposed api by KDAB, used by the configurator. (COT-61)
-    // To be entirely implemented / used by the sequencer.
-    void addCycle(const CyclePair &pair);
-    void replaceCycleAt(int index, const CyclePair &pair);
-    void removeAt(int index);
     void removeCycleMeasure(ICycle *);
     void removeCycleMaintenance(ICycle *);
     void removeCycleAutonome(ICycle *);
-    CyclePair getCycleAt(int index) const;
-    QList<CyclePair> getCycles() const;
 
     //FIN API
 
@@ -103,8 +93,6 @@ private:
 
 
     static CScheduler* singleton;
-
-    //QList<CyclePair> m_listSequenceCycles;
 
     QList<ICycle*> m_listSequenceCyclesMeasures;
     QList<ICycle*> m_listSequenceCyclesAutonomes;
