@@ -4,7 +4,7 @@
 #include "IConfiguratorEditWindow.h"
 
 class CEditActionTab;
-class CEditActionStepsTab;
+class CEditStepListTab;
 class IAction;
 
 class CEditActionWindow : public IConfiguratorEditWindow
@@ -14,6 +14,9 @@ class CEditActionWindow : public IConfiguratorEditWindow
 public:
     explicit CEditActionWindow(IAction *action, QWidget *parent = Q_NULLPTR);
 
+protected:
+    virtual void applyProperties() Q_DECL_OVERRIDE;
+
 private slots:
     void slotRetranslate();
     void slotOkTriggered();
@@ -21,7 +24,7 @@ private slots:
 
 private:
     CEditActionTab *m_ceditActionTab;
-    CEditActionStepsTab *m_ceditActionStepsTab;
+    CEditStepListTab *m_ceditActionStepsTab;
     IAction * m_action;
 };
 

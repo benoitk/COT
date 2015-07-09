@@ -31,7 +31,7 @@ protected:
     void initBaseWindow();
     void addTab(IConfiguratorEditTab *tab);
     void setTabText(int index, const QString &text);
-    void applyProperties();
+    virtual void applyProperties();
 
 private slots:
     virtual void slotRetranslate() = 0;

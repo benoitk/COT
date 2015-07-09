@@ -32,13 +32,7 @@ void CConfiguratorActionsTab::slotAddAction()
 
     IAction * action = CActionFactory::build(type, CAutomate::getInstance());
     Q_ASSERT(action);
-
-    if (type == type_block) {
-        // not yet handled.
-    }
-    else {
-        CPCWindow::openModal<CEditActionWindow>(action);
-    }
+    CPCWindow::openModal<CEditActionWindow>(action);
 }
 
 void CConfiguratorActionsTab::slotUpdateLayout()

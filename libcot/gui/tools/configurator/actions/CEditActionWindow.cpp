@@ -1,9 +1,12 @@
 #include "CEditActionWindow.h"
 #include "CEditActionTab.h"
+#include "CEditStepListTab.h"
 
 #include <CAutomate.h>
 #include <IVariable.h>
 #include <IAction.h>
+#include <CActionBlock.h>
+#include <CCycleAutonome.h>
 
 CEditActionWindow::CEditActionWindow(IAction *action, QWidget *parent)
     : IConfiguratorEditWindow(QVariant::fromValue(action), parent)
@@ -12,8 +15,23 @@ CEditActionWindow::CEditActionWindow(IAction *action, QWidget *parent)
     , m_action(action)
 {
     addTab(m_ceditActionTab);
-    //addTab(m_ceditActionStepsTab);
+
+    if (action->getType() == type_block) {
+        CActionBlock *ab = qobject_cast<CActionBlock *>(action);
+        m_ceditActionStepsTab = new CEditStepListTab(ab->getCycle(), this);
+        addTab(m_ceditActionStepsTab);
+    }
     initBaseWindow();
+}
+
+void CEditActionWindow::applyProperties()
+{
+    m_ceditActionTab->applyProperties(editedObject());
+
+    if (m_ceditActionStepsTab) {
+        CActionBlock *ab = editedObject().value<CActionBlock *>();
+        m_ceditActionStepsTab->applyProperties(QVariant::fromValue(ab->getCycle()));
+    }
 }
 
 void CEditActionWindow::slotRetranslate()
@@ -21,7 +39,6 @@ void CEditActionWindow::slotRetranslate()
     setTabText(0, m_action->getLabel());
     setTabText(1, tr("Steps"));
 }
-
 
 void CEditActionWindow::slotOkTriggered()
 {
