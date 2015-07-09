@@ -102,7 +102,7 @@ public:
     void addStream(CVariableStream*, bool emitSignalOnAdd = false);
     void addUnit(CUnit*);
     void addCom(ICom*);
-    void addAction(IAction*);
+    void addAction(IAction*, bool emitSignal = false);
     void delAction(IAction*);
     void delAction(const QString&);
     void delVariable(IVariable *ivar);

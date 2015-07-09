@@ -259,11 +259,16 @@ void CAutomate::addCom(ICom* com){
     if(com)
         m_mapComs.insert(com->getName(), com);
 }
-void CAutomate::addAction(IAction* action){
+void CAutomate::addAction(IAction* action, bool emitSignal){
     QMutexLocker locker(&m_mutex);
     if(action){
         m_mapActions.insert(action->getName(), action);
         m_listActions.append(action);// en redondance avec m_mapActions pour ne pas casser l'API
+
+        if (emitSignal) {
+            locker.unlock();
+            emit signalActionsUpdated();
+        }
     }
 }
 

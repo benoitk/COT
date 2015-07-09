@@ -103,6 +103,7 @@ void CScrollableWidget::updatePageHeight()
 {
     CScrollablePagerWidget *pager = scrollablePagerWidget();
     if (!pager) {
+        updateActions();
         return;
     }
     QGridLayout *gridLayout = qobject_cast<QGridLayout *>(pager->layout());
@@ -128,6 +129,8 @@ void CScrollableWidget::updatePageHeight()
             setViewportMargins(0, 0, 0, m_viewportMargin);
         }
     }
+
+    updateActions();
 }
 
 bool CScrollableWidget::eventFilter(QObject *obj, QEvent *event)
