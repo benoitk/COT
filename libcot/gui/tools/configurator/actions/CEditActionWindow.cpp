@@ -25,11 +25,17 @@ void CEditActionWindow::slotRetranslate()
 
 void CEditActionWindow::slotOkTriggered()
 {
-    CAutomate *automate = CAutomate::getInstance();
-
     applyProperties();
 
-//    automate->informAboutActionChanges(m_action, oldData);
+    CAutomate *automate = CAutomate::getInstance();
+    IAction *action = editedObject().value<IAction *>();
+    Q_ASSERT(action);
+    const bool isNew = !automate->getListActions().contains(action);
+
+    if (isNew) {
+        automate->addAction(action, true);
+    }
+
     close();
 }
 
