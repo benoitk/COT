@@ -189,6 +189,16 @@ bool ICycle::copyStep(float from, float to){
 
     return true;
 }
+void ICycle::shiftAllSteps(float arg_from, float arg_shifting, int arg_index){
+
+    for(int i= arg_index; i<m_listSteps.count(); ++i){
+        CStep* step = m_listSteps.value(i);
+        if(step->getNumStep() > arg_from){
+            step->setNumStep(step->getNumStep() + arg_shifting);
+        }
+    }
+
+}
 
 bool ICycle::moveSteps(float from, float length, float to){
     startEditing();
@@ -210,8 +220,8 @@ bool ICycle::moveSteps(float from, float length, float to){
     for(int  i = 0; i < m_listSteps.count() && indexTo == m_listSteps.count(); ++i){
         if(m_listSteps.at(i)->getNumStep() >= to && m_listSteps.value(i)->getNumStep() <= to+length){
             indexTo = i; //déjà un pas présent, on le met à la place
-            if(this->moveStep(m_listSteps.value(i)->getNumStep()
-                                         , to+length)); //décale les pas suivants
+            shiftAllSteps(m_listSteps.value(i)->getNumStep()
+                                         , m_listSteps.value(i)->getNumStep() +length); //décale les pas suivants
         }else if(m_listSteps.at(i)->getNumStep() > to ){
             indexTo = i;
         }

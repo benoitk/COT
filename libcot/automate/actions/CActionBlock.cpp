@@ -1,12 +1,13 @@
 #include "CActionBlock.h"
 #include "IVariable.h"
 #include "CAutomate.h"
+#include "CCycleAutonome.h"
 #include "cotautomate_debug.h"
 
 CActionBlock::CActionBlock(const QVariantMap &mapAction, QObject *parent)
     : IAction(mapAction, parent)
 {
-
+    m_cycle = new CCycleAutonome(mapAction, this);
 }
 
 CActionBlock::~CActionBlock()
@@ -14,22 +15,14 @@ CActionBlock::~CActionBlock()
 
 }
 
-void CActionBlock::setActions(const QList<IAction *> &actions)
-{
-    m_actions = actions;
-}
-
-QList<IAction *> CActionBlock::actions() const
-{
-    return m_actions;
+CCycleAutonome* CActionBlock::getCycle(){
+    return m_cycle;
 }
 
 bool CActionBlock::runAction(){
     qCDebug(COTAUTOMATE_LOG) << "Running action block" << getName();
-    foreach (IAction *action, m_actions) {
-        if (!action->runAction())
-            return false;
-    }
+    m_cycle->slotRunCycle();
+
     return true;
 }
 

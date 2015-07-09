@@ -7,6 +7,7 @@ class IVariable;
  * @brief The CActionBlock class is an action that contains a list of other actions.
  * This allows to reuse lists of actions in multiple contexts.
  */
+class CCycleAutonome;
 class CActionBlock : public IAction
 {
     Q_OBJECT
@@ -17,8 +18,6 @@ public:
 
     ~CActionBlock();
 
-    void setActions(const QList<IAction *>& actions);
-    QList<IAction *> actions() const;
 
     bool runAction() Q_DECL_OVERRIDE;
     QList<IVariable*> getListParameters()const Q_DECL_OVERRIDE;
@@ -27,9 +26,10 @@ public:
     QMap<QString, IVariable*> getMapIVariableParameters() Q_DECL_OVERRIDE;
     QMap<QString, IVariable*> getMapCstParameters() Q_DECL_OVERRIDE;
     void setParameter(QString arg_key, IVariable* arg_parameter)Q_DECL_OVERRIDE;
+    CCycleAutonome* getCycle();
 private:
 
-    QList<IAction*> m_actions;
+    CCycleAutonome* m_cycle;
 
 };
 

@@ -75,6 +75,7 @@ signals:
 protected:
     void startEditing();
     void clearSavedListSteps();
+    void shiftAllSteps(float arg_from, float arg_shifting, int arg_index=0);
     bool m_isRunning;
     bool m_isPaused;
 
