@@ -104,8 +104,7 @@
                     {"name":"measure_cot_min", "fr_FR" : "Mesure min", "en_US" : "Min measure", "type":"float", "value" : 0, "unit":"mg_l"},
                    
                     {"name":"ndir_measure_cell", "fr_FR" : "Cellule NDIR", "type":"input_float","extension_name":"measure_card_1", "organ_name":"measure_cell", "value" : 0, "unit":"volt", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"ndir_measure_cell_v", "fr_FR" : "Cellule NDIR", "type":"float", "value" : 0, "unit":"volt", "address":"0x0102", "access":"read_write", "com_name":"com_jbus_rs_slave"},
-                    {"name":"zero_cit", "fr_FR" : "Zéro CIT", "type":"integer", "value" : 0, "unit":"pts", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"zero_cit", "fr_FR" : "Zéro CIT", "type":"float", "value" : 0, "unit":"volt", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"measure_cit", "fr_FR" : "Mesure CIT", "type":"float", "value" : 0, "unit":"mg_l", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"measure_cit_min", "fr_FR" : "Mesure CIT", "type":"float", "value" : 0, "unit":"mg_l", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"measure_cit_max", "fr_FR" : "Mesure CIT", "type":"float", "value" : 100, "unit":"mg_l", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
@@ -119,7 +118,7 @@
                     {"name":"co2_ppmv_to_co2_gm3_cst", "fr_FR" : "Constante conversion Co2(ppmv)/Co2(g/m3)", "type":"float", "value" : 0.00183333, "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"acquisition_measure_cit_timeout", "fr_FR" : "Temps d'acquisition", "type":"integer", "value" : 300, "unit":"second", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     
-                    {"name":"zero_npoc", "fr_FR" : "Zéro CIT", "type":"integer", "value" : 0, "unit":"pts", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"zero_npoc", "fr_FR" : "Zéro CIT", "type":"float", "value" : 0, "unit":"volt", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"measure_npoc", "fr_FR" : "Mesure NPOC", "type":"float", "value" : 0, "unit":"mg_l", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"measure_npoc_min", "fr_FR" : "Mesure CIT", "type":"float", "value" : 0, "unit":"mg_l", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"measure_npoc_max", "fr_FR" : "Mesure CIT", "type":"float", "value" : 100, "unit":"mg_l", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
@@ -224,7 +223,22 @@
                     },
 
 
-                    {"name":"stream_1_state", "fr_FR" : "Etat analyseur", "type":"boolean", "value" : true, "unit":"tr_min"}
+                    {"name":"stream_1_state", "fr_FR" : "Etat analyseur", "type":"boolean", "value" : true, "unit":"tr_min"},
+
+
+
+                    {"name":"zero_npoc2", "fr_FR" : "Zéro CIT", "type":"float", "value" : 0, "unit":"volt", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"measure_npoc2", "fr_FR" : "Mesure NPOC", "type":"float", "value" : 0, "unit":"mg_l", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"measure_npoc_min2", "fr_FR" : "Mesure CIT", "type":"float", "value" : 0, "unit":"mg_l", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"measure_npoc_max2", "fr_FR" : "Mesure CIT", "type":"float", "value" : 100, "unit":"mg_l", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"acquisition_measure_npoc_timeout2", "fr_FR" : "Temps d'acquisition", "type":"integer", "value" : 300, "unit":"second", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    
+                    {"name":"zero_cit2", "fr_FR" : "Zéro CIT", "type":"float", "value" : 0, "unit":"volt", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"measure_cit2", "fr_FR" : "Mesure CIT", "type":"float", "value" : 0, "unit":"mg_l", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"measure_cit_min2", "fr_FR" : "Mesure CIT", "type":"float", "value" : 0, "unit":"mg_l", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"measure_cit_max2", "fr_FR" : "Mesure CIT", "type":"float", "value" : 100, "unit":"mg_l", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"reactor_volume2", "fr_FR" : "Volume réacteur", "type":"float", "value" : 25, "unit":"mL", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"}
+                  
 
     ],
 
@@ -243,8 +257,7 @@
     ],
 
     "binds" : [
-        {"source":"ndir_measure_cell", "target":"ndir_measure_cell_v"}
-
+       
     ],
 
     "actions" : [
@@ -485,6 +498,22 @@
                       ]
         },
         {
+            "name" : "cycle_mesure_cot2",
+            "fr_FR" : "Mesure de COT",
+            "type" : "measure",
+            "steps" : [{"name":"step_1", "step":1,"fr_FR":"Ouverture EV échantillon", "actions":["ev_sample_open", "control_water_default"]}, 
+                      {"name":"step_2", "step":2,"fr_FR":"Remplissage réacteur", "actions":["ev_sample_close", "ev_reactor_filling_open"]},
+                      {"name":"step_3", "step":3,"fr_FR":"Control T° NDIR", "actions":["control_temperature_ndir"]},
+                      {"name":"step_4", "step":4,"fr_FR":"Control T° condenseur", "actions":["control_temperature_condenser"]},
+                      {"name":"step_5", "step":5,"fr_FR":"Control T° Reacteur>40°", "actions":["control_temperature_reactor"]},
+                      {"name":"step_6", "step":6,"fr_FR":"Mesure CIT", "actions":["acquisition_measure_cit", "ev_sample_inerting_open", "pump_sample_on"]},
+                      {"name":"step_7", "step":7,"fr_FR":"Fin mesure CIT", "actions":["ev_sample_inerting_close", "ev_reactor_filling_close"]},
+                      {"name":"step_8", "step":8,"fr_FR":"Mesure NPOC", "actions":["acquisition_measure_npoc", "uv_lamp_on"]},
+                      {"name":"step_9", "step":9,"fr_FR":"Fin mesure NPOC", "actions":["uv_lamp_off", "ev_emptying_open"]},
+                      {"name":"step_10", "step":39,"fr_FR":"Fin mesure COT", "actions":["ev_emptying_close"]}
+                      ]
+        },
+        {
             "name" : "cycle_maintenance_cot",
             "fr_FR" : "Mesure de COT",
             "type" : "maintenance",
@@ -517,14 +546,14 @@
                     "measures":[{"name":"measure_1", "fr_FR":"mesure de CIT", "variable_measure":"measure_cit", "variable_range_max":"measure_cit_max" , "variable_range_min":"measure_cit_min", "variables":["zero_cit", "acquisition_measure_cit_timeout"]},
                                {"name":"measure_2", "fr_FR":"mesure du NPOC", "variable_measure":"measure_npoc", "variable_range_max":"measure_npoc_max" , "variable_range_min":"measure_npoc_min", "variables":["zero_npoc", "acquisition_measure_npoc_timeout"]}
                                ],
-                    "cycles":["cycle_control", "cycle_test"]
+                    "cycles":["cycle_control", "cycle_mesure_cot"]
 
                 },
-                {"name":"stream_2", "fr_FR":"stream 2", "variables":["ndir_temperature_setpoint", "condenser_temperature_setpoint", "airflow_setpoint", "pump_sample_timeout", "pump_sample_clockwise", "pump_sample"], "active_state": "stream_1_state",
-                    "measures":[{"name":"measure_1", "fr_FR":"mesure de CIT", "variable_measure":"measure_cit", "variable_range_max":"measure_cit_max" , "variable_range_min":"measure_cit_min", "variables":["zero_cit", "acquisition_measure_cit_timeout"]},
-                               {"name":"measure_2", "fr_FR":"mesure du NPOC", "variable_measure":"measure_npoc", "variable_range_max":"measure_npoc_max" , "variable_range_min":"measure_npoc_min", "variables":["zero_npoc", "acquisition_measure_npoc_timeout"]}
+                {"name":"stream_2", "fr_FR":"stream 2", "variables":["reactor_volume2"], "active_state": "stream_2_state",
+                    "measures":[{"name":"measure_1", "fr_FR":"mesure de CIT", "variable_measure":"measure_cit2", "variable_range_max":"measure_cit_max2" , "variable_range_min":"measure_cit_min2", "variables":["zero_cit2"]},
+                               {"name":"measure_2", "fr_FR":"mesure du NPOC", "variable_measure":"measure_npoc2", "variable_range_max":"measure_npoc_max2" , "variable_range_min":"measure_npoc_min2", "variables":["zero_npoc2"]}
                                ],
-                    "cycles":["cycle_control", "cycle_test"]
+                    "cycles":["cycle_mesure_cot2"]
 
                 }
                

@@ -77,14 +77,17 @@ void CActionAcquisitionCitNpoc::run(){
             sActionInfo =  tr("Mesure ") + QString::number(i+1) + "/"  + m_timeout->toString() + " "
                     + m_measureCell->getLabel() + " " +  QString::number(mesure, 'f', 2)
                     + m_airflow->getLabel() + " " +  QString::number(airflow, 'f', 2)
-                    + tr("Co2 g") + QString::number(co2g, 'f', 8);
+                    + tr("Co2 g") + QString::number(co2g, 'f', 8)
+                    + tr("mesure ") + QString::number(x, 'f', 8)
+                    + tr("zero ") + QString::number(x, 'f', 8)
+                    + tr("Coppmv") + QString::number(co2ppmv, 'f', 8);
             qCDebug(COTAUTOMATE_LOG)<< sActionInfo;
             emit CAutomate::getInstance()->signalUpdateCurrentAction(sActionInfo);
 
             mesure = measureCell->readValue()->toFloat();
 
             airflow = measureAirflow->readValue()->toFloat();
-            x = mesure - zero;
+            x = zero - mesure;
             co2ppmv = m_coef1->toFloat() * pow(x, 5)
                     - m_coef2->toFloat() * pow(x, 4)
                     + m_coef3->toFloat() * pow(x,3)
