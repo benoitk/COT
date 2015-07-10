@@ -25,10 +25,13 @@ void CEditVariableWindow::slotRetranslate()
 
 void CEditVariableWindow::slotCancelTriggered()
 {
+    CAutomate *automate = CAutomate::getInstance();
     IVariable *variable = editedObject().value<IVariable *>();
     Q_ASSERT(variable);
     const bool isNew = !CAutomate::getInstance()->getMapVariables().values().contains(variable);
     if (isNew) {
+        automate->changeVariableMeasure(variable, Q_NULLPTR);
+        automate->changeVariableStream(variable, Q_NULLPTR);
         delete variable;
     }
     close();

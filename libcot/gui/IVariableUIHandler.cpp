@@ -850,6 +850,13 @@ QWidget *IVariableUIHandler::newEditor(IVariable *ivar)
                     return editor;
                 }
 
+                case CVariableMutable::VarOrganType: {
+                    CPushButton *editor = new CPushButton(m_container);
+                    editor->setUserData(ivar->getName());
+                    connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestOrganType);
+                    return editor;
+                }
+
                 case CVariableMutable::Variable: {
                     CPushButton *editor = new CPushButton(m_container);
                     editor->setUserData(ivar->getName());
@@ -1097,6 +1104,11 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
 
                 case CVariableMutable::VariableType: {
                     button->setText(IVariable::typeToString(variableType(ivar->toInt())));
+                    break;
+                }
+
+                case CVariableMutable::VarOrganType: {
+                    button->setText(IVariable::organTypeToString(VariableOrganType(ivar->toInt())));
                     break;
                 }
 

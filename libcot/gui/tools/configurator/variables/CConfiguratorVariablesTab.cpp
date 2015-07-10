@@ -26,24 +26,35 @@ void CConfiguratorVariablesTab::slotUpdateLayout()
 
 void CConfiguratorVariablesTab::slotAddVariable()
 {
-    QString name;
+    CAutomate *automate = CAutomate::getInstance();
 
+    QString name;
     if (!m_ivariableUIHandler->selectStreamOrMeasure(name) || name.isEmpty()) {
         return;
     }
+
     variableType varType;
     if (!m_ivariableUIHandler->selectVariableType(varType) || (varType == type_unknow)) {
         return;
     }
 
+    VariableOrganType organType = type_organ_none;
+    m_ivariableUIHandler->selectOrganType(organType);
+
     // Create variable
-    IVariable *variable = CVariableFactory::build(varType);
-    variable->setName(QStringLiteral("new_variable_%1").arg(qrand() %1000));
+    IVariable *variable = CVariableFactory::build(varType, organType);
+    variable->setName(CVariableFactory::buildTemporaryName(QStringLiteral("new_variable")));
     variable->setLabel(tr("New variable"));
-    variable->setRelatedStreamName(name);
 
-    //
+    CVariableStream *stream = automate->getStream(name);
+    CVariableMeasure *measure = automate->getMeasure(name);
 
+    if (measure) {
+        automate->changeVariableMeasure(variable, measure);
+    }
+    else if (stream) {
+        automate->changeVariableStream(variable, stream);
+    }
 
     // Edit variable
     CPCWindow::openModal<CEditVariableWindow>(variable);

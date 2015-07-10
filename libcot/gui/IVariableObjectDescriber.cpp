@@ -174,6 +174,12 @@ void CVariableIVariableDescriber::describe(const QVariant &object)
     type->setLabel(tr("Type"));
     type->setMutableType(CVariableMutable::VariableType);
 
+    CVariableMutable *subType = CVariableFactory::castedBuild<CVariableMutable *>(type_mutable, type_organ_none, ivar->getOrganType());
+    setVariableAccess(subType, access_read);
+    subType->setName(QStringLiteral("subtype"));
+    subType->setLabel(tr("SubType"));
+    subType->setMutableType(CVariableMutable::VarOrganType);
+
     switch (ivar->getType()) {
         case type_float:
             value = CVariableFactory::castedBuild<CVariableFloat *>(type_float, type_organ_none, ivar->toFloat());
@@ -244,7 +250,7 @@ void CVariableIVariableDescriber::describe(const QVariant &object)
     streamOrMeasure->setLabel(tr("Stream / Measure"));
     streamOrMeasure->setMutableType(CVariableMutable::StreamOrMeasure);
 
-    ivars << label << type << value << unit;
+    ivars << label << type << subType << value << unit;
 
     if (organ) {
         ivars << organ;

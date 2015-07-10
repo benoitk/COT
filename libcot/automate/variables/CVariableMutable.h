@@ -16,6 +16,7 @@ public:
         CycleType,
         Cycle,
         VariableType,
+        VarOrganType,
         Unit,
         Extension,
         Organ,
