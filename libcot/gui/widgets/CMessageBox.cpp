@@ -12,7 +12,7 @@ CMessageBox::CMessageBox(const QString &message, QWidget *parent)
     setMainWidget(label);
 
     QAction *okAction = buttonBar()->addAction(CToolButton::Ok);
-    connect(okAction, &QAction::triggered, this, &QWidget::close);
+    connect(okAction, &QAction::triggered, this, &QDialog::accept);
 
     setTitle(tr("ATTENTION!"));
 }

@@ -46,7 +46,8 @@ public:
         Delete,
         Empty,
         Copy,
-        Move
+        Move,
+        Retry
     };
 
     explicit CToolButton(QWidget *parent = Q_NULLPTR);

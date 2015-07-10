@@ -32,7 +32,6 @@ FORMS *= \
     $$PWD/gui/tools/options/COptionsAutoCyclesTab.ui \
     $$PWD/gui/tools/options/COptionsThresholdTab.ui \
     $$PWD/gui/tools/options/COptionsDateTimeTab.ui \
-    $$PWD/gui/tools/log-files/CLogFilesWindow.ui \
     $$PWD/gui/tools/history/CHistoryWindow.ui \
     $$PWD/gui/tools/maintenance/CMaintenanceDiagnosticTab.ui \
     $$PWD/gui/tools/maintenance/CMaintenanceMaintenanceTab.ui \
@@ -210,6 +209,7 @@ HEADERS *= \
     $$PWD/gui/tools/configurator/variables/CEditVariableWindow.h \
     $$PWD/gui/tools/configurator/variables/ConfiguratorVariablesUIHandler.h \
     $$PWD/gui/IScrollableUIWidget.h \
+    $$PWD/gui/IScrollablePlainTextEdit.h \
     $$PWD/gui/tools/configurator/IConfiguratorEditWindow.h \
     $$PWD/gui/tools/configurator/IConfiguratorEditTab.h \
     $$PWD/gui/tools/configurator/steps/CStepWidgetUIHandler.h \
@@ -389,6 +389,7 @@ SOURCES *= \
     $$PWD/gui/tools/configurator/variables/CEditVariableWindow.cpp \
     $$PWD/gui/tools/configurator/variables/ConfiguratorVariablesUIHandler.cpp \
     $$PWD/gui/IScrollableUIWidget.cpp \
+    $$PWD/gui/IScrollablePlainTextEdit.cpp \
     $$PWD/gui/tools/configurator/IConfiguratorEditWindow.cpp \
     $$PWD/gui/tools/configurator/steps/CStepWidgetUIHandler.cpp \
     $$PWD/gui/tools/configurator/steps/CEditStepListTab.cpp \

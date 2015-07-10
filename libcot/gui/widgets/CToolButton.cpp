@@ -12,7 +12,6 @@ CToolButton::CToolButton(QWidget *parent)
     : QToolButton(parent)
 {
     initialize();
-
 }
 
 CToolButton::CToolButton(QAction *action, QWidget *parent)
@@ -208,6 +207,7 @@ QIcon CToolButton::buttonIcon(CToolButton::Type type)
         case CToolButton::Move:
         case CToolButton::AddStopStep:
         case CToolButton::Edit:
+        case CToolButton::Retry:
             // SERES_TODO: Add correct icons. // COT-66
             break;
 

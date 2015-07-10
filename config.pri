@@ -26,12 +26,14 @@ DEFINES *= \
 
 DEVICE_BUILD {
       DEFINES += JSON_DIRECTORY=\"\\\"/home/seres/\\\"\"
+      DEFINES += LOG_SOURCE_DIRECTORY=\"\\\"/home/seres/logs\\\"\"
 } else {
       DEFINES += JSON_DIRECTORY=\"\\\"$${top_srcdir}/libcot/\\\"\"
+      DEFINES += LOG_SOURCE_DIRECTORY=\"\\\"$$PWD\\\"\"
 }
 
-macx:DEFINES *= "COT_USB_MOUNT_POINT=\\\"/Volumes\\\""
-else:DEFINES *= "COT_USB_MOUNT_POINT=\\\"/media\\\""
+macx:DEFINES *= COT_USB_MOUNT_POINT=\"\\\"/Volumes\\\"\"
+else:DEFINES *= COT_USB_MOUNT_POINT=\"\\\"/media\\\"\"
 
 CONFIG *= \
     c++11 \
