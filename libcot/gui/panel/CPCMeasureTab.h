@@ -15,7 +15,7 @@ class CPCMeasureTab : public IPCTab
 {
     Q_OBJECT
 public:
-    explicit CPCMeasureTab(bool showGraph, QWidget *parent = Q_NULLPTR);
+    explicit CPCMeasureTab(QWidget *parent = Q_NULLPTR);
     ~CPCMeasureTab();
 
     CVerticalButtonBar *buttonBar() const Q_DECL_OVERRIDE;
@@ -32,7 +32,6 @@ private slots:
     void updateAlarmsAction();
 
 private:
-
     Ui::CPCMeasureTab *ui;
     IVariableMeasuresUIHandler *m_measuresHandler;
     QHash<QString, CPlotObject *> m_plotObjectHash;

@@ -60,6 +60,8 @@ public:
         return window;
     }
 
+    static bool showGraphInMainScreen();
+
 public slots:
     void retranslate();
 
@@ -67,16 +69,21 @@ protected:
     void changeEvent(QEvent *event) Q_DECL_OVERRIDE;
 
 private slots:
+    void slotStreamsUpdated();
     void slotUpdateAvailable(const QString &version);
     void slotUpdateTriggered();
 
 private:
     Ui::CPCWindow *ui;
+    class CPCMeasureTab *m_measureTab;
+    class CPCDiagnosticTab *m_diagnosticTab;
+    class CPCToolsTab *m_toolsTab;
+    class CPCHistogramTab *m_graphTab;
+    class CPCPlusTab *m_plusTab;
     CUpdateManager *m_updateManager;
 
-    void addTab(IPCTab *tab, const QString &title);
+    void addTab(IPCTab *tab);
     bool canShowUpdatePopup() const;
-    bool showGraphInMainScreen() const;
 };
 
 #endif // CPCWINDOW_H

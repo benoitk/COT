@@ -10,7 +10,7 @@
 #include "CVariableMeasure.h"
 #include <QDebug>
 
-CPCMeasureTab::CPCMeasureTab(bool showGraph, QWidget *parent)
+CPCMeasureTab::CPCMeasureTab(QWidget *parent)
     : IPCTab(parent)
     , ui(new Ui::CPCMeasureTab)
     , m_pendingAlarms(new CPendingAlarms(this))
@@ -18,7 +18,6 @@ CPCMeasureTab::CPCMeasureTab(bool showGraph, QWidget *parent)
     ui->setupUi(this);
     IVariableMeasuresUIHandler::Flags flags = IVariableMeasuresUIHandler::ShowStreamButton;
     m_measuresHandler = new IVariableMeasuresUIHandler(flags, ui->swCentral, this);
-    slotUpdateStreamsMeasures();
 
     connect(ui->vbbButtons->addAction(CToolButton::Alarms), &QAction::triggered,
             this, &CPCMeasureTab::slotAlarmsTriggered);
@@ -36,17 +35,10 @@ CPCMeasureTab::CPCMeasureTab(bool showGraph, QWidget *parent)
             this, &CPCMeasureTab::slotUpdateStreamsMeasures);
     connect(CAutomate::getInstance(), &CAutomate::signalVariableChanged,
             this, &CPCMeasureTab::slotVariableChanged);
-
-    if (showGraph) {
-        connect(CAutomate::getInstance(), &CAutomate::signalUpdatePlotting,
-                this, &CPCMeasureTab::slotUpdatePlotting);
-        ui->swCentral->setScrollable(false);
-    } else {
-        ui->graphicsWidget->hide();
-    }
-
     connect(m_pendingAlarms, &CPendingAlarms::changed, this, &CPCMeasureTab::updateAlarmsAction);
+
     updateAlarmsAction();
+    slotUpdateStreamsMeasures();
 }
 
 CPCMeasureTab::~CPCMeasureTab()
@@ -100,6 +92,19 @@ void CPCMeasureTab::slotUpdateStreamsMeasures()
     }
 
     m_measuresHandler->layout(ivars);
+
+    if (CPCWindow::showGraphInMainScreen()) {
+        connect(CAutomate::getInstance(), &CAutomate::signalUpdatePlotting,
+                this, &CPCMeasureTab::slotUpdatePlotting, Qt::UniqueConnection);
+        ui->swCentral->setScrollable(false);
+        ui->graphicsWidget->show();
+    }
+    else {
+        disconnect(CAutomate::getInstance(), &CAutomate::signalUpdatePlotting,
+                this, &CPCMeasureTab::slotUpdatePlotting);
+        ui->swCentral->setScrollable(true);
+        ui->graphicsWidget->hide();
+    }
 }
 
 void CPCMeasureTab::slotVariableChanged(const QString &name, const QDateTime &dateTime)

@@ -34,13 +34,11 @@ CPCWindow::CPCWindow(QWidget *parent)
 
     ui->setupUi(this);
     ui->actionUpdate->setVisible(false);
-    const bool showGraphInMeasureTab = showGraphInMainScreen();
-    addTab(new CPCMeasureTab(showGraphInMeasureTab, this), QString());
-    addTab(new CPCDiagnosticTab(this), QString());
-    addTab(new CPCToolsTab(this), QString());
-    if (!showGraphInMeasureTab)
-        addTab(new CPCHistogramTab(this), QString());
-    addTab(new CPCPlusTab(this), QStringLiteral("  +  "));
+    addTab((m_measureTab = new CPCMeasureTab(this)));
+    addTab((m_diagnosticTab = new CPCDiagnosticTab(this)));
+    addTab((m_toolsTab = new CPCToolsTab(this)));
+    addTab((m_graphTab = new CPCHistogramTab(this)));
+    addTab((m_plusTab = new CPCPlusTab(this)));
 
     CVerticalButtonBar *vbb = qobject_cast<IPCTab *>(ui->twPages->widget(0))->buttonBar();
     vbb->addAction(CToolButton::Update, ui->actionUpdate);
@@ -48,6 +46,7 @@ CPCWindow::CPCWindow(QWidget *parent)
     connect(m_updateManager, &CUpdateManager::signalUpdateAvailable, this, &CPCWindow::slotUpdateAvailable);
     connect(ui->actionUpdate, &QAction::triggered, this, &CPCWindow::slotUpdateTriggered);
     connect(ui->twPages, &QTabWidget::currentChanged, CAutomate::getInstance(), &CAutomate::slotTabChanged);
+    connect(CAutomate::getInstance(), &CAutomate::signalStreamsUpdated, this, &CPCWindow::slotStreamsUpdated);
 
 #if !defined(DEVICE_BUILD)
     // Allow to quit the application on desktop
@@ -58,7 +57,7 @@ CPCWindow::CPCWindow(QWidget *parent)
     ui->twPages->setCornerWidget(quitButton, Qt::TopRightCorner);
 #endif
 
-    retranslate();
+    slotStreamsUpdated();
 }
 
 CPCWindow::~CPCWindow()
@@ -108,14 +107,31 @@ int CPCWindow::openExec(CDialog *dialog)
     return dialog->exec();
 }
 
+bool CPCWindow::showGraphInMainScreen()
+{
+    int numMeasures = 0;
+    const QList<CVariableStream*> streams = CAutomate::getInstance()->getListStreams();
+    foreach(CVariableStream *stream, streams) {
+        numMeasures += stream->getListMeasures().count();
+    }
+    return numMeasures <= s_maxMeasuresMainScreen;
+}
+
 void CPCWindow::retranslate()
 {
     ui->retranslateUi(this);
-    ui->twPages->setTabText(0, tr("MEASURE"));
-    ui->twPages->setTabText(1, tr("DIAGNOSTIC"));
-    ui->twPages->setTabText(2, tr("TOOLS"));
-    if (!showGraphInMainScreen())
-        ui->twPages->setTabText(3, tr("GRAPHS"));
+
+    const int measureIndex = ui->twPages->indexOf(m_measureTab);
+    const int diagnosticIndex = ui->twPages->indexOf(m_diagnosticTab);
+    const int toolsIndex = ui->twPages->indexOf(m_toolsTab);
+    const int graphIndex = ui->twPages->indexOf(m_graphTab);
+    const int plusIndex = ui->twPages->indexOf(m_plusTab);
+
+    ui->twPages->setTabText(measureIndex, tr("MEASURE"));
+    ui->twPages->setTabText(diagnosticIndex, tr("DIAGNOSTIC"));
+    ui->twPages->setTabText(toolsIndex, tr("TOOLS"));
+    ui->twPages->setTabText(graphIndex, tr("GRAPHS"));
+    ui->twPages->setTabText(plusIndex, QStringLiteral("  +  "));
 }
 
 void CPCWindow::changeEvent(QEvent *event)
@@ -125,6 +141,26 @@ void CPCWindow::changeEvent(QEvent *event)
     }
 
     QWidget::changeEvent(event);
+}
+
+void CPCWindow::slotStreamsUpdated()
+{
+    const int index = ui->twPages->indexOf(m_graphTab);
+
+    if (showGraphInMainScreen()) {
+        if (index == -1) {
+            ui->twPages->insertTab(ui->twPages->count() -1, m_graphTab, QString());
+            m_graphTab->show();
+        }
+    }
+    else {
+        if (index != -1) {
+            ui->twPages->removeTab(index);
+            m_graphTab->hide();
+        }
+    }
+
+    retranslate();
 }
 
 void CPCWindow::slotUpdateAvailable(const QString &version)
@@ -155,23 +191,13 @@ void CPCWindow::slotUpdateTriggered()
     }
 }
 
-void CPCWindow::addTab(IPCTab *tab, const QString &title)
+void CPCWindow::addTab(IPCTab *tab)
 {
-    ui->twPages->addTab(tab, title);
+    ui->twPages->addTab(tab, QString());
 }
 
 bool CPCWindow::canShowUpdatePopup() const
 {
     // TODO: check running cycles etc
     return !QApplication::activeModalWidget();
-}
-
-bool CPCWindow::showGraphInMainScreen() const
-{
-    int numMeasures = 0;
-    const QList<CVariableStream*> streams = CAutomate::getInstance()->getListStreams();
-    foreach(CVariableStream *stream, streams) {
-        numMeasures += stream->getListMeasures().count();
-    }
-    return numMeasures <= s_maxMeasuresMainScreen;
 }
