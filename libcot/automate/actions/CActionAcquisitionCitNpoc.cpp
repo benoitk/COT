@@ -69,8 +69,8 @@ void CActionAcquisitionCitNpoc::run(){
         float co2ppmv=0;
         float co2g=0;
         float airflow = 0;
-        float zero = measureCell->readValue()->toInt();
-        zero = (zero*2.048) / 0x3fffff;
+        float zero = measureCell->readValue()->toFloat();
+
         m_zero->setValue(zero);
         for(int i = 0; i < m_timeout->toInt() && !m_abort; ++i){
 
@@ -81,8 +81,8 @@ void CActionAcquisitionCitNpoc::run(){
             qCDebug(COTAUTOMATE_LOG)<< sActionInfo;
             emit CAutomate::getInstance()->signalUpdateCurrentAction(sActionInfo);
 
-            mesure = measureCell->readValue()->toInt();
-            mesure = (mesure*2.048) / 0x3fffff;
+            mesure = measureCell->readValue()->toFloat();
+
             airflow = measureAirflow->readValue()->toFloat();
             x = mesure - zero;
             co2ppmv = m_coef1->toFloat() * pow(x, 5)

@@ -7,8 +7,8 @@
    
     "extensions" : [
         {"name" : "measure_card_1","fr_FR" : "Carte measure 1", "en_US" : "Measure card 1",
-            "com" : {"name":"com_jbus_tcp_master","type":"tcpip", "slave":1 , "ip":"192.168.1.2", "port":502, "debug":false},
-            "organs" : [{"name":"measure_cell", "type":"input_integer", "address_data":"0x0200"},
+            "com" : {"name":"com_jbus_tcp_master","type":"tcpip", "slave":1 , "ip":"192.168.1.2", "port":502, "debug":true},
+            "organs" : [{"name":"measure_cell", "type":"input_float", "address_data":"0x0200"},
                          
                           {"name":"relay_0", "type":"output_boolean", "address_data":"0x0120"},
                           {"name":"relay_1", "type":"output_boolean", "address_data":"0x0121"},
@@ -103,7 +103,7 @@
                     {"name":"measure_cot_max", "fr_FR" : "Mesure max", "en_US" : "Max measure", "type":"float", "value" : 10, "unit":"mg_l", "address":"0x0106", "access":"read_write", "com_name":"com_jbus_rs_slave"},
                     {"name":"measure_cot_min", "fr_FR" : "Mesure min", "en_US" : "Min measure", "type":"float", "value" : 0, "unit":"mg_l"},
                    
-                    {"name":"ndir_measure_cell", "fr_FR" : "Cellule NDIR", "type":"input_integer","extension_name":"measure_card_1", "organ_name":"measure_cell", "value" : 0, "unit":"pts", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"ndir_measure_cell", "fr_FR" : "Cellule NDIR", "type":"input_float","extension_name":"measure_card_1", "organ_name":"measure_cell", "value" : 0, "unit":"volt", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"ndir_measure_cell_v", "fr_FR" : "Cellule NDIR", "type":"float", "value" : 0, "unit":"volt", "address":"0x0102", "access":"read_write", "com_name":"com_jbus_rs_slave"},
                     {"name":"zero_cit", "fr_FR" : "Zéro CIT", "type":"integer", "value" : 0, "unit":"pts", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"measure_cit", "fr_FR" : "Mesure CIT", "type":"float", "value" : 0, "unit":"mg_l", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},

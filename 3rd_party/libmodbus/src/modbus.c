@@ -370,7 +370,6 @@ static int receive_msg(modbus_t *ctx, uint8_t *msg, msg_type_t msg_type)
             _error_print(ctx, "select");
             if (ctx->error_recovery & MODBUS_ERROR_RECOVERY_LINK) {
                 int saved_errno = errno;
-
                 if (errno == ETIMEDOUT) {
                     _sleep_and_flush(ctx);
                 } else if (errno == EBADF) {
@@ -390,9 +389,11 @@ static int receive_msg(modbus_t *ctx, uint8_t *msg, msg_type_t msg_type)
 
         if (rc == -1) {
             _error_print(ctx, "read");
+
             if ((ctx->error_recovery & MODBUS_ERROR_RECOVERY_LINK) &&
                 (errno == ECONNRESET || errno == ECONNREFUSED ||
                  errno == EBADF)) {
+
                 int saved_errno = errno;
                 modbus_close(ctx);
                 modbus_connect(ctx);

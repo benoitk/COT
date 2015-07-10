@@ -219,9 +219,8 @@ bool ICycle::moveSteps(float from, float length, float to){
     int indexTo = m_listSteps.count();
     for(int  i = 0; i < m_listSteps.count() && indexTo == m_listSteps.count(); ++i){
         if(m_listSteps.at(i)->getNumStep() >= to && m_listSteps.value(i)->getNumStep() <= to+length){
-            indexTo = i; //déjà un pas présent, on le met à la place
-            shiftAllSteps(m_listSteps.value(i)->getNumStep()
-                                         , m_listSteps.value(i)->getNumStep() +length); //décale les pas suivants
+            indexTo = i; //déjà un pas présent, on le met à la place et on décale le reste d'un bloc
+            shiftAllSteps(m_listSteps.value(i)->getNumStep(), length);
         }else if(m_listSteps.at(i)->getNumStep() > to ){
             indexTo = i;
         }
@@ -256,7 +255,7 @@ bool ICycle::moveStep(float from, float to){
     for(int  i = 0; i < m_listSteps.count() && indexTo == m_listSteps.count(); ++i){
         if(m_listSteps.value(i)->getNumStep() == to ){
             indexTo = i; //déjà un pas présent, on le met à la place
-            if(this->moveStep(to, to+1)); //décale le pas suivant
+            shiftAllSteps(m_listSteps.at(i)->getNumStep(), 1);
         }else if(m_listSteps.value(i)->getNumStep() > to ){
             indexTo = i;
         }
