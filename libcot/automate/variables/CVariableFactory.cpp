@@ -49,9 +49,9 @@ IVariable* CVariableFactory::build(const QVariantMap &mapVar){
     }else if(type == QStringLiteral("output_float")){
         variable = new CVariableOutputFloat(mapVar);
     }else if(type == QStringLiteral("output_list_variables")){
-        variable = new CVariableUnknow();
+        variable = new CVariableUnknow(mapVar);
     }else{
-        variable = new CVariableUnknow();
+        variable = new CVariableUnknow(mapVar);
     }
     return variable;
 }

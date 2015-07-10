@@ -5,8 +5,12 @@ CVariableUnknow::CVariableUnknow()
     : IVariable()
 {
     m_name = QStringLiteral("unknown_var");
+    m_label = tr("Variable inconnue type ");
 }
-
+CVariableUnknow::CVariableUnknow(const QVariantMap& mapVar)
+    :IVariable(mapVar){
+    m_label = m_label + tr("inconnue type ") + mapVar.value(QStringLiteral("type")).toString();
+}
 CVariableUnknow::~CVariableUnknow()
 {
 

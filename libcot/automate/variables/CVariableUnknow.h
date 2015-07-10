@@ -11,6 +11,7 @@ class CVariableUnknow : public IVariable
 
 public:
     CVariableUnknow();
+    CVariableUnknow(const QVariantMap&);
     ~CVariableUnknow();
 
 
