@@ -163,12 +163,13 @@ IVariablePtrList buildStreamsMeasures() {
     IVariablePtrList ivars;
 
     foreach (CVariableStream *streamVar, streams) {
-        ivars << streamVar;
+        ivars << CVariableFactory::buildTemporary(streamVar->getName(), streamVar->getLabel(), type_string);
 
         foreach (IVariable *measure, streamVar->getListMeasures()) {
             CVariableMeasure *measureVar = static_cast<CVariableMeasure *>(measure);
-
-            ivars << measureVar;
+            IVariable *ivar = CVariableFactory::buildTemporary(measureVar->getName(), measureVar->getLabel(), type_string);
+            ivar->setLabel(QString("%1 / %2").arg(streamVar->getLabel()).arg(measureVar->getLabel()));
+            ivars << ivar;
         }
     }
 
@@ -501,7 +502,8 @@ bool IVariableUIHandler::selectAction(QString &value, const QString &title)
 
 bool IVariableUIHandler::selectStreamOrMeasure(QString &value, const QString &title)
 {
-    IVariablePtrList ivars = buildStreamsMeasures(); // don't free, hold by automate
+    IVariablePtrList ivars = buildStreamsMeasures();
+    ScopedIVariablePtrList scoped(&ivars);
     CGenericItemSelector dlg(ivars);
     dlg.setTitle(!title.isEmpty() ? title : tr("Select a stream or measure"));
     dlg.setSelectedValue(value);

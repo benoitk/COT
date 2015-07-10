@@ -69,6 +69,7 @@ public:
 
     CVariableMeasure* getVariableMeasure(IVariable*) const;
     void changeVariableMeasure(IVariable*, CVariableMeasure* arg_dest_measure);
+    CVariableStream *getMeasureStream(CVariableMeasure *measure) const;
     //FIN API
 
     static QString formatHistoryEntry(const QString &name, const QDateTime &dateTime);

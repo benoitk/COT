@@ -33,7 +33,16 @@ void CEditVariableTabUIHandler::rowChanged(const IVariableUIHandler::Row &row, I
         CVariableMeasure *measure = automate->getMeasure(ivar->toString());
 
         if (measure) {
-            qobject_cast<CPushButton *>(editor)->setText(measure->getLabel());
+            stream = automate->getMeasureStream(measure);
+            QStringList texts;
+
+            if (stream) {
+                texts << stream->getLabel();
+            }
+
+            texts << measure->getLabel();
+
+            qobject_cast<CPushButton *>(editor)->setText(texts.join(" / "));
         }
         else if (stream) {
             qobject_cast<CPushButton *>(editor)->setText(stream->getLabel());

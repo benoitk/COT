@@ -395,6 +395,12 @@ void CAutomate::changeVariableMeasure(IVariable* arg_var, CVariableMeasure* arg_
     }
 }
 
+CVariableStream *CAutomate::getMeasureStream(CVariableMeasure *measure) const
+{
+    // SERES_TODO
+    return Q_NULLPTR;
+}
+
 void CAutomate::changeCycleStream(ICycle* arg_cycle, CVariableStream* arg_dest_stream){
     foreach(CVariableStream* stream, m_listStreams){
         if(stream->getListCycles().contains(arg_cycle)){
