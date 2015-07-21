@@ -41,6 +41,15 @@ QWidget *CEditActionTabUIHandler::createWidget(int column, IVariable *ivar)
             Q_ASSERT(label);
 
             if (isProperty) {
+                QFont font = label->font();
+                font.setUnderline(true);
+
+                QPalette pal = label->palette();
+                pal.setColor(label->foregroundRole(), QColor(Qt::blue));
+
+                label->setFont(font);
+                label->setPalette(pal);
+                label->setCursor(Qt::PointingHandCursor);
                 connect(label, &CClickableLabel::clicked, this, &CEditActionTabUIHandler::slotRequestVariable);
             }
 
