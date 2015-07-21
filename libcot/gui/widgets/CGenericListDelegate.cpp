@@ -35,8 +35,17 @@ void CGenericListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
 
     QStyle *style = option.widget ? option.widget->style() : QApplication::style();
     style->drawControl(QStyle::CE_PushButton, &buttonOption, painter);
+
+    const QString text = index.data().toString();
+    int flags = Qt::AlignCenter | Qt::TextWordWrap;
+
+    // only add Qt::TextWrapAnywhere if no spaces
+    if (!text.contains(" ")) {
+        flags |= Qt::TextWrapAnywhere;
+    }
+
     // Draw text adding small margin around to avoid text on button borders.
-    painter->drawText(buttonOption.rect.adjusted(2, 2, -2, -2), Qt::AlignCenter | Qt::TextWordWrap | Qt::TextWrapAnywhere, index.data().toString());
+    painter->drawText(buttonOption.rect.adjusted(2, 2, -2, -2), flags, text);
 }
 
 QSize CGenericListDelegate::sizeHint(const QStyleOptionViewItem &, const QModelIndex &) const
