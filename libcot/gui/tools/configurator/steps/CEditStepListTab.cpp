@@ -11,6 +11,7 @@
 
 #include <QVBoxLayout>
 #include <QTimer>
+#include <QScrollBar>
 #include <QDebug>
 
 bool lessThanStepWidget(CStepWidget *left, CStepWidget *right) {
@@ -59,6 +60,11 @@ CEditStepListTab::CEditStepListTab(ICycle *cycle, QWidget *parent)
 
     scrollableWidget()->setScrollablePagerWidget(m_widget);
 
+    scrollableWidget()->moveUp()->disconnect();
+    scrollableWidget()->moveDown()->disconnect();
+
+    connect(scrollableWidget()->moveUp(), &QAction::triggered, this, &CEditStepListTab::slotMoveUp);
+    connect(scrollableWidget()->moveDown(), &QAction::triggered, this, &CEditStepListTab::slotMoveDown);
     connect(buttonBar()->addAction(CToolButton::Add), &QAction::triggered, this, &CEditStepListTab::slotAddStep);
     connect(buttonBar()->addAction(CToolButton::AddStopStep), &QAction::triggered, this, &CEditStepListTab::slotAddStopStep);
     connect(buttonBar()->addAction(CToolButton::Copy), &QAction::triggered, this, &CEditStepListTab::slotCopyTriggered);
@@ -241,6 +247,22 @@ bool CEditStepListTab::hasExistingInterval(float interval, CStepWidget *byPass) 
     }
 
     return false;
+}
+
+void CEditStepListTab::slotMoveUp()
+{
+    const int step = scrollableWidget()->getPageStep();
+    QScrollBar* sb = scrollableWidget()->verticalScrollBar();
+    sb->setSliderPosition(sb->sliderPosition() - (step /2));
+    scrollableWidget()->updateActions();
+}
+
+void CEditStepListTab::slotMoveDown()
+{
+    const int step = scrollableWidget()->getPageStep();
+    QScrollBar* sb = scrollableWidget()->verticalScrollBar();
+    sb->setSliderPosition(sb->sliderPosition() + (step /2));
+    scrollableWidget()->updateActions();
 }
 
 bool CEditStepListTab::validateStepWidget(CGenericVariablesEditor *editor, void *userData1, void *userData2)

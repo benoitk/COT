@@ -133,6 +133,11 @@ void CScrollableWidget::updatePageHeight()
     updateActions();
 }
 
+int CScrollableWidget::getPageStep() const
+{
+    return m_pageStep;
+}
+
 bool CScrollableWidget::eventFilter(QObject *obj, QEvent *event)
 {
     if (obj == widget() && event->type() == QEvent::LayoutRequest) {

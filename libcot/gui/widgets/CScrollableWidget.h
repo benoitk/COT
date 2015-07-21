@@ -30,6 +30,9 @@ public:
     CScrollablePagerWidget *scrollablePagerWidget() const;
 
     void updatePageHeight();
+    void updateActions();
+
+    int getPageStep() const;
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
@@ -42,7 +45,6 @@ private slots:
 
 private:
     void init();
-    void updateActions();
 
     QAction *m_moveUp;
     QAction *m_moveDown;

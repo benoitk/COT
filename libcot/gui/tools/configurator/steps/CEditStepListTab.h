@@ -47,6 +47,8 @@ private:
     bool hasExistingInterval(float interval, CStepWidget *byPass = Q_NULLPTR) const;
 
 private slots:
+    void slotMoveUp();
+    void slotMoveDown();
     void slotAddStep();
     void slotAddStopStep();
     void slotCopyTriggered();
