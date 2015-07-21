@@ -162,6 +162,8 @@ IVariablePtrList buildStreamsMeasures() {
     const QList<CVariableStream *> streams = automate->getListStreams();
     IVariablePtrList ivars;
 
+    ivars << CVariableFactory::buildTemporary(QString(), IVariableUIHandler::tr("Analyzer"), type_string);
+
     foreach (CVariableStream *streamVar, streams) {
         ivars << CVariableFactory::buildTemporary(streamVar->getName(), streamVar->getLabel(), type_string);
 

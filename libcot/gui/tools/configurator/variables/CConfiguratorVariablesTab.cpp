@@ -28,11 +28,6 @@ void CConfiguratorVariablesTab::slotAddVariable()
 {
     CAutomate *automate = CAutomate::getInstance();
 
-    QString name;
-    if (!m_ivariableUIHandler->selectStreamOrMeasure(name) || name.isEmpty()) {
-        return;
-    }
-
     variableType varType;
     if (!m_ivariableUIHandler->selectVariableType(varType) || (varType == type_unknow)) {
         return;
@@ -40,6 +35,9 @@ void CConfiguratorVariablesTab::slotAddVariable()
 
     VariableOrganType organType = type_organ_none;
     m_ivariableUIHandler->selectOrganType(organType);
+
+    QString name;
+    m_ivariableUIHandler->selectStreamOrMeasure(name);
 
     // Create variable
     IVariable *variable = CVariableFactory::build(varType, organType);

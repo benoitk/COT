@@ -80,8 +80,6 @@ void CGenericItemSelector::setSelectedItem(IVariablePtr item)
     const QModelIndex index = m_model->indexForIVariable(item);
 
     if (index.isValid()) {
-        const bool locked = m_lvItems->blockSignals(true);
-
         if (m_lvItems->currentIndex() != index) {
             m_lvItems->setCurrentIndex(index);
         }
@@ -90,9 +88,11 @@ void CGenericItemSelector::setSelectedItem(IVariablePtr item)
             m_model->setCurrentItem(item);
         }
 
-        m_lvItems->blockSignals(locked);
-        m_lvItems->scrollTo(index);
-        emit selectedItemChanged(item);
+        // Most probably this call is made before the window is shown and will probably be resized.
+        // Making the scroll move inconsistent, let delay that a bit
+        QTimer::singleShot(25, this, [this, index]() {
+            m_lvItems->scrollTo(index);
+        });
     }
 }
 
@@ -117,6 +117,8 @@ void CGenericItemSelector::scroll(CGenericItemSelector::Direction dir)
     }
 
     updateScrollButtons();
+    // The listview viewport does not update correct with some styles (ie OSX style)
+    m_lvItems->viewport()->update();
 }
 
 void CGenericItemSelector::resizeEvent(QResizeEvent *event)
