@@ -27,7 +27,6 @@ public:
     void setValue(float);
     using CVariableInt::setValue;
 
-private:
 
     void writeValue();
 };

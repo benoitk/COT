@@ -93,7 +93,7 @@ protected:
     virtual void setAddress(int address);
 
 signals:
-    void signalVariableChanged(); // SERES_TODO: handle it in each variable (COT-64)
+    void signalVariableChanged(IVariable*);
 
 protected:
 

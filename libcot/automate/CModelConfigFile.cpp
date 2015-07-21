@@ -291,6 +291,23 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
             }
         }
     }
+
+     //Logs
+     QJsonObject jsonObjectLogs = m_jsonDoc->object();
+     if(jsonObjectLogs[QStringLiteral("logs")] == QJsonValue::Undefined){
+         qCDebug(COTAUTOMATE_LOG) << "jsonObject[\"logs\"] == QJsonValue::Undefined";
+     }
+     else {
+         QJsonArray jsonArrayLogs = jsonObjectLogs[QStringLiteral("logs")].toArray();
+         foreach(QJsonValue jsonVarName, jsonArrayLogs){
+             QString varName = jsonVarName.toVariant().toString();
+             if(varName != QStringLiteral(""))
+                 automate->addLoggedVariable(varName);
+             else
+                 qCDebug(COTAUTOMATE_LOG) << "Logs null : map = " << varName;
+         }
+     }
+
     qCDebug(COTAUTOMATE_LOG) << "FIN CModelConfigFile(QObject *parent)";
 }
 

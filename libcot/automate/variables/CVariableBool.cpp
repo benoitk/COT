@@ -50,14 +50,14 @@ void CVariableBool::setValue(bool value){
     m_value = value;
     checkBindedVariable(QVariant(value));
 
-    emit signalVariableChanged();
+    emit signalVariableChanged(this);
 }
 
 //Pas de récursivité dans les binds pour l'instant pour ne pas gérer les binds croisés({var1, var2}, {var2, var1})
 void CVariableBool::setToBindedValue(const QVariant & value){
     m_value = value.toBool();
 
-    emit signalVariableChanged();
+    emit signalVariableChanged(this);
 }
 variableType CVariableBool::getType()const{
     return type_bool;

@@ -171,7 +171,7 @@ bool CActionTest::variableUsed(IVariable *arg_var)const {
 
     return false;
 }
-void CActionTest::setParameter(QString arg_key, IVariable* arg_parameter){
+void CActionTest::setParameter(const QString& arg_key, IVariable* arg_parameter){
     if(tr("Setpoint")== arg_key) m_setpoint= arg_parameter;
     else if(tr("Target")== arg_key)m_target= arg_parameter;
     else if(tr("Result")== arg_key)m_result= arg_parameter;
@@ -180,4 +180,14 @@ void CActionTest::setParameter(QString arg_key, IVariable* arg_parameter){
     else if(tr("Timeout")== arg_key)m_timeout= arg_parameter;
     else if(tr("Generate critical error")== arg_key)m_criticalError->setValue(arg_parameter->toBool());
 
+}
+variableType CActionTest::getWaitedType(const QString& arg_key){
+    if(tr("Setpoint")== arg_key) return type_float;
+    else if(tr("Target")== arg_key) return type_float;
+    else if(tr("Result")== arg_key)return type_float;
+    else if(tr("Waiting")== arg_key)return type_int;
+    else if(tr("Error margin")== arg_key)return type_bool;
+    else if(tr("Timeout")== arg_key)return type_int;
+    else if(tr("Generate critical error")== arg_key)return type_bool;
+    return type_unknow;
 }

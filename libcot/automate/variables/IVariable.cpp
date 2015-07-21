@@ -97,7 +97,7 @@ QString IVariable::getName()const{
 }
 void IVariable::setName(const QString& name){
     m_name = name;
-    emit signalVariableChanged();
+    emit signalVariableChanged(this);
 }
 
 
@@ -107,7 +107,7 @@ QString IVariable::getLabel()const{
 }
 void IVariable::setLabel(const QString & lbl){
     m_label = lbl;
-    emit signalVariableChanged();
+    emit signalVariableChanged(this);
 }
 
 void IVariable::addBind(IVariable* arg_var){

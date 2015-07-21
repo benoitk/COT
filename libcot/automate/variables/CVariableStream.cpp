@@ -103,7 +103,7 @@ void CVariableStream::removeCycle(const QString &name)
         }
     }
 
-    emit signalVariableChanged();
+    emit signalVariableChanged(this);
 }
 
 void CVariableStream::addMeasure(IVariablePtr var)
@@ -113,7 +113,7 @@ void CVariableStream::addMeasure(IVariablePtr var)
         m_listMeasures << var;
     }
 
-    emit signalVariableChanged();
+    emit signalVariableChanged(this);
 }
 
 void CVariableStream::removeMeasure(IVariablePtr var)
@@ -123,7 +123,7 @@ void CVariableStream::removeMeasure(IVariablePtr var)
         m_listMeasures.removeAll(var);
     }
 
-    emit signalVariableChanged();
+    emit signalVariableChanged(this);
 }
 
 QString CVariableStream::toString(){
@@ -188,5 +188,5 @@ void CVariableStream::addCycle(ICycle *cycle)
         m_listCycles << cycle;
     }
 
-    emit signalVariableChanged();
+    emit signalVariableChanged(this);
 }

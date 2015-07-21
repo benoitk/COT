@@ -21,13 +21,15 @@ public:
     bool variableUsed(IVariable *)const Q_DECL_OVERRIDE;
     QMap<QString, IVariable*> getMapIVariableParameters() Q_DECL_OVERRIDE;
     QMap<QString, IVariable*> getMapCstParameters() Q_DECL_OVERRIDE;
-    void setParameter(QString arg_key, IVariable* arg_parameter)Q_DECL_OVERRIDE;
+    void setParameter(const QString& arg_key, IVariable* arg_parameter)Q_DECL_OVERRIDE;
+
+    variableType getWaitedType(const QString& arg_key) Q_DECL_OVERRIDE;
 
 private:
 
 
-    IVariable* m_organneVar;
-    IVariable* m_variableDestination;
+    IVariable* m_organ;
+    IVariable* m_target;
 };
 
 #endif // CACTIONCMDREADINPUT_H

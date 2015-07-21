@@ -65,21 +65,21 @@ void CActionAcquisitionCitNpoc::run(){
     if(measureCell && measureAirflow){
 
         float mesure = 0;
-        int x = 0;
+        float x = 0;
         float co2ppmv=0;
         float co2g=0;
         float airflow = 0;
-        float zero = measureCell->readValue()->toFloat();
+//        const float zero = measureCell->readValue()->toFloat();
+//        m_zero->setValue(zero);
 
-        m_zero->setValue(zero);
+        const float zero = m_zero->toFloat();
+
         for(int i = 0; i < m_timeout->toInt() && !m_abort; ++i){
 
             sActionInfo =  tr("Mesure ") + QString::number(i+1) + "/"  + m_timeout->toString() + " "
-                    + m_measureCell->getLabel() + " " +  QString::number(mesure, 'f', 2)
-                    + m_airflow->getLabel() + " " +  QString::number(airflow, 'f', 2)
                     + tr("Co2 g") + QString::number(co2g, 'f', 8)
-                    + tr("mesure ") + QString::number(x, 'f', 8)
-                    + tr("zero ") + QString::number(x, 'f', 8)
+                    + tr("mesure ") + QString::number(mesure, 'f', 8)
+                    + tr("Delta ") + QString::number(x, 'f', 8)
                     + tr("Coppmv") + QString::number(co2ppmv, 'f', 8);
             qCDebug(COTAUTOMATE_LOG)<< sActionInfo;
             emit CAutomate::getInstance()->signalUpdateCurrentAction(sActionInfo);
@@ -89,11 +89,11 @@ void CActionAcquisitionCitNpoc::run(){
             airflow = measureAirflow->readValue()->toFloat();
             x = zero - mesure;
             co2ppmv = m_coef1->toFloat() * pow(x, 5)
-                    - m_coef2->toFloat() * pow(x, 4)
+                    + m_coef2->toFloat() * pow(x, 4)
                     + m_coef3->toFloat() * pow(x,3)
-                    - m_coef4->toFloat() * pow(x,2)
+                    + m_coef4->toFloat() * pow(x,2)
                     + m_coef5->toFloat() * x
-                    - m_Offset->toFloat();
+                    + m_Offset->toFloat();
             co2g += (co2ppmv * m_CstConversion->toFloat()) * ((airflow/60000)*0.01);
 
             QThread::msleep(500);
@@ -154,7 +154,7 @@ QMap<QString, IVariable*> CActionAcquisitionCitNpoc::getMapCstParameters(){
     map.insert(tr("Generate critical error"), m_criticalError);
     return map;
 }
-void CActionAcquisitionCitNpoc::setParameter(QString arg_key, IVariable* arg_parameter){
+void CActionAcquisitionCitNpoc::setParameter(const QString& arg_key, IVariable* arg_parameter){
     if(tr("Cellule")== arg_key) m_measureCell= arg_parameter;
     else if(tr("Zero point")== arg_key)m_zero= arg_parameter;
     else if(tr("Result")== arg_key)m_result= arg_parameter;
@@ -169,4 +169,22 @@ void CActionAcquisitionCitNpoc::setParameter(QString arg_key, IVariable* arg_par
     else if(tr("Time acquisition")== arg_key)m_timeout= arg_parameter;
 
     else if(tr("Generate critical error")== arg_key)m_criticalError->setValue(arg_parameter->toBool());
+}
+variableType CActionAcquisitionCitNpoc::getWaitedType(const QString& arg_key){
+    if(tr("Cellule")== arg_key) return type_float;
+    else if(tr("Zero point")== arg_key) return type_float;
+    else if(tr("Result")== arg_key) return type_float;
+    else if(tr("Air flow")== arg_key)return type_float;
+    else if(tr("Vessel volume")== arg_key)return type_float;
+    else if(tr("Coefficient 1")== arg_key)return type_float;
+    else if(tr("Coefficient 2")== arg_key)return type_float;
+    else if(tr("Coefficient 3")== arg_key)return type_float;
+    else if(tr("Coefficient 4")== arg_key)return type_float;
+    else if(tr("Coefficient 5")== arg_key)return type_float;
+    else if(tr("Co2 ppmv to Co2 g/m3")== arg_key)return type_float;
+    else if(tr("Time acquisition")== arg_key)return type_int;
+
+    else if(tr("Generate critical error")== arg_key)return type_bool;
+
+    return type_unknow;
 }

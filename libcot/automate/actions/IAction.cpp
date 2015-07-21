@@ -40,6 +40,9 @@ QString IAction::typeToString(actionType arg_type)
     case actionType::type_test:
         return tr("Test");
 
+    case type_acquisition_cit_npoc:
+        return tr("CIT/NPOC measure acquisition");
+
     }
     return QStringLiteral("**unhandled action type**");
 }

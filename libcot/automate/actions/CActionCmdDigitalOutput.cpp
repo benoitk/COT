@@ -60,9 +60,16 @@ QMap<QString, IVariable*> CActionCmdDigitalOutput::getMapIVariableParameters(){
 
 QMap<QString, IVariable*> CActionCmdDigitalOutput::getMapCstParameters(){
     QMap<QString, IVariable*>  map;
+    map.insert(tr("Open"), m_state);
     return map;
 }
-void CActionCmdDigitalOutput::setParameter(QString arg_key, IVariable* arg_parameter){
+void CActionCmdDigitalOutput::setParameter(const QString& arg_key, IVariable* arg_parameter){
     if(tr("Target")== arg_key)m_varDigitalOutput= arg_parameter;
+    if(tr("Open")== arg_key)m_state->setValue(arg_parameter->toBool());
 
+}
+variableType CActionCmdDigitalOutput::getWaitedType(const QString& arg_key){
+   //peu importe
+
+    return type_unknow;
 }

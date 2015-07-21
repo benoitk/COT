@@ -53,7 +53,7 @@ QVariant CVariableMutable::toVariant()
 void CVariableMutable::setValue(const QVariant & value)
 {
     m_data["value"] = value;
-    emit signalVariableChanged();
+    emit signalVariableChanged(this);
 }
 
 

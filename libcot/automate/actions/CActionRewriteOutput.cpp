@@ -53,6 +53,11 @@ QMap<QString, IVariable*> CActionRewriteOutput::getMapCstParameters(){
     QMap<QString, IVariable*>  map;
     return map;
 }
-void CActionRewriteOutput::setParameter(QString arg_key, IVariable* arg_parameter){
+void CActionRewriteOutput::setParameter(const QString& arg_key, IVariable* arg_parameter){
    if(tr("Target")== arg_key)m_varDigitalOutput= arg_parameter;
  }
+variableType CActionRewriteOutput::getWaitedType(const QString& arg_key){
+    if(tr("Target")== arg_key) return type_bool;
+
+    return type_unknow;
+}

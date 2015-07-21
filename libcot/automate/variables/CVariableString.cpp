@@ -44,13 +44,13 @@ void CVariableString::setValue(QString value){
     m_sValeur = value;
     checkBindedVariable(QVariant(value));
 
-    emit signalVariableChanged();
+    emit signalVariableChanged(this);
 }
 //Pas de récursivité dans les binds pour l'instant pour ne pas gérer les binds croisés({var1, var2}, {var2, var1})
 void CVariableString::setToBindedValue(const QVariant & value){
     m_sValeur = value.toString();
 
-    emit signalVariableChanged();
+    emit signalVariableChanged(this);
 }
 
 variableType CVariableString::getType()const{

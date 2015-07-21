@@ -125,11 +125,13 @@ public:
     void initConfig();
     void quit();
 
+    void addLoggedVariable(const QString& arg_varName);
 
 public slots:
     void slotClock();
     void slotStartAutomate();
     void slotTabChanged(int tab_index);
+    void slotLogVariable(IVariable* arg_var);
 signals:
     void signalRunCycle(int);
     // KDAB: Needed api

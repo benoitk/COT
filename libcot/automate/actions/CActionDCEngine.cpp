@@ -73,9 +73,16 @@ QMap<QString, IVariable*> CActionDCEngine::getMapCstParameters(){
     QMap<QString, IVariable*>  map;
     return map;
 }
-void CActionDCEngine::setParameter(QString arg_key, IVariable* arg_parameter){
+void CActionDCEngine::setParameter(const QString& arg_key, IVariable* arg_parameter){
     if(tr("target engine")== arg_key) m_varPump= arg_parameter;
     else if(tr("Clockwise way")== arg_key)m_varClockwise= arg_parameter;
     else if(tr("Drive time")== arg_key)m_varTimeout= arg_parameter;
 
+}
+variableType CActionDCEngine::getWaitedType(const QString& arg_key){
+    if(tr("target engine")== arg_key) return type_bool;
+    else if(tr("Clockwise way")== arg_key) return type_int;
+    else if(tr("Drive time")== arg_key) return type_int;
+
+    return type_unknow;
 }

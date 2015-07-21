@@ -4,6 +4,8 @@
 #include "IAction.h"
 
 class IVariable;
+class CVariableOutputBool;
+class CVariableOutputInt;
 class CActionCmdPompe : public IAction
 {
     Q_OBJECT
@@ -20,19 +22,22 @@ public:
     bool variableUsed(IVariable *)const Q_DECL_OVERRIDE;
     QMap<QString, IVariable*> getMapIVariableParameters() Q_DECL_OVERRIDE;
     QMap<QString, IVariable*> getMapCstParameters() Q_DECL_OVERRIDE;
-    void setParameter(QString arg_key, IVariable* arg_parameter)Q_DECL_OVERRIDE;
+    void setParameter(const QString& arg_key, IVariable* arg_parameter)Q_DECL_OVERRIDE;
+
+    variableType getWaitedType(const QString& arg_key) Q_DECL_OVERRIDE;
 private:
 
 
     //Rien ne nous assure les types correct dans le json (et rien ne contre indique à mettre n'importe quoi, normalement)
 
-    IVariable* m_pump; //valeur par défaut de la pompe
+    CVariableOutputBool* m_alim; //valeur par défaut de la pompe
     //valeur spécifique à l'action :
-    IVariable* m_speed;
-    IVariable* m_nbStepOrTour;
-    IVariable* m_clockwise;
-    IVariable* m_stepOrTour;
-    IVariable* m_cmdContinu;
+    CVariableOutputInt* m_speed;
+    CVariableOutputInt* m_nbSteps;
+    CVariableOutputBool* m_clockwise;
+    IVariable* m_stepByStep;
+    CVariableOutputInt* m_nbTurns;
+    CVariableOutputBool* m_OriginReturn;
 };
 
 #endif // CACTIONCMDPOMPE_H

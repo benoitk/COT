@@ -23,6 +23,7 @@
 
 #include "cotautomate_debug.h"
 #include "qtimer.h"
+#include "qfile.h"
 CAutomate* CAutomate::singleton = 0;
 
 CAutomate* CAutomate::getInstance(){
@@ -820,4 +821,20 @@ QString CAutomate::formatHistoryEntry(const QString &name, const QDateTime &date
 void CAutomate::setDisplayConf(CDisplayConf* displayConf){
     QMutexLocker locker(&m_mutex);
     m_displayConf = displayConf;
+}
+
+void CAutomate::addLoggedVariable(const QString& arg_varName){
+    IVariable* var = getVariable(arg_varName);
+    if(var && var->getType() != type_unknow)
+        connect(var, &IVariable::signalVariableChanged, this, &CAutomate::slotLogVariable);
+}
+
+void CAutomate::slotLogVariable(IVariable* arg_var){
+    QString path = QString(LOG_SOURCE_DIRECTORY) + "/logs.txt";
+    QFile data(path);
+    if (data.open(QFile::Append)) {
+        QTextStream out(&data);
+        out << QDateTime::currentDateTime().toString() << " "
+            << arg_var->getLabel() << " " << arg_var->toString() <<endl;
+    }
 }

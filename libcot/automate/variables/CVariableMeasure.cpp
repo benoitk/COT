@@ -42,12 +42,12 @@ void CVariableMeasure::removeVariable(IVariable *ivar)
 {
     m_listVariables.removeOne(ivar);
 
-    emit signalVariableChanged();
+    emit signalVariableChanged(this);
 }
 void CVariableMeasure::addVariable(IVariable *ivar){
     m_listVariables.append(ivar);
 
-    emit signalVariableChanged();
+    emit signalVariableChanged(this);
 }
 
 
