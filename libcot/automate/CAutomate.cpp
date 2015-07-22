@@ -509,14 +509,16 @@ void CAutomate::delVariable(IVariable *arg_var)
     // SERES_TODO: To be completed (COT-XX).
     // There is probably more to update, like in CSequencer etc.
     QMutexLocker locker(&m_mutex);
+    bool modified = false;
 
     foreach ( CVariableStream *streamVar, m_listStreams) {
 
         foreach(IVariable *measureIvar, streamVar->getListMeasures()) {
             CVariableMeasure *measureVar = static_cast<CVariableMeasure *>(measureIvar);
-            measureVar->removeVariable(arg_var);
+            modified |= measureVar->removeVariable(arg_var);
         }
-        streamVar->removeVariable(arg_var);
+
+        modified |= streamVar->removeVariable(arg_var);
     }
 
     bool bUsed = false;
@@ -526,11 +528,17 @@ void CAutomate::delVariable(IVariable *arg_var)
 
     if(!bUsed){
         IVariable *var = m_mapVariables.take(arg_var->getName());
-        //locker.unlock();
-        if (var && var == arg_var) {
-            emit signalVariablesUpdated();
-            delete var;
+
+        if (var) {
+            modified |= true;
+            var->deleteLater();
         }
+
+    }
+
+    locker.unlock();
+    if (modified) {
+        emit signalVariablesUpdated();
     }
     //gestion d'erreur si on ne peut pas la supprimer ? Checker sur l'IHM en premier avant d'essayer ?
 }

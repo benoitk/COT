@@ -76,12 +76,25 @@ IVariable* CVariableStream::getActiveState(){
     return m_activeState;
 }
 
-void CVariableStream::removeVariable(IVariable *var)
+bool CVariableStream::removeVariable(IVariable *var)
 {
-    m_listVariables.removeOne(var);
+    const bool result = m_listVariables.removeOne(var);
+
+    if (result) {
+        emit signalVariableChanged(this);
+    }
+
+    return result;
 }
-void CVariableStream::addVariable(IVariable *var){
-    m_listVariables.append(var);
+bool CVariableStream::addVariable(IVariable *var){
+    bool result = !m_listVariables.contains(var);
+
+    if (result) {
+        m_listVariables.append(var);
+        emit signalVariableChanged(this);
+    }
+
+    return result;
 }
 
 void CVariableStream::removeCycle(const QString &name)

@@ -38,16 +38,25 @@ IVariable* CVariableMeasure::getMeasureMin(){
     return m_measureMin;
 }
 
-void CVariableMeasure::removeVariable(IVariable *ivar)
+bool CVariableMeasure::removeVariable(IVariable *ivar)
 {
-    m_listVariables.removeOne(ivar);
+    const bool result = m_listVariables.removeOne(ivar);
 
-    emit signalVariableChanged(this);
+    if (result) {
+        emit signalVariableChanged(this);
+    }
+
+    return result;
 }
-void CVariableMeasure::addVariable(IVariable *ivar){
-    m_listVariables.append(ivar);
+bool CVariableMeasure::addVariable(IVariable *ivar){
+    bool result = !m_listVariables.contains(ivar);
 
-    emit signalVariableChanged(this);
+    if (result) {
+        m_listVariables.append(ivar);
+        emit signalVariableChanged(this);
+    }
+
+    return result;
 }
 
 

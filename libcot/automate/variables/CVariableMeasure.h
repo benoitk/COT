@@ -35,8 +35,8 @@ public:
     IVariable * getMeasureMax();
     IVariable * getMeasureMin();
 
-    void removeVariable(IVariable *ivar);
-    void addVariable(IVariable *ivar);
+    bool removeVariable(IVariable *ivar);
+    bool addVariable(IVariable *ivar);
 
     void setColor(const QColor& col);
     QColor color() const;
