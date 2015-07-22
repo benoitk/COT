@@ -37,7 +37,8 @@ QVariant CGenericListModel::data(const QModelIndex &index, int role) const
     const IVariablePtr ivar = IVariableForIndex(index);
 
     if (role == Qt::DisplayRole) {
-        return ivar->getLabel();
+        const QString text = ivar->getLabel();
+        return text.isEmpty() ? ivar->getName() : text;
     }
     else if (role == CGenericListModel::IsCurrentItem) {
         return ivar == m_currentItem;
