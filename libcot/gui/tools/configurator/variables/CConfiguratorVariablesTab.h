@@ -15,7 +15,6 @@ public:
 private slots:
     void slotAddVariable();
     void editVariable(const QString &variableName);
-    void slotUpdateLayout();
 
 private:
     ConfiguratorVariablesUIHandler *m_ivariableUIHandler;

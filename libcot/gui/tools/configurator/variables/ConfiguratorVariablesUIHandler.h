@@ -13,9 +13,11 @@ public:
     explicit ConfiguratorVariablesUIHandler(CScrollableWidget *scrollable = Q_NULLPTR, QObject *parent = Q_NULLPTR);
     ~ConfiguratorVariablesUIHandler();
 
+    IVariable *getVariable(const QString &name) const Q_DECL_OVERRIDE;
+
+public slots:
     void layout();
 
-    IVariable *getVariable(const QString &name) const Q_DECL_OVERRIDE;
 signals:
     void editVariable(const QString &varname);
 
@@ -27,6 +29,7 @@ protected:
     void rowInserted(const Row &row, IVariable *ivar) Q_DECL_OVERRIDE;
     void rowChanged(const Row &row, IVariable *ivar) Q_DECL_OVERRIDE;
     void rowAboutToBeDeleted(const Row &row, IVariable *ivar) Q_DECL_OVERRIDE;
+    void rowDeleted(const QString &name) Q_DECL_OVERRIDE;
 
 private slots:
     void slotEditClicked();

@@ -15,6 +15,8 @@
 ConfiguratorVariablesUIHandler::ConfiguratorVariablesUIHandler(CScrollableWidget *scrollable, QObject *parent)
     : IConfiguratorUIHandler(scrollable, parent)
 {
+    connect(CAutomate::getInstance(), &CAutomate::signalStreamsUpdated, this, &ConfiguratorVariablesUIHandler::layout);
+    connect(CAutomate::getInstance(), &CAutomate::signalVariablesUpdated, this, &ConfiguratorVariablesUIHandler::layout);
 }
 
 ConfiguratorVariablesUIHandler::~ConfiguratorVariablesUIHandler()
@@ -182,8 +184,16 @@ void ConfiguratorVariablesUIHandler::rowChanged(const IVariableUIHandler::Row &r
 void ConfiguratorVariablesUIHandler::rowAboutToBeDeleted(const Row &row, IVariable *ivar)
 {
     Q_UNUSED(row);
+    Q_UNUSED(ivar);
+}
+
+void ConfiguratorVariablesUIHandler::rowDeleted(const QString &name)
+{
+    const bool locked = blockSignals(true);
     CAutomate *automate = CAutomate::getInstance();
-    automate->delVariable(ivar);
+    automate->delVariable(automate->getVariable(name));
+    blockSignals(locked);
+    layout();
 }
 
 CPushButton *ConfiguratorVariablesUIHandler::newButton(IVariable *ivar)
