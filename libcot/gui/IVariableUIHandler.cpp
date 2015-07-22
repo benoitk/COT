@@ -25,6 +25,7 @@
 #include "CClickableLabel.h"
 
 #include <QGridLayout>
+#include <QScrollBar>
 #include <QDebug>
 #include "cotgui_debug.h"
 
@@ -237,6 +238,9 @@ IVariableUIHandler::~IVariableUIHandler()
 
 void IVariableUIHandler::layout(const QList<IVariable *> &variables, bool addDeleteButton)
 {
+    // remember vscroll position to restore it after.
+    const int vscroll = m_scrollable->verticalScrollBar()->value();
+
     // Clean old widgets
     delete m_containerLayout;
     delete m_container;
@@ -287,6 +291,11 @@ void IVariableUIHandler::layout(const QList<IVariable *> &variables, bool addDel
     }
 
     m_scrollable->setScrollablePagerWidget(m_container);
+
+    m_container->ensurePolished();
+    m_scrollable->ensurePolished();
+    m_scrollable->viewport()->ensurePolished();
+    m_scrollable->verticalScrollBar()->setValue(vscroll);
 }
 
 CScrollableWidget *IVariableUIHandler::getScrollableWidget() const
