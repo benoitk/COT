@@ -29,7 +29,7 @@ CGenericItemSelector::CGenericItemSelector(const IVariablePtrList &list, QWidget
     m_lvItems->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     m_lvItems->setModel(m_model);
-    m_lvItems->setItemDelegate(new CGenericListDelegate(this));
+    m_lvItems->setItemDelegate(new CGenericListDelegate(m_lvItems, m_model));
     setMainWidget(m_lvItems);
 
     buttonBar()->addAction(CToolButton::ScrollUp);
