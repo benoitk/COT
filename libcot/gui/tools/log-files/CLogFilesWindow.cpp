@@ -11,6 +11,8 @@
 #include <QThreadPool>
 #include <QProcess>
 
+#define QPROCESS_TIME_OUT -1 // 1000 *60 *5
+
 CopyLogRunnable::CopyLogRunnable(const QString &source, const QString target)
     : QObject(), QRunnable()
     , m_source(source), m_target(target)
@@ -58,7 +60,7 @@ void CopyLogRunnable::run()
                 return;
             }
 
-            if (!process.waitForFinished()) {
+            if (!process.waitForFinished(QPROCESS_TIME_OUT)) {
                 emit signalMessage(CLogFilesWindow::tr("Can't finished the command %1 %2")
                                    .arg(command)
                                    .arg(parameters.join(" ")));
@@ -99,7 +101,7 @@ void CopyLogRunnable::run()
             return;
         }
 
-        if (!process.waitForFinished()) {
+        if (!process.waitForFinished(QPROCESS_TIME_OUT)) {
             emit signalMessage(CLogFilesWindow::tr("Can't finished the command %1 %2")
                                .arg(command)
                                .arg(parameters.join(" ")));
@@ -177,12 +179,7 @@ QString CLogFilesWindow::sourceDirectory() const
 
 QString CLogFilesWindow::targetDirectory() const
 {
-    QString target;
-#if defined(DEVICE_BUILD)
-    target = QString::fromUtf8("%1/USB").arg(QString::fromUtf8(COT_USB_MOUNT_POINT));
-#else
-    target = QDir::tempPath();
-#endif
+    QString target = QString::fromUtf8("%1/USB").arg(QString::fromUtf8(COT_USB_MOUNT_POINT));
 
     if (target.endsWith("/") && target != "/") {
         target.chop(1);
@@ -193,13 +190,9 @@ QString CLogFilesWindow::targetDirectory() const
 
 bool CLogFilesWindow::isUSBKeyMounted() const
 {
-#if defined(DEVICE_BUILD)
     QStorageInfo si(targetDirectory());
     si.refresh();
     return si.isReady() && si.isValid() && !si.isReadOnly();
-#else
-    return true;
-#endif
 }
 
 void CLogFilesWindow::handleWork()
