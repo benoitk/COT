@@ -574,8 +574,19 @@ IVariableUIHandler::Row *IVariableUIHandler::getRow(const QString &name) const
 
 void IVariableUIHandler::removeRow(const QString &name)
 {
-    qDeleteAll(m_rows.value(name).widgets);
-    m_rows.remove(name);
+    Row row = m_rows.take(name);
+
+    for (auto it = row.widgets.begin(), end = row.widgets.end(); it != end; ++it) {
+        QWidget* widget = (*it);
+
+        if (!widget) {
+            continue;
+        }
+
+        widget->setParent(0);
+        widget->hide();
+        widget->deleteLater();
+    }
 }
 
 int IVariableUIHandler::layoutRow(QWidget *widget) const
