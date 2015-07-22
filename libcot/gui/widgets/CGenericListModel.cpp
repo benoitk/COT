@@ -1,13 +1,19 @@
 #include "CGenericListModel.h"
 
-#include <QDebug>
+namespace {
+bool lessThanIVariable(IVariable* left, IVariable* right) {
+    const QString leftLabel = left->getLabel().isEmpty() ? left->getName() : left->getLabel();
+    const QString rightLabel = right->getLabel().isEmpty() ? right->getName() : right->getLabel();
+    return leftLabel.compare(rightLabel, Qt::CaseInsensitive) < 0;
+}
+}
 
 CGenericListModel::CGenericListModel(const IVariablePtrList &list, QObject *parent)
     : QAbstractListModel(parent),
       m_IVariableList(list)
     , m_currentItem(Q_NULLPTR)
 {
-
+    qSort(m_IVariableList.begin(), m_IVariableList.end(), lessThanIVariable);
 }
 
 CGenericListModel::~CGenericListModel()
