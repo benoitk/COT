@@ -1,9 +1,11 @@
 #ifndef CLOGFILESWINDOW_H
 #define CLOGFILESWINDOW_H
 
-#include "IScrollablePlainTextEdit.h"
+#include "CDialog.h"
 
 #include <QRunnable>
+
+class QLabel;
 
 class CopyLogRunnable : public QObject, public QRunnable
 {
@@ -23,23 +25,26 @@ private:
     QString m_target;
 };
 
-class CLogFilesWindow : public IScrollablePlainTextEdit
+class CLogFilesWindow : public CDialog
 {
     Q_OBJECT
 
 public:
     explicit CLogFilesWindow(QWidget *parent = Q_NULLPTR);
 
-protected:
-    void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
+public slots:
+    void done(int result) Q_DECL_OVERRIDE;
 
 private slots:
+    void slotCenterInParent();
     void slotRetryTriggered();
     void slotBackTriggered();
     void slotRunnableMessage(const QString &message);
     void slotRunnableFinished(bool success);
 
 private:
+    QLabel* m_label;
+
     QString sourceDirectory() const;
     QString targetDirectory() const;
     bool isUSBKeyMounted() const;

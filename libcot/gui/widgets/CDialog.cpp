@@ -22,6 +22,7 @@ CDialog::CDialog(QWidget *parent)
     m_buttonBar = new CVerticalButtonBar(page);
 
     m_pageLayout = new QHBoxLayout(page);
+    m_pageLayout->setSpacing(12);
     m_pageLayout->addWidget(m_buttonBar);
 }
 

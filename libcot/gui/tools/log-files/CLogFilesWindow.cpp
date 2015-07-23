@@ -4,13 +4,14 @@
 #include "CMessageBox.h"
 #include "CPCWindow.h"
 
+#include <QLabel>
 #include <QApplication>
 #include <QAction>
 #include <QTimer>
 #include <QStorageInfo>
 #include <QThreadPool>
 #include <QProcess>
-#include <QDebug>
+
 #define QPROCESS_TIME_OUT -1 // 1000 *60 *5
 
 CopyLogRunnable::CopyLogRunnable(const QString &source, const QString target)
@@ -117,34 +118,40 @@ void CopyLogRunnable::run()
         }
         else {
             emit signalMessage(CLogFilesWindow::tr("A problem occurs while copying the log files.\n"
-                                                   "Process exited with code %1.\n\n"
-                                                   "Output:\n%2")
-                               .arg(process.exitCode())
-                               .arg(QString::fromUtf8(process.readAllStandardOutput())));
+                                                   "Process exited with code %1.")
+                               .arg(process.exitCode()));
             emit signalFinished(false);
         }
     }
 }
 
 CLogFilesWindow::CLogFilesWindow(QWidget *parent)
-    : IScrollablePlainTextEdit(parent)
+    : CDialog(parent)
+    , m_label(new QLabel(this))
 {
+    setTitle(tr("Copying log files"));
+    setMainWidget(m_label);
+
     connect(buttonBar()->addAction(CToolButton::Retry), &QAction::triggered, this, &CLogFilesWindow::slotRetryTriggered);
-    buttonBar()->addAction(CToolButton::ScrollUp, scrollableWidget()->moveUp());
-    buttonBar()->addAction(CToolButton::ScrollDown, scrollableWidget()->moveDown());
     connect(buttonBar()->addAction(CToolButton::Back), &QAction::triggered, this, &CLogFilesWindow::slotBackTriggered);
 
     QTimer::singleShot(0, this, &CLogFilesWindow::handleWork);
 }
 
-void CLogFilesWindow::closeEvent(QCloseEvent *event)
+void CLogFilesWindow::done(int result)
 {
     if (buttonBar()->action(CToolButton::Back)->isEnabled()) {
-        IScrollablePlainTextEdit::closeEvent(event);
+        CDialog::done(result);
     }
-    else {
-        event->ignore();
-    }
+}
+
+void CLogFilesWindow::slotCenterInParent()
+{
+    // Need to center again due to label size changing width
+    const QRect prect = parentWidget()->geometry();
+    QRect rect = geometry();
+    rect.moveCenter(prect.center());
+    setGeometry(rect);
 }
 
 void CLogFilesWindow::slotRetryTriggered()
@@ -159,7 +166,8 @@ void CLogFilesWindow::slotBackTriggered()
 
 void CLogFilesWindow::slotRunnableMessage(const QString &message)
 {
-    scrollableWidget()->setPlainText(message);
+    m_label->setText(message);
+    QTimer::singleShot(25, this, &CLogFilesWindow::slotCenterInParent);
 }
 
 void CLogFilesWindow::slotRunnableFinished(bool success)
@@ -193,15 +201,14 @@ QString CLogFilesWindow::targetDirectory() const
 bool CLogFilesWindow::isUSBKeyMounted() const
 {
     QStorageInfo si(targetDirectory());
-    qDebug() << si.isValid() << si.mountedVolumes().count() <<  si.name();
     si.refresh();
-    return si.isReady() && si.isValid() && !si.isReadOnly() && (si.name()!="");
+    return si.isReady() && si.isValid() && !si.isReadOnly() && !si.name().isEmpty();
 }
 
 void CLogFilesWindow::handleWork()
 {
     buttonBar()->action(CToolButton::Retry)->setVisible(false);
-    scrollableWidget()->clear();
+    m_label->clear();
 
     if (isUSBKeyMounted()) {
         CMessageBox *mb = new CMessageBox(tr("Do you want to copy the log files ?"));
@@ -221,7 +228,7 @@ void CLogFilesWindow::handleWork()
         QThreadPool::globalInstance()->start(runnable, 1000);
     }
     else {
-        scrollableWidget()->setPlainText(tr("The usb key is not mounted.\nClick the retry button to try again."));
+        slotRunnableMessage(tr("The usb key is not mounted.\nClick the retry button to try again."));
         buttonBar()->action(CToolButton::Retry)->setVisible(true);
     }
 }
