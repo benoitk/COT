@@ -61,11 +61,11 @@ bool CActionCmdPompe::runAction(){
         m_clockwise->writeValue();
         m_speed->writeValue();
 
-        if(m_stepByStep->toBool())
-            m_nbSteps->writeValue();
-        else
-            m_nbTurns->writeValue();
-
+        //        if(m_stepByStep->toBool())
+        //            m_nbSteps->writeValue();
+        //        else
+        //            m_nbTurns->writeValue();
+        m_nbSteps->writeValue();
     }
 
     emit signalActionFinished(this);

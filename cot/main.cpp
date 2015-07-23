@@ -21,6 +21,10 @@ int main(int argc, char *argv[])
     app.setApplicationVersion(QStringLiteral("1.1.0"));
     app.setQuitOnLastWindowClosed(true);
 
+#ifdef DEVICE_BUILD
+    app.setOverrideCursor(QCursor(Qt::BlankCursor));
+#endif
+
     // Set default uniform style
     StyleRepository::installStyle();
 

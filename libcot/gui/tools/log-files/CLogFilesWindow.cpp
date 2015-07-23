@@ -10,7 +10,7 @@
 #include <QStorageInfo>
 #include <QThreadPool>
 #include <QProcess>
-
+#include <QDebug>
 #define QPROCESS_TIME_OUT -1 // 1000 *60 *5
 
 CopyLogRunnable::CopyLogRunnable(const QString &source, const QString target)
@@ -110,6 +110,8 @@ void CopyLogRunnable::run()
         }
 
         if (process.exitStatus() == QProcess::NormalExit && process.exitCode() == 0) {
+            process.start("sync");
+            process.waitForFinished(QPROCESS_TIME_OUT);
             emit signalMessage(CLogFilesWindow::tr("The copy of the log files was done succesfuly."));
             emit signalFinished(true);
         }
@@ -191,8 +193,9 @@ QString CLogFilesWindow::targetDirectory() const
 bool CLogFilesWindow::isUSBKeyMounted() const
 {
     QStorageInfo si(targetDirectory());
+    qDebug() << si.isValid() << si.mountedVolumes().count() <<  si.name();
     si.refresh();
-    return si.isReady() && si.isValid() && !si.isReadOnly();
+    return si.isReady() && si.isValid() && !si.isReadOnly() && (si.name()!="");
 }
 
 void CLogFilesWindow::handleWork()

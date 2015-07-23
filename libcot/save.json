@@ -148,7 +148,7 @@
                     {"name":"calcul_cot_coef_5", "fr_FR" : "Coef calib Co2 ppmv 5", "type":"float", "value" : 1172.8, "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"calcul_cot_offset", "fr_FR" : "Offset calib Co2 ppmv", "type":"float", "value" : -2.73, "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"co2_ppmv_to_co2_gm3_cst", "fr_FR" : "Constante conversion Co2(ppmv)/Co2(g/m3)", "type":"float", "value" : 0.00183333, "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"acquisition_measure_cit_timeout", "fr_FR" : "Temps d'acquisition", "type":"integer", "value" : 300, "unit":"second", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"acquisition_measure_cit_timeout", "fr_FR" : "Temps d'acquisition", "type":"integer", "value" : 20, "unit":"second", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     
                     {"name":"zero_npoc", "fr_FR" : "Zéro CIT", "type":"float", "value" : 0, "unit":"volt", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"measure_npoc", "fr_FR" : "Mesure NPOC", "type":"float", "value" : 0, "unit":"mg_l", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
@@ -232,7 +232,7 @@
                     {"name":"pump_sample_clockwise", "fr_FR" : "Pompe échantillon sens anti-trigo", "type":"output_boolean", "access":"read_write",
                             "value" : false, "extension_name":"measure_card_1", "organ_name":"dc_engine_cw", "passive":true
                     },
-                    {"name":"pump_sample_timeout", "fr_FR" : "Temps d'alimentation pompe échantillon", "type":"integer", "value" : 15, "unit":"second", "access":"read_write"},
+                    {"name":"pump_sample_timeout", "fr_FR" : "Temps d'alimentation pompe échantillon", "type":"integer", "value" : 2, "unit":"second", "access":"read_write"},
 
                   
                     {"name":"test_relay_1", "fr_FR" : "Relais CM 1", "en_US" : "Relay 1", "type":"output_boolean", "access":"read_write",
@@ -284,13 +284,13 @@
                           "value":30, "extension_name":"measure_card_1", "organ_name":"step_by_step_pump_1_speed", "passive":false
                     },
                     {"name":"pump_persulfate_nbr_turn", "fr_FR":"Nombre de tour pompe persulfate", "type":"output_integer", "access":"read_write", 
-                          "value":20, "extension_name":"measure_card_1", "organ_name":"step_by_step_pump_1_nbr_turn", "passive":false
+                          "value":1, "extension_name":"measure_card_1", "organ_name":"step_by_step_pump_1_nbr_turn", "passive":false
                     },
                     {"name":"pump_persulfate_origin_return", "fr_FR":"Homing pompe persulfate", "type":"output_boolean", "access":"read_write", 
                           "value":true, "extension_name":"measure_card_1", "organ_name":"step_by_step_pump_1_origin_return", "passive":false
                     },
                     {"name":"pump_persulfate_nbr_step", "fr_FR":"Nombre de pas pompe persulfate", "type":"output_integer", "access":"read_write", 
-                          "value":150, "extension_name":"measure_card_1", "organ_name":"step_by_step_pump_1_nbr_step"
+                          "value":100, "extension_name":"measure_card_1", "organ_name":"step_by_step_pump_1_nbr_step"
                     },
                     {"name":"pump_persulfate_run_stop", "fr_FR":"Pompe persulfate", "type":"output_boolean", "access":"read_write", 
                           "value":false, "extension_name":"measure_card_1", "organ_name":"step_by_step_pump_1_run_stop", "passive":false
@@ -543,14 +543,12 @@
             "fr_FR" : "Cycle de control au démarage",
             "en_US" : "Control cycle",
             "type" : "measure",
+            "step_stop" : {"name":"step_stop", "actions":["pump_sample_off"]},
             "steps" : [{"name":"step_1", "step":1,"fr_FR":"Initialisation cycle de control",
-                        "actions":["cmd_pump_persulfate", "compressor_on", "ev_air_direct_close",  "heater_reactor_on"]}, 
-                       {"name":"step_2", "step":2,"fr_FR":"Control débit d'air", "actions":["control_air_flow"]},
-                       {"name":"step_3", "step":3,"fr_FR":"Control T° NDIR", "actions":["control_temperature_ndir"]},
-                       {"name":"step_4", "step":4,"fr_FR":"Control T° condenseur", "actions":["control_temperature_condenser"]},
-                       {"name":"step_5", "step":5,"fr_FR":"Control T° Reacteur", "actions":["control_temperature_reactor"]},
-                       {"name":"step_6", "step":6,"fr_FR":"Control puissance emetteur", "actions":["control_power_emitter"]}
-
+                        "actions":["pump_sample_on", "ev_sample_close"]}, 
+                       {"name":"step_2", "step":3,"fr_FR":"Control débit d'air", "actions":["cmd_pump_persulfate"]},
+                       {"name":"step_3", "step":4,"fr_FR":"Control débit d'air", "actions":["ev_sample_close"]}
+                       
                     ]
         },
         {
@@ -610,7 +608,7 @@
         }
     ],
 
-    "scheduler_measure" : ["cycle_control", "cycle_mesure_cot", "cycle_mesure_cot", "cycle_mesure_cot", "cycle_mesure_cot", "cycle_mesure_cot", "cycle_mesure_cot", "cycle_mesure_cot", "cycle_mesure_cot", "cycle_mesure_cot", "cycle_mesure_cot", "cycle_mesure_cot", "cycle_mesure_cot", "cycle_mesure_cot", "cycle_mesure_cot", "cycle_mesure_cot"],
+    "scheduler_measure" : ["cycle_control"],
     "scheduler_autonome" : ["cycle_io", "nb_cycle"],
     "list_cycles_maintenaces" : ["cycle_maintenance_cot"],
 

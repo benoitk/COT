@@ -74,9 +74,9 @@ void CActionAcquisitionCitNpoc::run(){
 
         const float zero = m_zero->toFloat();
 
-        for(int i = 0; i < m_timeout->toInt() && !m_abort; ++i){
+        for(int i = 0; i < m_timeout->toInt()*2 && !m_abort; ++i){
 
-            sActionInfo =  tr("Mesure ") + QString::number(i+1) + "/"  + m_timeout->toString() + " "
+            sActionInfo =  tr("Mesure ") + QString::number(i+1) + "/"  + QString::number(m_timeout->toInt()*2) + " "
                     + tr("Co2 g") + QString::number(co2g, 'f', 8)
                     + tr("mesure ") + QString::number(mesure, 'f', 8)
                     + tr("Delta ") + QString::number(x, 'f', 8)
@@ -105,7 +105,7 @@ void CActionAcquisitionCitNpoc::run(){
 }
 
 bool CActionAcquisitionCitNpoc::waitUntilFinished(){
-    return true;
+    return false;
 }
 
 bool CActionAcquisitionCitNpoc::finishedWithCriticalError(){
