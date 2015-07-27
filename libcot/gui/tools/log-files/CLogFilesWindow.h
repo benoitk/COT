@@ -12,12 +12,13 @@ class CopyLogRunnable : public QObject, public QRunnable
     Q_OBJECT
 
 public:
-    CopyLogRunnable(const QString &source, const QString target);
+    CopyLogRunnable(const QString &source, const QString &target);
 
     void run() Q_DECL_OVERRIDE;
 
 signals:
     void signalMessage(const QString &text);
+    void signalError(const QString &text);
     void signalFinished(bool success);
 
 private:
@@ -39,7 +40,8 @@ private slots:
     void slotCenterInParent();
     void slotRetryTriggered();
     void slotBackTriggered();
-    void slotRunnableMessage(const QString &message);
+    void slotRunnableMessage(const QString &text);
+    void slotRunnableError(const QString &text);
     void slotRunnableFinished(bool success);
 
 private:

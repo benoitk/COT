@@ -14,7 +14,7 @@
 
 #define QPROCESS_TIME_OUT -1 // 1000 *60 *5
 
-CopyLogRunnable::CopyLogRunnable(const QString &source, const QString target)
+CopyLogRunnable::CopyLogRunnable(const QString &source, const QString &target)
     : QObject(), QRunnable()
     , m_source(source), m_target(target)
 {
@@ -33,6 +33,14 @@ void CopyLogRunnable::run()
 
         if (!dir.mkpath(m_target)) {
             emit signalMessage(CLogFilesWindow::tr("Can't create target: %1").arg(m_target));
+            emit signalFinished(false);
+            return;
+        }
+
+        dir.setPath(m_source);
+
+        if (dir.entryList(QDir::AllEntries).isEmpty()) {
+            emit signalMessage(CLogFilesWindow::tr("Nothing to copy, the source folder is empty."));
             emit signalFinished(false);
             return;
         }
@@ -117,10 +125,14 @@ void CopyLogRunnable::run()
             emit signalFinished(true);
         }
         else {
+            const QString error = QString::fromLocal8Bit(process.readAllStandardOutput());
             emit signalMessage(CLogFilesWindow::tr("A problem occurs while copying the log files.\n"
                                                    "Process exited with code %1.")
                                .arg(process.exitCode()));
+            emit signalError(error);
             emit signalFinished(false);
+
+            qDebug("%s: Copy fails: \n%s", Q_FUNC_INFO, qPrintable(error));
         }
     }
 }
@@ -164,9 +176,27 @@ void CLogFilesWindow::slotBackTriggered()
     close();
 }
 
-void CLogFilesWindow::slotRunnableMessage(const QString &message)
+void CLogFilesWindow::slotRunnableMessage(const QString &text)
 {
-    m_label->setText(message);
+    m_label->setText(text);
+    QTimer::singleShot(25, this, &CLogFilesWindow::slotCenterInParent);
+}
+
+void CLogFilesWindow::slotRunnableError(const QString &text)
+{
+    if (text.contains(QStringLiteral("No space left on device"))) {
+        m_label->setText(tr("There is not enough space to copy log files on the USB key."));
+    }
+    else if (text.contains(QStringLiteral("Permission denied"))) {
+        m_label->setText(tr("You do not have permission to write on the USB key."));
+    }
+    else if (text.contains(QStringLiteral("Read-only file system"))) {
+        m_label->setText(tr("You do not have permission to write on the USB key because the file system is read only."));
+    }
+    else {
+        m_label->setText(tr("An unknown error appeared while copying log files on the USB key."));
+    }
+
     QTimer::singleShot(25, this, &CLogFilesWindow::slotCenterInParent);
 }
 
@@ -202,7 +232,7 @@ bool CLogFilesWindow::isUSBKeyMounted() const
 {
     QStorageInfo si(targetDirectory());
     si.refresh();
-    return si.isReady() && si.isValid() && !si.isReadOnly() && !si.name().isEmpty();
+    return si.isReady() && si.isValid() && !si.name().isEmpty();
 }
 
 void CLogFilesWindow::handleWork()
@@ -224,6 +254,7 @@ void CLogFilesWindow::handleWork()
         buttonBar()->action(CToolButton::Back)->setEnabled(false);
         CopyLogRunnable *runnable = new CopyLogRunnable(sourceDirectory(), targetDirectory());
         connect(runnable, &CopyLogRunnable::signalMessage, this, &CLogFilesWindow::slotRunnableMessage);
+        connect(runnable, &CopyLogRunnable::signalError, this, &CLogFilesWindow::slotRunnableError);
         connect(runnable, &CopyLogRunnable::signalFinished, this, &CLogFilesWindow::slotRunnableFinished);
         QThreadPool::globalInstance()->start(runnable, 1000);
     }
