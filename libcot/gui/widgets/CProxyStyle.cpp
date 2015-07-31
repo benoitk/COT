@@ -47,6 +47,7 @@ void CProxyStyle::drawControl(QStyle::ControlElement element, const QStyleOption
         painter->drawRoundedRect(option->rect.adjusted(emptySpaceBetweenTabs / 2, 0, - emptySpaceBetweenTabs / 2, 7), 7, 7);
     }
         break;
+
     case QStyle::CE_TabBarTabLabel:
     {
         const bool selected = option->state & QStyle::State_Selected;

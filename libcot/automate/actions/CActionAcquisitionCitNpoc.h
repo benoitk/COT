@@ -35,6 +35,7 @@ public:
 private:
 
     IVariable* m_measureCell;
+    IVariable* m_co2g;
     IVariable* m_result;
     IVariable* m_zero;
     IVariable* m_airflow;

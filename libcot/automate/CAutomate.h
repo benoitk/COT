@@ -131,7 +131,8 @@ public slots:
     void slotClock();
     void slotStartAutomate();
     void slotTabChanged(int tab_index);
-    void slotLogVariable(IVariable* arg_var);
+   // void slotLogVariable(IVariable* arg_var);
+    void slotLogVariable();
 signals:
     void signalRunCycle(int);
     // KDAB: Needed api
@@ -198,6 +199,7 @@ private:
     ~CAutomate();
     bool shouldQuit();
 
+    QList<IVariable*> m_listLogedVar;
     mutable QMutex m_mutex;
 
     eStateCycle m_stateCycleMesure; //0 stoped, 1 run, 2 pause
@@ -217,6 +219,7 @@ private:
 
     QMap<QString, IAction*> m_mapActions;
     QList<IAction*> m_listActions; //en redondance avec m_mapActions pour ne pas refaire niveau IHM
+
     QMap<QString, IVariable*> m_mapVariables;
     QList<CVariableStream*> m_listStreams;
     QMap<QString, CModelExtensionCard*> m_mapExtCards;

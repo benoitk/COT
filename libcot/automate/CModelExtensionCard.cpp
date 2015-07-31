@@ -16,6 +16,7 @@ CModelExtensionCard::CModelExtensionCard(QObject *parent)
 CModelExtensionCard::CModelExtensionCard(const QVariantMap& mapExt)
     : QObject()
 {
+    m_interfaceCom = Q_NULLPTR;
     if(mapExt.contains(QStringLiteral("name")))
         m_name = mapExt.value(QStringLiteral("name")).toString();
     else
@@ -25,11 +26,11 @@ CModelExtensionCard::CModelExtensionCard(const QVariantMap& mapExt)
         m_label = mapExt.value(QStringLiteral("fr_FR")).toString();
     else
         m_label = m_name;
-
+    QVariantMap mapCom;
     if(mapExt.contains(QStringLiteral("com"))){
-        QVariantMap mapCom = mapExt.value(QStringLiteral("com")).toMap();
-        m_interfaceCom = CComFactory::build(mapCom);
+        mapCom = mapExt.value(QStringLiteral("com")).toMap();
     }
+    m_interfaceCom = CComFactory::build(mapCom);
 //    m_interfaceCom = CAutomate::getInstance()->getCom(nameCom);
 
     if(mapExt.contains(QStringLiteral("organs"))){

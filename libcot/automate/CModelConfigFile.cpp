@@ -130,17 +130,6 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
         }
     }
 
-
-
-    //display
-    if(jsonObjectAll[QStringLiteral("display")] == QJsonValue::Undefined){
-        qCDebug(COTAUTOMATE_LOG) << "jsonObject[\"display\"] == QJsonValue::Undefined";
-    }
-    else {
-       CDisplayConf* displayConf = new CDisplayConf(jsonObjectAll[QStringLiteral("display")].toArray(), automate);
-       automate->setDisplayConf(displayConf);
-    }
-
     //bind variables
     if(jsonObjectAll[QStringLiteral("variables")] == QJsonValue::Undefined){
         qCDebug(COTAUTOMATE_LOG) << "jsonObject[\"variables\"] == QJsonValue::Undefined";
@@ -175,6 +164,15 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
         }
         //qCDebug(COTAUTOMATE_LOG) << "ACTIONS : " << m_mapActions;
 
+    }
+
+    //display
+    if(jsonObjectAll[QStringLiteral("display")] == QJsonValue::Undefined){
+        qCDebug(COTAUTOMATE_LOG) << "jsonObject[\"display\"] == QJsonValue::Undefined";
+    }
+    else {
+       CDisplayConf* displayConf = new CDisplayConf(jsonObjectAll[QStringLiteral("display")].toArray(), automate);
+       automate->setDisplayConf(displayConf);
     }
 
     //Cycles

@@ -63,6 +63,7 @@ void CAutomate::slotStartAutomate(){
     CModelConfigFile configFile(this);
 
     m_scheduler->slotRequestPlayNextSequenceMesure();
+     QTimer::singleShot(1000, this, SLOT(slotLogVariable()));
 
 }
 
@@ -833,16 +834,25 @@ void CAutomate::setDisplayConf(CDisplayConf* displayConf){
 
 void CAutomate::addLoggedVariable(const QString& arg_varName){
     IVariable* var = getVariable(arg_varName);
-    if(var && var->getType() != type_unknow)
-        connect(var, &IVariable::signalVariableChanged, this, &CAutomate::slotLogVariable);
+    m_listLogedVar.append(var);
+    //if(var && var->getType() != type_unknow)
+        //connect(var, &IVariable::signalVariableChanged, this, &CAutomate::slotLogVariable);
+
 }
 
-void CAutomate::slotLogVariable(IVariable* arg_var){
-    QString path = QString(LOG_SOURCE_DIRECTORY) + "/logs.txt";
+//void CAutomate::slotLogVariable(IVariable* arg_var){
+void CAutomate::slotLogVariable(){
+    QMutexLocker locker(&m_mutex);
+    QTimer::singleShot(1000, this, SLOT(slotLogVariable()));
+    QString path = QString(LOG_SOURCE_DIRECTORY) + "/log_"+QDate::currentDate().toString()+".txt";
     QFile data(path);
     if (data.open(QFile::Append)) {
         QTextStream out(&data);
-        out << QDateTime::currentDateTime().toString() << " "
-            << arg_var->getLabel() << " " << arg_var->toString() <<endl;
+        out << QDateTime::currentDateTime().toString();
+        foreach(IVariable* arg_var, m_listLogedVar)
+            out << ";" << arg_var->getLabel() << ";" << QString::number(arg_var->toFloat(), 'f' , 10) ;
+        out << endl;
     }
+
 }
+

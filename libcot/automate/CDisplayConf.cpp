@@ -1,5 +1,6 @@
 #include "CDisplayConf.h"
 #include "IVariable.h"
+#include "IAction.h"
 #include "CAutomate.h"
 #include "qvariant.h"
 #include "qjsonarray.h"
@@ -71,7 +72,27 @@ CDisplayConf::CDisplayConf(const QJsonArray& jsonArray, QObject *parent)
                     //else qCDebug(COTAUTOMATE_LOG) << "CDisplay Conf elec_tests type_unknow" << mapScreen;
                 }
             }
-
+        }else if(mapScreen.contains(QStringLiteral("name")) && mapScreen["name"].toString() == QStringLiteral("initial_tests")){
+            QVariantList variantListActions = mapScreen.value(QStringLiteral("actions")).toList();
+            foreach(QVariant variant, variantListActions){
+                IAction* action = CAutomate::getInstance()->getAction(variant.toString());
+                addInitialTestsAction(action);
+                //if(var->getType() != type_unknow){
+      //          add
+                //}
+                //else qCDebug(COTAUTOMATE_LOG) << "CDisplay Conf elec_tests type_unknow" << mapScreen;
+            }
+            QVariantList variantListVariables = mapScreen.value(QStringLiteral("variables")).toList();
+            foreach(QVariant variant, variantListVariables){
+                QVariantMap map = variant.toMap();
+                IVariable* varTest = CAutomate::getInstance()->getVariable(map.value(QStringLiteral("test")).toString());
+                IVariable* varIndicator = CAutomate::getInstance()->getVariable(map.value(QStringLiteral("indicator")).toString());
+                //if(var->getType() != type_unknow){
+                addInitialTestsVariableTest(varTest);
+                addInitialTestsVariableIndicator(varIndicator);
+                //}
+                //else qCDebug(COTAUTOMATE_LOG) << "CDisplay Conf elec_tests type_unknow" << mapScreen;
+            }
         }else{
             qCDebug(COTAUTOMATE_LOG) << "display écran inconnu " << mapScreen;
         }
@@ -181,4 +202,27 @@ QList<IVariable*> CDisplayConf::getListForScreenHistory() const{
 }
 QList<IVariable*> CDisplayConf::getListForScreenAlarms() const{
     return m_listForScrenAlarms;
+}
+void CDisplayConf::addInitialTestsAction(IAction* arg){
+    if(arg) m_listInitialTestActions.append(arg);
+}
+
+void CDisplayConf::addInitialTestsVariableTest(IVariable* arg){
+    if(arg) m_listInitialTestVariablesTest.append(arg);
+}
+
+void CDisplayConf::addInitialTestsVariableIndicator(IVariable* arg){
+    if(arg) m_listInitialTestVariablesIndicator.append(arg);
+}
+
+QList<IAction *> CDisplayConf::getListInitialsTestActions(){
+    return m_listInitialTestActions;
+}
+
+QList<IVariable *> CDisplayConf::getListInitialsTestVariablesTest(){
+    return m_listInitialTestVariablesTest;
+}
+
+QList<IVariable *> CDisplayConf::getListInitialsTestVariablesIndicator(){
+    return m_listInitialTestVariablesIndicator;
 }

@@ -223,7 +223,8 @@ HEADERS *= \
     $$PWD/automate/actions/CActionRewriteOutput.h \
     $$PWD/automate/CThreadDiag.h \
     $$PWD/gui/widgets/CClickableLabel.h\
-    $$PWD/automate/units/CConverterCrossProduct.h
+    $$PWD/automate/units/CConverterCrossProduct.h \
+    $$PWD/gui/tools/initial-tests/CInitialTestWindow.h
 
 SOURCES *= \
     $$PWD/automate/CAutomate.cpp \
@@ -402,5 +403,6 @@ SOURCES *= \
     $$PWD/automate/actions/CActionRewriteOutput.cpp \
     $$PWD/automate/CThreadDiag.cpp \
     $$PWD/gui/widgets/CClickableLabel.cpp\
-    $$PWD/automate/units/CConverterCrossProduct.cpp
+    $$PWD/automate/units/CConverterCrossProduct.cpp \
+    $$PWD/gui/tools/initial-tests/CInitialTestWindow.cpp
 

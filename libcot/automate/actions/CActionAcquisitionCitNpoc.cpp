@@ -4,7 +4,7 @@
 #include "CAutomate.h"
 #include "IVariableInput.h"
 #include "cotautomate_debug.h"
-#include "math.h"
+//#include "qmath.h"
 
 #include "qthreadpool.h"
 
@@ -14,6 +14,7 @@ CActionAcquisitionCitNpoc::CActionAcquisitionCitNpoc(const QVariantMap &mapActio
 {
     CAutomate* automate = CAutomate::getInstance();
     m_measureCell = automate->getVariable(mapAction[QStringLiteral("cellule")].toString());
+    m_co2g = automate->getVariable(mapAction[QStringLiteral("co2g")].toString());
     m_coef1 = automate->getVariable(mapAction[QStringLiteral("coef_1")].toString());
     m_coef2 = automate->getVariable(mapAction[QStringLiteral("coef_2")].toString());
     m_coef3 = automate->getVariable(mapAction[QStringLiteral("coef_3")].toString());
@@ -69,14 +70,14 @@ void CActionAcquisitionCitNpoc::run(){
         float co2ppmv=0;
         float co2g=0;
         float airflow = 0;
-//        const float zero = measureCell->readValue()->toFloat();
-//        m_zero->setValue(zero);
+        const float zero = measureCell->readValue()->toFloat();
+        m_zero->setValue(zero);
 
-        const float zero = m_zero->toFloat();
+ //       const float zero = m_zero->toFloat();
 
-        for(int i = 0; i < m_timeout->toInt()*2 && !m_abort; ++i){
+        for(int i = 0; i < m_timeout->toInt() && !m_abort; ++i){
 
-            sActionInfo =  tr("Mesure ") + QString::number(i+1) + "/"  + QString::number(m_timeout->toInt()*2) + " "
+            sActionInfo =  tr("Mesure ") + QString::number(i+1) + "/"  + QString::number(m_timeout->toInt()) + " "
                     + tr("Co2 g") + QString::number(co2g, 'f', 8)
                     + tr("mesure ") + QString::number(mesure, 'f', 8)
                     + tr("Delta ") + QString::number(x, 'f', 8)
@@ -87,16 +88,16 @@ void CActionAcquisitionCitNpoc::run(){
             mesure = measureCell->readValue()->toFloat();
 
             airflow = measureAirflow->readValue()->toFloat();
-            x = zero - mesure;
+            x = log10(zero/mesure);
             co2ppmv = m_coef1->toFloat() * pow(x, 5)
                     + m_coef2->toFloat() * pow(x, 4)
                     + m_coef3->toFloat() * pow(x,3)
                     + m_coef4->toFloat() * pow(x,2)
                     + m_coef5->toFloat() * x
                     + m_Offset->toFloat();
-            co2g += (co2ppmv * m_CstConversion->toFloat()) * ((airflow/60000)*0.01);
-
-            QThread::msleep(500);
+            co2g += (co2ppmv * m_CstConversion->toFloat()) * ((airflow*0.001)/60000);
+            m_co2g->setValue(co2g);
+            QThread::msleep(1000);
         }
         m_result->setValue( (co2g * 12000) / ( (m_vesselVolume->toFloat() / 1000) * 44));
     }

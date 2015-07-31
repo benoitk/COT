@@ -61,11 +61,11 @@ bool CActionCmdPompe::runAction(){
         m_clockwise->writeValue();
         m_speed->writeValue();
 
-        //        if(m_stepByStep->toBool())
-        //            m_nbSteps->writeValue();
-        //        else
-        //            m_nbTurns->writeValue();
-        m_nbSteps->writeValue();
+        if(m_stepByStep->toBool())
+            m_nbSteps->writeValue();
+        else
+            m_nbTurns->writeValue();
+        //m_nbSteps->writeValue();
     }
 
     emit signalActionFinished(this);
@@ -102,7 +102,7 @@ void CActionCmdPompe::setParameter(const QString& arg_key, IVariable* arg_parame
 //    else if(tr("Result")== arg_key)m_result= arg_parameter;
 //    else if(tr("Waiting")== arg_key)m_waiting= arg_parameter;
 //    else if(tr("Error margin")== arg_key)m_errorMargin= arg_parameter;
-//    else if(tr("Timeout")== arg_key)m_timeout= arg_parameter;
+//    else if(tr("Timeout")== arg_key)m_timeout= arg_parameter;²
 //    else if(tr("Generate critical error")== arg_key)m_criticalError->setValue(arg_parameter->toBool());
 }
 variableType CActionCmdPompe::getWaitedType(const QString& arg_key){

@@ -7,6 +7,7 @@
 
 class IVariable;
 class CVariableBool;
+class IVariableInput;
 class CActionTest : public IAction, QRunnable
 {
     Q_OBJECT
@@ -36,9 +37,10 @@ public:
 
 
 private:
+    bool acquisitionAndTest(float arg_setPointMin, float arg_setPointMax);
     enum eContidion{m_eEqualToSetpoint=0, m_eSuperiorToSetpoint, m_eInferiorToSetPoint};
     IVariable* m_setpoint;
-    IVariable* m_target;
+    IVariableInput* m_target;
     IVariable* m_result;
     IVariable* m_waiting;
     eContidion m_condition;

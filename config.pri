@@ -47,6 +47,7 @@ INCLUDEPATH *= \
     $${LIBCOT_SRC_PWD}/gui/panel \
     $${LIBCOT_SRC_PWD}/gui/tools \
     $${LIBCOT_SRC_PWD}/gui/tools/electrical-tests \
+    $${LIBCOT_SRC_PWD}/gui/tools/initial-tests \
     $${LIBCOT_SRC_PWD}/gui/tools/history \
     $${LIBCOT_SRC_PWD}/gui/tools/log-files \
     $${LIBCOT_SRC_PWD}/gui/tools/maintenance \

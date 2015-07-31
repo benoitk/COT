@@ -7,7 +7,7 @@
    
     "extensions" : [
         {"name" : "measure_card_1","fr_FR" : "Carte measure 1", "en_US" : "Measure card 1",
-            "com" : {"name":"com_jbus_tcp_master","type":"tcpip", "slave":1 , "ip":"192.168.1.2", "port":502, "debug":false},
+            "com" : {"name":"com_jbus_tcp_master","type":"tcpip", "slave":1 , "ip":"192.168.1.2", "port":502, "debug":true},
             "organs" : [{"name":"measure_cell", "type":"input_float", "address_data":"0x0200"},
                          
                           {"name":"relay_0", "type":"output_boolean", "address_data":"0x0120"},
@@ -88,6 +88,8 @@
                           {"name":"step_by_step_pump_2_nbr_turn", "type":"output_integer", "address_data":"0x10A1"},
                           {"name":"step_by_step_pump_3_nbr_turn", "type":"output_integer", "address_data":"0x10A2"}
 
+
+
                         ]
         },
         {"name" : "io_card_1","fr_FR" : "Carte E/S 1", "en_US" : "I/O card 1",
@@ -136,69 +138,69 @@
                     {"name":"measure_cot_min", "fr_FR" : "Mesure min", "en_US" : "Min measure", "type":"float", "value" : 0, "unit":"mg_l"},
                    
                     {"name":"ndir_measure_cell", "fr_FR" : "Cellule NDIR", "type":"input_float","extension_name":"measure_card_1", "organ_name":"measure_cell", "value" : 0, "unit":"volt", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"zero_cit", "fr_FR" : "Zéro CIT", "type":"float", "value" : 0, "unit":"volt", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"zero_cit", "fr_FR" : "Zéro CIT", "type":"float", "value" : 0, "unit":"V", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"measure_cit", "fr_FR" : "Mesure CIT", "type":"float", "value" : 0, "unit":"mg_l", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"measure_cit_min", "fr_FR" : "Mesure CIT", "type":"float", "value" : 0, "unit":"mg_l", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"measure_cit_max", "fr_FR" : "Mesure CIT", "type":"float", "value" : 100, "unit":"mg_l", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"reactor_volume", "fr_FR" : "Volume réacteur", "type":"float", "value" : 25, "unit":"mL", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"calcul_cot_coef_1", "fr_FR" : "Coef calib Co2 ppmv 1", "type":"float", "value" : 3633.2, "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"calcul_cot_coef_2", "fr_FR" : "Coef calib Co2 ppmv 2", "type":"float", "value" : 8077.6, "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"calcul_cot_coef_3", "fr_FR" : "Coef calib Co2 ppmv 3", "type":"float", "value" : 6445.5, "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"calcul_cot_coef_4", "fr_FR" : "Coef calib Co2 ppmv 4", "type":"float", "value" : 48.018, "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"calcul_cot_coef_5", "fr_FR" : "Coef calib Co2 ppmv 5", "type":"float", "value" : 1172.8, "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"calcul_cot_offset", "fr_FR" : "Offset calib Co2 ppmv", "type":"float", "value" : -2.73, "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"reactor_volume", "fr_FR" : "Volume réacteur", "type":"float", "value" : 28, "unit":"mL", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"calcul_cot_coef_1", "fr_FR" : "Coef calib Co2 ppmv 1", "type":"float", "value" : 1456.7, "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"calcul_cot_coef_2", "fr_FR" : "Coef calib Co2 ppmv 2", "type":"float", "value" : -5580.7, "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"calcul_cot_coef_3", "fr_FR" : "Coef calib Co2 ppmv 3", "type":"float", "value" : 7677.4, "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"calcul_cot_coef_4", "fr_FR" : "Coef calib Co2 ppmv 4", "type":"float", "value" : -2978, "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"calcul_cot_coef_5", "fr_FR" : "Coef calib Co2 ppmv 5", "type":"float", "value" : 1237, "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"calcul_cot_offset", "fr_FR" : "Offset calib Co2 ppmv", "type":"float", "value" : -30.754, "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"co2_ppmv_to_co2_gm3_cst", "fr_FR" : "Constante conversion Co2(ppmv)/Co2(g/m3)", "type":"float", "value" : 0.00183333, "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"acquisition_measure_cit_timeout", "fr_FR" : "Temps d'acquisition", "type":"integer", "value" : 20, "unit":"second", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"co2g", "fr_FR" : "Co2(g/m3)", "type":"float", "value" : 0, "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"acquisition_measure_cit_timeout", "fr_FR" : "Temps d'acquisition", "type":"integer", "value" : 120, "unit":"second", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     
-                    {"name":"zero_npoc", "fr_FR" : "Zéro CIT", "type":"float", "value" : 0, "unit":"volt", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"zero_npoc", "fr_FR" : "Zéro CIT", "type":"float", "value" : 0, "unit":"V", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"measure_npoc", "fr_FR" : "Mesure NPOC", "type":"float", "value" : 0, "unit":"mg_l", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"measure_npoc_min", "fr_FR" : "Mesure CIT", "type":"float", "value" : 0, "unit":"mg_l", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"measure_npoc_max", "fr_FR" : "Mesure CIT", "type":"float", "value" : 100, "unit":"mg_l", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"acquisition_measure_npoc_timeout", "fr_FR" : "Temps d'acquisition", "type":"integer", "value" : 300, "unit":"second", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"acquisition_measure_npoc_timeout", "fr_FR" : "Temps d'acquisition", "type":"integer", "value" : 180, "unit":"second", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     
 
                     {"name":"airflow_setpoint", "fr_FR" : "Consigne débit d'air", "type":"output_float", "extension_name":"measure_card_1", "organ_name":"spi_dac_1", "value" : 300, "unit":"ml_min", "address":"0x0102", "access":"read_write", "com_name":"com_jbus_rs_slave"},
                     {"name":"airflow", "fr_FR" : "Débit d'air", "type":"input_float", "extension_name":"measure_card_1", "organ_name":"adc1_0_flowmeter_0", "value" : 0, "unit":"ml_min", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"airflow_default", "fr_FR" : "Défaut débit d'air", "type":"boolean", "value" : false, "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"airflow_default", "fr_FR" : "Défaut débit d'air", "type":"input_boolean", "value" : false, "address":"0x0102", "access":"read_write", "com_name":"com_jbus_rs_slave"},
                     {"name":"airflow_control_needed", "fr_FR" : "Débit d'air bloquant", "type":"boolean", "value" : true, "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"airflow_error_margin", "fr_FR" : "Marge d'erreur débit d'air", "type":"float", "value" : 1, "unit":"percent", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"airflow_control_timeout", "fr_FR" : "Temps stabilisation débit d'air", "type":"integer", "value" : 10, "unit":"second", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                    
-                    {"name":"ndir_temperature_setpoint", "fr_FR" : "Consigne température NDIR", "type":"output_float", "extension_name":"measure_card_1", "organ_name":"regu_ndir", "value" : 40, "unit":"deg_cel", "address":"0x0102", "access":"read_write", "com_name":"com_jbus_rs_slave"},
-                    {"name":"ndir_temperature", "fr_FR" : "Température NDIR", "type":"input_float","extension_name":"measure_card_1", "organ_name":"adc2_1_t_cuve", "value" : 0, "unit":"deg_celsius", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"ndir_temperature_default", "fr_FR" : "Défaut température NDIR", "type":"boolean", "value" : false, "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"ndir_temperature_control_needed", "fr_FR" : "Régulation température NDIR bloquant", "type":"boolean", "value" : true, "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"ndir_temperature_error_margin", "fr_FR" : "Marge d'erreur régulation température NDIR", "type":"float", "value" : 5, "unit":"percent", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"ndir_temperature_setpoint", "fr_FR" : "Consigne température NDIR", "type":"output_float", "extension_name":"measure_card_1", "organ_name":"regu_ndir", "value" : 45, "unit":"deg_cel", "address":"0x0102", "access":"read_write", "com_name":"com_jbus_rs_slave"},
+                    {"name":"ndir_temperature", "fr_FR" : "Température NDIR", "type":"input_float","extension_name":"measure_card_1", "organ_name":"adc2_1_t_cuve", "value" : 0, "unit":"deg_cel", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"ndir_temperature_default", "fr_FR" : "Défaut température NDIR", "type":"input_boolean", "value" : false, "address":"0x0102", "access":"read_write", "com_name":"com_jbus_rs_slave"},
+                    {"name":"ndir_temperature_control_needed", "fr_FR" : "Régulation température NDIR bloquant", "type":"boolean", "value" : true, "address":"0x0102", "access":"read_write", "com_name":"com_jbus_rs_slave"},
+                    {"name":"ndir_temperature_error_margin", "fr_FR" : "Marge d'erreur régulation température NDIR", "type":"float", "value" : 2, "unit":"percent", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"ndir_temperature_control_timeout", "fr_FR" : "Temps stabilisation régulation température NDIR", "type":"integer", "value" : 10, "unit":"second", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     
-                    {"name":"condenser_temperature_setpoint", "fr_FR" : "Consigne température condenseur", "type":"output_float", "extension_name":"measure_card_1", "organ_name":"regu_peltier", "value" : 8, "unit":"deg_cel", "address":"0x0102", "access":"read_write", "com_name":"com_jbus_rs_slave"},
-                    {"name":"condenser_temperature", "fr_FR" : "Température condenseur", "type":"input_float","extension_name":"measure_card_1", "organ_name":"adc2_0_t_peltier", "value" : 0, "unit":"deg_celsius", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"condenser_temperature_default", "fr_FR" : "Défaut température condenseur", "type":"boolean", "value" : false, "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"condenser_temperature_setpoint", "fr_FR" : "Consigne température condenseur", "type":"output_float", "extension_name":"measure_card_1", "organ_name":"regu_peltier", "value" : 15, "unit":"deg_cel", "address":"0x0102", "access":"read_write", "com_name":"com_jbus_rs_slave"},
+                    {"name":"condenser_temperature", "fr_FR" : "Température condenseur", "type":"input_float","extension_name":"measure_card_1", "organ_name":"adc2_0_t_peltier", "value" : 0, "unit":"deg_cel", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"condenser_temperature_default", "fr_FR" : "Défaut température condenseur", "type":"input_boolean", "value" : false, "address":"0x0102", "access":"read_write", "com_name":"com_jbus_rs_slave"},
                     {"name":"condenser_temperature_control_needed", "fr_FR" : "Régulation température condenseur bloquant", "type":"boolean", "value" : true, "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"condenser_temperature_error_margin", "fr_FR" : "Marge d'erreur régulation température condenseur", "type":"float", "value" : 10, "unit":"percent", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"condenser_temperature_control_timeout", "fr_FR" : "Temps stabilisation régulation température condenseur", "type":"integer", "value" : 10, "unit":"second", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     
                     {"name":"reactor_temperature_setpoint", "fr_FR" : "Consigne température réacteur", "type":"float", "value" : 45, "unit":"deg_cel", "address":"0x0102", "access":"read_write", "com_name":"com_jbus_rs_slave"},
-                    {"name":"reactor_temperature", "fr_FR" : "Température réacteur", "type":"input_float","extension_name":"measure_card_1", "organ_name":"adc2_2_t_elem", "value" : 0, "unit":"deg_celsius", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"reactor_temperature_default", "fr_FR" : "Défaut température réacteur", "type":"boolean", "value" : false, "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"reactor_temperature", "fr_FR" : "Température réacteur", "type":"input_float","extension_name":"measure_card_1", "organ_name":"adc2_2_t_elem", "value" : 0, "unit":"deg_cel", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"reactor_temperature_default", "fr_FR" : "Défaut température réacteur", "type":"input_boolean", "value" : false, "address":"0x0102", "access":"read_write", "com_name":"com_jbus_rs_slave"},
                     {"name":"reactor_temperature_control_needed", "fr_FR" : "Régulation température réacteur bloquant", "type":"boolean", "value" : true, "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"reactor_temperature_error_margin", "fr_FR" : "Marge d'erreur régulation température réacteur", "type":"float", "value" : 0, "unit":"percent", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"reactor_temperature_control_timeout", "fr_FR" : "Temps stabilisation régulation température réacteur", "type":"integer", "value" : 10, "unit":"second", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"reactor_temperature_control_timeout", "fr_FR" : "Temps stabilisation régulation température réacteur", "type":"integer", "value" : 5, "unit":"second", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     
                     {"name":"emitter_power_setpoint", "fr_FR" : "Consigne puissance émetteur", "type":"float", "value" : 550, "unit":"miliwatt", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"emitter_power", "fr_FR" : "Puissance émetteur", "type":"input_float","extension_name":"measure_card_1", "organ_name":"power_emitter", "value" : 0, "unit":"miliwatt", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"emitter_power_default", "fr_FR" : "Défaut puissance émetteur", "type":"boolean", "value" : false, "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"emitter_power_default", "fr_FR" : "Défaut puissance émetteur", "type":"input_boolean", "value" : false, "address":"0x0102", "access":"read_write", "com_name":"com_jbus_rs_slave"},
                     {"name":"emitter_power_control_needed", "fr_FR" : "Puissance émetteur insufisante bloquant", "type":"boolean", "value" : true, "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     {"name":"emitter_power_error_margin", "fr_FR" : "Marge d'erreur puissance émetteur", "type":"float", "value" : 10, "unit":"percent", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"emitter_power_control_timeout", "fr_FR" : "Temps stabilisation puissance émetteur", "type":"integer", "value" : 10, "unit":"second", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"emitter_power_control_timeout", "fr_FR" : "Temps stabilisation puissance émetteur", "type":"integer", "value" : 2, "unit":"second", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     
-                    {"name":"water_pressure_setpoint", "fr_FR" : "Consigne défaut eau", "type":"float", "value" : 550, "unit":"volt", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"water_pressure", "fr_FR" : "Pression d'eau", "type":"input_float","extension_name":"measure_card_1", "organ_name":"adc1_2_water_sensor_0", "value" : 0, "unit":"volt", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"water_pressure_2", "fr_FR" : "Pression d'eau 2", "type":"input_float","extension_name":"measure_card_1", "organ_name":"adc1_3_water_sensor_1", "value" : 0, "unit":"volt", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"water_pressure_default", "fr_FR" : "Défaut eau", "type":"boolean", "value" : false, "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"water_pressure_control_needed", "fr_FR" : "Défaut eau bloquant", "type":"boolean", "value" : true, "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"water_pressure_error_margin", "fr_FR" : "Marge d'erreur défaut eau", "type":"float", "value" : 10, "unit":"percent", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"water_pressure_control_timeout", "fr_FR" : "Temps stabilisation défaut eau", "type":"integer", "value" : 10, "unit":"second", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"water_pressure_setpoint", "fr_FR" : "Consigne défaut eau", "type":"float", "value" : 5, "unit":"volt", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"water_pressure", "fr_FR" : "Détecteur eau", "type":"input_float","extension_name":"measure_card_1", "organ_name":"adc1_2_water_sensor_0", "value" : 0, "unit":"volt", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"water_pressure_default", "fr_FR" : "Défaut eau", "type":"input_boolean", "value" : false, "address":"0x0102", "access":"read_write", "com_name":"com_jbus_rs_slave"},
+                    {"name":"water_pressure_control_needed", "fr_FR" : "Défaut eau bloquant", "type":"boolean", "value" : false, "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"water_pressure_error_margin", "fr_FR" : "Marge d'erreur défaut eau", "type":"float", "value" : 2.5, "unit":"percent", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
+                    {"name":"water_pressure_control_timeout", "fr_FR" : "Temps stabilisation défaut eau", "type":"integer", "value" : 15, "unit":"second", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
                     
 
                     {"name":"ev_sample", "fr_FR" : "EV échantillon", "type":"output_boolean", "access":"read_write",
@@ -213,16 +215,34 @@
                     {"name":"ev_air_direct", "fr_FR" : "EV air direct", "type":"output_boolean", "access":"read_write",
                             "value" : false, "extension_name":"measure_card_1", "organ_name":"valve_output_3", "passive":true
                     },
+                    {"name":"ev_air_ozone", "fr_FR" : "EV air ozone", "type":"output_boolean", "access":"read_write",
+                            "value" : false, "extension_name":"measure_card_1", "organ_name":"valve_output_4", "passive":true
+                    },
                     {"name":"ev_emptying", "fr_FR" : "EV vidange", "type":"output_boolean", "access":"read_write",
                             "value" : false, "extension_name":"measure_card_1", "organ_name":"valve_output_5", "passive":true
+                    }, 
+                    {"name":"ev_purge", "fr_FR" : "EV purge", "type":"output_boolean", "access":"read_write",
+                            "value" : false, "extension_name":"measure_card_1", "organ_name":"valve_output_6", "passive":true
+                    },  
+                    {"name":"ev_zero", "fr_FR" : "EV Zéro", "type":"output_boolean", "access":"read_write",
+                            "value" : false, "extension_name":"measure_card_1", "organ_name":"valve_output_7", "passive":true
+                    },  
+                    {"name":"ev_COV_Event", "fr_FR" : "EV COV1", "type":"output_boolean", "access":"read_write",
+                            "value" : false, "extension_name":"measure_card_1", "organ_name":"valve_output_9", "passive":true
+                    },  
+                    {"name":"ev_COV_reactor", "fr_FR" : "EV COV2", "type":"output_boolean", "access":"read_write",
+                            "value" : false, "extension_name":"measure_card_1", "organ_name":"valve_output_10", "passive":true
+                    },  
+                    {"name":"ev_event_COV", "fr_FR" : "EV COV3", "type":"output_boolean", "access":"read_write",
+                            "value" : false, "extension_name":"measure_card_1", "organ_name":"valve_output_11", "passive":true
                     },  
                     {"name":"compressor_output", "fr_FR" : "Commande compresseur", "type":"output_boolean", "access":"read_write",
                             "value" : false, "extension_name":"measure_card_1", "organ_name":"voltage_output_2", "passive":true
                     },
-                    {"name":"heater_reactor", "fr_FR" : "Commande compresseur", "type":"output_boolean", "access":"read_write",
+                    {"name":"heater_reactor", "fr_FR" : "Commande Chauffe Réacteur", "type":"output_boolean", "access":"read_write",
                             "value" : false, "extension_name":"measure_card_1", "organ_name":"voltage_output_1", "passive":true
                     },
-                    {"name":"uv_lamp_output", "fr_FR" : "Commande compresseur", "type":"output_boolean", "access":"read_write",
+                    {"name":"uv_lamp_output", "fr_FR" : "Commande Lampe UV", "type":"output_boolean", "access":"read_write",
                             "value" : false, "extension_name":"measure_card_1", "organ_name":"voltage_output_0", "passive":true
                     },
 
@@ -232,7 +252,10 @@
                     {"name":"pump_sample_clockwise", "fr_FR" : "Pompe échantillon sens anti-trigo", "type":"output_boolean", "access":"read_write",
                             "value" : false, "extension_name":"measure_card_1", "organ_name":"dc_engine_cw", "passive":true
                     },
-                    {"name":"pump_sample_timeout", "fr_FR" : "Temps d'alimentation pompe échantillon", "type":"integer", "value" : 2, "unit":"second", "access":"read_write"},
+                    {"name":"pump_sample_anticlockwise", "fr_FR" : "Pompe échantillon sens anti-trigo", "type":"output_boolean", "access":"read_write",
+                            "value" : true, "extension_name":"measure_card_1", "organ_name":"dc_engine_cw", "passive":false},
+                    {"name":"pump_sample_filling_loop_timeout", "fr_FR" : "Temps d'alimentation pompe échantillon", "type":"integer", "value" : 18, "unit":"second", "access":"read_write"},
+                    {"name":"pump_sample_filling_reactor_timeout", "fr_FR" : "Temps d'alimentation pompe échantillon", "type":"integer", "value" : 30, "unit":"second", "access":"read_write"},
 
                   
                     {"name":"test_relay_1", "fr_FR" : "Relais CM 1", "en_US" : "Relay 1", "type":"output_boolean", "access":"read_write",
@@ -251,37 +274,22 @@
                     {"name":"test_tor_2", "fr_FR" : "Relais I/O 2", "en_US" : "Relay 2", "type":"output_boolean","access":"read_write",
                             "value" : false, "extension_name":"io_card_1", "organ_name":"tor_output_1", "passive":false
                     },
-                    {"name":"test_tor_3", "fr_FR" : "Relais I/O 3", "en_US" : "Relay 3", "type":"output_boolean","access":"read_write",
+                    {"name":"test_tor_3", "fr_FR" : "Relais I/O 3", "en_US" : "Relay 3", "type":"input_boolean","access":"read_write",
                             "value" : true, "extension_name":"io_card_1", "organ_name":"tor_output_2", "passive":false
                     },
 
-
                     {"name":"stream_1_state", "fr_FR" : "Etat analyseur", "type":"boolean", "value" : true, "unit":"tr_min"},
+                    {"name":"test_bind", "fr_FR" : "Etat analyseur", "type":"float", "value" : true, "unit":"volt"},
 
-
-
-                    {"name":"zero_npoc2", "fr_FR" : "Zéro CIT", "type":"float", "value" : 0, "unit":"volt", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"measure_npoc2", "fr_FR" : "Mesure NPOC", "type":"float", "value" : 0, "unit":"mg_l", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"measure_npoc_min2", "fr_FR" : "Mesure CIT", "type":"float", "value" : 0, "unit":"mg_l", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"measure_npoc_max2", "fr_FR" : "Mesure CIT", "type":"float", "value" : 100, "unit":"mg_l", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"acquisition_measure_npoc_timeout2", "fr_FR" : "Temps d'acquisition", "type":"integer", "value" : 300, "unit":"second", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    
-                    {"name":"zero_cit2", "fr_FR" : "Zéro CIT", "type":"float", "value" : 0, "unit":"volt", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"measure_cit2", "fr_FR" : "Mesure CIT", "type":"float", "value" : 0, "unit":"mg_l", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"measure_cit_min2", "fr_FR" : "Mesure CIT", "type":"float", "value" : 0, "unit":"mg_l", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"measure_cit_max2", "fr_FR" : "Mesure CIT", "type":"float", "value" : 100, "unit":"mg_l", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"reactor_volume2", "fr_FR" : "Volume réacteur", "type":"float", "value" : 25, "unit":"mL", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                  
-
-                    {"name":"pump_persulfate_step_by_step", "fr_FR" : "Config pompe pas à pas", "type":"boolean", "value" : true, "unit":"tr_min"},
+                    {"name":"pump_persulfate_step_by_step", "fr_FR" : "Config pompe pas à pas", "type":"boolean", "value" : false, "unit":"tr_min"},
                     {"name":"pump_persulfate_alim", "fr_FR":"Pompe persulfate", "type":"output_boolean", "access":"read_write", 
-                          "value":true, "extension_name":"measure_card_1", "organ_name":"step_by_step_pump_1_alim", "passive":false
+                          "value":false, "extension_name":"measure_card_1", "organ_name":"step_by_step_pump_1_alim", "passive":false
                     },
                     {"name":"pump_persulfate_clockwise", "fr_FR":"Pompe persulfate sens horraire", "type":"output_boolean", "access":"read_write", 
                           "value":true, "extension_name":"measure_card_1", "organ_name":"step_by_step_pump_1_clockwise", "passive":false
                     },
                     {"name":"pump_persulfate_speed", "fr_FR":"Vitesse pompe persulfate", "type":"output_integer", "access":"read_write", 
-                          "value":30, "extension_name":"measure_card_1", "organ_name":"step_by_step_pump_1_speed", "passive":false
+                          "value":32, "extension_name":"measure_card_1", "organ_name":"step_by_step_pump_1_speed", "passive":false
                     },
                     {"name":"pump_persulfate_nbr_turn", "fr_FR":"Nombre de tour pompe persulfate", "type":"output_integer", "access":"read_write", 
                           "value":1, "extension_name":"measure_card_1", "organ_name":"step_by_step_pump_1_nbr_turn", "passive":false
@@ -293,26 +301,33 @@
                           "value":100, "extension_name":"measure_card_1", "organ_name":"step_by_step_pump_1_nbr_step"
                     },
                     {"name":"pump_persulfate_run_stop", "fr_FR":"Pompe persulfate", "type":"output_boolean", "access":"read_write", 
-                          "value":false, "extension_name":"measure_card_1", "organ_name":"step_by_step_pump_1_run_stop", "passive":false
+                          "value":false, "extension_name":"measure_card_1", "organ_name":"step_by_step_pump_1_run_stop", "passive":true
                     }
+
     ],
 
     "display":[
-        {"name":"diagnostic", "variables":["ndir_measure_cell", "ndir_measure_cell_v", "airflow", "ndir_temperature", "condenser_temperature", "reactor_temperature","emitter_power", "water_pressure_2", "water_pressure"]},
-        {"name":"elec_tests", "map_tabs":[{"name":"tab_EV", "variables":["ev_sample", "ev_air_direct", "ev_sample_inerting", "ev_reatcor_filling", "pump_sample", "pump_sample_clockwise", "pump_sample_timeout"]},
+        {"name":"diagnostic", "variables":["emitter_power", "ndir_measure_cell", "airflow", "ndir_temperature", "condenser_temperature", "reactor_temperature","water_pressure"]},
+        {"name":"elec_tests", "map_tabs":[{"name":"tab_EV", "variables":["ev_sample", "ev_reatcor_filling", "ev_sample_inerting", "ev_air_direct", "ev_air_ozone" , "ev_emptying", "ev_purge", "ev_zero", "ev_COV_Event", "ev_COV_reactor", "ev_event_COV", "pump_sample", "pump_sample_clockwise", "uv_lamp_output", "heater_reactor", "compressor_output"]},
                      {"name":"tab_Actionneurs", "variables":["test_relay_1", "test_relay_2", "test_relay_3", "test_tor_1", "test_tor_2", "test_tor_3"]},
                      {"name":"tab_entrees", "variables":["selection_stream1", "arret_fin_cycle"]},
-                     {"name":"tab_pump", "variables":["pump_persulfate"]},
+                     {"name":"tab_pump", "variables":["pump_persulfate_alim", "pump_persulfate_run_stop"]},
                      {"name":"tab_selecteur","variables":[],"pump":"pump_persulfate"  }
         ]},
         {"name":"options" , "variables":["ndir_temperature_setpoint", "reactor_temperature_setpoint", "condenser_temperature_setpoint", "airflow_setpoint"]},
         {"name":"history", "variables":["measure_cot"]},
-        {"name":"alarms", "variables":["airflow_default","ndir_temperature_default","reactor_temperature_default","condenseur_temperature_default"]}
+        {"name":"alarms", "variables":["airflow_default","ndir_temperature_default","reactor_temperature_default","condenseur_temperature_default"]},
+        {"name":"initial_tests","variables":[{"test":"water_pressure_default", "indicator":"water_pressure"},
+                                             {"test":"reactor_temperature_default", "indicator":"reactor_temperature"},
+                                             {"test":"ndir_temperature_default", "indicator":"ndir_temperature"},
+                                             {"test":"airflow_default", "indicator":"airflow"}]
+                                
+        }
 
     ],
 
     "binds" : [
-       
+
     ],
 
     "actions" : [
@@ -355,6 +370,14 @@
                     "fr_FR" : "Fermeture EV échantillon",
                     "target" : "ev_sample", "state" : false
                 },
+                {   "name" : "ev_reactor_filling_open", "type" : "cmd_digital_output",
+                    "fr_FR" : "Ouverture EV remplissage réacteur",
+                    "target" : "ev_reatcor_filling", "state" : true
+                },
+                {   "name" : "ev_reactor_filling_close", "type" : "cmd_digital_output",
+                    "fr_FR" : "Fermeture EV remplissage réacteur",
+                    "target" : "ev_reatcor_filling", "state" : false
+                },
                 {   "name" : "ev_emptying_open", "type" : "cmd_digital_output",
                     "fr_FR" : "Ouverture EV vidange",
                     "target" : "ev_emptying", "state" : true
@@ -371,13 +394,54 @@
                     "fr_FR" : "Fermeture EV inertage échantillon",
                     "target" : "ev_sample_inerting", "state" : false
                 },
-                {   "name" : "ev_reactor_filling_open", "type" : "cmd_digital_output",
-                    "fr_FR" : "Ouverture EV remplissage réacteur",
-                    "target" : "ev_reatcor_filling", "state" : true
+                {   "name" : "ev_air_ozone_open", "type" : "cmd_digital_output",
+                    "fr_FR" : "Ouverture EV air ozone",
+                    "target" : "ev_air_ozone", "state" : true
                 },
-                {   "name" : "ev_reactor_filling_close", "type" : "cmd_digital_output",
-                    "fr_FR" : "Fermeture EV remplissage réacteur",
-                    "target" : "ev_reatcor_filling", "state" : false
+                {   "name" : "ev_air_ozone_close", "type" : "cmd_digital_output",
+                    "fr_FR" : "Fermeture EV air ozone",
+                    "target" : "ev_air_ozone", "state" : false
+                }, 
+                {   "name" : "ev_purge_open", "type" : "cmd_digital_output",
+                    "fr_FR" : "Ouverture EV purge",
+                    "target" : "ev_purge", "state" : true
+                },
+                {   "name" : "ev_purge_close", "type" : "cmd_digital_output",
+                    "fr_FR" : "Fermeture EV purge",
+                    "target" : "ev_purge", "state" : false
+                },
+                {   "name" : "ev_zero_open", "type" : "cmd_digital_output",
+                    "fr_FR" : "Ouverture EV zero",
+                    "target" : "ev_zero", "state" : true
+                },
+                {   "name" : "ev_zero_close", "type" : "cmd_digital_output",
+                    "fr_FR" : "Fermeture EV zero",
+                    "target" : "ev_zero", "state" : false
+                },
+                {   "name" : "ev_COV_Event_open", "type" : "cmd_digital_output",
+                    "fr_FR" : "Ouverture EV COV Event",
+                    "target" : "ev_COV_Event", "state" : true
+                },
+                {   "name" : "ev_COV_Event_close", "type" : "cmd_digital_output",
+                    "fr_FR" : "Fermeture EV COV Event",
+                    "target" : "ev_COV_Event", "state" : false
+                },
+                {   "name" : "ev_COV_reactor_open", "type" : "cmd_digital_output",
+                    "fr_FR" : "Ouverture EV COV_reactor",
+                    "target" : "ev_COV_reactor", "state" : true
+                },
+                {   "name" : "ev_COV_reactor_close", "type" : "cmd_digital_output",
+                    "fr_FR" : "Fermeture EV COV_reactor",
+                    "target" : "ev_COV_reactor", "state" : false
+                },
+                {   "name" : "ev_event_COV_open", "type" : "cmd_digital_output",
+                    "fr_FR" : "Ouverture EV event_COV",
+                    "target" : "ev_event_COV", "state" : true
+                },
+                {   "name" : "ev_event_COV_close", "type" : "cmd_digital_output",
+                    "fr_FR" : "Fermeture EV event_COV
+                    ",
+                    "target" : "ev_event_COV", "state" : false
                 },
                 {   "name" : "heater_reactor_on", "type" : "cmd_digital_output",
                     "fr_FR" : "Chauffe réacteur ON", "en_US" : "Heating reactor ON",
@@ -387,9 +451,13 @@
                     "fr_FR" : "Chauffe réacteur OFF", "en_US" : "Heating reactor OFF",
                     "target" : "heater_reactor", "state" : false
                 },
-                {   "name" : "pump_sample_on", "type" : "cmd_dc_engine",
+                {   "name" : "pump_sample_filling_loop_on", "type" : "cmd_dc_engine",
                     "fr_FR" : "Commande pompe échantillon",
-                    "target" : "pump_sample", "timeout" : "pump_sample_timeout", "clockwise" : "pump_sample_clockwise"
+                    "target" : "pump_sample", "timeout" : "pump_sample_filling_loop_timeout", "clockwise" : "pump_sample_clockwise"
+                },
+                {   "name" : "pump_sample_filling_reactor_on", "type" : "cmd_dc_engine",
+                    "fr_FR" : "Commande pompe échantillon",
+                    "target" : "pump_sample", "timeout" : "pump_sample_filling_reactor_timeout", "clockwise" : "pump_sample_anticlockwise"
                 },
                 {   "name" : "set_airflow_setpoint", "type" : "rewrite_output",
                     "fr_FR" : "Initialisation consiggne débit d'air",
@@ -495,6 +563,7 @@
                     "coef_5" : "calcul_cot_coef_5",
                     "offset" : "calcul_cot_offset",
                     "co2_ppmv_to_co2_gm3_cst" : "co2_ppmv_to_co2_gm3_cst",
+                    "co2g":"co2g",
                     "critical_error" : false,
         
                     "timeout" : "acquisition_measure_cit_timeout" 
@@ -503,7 +572,7 @@
                     "fr_FR" : "Mesure du NPOC",
                     "cellule" : "ndir_measure_cell",
                     "result" : "measure_npoc",
-                    "zero_point" : "zero_npoc",
+                    "zero_point" : "zero_cit",
                     "debit_airflow" : "airflow",
                     "vessel_volume" : "reactor_volume",
                     "coef_1" : "calcul_cot_coef_1",
@@ -513,14 +582,15 @@
                     "coef_5" : "calcul_cot_coef_5",
                     "offset" : "calcul_cot_offset",
                     "co2_ppmv_to_co2_gm3_cst" : "co2_ppmv_to_co2_gm3_cst",
+                    "co2g":"co2g",
                     "critical_error" : false,
         
                     "timeout" : "acquisition_measure_npoc_timeout" 
                 },
                 {
-                  "name" : "zero_measure", "type" : "read_input",
+                  "name" : "zero_measure", "type" : "cmd_read_input",
                   "fr_FR" : "Mesure du zéro CIT/NPOC",
-                  "cellule" : "ndir_measure_cell",
+                  "organ" : "ndir_measure_cell",
                   "target" : "zero_cit"
                 },
                 {
@@ -543,49 +613,32 @@
             "fr_FR" : "Cycle de control au démarage",
             "en_US" : "Control cycle",
             "type" : "measure",
-            "step_stop" : {"name":"step_stop", "actions":["pump_sample_off"]},
             "steps" : [{"name":"step_1", "step":1,"fr_FR":"Initialisation cycle de control",
-                        "actions":["pump_sample_on", "ev_sample_close"]}, 
-                       {"name":"step_2", "step":3,"fr_FR":"Control débit d'air", "actions":["cmd_pump_persulfate"]},
-                       {"name":"step_3", "step":4,"fr_FR":"Control débit d'air", "actions":["ev_sample_close"]}
-                       
+                        "actions":["acquisition_measure_cit", "compressor_on", "ev_air_direct_close","ev_air_ozone_close", "set_consigne_debit_air",  "heater_reactor_on"]}, 
+                       {"name":"step_2", "step":5,"fr_FR":"Control débit d'air", "actions":["control_air_flow"]},
+                       {"name":"step_3", "step":6,"fr_FR":"Control T° NDIR", "actions":["control_temperature_ndir"]},
+                       {"name":"step_4", "step":7,"fr_FR":"Control T° condenseur", "actions":["control_temperature_condenser"]},
+                       {"name":"step_5", "step":8,"fr_FR":"Control T° Reacteur", "actions":["control_temperature_reactor"]},
+                       {"name":"step_6", "step":9,"fr_FR":"Control puissance emetteur", "actions":["control_power_emitter"]}
+
                     ]
         },
         {
             "name" : "cycle_mesure_cot",
             "fr_FR" : "Mesure de COT",
             "type" : "measure",
-            "steps" : [{"name":"step_1", "step":1,"fr_FR":"Ouverture EV échantillon", "actions":["ev_sample_open", "control_water_default"]}, 
-                      {"name":"step_2", "step":2,"fr_FR":"Remplissage réacteur", "actions":["ev_sample_close", "ev_reactor_filling_open"]},
-                      {"name":"step_3", "step":3,"fr_FR":"Control T° NDIR", "actions":["control_temperature_ndir"]},
-                      {"name":"step_4", "step":4,"fr_FR":"Control T° condenseur", "actions":["control_temperature_condenser"]},
-                      {"name":"step_5", "step":5,"fr_FR":"Control T° Reacteur>40°", "actions":["control_temperature_reactor"]},
-                      {"name":"step_6", "step":6,"fr_FR":"Mesure CIT", "actions":["acquisition_measure_cit", "ev_sample_inerting_open", "pump_sample_on"]},
-                      {"name":"step_7", "step":7,"fr_FR":"Fin mesure CIT", "actions":["ev_sample_inerting_close", "ev_reactor_filling_close"]},
-                      {"name":"step_8", "step":8,"fr_FR":"Mesure NPOC", "actions":["acquisition_measure_npoc", "uv_lamp_on"]},
-                      {"name":"step_9", "step":9,"fr_FR":"Fin mesure NPOC", "actions":["uv_lamp_off", "ev_emptying_open"]},
-                      {"name":"step_10", "step":39,"fr_FR":"Fin mesure COT", "actions":["ev_emptying_close"]}
-                      ]
-        },
-        {
-            "name" : "cycle_mesure_cot2",
-            "fr_FR" : "Mesure de COT 2",
-            "type" : "measure",
-            "steps" : [{"name":"step_1", "step":1,"fr_FR":"Ouverture EV échantillon", "actions":["ev_sample_open", "control_water_default"]}, 
-                      {"name":"step_2", "step":2,"fr_FR":"Remplissage réacteur", "actions":["ev_sample_close", "ev_reactor_filling_open"]},
-                      {"name":"step_3", "step":3,"fr_FR":"Control T° NDIR", "actions":["control_temperature_ndir"]},
-                      {"name":"step_4", "step":4,"fr_FR":"Control T° condenseur", "actions":["control_temperature_condenser"]},
-                      {"name":"step_5", "step":5,"fr_FR":"Control T° Reacteur>40°", "actions":["control_temperature_reactor"]},
-                      {"name":"step_6", "step":6,"fr_FR":"Mesure CIT", "actions":["acquisition_measure_cit", "ev_sample_inerting_open", "pump_sample_on"]},
-                      {"name":"step_7", "step":7,"fr_FR":"Fin mesure CIT", "actions":["ev_sample_inerting_close", "ev_reactor_filling_close"]},
-                      {"name":"step_8", "step":8,"fr_FR":"Mesure NPOC", "actions":["acquisition_measure_npoc", "uv_lamp_on"]},
-                      {"name":"step_9", "step":9,"fr_FR":"Fin mesure NPOC", "actions":["uv_lamp_off", "ev_emptying_open"]},
-                      {"name":"step_10", "step":39,"fr_FR":"Fin mesure COT", "actions":["ev_emptying_close"]}
+            "steps" : [{"name":"step_1", "step":1,"fr_FR":"Ouverture EV échantillon", "actions":["ev_sample_open", "pump_sample_filling_loop_on", "control_water_default"]}, 
+                      {"name":"step_2", "step":19,"fr_FR":"Préparation Remplissage réacteur", "actions":["ev_sample_close", "ev_reactor_filling_open","zero_measure"]},
+                      {"name":"step_6", "step":20,"fr_FR":"Remplissage Réacteur et Mesure CIT", "actions":["pump_sample_filling_reactor_on", "cmd_pump_persulfate", "ev_sample_inerting_open", "acquisition_measure_cit"]},
+                      {"name":"step_7", "step":50,"fr_FR":"Fin mesure CIT", "actions":["ev_sample_inerting_close", "ev_reactor_filling_close"]},
+                      {"name":"step_8", "step":150,"fr_FR":"Mesure NPOC", "actions":["acquisition_measure_npoc", "uv_lamp_on"]},
+                      {"name":"step_9", "step":340,"fr_FR":"Fin mesure NPOC", "actions":["uv_lamp_off", "ev_emptying_open"]},
+                      {"name":"step_10", "step":370,"fr_FR":"Fin mesure COT", "actions":["ev_emptying_close"]}
                       ]
         },
         {
             "name" : "cycle_maintenance_cot",
-            "fr_FR" : "maintenance COT",
+            "fr_FR" : "Mesure de COT",
             "type" : "maintenance",
             "steps" : [{"name":"step_1", "step":1,"fr_FR":"Ouverture EV échantillon", "actions":["ev_sample_open", "control_water_default"]}, 
                       {"name":"step_2", "step":2,"fr_FR":"Remplissage réacteur", "actions":["ev_sample_close", "ev_reactor_filling_open"]},
@@ -608,28 +661,20 @@
         }
     ],
 
-    "scheduler_measure" : ["cycle_control"],
+    "scheduler_measure" : ["cycle_control", "cycle_mesure_cot", "cycle_mesure_cot", "cycle_mesure_cot", "cycle_mesure_cot", "cycle_mesure_cot", "cycle_mesure_cot", "cycle_mesure_cot", "cycle_mesure_cot", "cycle_mesure_cot", "cycle_mesure_cot", "cycle_mesure_cot", "cycle_mesure_cot", "cycle_mesure_cot", "cycle_mesure_cot", "cycle_mesure_cot"],
     "scheduler_autonome" : ["cycle_io", "nb_cycle"],
     "list_cycles_maintenaces" : ["cycle_maintenance_cot"],
 
-    "streams" :[{"name":"stream_1", "fr_FR":"stream 1", "variables":["ndir_temperature_setpoint", "condenser_temperature_setpoint", "airflow_setpoint", "pump_sample_timeout", "pump_sample_clockwise", "pump_sample"], "active_state": "stream_1_state",
-                    "measures":[{"name":"measure_1_a", "fr_FR":"mesure de CIT", "variable_measure":"measure_cit", "variable_range_max":"measure_cit_max" , "variable_range_min":"measure_cit_min", "variables":["zero_cit", "acquisition_measure_cit_timeout"]},
-                               {"name":"measure_2_a", "fr_FR":"mesure du NPOC", "variable_measure":"measure_npoc", "variable_range_max":"measure_npoc_max" , "variable_range_min":"measure_npoc_min", "variables":["zero_npoc", "acquisition_measure_npoc_timeout"]}
+    "streams" :[{"name":"stream_1", "fr_FR":"stream 1", "variables":["ndir_temperature_setpoint", "condenser_temperature_setpoint", "airflow_setpoint"], "active_state": "stream_1_state",
+                    "measures":[{"name":"measure_1", "fr_FR":"mesure de CIT", "variable_measure":"measure_cit", "variable_range_max":"measure_cit_max" , "variable_range_min":"measure_cit_min", "variables":["zero_cit", "acquisition_measure_cit_timeout"]},
+                               {"name":"measure_2", "fr_FR":"mesure du NPOC", "variable_measure":"measure_npoc", "variable_range_max":"measure_npoc_max" , "variable_range_min":"measure_npoc_min", "variables":["zero_npoc", "acquisition_measure_npoc_timeout"]}
                                ],
-                    "cycles":["cycle_control", "cycle_mesure_cot"]
-
-                },
-                {"name":"stream_2", "fr_FR":"stream 2", "variables":["reactor_volume2"], "active_state": "stream_2_state",
-                    "measures":[{"name":"measure_1_b", "fr_FR":"mesure de CIT", "variable_measure":"measure_cit2", "variable_range_max":"measure_cit_max2" , "variable_range_min":"measure_cit_min2", "variables":["zero_cit2"]},
-                               {"name":"measure_2_b", "fr_FR":"mesure du NPOC", "variable_measure":"measure_npoc2", "variable_range_max":"measure_npoc_max2" , "variable_range_min":"measure_npoc_min2", "variables":["zero_npoc2"]}
-                               ],
-                    "cycles":["cycle_mesure_cot2"]
+                    "cycles":["cycle_control", "cycle_test"]
 
                 }
                
     ],
-
-    "logs" : ["emitter_power", "ndir_temperature"]
+    "logs" : ["ndir_measure_cell", "co2g"]
 
 
 }

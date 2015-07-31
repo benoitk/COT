@@ -14,11 +14,16 @@ CActionTest::CActionTest(const QVariantMap &mapAction, QObject *parent)
 {
     CAutomate* automate = CAutomate::getInstance();
     m_setpoint = automate->getVariable(mapAction[QStringLiteral("setpoint")].toString());
-    m_target = automate->getVariable(mapAction[QStringLiteral("target")].toString());
     m_result = automate->getVariable(mapAction[QStringLiteral("result")].toString());
     m_waiting = automate->getVariable(mapAction[QStringLiteral("waiting")].toString());
     m_errorMargin = automate->getVariable(mapAction[QStringLiteral("error_margin")].toString());
     m_timeout = automate->getVariable(mapAction[QStringLiteral("timeout")].toString());
+
+    IVariable* var = Q_NULLPTR;
+    m_target = Q_NULLPTR;
+    var = automate->getVariable(mapAction[QStringLiteral("target")].toString());
+    if(var->getOrganType() == type_organ_input)
+        m_target = dynamic_cast<IVariableInput*>(m_target);
 
     QVariantMap variantMap;
     variantMap.insert(QStringLiteral("name"), QStringLiteral("critical_error"));
@@ -56,10 +61,7 @@ void CActionTest::run(){
     qCDebug(COTAUTOMATE_LOG)<< "Action test 'qrunnable' "
             << " label fr " << m_label
          ;
-    IVariableInput* inputTarget = Q_NULLPTR;
 
-    if(m_target->getOrganType() == type_organ_input)
-        inputTarget = dynamic_cast<IVariableInput*>(m_target);
 
     //envois de la consigne si la carte mesure attend une consigne
     if(m_setpoint->getOrganType() == type_organ_output){
@@ -67,50 +69,30 @@ void CActionTest::run(){
         if(outputSetpoint) outputSetpoint->writeValue();
     }
 
-    if(inputTarget){
-        float target = m_target->toFloat();
-        float setpoint_max = m_setpoint->toFloat() + (m_setpoint->toFloat() * m_errorMargin->toFloat());
-        float setpoint_min = m_setpoint->toFloat() - (m_setpoint->toFloat() * m_errorMargin->toFloat());
+    if(m_target){
+
+        float setpointMax = m_setpoint->toFloat() + (m_setpoint->toFloat() * m_errorMargin->toFloat());
+        float setpointMin = m_setpoint->toFloat() - (m_setpoint->toFloat() * m_errorMargin->toFloat());
         int timeout = m_timeout->toInt();
         bool result = false;
 
         qCDebug(COTAUTOMATE_LOG)<< "timeout " << timeout;
         qCDebug(COTAUTOMATE_LOG)<< "result " << result;
-        for(int i=0 ; i < timeout /*&& !result*/ && !m_abort; ++i){
-            target = inputTarget->readValue()->toFloat();
+
+        for(int i=0 ; i < timeout && !result && !m_abort; ++i){
+            acquisitionAndTest(setpointMin, setpointMax);
 
             QString  sActionInfo =  tr("Lecture ") + QString::number(i+1) + "/"  +QString::number(timeout) + " "
-                                    + m_target->getLabel() + " " +  QString::number(target, 'f', 2)
-                                    + m_target->getUnit()->getLabel() ;
+                                    + m_target->getIVariable()->getLabel() + " " +  QString::number(m_target->getIVariable()->toFloat(), 'f', 2)
+                                    + m_target->getIVariable()->getUnit()->getLabel() ;
             emit CAutomate::getInstance()->signalUpdateCurrentAction(sActionInfo);
 
             qCDebug(COTAUTOMATE_LOG)<< "for timeout " << timeout - i;
-            qCDebug(COTAUTOMATE_LOG)<< "for target " << target;
+            qCDebug(COTAUTOMATE_LOG)<< "for target " << m_target->getIVariable()->toString();
             qCDebug(COTAUTOMATE_LOG)<< "for m_condition " << m_condition;
-            qCDebug(COTAUTOMATE_LOG)<< "for setpoint_max " << setpoint_max;
-            qCDebug(COTAUTOMATE_LOG)<< "for setpoint_min " << setpoint_min;
+            qCDebug(COTAUTOMATE_LOG)<< "for setpoint_max " << setpointMax;
+            qCDebug(COTAUTOMATE_LOG)<< "for setpoint_min " << setpointMin;
             qCDebug(COTAUTOMATE_LOG)<< "for result " << result;
-
-
-            switch(m_condition){
-            case m_eEqualToSetpoint:
-                if(target < setpoint_max && target > setpoint_min) {
-                    result = true;
-                }
-                break;
-            case m_eInferiorToSetPoint:
-                if(target < setpoint_min) {
-                    result = true;
-                }
-                break;
-            case m_eSuperiorToSetpoint:
-                if(target > setpoint_min) {
-                    result = true;
-                }
-                break;
-            }
-
-            QThread::usleep(1000000);
         }
         m_result->setValue(false);
 //        m_result->setValue(result);
@@ -120,6 +102,32 @@ void CActionTest::run(){
     }
     emit CAutomate::getInstance()->signalUpdateCurrentAction(m_label + tr(" finit"));
     emit signalActionFinished(this);
+}
+
+bool CActionTest::acquisitionAndTest(float arg_setPointMin, float arg_setPointMax){
+    float  target = m_target->readValue()->toFloat();
+    bool result= false;
+
+    switch(m_condition){
+    case m_eEqualToSetpoint:
+        if(target < arg_setPointMax && target > arg_setPointMin) {
+            result = true;
+        }
+        break;
+    case m_eInferiorToSetPoint:
+        if(target < arg_setPointMin) {
+            result = true;
+        }
+        break;
+    case m_eSuperiorToSetpoint:
+        if(target > arg_setPointMin) {
+            result = true;
+        }
+        break;
+    }
+
+    QThread::msleep(1000);
+    return result;
 }
 
 bool CActionTest::waitUntilFinished(){
@@ -137,7 +145,7 @@ QList<IVariable*> CActionTest::getListParameters()const{
     listParams.append(m_errorMargin);
     listParams.append(m_result);
     listParams.append(m_setpoint);
-    listParams.append(m_target);
+    listParams.append(dynamic_cast<IVariable*>(m_target));
     listParams.append(m_timeout);
     listParams.append(m_waiting);
 
@@ -147,7 +155,7 @@ QList<IVariable*> CActionTest::getListParameters()const{
 QMap<QString, IVariable*> CActionTest::getMapIVariableParameters(){
     QMap<QString, IVariable*>  map;
     map.insert(tr("Setpoint"), m_setpoint);
-    map.insert(tr("Target"), m_target);
+    map.insert(tr("Target"), dynamic_cast<IVariable*>(m_target));
     map.insert(tr("Result"), m_result);
     map.insert(tr("Waiting"), m_waiting);
     map.insert(tr("Error margin"), m_errorMargin);
@@ -173,7 +181,8 @@ bool CActionTest::variableUsed(IVariable *arg_var)const {
 }
 void CActionTest::setParameter(const QString& arg_key, IVariable* arg_parameter){
     if(tr("Setpoint")== arg_key) m_setpoint= arg_parameter;
-    else if(tr("Target")== arg_key)m_target= arg_parameter;
+    else if(tr("Target")== arg_key && arg_parameter->getOrganType() == type_organ_input )m_target= dynamic_cast<IVariableInput*>(arg_parameter);
+    else if(tr("Target")== arg_key && arg_parameter->getOrganType() != type_organ_input )m_target= Q_NULLPTR;
     else if(tr("Result")== arg_key)m_result= arg_parameter;
     else if(tr("Waiting")== arg_key)m_waiting= arg_parameter;
     else if(tr("Error margin")== arg_key)m_errorMargin= arg_parameter;
