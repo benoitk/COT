@@ -23,7 +23,7 @@ CActionDCEngine::~CActionDCEngine()
 }
 
 
-bool CActionDCEngine::runAction(){
+bool CActionDCEngine::runAction(ICycle* arg_stepParent){
     qCDebug(COTAUTOMATE_LOG)<< "Action commande pompe cc "
             << " label fr " << m_label
             << " clockwise " << m_varClockwise->toString()

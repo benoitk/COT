@@ -18,6 +18,7 @@ enum actionType{
 
 };
 
+class ICycle;
 class IAction : public QObject
 {
     Q_OBJECT
@@ -31,7 +32,7 @@ public:
     virtual QString getLabel()const;
     virtual void setLabel(const QString&);
 
-    virtual bool runAction();
+    virtual bool runAction(ICycle* arg_stepParent);
     virtual bool waitUntilFinished();
     virtual bool finishedWithCriticalError();
     virtual QList<IVariable*> getListParameters()const=0;
@@ -43,12 +44,19 @@ public:
     virtual variableType getWaitedType(const QString& arg_key)=0;
     static QString typeToString(actionType type);
     virtual void abortAction();
+
 signals:
     void signalActionFinished(IAction* arg_this);
+
+private:
+      ICycle* m_stepParent;
+
 protected:
+      ICycle* getStepParent();
+      virtual void updateActionInfos(QString arg_actionInfo, ICycle* arg_stepParent);
+
     QString m_label;
     QString m_name;
-
     bool m_abort;
     mutable QMutex m_mutex;
 };

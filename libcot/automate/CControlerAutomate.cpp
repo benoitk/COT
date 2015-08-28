@@ -4,6 +4,7 @@
 CControlerAutomate::CControlerAutomate()
 {
     CAutomate *automate = CAutomate::getInstance();
+    qDebug() << "moveThread CControlerAutomate";
     automate->moveToThread(&m_automateThread);
     automate->initConfig();
 

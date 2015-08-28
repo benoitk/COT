@@ -86,25 +86,12 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
         else {
 
             QJsonArray jsonArrayUnits = jsonObjectAll[QStringLiteral("units")].toArray();
-            QJsonArray jsonArrayConverters = jsonObjectAll[QStringLiteral("units_convertion")].toArray();
             foreach(QJsonValue jsonValueUnit, jsonArrayUnits){
                 QVariantMap mapUnit = jsonValueUnit.toVariant().toMap();
                 if(!mapUnit[QStringLiteral("name")].isNull()) {
                     CUnit* unit = new CUnit(mapUnit[QStringLiteral("name")].toString()
                                           , mapUnit[tr("fr_FR")].toString());
                     automate->addUnit(unit);
-                    foreach(QJsonValue jsonValueConverter, jsonArrayConverters){
-                        QVariantMap mapConverter = jsonValueConverter.toVariant().toMap();
-                        if(!mapConverter[QStringLiteral("source")].isNull()
-                                && mapConverter[QStringLiteral("source")].toString() == unit->getName()) {
-                            IConverter* converter = CConverterFactory::build(mapConverter);
-                            unit->addConverter(mapConverter[QStringLiteral("target")].toString(),converter);
-
-                        }else{
-                            qCDebug(COTAUTOMATE_LOG) << "Converter null : map = " << mapConverter;
-
-                        }
-                    }
                 }else{
                     qCDebug(COTAUTOMATE_LOG) << "Unit null : map = " << mapUnit ;
 
@@ -113,6 +100,30 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
         }
     }
     automate->addUnit(new CUnit(QStringLiteral("no_unit"), QStringLiteral("")));
+
+    //Unit converters
+    if(jsonObjectAll[QStringLiteral("units")] == QJsonValue::Undefined ){
+        qCDebug(COTAUTOMATE_LOG) << "jsonObject[\"units_convertion\"] == QJsonValue::Undefined";
+    }
+    else {
+        if(jsonObjectAll[QStringLiteral("units")] == QJsonValue::Undefined ){
+            qCDebug(COTAUTOMATE_LOG) << "jsonObject[\"units_convertion\"] == QJsonValue::Undefined";
+        }
+        else {
+            QJsonArray jsonArrayConverters = jsonObjectAll[QStringLiteral("units_convertion")].toArray();
+            foreach(QJsonValue jsonValueConverter, jsonArrayConverters){
+                QVariantMap mapConverter = jsonValueConverter.toVariant().toMap();
+                CUnit* unit = automate->getUnit(mapConverter[QStringLiteral("source")].toString());
+                if(unit->getName() ==  mapConverter[QStringLiteral("source")].toString()) {
+                    IConverter* converter = CConverterFactory::build(mapConverter);
+                    unit->addConverter(mapConverter[QStringLiteral("target")].toString(),converter);
+                }else{
+                    qCDebug(COTAUTOMATE_LOG) << "Unknow unit : map = " << mapConverter;
+
+                }
+            }
+        }
+    }
 
     //Variables
     if(jsonObjectAll[QStringLiteral("variables")] == QJsonValue::Undefined){
@@ -237,12 +248,12 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
 
     //Liste cycles de maintenance
     QJsonObject jsonObjectSequencerMaintenance = m_jsonDoc->object();
-    if(jsonObjectSequencerMaintenance[QStringLiteral("list_cycles_maintenaces")] == QJsonValue::Undefined){
-        qCDebug(COTAUTOMATE_LOG) << "jsonObject[\"list_cycles_maintenaces\"] == QJsonValue::Undefined";
+    if(jsonObjectSequencerMaintenance[QStringLiteral("list_cycles_maintenances")] == QJsonValue::Undefined){
+        qCDebug(COTAUTOMATE_LOG) << "jsonObject[\"list_cycles_maintenances\"] == QJsonValue::Undefined";
     }
     else {
-        QJsonArray jsonArraySeqeuceur = jsonObjectSequencerMaintenance[QStringLiteral("list_cycles_maintenaces")].toArray();
-        foreach(QJsonValue jsonValueSequence, jsonArraySeqeuceur){
+        QJsonArray jsonArraySequenceur = jsonObjectSequencerMaintenance[QStringLiteral("list_cycles_maintenances")].toArray();
+        foreach(QJsonValue jsonValueSequence, jsonArraySequenceur){
             QString sequenceName = jsonValueSequence.toVariant().toString();
             if(sequenceName != QStringLiteral(""))
                 automate->getScheduler()->addCycleMaintenance(m_mapCycles[sequenceName]);

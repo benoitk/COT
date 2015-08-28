@@ -21,6 +21,7 @@ CScheduler::CScheduler()
     m_cycleAutonomeEnCours = 0;
 
     connect(this, &CScheduler::signalGetReadyForPlayCycleMesure, this, &CScheduler::slotPlaySequenceMeasure);
+
 }
 
 CScheduler::~CScheduler()
@@ -52,6 +53,14 @@ void CScheduler::apendSequenceMeasurePause(int minute){
     //CControlerCycle* ctrlCycle = new CControlerCycle(this, cyclePause);
     m_listSequenceCyclesMeasures.append(cyclePause);
     //m_listSequenceCycles << CyclePair(cyclePause, minute);
+}
+
+//pas de séquence pour les cycles autonomes, il s'éxécute tous d'un coup et se déroule en roue libre
+void CScheduler::slotStartAllCyleAutonome(){
+    foreach(ICycle* cycle, m_listSequenceCyclesAutonomes){
+        connect(this, &CScheduler::signalRunCycleAutonome, cycle, &ICycle::slotRunCycle);
+    }
+    emit signalRunCycleAutonome();
 }
 
 void CScheduler::setSequenceMeasure(){

@@ -11,7 +11,7 @@
 #include <QStorageInfo>
 #include <QThreadPool>
 #include <QProcess>
-
+#include "qdebug.h"
 #define QPROCESS_TIME_OUT -1 // 1000 *60 *5
 
 CopyLogRunnable::CopyLogRunnable(const QString &source, const QString &target)
@@ -256,7 +256,12 @@ void CLogFilesWindow::handleWork()
         connect(runnable, &CopyLogRunnable::signalMessage, this, &CLogFilesWindow::slotRunnableMessage);
         connect(runnable, &CopyLogRunnable::signalError, this, &CLogFilesWindow::slotRunnableError);
         connect(runnable, &CopyLogRunnable::signalFinished, this, &CLogFilesWindow::slotRunnableFinished);
-        QThreadPool::globalInstance()->start(runnable, 1000);
+        if(!QThreadPool::globalInstance()->tryStart(runnable)){
+            QThreadPool::globalInstance()->setMaxThreadCount(QThreadPool::globalInstance()->maxThreadCount()+1);
+            if(!QThreadPool::globalInstance()->tryStart(runnable)){
+                qDebug() << "QThreadPool::globalInstance()->start fail";
+            }
+        }
     }
     else {
         slotRunnableMessage(tr("The usb key is not mounted.\nClick the retry button to try again."));

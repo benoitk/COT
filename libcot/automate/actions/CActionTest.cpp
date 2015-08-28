@@ -23,7 +23,7 @@ CActionTest::CActionTest(const QVariantMap &mapAction, QObject *parent)
     m_target = Q_NULLPTR;
     var = automate->getVariable(mapAction[QStringLiteral("target")].toString());
     if(var->getOrganType() == type_organ_input)
-        m_target = dynamic_cast<IVariableInput*>(m_target);
+        m_target = dynamic_cast<IVariableInput*>(var);
 
     QVariantMap variantMap;
     variantMap.insert(QStringLiteral("name"), QStringLiteral("critical_error"));
@@ -33,8 +33,8 @@ CActionTest::CActionTest(const QVariantMap &mapAction, QObject *parent)
     m_criticalError = dynamic_cast<CVariableBool*>(CVariableFactory::build(variantMap));
 
     QString sCondition = mapAction[QStringLiteral("condition")].toString();
-    if(sCondition == QStringLiteral("equal")) m_condition = m_eEqualToSetpoint;
-    else if(sCondition == QStringLiteral("diff_up")) m_condition = m_eSuperiorToSetpoint;
+    if(sCondition == QStringLiteral("target_equal_to_setpoint")) m_condition = m_eEqualToSetpoint;
+    else if(sCondition == QStringLiteral("target_superior_to_setpoint")) m_condition = m_eSuperiorToSetpoint;
     else m_condition = m_eInferiorToSetPoint;
 
     //si autodelete à true, risque d'utilisation de l'objet alors qu'il est détruit à la fin du run.
@@ -46,18 +46,25 @@ CActionTest::~CActionTest()
 
 }
 
+bool CActionTest::runAction(ICycle* arg_stepParent){
+    IAction::runAction(arg_stepParent);
 
-bool CActionTest::runAction(){
-    IAction::runAction();
 
-    QThreadPool::globalInstance()->tryStart(this);
+    QThreadPool* threadPool = QThreadPool::globalInstance();
+    bool result = threadPool->tryStart(this);
+    if(!result && (threadPool->maxThreadCount() ==  threadPool->activeThreadCount())){
+        qDebug() << "max " << threadPool->maxThreadCount() << " current " << threadPool->activeThreadCount();
+        threadPool->setMaxThreadCount(threadPool->maxThreadCount()+1);
+        result = QThreadPool::globalInstance()->tryStart(this);
+        if(!result){
+            qDebug() << "can't start thread in CActionAcquisitionCitNpoc::runAction";
+        }
+    }
     return true;
 }
 
-
-
 void CActionTest::run(){
-
+    ICycle* stepParent = getStepParent();
     qCDebug(COTAUTOMATE_LOG)<< "Action test 'qrunnable' "
             << " label fr " << m_label
          ;
@@ -71,36 +78,37 @@ void CActionTest::run(){
 
     if(m_target){
 
-        float setpointMax = m_setpoint->toFloat() + (m_setpoint->toFloat() * m_errorMargin->toFloat());
-        float setpointMin = m_setpoint->toFloat() - (m_setpoint->toFloat() * m_errorMargin->toFloat());
+        float setpointMax = m_setpoint->toFloat() + (m_setpoint->toFloat() * (m_errorMargin->toFloat()*0.01));
+        float setpointMin = m_setpoint->toFloat() - (m_setpoint->toFloat() *  (m_errorMargin->toFloat()*0.01));
         int timeout = m_timeout->toInt();
         bool result = false;
 
         qCDebug(COTAUTOMATE_LOG)<< "timeout " << timeout;
         qCDebug(COTAUTOMATE_LOG)<< "result " << result;
 
-        for(int i=0 ; i < timeout && !result && !m_abort; ++i){
-            acquisitionAndTest(setpointMin, setpointMax);
-
+        for(int i=0 ; ( (i < timeout && timeout > 0) || timeout == 0 )&& /*!result &&*/ !m_abort; ++i){
+            result = acquisitionAndTest(setpointMin, setpointMax);
+            m_result->setValue(result);
             QString  sActionInfo =  tr("Lecture ") + QString::number(i+1) + "/"  +QString::number(timeout) + " "
                                     + m_target->getIVariable()->getLabel() + " " +  QString::number(m_target->getIVariable()->toFloat(), 'f', 2)
                                     + m_target->getIVariable()->getUnit()->getLabel() ;
-            emit CAutomate::getInstance()->signalUpdateCurrentAction(sActionInfo);
-
+            updateActionInfos(sActionInfo, stepParent);
+            if(m_name ==  "control_air_flow"){
             qCDebug(COTAUTOMATE_LOG)<< "for timeout " << timeout - i;
             qCDebug(COTAUTOMATE_LOG)<< "for target " << m_target->getIVariable()->toString();
             qCDebug(COTAUTOMATE_LOG)<< "for m_condition " << m_condition;
             qCDebug(COTAUTOMATE_LOG)<< "for setpoint_max " << setpointMax;
             qCDebug(COTAUTOMATE_LOG)<< "for setpoint_min " << setpointMin;
             qCDebug(COTAUTOMATE_LOG)<< "for result " << result;
+            }
         }
-        m_result->setValue(false);
+
 //        m_result->setValue(result);
     }
     else{
         qDebug()<< "pas le type de target attendu";
     }
-    emit CAutomate::getInstance()->signalUpdateCurrentAction(m_label + tr(" finit"));
+    updateActionInfos(m_label + tr(" finit"), stepParent);
     emit signalActionFinished(this);
 }
 

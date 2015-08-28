@@ -12,7 +12,7 @@ CActionUnknow::~CActionUnknow()
 {
 }
 
-bool CActionUnknow::runAction(){
+bool CActionUnknow::runAction(ICycle* arg_stepParent){
     qCDebug(COTAUTOMATE_LOG) <<  "Action inconnu " ;
     return true;
 }

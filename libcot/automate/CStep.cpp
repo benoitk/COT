@@ -1,5 +1,6 @@
 #include "CStep.h"
 #include "IAction.h"
+#include "ICycle.h"
 #include "CAutomate.h"
 #include "qvariant.h"
 #include "qmap.h"
@@ -12,10 +13,9 @@ CStep::CStep(){
     qDebug() << "Ne pas utiliser, uniquement là pour que l'ihm compile"; //A virer
 }
 
-CStep::CStep(QObject *parent, const QVariantMap &mapStep)
-    : QObject(parent), m_bWaitForActions(false), m_criticalErrorDuringActions(false)
+CStep::CStep(ICycle *parent, const QVariantMap &mapStep)
+    : QObject(parent), m_bWaitForActions(false), m_criticalErrorDuringActions(false), m_parentCycle(parent)
 {
-
     m_numStep = mapStep.value(QStringLiteral("step")).toFloat();
     m_label = mapStep.value(tr("fr_FR")).toString();
     const QVariantList listActions = mapStep.value(QStringLiteral("actions")).toList();
@@ -96,7 +96,7 @@ void CStep::execStep(){
     qCDebug(COTAUTOMATE_LOG) << "CStep::execStep()";
     m_criticalErrorDuringActions = false;
     m_bWaitForActions = false;
-    emit CAutomate::getInstance()->signalUpdateCurrentStep(m_numStep, m_label);
+    m_parentCycle->updateCycleInfosStep(m_numStep, m_label);
 
     foreach(IAction* action, m_listActions){
         if(action->waitUntilFinished()){
@@ -104,7 +104,7 @@ void CStep::execStep(){
             connect(action, &IAction::signalActionFinished, this, &CStep::slotActionFinished);
             m_bWaitForActions=true;
         }
-        action->runAction();
+        action->runAction(m_parentCycle);
     }
 
     //si on doit attendre une action de celles lancées

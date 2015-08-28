@@ -3,17 +3,40 @@
 #include "cotautomate_debug.h"
 #include "CAutomate.h"
 #include "CVariableStream.h"
+#include "qvariant.h"
 CCycleMaintenance::CCycleMaintenance(QObject *parent)
-    : ICycle(parent)
+    : CCycleMesure(parent)
 {
 
 }
-CCycleMaintenance::CCycleMaintenance(const QVariantMap& mapCycle,QObject *parent):ICycle(mapCycle, parent){
+CCycleMaintenance::CCycleMaintenance(const QVariantMap& mapCycle,QObject *parent):CCycleMesure(mapCycle, parent){
+    if(mapCycle.contains(QStringLiteral("variables_input"))){
+        const QVariantList listVariablesInput = mapCycle[QStringLiteral("variables_input")].toList();
+        foreach(const QVariant &var, listVariablesInput){
+            m_listVariablesInput.append(CAutomate::getInstance()->getVariable(var.toString()));
+        }
+    }
+    if(mapCycle.contains(QStringLiteral("variables_output"))){
+        const QVariantList listVariablesOuput = mapCycle[QStringLiteral("variables_output")].toList();
+        foreach(const QVariant &var, listVariablesOuput){
+            m_listVariablesOutput.append(CAutomate::getInstance()->getVariable(var.toString()));
+        }
+    }
 
+    if(mapCycle.contains(QStringLiteral("variables_copy_on_validation"))){
+        const QVariantList listVariables = mapCycle[QStringLiteral("variables_copy_on_validation")].toList();
+        foreach(const QVariant &varMap, listVariables){
+            const QVariant src = varMap.toMap().value(QStringLiteral("source"));
+            const QVariant trg = varMap.toMap().value(QStringLiteral("target"));
+            QPair<IVariable*, IVariable*> pair(CAutomate::getInstance()->getVariable(src.toString())
+                          , CAutomate::getInstance()->getVariable(trg.toString()));
+            m_listVariablesCopyOnValidation.append(pair);
+        }
+    }
 
 }
 
-CCycleMaintenance::CCycleMaintenance(eTypeCycle typeCycle, QObject* parent): ICycle(parent) {
+CCycleMaintenance::CCycleMaintenance(eTypeCycle typeCycle, QObject* parent): CCycleMesure(parent) {
 
 }
 CCycleMaintenance::~CCycleMaintenance()
@@ -33,21 +56,17 @@ QVariantMap CCycleMaintenance::serialise(){
 eTypeCycle CCycleMaintenance::getType()const{
     return CYCLE_MAINTENANCE;
 }
-void CCycleMaintenance::slotRunCycle(){
-    qCDebug(COTAUTOMATE_LOG) << "CCycleMaintenance::slotRunCycle()";
-
-}
-void CCycleMaintenance::slotPauseCycle(){
-
-}
-void CCycleMaintenance::slotStopCycle(){
+QList<IVariable*>  CCycleMaintenance::getListVariablesInput(){
+    return m_listVariablesInput;
 }
 
+QList<IVariable*>  CCycleMaintenance::getListVariablesOutput(){
+    return m_listVariablesOutput;
+}
 
-void CCycleMaintenance::slotUnPauseCycle(){}
-void CCycleMaintenance::slotStopEndCycle(){}
-void CCycleMaintenance::slotGoToEndCycle(){}
-void CCycleMaintenance::slotGoToStepCycle(int numStep){}
-void CCycleMaintenance::slotGetReadyForPlayNextCycle(){}
-void CCycleMaintenance::slotGetReadyForPlayCycle(){}
-void CCycleMaintenance::slotExecNextStep(){}
+void CCycleMaintenance::doValidationCopies(){
+    QPair<IVariable*, IVariable*> pair;
+    foreach(pair, m_listVariablesCopyOnValidation){
+        pair.second->setValue(pair.first->toVariant());
+    }
+}

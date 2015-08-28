@@ -6,7 +6,7 @@
 #include "qthreadpool.h"
 
 #include "QThread"
-
+#include "qdebug.h"
 CThreadDiag::CThreadDiag(QObject* parent): QObject(parent), QRunnable(){
     this->setAutoDelete(false);
     m_stoped = false;
@@ -35,7 +35,16 @@ void CThreadDiag::slotReadVariables(){
 }
 
 void CThreadDiag::slotStart(){
-    QThreadPool::globalInstance()->tryStart(this);
+    QThreadPool* threadPool = QThreadPool::globalInstance();
+    bool result = threadPool->tryStart(this);
+    if(!result && (threadPool->maxThreadCount() ==  threadPool->activeThreadCount())){
+        qDebug() << "max " << threadPool->maxThreadCount() << " current " << threadPool->activeThreadCount();
+        threadPool->setMaxThreadCount(threadPool->maxThreadCount()+1);
+        result = threadPool->tryStart(this);
+        if(!result){
+            qDebug() << "can't start thread in CThreadDiag::slotStart()";
+        }
+    }
 }
 void CThreadDiag::slotStop(){
     m_stoped = true;

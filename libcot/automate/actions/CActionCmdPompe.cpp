@@ -52,7 +52,7 @@ QList<IVariable*> CActionCmdPompe::getListParameters()const{
 }
 
 
-bool CActionCmdPompe::runAction(){
+bool CActionCmdPompe::runAction(ICycle* arg_stepParent){
 
 
     if(m_alim && m_OriginReturn && m_clockwise && m_nbTurns && m_speed){

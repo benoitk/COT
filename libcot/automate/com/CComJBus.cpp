@@ -70,6 +70,7 @@ public:
         : QObject(Q_NULLPTR)
         , m_ctx(ctx)
     {
+        qDebug() << "moveThread Worker";
         moveToThread(thread);
         connect(thread, &QThread::started,
                 this, &Worker::run);

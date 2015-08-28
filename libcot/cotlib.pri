@@ -224,7 +224,8 @@ HEADERS *= \
     $$PWD/automate/CThreadDiag.h \
     $$PWD/gui/widgets/CClickableLabel.h\
     $$PWD/automate/units/CConverterCrossProduct.h \
-    $$PWD/gui/tools/initial-tests/CInitialTestWindow.h
+    $$PWD/gui/tools/initial-tests/CInitialTestWindow.h \
+    $$PWD/gui/widgets/CDialogMaintenance.h
 
 SOURCES *= \
     $$PWD/automate/CAutomate.cpp \
@@ -404,5 +405,6 @@ SOURCES *= \
     $$PWD/automate/CThreadDiag.cpp \
     $$PWD/gui/widgets/CClickableLabel.cpp\
     $$PWD/automate/units/CConverterCrossProduct.cpp \
-    $$PWD/gui/tools/initial-tests/CInitialTestWindow.cpp
+    $$PWD/gui/tools/initial-tests/CInitialTestWindow.cpp \
+    $$PWD/gui/widgets/CDialogMaintenance.cpp
 

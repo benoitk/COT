@@ -20,7 +20,7 @@ CActionCmdReadInput::~CActionCmdReadInput()
 {
 }
 
-bool CActionCmdReadInput::runAction(){
+bool CActionCmdReadInput::runAction(ICycle* arg_stepParent){
     qCDebug(COTAUTOMATE_LOG)<< QString::fromUtf8("Action lecture entrÃ©e ")
             << " label fr " << m_label
             << " Etat du l'entrée " << m_organ->toString()

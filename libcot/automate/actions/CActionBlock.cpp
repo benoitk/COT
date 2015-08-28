@@ -19,7 +19,7 @@ CCycleAutonome* CActionBlock::getCycle(){
     return m_cycle;
 }
 
-bool CActionBlock::runAction(){
+bool CActionBlock::runAction(ICycle* arg_stepParent){
     qCDebug(COTAUTOMATE_LOG) << "Running action block" << getName();
     m_cycle->slotRunCycle();
 

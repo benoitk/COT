@@ -1,5 +1,6 @@
 #include "ICycle.h"
 #include "CStep.h"
+#include "CAutomate.h"
 #include "cotautomate_debug.h"
 
 ICycle::ICycle(QObject *parent)
@@ -13,7 +14,7 @@ ICycle::ICycle()
 
 }
 ICycle::ICycle(const QVariantMap &mapCycle, QObject *parent)
-    : QObject(parent), m_isRunning(false), m_stepStop(Q_NULLPTR), m_mutex(QMutex::Recursive), m_editInProgress(false){
+    : QObject(), m_isRunning(false), m_stepStop(Q_NULLPTR), m_mutex(QMutex::Recursive), m_editInProgress(false){
     if(mapCycle.contains(QStringLiteral("name")))
         m_name = mapCycle[QStringLiteral("name")].toString();
     else
@@ -26,6 +27,10 @@ ICycle::ICycle(const QVariantMap &mapCycle, QObject *parent)
         CStep* step = new CStep(this, mapStep);
         m_listSteps.append(step);
     }
+
+    const QVariantMap mapStepStop = mapCycle[QStringLiteral("step_stop")].toMap();
+    m_stepStop = new CStep(this, mapStepStop);
+
 }
 
 bool ICycle::isRunning()const {return m_isRunning;}
@@ -414,4 +419,17 @@ QString ICycle::getName()const{
 void ICycle::setName(const QString &name){
     m_name = name;
 
+}
+
+void ICycle::updateCycleInfosStep(float arg_numStep, QString arg_info){
+    QMutexLocker lock(&m_mutex);
+    emit CAutomate::getInstance()->signalUpdateCurrentStep(arg_numStep, arg_info);
+}
+void ICycle::updateCycleInfosAction(QString arg_info){
+    QMutexLocker lock(&m_mutex);
+    emit CAutomate::getInstance()->signalUpdateCurrentAction(arg_info);
+}
+void ICycle::updateCycleInfosCountStep(){
+    QMutexLocker lock(&m_mutex);
+    emit CAutomate::getInstance()->signalUpdateCountStep(m_listSteps.last()->getNumStep());
 }

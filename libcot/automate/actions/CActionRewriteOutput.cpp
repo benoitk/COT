@@ -19,7 +19,7 @@ CActionRewriteOutput::~CActionRewriteOutput()
 }
 
 
-bool CActionRewriteOutput::runAction(){
+bool CActionRewriteOutput::runAction(ICycle* arg_stepParent){
     m_varDigitalOutput->setValue(m_varDigitalOutput->toVariant());
     qCDebug(COTAUTOMATE_LOG)<< "Action rewrite output "
             << " label fr " << m_label

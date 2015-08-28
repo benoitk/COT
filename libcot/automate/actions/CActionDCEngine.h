@@ -11,7 +11,7 @@ public:
     CActionDCEngine(const QVariantMap&, QObject *parent);
     ~CActionDCEngine();
 
-    bool runAction() Q_DECL_OVERRIDE;
+    bool runAction(ICycle* arg_stepParent) Q_DECL_OVERRIDE;
     QList<IVariable*> getListParameters()const Q_DECL_OVERRIDE;
     actionType getType()const Q_DECL_OVERRIDE;
     bool variableUsed(IVariable *)const Q_DECL_OVERRIDE;

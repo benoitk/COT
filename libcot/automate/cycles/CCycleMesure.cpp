@@ -17,7 +17,7 @@ CCycleMesure::CCycleMesure(QObject *parent)
 
 CCycleMesure::CCycleMesure(const QVariantMap &mapCycle, QObject *parent): ICycle(mapCycle, parent) {
     //qCDebug(COTAUTOMATE_LOG) << "constructor CCycleMesure(const QVariantMap &mapCycle) mapCycle:" << mapCycle;
-
+     qDebug() << "moveThread CCycleMesure";
     this->moveToThread(&m_thread);
     m_thread.start();
 
@@ -92,7 +92,7 @@ void CCycleMesure::slotRunCycle(){
         m_isRunning = true;
         m_itListStepsPasEnCours = m_listSteps.begin();
         m_timeout = m_listSteps.first()->getNumStep() * 1000; //step en seconde
-        emit CAutomate::getInstance()->signalUpdateCountStep(m_listSteps.last()->getNumStep());
+        updateCycleInfosCountStep();
         qCDebug(COTAUTOMATE_LOG) << "time out before next step : " << m_timeout;
         QTimer::singleShot(m_timeout, this, SLOT(slotExecNextStep()));
     }
@@ -109,9 +109,13 @@ void CCycleMesure::slotPauseCycle(){
 void CCycleMesure::slotStopCycle(){
     QMutexLocker lock(&m_mutex);
 
-   if(m_itListStepsPasEnCours != m_listSteps.end()){
-        (*m_itListStepsPasEnCours)->abortStep(); 
+//   if(m_itListStepsPasEnCours != m_listSteps.end()){
+//        (*m_itListStepsPasEnCours)->abortStep();
+//    }
+    foreach(CStep* step, m_listSteps){
+        step->abortStep();
     }
+
     if(m_stepStop)
         m_stepStop->execStep();
 

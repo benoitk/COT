@@ -62,8 +62,7 @@ void CAutomate::slotStartAutomate(){
 
     CModelConfigFile configFile(this);
 
-    m_scheduler->slotRequestPlayNextSequenceMesure();
-     QTimer::singleShot(1000, this, SLOT(slotLogVariable()));
+    QTimer::singleShot(1000, this, SLOT(slotLogVariable()));
 
 }
 

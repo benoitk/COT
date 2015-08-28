@@ -18,7 +18,7 @@ public:
     int getTiming();
     void setTiming(int);
 
-    bool runAction() Q_DECL_OVERRIDE;
+    bool runAction(ICycle* arg_stepParent) Q_DECL_OVERRIDE;
     bool waitUntilFinished() Q_DECL_OVERRIDE;
     bool finishedWithCriticalError() Q_DECL_OVERRIDE;
 

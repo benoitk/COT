@@ -43,16 +43,26 @@ CActionAcquisitionCitNpoc::CActionAcquisitionCitNpoc(const QVariantMap &mapActio
 }
 
 
-bool CActionAcquisitionCitNpoc::runAction(){
-    IAction::runAction();
+bool CActionAcquisitionCitNpoc::runAction(ICycle* arg_stepParent){
+    IAction::runAction(arg_stepParent);
 
-    QThreadPool::globalInstance()->tryStart(this);
+    QThreadPool* threadPool = QThreadPool::globalInstance();
+    bool result = threadPool->tryStart(this);
+    if(!result && (threadPool->maxThreadCount() ==  threadPool->activeThreadCount())){
+        qDebug() << "max " << threadPool->maxThreadCount() << " current " << threadPool->activeThreadCount();
+        threadPool->setMaxThreadCount(threadPool->maxThreadCount()+1);
+        result = QThreadPool::globalInstance()->tryStart(this);
+        if(!result){
+            qDebug() << "can't start thread in CActionAcquisitionCitNpoc::runAction";
+        }
+    }
     return true;
 }
 
 
 
 void CActionAcquisitionCitNpoc::run(){
+    ICycle* stepParent = getStepParent();
     qCDebug(COTAUTOMATE_LOG)<< "CActionAcquisitionCitNpoc 'qrunnable' ";
     QString sActionInfo;
     IVariableInput* measureCell = Q_NULLPTR;
@@ -70,10 +80,10 @@ void CActionAcquisitionCitNpoc::run(){
         float co2ppmv=0;
         float co2g=0;
         float airflow = 0;
-        const float zero = measureCell->readValue()->toFloat();
-        m_zero->setValue(zero);
+//        const float zero = measureCell->readValue()->toFloat();
+//        m_zero->setValue(zero);
 
- //       const float zero = m_zero->toFloat();
+        const float zero = m_zero->toFloat();
 
         for(int i = 0; i < m_timeout->toInt() && !m_abort; ++i){
 
@@ -83,8 +93,7 @@ void CActionAcquisitionCitNpoc::run(){
                     + tr("Delta ") + QString::number(x, 'f', 8)
                     + tr("Coppmv") + QString::number(co2ppmv, 'f', 8);
             qCDebug(COTAUTOMATE_LOG)<< sActionInfo;
-            emit CAutomate::getInstance()->signalUpdateCurrentAction(sActionInfo);
-
+            updateActionInfos(sActionInfo, stepParent);
             mesure = measureCell->readValue()->toFloat();
 
             airflow = measureAirflow->readValue()->toFloat();
@@ -101,7 +110,7 @@ void CActionAcquisitionCitNpoc::run(){
         }
         m_result->setValue( (co2g * 12000) / ( (m_vesselVolume->toFloat() / 1000) * 44));
     }
-    emit CAutomate::getInstance()->signalUpdateCurrentAction(m_label + tr(" finit"));
+    updateActionInfos(m_label + tr(" finit"), stepParent);
     emit signalActionFinished(this);
 }
 

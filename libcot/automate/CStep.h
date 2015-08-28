@@ -7,12 +7,13 @@
 #include "qmutex.h"
 
 class IAction;
+class ICycle;
 class CStep : public QObject
 {
     Q_OBJECT
 
 public:
-    CStep(QObject *parent, const QVariantMap & = QVariantMap());
+    CStep(ICycle *parent, const QVariantMap & = QVariantMap());
     CStep();
     ~CStep();
 
@@ -48,6 +49,7 @@ private:
     bool m_criticalErrorDuringActions;
 
     float m_numStep; //peut gérer des pas flotant pour affiner le timming
+    ICycle* m_parentCycle;
     QString m_label;
 
     QMutex m_mutex;

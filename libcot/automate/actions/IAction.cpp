@@ -1,4 +1,5 @@
 #include "IAction.h"
+#include "ICycle.h"
 #include "cotautomate_debug.h"
 #include "qvariant.h"
 
@@ -58,8 +59,10 @@ void IAction::setLabel(const QString& lbl){
     m_label = lbl;
 }
 
-bool IAction::runAction(){
-   m_abort = false;
+bool IAction::runAction(ICycle* arg_stepParent){
+   QMutexLocker lock(&m_mutex);
+   m_stepParent = arg_stepParent;
+    m_abort = false;
    qCDebug(COTAUTOMATE_LOG)<< "Action  "
            << " label fr " << m_label
         ;
@@ -70,3 +73,13 @@ void IAction::abortAction(){
     m_abort = true;
 }
 
+
+ICycle* IAction::getStepParent(){
+    QMutexLocker lock(&m_mutex);
+    ICycle* cycle = m_stepParent;
+    return cycle;
+}
+
+void IAction::updateActionInfos(QString arg_actionInfo, ICycle* arg_stepParent){
+    arg_stepParent->updateCycleInfosAction(arg_actionInfo);
+}

@@ -3,12 +3,8 @@
 
 #include "IMaintenanceTab.h"
 
-namespace Ui {
-class CMaintenanceMaintenanceTab;
-}
-
-class IVariableMaintenanceUIHandler;
-
+class QVBoxLayout;
+class CDialogMaintenance;
 class CMaintenanceMaintenanceTab : public IMaintenanceTab
 {
     Q_OBJECT
@@ -18,11 +14,18 @@ public:
     ~CMaintenanceMaintenanceTab();
 
 private:
-    Ui::CMaintenanceMaintenanceTab *ui;
-    IVariableMaintenanceUIHandler *m_variableHandler;
+    QVBoxLayout* m_cyclesLayout;
+    QWidget* m_cycleContainerWidget;
+    CDialogMaintenance* m_dialog;
+
+signals:
+    void signalStopCycle();
 
 private slots:
     void slotUpdateLayout();
+    void slotStopCycle();
+    void slotCycleStopped();
+    void slotPlayPressed();
     void slotCurrentMaintenanceCycleChanged(const QString &name);
 };
 

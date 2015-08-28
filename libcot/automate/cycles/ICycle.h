@@ -50,6 +50,10 @@ public:
      bool deleteStep(float at);
      virtual CStep* addStep(float pos, const QString& lbl);
 
+     virtual void updateCycleInfosStep(float arg_numStep, QString arg_info);
+     virtual void updateCycleInfosAction(QString arg_info);
+     virtual void updateCycleInfosCountStep();
+
 public slots:
     virtual void slotRunCycle()=0;
     virtual void slotPauseCycle()=0;
@@ -73,6 +77,7 @@ signals:
     void signalReadyForPlayNextCycle();
     void signalReadyForPlayCycle();
 protected:
+
     void startEditing();
     void clearSavedListSteps();
     void shiftAllSteps(float arg_from, float arg_shifting, int arg_index=0);

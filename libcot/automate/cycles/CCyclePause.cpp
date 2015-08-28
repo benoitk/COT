@@ -17,6 +17,7 @@ CCyclePause::CCyclePause(const QVariantMap &mapCycle, QObject* parent)
     m_iTempsCycle = mapCycle[QStringLiteral("timer")].toInt();
 
     initTimer();
+    qDebug() << "moveThread CCyclePause";
     this->moveToThread(&m_thread);
     m_thread.start();
 }

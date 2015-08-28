@@ -24,28 +24,11 @@ public:
     void setListSteps(const QList<CStep *> &steps, CStep *stopStep = Q_NULLPTR) Q_DECL_OVERRIDE;
     int getCurrentStepIndex() const Q_DECL_OVERRIDE;
     QVariantMap serialise() Q_DECL_OVERRIDE;
-/*    void setType(eTypeCycle);
-    eTypeCycle getType()const;
-    bool isRunning();
-    bool isPaused();
-    QString getName()const;
-    void setName(const QString &);
-    void addAction(IAction*);
-    QString getLabel()const;
-    void setLbl(const QString&);
-public slots:
-    void slotRunCycle();
-    void slotPauseCycle();
-    void slotStopCycle();
-    void slotUnPauseCycle();
-    void slotStopEndCycle();
-    void slotGoToEndCycle();
-    void slotGoToStepCycle(int);
-    void slotGetReadyForPlayNextCycle();
-    void slotGetReadyForPlayCycle();
 
-    void slotExecNextStep();
-    */
+    void updateCycleInfosStep(float arg_numStep, QString arg_info) Q_DECL_OVERRIDE;
+    void updateCycleInfosAction(QString arg_info) Q_DECL_OVERRIDE;
+    void updateCycleInfosCountStep() Q_DECL_OVERRIDE;
+
 private:
     int m_idCycle;
     eTypeCycle m_typeCycle;

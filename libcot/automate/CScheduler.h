@@ -63,6 +63,8 @@ public slots:
     void slotCycleMesureIsStopped(bool withCriticalError);
     void slotCycleMesureIsPaused();
 
+    void slotStartAllCyleAutonome();
+
 signals:
     void signalUpdated();
     void signalRunCycleMesure();
@@ -88,6 +90,7 @@ private:
 
     void disconnectCycle(ICycle*);
     void setSequenceMeasure();
+
     void playMaintenance(int id_cycle);
     void playSequenceAutonome();
 

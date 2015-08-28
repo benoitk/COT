@@ -5,6 +5,7 @@
 #include "IVariableUIHandler.h"
 
 #include "CAutomate.h"
+#include "CScheduler.h"
 #include "CDisplayConf.h"
 #include "qaction.h"
 #include "qlabel.h"
@@ -29,21 +30,26 @@ CInitialTestsWindow::CInitialTestsWindow(QWidget *parent) :
   hLayout->addWidget(widgetRight);
 
   setMainWidget(mainWidget);
-  connect(buttonBar()->addAction(CToolButton::ScrollUp, widgetLeft->moveUp() ), &QAction::triggered
-          , this, &CInitialTestsWindow::slotUpdateWindow);
-  connect(buttonBar()->addAction(CToolButton::ScrollDown, widgetLeft->moveDown()), &QAction::triggered
-          , this, &CInitialTestsWindow::slotUpdateWindow);
-  connect(buttonBar()->addAction(CToolButton::ScrollUp, widgetRight->moveUp() ), &QAction::triggered
-          , this, &CInitialTestsWindow::slotUpdateWindow);
-  connect(buttonBar()->addAction(CToolButton::ScrollDown, widgetRight->moveDown()), &QAction::triggered
-          , this, &CInitialTestsWindow::slotUpdateWindow);
-  connect(buttonBar()->addAction(CToolButton::Back), &QAction::triggered, this, &CInitialTestsWindow::slotBackTriggered);
+  QAction* actMoveUpLeft = buttonBar()->addAction(CToolButton::ScrollUp, widgetLeft->moveUp());
+  connect( actMoveUpLeft, &QAction::triggered, widgetRight->moveUp(), &QAction::triggered);
+  connect(actMoveUpLeft, &QAction::triggered, this, &CInitialTestsWindow::slotUpdateWindow);
+
+  QAction* actMoveDownLeft = buttonBar()->addAction(CToolButton::ScrollDown, widgetLeft->moveDown());
+  connect(actMoveDownLeft, &QAction::triggered, widgetRight->moveDown(), &QAction::triggered);
+  connect(actMoveDownLeft, &QAction::triggered, this, &CInitialTestsWindow::slotUpdateWindow);
+
+  m_actBack = buttonBar()->addAction(CToolButton::Back);
+  connect(m_actBack, &QAction::triggered, this, &CInitialTestsWindow::slotBackTriggered);
+  connect(m_actBack, &QAction::triggered, CAutomate::getInstance()->getScheduler(), &CScheduler::signalGetReadyForPlayCycleMesure);
 
   m_testVarHandler = new IVariableUIHandler(widgetLeft, this);
   m_indicatorVarHandler = new IVariableUIHandler(widgetRight, this);
   slotUpdateWindow();
   connect(CAutomate::getInstance(), &CAutomate::signalDisplayUpdated,
           this, &CInitialTestsWindow::slotUpdateWindow);
+
+  CAutomate::getInstance()->getScheduler()->slotStartAllCyleAutonome();
+  m_timerTests.singleShot(1000, this, SLOT(slotTests()));
 
 }
 
@@ -61,4 +67,16 @@ void CInitialTestsWindow::slotUpdateWindow()
     IVariablePtrList screenInitialIndicator = displayConf->getListInitialsTestVariablesIndicator();
     m_testVarHandler->layout(screenInitialTest);
     m_indicatorVarHandler->layout(screenInitialIndicator);
+}
+
+void CInitialTestsWindow::slotTests(){
+    bool test = true;
+    foreach(IVariable* var, CAutomate::getInstance()->getDisplayConf()->getListInitialsTestVariablesTest()){
+        if(!var->toBool())
+            test = false;
+
+    }
+    if(test) emit m_actBack->triggered();
+    else m_timerTests.singleShot(1000, this, SLOT(slotTests()));
+;
 }

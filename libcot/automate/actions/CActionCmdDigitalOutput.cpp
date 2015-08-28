@@ -28,7 +28,7 @@ CActionCmdDigitalOutput::~CActionCmdDigitalOutput()
 }
 
 
-bool CActionCmdDigitalOutput::runAction(){
+bool CActionCmdDigitalOutput::runAction(ICycle* arg_stepParent){
     m_varDigitalOutput->setValue(QVariant(m_state->toBool()));
     qCDebug(COTAUTOMATE_LOG)<< "Action relay "
             << " label fr " << m_label

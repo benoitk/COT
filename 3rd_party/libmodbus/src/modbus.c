@@ -117,11 +117,15 @@ int _sleep_and_flush(modbus_t *ctx)
 
 int modbus_flush(modbus_t *ctx)
 {
-    int rc = ctx->backend->flush(ctx);
-    if (rc != -1 && ctx->debug) {
-        printf("%d bytes flushed\n", rc);
+    if(ctx){
+        int rc = ctx->backend->flush(ctx);
+        if (rc != -1 && ctx->debug) {
+            printf("%d bytes flushed\n", rc);
+        }
+
+        return rc;
     }
-    return rc;
+    return 0;
 }
 
 /* Computes the length of the expected response */
