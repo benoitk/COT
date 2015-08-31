@@ -17,7 +17,7 @@ CUpdateManager::CUpdateManager(QObject *parent)
     m_process->setProcessChannelMode(QProcess::MergedChannels);
 
     connect(m_fileSystemWatcher, &QFileSystemWatcher::directoryChanged, this, &CUpdateManager::slotDirectoryChanged);
-    connect(m_timer, &QTimer::timeout, this, &CUpdateManager::slotTimeout);
+   // connect(m_timer, &QTimer::timeout, this, &CUpdateManager::slotTimeout);
     connect(m_process, static_cast<void (QProcess::*)(QProcess::ProcessError)>(&QProcess::error),
             this, &CUpdateManager::slotProcessError);
     connect(m_process, static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
@@ -38,7 +38,7 @@ void CUpdateManager::init()
         qFatal("%s: Can not monitor path: %s", Q_FUNC_INFO, COT_USB_MOUNT_POINT);
     }
     else {
-        m_timer->start();
+     //   m_timer->start();
     }
 }
 
@@ -64,7 +64,7 @@ void CUpdateManager::slotDirectoryChanged(const QString &path)
         return;
     }
 
-    m_timer->start();
+  //  m_timer->start();
 }
 
 void CUpdateManager::slotTimeout()

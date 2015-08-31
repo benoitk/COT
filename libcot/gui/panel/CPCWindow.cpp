@@ -33,7 +33,7 @@ CPCWindow::CPCWindow(QWidget *parent)
     m_updateManager->init();
 
     ui->setupUi(this);
-    ui->actionUpdate->setVisible(false);
+    ui->actionUpdate->setVisible(true);
     addTab((m_measureTab = new CPCMeasureTab(this)));
     addTab((m_diagnosticTab = new CPCDiagnosticTab(this)));
     addTab((m_toolsTab = new CPCToolsTab(this)));
@@ -43,7 +43,7 @@ CPCWindow::CPCWindow(QWidget *parent)
     CVerticalButtonBar *vbb = qobject_cast<IPCTab *>(ui->twPages->widget(0))->buttonBar();
     vbb->addAction(CToolButton::Update, ui->actionUpdate);
 
-    connect(m_updateManager, &CUpdateManager::signalUpdateAvailable, this, &CPCWindow::slotUpdateAvailable);
+    //connect(m_updateManager, &CUpdateManager::signalUpdateAvailable, this, &CPCWindow::slotUpdateAvailable);
     connect(ui->actionUpdate, &QAction::triggered, this, &CPCWindow::slotUpdateTriggered);
     connect(ui->twPages, &QTabWidget::currentChanged, CAutomate::getInstance(), &CAutomate::slotTabChanged);
     connect(CAutomate::getInstance(), &CAutomate::signalStreamsUpdated, this, &CPCWindow::slotStreamsUpdated);
