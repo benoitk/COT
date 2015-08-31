@@ -33,6 +33,9 @@ private Q_SLOTS:
     void btHourClicked();
     void btMinuteClicked();
 
+private slots:
+    void slotBackPressed();
+
 private:
     void apply();
     int getYear() const;

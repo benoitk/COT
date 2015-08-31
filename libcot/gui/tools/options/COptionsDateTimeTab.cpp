@@ -66,12 +66,17 @@ COptionsDateTimeTab::COptionsDateTimeTab(QWidget *parent)
     ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->swCentral->moveDown());
     connect(ui->vbbButtons->addAction(CToolButton::Back), &QAction::triggered,
             this, &IOptionsTab::backTriggered);
+    connect(ui->vbbButtons->addAction(CToolButton::Back), &QAction::triggered,
+            this, &COptionsDateTimeTab::slotBackPressed);
+
 }
 
 COptionsDateTimeTab::~COptionsDateTimeTab()
 {
-    apply();
     delete ui;
+}
+void COptionsDateTimeTab::slotBackPressed(){
+      apply();
 }
 
 void COptionsDateTimeTab::btYearPPressed()
