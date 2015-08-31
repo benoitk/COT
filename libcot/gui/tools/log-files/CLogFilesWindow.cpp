@@ -246,17 +246,8 @@ void CLogFilesWindow::handleWork()
         mb->setTitle(tr("CONFIRMATION!"));
         QAction *cancelAction = mb->buttonBar()->addAction(CToolButton::Cancel);
         connect(cancelAction, &QAction::triggered, mb, &QDialog::reject);
-        if(!mb->testAttribute(Qt::WA_DeleteOnClose)){
-            qDebug() << "ok tout va bien, ou pas y  a pas de parent";
-            if(!this->testAttribute(Qt::WA_DeleteOnClose)){
-                qDebug() << "y a dla moulle un peu que se soit par défaut ce truc";
-            }
-        }
         if (CPCWindow::openExec(mb) != QDialog::Accepted) {
-
             close();
-            QThread::msleep(1000);
-            mb->exec();
             return;
         }
 
