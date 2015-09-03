@@ -29,7 +29,7 @@ DEVICE_BUILD {
       DEFINES += LOG_SOURCE_DIRECTORY=\"\\\"/home/seres/logs\\\"\"
 } else {
       DEFINES += JSON_DIRECTORY=\"\\\"$${top_srcdir}/libcot/\\\"\"
-      DEFINES += LOG_SOURCE_DIRECTORY=\"\\\"$$PWD\\\"\"
+      DEFINES += LOG_SOURCE_DIRECTORY=\"\\\"$${top_srcdir}/libcot/logs/\\\"\"
 }
 
 macx:DEFINES *= COT_USB_MOUNT_POINT=\"\\\"/Volumes\\\"\"

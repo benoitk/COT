@@ -37,6 +37,7 @@ int main(int argc, char *argv[])
 
     // The main PC Panel Window
     CPCWindow w;
+
     CInitialTestsWindow initialTestWindow(&w);
 
 #if defined(DEVICE_BUILD)

@@ -19,6 +19,7 @@ CopyLogRunnable::CopyLogRunnable(const QString &source, const QString &target)
     , m_source(source), m_target(target)
 {
     setAutoDelete(true);
+    //setAutoDelete(false);
 }
 
 void CopyLogRunnable::run()
@@ -141,6 +142,7 @@ CLogFilesWindow::CLogFilesWindow(QWidget *parent)
     : CDialog(parent)
     , m_label(new QLabel(this))
 {
+    qDebug() << "CLogFilesWindow::CLogFilesWindow(QWidget *parent)";
     setTitle(tr("Copying log files"));
     setMainWidget(m_label);
 
@@ -148,6 +150,7 @@ CLogFilesWindow::CLogFilesWindow(QWidget *parent)
     connect(buttonBar()->addAction(CToolButton::Back), &QAction::triggered, this, &CLogFilesWindow::slotBackTriggered);
 
     QTimer::singleShot(0, this, &CLogFilesWindow::handleWork);
+    qDebug() << "FIN CLogFilesWindow::CLogFilesWindow(QWidget *parent)";
 }
 
 void CLogFilesWindow::done(int result)
@@ -159,11 +162,18 @@ void CLogFilesWindow::done(int result)
 
 void CLogFilesWindow::slotCenterInParent()
 {
+    qDebug() << "CLogFilesWindow::slotCenterInParent()";
     // Need to center again due to label size changing width
+    qDebug() << "parent" << parentWidget();
+    if(parentWidget()){
     const QRect prect = parentWidget()->geometry();
     QRect rect = geometry();
     rect.moveCenter(prect.center());
     setGeometry(rect);
+    }
+    else
+        qDebug() << "Pas de parent";
+    qDebug() << "FIN CLogFilesWindow::slotCenterInParent()";
 }
 
 void CLogFilesWindow::slotRetryTriggered()
@@ -178,8 +188,10 @@ void CLogFilesWindow::slotBackTriggered()
 
 void CLogFilesWindow::slotRunnableMessage(const QString &text)
 {
+    qDebug() << "CLogFilesWindow::slotRunnableMessage";
     m_label->setText(text);
     QTimer::singleShot(25, this, &CLogFilesWindow::slotCenterInParent);
+    qDebug() << "FIN CLogFilesWindow::slotRunnableMessage";
 }
 
 void CLogFilesWindow::slotRunnableError(const QString &text)
@@ -237,10 +249,12 @@ bool CLogFilesWindow::isUSBKeyMounted() const
 
 void CLogFilesWindow::handleWork()
 {
+    qDebug() << "CLogFilesWindow::handleWork()";
     buttonBar()->action(CToolButton::Retry)->setVisible(false);
     m_label->clear();
 
     if (isUSBKeyMounted()) {
+        qDebug() << "clé monté";
         CMessageBox *mb = new CMessageBox(tr("Do you want to copy the log files ?"));
         mb->setAttribute(Qt::WA_DeleteOnClose);
         mb->setTitle(tr("CONFIRMATION!"));
@@ -264,7 +278,9 @@ void CLogFilesWindow::handleWork()
         }
     }
     else {
+        qDebug() << "clé non monté";
         slotRunnableMessage(tr("The usb key is not mounted.\nClick the retry button to try again."));
         buttonBar()->action(CToolButton::Retry)->setVisible(true);
     }
+    qDebug() << "FIN CLogFilesWindow::handleWork()";
 }

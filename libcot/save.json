@@ -742,7 +742,7 @@
     ],
 
     "scheduler_measure" : ["cycle_mesure_cot", "cycle_mesure_cot", "cycle_mesure_cot", "cycle_mesure_cot", "cycle_mesure_cot", "cycle_mesure_cot", "cycle_mesure_cot", "cycle_mesure_cot", "cycle_mesure_cot", "cycle_mesure_cot", "cycle_mesure_cot", "cycle_mesure_cot", "cycle_mesure_cot", "cycle_mesure_cot"],
-    "scheduler_autonome" : ["cycle_control"],
+    "scheduler_autonome" : [],
     "list_cycles_maintenances" : ["cycle_zero", "cycle_calibration"],
 
     "streams" :[{"name":"stream_1", "fr_FR":"stream 1", "variables":["ndir_temperature_setpoint", "condenser_temperature_setpoint", "airflow_setpoint"], "active_state": "stream_1_state",
