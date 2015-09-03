@@ -92,7 +92,7 @@ void CPCToolsTab::slotButtonClicked(CLabelledToolButton *button)
             break;
 
         case CToolButton::LogFiles:
-            CPCWindow::openExec<CLogFilesWindow>();
+            CPCWindow::openExec<CLogFilesWindow>(this);
             break;
         case CToolButton::Configure:
             CPCWindow::openModal<CConfiguratorWindow>();

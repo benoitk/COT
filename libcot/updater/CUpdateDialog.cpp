@@ -50,18 +50,18 @@ void CUpdateDialog::slotPerformUpdate()
 
 void CUpdateDialog::slotError(const QString &error)
 {
-    CPCWindow::openExec<CMessageBox>(error);
+    CPCWindow::openExec<CMessageBox>(error, this);
     reject();
 }
 
 void CUpdateDialog::slotFinished(bool success)
 {
     if (success) {
-        CPCWindow::openExec<CMessageBox>(tr("The update were done correctly.\nThe application will restart."));
+        CPCWindow::openExec<CMessageBox>(tr("The update were done correctly.\nThe application will restart."), this);
         accept();
     }
     else {
-        CPCWindow::openExec<CMessageBox>(tr("The update process failed."));
+        CPCWindow::openExec<CMessageBox>(tr("The update process failed."), this);
         reject();
     }
 }

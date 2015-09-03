@@ -27,18 +27,18 @@ public:
     static int openExec(CDialog *dialog);
 
     template <typename T>
-    static void openExec() {
-        QWidget *parent = QApplication::activeWindow();
+    static void openExec(QWidget *parent) {
+        //QWidget *parent = QApplication::activeWindow();
         T *window = new T(parent);
         openExec(window);
         delete window;
     }
 
     template <typename T, typename Arg>
-    static T* openExec(const Arg &arg) {
+    static T* openExec(const Arg &arg, QWidget* parent) {
         //TODO 0 chance que la dialog créé soit détruite un jour selon le parent.
         // Mais si on demande la même ça en recré une : mettre des singletons ou l'attribue deleteOnClose ?
-        QWidget *parent = QApplication::activeWindow(); //peu renvoyer un pointeur vide (cf sortie de réglage de l'heure)
+        //QWidget *parent = QApplication::activeWindow(); //peu renvoyer un pointeur vide (cf sortie de réglage de l'heure)
         T *window = new T(arg, parent);
         openExec(window);
         return window;
