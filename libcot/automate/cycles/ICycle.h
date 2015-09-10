@@ -71,7 +71,7 @@ public slots:
     void slotCancelEditing();
 
 signals:
-    void signalStopped(bool withCriticalError);
+    void signalStopped();
     void signalPaused();
     void signalRunning();
     void signalReadyForPlayNextCycle();

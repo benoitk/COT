@@ -20,6 +20,7 @@ CActionAcquisitionCitNpoc::CActionAcquisitionCitNpoc(const QVariantMap &mapActio
     m_coef3 = automate->getVariable(mapAction[QStringLiteral("coef_3")].toString());
     m_coef4 = automate->getVariable(mapAction[QStringLiteral("coef_4")].toString());
     m_coef5 = automate->getVariable(mapAction[QStringLiteral("coef_5")].toString());
+    m_coefCorrection = automate->getVariable(mapAction[QStringLiteral("coef_correction")].toString());
     m_Offset = automate->getVariable(mapAction[QStringLiteral("offset")].toString());
     m_CstConversion = automate->getVariable(mapAction[QStringLiteral("co2_ppmv_to_co2_gm3_cst")].toString());
     m_zero = automate->getVariable(mapAction[QStringLiteral("zero_point")].toString());
@@ -27,14 +28,23 @@ CActionAcquisitionCitNpoc::CActionAcquisitionCitNpoc(const QVariantMap &mapActio
     m_airflow = automate->getVariable(mapAction[QStringLiteral("debit_airflow")].toString());
     m_vesselVolume = automate->getVariable(mapAction[QStringLiteral("vessel_volume")].toString());
     m_timeout = automate->getVariable(mapAction[QStringLiteral("timeout")].toString());
+    m_derivativeIntervalTx = automate->getVariable(mapAction[QStringLiteral("derivative_interval")].toString());
+    m_derivativeThresold = automate->getVariable(mapAction[QStringLiteral("derivative_threshold")].toString());
 
 
-    QVariantMap variantMap;
-    variantMap.insert(QStringLiteral("name"), QStringLiteral("critical_error"));
-    variantMap.insert(QStringLiteral("fr_FR"), tr("Generate critical error"));
-    variantMap.insert(QStringLiteral("type"), QStringLiteral("boolean"));
-    variantMap.insert(QStringLiteral("value"), mapAction[QStringLiteral("critical_error")].toBool());
-    m_criticalError = dynamic_cast<CVariableBool*>(CVariableFactory::build(variantMap));
+    QVariantMap variantMapCriticalError;
+    variantMapCriticalError.insert(QStringLiteral("name"), QStringLiteral("critical_error"));
+    variantMapCriticalError.insert(QStringLiteral("fr_FR"), tr("Generate critical error"));
+    variantMapCriticalError.insert(QStringLiteral("type"), QStringLiteral("boolean"));
+    variantMapCriticalError.insert(QStringLiteral("value"), mapAction[QStringLiteral("critical_error")].toBool());
+    m_criticalError = dynamic_cast<CVariableBool*>(CVariableFactory::build(variantMapCriticalError));
+
+    QVariantMap variantMapDerivativeCalcul;
+    variantMapDerivativeCalcul.insert(QStringLiteral("name"), QStringLiteral("derivative_calcul"));
+    variantMapDerivativeCalcul.insert(QStringLiteral("fr_FR"), tr("Generate critical error"));
+    variantMapDerivativeCalcul.insert(QStringLiteral("type"), QStringLiteral("boolean"));
+    variantMapDerivativeCalcul.insert(QStringLiteral("value"), mapAction[QStringLiteral("derivative_calcul")].toBool());
+    m_derivativeCalcul = dynamic_cast<CVariableBool*>(CVariableFactory::build(variantMapDerivativeCalcul));
 
 
 
@@ -80,7 +90,10 @@ void CActionAcquisitionCitNpoc::run(){
         float co2ppmv=0;
         float co2g=0;
         float airflow = 0;
-//        const float zero = measureCell->readValue()->toFloat();
+        float derivative =0;
+        float co2ppmvN = 0;
+        int tn = 0;
+        //        const float zero = measureCell->readValue()->toFloat();
 //        m_zero->setValue(zero);
 
         const float zero = m_zero->toFloat();
@@ -90,7 +103,7 @@ void CActionAcquisitionCitNpoc::run(){
             sActionInfo =  tr("Mesure ") + QString::number(i+1) + "/"  + QString::number(m_timeout->toInt()) + " "
                     + tr("Co2 g") + QString::number(co2g, 'f', 8)
                     + tr("mesure ") + QString::number(mesure, 'f', 8)
-                    + tr("Delta ") + QString::number(x, 'f', 8)
+                    + tr("derivée ") + QString::number(derivative, 'f', 8)
                     + tr("Coppmv") + QString::number(co2ppmv, 'f', 8);
             qCDebug(COTAUTOMATE_LOG)<< sActionInfo;
             updateActionInfos(sActionInfo, stepParent);
@@ -104,11 +117,25 @@ void CActionAcquisitionCitNpoc::run(){
                     + m_coef4->toFloat() * pow(x,2)
                     + m_coef5->toFloat() * x
                     + m_Offset->toFloat();
+
+            if(m_derivativeCalcul->toBool() && m_derivativeIntervalTx->toBool()){
+                if(co2ppmvN != 0 && ( tn % m_derivativeIntervalTx->toInt()) == 0){
+                    //i = tx
+                    // (CO2)tn+tx - (CO2)tn / (tn+tx -tn)
+                    derivative =  (co2ppmv - co2ppmvN) / m_derivativeIntervalTx->toFloat();
+                    if(derivative < m_derivativeThresold->toFloat()){
+                        i = m_timeout->toInt();
+                    }
+                }
+                tn = i;
+                co2ppmvN = co2ppmv;
+            }
+
             co2g += (co2ppmv * m_CstConversion->toFloat()) * ((airflow*0.001)/60000);
             m_co2g->setValue(co2g);
             QThread::msleep(1000);
         }
-        m_result->setValue( (co2g * 12000) / ( (m_vesselVolume->toFloat() / 1000) * 44));
+        m_result->setValue( (co2g * 12000) / ( (m_vesselVolume->toFloat() / 1000) * 44) * m_coefCorrection->toFloat());
     }
     updateActionInfos(m_label + tr(" finit"), stepParent);
     emit signalActionFinished(this);

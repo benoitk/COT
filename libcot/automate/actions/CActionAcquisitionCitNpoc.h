@@ -45,11 +45,15 @@ private:
     IVariable* m_coef3;
     IVariable* m_coef4;
     IVariable* m_coef5;
+    IVariable* m_coefCorrection;
     IVariable* m_Offset;
     IVariable* m_CstConversion;
+    IVariable* m_derivativeIntervalTx;
+    IVariable* m_derivativeThresold;
 
     IVariable* m_timeout;
     CVariableBool* m_criticalError;
+    CVariableBool* m_derivativeCalcul;
 };
 
 #endif // CACTIONACQUISITIONCITNPOC_H

@@ -87,20 +87,23 @@ void CActionTest::run(){
         qCDebug(COTAUTOMATE_LOG)<< "result " << result;
 
         for(int i=0 ; ( (i < timeout && timeout > 0) || timeout == 0 )&& /*!result &&*/ !m_abort; ++i){
+            setpointMax = m_setpoint->toFloat() + (m_setpoint->toFloat() * (m_errorMargin->toFloat()*0.01));
+            setpointMin = m_setpoint->toFloat() - (m_setpoint->toFloat() *  (m_errorMargin->toFloat()*0.01));
             result = acquisitionAndTest(setpointMin, setpointMax);
             m_result->setValue(result);
             QString  sActionInfo =  tr("Lecture ") + QString::number(i+1) + "/"  +QString::number(timeout) + " "
-                                    + m_target->getIVariable()->getLabel() + " " +  QString::number(m_target->getIVariable()->toFloat(), 'f', 2)
-                                    + m_target->getIVariable()->getUnit()->getLabel() ;
+                    + m_target->getIVariable()->getLabel() + " " +  QString::number(m_target->getIVariable()->toFloat(), 'f', 2)
+                    + m_target->getIVariable()->getUnit()->getLabel() ;
             updateActionInfos(sActionInfo, stepParent);
             if(m_name ==  "control_air_flow"){
-            qCDebug(COTAUTOMATE_LOG)<< "for timeout " << timeout - i;
-            qCDebug(COTAUTOMATE_LOG)<< "for target " << m_target->getIVariable()->toString();
-            qCDebug(COTAUTOMATE_LOG)<< "for m_condition " << m_condition;
-            qCDebug(COTAUTOMATE_LOG)<< "for setpoint_max " << setpointMax;
-            qCDebug(COTAUTOMATE_LOG)<< "for setpoint_min " << setpointMin;
-            qCDebug(COTAUTOMATE_LOG)<< "for result " << result;
+                qCDebug(COTAUTOMATE_LOG)<< "for timeout " << timeout - i;
+                qCDebug(COTAUTOMATE_LOG)<< "for target " << m_target->getIVariable()->toString();
+                qCDebug(COTAUTOMATE_LOG)<< "for m_condition " << m_condition;
+                qCDebug(COTAUTOMATE_LOG)<< "for setpoint_max " << setpointMax;
+                qCDebug(COTAUTOMATE_LOG)<< "for setpoint_min " << setpointMin;
+                qCDebug(COTAUTOMATE_LOG)<< "for result " << result;
             }
+
         }
 
 //        m_result->setValue(result);

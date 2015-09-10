@@ -7,6 +7,7 @@
 #include <QPushButton>
 #include <QDateTime>
 #include <CNumericalKeyboardDialog.h>
+#include <QProcess>
 
 #include <cerrno>
 
@@ -247,6 +248,21 @@ void COptionsDateTimeTab::apply()
         if (clock_settime(CLOCK_REALTIME, &ts) != 0) {
             qWarning() << "Couldn't set system time:" << strerror(errno);
         }
+#ifdef DEVICE_BUILD
+        QProcess process;
+        const QString command = "hwclock";
+        const QStringList parameters = QStringList()
+                << "-w";
+
+        process.setProcessChannelMode(QProcess::MergedChannels);
+        process.start(command, parameters);
+        process.waitForFinished(-1);
+        if (process.exitStatus() != QProcess::NormalExit || process.exitCode() != 0) {
+
+            qDebug("%s: Set RTC fail: \n", Q_FUNC_INFO);
+    }
+#endif
+
 #endif
 
 #else

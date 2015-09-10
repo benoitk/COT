@@ -147,9 +147,9 @@ void CPCWindow::slotStreamsUpdated()
 {
     const int index = ui->twPages->indexOf(m_graphTab);
 
-    if (showGraphInMainScreen()) {
+    if (!showGraphInMainScreen()) {
         if (index == -1) {
-            ui->twPages->insertTab(ui->twPages->count() -1, m_graphTab, QString());
+            //ui->twPages->insertTab(ui->twPages->count() -1, m_graphTab, QString());
             m_graphTab->show();
         }
     }

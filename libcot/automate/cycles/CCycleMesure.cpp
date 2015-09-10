@@ -60,7 +60,7 @@ void CCycleMesure::slotStepFinished(CStep* arg_step){
         if(!criticalErrorOnPreviousStep)
             emit signalReadyForPlayNextCycle();
         else
-            emit signalStopped(criticalErrorOnPreviousStep);
+            emit signalStopped();
     }else{
         if((m_itListStepsPasEnCours != m_listSteps.begin())){
             m_timeout = (*m_itListStepsPasEnCours)->getNumStep()*1000 - (*m_itListStepsPasEnCours.operator-(1))->getNumStep()*1000;
@@ -119,11 +119,10 @@ void CCycleMesure::slotStopCycle(){
     if(m_stepStop)
         m_stepStop->execStep();
 
-    if(m_itListStepsPasEnCours != m_listSteps.end()){
-        emit signalStopped((*m_itListStepsPasEnCours)->finishedWithcriticalError());
+    if(m_itListStepsPasEnCours != m_listSteps.end())
         m_itListStepsPasEnCours = m_listSteps.end();
-    }else
-        emit signalStopped(false);
+
+    emit signalStopped();
 
 
     m_isRunning = false;

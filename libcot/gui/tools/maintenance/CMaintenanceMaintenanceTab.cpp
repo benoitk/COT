@@ -56,6 +56,7 @@ void CMaintenanceMaintenanceTab::slotUpdateLayout()
 
 
         CToolButton *buttonPlay = new CToolButton(CToolButton::Play, m_cycleContainerWidget);
+        m_listButtonsPlay.append(buttonPlay);
         buttonPlay->setFixedSize(StyleRepository::playStopButtonSize());
         buttonPlay->setCheckable(true);
         buttonPlay->setUserData(cycle->getName());
@@ -73,27 +74,38 @@ void CMaintenanceMaintenanceTab::slotUpdateLayout()
 void CMaintenanceMaintenanceTab::slotPlayPressed(){
     bool bRunCycle = true;
     const CToolButton *button = qobject_cast<CToolButton *>(sender());
+    foreach(CToolButton* bt, m_listButtonsPlay){
+        if(bt != button){
+            bt->setEnabled(false);
+        }else{
+            bt->setChecked(true);
+        }
+    }
+
     const QString cycleName = button->userData().toString();
     CAutomate *automate = CAutomate::getInstance();
     ICycle *cycle = automate->getCycle(cycleName); //ne pas spécifier le type dans getCycle, au cas ou on une maintenance est à faire avec un cycle normale
 
-    if(cycle->getType() == CYCLE_MAINTENANCE){
-        if(!m_dialog) m_dialog = new CDialogMaintenance(this);
-        CCycleMaintenance* cycleMaintenance = dynamic_cast<CCycleMaintenance*>(cycle);
-        if(cycleMaintenance->getListVariablesInput().count() > 0){
-            m_dialog->slotUpdateLayout(cycleMaintenance->getListVariablesInput());
-            m_dialog->setTitle(tr("Valeurs étalon (") + cycle->getLabel() + ")");
-            bRunCycle = m_dialog->exec();
+    if(!cycle->isRunning()){
+        if(cycle->getType() == CYCLE_MAINTENANCE){
+            if(!m_dialog) m_dialog = new CDialogMaintenance(this);
+            CCycleMaintenance* cycleMaintenance = dynamic_cast<CCycleMaintenance*>(cycle);
+            if(cycleMaintenance->getListVariablesInput().count() > 0){
+                m_dialog->slotUpdateLayout(cycleMaintenance->getListVariablesInput());
+                m_dialog->setTitle(tr("Valeurs étalon (") + cycle->getLabel() + ")");
+                bRunCycle = m_dialog->exec();
+            }
         }
+        connect(cycle, &ICycle::signalStopped, this, &CMaintenanceMaintenanceTab::slotCycleStopped);
+        connect(cycle, &ICycle::signalReadyForPlayNextCycle, this, &CMaintenanceMaintenanceTab::slotCycleStopped);
+        connect(this, &CMaintenanceMaintenanceTab::signalStopCycle, cycle, &ICycle::slotStopCycle);
+        if(bRunCycle) cycle->slotRunCycle();
     }
-    connect(cycle, &ICycle::signalStopped, this, &CMaintenanceMaintenanceTab::slotCycleStopped);
-    connect(cycle, &ICycle::signalReadyForPlayNextCycle, this, &CMaintenanceMaintenanceTab::slotCycleStopped);
-    connect(this, &CMaintenanceMaintenanceTab::signalStopCycle, cycle, &ICycle::slotStopCycle);
-    if(bRunCycle) cycle->slotRunCycle();
 
 }
 
 void CMaintenanceMaintenanceTab::slotCycleStopped(){
+    //TODO virer toutes les méthodes sender(). Les remplacer par des ID
     ICycle *cycle = qobject_cast<ICycle*>(sender());
     disconnect(cycle, 0, this, 0);
     disconnect(this, 0, cycle, 0);
@@ -107,6 +119,10 @@ void CMaintenanceMaintenanceTab::slotCycleStopped(){
             if(m_dialog->exec()) cycleMaintenance->doValidationCopies();
         }
 
+    }
+    foreach(CToolButton* bt, m_listButtonsPlay){
+        bt->setEnabled(true);
+        bt->setChecked(false);
     }
 }
 

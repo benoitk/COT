@@ -60,10 +60,12 @@ public slots:
     void slotPlayNextSequenceAutonome();
 
     void slotCycleMesureIsRunning();
-    void slotCycleMesureIsStopped(bool withCriticalError);
+    void slotCycleMesureIsStopped();
     void slotCycleMesureIsPaused();
 
     void slotStartAllCyleAutonome();
+
+    void slotSetDefault(bool arg_criticalError);
 
 signals:
     void signalUpdated();

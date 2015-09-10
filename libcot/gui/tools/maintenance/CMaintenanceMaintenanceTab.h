@@ -2,9 +2,11 @@
 #define CMAINTENANCEMAINTENANCETAB_H
 
 #include "IMaintenanceTab.h"
+#include <QList>
 
 class QVBoxLayout;
 class CDialogMaintenance;
+class CToolButton;
 class CMaintenanceMaintenanceTab : public IMaintenanceTab
 {
     Q_OBJECT
@@ -17,6 +19,7 @@ private:
     QVBoxLayout* m_cyclesLayout;
     QWidget* m_cycleContainerWidget;
     CDialogMaintenance* m_dialog;
+    QList<CToolButton*>  m_listButtonsPlay;
 
 signals:
     void signalStopCycle();

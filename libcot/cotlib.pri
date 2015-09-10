@@ -225,7 +225,8 @@ HEADERS *= \
     $$PWD/gui/widgets/CClickableLabel.h\
     $$PWD/automate/units/CConverterCrossProduct.h \
     $$PWD/gui/tools/initial-tests/CInitialTestWindow.h \
-    $$PWD/gui/widgets/CDialogMaintenance.h
+    $$PWD/gui/widgets/CDialogMaintenance.h \
+    $$PWD/automate/actions/CActionCalibrationCalcul.h
 
 SOURCES *= \
     $$PWD/automate/CAutomate.cpp \
@@ -406,5 +407,6 @@ SOURCES *= \
     $$PWD/gui/widgets/CClickableLabel.cpp\
     $$PWD/automate/units/CConverterCrossProduct.cpp \
     $$PWD/gui/tools/initial-tests/CInitialTestWindow.cpp \
-    $$PWD/gui/widgets/CDialogMaintenance.cpp
+    $$PWD/gui/widgets/CDialogMaintenance.cpp \
+    $$PWD/automate/actions/CActionCalibrationCalcul.cpp
 

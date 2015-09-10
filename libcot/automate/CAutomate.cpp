@@ -716,7 +716,7 @@ void CAutomate::setStateCycleMesure(eStateCycle arg_state, bool arg_criticalErro
     m_stateCycleMesure = arg_state;
     switch(arg_state){
     case CYCLE_STATE_STOP:
-        if(arg_criticalError)
+        if(!arg_criticalError)
             emit signalUpdateStateAutomate(STOPPED);
         else
             emit signalUpdateStateAutomate(GENERAL_DEFAULT);
@@ -843,11 +843,11 @@ void CAutomate::addLoggedVariable(const QString& arg_varName){
 void CAutomate::slotLogVariable(){
     QMutexLocker locker(&m_mutex);
     QTimer::singleShot(1000, this, SLOT(slotLogVariable()));
-    QString path = QString(LOG_SOURCE_DIRECTORY) + "/log_"+QDate::currentDate().toString()+".txt";
+    QString path = QString(LOG_SOURCE_DIRECTORY) + "/log_"+QDate::currentDate().toString(Qt::ISODate)+".txt";
     QFile data(path);
     if (data.open(QFile::Append)) {
         QTextStream out(&data);
-        out << QDateTime::currentDateTime().toString();
+        out << QDateTime::currentDateTime().toString(Qt::ISODate);
         foreach(IVariable* arg_var, m_listLogedVar)
             out << ";" << arg_var->getLabel() << ";" << QString::number(arg_var->toFloat(), 'f' , 10) ;
         out << endl;
