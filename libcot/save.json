@@ -771,8 +771,7 @@
     "list_cycles_maintenances" : ["cycle_zero", "cycle_calibration"],
 
     "streams" :[{"name":"stream_1", "fr_FR":"stream 1", "variables":["var_ndir_temperature_setpoint", "var_condenser_temperature_setpoint", "var_airflow_setpoint"], "active_state": "var_stream_1_state",
-                    "measures":[{"name":"measure_1", "fr_FR":"mesure de CIT", "variable_measure":"var_measure_cit", "variable_range_max":"var_measure_cit_max" , "variable_range_min":"var_measure_cit_min", "variables":["var_zero_cit", "var_acquisition_measure_cit_timeout", "var_co2g"]},
-                               {"name":"measure_2", "fr_FR":"mesure du NPOC", "variable_measure":"var_measure_npoc", "variable_range_max":"var_measure_npoc_max" , "variable_range_min":"var_measure_npoc_min", "variables":["var_zero_npoc", "var_acquisition_measure_npoc_timeout", "var_co2g"]}
+                    "measures":[{"name":"measure_1", "fr_FR":"mesure de CIT", "variable_measure":"var_measure_cit", "variable_range_max":"var_measure_cit_max" , "variable_range_min":"var_measure_cit_min", "variables":["var_zero_cit", "var_acquisition_measure_cit_timeout", "var_co2g"]}
                                ],
                     "cycles":["cycle_control", "cycle_calibration"]
 

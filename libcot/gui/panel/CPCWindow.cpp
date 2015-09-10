@@ -145,20 +145,24 @@ void CPCWindow::changeEvent(QEvent *event)
 
 void CPCWindow::slotStreamsUpdated()
 {
-    const int index = ui->twPages->indexOf(m_graphTab);
-
-    if (!showGraphInMainScreen()) {
-        if (index == -1) {
-            //ui->twPages->insertTab(ui->twPages->count() -1, m_graphTab, QString());
-            m_graphTab->show();
-        }
-    }
-    else {
-        if (index != -1) {
-            ui->twPages->removeTab(index);
-            m_graphTab->hide();
-        }
-    }
+     const int index = ui->twPages->indexOf(m_graphTab);
+     if (showGraphInMainScreen()) {
+         if(index != -1)
+             ui->twPages->removeTab(index);
+         m_graphTab->hide();
+     }
+//    if (!showGraphInMainScreen()) {
+//        if (index == -1) {
+//            //ui->twPages->insertTab(ui->twPages->count() -1, m_graphTab, QString());
+//            m_graphTab->show();
+//        }
+//    }
+//    else {
+//        if (index != -1) {
+//            ui->twPages->removeTab(index);
+//            m_graphTab->hide();
+//        }
+//    }
 
     retranslate();
 }
