@@ -12,7 +12,12 @@ CActionRewriteOutput::CActionRewriteOutput(const QVariantMap &mapAction, QObject
     m_varDigitalOutput = automate->getVariable(mapAction[QStringLiteral("target")].toString()); //l'automate assure qu'il n'y ai pas de pointeur vide
 
 }
-
+QVariantMap CActionRewriteOutput::serialize(){
+    QVariantMap mapSerialize = IAction::serialize();
+    mapSerialize.insert(QStringLiteral("target"), m_varDigitalOutput->getIVariable()->getName());
+    mapSerialize.insert(QStringLiteral("type"), QStringLiteral("rewrite_output"));
+    return mapSerialize;
+}
 CActionRewriteOutput::~CActionRewriteOutput()
 {
 
@@ -56,8 +61,8 @@ QMap<QString, IVariable*> CActionRewriteOutput::getMapCstParameters(){
 void CActionRewriteOutput::setParameter(const QString& arg_key, IVariable* arg_parameter){
    if(tr("Target")== arg_key)m_varDigitalOutput= arg_parameter;
  }
-variableType CActionRewriteOutput::getWaitedType(const QString& arg_key){
-    if(tr("Target")== arg_key) return type_bool;
+enumVariableType CActionRewriteOutput::getWaitedType(const QString& arg_key){
+    if(tr("Target")== arg_key) return e_type_bool;
 
-    return type_unknow;
+    return e_type_unknow;
 }

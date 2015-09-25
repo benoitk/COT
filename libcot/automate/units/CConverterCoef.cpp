@@ -21,4 +21,11 @@ CUnit* CConverterCoef::getTarget()const{
     return m_targetUnit;
 }
 
+QVariantMap CConverterCoef::serialize(){
+    QVariantMap mapSerialise;
+    mapSerialise.insert(QStringLiteral("name"), m_targetUnit->getName());
+    mapSerialise.insert(QStringLiteral("coef"), m_coef);
+    mapSerialise.insert(QStringLiteral("type"), QStringLiteral("coef"));
+    return mapSerialise;
+}
 

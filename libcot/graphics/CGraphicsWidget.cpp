@@ -7,8 +7,8 @@
 #include <QPen>
 #include "cotgui_debug.h"
 
-static const int INCREMENT_Y = 50;
-int s_maxPointsInCurve = 30;
+static const int INCREMENT_Y = 60;
+int s_maxPointsInCurve = 400;
 
 CGraphicsWidget::CGraphicsWidget(QWidget *parent)
     : QWidget(parent)

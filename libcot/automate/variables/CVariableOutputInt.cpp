@@ -30,14 +30,14 @@ void CVariableOutputInt::setValue(float arg_value){
     this->writeValue();
 }
 
-variableType CVariableOutputInt::getType()const{
-    return type_int;
+enumVariableType CVariableOutputInt::getType()const{
+    return e_type_int;
 }
 IVariable* CVariableOutputInt::getIVariable(){
     return this;
 }
 
-QVariantMap CVariableOutputInt::serialise(){
+QVariantMap CVariableOutputInt::serialize(){
     QVariantMap mapSerialise;
     mapSerialise.insert(QStringLiteral("name"), m_name);
     mapSerialise.insert(tr("fr_FR"), m_label);
@@ -47,6 +47,6 @@ QVariantMap CVariableOutputInt::serialise(){
     mapSerialise.insert(QStringLiteral("organ_name"), m_organ->getName());
     return mapSerialise;
 }
-VariableOrganType CVariableOutputInt::getOrganType() const {
-    return type_organ_output;
+enumVariableOrganType CVariableOutputInt::getOrganType() const {
+    return e_type_organ_output;
 }

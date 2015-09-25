@@ -30,7 +30,7 @@ public:
     virtual QString toString()const=0;
     //virtual QList<IVariable*> getListParamters()const=0;
     virtual CModelExtensionCard* getExtCard()=0;
-
+    virtual QVariantMap serialize();
 private:
     organType m_type;
 };

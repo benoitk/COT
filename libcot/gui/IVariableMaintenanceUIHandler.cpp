@@ -20,7 +20,7 @@ IVariableMaintenanceUIHandler::IVariableMaintenanceUIHandler(CScrollableWidget *
 void IVariableMaintenanceUIHandler::layout()
 {
     CAutomate *automate = CAutomate::getInstance();
-    QList<ICycle *> cycles = automate->getListCycles(CYCLE_MAINTENANCE);
+    QList<ICycle *> cycles = automate->getListCycles(e_cycle_maintenance);
     IVariablePtrList variables;
 
     foreach (ICycle *cycle, cycles) {
@@ -68,7 +68,7 @@ void IVariableMaintenanceUIHandler::rowInserted(const IVariableUIHandler::Row &r
 void IVariableMaintenanceUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariable *ivar)
 {
     CAutomate *automate = CAutomate::getInstance();
-    ICycle *cycle = automate->getCycle(ivar->getName(), CYCLE_MAINTENANCE);
+    ICycle *cycle = automate->getCycle(ivar->getName(), e_cycle_maintenance);
 
     if (!cycle) {
         Q_ASSERT(false);
@@ -103,7 +103,7 @@ CToolButton *IVariableMaintenanceUIHandler::newStopEditor(IVariable *ivar)
 void IVariableMaintenanceUIHandler::slotCycleChanged(const QString &name)
 {
     CAutomate *automate = CAutomate::getInstance();
-    ICycle *cycle = automate->getCycle(name, CYCLE_MAINTENANCE);
+    ICycle *cycle = automate->getCycle(name, e_cycle_maintenance);
     Row *row = getRow(name);
 
     if (!row || !cycle) {
@@ -118,7 +118,7 @@ void IVariableMaintenanceUIHandler::slotButtonStartClicked()
     const CToolButton *button = qobject_cast<CToolButton *>(sender());
     const QString cycleName = button->userData().toString();
     CAutomate *automate = CAutomate::getInstance();
-    ICycle *cycle = automate->getCycle(cycleName, CYCLE_MAINTENANCE);
+    ICycle *cycle = automate->getCycle(cycleName, e_cycle_maintenance);
     if (!cycle) {
         qWarning() << "Automat returned null for cycle" << cycleName;
         return;
@@ -144,7 +144,7 @@ void IVariableMaintenanceUIHandler::slotButtonStopClicked()
     const CToolButton *button = qobject_cast<CToolButton *>(sender());
     const QString cycleName = button->userData().toString();
     CAutomate *automate = CAutomate::getInstance();
-    ICycle *cycle = automate->getCycle(cycleName, CYCLE_MAINTENANCE);
+    ICycle *cycle = automate->getCycle(cycleName, e_cycle_maintenance);
     if (!cycle) {
         qWarning() << "Automat returned null for cycle" << cycleName;
         return;

@@ -32,6 +32,20 @@ ICycle::ICycle(const QVariantMap &mapCycle, QObject *parent)
     m_stepStop = new CStep(this, mapStepStop);
 
 }
+void ICycle::abortCycle(){
+    if(m_timer)
+        m_timer->stop();
+    else
+        qDebug() << "TIMER NON CREE DANS CE CYCLE , cycle :" << this->getName() ;
+
+    foreach(CStep* step, m_listSteps){
+        step->abortStep();
+    }
+    if(m_stepStop)
+        m_stepStop->execStep();
+    if(m_itListStepsPasEnCours != m_listSteps.end())
+        m_itListStepsPasEnCours = m_listSteps.end();
+}
 
 bool ICycle::isRunning()const {return m_isRunning;}
 bool ICycle::isPaused()const{ return m_isPaused;}
@@ -46,25 +60,25 @@ CStep *ICycle::getStep(int index) const
     return getListSteps().at(index);
 }
 
-QString ICycle::typeToString(eTypeCycle type)
+QString ICycle::typeToString(enumTypeCycle type)
 {
     switch (type) {
-        case CYCLE_ALL:
+        case e_cycle_all:
             return tr("All");
 
-        case CYCLE_MESURE:
+        case e_cycle_measure:
             return tr("Measure");
 
-        case CYCLE_AUTONOME:
+        case e_cycle_autonome:
             return tr("Autonome");
 
-        case CYCLE_MAINTENANCE:
+        case e_cycle_maintenance:
             return tr("Maintenance");
 
-        case CYCLE_PAUSE:
+        case e_cycle_pause:
             return tr("Pause");
 
-        case CYCLE_INVALID:
+        case e_cycle_invalid:
             return tr("Invalid");
     }
 
@@ -340,7 +354,7 @@ CStep* ICycle::addStep(float pos, const QString& lbl){
     return newStep;
 }
 
-QVariantMap ICycle::serialise(){
+QVariantMap ICycle::serialize(){
 
     QVariantMap mapSerialise;
     mapSerialise.insert(QStringLiteral("name"), m_name);
@@ -349,7 +363,7 @@ QVariantMap ICycle::serialise(){
 
     QVariantList listSteps;
     foreach(CStep* step, m_listSteps){
-        listSteps.append(step->serialise());
+        listSteps.append(step->serialize());
     }
     mapSerialise.insert(QStringLiteral("steps"), listSteps);
 

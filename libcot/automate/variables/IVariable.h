@@ -5,29 +5,30 @@
 #include <QList>
 #include "qmutex.h"
 
-enum variableType{
-        type_bool = 0,
-        type_float,
-        type_int,
-        type_string,
-        type_stream,
-        type_measure,
-        type_list_variables,
-        type_unknow,
+enum enumVariableType{
+    e_type_bool = 0,
+    e_type_float,
+    e_type_int,
+    e_type_string,
+    e_type_stream,
+    e_type_measure,
+    e_type_list_variables,
+    e_type_alarm,
+    e_type_unknow,
         // Internal to GUI
         type_mutable // a special variable used in gui which has an internal mutable custom type.
 };
 
-enum variableAccess{
-        access_read = 0,
-        access_write,
-        access_read_write
+enum enumVariableAccess{
+        e_access_read = 0,
+        e_access_write,
+        e_access_read_write
 };
 
-enum VariableOrganType {
-    type_organ_none = 0,
-    type_organ_input,
-    type_organ_output,
+enum enumVariableOrganType {
+    e_type_organ_none = 0,
+    e_type_organ_input,
+    e_type_organ_output,
 };
 
 class CUnit;
@@ -48,7 +49,7 @@ public:
     IVariable(const QVariantMap&);
     IVariable();
     virtual ~IVariable() {}
-    virtual VariableOrganType getOrganType() const;
+    virtual enumVariableOrganType getOrganType() const;
     virtual QVariant toVariant()=0;
     virtual QString toString()=0;
     virtual int toInt()=0;
@@ -62,7 +63,7 @@ public:
     virtual void addBind(IVariable*);
     virtual void delBind(IVariable*);
     virtual void setToBindedValue(const QVariant &)=0;
-    virtual variableType getType()const=0;
+    virtual enumVariableType getType()const=0;
     virtual void switchToUnit(CUnit*)=0;
     virtual CUnit *getUnit() const;
     virtual bool isStreamRelated()const;
@@ -77,19 +78,19 @@ public:
     virtual void setListOutBinds(const QList<IVariable*> &);
     virtual void setListInBinds(const QList<IVariable*> &) ;
 
-    virtual variableAccess getAccess()const;
+    virtual enumVariableAccess getAccess()const;
     virtual int getAddress()const;
     //qvariantmap can be converted to a json object
-    virtual QVariantMap serialise()=0;
+    virtual QVariantMap serialize()=0;
     virtual void setRelatedStreamName(const QString &name) ;
 
-    static QString typeToString(variableType type);
-    static QString organTypeToString(VariableOrganType type);
+    static QString typeToString(enumVariableType type);
+    static QString organTypeToString(enumVariableOrganType type);
 
     virtual IVariable* getIVariable();
 
 protected:
-    virtual void setAccess(variableAccess access);
+    virtual void setAccess(enumVariableAccess access);
     virtual void setAddress(int address);
 
 signals:
@@ -99,7 +100,7 @@ protected:
 
     void checkBindedVariable(QVariant var);
     int m_address;
-    variableAccess m_access;
+    enumVariableAccess m_access;
 
     QString m_name;
     QString m_label;

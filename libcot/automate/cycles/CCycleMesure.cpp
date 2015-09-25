@@ -17,14 +17,17 @@ CCycleMesure::CCycleMesure(QObject *parent)
 
 CCycleMesure::CCycleMesure(const QVariantMap &mapCycle, QObject *parent): ICycle(mapCycle, parent) {
     //qCDebug(COTAUTOMATE_LOG) << "constructor CCycleMesure(const QVariantMap &mapCycle) mapCycle:" << mapCycle;
+    m_timer = Q_NULLPTR;
      qDebug() << "moveThread CCycleMesure";
     this->moveToThread(&m_thread);
     m_thread.start();
 
-}
-QVariantMap CCycleMesure::serialise(){
 
-    QVariantMap mapSerialise = ICycle::serialise();
+
+}
+QVariantMap CCycleMesure::serialize(){
+
+    QVariantMap mapSerialise = ICycle::serialize();
     mapSerialise.insert(QStringLiteral("type"), QStringLiteral("measure"));
 
     return mapSerialise;
@@ -40,34 +43,30 @@ CCycleMesure::~CCycleMesure()
 //            delete step;
 //    }
 }
-eTypeCycle CCycleMesure::getType()const{
-    return CYCLE_MESURE;
+enumTypeCycle CCycleMesure::getType()const{
+    return e_cycle_measure;
 }
 void CCycleMesure::slotStepFinished(CStep* arg_step){
     qCDebug(COTAUTOMATE_LOG) << "CCycleMesure::slotStepFinished(CStep* arg_step) ";
     QMutexLocker lock(&m_mutex);
-    bool criticalErrorOnPreviousStep = false;
+
     if(arg_step)
         disconnect(arg_step,&CStep::signalStepFinished,this,&CCycleMesure::slotStepFinished);
     if(m_itListStepsPasEnCours != m_listSteps.end()){
-        criticalErrorOnPreviousStep = (*m_itListStepsPasEnCours)->finishedWithcriticalError();
         m_itListStepsPasEnCours++;
     }
 
     if(m_itListStepsPasEnCours == m_listSteps.end()) { //fin du cycle
-
-        m_isRunning = false; //a changer avec m_itListStepsPasEnCours = m_listSteps.end pour savoir si un cycle est en cours ou pas
-        if(!criticalErrorOnPreviousStep)
-            emit signalReadyForPlayNextCycle();
-        else
-            emit signalStopped();
+        m_isRunning = false; //a changer avec m_itListStepsPasEnCours = m_listSteps.end pour savoir si un cycle est en cours ou pas    
+        emit CAutomate::getInstance()->signalUpdatePlotting();
+        emit signalReadyForPlayNextCycle();
     }else{
         if((m_itListStepsPasEnCours != m_listSteps.begin())){
             m_timeout = (*m_itListStepsPasEnCours)->getNumStep()*1000 - (*m_itListStepsPasEnCours.operator-(1))->getNumStep()*1000;
         }else
             m_timeout = (*m_itListStepsPasEnCours)->getNumStep()*1000;
         qCDebug(COTAUTOMATE_LOG) << "time out before next step : " << m_timeout;
-        QTimer::singleShot(m_timeout, this, SLOT(slotExecNextStep()));
+        if(m_timer) m_timer->start(m_timeout);
     }
 
 }
@@ -79,13 +78,16 @@ void CCycleMesure::slotExecNextStep(){
         //si true dois attendre la fin du pas pour aller au suivant
         connect((*m_itListStepsPasEnCours),&CStep::signalStepFinished,this,&CCycleMesure::slotStepFinished);
         (*m_itListStepsPasEnCours)->execStep();
-
-
     }
-
 }
 void CCycleMesure::slotRunCycle(){
     QMutexLocker lock(&m_mutex);
+
+    if(!m_timer){
+        m_timer = new QTimer(this); //ne pas le créer dans le constructeur car il n'est pas éxecuté dans le même thread
+        m_timer->setSingleShot(true);
+        connect(m_timer, &QTimer::timeout, this, &CCycleMesure::slotExecNextStep);
+    }
     qCDebug(COTAUTOMATE_LOG) << "CCycleMesure::slotRunCycle()";
 
     if(!m_listSteps.isEmpty()){
@@ -94,7 +96,7 @@ void CCycleMesure::slotRunCycle(){
         m_timeout = m_listSteps.first()->getNumStep() * 1000; //step en seconde
         updateCycleInfosCountStep();
         qCDebug(COTAUTOMATE_LOG) << "time out before next step : " << m_timeout;
-        QTimer::singleShot(m_timeout, this, SLOT(slotExecNextStep()));
+        m_timer->start(m_timeout);
     }
     else
         qCDebug(COTAUTOMATE_LOG) << "m_listSteps.isEmpty()";
@@ -109,34 +111,28 @@ void CCycleMesure::slotPauseCycle(){
 void CCycleMesure::slotStopCycle(){
     QMutexLocker lock(&m_mutex);
 
-//   if(m_itListStepsPasEnCours != m_listSteps.end()){
-//        (*m_itListStepsPasEnCours)->abortStep();
-//    }
-    foreach(CStep* step, m_listSteps){
-        step->abortStep();
-    }
+   abortCycle();
 
-    if(m_stepStop)
-        m_stepStop->execStep();
 
-    if(m_itListStepsPasEnCours != m_listSteps.end())
-        m_itListStepsPasEnCours = m_listSteps.end();
-
-    emit signalStopped();
 
 
     m_isRunning = false;
 
     qCDebug(COTAUTOMATE_LOG) << "Fin slotStopCycle";
+    lock.unlock();
+    emit signalStopped();
 }
 
-
+void CCycleMesure::slotGetReadyForPlayNextCycle(){
+    abortCycle();
+    emit signalReadyForPlayNextCycle();
+}
 
 
 void CCycleMesure::slotUnPauseCycle(){}
 void CCycleMesure::slotStopEndCycle(){}
 void CCycleMesure::slotGoToEndCycle(){}
 void CCycleMesure::slotGoToStepCycle(int numStep){}
-void CCycleMesure::slotGetReadyForPlayNextCycle(){}
+
 void CCycleMesure::slotGetReadyForPlayCycle(){}
 

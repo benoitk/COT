@@ -15,7 +15,14 @@ CActionCmdReadInput::CActionCmdReadInput(const QVariantMap &mapAction, QObject *
     m_organ =  automate->getVariable(mapAction[QStringLiteral("organ")].toString());
     m_target =  CAutomate::getInstance()->getVariable(mapAction[QStringLiteral("target")].toString());
 }
+QVariantMap CActionCmdReadInput::serialize(){
+    QVariantMap mapSerialize = IAction::serialize();
+    mapSerialize.insert(QStringLiteral("organ"), m_organ->getName());
+    mapSerialize.insert(QStringLiteral("target"), m_target->getName());
 
+    mapSerialize.insert(QStringLiteral("type"), QStringLiteral("cmd_read_input"));
+    return mapSerialize;
+}
 CActionCmdReadInput::~CActionCmdReadInput()
 {
 }
@@ -27,7 +34,7 @@ bool CActionCmdReadInput::runAction(ICycle* arg_stepParent){
             << " var name " << m_target->getLabel()
             << " value (normalement l'état de l'entrée)" << m_target->toString();
 
-    if(m_organ->getOrganType() == type_organ_input){
+    if(m_organ->getOrganType() == e_type_organ_input){
         IVariableInput* organ = dynamic_cast<IVariableInput*>(m_organ);
         organ->readValue();
     }
@@ -70,8 +77,8 @@ void CActionCmdReadInput::setParameter(const QString& arg_key, IVariable* arg_pa
     else if(tr("Variable destination")== arg_key)m_target= arg_parameter;
 
 }
-variableType CActionCmdReadInput::getWaitedType(const QString& arg_key){
+enumVariableType CActionCmdReadInput::getWaitedType(const QString& arg_key){
    //peu importe
 
-    return type_unknow;
+    return e_type_unknow;
 }

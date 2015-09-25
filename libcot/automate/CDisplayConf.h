@@ -14,6 +14,8 @@ public:
     CDisplayConf(const QJsonArray&, QObject *parent);
     ~CDisplayConf();
 
+    QVariantList serialize();
+
     void addVariableToScreenDiagnostic(IVariable*);
     void addVariableToScreenElectricalTest(const QString&, IVariable*);
     void addTabToScreenElectricalTest(const QString&);

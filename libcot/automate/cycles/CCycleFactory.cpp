@@ -24,29 +24,29 @@ ICycle* CCycleFactory::build(const QVariantMap &mapCycle, QObject* parent){
     return cycle;
 }
 
-ICycle *CCycleFactory::build(eTypeCycle type)
+ICycle *CCycleFactory::build(enumTypeCycle type)
 {
     ICycle *cycle = Q_NULLPTR;
 
     switch (type) {
-        case CYCLE_MESURE:
+        case e_cycle_measure:
             cycle = new CCycleMesure;
             break;
 
-        case CYCLE_AUTONOME:
+        case e_cycle_autonome:
             cycle = new CCycleAutonome;
             break;
 
-        case CYCLE_MAINTENANCE:
+        case e_cycle_maintenance:
             cycle = new CCycleMaintenance;
             break;
 
-        case CYCLE_PAUSE:
+        case e_cycle_pause:
             cycle = new CCyclePause;
             break;
 
-        case CYCLE_ALL:
-        case CYCLE_INVALID:
+        case e_cycle_all:
+        case e_cycle_invalid:
             Q_ASSERT(false);
             break;
     }

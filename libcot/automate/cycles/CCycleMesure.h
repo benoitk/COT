@@ -19,9 +19,9 @@ public:
     ~CCycleMesure();
 
 
-    eTypeCycle getType()const Q_DECL_OVERRIDE;
+    enumTypeCycle getType()const Q_DECL_OVERRIDE;
 
-    QVariantMap serialise() Q_DECL_OVERRIDE;
+    QVariantMap serialize() Q_DECL_OVERRIDE;
 public slots:
     void slotRunCycle() Q_DECL_OVERRIDE;
     void slotPauseCycle() Q_DECL_OVERRIDE;

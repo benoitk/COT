@@ -33,14 +33,14 @@ IVariable* CVariableInputInt::readValue(){
     return this;
 }
 
-variableType CVariableInputInt::getType()const{
-    return type_int;
+enumVariableType CVariableInputInt::getType()const{
+    return e_type_int;
 }
 IVariable* CVariableInputInt::getIVariable(){
     return this;
 }
 
-QVariantMap CVariableInputInt::serialise(){
+QVariantMap CVariableInputInt::serialize(){
     QVariantMap mapSerialise;
     mapSerialise.insert(QStringLiteral("name"), m_name);
     mapSerialise.insert(tr("fr_FR"), m_label);
@@ -50,6 +50,6 @@ QVariantMap CVariableInputInt::serialise(){
     mapSerialise.insert(QStringLiteral("organ_name"), m_organ->getName());
     return mapSerialise;
 }
-VariableOrganType CVariableInputInt::getOrganType() const {
-    return type_organ_input;
+enumVariableOrganType CVariableInputInt::getOrganType() const {
+    return e_type_organ_input;
 }

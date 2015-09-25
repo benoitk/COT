@@ -120,8 +120,8 @@ void CEditActionTabUIHandler::slotRequestVariable()
 
         // Build new variable, see CVariableIActionDescriber::describe for logic here.
         IVariable *selectedVariable = getVariable(newVariableName);
-        IVariable *property = CVariableFactory::castedBuild<IVariable *>(selectedVariable->getType(), type_organ_none, selectedVariable->toVariant());
-        setVariableAccess(property, access_read_write);
+        IVariable *property = CVariableFactory::castedBuild<IVariable *>(selectedVariable->getType(), e_type_organ_none, selectedVariable->toVariant());
+        setVariableAccess(property, e_access_read_write);
         property->setName(name);
         property->setLabel(newVariableName);
 

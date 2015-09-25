@@ -65,8 +65,6 @@ public slots:
 
     void slotStartAllCyleAutonome();
 
-    void slotSetDefault(bool arg_criticalError);
-
 signals:
     void signalUpdated();
     void signalRunCycleMesure();

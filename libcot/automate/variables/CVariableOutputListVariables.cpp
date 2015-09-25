@@ -49,8 +49,8 @@ void CVariableOutputListVariables::switchToUnit(CUnit* arg_unit){
     //à faire
 }
 
-variableType CVariableOutputListVariables::getType()const{
-    return type_list_variables;
+enumVariableType CVariableOutputListVariables::getType()const{
+    return e_type_list_variables;
 }
 IVariable* CVariableOutputListVariables::getIVariable(){
     return this;
@@ -60,7 +60,7 @@ bool CVariableOutputListVariables::toBool(){
 }
 
 
-QVariantMap CVariableOutputListVariables::serialise(){
+QVariantMap CVariableOutputListVariables::serialize(){
     QVariantMap mapSerialise;
     mapSerialise.insert(QStringLiteral("name"), m_name);
     mapSerialise.insert(tr("fr_FR"), m_label);

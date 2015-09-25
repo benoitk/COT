@@ -4,6 +4,7 @@
 #include "IAction.h"
 
 class IVariable;
+class QTimer;
 class CActionDCEngine : public IAction
 {
     Q_OBJECT
@@ -19,13 +20,14 @@ public:
     QMap<QString, IVariable*> getMapCstParameters() Q_DECL_OVERRIDE;
     void setParameter(const QString& arg_key, IVariable* arg_parameter)Q_DECL_OVERRIDE;
 
-    variableType getWaitedType(const QString& arg_key) Q_DECL_OVERRIDE;
+    enumVariableType getWaitedType(const QString& arg_key) Q_DECL_OVERRIDE;
+    QVariantMap serialize() Q_DECL_OVERRIDE;
 public slots:
     void slotTimeout();
 
 private:
 
-
+    QTimer* m_timer;
     IVariable* m_varPump;
     IVariable* m_varClockwise;
     IVariable* m_varTimeout;

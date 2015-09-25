@@ -10,12 +10,12 @@ class CCycleMaintenance : public CCycleMesure
 
 public:
     CCycleMaintenance(QObject *parent = Q_NULLPTR);
-    CCycleMaintenance(eTypeCycle type, QObject *parent = Q_NULLPTR);
+    CCycleMaintenance(enumTypeCycle type, QObject *parent = Q_NULLPTR);
      CCycleMaintenance(const QVariantMap&,QObject *parent);
     ~CCycleMaintenance();
 
-    eTypeCycle getType()const Q_DECL_OVERRIDE;
-    QVariantMap serialise() Q_DECL_OVERRIDE;
+    enumTypeCycle getType()const Q_DECL_OVERRIDE;
+    QVariantMap serialize() Q_DECL_OVERRIDE;
 
     QList<IVariable*>  getListVariablesInput();
     QList<IVariable*>  getListVariablesOutput();

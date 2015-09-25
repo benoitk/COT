@@ -87,7 +87,7 @@ void CMaintenanceMaintenanceTab::slotPlayPressed(){
     ICycle *cycle = automate->getCycle(cycleName); //ne pas spécifier le type dans getCycle, au cas ou on une maintenance est à faire avec un cycle normale
 
     if(!cycle->isRunning()){
-        if(cycle->getType() == CYCLE_MAINTENANCE){
+        if(cycle->getType() == e_cycle_maintenance){
             if(!m_dialog) m_dialog = new CDialogMaintenance(this);
             CCycleMaintenance* cycleMaintenance = dynamic_cast<CCycleMaintenance*>(cycle);
             if(cycleMaintenance->getListVariablesInput().count() > 0){
@@ -110,7 +110,7 @@ void CMaintenanceMaintenanceTab::slotCycleStopped(){
     disconnect(cycle, 0, this, 0);
     disconnect(this, 0, cycle, 0);
 
-    if(cycle->getType() == CYCLE_MAINTENANCE){
+    if(cycle->getType() == e_cycle_maintenance){
         if(!m_dialog) m_dialog = new CDialogMaintenance(this);
         CCycleMaintenance* cycleMaintenance = dynamic_cast<CCycleMaintenance*>(cycle);
         if(cycleMaintenance->getListVariablesOutput().count() > 0){
@@ -133,6 +133,6 @@ void CMaintenanceMaintenanceTab::slotStopCycle(){
 void CMaintenanceMaintenanceTab::slotCurrentMaintenanceCycleChanged(const QString &name)
 {
     CAutomate *automate = CAutomate::getInstance();
-    ICycle *cycle = automate->getCycle(name, CYCLE_MAINTENANCE);
+    ICycle *cycle = automate->getCycle(name, e_cycle_maintenance);
 
 }

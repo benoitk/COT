@@ -53,8 +53,8 @@ void CVariableString::setToBindedValue(const QVariant & value){
     emit signalVariableChanged(this);
 }
 
-variableType CVariableString::getType()const{
-    return type_string;
+enumVariableType CVariableString::getType()const{
+    return e_type_string;
 }
 void CVariableString::switchToUnit(CUnit* targetUnit){
     QVariant var = m_unit->convert(targetUnit->getName(), QVariant(m_sValeur));
@@ -63,7 +63,7 @@ void CVariableString::switchToUnit(CUnit* targetUnit){
     m_unit = targetUnit;
 }
 
-QVariantMap CVariableString::serialise(){
+QVariantMap CVariableString::serialize(){
     QVariantMap mapSerialise;
     mapSerialise.insert(QStringLiteral("name"), m_name);
     mapSerialise.insert(tr("fr_FR"), m_label);

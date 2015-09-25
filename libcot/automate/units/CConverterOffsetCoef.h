@@ -15,7 +15,7 @@ public:
 
     QVariant convert(const QVariant &) Q_DECL_OVERRIDE;
     CUnit* getTarget()const Q_DECL_OVERRIDE;
-
+    QVariantMap serialize()Q_DECL_OVERRIDE;
 private:
     float m_offset;
     float m_coef;

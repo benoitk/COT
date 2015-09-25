@@ -24,21 +24,21 @@ void UISelectTest::on_pbActionType_clicked()
 
 void UISelectTest::on_pbVariableType_clicked()
 {
-    variableType r = variableType(rowLabel(sender()).toInt());
+    enumVariableType r = enumVariableType(rowLabel(sender()).toInt());
     handler->selectVariableType(r);
     setRowLabel(sender(), r);
 }
 
 void UISelectTest::on_pbOrganType_clicked()
 {
-    VariableOrganType r = VariableOrganType(rowLabel(sender()).toInt());
+    enumVariableOrganType r = enumVariableOrganType(rowLabel(sender()).toInt());
     handler->selectOrganType(r);
     setRowLabel(sender(), r);
 }
 
 void UISelectTest::on_pbCycleType_clicked()
 {
-    eTypeCycle r = eTypeCycle(rowLabel(sender()).toInt());
+    enumTypeCycle r = enumTypeCycle(rowLabel(sender()).toInt());
     handler->selectCycleType(r);
     setRowLabel(sender(), r);
 }

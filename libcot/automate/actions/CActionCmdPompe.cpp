@@ -18,23 +18,34 @@ CActionCmdPompe::CActionCmdPompe(const QVariantMap &mapAction, QObject *parent)
     m_clockwise = Q_NULLPTR;
     m_speed = Q_NULLPTR;
     m_OriginReturn = Q_NULLPTR;
-    if(automate->getVariable(mapAction[QStringLiteral("alim")].toString())->getOrganType() == type_organ_output)
+    if(automate->getVariable(mapAction[QStringLiteral("alim")].toString())->getOrganType() == e_type_organ_output)
         m_alim = dynamic_cast<CVariableOutputBool*>(automate->getVariable(mapAction[QStringLiteral("alim")].toString()));
-    if(automate->getVariable(mapAction[QStringLiteral("nbr_turns")].toString())->getOrganType() == type_organ_output)
+    if(automate->getVariable(mapAction[QStringLiteral("nbr_turns")].toString())->getOrganType() == e_type_organ_output)
         m_nbTurns = dynamic_cast<CVariableOutputInt*>(automate->getVariable(mapAction[QStringLiteral("nbr_turns")].toString()));
-    if(automate->getVariable(mapAction[QStringLiteral("nbr_steps")].toString())->getOrganType() == type_organ_output)
+    if(automate->getVariable(mapAction[QStringLiteral("nbr_steps")].toString())->getOrganType() == e_type_organ_output)
         m_nbSteps = dynamic_cast<CVariableOutputInt*>(automate->getVariable(mapAction[QStringLiteral("nbr_steps")].toString()));
-    if(automate->getVariable(mapAction[QStringLiteral("clockwise")].toString())->getOrganType() == type_organ_output)
+    if(automate->getVariable(mapAction[QStringLiteral("clockwise")].toString())->getOrganType() == e_type_organ_output)
         m_clockwise =  dynamic_cast<CVariableOutputBool*>(automate->getVariable(mapAction[QStringLiteral("clockwise")].toString()));
-    if(automate->getVariable(mapAction[QStringLiteral("speed")].toString())->getOrganType() == type_organ_output)
+    if(automate->getVariable(mapAction[QStringLiteral("speed")].toString())->getOrganType() == e_type_organ_output)
         m_speed =dynamic_cast<CVariableOutputInt*>( automate->getVariable(mapAction[QStringLiteral("speed")].toString()));
-    if(automate->getVariable(mapAction[QStringLiteral("origin_return_before")].toString())->getOrganType() == type_organ_output)
+    if(automate->getVariable(mapAction[QStringLiteral("origin_return_before")].toString())->getOrganType() == e_type_organ_output)
         m_OriginReturn = dynamic_cast<CVariableOutputBool*>(automate->getVariable(mapAction[QStringLiteral("origin_return_before")].toString()));
     m_stepByStep = automate->getVariable(mapAction[QStringLiteral("pump_persulfate_step_by_step")].toString());
 
 
 }
-
+QVariantMap CActionCmdPompe::serialize(){
+    QVariantMap mapSerialize = IAction::serialize();
+    mapSerialize.insert(QStringLiteral("alim"), m_alim->getName());
+    mapSerialize.insert(QStringLiteral("speed"), m_speed->getName());
+    mapSerialize.insert(QStringLiteral("clockwise"), m_clockwise->getName());
+    mapSerialize.insert(QStringLiteral("nbr_turns"), m_nbTurns->getName());
+    mapSerialize.insert(QStringLiteral("nbr_steps"), m_nbSteps->getName());
+    mapSerialize.insert(QStringLiteral("origin_return_before"), m_OriginReturn->getName());
+    mapSerialize.insert(QStringLiteral("step_by_step"), m_stepByStep->getName());
+    mapSerialize.insert(QStringLiteral("type"), QStringLiteral("cmd_pump"));
+    return mapSerialize;
+}
 CActionCmdPompe::~CActionCmdPompe()
 {
 
@@ -53,7 +64,7 @@ QList<IVariable*> CActionCmdPompe::getListParameters()const{
 
 
 bool CActionCmdPompe::runAction(ICycle* arg_stepParent){
-
+    qDebug() << "CActionCmdPompe::runAction" << m_alim->getName();
 
     if(m_alim && m_OriginReturn && m_clockwise && m_nbTurns && m_speed){
         if(!m_alim->toBool()) m_alim->setValue(true);
@@ -105,8 +116,8 @@ void CActionCmdPompe::setParameter(const QString& arg_key, IVariable* arg_parame
 //    else if(tr("Timeout")== arg_key)m_timeout= arg_parameter;²
 //    else if(tr("Generate critical error")== arg_key)m_criticalError->setValue(arg_parameter->toBool());
 }
-variableType CActionCmdPompe::getWaitedType(const QString& arg_key){
+enumVariableType CActionCmdPompe::getWaitedType(const QString& arg_key){
    //peu importe
 
-    return type_unknow;
+    return e_type_unknow;
 }

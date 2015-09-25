@@ -1,15 +1,27 @@
 #include "ICom.h"
 
-comType stringToComType(const QString& type)
+enumComType stringToComType(const QString& type)
 {
     if(type == QLatin1String("jbus_over_tcpip")){
-        return type_jbus_over_tcpip;
+        return e_type_jbus_over_tcpip;
     }else if(type == QLatin1String("jbus")){
-        return type_jbus;
+        return e_type_jbus;
     }else if(type == QLatin1String("tcpip")){
-        return type_tcpip;
+        return e_type_tcpip;
     }
-    return type_com_unknow;
+    return e_type_com_unknow;
+}
+
+QString comTypeToString(enumComType arg_eType){
+    switch(arg_eType){
+    case e_type_jbus_over_tcpip:
+        return QLatin1String("jbus_over_tcpip");
+    case e_type_tcpip:
+        return QLatin1String("tcpip");
+    case e_type_jbus:
+        return QLatin1String("jbus");
+    }
+    return QLatin1String("unknow_com_type");
 }
 
 ICom::ICom(QObject *parent)
@@ -19,5 +31,9 @@ ICom::ICom(QObject *parent)
 }
 ICom::~ICom()
 {
+
+}
+QVariantMap ICom::serialize(){
+
 
 }

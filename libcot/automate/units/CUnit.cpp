@@ -36,3 +36,11 @@ void CUnit::setConvertion(const QString &key, IConverter* converter){
     m_mapConverter.insert(key, converter);
 
 }
+QMap<QString, IConverter*> CUnit::getConverters(){
+    return m_mapConverter;
+}
+
+QVariantMap CUnit::serialize(){
+    QVariantMap mapSerialize;
+    return mapSerialize;
+}

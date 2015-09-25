@@ -8,7 +8,7 @@ int IVariable::FLOAT_PRECISION = 3;
 
 IVariable::IVariable(QObject *parent)
     : QObject(parent)
-    , m_access(access_read)
+    , m_access(e_access_read)
     , m_address(0)
 {
     m_label = "label_IVariable";
@@ -18,9 +18,9 @@ IVariable::IVariable(QObject *parent)
 IVariable::IVariable(const QVariantMap& arg_varMap): QObject(){
     QString sAccess = arg_varMap.value(QStringLiteral("access")).toString();
 
-    if(sAccess == QStringLiteral("read_write")) m_access = access_read_write;
-    else if(sAccess == QStringLiteral("write")) m_access = access_write;
-    else /*if(sAccess == QStringLiteral("write"))*/ m_access = access_read;
+    if(sAccess == QStringLiteral("read_write")) m_access = e_access_read_write;
+    else if(sAccess == QStringLiteral("write")) m_access = e_access_write;
+    else /*if(sAccess == QStringLiteral("write"))*/ m_access = e_access_read;
 
 
      m_name = arg_varMap.value(QStringLiteral("name")).toString();
@@ -33,57 +33,57 @@ IVariable::IVariable(const QVariantMap& arg_varMap): QObject(){
 }
 
 IVariable::IVariable(): QObject()
-, m_access(access_read)
+, m_access(e_access_read)
 , m_address(0){
     m_label = "label_IVariable";
     m_name = "name_IVariable";
      m_unit = new CUnit("tmp", "µg/lkk");
 }
 
-QString IVariable::typeToString(variableType type)
+QString IVariable::typeToString(enumVariableType type)
 {
     switch (type) {
-        case type_bool:
+        case e_type_bool:
             return tr("Boolean");
 
-        case type_float:
+        case e_type_float:
             return tr("Float");
 
-        case type_int:
+        case e_type_int:
             return tr("Integer");
 
-        case type_string:
+        case e_type_string:
             return tr("String");
 
-        case type_stream:
+        case e_type_stream:
             return tr("Stream");
 
-        case type_measure:
+        case e_type_measure:
             return tr("Measure");
 
-        case type_list_variables:
+        case e_type_list_variables:
             return tr("Variables list");
 
         case type_mutable:
             return tr("Mutable");
 
-        case type_unknow:
+        case e_type_unknow:
             return tr("Unknown");
     }
 
     return QStringLiteral("**unhandled variable type**");
 }
 
-QString IVariable::organTypeToString(VariableOrganType type)
+QString IVariable::organTypeToString(enumVariableOrganType type)
 {
     switch (type) {
-        case type_organ_none:
+        case e_type_organ_none:
             return tr("None");
 
-        case type_organ_input:
+        case e_type_organ_input:
             return tr("Input");
 
-        case type_organ_output:
+        case e_type_organ_output:
             return tr("Output");
     }
 
@@ -213,7 +213,7 @@ void IVariable::setListInBinds(const QList<IVariable *> &)
 }
 
 
-variableAccess IVariable::getAccess()const{
+enumVariableAccess IVariable::getAccess()const{
     return m_access;
 }
 int IVariable::getAddress()const{
@@ -225,7 +225,7 @@ void IVariable::setRelatedStreamName(const QString &variableName)
 
 }
 
-void IVariable::setAccess(variableAccess access)
+void IVariable::setAccess(enumVariableAccess access)
 {
     m_access = access;
 }
@@ -234,8 +234,8 @@ void IVariable::setAddress(int address)
 {
     m_address = address;
 }
-VariableOrganType IVariable::getOrganType() const {
-    return type_organ_none;
+enumVariableOrganType IVariable::getOrganType() const {
+    return e_type_organ_none;
 }
 IVariable* IVariable::getIVariable(){
     return this;

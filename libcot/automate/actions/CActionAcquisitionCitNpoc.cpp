@@ -31,13 +31,9 @@ CActionAcquisitionCitNpoc::CActionAcquisitionCitNpoc(const QVariantMap &mapActio
     m_derivativeIntervalTx = automate->getVariable(mapAction[QStringLiteral("derivative_interval")].toString());
     m_derivativeThresold = automate->getVariable(mapAction[QStringLiteral("derivative_threshold")].toString());
 
+    m_waitUntilFinished = mapAction[QStringLiteral("wait_until_finished")].toBool();
 
-    QVariantMap variantMapCriticalError;
-    variantMapCriticalError.insert(QStringLiteral("name"), QStringLiteral("critical_error"));
-    variantMapCriticalError.insert(QStringLiteral("fr_FR"), tr("Generate critical error"));
-    variantMapCriticalError.insert(QStringLiteral("type"), QStringLiteral("boolean"));
-    variantMapCriticalError.insert(QStringLiteral("value"), mapAction[QStringLiteral("critical_error")].toBool());
-    m_criticalError = dynamic_cast<CVariableBool*>(CVariableFactory::build(variantMapCriticalError));
+
 
     QVariantMap variantMapDerivativeCalcul;
     variantMapDerivativeCalcul.insert(QStringLiteral("name"), QStringLiteral("derivative_calcul"));
@@ -52,6 +48,30 @@ CActionAcquisitionCitNpoc::CActionAcquisitionCitNpoc(const QVariantMap &mapActio
     this->setAutoDelete(false);
 }
 
+
+QVariantMap CActionAcquisitionCitNpoc::serialize(){
+    QVariantMap mapSerialize = IAction::serialize();
+    mapSerialize.insert(QStringLiteral("cellule"), m_measureCell->getName());
+    mapSerialize.insert(QStringLiteral("result"), m_result->getName());
+    mapSerialize.insert(QStringLiteral("zero_point"), m_zero->getName());
+    mapSerialize.insert(QStringLiteral("debit_airflow"), m_airflow->getName());
+    mapSerialize.insert(QStringLiteral("vessel_volume"), m_vesselVolume->getName());
+    mapSerialize.insert(QStringLiteral("coef_1"), m_coef1->getName());
+    mapSerialize.insert(QStringLiteral("coef_2"), m_coef2->getName());
+    mapSerialize.insert(QStringLiteral("coef_3"), m_coef3->getName());
+    mapSerialize.insert(QStringLiteral("coef_4"), m_coef4->getName());
+    mapSerialize.insert(QStringLiteral("coef_5"), m_coef5->getName());
+    mapSerialize.insert(QStringLiteral("coef_correction"), m_coefCorrection->getName());
+    mapSerialize.insert(QStringLiteral("offset"), m_Offset->getName());
+    mapSerialize.insert(QStringLiteral("co2_ppmv_to_co2_gm3_cst"), m_CstConversion->getName());
+    mapSerialize.insert(QStringLiteral("co2g"), m_co2g->getName());
+    mapSerialize.insert(QStringLiteral("derivative_calcul"), m_derivativeCalcul->toBool());
+    mapSerialize.insert(QStringLiteral("derivative_interval"), m_derivativeIntervalTx->getName());
+    mapSerialize.insert(QStringLiteral("derivative_threshold"), m_derivativeThresold->getName());
+    mapSerialize.insert(QStringLiteral("timeout"), m_timeout->getName());
+    mapSerialize.insert(QStringLiteral("type"), QStringLiteral("acquisition_cit_npoc"));
+    return mapSerialize;
+}
 
 bool CActionAcquisitionCitNpoc::runAction(ICycle* arg_stepParent){
     IAction::runAction(arg_stepParent);
@@ -76,12 +96,16 @@ void CActionAcquisitionCitNpoc::run(){
     qCDebug(COTAUTOMATE_LOG)<< "CActionAcquisitionCitNpoc 'qrunnable' ";
     QString sActionInfo;
     IVariableInput* measureCell = Q_NULLPTR;
-    if(m_measureCell->getOrganType() == type_organ_input)
+    if(m_measureCell->getOrganType() == e_type_organ_input)
         measureCell = dynamic_cast<IVariableInput*>(m_measureCell);
 
     IVariableInput* measureAirflow = Q_NULLPTR;
-    if(m_airflow->getOrganType() == type_organ_input)
+    if(m_airflow->getOrganType() == e_type_organ_input)
         measureAirflow = dynamic_cast<IVariableInput*>(m_airflow);
+
+    IVariable* varLogZeroMesure = CAutomate::getInstance()->getVariable(QStringLiteral("var_log_zero_mesure"));
+    IVariable* varCo2ppmv = CAutomate::getInstance()->getVariable(QStringLiteral("var_co2ppmv"));
+    IVariable* varDerivee = CAutomate::getInstance()->getVariable(QStringLiteral("var_derivee"));
 
     if(measureCell && measureAirflow){
 
@@ -91,8 +115,14 @@ void CActionAcquisitionCitNpoc::run(){
         float co2g=0;
         float airflow = 0;
         float derivative =0;
-        float co2ppmvN = 0;
-        int tn = 0;
+        float derivativePrevious =0;
+        float co2ppmvPrevious = 0;
+        float co2ppmvPrevious2 = 0;
+
+        float integral = 0;
+        float integralPrevious = 0;
+
+
         //        const float zero = measureCell->readValue()->toFloat();
 //        m_zero->setValue(zero);
 
@@ -100,39 +130,46 @@ void CActionAcquisitionCitNpoc::run(){
 
         for(int i = 0; i < m_timeout->toInt() && !m_abort; ++i){
 
-            sActionInfo =  tr("Mesure ") + QString::number(i+1) + "/"  + QString::number(m_timeout->toInt()) + " "
-                    + tr("Co2 g") + QString::number(co2g, 'f', 8)
-                    + tr("mesure ") + QString::number(mesure, 'f', 8)
-                    + tr("derivée ") + QString::number(derivative, 'f', 8)
-                    + tr("Coppmv") + QString::number(co2ppmv, 'f', 8);
-            qCDebug(COTAUTOMATE_LOG)<< sActionInfo;
-            updateActionInfos(sActionInfo, stepParent);
             mesure = measureCell->readValue()->toFloat();
 
             airflow = measureAirflow->readValue()->toFloat();
+
             x = log10(zero/mesure);
+            varLogZeroMesure->setValue(x);
             co2ppmv = m_coef1->toFloat() * pow(x, 5)
                     + m_coef2->toFloat() * pow(x, 4)
                     + m_coef3->toFloat() * pow(x,3)
                     + m_coef4->toFloat() * pow(x,2)
                     + m_coef5->toFloat() * x
                     + m_Offset->toFloat();
-
-            if(m_derivativeCalcul->toBool() && m_derivativeIntervalTx->toBool()){
-                if(co2ppmvN != 0 && ( tn % m_derivativeIntervalTx->toInt()) == 0){
-                    //i = tx
-                    // (CO2)tn+tx - (CO2)tn / (tn+tx -tn)
-                    derivative =  (co2ppmv - co2ppmvN) / m_derivativeIntervalTx->toFloat();
-                    if(derivative < m_derivativeThresold->toFloat()){
-                        i = m_timeout->toInt();
-                    }
-                }
-                tn = i;
-                co2ppmvN = co2ppmv;
-            }
-
+            varCo2ppmv->setValue(co2ppmv);
             co2g += (co2ppmv * m_CstConversion->toFloat()) * ((airflow*0.001)/60000);
             m_co2g->setValue(co2g);
+
+            co2ppmv += 100; //ajoute un pied pour le calcul de l'intégral
+            if(m_derivativeCalcul->toBool() && m_derivativeIntervalTx->toBool()){
+                if(co2ppmvPrevious2 > 0 && co2ppmvPrevious > 0 && co2ppmv > 0){
+                    integral +=abs((2.0f/6.0f) * (co2ppmvPrevious2 + 4 * co2ppmvPrevious + co2ppmv));
+                }
+                if(( i % m_derivativeIntervalTx->toInt()) == 0 ){
+
+                    if( integral > 0 && integralPrevious > 0){
+                        derivativePrevious = derivative;
+                        derivative = (integral - integralPrevious) / m_derivativeIntervalTx->toFloat();
+                        varDerivee->setValue(derivative);
+                    }
+                    integralPrevious = integral;
+                }
+                co2ppmvPrevious2 = co2ppmvPrevious;
+                co2ppmvPrevious = co2ppmv;
+            }
+            sActionInfo =  tr("Mesure ") + QString::number(i+1) + "/"  + QString::number(m_timeout->toInt()) + " "
+                    + tr("Co2 g") + QString::number(co2g, 'f', 8)
+                    + tr("derivée ") + QString::number(derivative, 'f', 4);
+            qCDebug(COTAUTOMATE_LOG)<< sActionInfo;
+            updateActionInfos(sActionInfo, stepParent);
+
+            if(derivative < m_derivativeThresold->toFloat() && derivative < derivativePrevious ) m_abort = true;
             QThread::msleep(1000);
         }
         m_result->setValue( (co2g * 12000) / ( (m_vesselVolume->toFloat() / 1000) * 44) * m_coefCorrection->toFloat());
@@ -142,15 +179,9 @@ void CActionAcquisitionCitNpoc::run(){
 }
 
 bool CActionAcquisitionCitNpoc::waitUntilFinished(){
-    return false;
+    return m_waitUntilFinished;
 }
 
-bool CActionAcquisitionCitNpoc::finishedWithCriticalError(){
-    if(m_criticalError)
-        return true;
-    return false;
-
-}
 QList<IVariable*> CActionAcquisitionCitNpoc::getListParameters()const{
     QList<IVariable*> listParams;
 
@@ -188,7 +219,6 @@ QMap<QString, IVariable*> CActionAcquisitionCitNpoc::getMapIVariableParameters()
 
 QMap<QString, IVariable*> CActionAcquisitionCitNpoc::getMapCstParameters(){
     QMap<QString, IVariable*>  map;
-    map.insert(tr("Generate critical error"), m_criticalError);
     return map;
 }
 void CActionAcquisitionCitNpoc::setParameter(const QString& arg_key, IVariable* arg_parameter){
@@ -205,23 +235,22 @@ void CActionAcquisitionCitNpoc::setParameter(const QString& arg_key, IVariable* 
     else if(tr("Co2 ppmv to Co2 g/m3")== arg_key)m_CstConversion= arg_parameter;
     else if(tr("Time acquisition")== arg_key)m_timeout= arg_parameter;
 
-    else if(tr("Generate critical error")== arg_key)m_criticalError->setValue(arg_parameter->toBool());
 }
-variableType CActionAcquisitionCitNpoc::getWaitedType(const QString& arg_key){
-    if(tr("Cellule")== arg_key) return type_float;
-    else if(tr("Zero point")== arg_key) return type_float;
-    else if(tr("Result")== arg_key) return type_float;
-    else if(tr("Air flow")== arg_key)return type_float;
-    else if(tr("Vessel volume")== arg_key)return type_float;
-    else if(tr("Coefficient 1")== arg_key)return type_float;
-    else if(tr("Coefficient 2")== arg_key)return type_float;
-    else if(tr("Coefficient 3")== arg_key)return type_float;
-    else if(tr("Coefficient 4")== arg_key)return type_float;
-    else if(tr("Coefficient 5")== arg_key)return type_float;
-    else if(tr("Co2 ppmv to Co2 g/m3")== arg_key)return type_float;
-    else if(tr("Time acquisition")== arg_key)return type_int;
+enumVariableType CActionAcquisitionCitNpoc::getWaitedType(const QString& arg_key){
+    if(tr("Cellule")== arg_key) return e_type_float;
+    else if(tr("Zero point")== arg_key) return e_type_float;
+    else if(tr("Result")== arg_key) return e_type_float;
+    else if(tr("Air flow")== arg_key)return e_type_float;
+    else if(tr("Vessel volume")== arg_key)return e_type_float;
+    else if(tr("Coefficient 1")== arg_key)return e_type_float;
+    else if(tr("Coefficient 2")== arg_key)return e_type_float;
+    else if(tr("Coefficient 3")== arg_key)return e_type_float;
+    else if(tr("Coefficient 4")== arg_key)return e_type_float;
+    else if(tr("Coefficient 5")== arg_key)return e_type_float;
+    else if(tr("Co2 ppmv to Co2 g/m3")== arg_key)return e_type_float;
+    else if(tr("Time acquisition")== arg_key)return e_type_int;
 
-    else if(tr("Generate critical error")== arg_key)return type_bool;
+    else if(tr("Generate critical error")== arg_key)return e_type_bool;
 
-    return type_unknow;
+    return e_type_unknow;
 }

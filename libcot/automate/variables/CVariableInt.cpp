@@ -11,7 +11,7 @@ CVariableInt::CVariableInt(QObject *parent)
 CVariableInt::CVariableInt(const QVariantMap& mapVar):IVariable(mapVar){
     m_value = mapVar.value(QStringLiteral("value")).toInt();
 }
-CVariableInt::CVariableInt(int arg_int, int arg_address, variableAccess arg_access)
+CVariableInt::CVariableInt(int arg_int, int arg_address, enumVariableAccess arg_access)
     : IVariable()
 {
     m_value = arg_int;
@@ -51,8 +51,8 @@ void CVariableInt::setValue(const QVariant & value){
     setValue(value.toInt());
 }
 
-variableType CVariableInt::getType()const{
-    return type_int;
+enumVariableType CVariableInt::getType()const{
+    return e_type_int;
 }
 void CVariableInt::switchToUnit(CUnit* targetUnit){
     QVariant var = m_unit->convert(targetUnit->getName(), QVariant(m_value));
@@ -61,7 +61,7 @@ void CVariableInt::switchToUnit(CUnit* targetUnit){
     m_unit = targetUnit;
 }
 
-QVariantMap CVariableInt::serialise(){
+QVariantMap CVariableInt::serialize(){
     QVariantMap mapSerialise;
     mapSerialise.insert(QStringLiteral("name"), m_name);
     mapSerialise.insert(tr("fr_FR"), m_label);

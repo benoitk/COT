@@ -14,7 +14,7 @@ CStep::CStep(){
 }
 
 CStep::CStep(ICycle *parent, const QVariantMap &mapStep)
-    : QObject(parent), m_bWaitForActions(false), m_criticalErrorDuringActions(false), m_parentCycle(parent)
+    : QObject(parent), m_bWaitForActions(false),  m_parentCycle(parent)
 {
     m_numStep = mapStep.value(QStringLiteral("step")).toFloat();
     m_label = mapStep.value(tr("fr_FR")).toString();
@@ -40,7 +40,7 @@ void CStep::abortStep(){
     }
 }
 
-QVariantMap CStep::serialise(){
+QVariantMap CStep::serialize(){
     QVariantMap mapSerialise;
     mapSerialise.insert(tr("fr_FR"), m_label);
     mapSerialise.insert(QStringLiteral("type"), QStringLiteral("measure"));
@@ -94,7 +94,6 @@ void CStep::setNumStep(float numStep){
 
 void CStep::execStep(){
     qCDebug(COTAUTOMATE_LOG) << "CStep::execStep()";
-    m_criticalErrorDuringActions = false;
     m_bWaitForActions = false;
     m_parentCycle->updateCycleInfosStep(m_numStep, m_label);
 
@@ -123,17 +122,10 @@ void CStep::slotActionFinished(IAction* action){
         if(action)
             disconnect(action,0,this,0);
         else qDebug() << "fail disconnect " << action;
-        if(action->finishedWithCriticalError()){
-            m_criticalErrorDuringActions = true;
-        }
     }
     if(m_listActionsWaited.isEmpty()){
         emit signalStepFinished(this);
     }
-}
-
-bool CStep::finishedWithcriticalError(){
-    return m_criticalErrorDuringActions;
 }
 
 

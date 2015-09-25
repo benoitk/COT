@@ -22,3 +22,12 @@ QVariant CConverterCoefOffset::convert(const QVariant &valueToConvert){
 CUnit* CConverterCoefOffset::getTarget()const{
     return m_targetUnit;
 }
+
+QVariantMap CConverterCoefOffset::serialize(){
+    QVariantMap mapSerialise;
+    mapSerialise.insert(QStringLiteral("name"), m_targetUnit->getName());
+    mapSerialise.insert(QStringLiteral("coef"), m_coef);
+    mapSerialise.insert(QStringLiteral("offset"), m_offset);
+    mapSerialise.insert(QStringLiteral("type"), QStringLiteral("coef_offset"));
+    return mapSerialise;
+}

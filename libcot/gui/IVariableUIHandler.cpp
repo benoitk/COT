@@ -57,7 +57,7 @@ IVariablePtrList buildTemporaryString(const PairPairStringStringList& pairs) {
     IVariablePtrList ivars;
 
     foreach (const PairPairStringString& pair, pairs) {
-        ivars << CVariableFactory::buildTemporary(pair.first, pair.second.first, pair.second.second, type_string);
+        ivars << CVariableFactory::buildTemporary(pair.first, pair.second.first, pair.second.second, e_type_string);
     }
 
     return ivars;
@@ -84,20 +84,20 @@ IVariablePtrList buildActionType() {
 IVariablePtrList buildVariableTypes() {
     // SERES_TODO: Provide api (COT-55)
     return buildTemporaryString(PairPairStringStringList() <<
-                                    PairPairStringString("type_bool", qMakePair(IVariableUIHandler::tr("Boolean"), type_bool)) <<
-                                    PairPairStringString("type_float", qMakePair(IVariableUIHandler::tr("Float"), type_float)) <<
-                                    PairPairStringString("type_int", qMakePair(IVariableUIHandler::tr("Integer"), type_int)) <<
-                                    PairPairStringString("type_string", qMakePair(IVariableUIHandler::tr("String"), type_string)) <<
-                                    PairPairStringString("type_stream", qMakePair(IVariableUIHandler::tr("Stream"), type_stream))
+                                    PairPairStringString("type_bool", qMakePair(IVariableUIHandler::tr("Boolean"), e_type_bool)) <<
+                                    PairPairStringString("type_float", qMakePair(IVariableUIHandler::tr("Float"), e_type_float)) <<
+                                    PairPairStringString("type_int", qMakePair(IVariableUIHandler::tr("Integer"), e_type_int)) <<
+                                    PairPairStringString("type_string", qMakePair(IVariableUIHandler::tr("String"), e_type_string)) <<
+                                    PairPairStringString("type_stream", qMakePair(IVariableUIHandler::tr("Stream"), e_type_stream))
                                 );
 }
 
 IVariablePtrList buildOrganTypes() {
     // SERES_TODO: Provide api (COT-56)
     return buildTemporaryString(PairPairStringStringList() <<
-                                    PairPairStringString("VariableOrganTypeNone", qMakePair(IVariableUIHandler::tr("None"), type_organ_none)) <<
-                                    PairPairStringString("VariableOrganTypeInput", qMakePair(IVariableUIHandler::tr("Input"), type_organ_input)) <<
-                                    PairPairStringString("VariableOrganTypeOutput", qMakePair(IVariableUIHandler::tr("Output"), type_organ_output))
+                                    PairPairStringString("VariableOrganTypeNone", qMakePair(IVariableUIHandler::tr("None"), e_type_organ_none)) <<
+                                    PairPairStringString("VariableOrganTypeInput", qMakePair(IVariableUIHandler::tr("Input"), e_type_organ_input)) <<
+                                    PairPairStringString("VariableOrganTypeOutput", qMakePair(IVariableUIHandler::tr("Output"), e_type_organ_output))
                                 );
 }
 
@@ -105,10 +105,10 @@ IVariablePtrList buildOrganTypes() {
 IVariablePtrList buildCycleTypes() {
     // SERES_TODO: Provide api (COT-57)
     return buildTemporaryString(PairPairStringStringList() <<
-                                    PairPairStringString("CYCLE_MESURE", qMakePair(IVariableUIHandler::tr("Measure"), CYCLE_MESURE)) <<
-                                    PairPairStringString("CYCLE_AUTONOME", qMakePair(IVariableUIHandler::tr("Autonome"), CYCLE_AUTONOME)) <<
-                                    PairPairStringString("CYCLE_MAINTENANCE", qMakePair(IVariableUIHandler::tr("Maintenance"), CYCLE_MAINTENANCE)) <<
-                                    PairPairStringString("CYCLE_PAUSE", qMakePair(IVariableUIHandler::tr("Pause"), CYCLE_PAUSE))
+                                    PairPairStringString("CYCLE_MESURE", qMakePair(IVariableUIHandler::tr("Measure"), e_cycle_measure)) <<
+                                    PairPairStringString("CYCLE_AUTONOME", qMakePair(IVariableUIHandler::tr("Autonome"), e_cycle_autonome)) <<
+                                    PairPairStringString("CYCLE_MAINTENANCE", qMakePair(IVariableUIHandler::tr("Maintenance"), e_cycle_maintenance)) <<
+                                    PairPairStringString("CYCLE_PAUSE", qMakePair(IVariableUIHandler::tr("Pause"), e_cycle_pause))
                                 );
 }
 
@@ -140,7 +140,7 @@ IVariablePtrList buildCycles() {
     IVariablePtrList ivars;
 
     foreach (ICycle *cycle, cycles) {
-        ivars << CVariableFactory::buildTemporary(cycle->getName(), cycle->getLabel(), type_string);
+        ivars << CVariableFactory::buildTemporary(cycle->getName(), cycle->getLabel(), e_type_string);
     }
 
     return ivars;
@@ -152,7 +152,7 @@ IVariablePtrList buildActions() {
     IVariablePtrList ivars;
 
     foreach (IAction *action, actions) {
-        ivars << CVariableFactory::buildTemporary(action->getName(), action->getLabel(), type_string);
+        ivars << CVariableFactory::buildTemporary(action->getName(), action->getLabel(), e_type_string);
     }
 
     return ivars;
@@ -163,14 +163,14 @@ IVariablePtrList buildStreamsMeasures() {
     const QList<CVariableStream *> streams = automate->getListStreams();
     IVariablePtrList ivars;
 
-    ivars << CVariableFactory::buildTemporary(QString(), IVariableUIHandler::tr("Analyzer"), type_string);
+    ivars << CVariableFactory::buildTemporary(QString(), IVariableUIHandler::tr("Analyzer"), e_type_string);
 
     foreach (CVariableStream *streamVar, streams) {
-        ivars << CVariableFactory::buildTemporary(streamVar->getName(), streamVar->getLabel(), type_string);
+        ivars << CVariableFactory::buildTemporary(streamVar->getName(), streamVar->getLabel(), e_type_string);
 
         foreach (IVariable *measure, streamVar->getListMeasures()) {
             CVariableMeasure *measureVar = static_cast<CVariableMeasure *>(measure);
-            IVariable *ivar = CVariableFactory::buildTemporary(measureVar->getName(), measureVar->getLabel(), type_string);
+            IVariable *ivar = CVariableFactory::buildTemporary(measureVar->getName(), measureVar->getLabel(), e_type_string);
             ivar->setLabel(QString("%1 / %2").arg(streamVar->getLabel()).arg(measureVar->getLabel()));
             ivars << ivar;
         }
@@ -185,7 +185,7 @@ IVariablePtrList buildExtensions() {
     IVariablePtrList ivars;
 
     foreach (CModelExtensionCard *card, cards) {
-        ivars << CVariableFactory::buildTemporary(card->getName(), card->getLabel(), type_string);
+        ivars << CVariableFactory::buildTemporary(card->getName(), card->getLabel(), e_type_string);
     }
 
     return ivars;
@@ -199,7 +199,7 @@ IVariablePtrList buildOrgans() {
 
     foreach (CModelExtensionCard *card, cards) {
         foreach (IOrgan *organ, card->getListOrgans()) {
-            ivars << CVariableFactory::buildTemporary(organ->getName(), type_string);
+            ivars << CVariableFactory::buildTemporary(organ->getName(), e_type_string);
         }
     }
 
@@ -212,7 +212,7 @@ IVariablePtrList buildUnits() {
     IVariablePtrList ivars;
 
     foreach (CUnit *unit, units) {
-        ivars << CVariableFactory::buildTemporary(unit->getName(), unit->getLabel(), type_string);
+        ivars << CVariableFactory::buildTemporary(unit->getName(), unit->getLabel(), e_type_string);
     }
 
     return ivars;
@@ -381,7 +381,7 @@ bool IVariableUIHandler::selectActionType(actionType &value, const QString &titl
     return false;
 }
 
-bool IVariableUIHandler::selectVariableType(variableType &value, const QString &title)
+bool IVariableUIHandler::selectVariableType(enumVariableType &value, const QString &title)
 {
     IVariablePtrList ivars = buildVariableTypes();
     ScopedIVariablePtrList scoped(&ivars);
@@ -390,14 +390,14 @@ bool IVariableUIHandler::selectVariableType(variableType &value, const QString &
     dlg.setSelectedValue(value);
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
-        value = variableType(dlg.selectedItem()->toInt());
+        value = enumVariableType(dlg.selectedItem()->toInt());
         return true;
     }
 
     return false;
 }
 
-bool IVariableUIHandler::selectOrganType(VariableOrganType &value, const QString &title)
+bool IVariableUIHandler::selectOrganType(enumVariableOrganType &value, const QString &title)
 {
     IVariablePtrList ivars = buildOrganTypes();
     ScopedIVariablePtrList scoped(&ivars);
@@ -406,14 +406,14 @@ bool IVariableUIHandler::selectOrganType(VariableOrganType &value, const QString
     dlg.setSelectedValue(value);
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
-        value = VariableOrganType(dlg.selectedItem()->toInt());
+        value = enumVariableOrganType(dlg.selectedItem()->toInt());
         return true;
     }
 
     return false;
 }
 
-bool IVariableUIHandler::selectCycleType(eTypeCycle &value, const QString &title)
+bool IVariableUIHandler::selectCycleType(enumTypeCycle &value, const QString &title)
 {
     IVariablePtrList ivars = buildCycleTypes();
     ScopedIVariablePtrList scoped(&ivars);
@@ -422,7 +422,7 @@ bool IVariableUIHandler::selectCycleType(eTypeCycle &value, const QString &title
     dlg.setSelectedValue(value);
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
-        value = eTypeCycle(dlg.selectedItem()->toInt());
+        value = enumTypeCycle(dlg.selectedItem()->toInt());
         return true;
     }
 
@@ -684,7 +684,7 @@ CToolButton *IVariableUIHandler::newDeleteButton(IVariable *ivar)
     return Q_NULLPTR;
 }
 
-void IVariableUIHandler::setVariableAccess(IVariable *ivar, variableAccess access)
+void IVariableUIHandler::setVariableAccess(IVariable *ivar, enumVariableAccess access)
 {
     if (ivar) {
         ivar->setAccess(access);
@@ -703,10 +703,15 @@ QWidget *IVariableUIHandler::newEditor(IVariable *ivar)
 {
     // Keep in synch with rowChanged
     switch (ivar->getType()) {
-        case type_bool: {
+        case e_type_alarm:{
+        CLedButton *editor = new CLedButton(m_container);
+        editor->setUserData(ivar->getName());
+        return editor;
+    }
+        case e_type_bool: {
             switch (ivar->getOrganType()) {
-                case type_organ_none:
-                case type_organ_output: {
+                case e_type_organ_none:
+                case e_type_organ_output: {
                     CSwitchButton *editor = new CSwitchButton(m_container);
                     editor->setUserData(ivar->getName());
 
@@ -718,7 +723,7 @@ QWidget *IVariableUIHandler::newEditor(IVariable *ivar)
                     return editor;
                 }
 
-                case type_organ_input: {
+                case e_type_organ_input: {
                     break;
                 }
             }
@@ -728,18 +733,18 @@ QWidget *IVariableUIHandler::newEditor(IVariable *ivar)
             return editor;
         }
 
-        case type_float: {
+        case e_type_float: {
             CPushButton *editor = new CPushButton(m_container);
             editor->setUserData(ivar->getName());
 
             switch (ivar->getOrganType()) {
-                case type_organ_none:
-                case type_organ_output: {
+                case e_type_organ_none:
+                case e_type_organ_output: {
                     connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestDouble);
                     break;
                 }
 
-                case type_organ_input: {
+                case e_type_organ_input: {
                     break;
                 }
             }
@@ -747,18 +752,18 @@ QWidget *IVariableUIHandler::newEditor(IVariable *ivar)
             return editor;
         }
 
-        case type_int: {
+        case e_type_int: {
             CPushButton *editor = new CPushButton(m_container);
             editor->setUserData(ivar->getName());
 
             switch (ivar->getOrganType()) {
-                case type_organ_none:
-                case type_organ_output: {
+                case e_type_organ_none:
+                case e_type_organ_output: {
                     connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestInteger);
                     break;
                 }
 
-                case type_organ_input: {
+                case e_type_organ_input: {
                     break;
                 }
             }
@@ -766,18 +771,18 @@ QWidget *IVariableUIHandler::newEditor(IVariable *ivar)
             return editor;
         }
 
-        case type_string: {
+        case e_type_string: {
             CPushButton *editor = new CPushButton(m_container);
             editor->setUserData(ivar->getName());
 
             switch (ivar->getOrganType()) {
-                case type_organ_none:
-                case type_organ_output: {
+                case e_type_organ_none:
+                case e_type_organ_output: {
                     connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestString);
                     break;
                 }
 
-                case type_organ_input: {
+                case e_type_organ_input: {
                     break;
                 }
             }
@@ -785,18 +790,18 @@ QWidget *IVariableUIHandler::newEditor(IVariable *ivar)
             return editor;
         }
 
-        case type_stream: {
+        case e_type_stream: {
             CPushButton *editor = new CPushButton(m_container);
             editor->setUserData(ivar->getName());
 
             switch (ivar->getOrganType()) {
-                case type_organ_none:
-                case type_organ_output: {
+                case e_type_organ_none:
+                case e_type_organ_output: {
                     connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestStream);
                     break;
                 }
 
-                case type_organ_input: {
+                case e_type_organ_input: {
                     break;
                 }
             }
@@ -804,18 +809,18 @@ QWidget *IVariableUIHandler::newEditor(IVariable *ivar)
             return editor;
         }
 
-        case type_measure: {
+        case e_type_measure: {
             CPushButton *editor = new CPushButton(m_container);
             editor->setUserData(ivar->getName());
 
             switch (ivar->getOrganType()) {
-                case type_organ_none:
-                case type_organ_output: {
+                case e_type_organ_none:
+                case e_type_organ_output: {
                     connect(editor, &CPushButton::clicked, this, &IVariableUIHandler::slotRequestMeasure);
                     break;
                 }
 
-                case type_organ_input: {
+                case e_type_organ_input: {
                     break;
                 }
             }
@@ -823,14 +828,14 @@ QWidget *IVariableUIHandler::newEditor(IVariable *ivar)
             return editor;
         }
 
-        case type_unknow: {
+        case e_type_unknow: {
             switch (ivar->getOrganType()) {
-                case type_organ_none:
-                case type_organ_output: {
+                case e_type_organ_none:
+                case e_type_organ_output: {
                     break;
                 }
 
-                case type_organ_input: {
+                case e_type_organ_input: {
                     break;
                 }
             }
@@ -840,7 +845,7 @@ QWidget *IVariableUIHandler::newEditor(IVariable *ivar)
             return editor;
         }
 
-        case type_list_variables:
+        case e_type_list_variables:
             break;
 
         case type_mutable: {
@@ -990,15 +995,15 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
 
     // Keep in synch with newEditor
     switch (ivar->getType()) {
-        case type_bool: {
+        case e_type_bool: {
             switch (ivar->getOrganType()) {
-                case type_organ_none:
-                case type_organ_output: {
+                case e_type_organ_none:
+                case e_type_organ_output: {
                     qobject_cast<CSwitchButton *>(editor)->setChecked(ivar->toBool());
                     return;
                 }
 
-                case type_organ_input: {
+                case e_type_organ_input: {
                     break;
                 }
             }
@@ -1007,14 +1012,14 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
             return;
         }
 
-        case type_float: {
+        case e_type_float: {
             switch (ivar->getOrganType()) {
-                case type_organ_none:
-                case type_organ_output: {
+                case e_type_organ_none:
+                case e_type_organ_output: {
                     break;
                 }
 
-                case type_organ_input: {
+                case e_type_organ_input: {
                     break;
                 }
             }
@@ -1023,14 +1028,14 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
             return;
         }
 
-        case type_int: {
+        case e_type_int: {
             switch (ivar->getOrganType()) {
-                case type_organ_none:
-                case type_organ_output: {
+                case e_type_organ_none:
+                case e_type_organ_output: {
                     break;
                 }
 
-                case type_organ_input: {
+                case e_type_organ_input: {
                     break;
                 }
             }
@@ -1039,14 +1044,14 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
             return;
         }
 
-        case type_string: {
+        case e_type_string: {
             switch (ivar->getOrganType()) {
-                case type_organ_none:
-                case type_organ_output: {
+                case e_type_organ_none:
+                case e_type_organ_output: {
                     break;
                 }
 
-                case type_organ_input: {
+                case e_type_organ_input: {
                     break;
                 }
             }
@@ -1055,14 +1060,14 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
             return;
         }
 
-        case type_stream: {
+        case e_type_stream: {
             switch (ivar->getOrganType()) {
-                case type_organ_none:
-                case type_organ_output: {
+                case e_type_organ_none:
+                case e_type_organ_output: {
                     break;
                 }
 
-                case type_organ_input: {
+                case e_type_organ_input: {
                     break;
                 }
             }
@@ -1071,14 +1076,14 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
             return;
         }
 
-        case type_measure: {
+        case e_type_measure: {
             switch (ivar->getOrganType()) {
-                case type_organ_none:
-                case type_organ_output: {
+                case e_type_organ_none:
+                case e_type_organ_output: {
                     break;
                 }
 
-                case type_organ_input: {
+                case e_type_organ_input: {
                     break;
                 }
             }
@@ -1087,14 +1092,14 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
             return;
         }
 
-        case type_unknow: {
+        case e_type_unknow: {
             switch (ivar->getOrganType()) {
-                case type_organ_none:
-                case type_organ_output: {
+                case e_type_organ_none:
+                case e_type_organ_output: {
                     break;
                 }
 
-                case type_organ_input: {
+                case e_type_organ_input: {
                     break;
                 }
             }
@@ -1103,7 +1108,7 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
             return;
         }
 
-        case type_list_variables:
+        case e_type_list_variables:
             break;
 
         case type_mutable: {
@@ -1116,7 +1121,7 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
                     break;
 
                 case CVariableMutable::CycleType: {
-                    button->setText(ICycle::typeToString(eTypeCycle(ivar->toInt())));
+                    button->setText(ICycle::typeToString(enumTypeCycle(ivar->toInt())));
                     break;
                 }
 
@@ -1127,12 +1132,12 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
                 }
 
                 case CVariableMutable::VariableType: {
-                    button->setText(IVariable::typeToString(variableType(ivar->toInt())));
+                    button->setText(IVariable::typeToString(enumVariableType(ivar->toInt())));
                     break;
                 }
 
                 case CVariableMutable::VarOrganType: {
-                    button->setText(IVariable::organTypeToString(VariableOrganType(ivar->toInt())));
+                    button->setText(IVariable::organTypeToString(enumVariableOrganType(ivar->toInt())));
                     break;
                 }
 
@@ -1212,7 +1217,7 @@ QString IVariableUIHandler::getVariableLabel(IVariable *ivar) const
 void IVariableUIHandler::applyEditorConstraints(QWidget *editor, IVariable *ivar)
 {
     if (editor) {
-        editor->setEnabled(ivar->getAccess() != access_read);
+        editor->setEnabled(ivar->getAccess() != e_access_read);
     }
 }
 
@@ -1284,7 +1289,7 @@ void IVariableUIHandler::slotRequestVariableType()
 {
     CPushButton *editor = qobject_cast<CPushButton *>(sender());
     IVariable *ivar = getVariable(editor->userData().toString());
-    variableType value = variableType(ivar->toInt());
+    enumVariableType value = enumVariableType(ivar->toInt());
 
     if (selectVariableType(value, getVariableLabel(ivar))) {
         ivar->setValue(value);
@@ -1295,7 +1300,7 @@ void IVariableUIHandler::slotRequestOrganType()
 {
     CPushButton *editor = qobject_cast<CPushButton *>(sender());
     IVariable *ivar = getVariable(editor->userData().toString());
-    VariableOrganType value = VariableOrganType(ivar->toInt());
+    enumVariableOrganType value = enumVariableOrganType(ivar->toInt());
 
     if (selectOrganType(value, getVariableLabel(ivar))) {
         ivar->setValue(value);
@@ -1306,7 +1311,7 @@ void IVariableUIHandler::slotRequestCycleType()
 {
     CPushButton *editor = qobject_cast<CPushButton *>(sender());
     IVariable *ivar = getVariable(editor->userData().toString());
-    eTypeCycle value = eTypeCycle(ivar->toInt());
+    enumTypeCycle value = enumTypeCycle(ivar->toInt());
 
     if (selectCycleType(value, getVariableLabel(ivar))) {
         ivar->setValue(value);

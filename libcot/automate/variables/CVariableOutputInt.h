@@ -20,9 +20,9 @@ public:
     IVariable* getIVariable() Q_DECL_OVERRIDE;
 
     //IVariable
-    VariableOrganType getOrganType() const Q_DECL_OVERRIDE;
-    QVariantMap serialise() Q_DECL_OVERRIDE;
-    variableType getType()const Q_DECL_OVERRIDE;
+    enumVariableOrganType getOrganType() const Q_DECL_OVERRIDE;
+    QVariantMap serialize() Q_DECL_OVERRIDE;
+    enumVariableType getType()const Q_DECL_OVERRIDE;
 
     void setValue(float);
     using CVariableInt::setValue;

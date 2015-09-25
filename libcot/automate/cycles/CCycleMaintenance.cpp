@@ -36,7 +36,7 @@ CCycleMaintenance::CCycleMaintenance(const QVariantMap& mapCycle,QObject *parent
 
 }
 
-CCycleMaintenance::CCycleMaintenance(eTypeCycle typeCycle, QObject* parent): CCycleMesure(parent) {
+CCycleMaintenance::CCycleMaintenance(enumTypeCycle typeCycle, QObject* parent): CCycleMesure(parent) {
 
 }
 CCycleMaintenance::~CCycleMaintenance()
@@ -46,15 +46,35 @@ CCycleMaintenance::~CCycleMaintenance()
         delete step;
     }
 }
-QVariantMap CCycleMaintenance::serialise(){
-    QVariantMap mapSerialise = ICycle::serialise();
+QVariantMap CCycleMaintenance::serialize(){
+    QVariantMap mapSerialise = ICycle::serialize();
+
+    QStringList listInputVar;
+    foreach(IVariable* var, m_listVariablesInput){
+        listInputVar.append(var->getName());
+    }
+    QStringList listOutputVar;
+    foreach(IVariable* var, m_listVariablesOutput){
+        listOutputVar.append(var->getName());
+    }
+    mapSerialise.insert(QStringLiteral("variables_output"), listOutputVar);
+
+    QVariantList listMapVarCopyOnValidations;
+    for(int i=0; i<m_listVariablesCopyOnValidation.count(); ++i){
+        QPair<IVariable*, IVariable*> pair = m_listVariablesCopyOnValidation.at(i);
+        QVariantMap map;
+        map.insert(QStringLiteral("source"), pair.first->getName());
+        map.insert(QStringLiteral("target"), pair.second->getName());
+        listMapVarCopyOnValidations.append(map);
+    }
+    mapSerialise.insert(QStringLiteral("variables_copy_on_validation"), listMapVarCopyOnValidations);
 
     mapSerialise.insert(QStringLiteral("type"), QStringLiteral("maintenance"));
     return mapSerialise;
 }
 
-eTypeCycle CCycleMaintenance::getType()const{
-    return CYCLE_MAINTENANCE;
+enumTypeCycle CCycleMaintenance::getType()const{
+    return e_cycle_maintenance;
 }
 QList<IVariable*>  CCycleMaintenance::getListVariablesInput(){
     return m_listVariablesInput;

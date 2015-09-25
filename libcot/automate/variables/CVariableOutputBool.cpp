@@ -30,15 +30,15 @@ void CVariableOutputBool::writeValue(){
      this->writeValue();
  }
 
-variableType CVariableOutputBool::getType()const{
-    return type_bool;
+enumVariableType CVariableOutputBool::getType()const{
+    return e_type_bool;
 }
 IVariable* CVariableOutputBool::getIVariable(){
     return this;
 }
 
 
-QVariantMap CVariableOutputBool::serialise(){
+QVariantMap CVariableOutputBool::serialize(){
     QVariantMap mapSerialise;
     mapSerialise.insert(QStringLiteral("name"), m_name);
     mapSerialise.insert(tr("fr_FR"), m_label);
@@ -48,6 +48,6 @@ QVariantMap CVariableOutputBool::serialise(){
     mapSerialise.insert(QStringLiteral("organ_name"), m_organ->getName());
     return mapSerialise;
 }
-VariableOrganType CVariableOutputBool::getOrganType() const {
-    return type_organ_output;
+enumVariableOrganType CVariableOutputBool::getOrganType() const {
+    return e_type_organ_output;
 }

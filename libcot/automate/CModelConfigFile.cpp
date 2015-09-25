@@ -285,7 +285,7 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
             qCDebug(COTAUTOMATE_LOG) << "-stream label : " << stream->getLabel();
             qCDebug(COTAUTOMATE_LOG) << "-stream active : " << stream->getActiveState()->getLabel() << " " << stream->getActiveState()->toBool();
             foreach(IVariable* varMeasure, stream->getListMeasures()){
-                if(varMeasure->getType() == type_measure){
+                if(varMeasure->getType() == e_type_measure){
                     CVariableMeasure* measure = (CVariableMeasure*)varMeasure;
                     qCDebug(COTAUTOMATE_LOG) << "--measure label : " << measure->getLabel();
                     qCDebug(COTAUTOMATE_LOG) << "--measure value : " << measure->getMeasureVariable()->getLabel() << " " << measure->getMeasureVariable()->toFloat();
@@ -318,6 +318,9 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
      }
 
     qCDebug(COTAUTOMATE_LOG) << "FIN CModelConfigFile(QObject *parent)";
+}
+void CModelConfigFile::saveJson(const QVariantMap& arg_mapSerialized){
+
 }
 
 CModelConfigFile::~CModelConfigFile()

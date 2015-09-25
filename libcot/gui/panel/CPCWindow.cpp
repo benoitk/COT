@@ -145,8 +145,8 @@ void CPCWindow::changeEvent(QEvent *event)
 
 void CPCWindow::slotStreamsUpdated()
 {
-     const int index = ui->twPages->indexOf(m_graphTab);
      if (showGraphInMainScreen()) {
+         const int index = ui->twPages->indexOf(m_graphTab);
          if(index != -1)
              ui->twPages->removeTab(index);
          m_graphTab->hide();

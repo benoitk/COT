@@ -31,14 +31,14 @@ IVariable* CVariableInputFloat::readValue(){
     return this;
 }
 
-variableType CVariableInputFloat::getType()const{
-    return type_float;
+enumVariableType CVariableInputFloat::getType()const{
+    return e_type_float;
 }
 IVariable* CVariableInputFloat::getIVariable(){
     return this;
 }
 
-QVariantMap CVariableInputFloat::serialise(){
+QVariantMap CVariableInputFloat::serialize(){
      QVariantMap mapSerialise;
     mapSerialise.insert(QStringLiteral("name"), m_name);
     mapSerialise.insert(tr("fr_FR"), m_label);
@@ -48,6 +48,6 @@ QVariantMap CVariableInputFloat::serialise(){
     mapSerialise.insert(QStringLiteral("organ_name"), m_organ->getName());
     return mapSerialise;
 }
-VariableOrganType CVariableInputFloat::getOrganType() const {
-    return type_organ_input;
+enumVariableOrganType CVariableInputFloat::getOrganType() const {
+    return e_type_organ_input;
 }

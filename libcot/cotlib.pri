@@ -226,7 +226,8 @@ HEADERS *= \
     $$PWD/automate/units/CConverterCrossProduct.h \
     $$PWD/gui/tools/initial-tests/CInitialTestWindow.h \
     $$PWD/gui/widgets/CDialogMaintenance.h \
-    $$PWD/automate/actions/CActionCalibrationCalcul.h
+    $$PWD/automate/actions/CActionCalibrationCalcul.h \
+    $$PWD/automate/variables/CVariableAlarm.h
 
 SOURCES *= \
     $$PWD/automate/CAutomate.cpp \
@@ -408,5 +409,6 @@ SOURCES *= \
     $$PWD/automate/units/CConverterCrossProduct.cpp \
     $$PWD/gui/tools/initial-tests/CInitialTestWindow.cpp \
     $$PWD/gui/widgets/CDialogMaintenance.cpp \
-    $$PWD/automate/actions/CActionCalibrationCalcul.cpp
+    $$PWD/automate/actions/CActionCalibrationCalcul.cpp \
+    $$PWD/automate/variables/CVariableAlarm.cpp
 

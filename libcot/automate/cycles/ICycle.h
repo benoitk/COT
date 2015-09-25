@@ -3,12 +3,20 @@
 
 #include <QObject>
 #include "qmutex.h"
+#include <QTimer>
 
-enum eTypeCycle{CYCLE_INVALID = -1, CYCLE_ALL = 0, CYCLE_MESURE, CYCLE_AUTONOME, CYCLE_MAINTENANCE, CYCLE_PAUSE};
+enum enumTypeCycle{
+    e_cycle_invalid = -1,
+    e_cycle_all = 0,
+    e_cycle_measure,
+    e_cycle_autonome,
+    e_cycle_maintenance,
+    e_cycle_pause};
 
 class IAction;
 class CStep;
 class CVariableStream;
+
 class ICycle : public QObject
 {
     Q_OBJECT
@@ -18,7 +26,7 @@ public:
     ICycle(const QVariantMap &mapCycle, QObject *parent);
     ICycle();
 
-    virtual eTypeCycle getType()const=0;
+    virtual enumTypeCycle getType()const=0;
     virtual void addAction(float arg_step, IAction* action);
     void removeAction(IAction* arg_action);
     virtual QString getName()const ;
@@ -34,12 +42,12 @@ public:
     virtual bool isRunning() const;
     virtual bool isPaused()const;
     virtual int getCurrentStepIndex() const;
-    virtual QVariantMap serialise();
+    virtual QVariantMap serialize();
 
     bool isStreamRelated()const;
     CStep *getStep(int index) const;
 
-    static QString typeToString(eTypeCycle type);
+    static QString typeToString(enumTypeCycle type);
 
      bool swapStep(float from, float to);
      bool copySteps(float from, float length, float to);
@@ -81,6 +89,8 @@ protected:
     void startEditing();
     void clearSavedListSteps();
     void shiftAllSteps(float arg_from, float arg_shifting, int arg_index=0);
+    void abortCycle();
+
     bool m_isRunning;
     bool m_isPaused;
 
@@ -93,6 +103,7 @@ protected:
     QString m_label;
     int m_idCycle;
     QString m_name;
+    QTimer* m_timer;
 
     bool m_editInProgress;
     QMutex m_mutex;

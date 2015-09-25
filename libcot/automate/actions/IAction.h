@@ -34,19 +34,19 @@ public:
 
     virtual bool runAction(ICycle* arg_stepParent);
     virtual bool waitUntilFinished();
-    virtual bool finishedWithCriticalError();
     virtual QList<IVariable*> getListParameters()const=0;
     virtual actionType getType()const =0;
     virtual bool variableUsed(IVariable *)const =0;
     virtual QMap<QString, IVariable*> getMapIVariableParameters()=0;
     virtual QMap<QString, IVariable*> getMapCstParameters()=0;
     virtual void setParameter(const QString& arg_key, IVariable* arg_parameter)=0;
-    virtual variableType getWaitedType(const QString& arg_key)=0;
+    virtual enumVariableType getWaitedType(const QString& arg_key)=0;
     static QString typeToString(actionType type);
     virtual void abortAction();
-
+    virtual QVariantMap serialize();
 signals:
     void signalActionFinished(IAction* arg_this);
+
 
 private:
       ICycle* m_stepParent;

@@ -8,7 +8,7 @@ CVariableFloat::CVariableFloat(QObject *parent)
 CVariableFloat::CVariableFloat(const QVariantMap& mapVar):IVariable(mapVar){
     m_value = mapVar.value(QStringLiteral("value")).toFloat();
 }
-CVariableFloat::CVariableFloat(float arg_value, int arg_address, variableAccess arg_access)
+CVariableFloat::CVariableFloat(float arg_value, int arg_address, enumVariableAccess arg_access)
     : IVariable()
 {
     m_value = arg_value;
@@ -50,8 +50,8 @@ void CVariableFloat::setToBindedValue(const QVariant & value){
     emit signalVariableChanged(this);
 }
 
-variableType CVariableFloat::getType()const{
-    return type_float;
+enumVariableType CVariableFloat::getType()const{
+    return e_type_float;
 }
 void CVariableFloat::switchToUnit(CUnit* targetUnit){
     QVariant var = m_unit->convert(targetUnit->getName(), QVariant(m_value));
@@ -60,7 +60,7 @@ void CVariableFloat::switchToUnit(CUnit* targetUnit){
     m_unit = targetUnit;
 }
 
-QVariantMap CVariableFloat::serialise(){
+QVariantMap CVariableFloat::serialize(){
      QVariantMap mapSerialise;
     mapSerialise.insert(QStringLiteral("name"), m_name);
     mapSerialise.insert(tr("fr_FR"), m_label);

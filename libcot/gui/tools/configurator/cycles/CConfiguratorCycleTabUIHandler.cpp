@@ -40,14 +40,14 @@ void CConfiguratorCycleTabUIHandler::layout()
                 continue;
             }
 
-            IVariable *ivar = CVariableFactory::buildTemporary(cycle->getName(), cycle->getLabel(), type_string);
+            IVariable *ivar = CVariableFactory::buildTemporary(cycle->getName(), cycle->getLabel(), e_type_string);
             m_internalVariables[ivar->getName()] = ivar;
             ivars << ivar;
         }
     }
 
     // Add fake global stream
-    IVariable *streamVar = CVariableFactory::buildTemporary(QString("fake_stream"), tr("Global"), type_stream);
+    IVariable *streamVar = CVariableFactory::buildTemporary(QString("fake_stream"), tr("Global"), e_type_stream);
     m_internalVariables[streamVar->getName()] = streamVar;
     ivars << streamVar;
 
@@ -63,7 +63,7 @@ void CConfiguratorCycleTabUIHandler::layout()
             continue;
         }
 
-        IVariable *ivar = CVariableFactory::buildTemporary(cycle->getName(), cycle->getLabel(), type_string);
+        IVariable *ivar = CVariableFactory::buildTemporary(cycle->getName(), cycle->getLabel(), e_type_string);
         m_internalVariables[ivar->getName()] = ivar;
         ivars << ivar;
     }
@@ -89,7 +89,7 @@ int CConfiguratorCycleTabUIHandler::columnCount() const
 
 QWidget *CConfiguratorCycleTabUIHandler::createWidget(int column, IVariable *ivar)
 {
-    const bool isStream = ivar && ivar->getType() == type_stream;
+    const bool isStream = ivar && ivar->getType() == e_type_stream;
 
     switch (column) {
         case 0: {
@@ -116,7 +116,7 @@ void CConfiguratorCycleTabUIHandler::rowInserted(const IVariableUIHandler::Row &
 
 void CConfiguratorCycleTabUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariable *ivar)
 {
-    const bool isStream = ivar && ivar->getType() == type_stream;
+    const bool isStream = ivar && ivar->getType() == e_type_stream;
 
     if (isStream) {
         row.widgetAt<CClickableLabel *>(0)->setText(ivar->getLabel());

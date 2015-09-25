@@ -18,7 +18,8 @@ public:
     QVariant convert(const QString &, const QVariant &);
     void addConverter(const QString &, IConverter*);
     void setConvertion(const QString &, IConverter*);
-
+    QMap<QString, IConverter*> getConverters();
+    QVariantMap serialize();
 private:
     QString m_label;
     QString m_name;

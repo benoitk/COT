@@ -69,21 +69,21 @@ void CVariableMutable::setMutableType(CVariableMutable::Type mutableType)
 }
 
 
-QVariantMap CVariableMutable::serialise()
+QVariantMap CVariableMutable::serialize()
 {
     return m_data;
 }
 
-variableType CVariableMutable::getType() const
+enumVariableType CVariableMutable::getType() const
 { return type_mutable; }
 
-VariableOrganType CVariableMutable::getOrganType() const
-{ return type_organ_none; }
+enumVariableOrganType CVariableMutable::getOrganType() const
+{ return e_type_organ_none; }
 
 void CVariableMutable::switchToUnit(CUnit *)
 {}
 
-void CVariableMutable::setAccess(variableAccess access)
+void CVariableMutable::setAccess(enumVariableAccess access)
 {
     IVariable::setAccess(access);
 }

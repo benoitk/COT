@@ -22,7 +22,17 @@ CActionCalibrationCalcul::~CActionCalibrationCalcul()
 {
 
 }
-
+QVariantMap CActionCalibrationCalcul::serialize(){
+    QVariantMap mapSerialize = IAction::serialize();
+    mapSerialize.insert(QStringLiteral("measure"), m_measure->getName());
+    mapSerialize.insert(QStringLiteral("standard_value"), m_standardValue->getName());
+    mapSerialize.insert(QStringLiteral("coef_calibration"), m_coefCalibration->getName());
+    mapSerialize.insert(QStringLiteral("new_coef_calibration"), m_coefCalibrationNew->getName());
+    mapSerialize.insert(QStringLiteral("co2g"), m_co2g->getName());
+    mapSerialize.insert(QStringLiteral("vessel_volume"), m_vesselVolume->getName());
+    mapSerialize.insert(QStringLiteral("type"), QStringLiteral("calibration_calcul"));
+    return mapSerialize;
+}
 
 bool CActionCalibrationCalcul::runAction(ICycle* arg_stepParent){
     qCDebug(COTAUTOMATE_LOG)<< "Action commande pompe cc "
@@ -81,11 +91,11 @@ void CActionCalibrationCalcul::setParameter(const QString& arg_key, IVariable* a
     else if(tr("Vessel volume")== arg_key)m_vesselVolume= arg_parameter;
 
 }
-variableType CActionCalibrationCalcul::getWaitedType(const QString& arg_key){
-    if(tr("Measure")== arg_key) return type_float;
-    else if(tr("Coef calibration")== arg_key) return type_float;
-    else if(tr("CO2g")== arg_key) return type_float;
-    else if(tr("Vessel volume")== arg_key) return type_float;
+enumVariableType CActionCalibrationCalcul::getWaitedType(const QString& arg_key){
+    if(tr("Measure")== arg_key) return e_type_float;
+    else if(tr("Coef calibration")== arg_key) return e_type_float;
+    else if(tr("CO2g")== arg_key) return e_type_float;
+    else if(tr("Vessel volume")== arg_key) return e_type_float;
 
-    return type_unknow;
+    return e_type_unknow;
 }

@@ -12,7 +12,7 @@ CVariableBool::CVariableBool(const QVariantMap& mapVar):IVariable(mapVar){
     m_value = mapVar.value(QStringLiteral("value")).toBool();
 }
 
-CVariableBool::CVariableBool(bool arg_value, int arg_address, variableAccess arg_access)
+CVariableBool::CVariableBool(bool arg_value, int arg_address, enumVariableAccess arg_access)
     : IVariable()
 {
     m_value = arg_value;
@@ -59,11 +59,11 @@ void CVariableBool::setToBindedValue(const QVariant & value){
 
     emit signalVariableChanged(this);
 }
-variableType CVariableBool::getType()const{
-    return type_bool;
+enumVariableType CVariableBool::getType()const{
+    return e_type_bool;
 }
 
-QVariantMap CVariableBool::serialise(){
+QVariantMap CVariableBool::serialize(){
     QVariantMap mapSerialise;
     mapSerialise.insert(QStringLiteral("name"), m_name);
     mapSerialise.insert(tr("fr_FR"), m_label);

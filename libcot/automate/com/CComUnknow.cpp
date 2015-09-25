@@ -15,6 +15,9 @@ CComUnknow::~CComUnknow()
 }
 
 
+void CComUnknow::writeData(bool, const QString&){
+
+}
 
 QVariant CComUnknow::readData(){
     return QVariant("CComUnknow::readData()");
@@ -38,8 +41,8 @@ void CComUnknow::addVariableOnDataTable(IVariableOutput* arg_varOutput){
 QString CComUnknow::getName()const{
     return QStringLiteral("Unknow com");
 }
-comType CComUnknow::getType()const{
-    return type_com_unknow;
+enumComType CComUnknow::getType()const{
+    return e_type_com_unknow;
 }
 
 

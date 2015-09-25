@@ -26,6 +26,7 @@ class ICycle;
 class CControlerCycle;
 class CScheduler;
 class IVariable;
+class CVariableAlarm;
 class CModelExtensionCard;
 class IAction;
 class CUnit;
@@ -75,11 +76,11 @@ public:
     static QString formatHistoryEntry(const QString &name, const QDateTime &dateTime);
 
     enum eStateCycle{CYCLE_STATE_RUN = 1, CYCLE_STATE_PAUSE = 2, CYCLE_STATE_STOP = 0};
-    enum eStateAutomate{GENERAL_DEFAULT, RUNNING,PAUSED, CALIBRATION, WAITING,STOPPED};
+    enum eStateAutomate{RUNNING,PAUSED, CALIBRATION, WAITING,STOPPED};
     enum eStateStream{STREAM_DEFAULT, WATER_DEFAULT, ACTIVE, INACTIVE};
     static CAutomate* getInstance();
 
-    void setStateCycleMesure(eStateCycle, bool arg_criticalError = false);
+    void setStateCycleMesure(eStateCycle);
     eStateCycle getStateCycleMesure();
     void setStateCycleIO(eStateCycle);
     eStateCycle getStateCycleIO();
@@ -128,15 +129,17 @@ public:
     void addLoggedVariable(const QString& arg_varName);
 
 public slots:
+    void slotSerializeAndSave();
+
     void slotClock();
     void slotStartAutomate();
     void slotTabChanged(int tab_index);
-   // void slotLogVariable(IVariable* arg_var);
+    // void slotLogVariable(IVariable* arg_var);
     void slotLogVariable();
+    void slotNewAlarm(CVariableAlarm*);
+    void slotCancelAlarm(CVariableAlarm*);
 signals:
     void signalRunCycle(int);
-    // KDAB: Needed api
-    // When the value of a variable changed
     void signalVariableChanged(const QString &name, const QDateTime &dateTime);
     // When internal state of a general cycle changed
     void signalCycleChanged(const QString &name);
@@ -175,6 +178,8 @@ signals:
     //entrées : identifiant, label et unité de la variable
     void signalUpdateMeasureLabels(int, const QString &);
 
+    void signalNewAlarm(const QString&);
+
     //1 signal par section du json, dès qu'une valeur est modifié
     void signalNetworkUpdated();
     void signalComAutomateUpdated();
@@ -199,7 +204,7 @@ private:
     ~CAutomate();
     bool shouldQuit();
 
-    QList<IVariable*> m_listLogedVar;
+    QList<IVariable*> m_listLoggedVar;
     mutable QMutex m_mutex;
 
     eStateCycle m_stateCycleMesure; //0 stoped, 1 run, 2 pause

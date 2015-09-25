@@ -142,10 +142,7 @@ void CScheduler::slotCycleMesureIsStopped(){
     }
     CAutomate::getInstance()->setStateCycleMesure(CAutomate::CYCLE_STATE_STOP);
 }
-void CScheduler::slotSetDefault(bool arg_criticalError)
-{
-    CAutomate::getInstance()->setStateCycleMesure(CAutomate::CYCLE_STATE_STOP, arg_criticalError);
-}
+
 //Fin Stop cycle Mesure
 
 //Pasue cycle Mesure
@@ -256,12 +253,12 @@ void CScheduler::addCycleMaintenance(ICycle* arg_cycle){
 }
 
 void CScheduler::replaceCycleMeasureAt(int arg_index, ICycle* arg_cycle){
-    if(arg_cycle && arg_cycle->getType() != CYCLE_INVALID && arg_index > 0 && arg_index < m_listSequenceCyclesMeasures.size()){
+    if(arg_cycle && arg_cycle->getType() != e_cycle_invalid && arg_index > 0 && arg_index < m_listSequenceCyclesMeasures.size()){
         m_listSequenceCyclesMeasures.replace(arg_index, arg_cycle);
     }
 }
 void CScheduler::replaceCycleAutonomeAt(int arg_index, ICycle* arg_cycle){
-    if(arg_cycle && arg_cycle->getType() != CYCLE_INVALID && arg_index > 0 && arg_index < m_listSequenceCyclesAutonomes.size()){
+    if(arg_cycle && arg_cycle->getType() != e_cycle_invalid && arg_index > 0 && arg_index < m_listSequenceCyclesAutonomes.size()){
         m_listSequenceCyclesAutonomes.replace(arg_index, arg_cycle);
     }
 }

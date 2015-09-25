@@ -24,9 +24,9 @@ public:
     float toFloat() Q_DECL_OVERRIDE;
     bool toBool() Q_DECL_OVERRIDE;
     void setValue(const QVariant & value) Q_DECL_OVERRIDE;
-    variableType getType()const Q_DECL_OVERRIDE;
+    enumVariableType getType()const Q_DECL_OVERRIDE;
     void switchToUnit(CUnit*) Q_DECL_OVERRIDE;
-    QVariantMap serialise() Q_DECL_OVERRIDE;
+    QVariantMap serialize() Q_DECL_OVERRIDE;
     void setToBindedValue(const QVariant &) Q_DECL_OVERRIDE;
 
     void setValue(QString);

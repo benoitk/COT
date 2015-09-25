@@ -30,7 +30,7 @@ void ConfiguratorSequencerUIHandler::layout()
         const CyclePair &pair = cycles[i];
         ICycle *cycle = pair.first;
         Q_ASSERT(cycle);
-        IVariable *ivar = CVariableFactory::buildTemporary(QString::number(i), cycle->getLabel(), type_string);
+        IVariable *ivar = CVariableFactory::buildTemporary(QString::number(i), cycle->getLabel(), e_type_string);
         m_internalVariables[ivar->getName()] = ivar;
         ivars << ivar;
     }
@@ -70,7 +70,7 @@ ConfiguratorSequencerUIHandler::CyclePairList ConfiguratorSequencerUIHandler::fr
     CyclePairList pairs;
 
     foreach (ICycle *cycle, cycles) {
-        if (cycle->getType() != CYCLE_MESURE) {
+        if (cycle->getType() != e_cycle_measure) {
             continue;
         }
 
@@ -184,7 +184,7 @@ void ConfiguratorSequencerUIHandler::slotEditCycleClicked()
     ICycle *cycle = automate->getCycle(cycleName);
     Q_ASSERT(cycle);
 
-    if (cycle->getType() != CYCLE_MESURE) {
+    if (cycle->getType() != e_cycle_measure) {
         return;
     }
 

@@ -23,7 +23,8 @@ public:
     QMap<QString, IVariable*> getMapCstParameters() Q_DECL_OVERRIDE;
     void setParameter(const QString& arg_key, IVariable* arg_parameter)Q_DECL_OVERRIDE;
 
-    variableType getWaitedType(const QString& arg_key) Q_DECL_OVERRIDE;
+    enumVariableType getWaitedType(const QString& arg_key) Q_DECL_OVERRIDE;
+    QVariantMap serialize() Q_DECL_OVERRIDE;
 
 private:
 

@@ -69,7 +69,7 @@ void CPCMeasureTab::slotStopTriggered()
 
 void CPCMeasureTab::slotStopEndCycleTriggered()
 {
-
+    CAutomate::getInstance()->slotSerializeAndSave();
 }
 
 void CPCMeasureTab::slotNextStreamTriggered()
@@ -102,7 +102,7 @@ void CPCMeasureTab::slotUpdateStreamsMeasures()
     else {
         disconnect(CAutomate::getInstance(), &CAutomate::signalUpdatePlotting,
                 this, &CPCMeasureTab::slotUpdatePlotting);
-        ui->swCentral->setScrollable(true);
+        ui->swCentral->setScrollable(false); //si scrollable, ne met que deux mesures alors qu'il y a plein de place
         ui->graphicsWidget->hide();
     }
 }

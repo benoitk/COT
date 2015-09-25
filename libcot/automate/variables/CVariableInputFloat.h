@@ -20,9 +20,9 @@ public:
     IVariable* getIVariable() Q_DECL_OVERRIDE;
 
     //IVariable
-    variableType getType()const Q_DECL_OVERRIDE;
-    QVariantMap serialise() Q_DECL_OVERRIDE;
-    VariableOrganType getOrganType() const Q_DECL_OVERRIDE;
+    enumVariableType getType()const Q_DECL_OVERRIDE;
+    QVariantMap serialize() Q_DECL_OVERRIDE;
+    enumVariableOrganType getOrganType() const Q_DECL_OVERRIDE;
     IVariable* readValue() Q_DECL_OVERRIDE;
 private:
 

@@ -34,7 +34,7 @@ void ConfiguratorActionsUIHandler::layout()
         QString actionName = action->getName();
         QString actionLbl = action->getLabel();
         CVariableMutable *ivar = qobject_cast<CVariableMutable *>(CVariableFactory::buildTemporary(actionName, actionLbl, type_mutable));
-        ivar->setAccess(access_read_write);
+        ivar->setAccess(e_access_read_write);
 
         if (m_internalVariables.contains(action->getName())) {
             qWarning(COTGUI_LOG) << "Already have an action called" << action->getName();

@@ -29,11 +29,11 @@ void CEditCycleWindow::slotOkTriggered()
     ICycle *cycle = editedObject().value<ICycle *>();
     Q_ASSERT(cycle);
     const bool isNew = !automate->getListCycles().contains(cycle);
-    const QVariantMap oldData = isNew ? QVariantMap() : cycle->serialise();
+    const QVariantMap oldData = isNew ? QVariantMap() : cycle->serialize();
 
     applyProperties();
 
-    if (oldData != cycle->serialise()) {
+    if (oldData != cycle->serialize()) {
         automate->informAboutCycleChanges(cycle, oldData);
     }
 

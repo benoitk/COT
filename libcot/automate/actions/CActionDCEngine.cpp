@@ -10,13 +10,22 @@
 CActionDCEngine::CActionDCEngine(const QVariantMap &mapAction, QObject *parent)
     : IAction(mapAction, parent)
 {
+    m_timer = Q_NULLPTR;
     CAutomate* automate = CAutomate::getInstance();
     m_varPump = automate->getVariable(mapAction[QStringLiteral("target")].toString()); //l'automate assure qu'il n'y ai pas de pointeur vide
     m_varClockwise = automate->getVariable(mapAction[QStringLiteral("clockwise")].toString()); //l'automate assure qu'il n'y ai pas de pointeur vide
     m_varTimeout = automate->getVariable(mapAction[QStringLiteral("timeout")].toString()); //l'automate assure qu'il n'y ai pas de pointeur vide
 
 }
+QVariantMap CActionDCEngine::serialize(){
+    QVariantMap mapSerialize = IAction::serialize();
+    mapSerialize.insert(QStringLiteral("target"), m_varPump->getName());
+    mapSerialize.insert(QStringLiteral("clockwise"), m_varClockwise->getName());
+    mapSerialize.insert(QStringLiteral("timeout"), m_varTimeout->getName());
 
+    mapSerialize.insert(QStringLiteral("type"), QStringLiteral("cmd_dc_engine"));
+    return mapSerialize;
+}
 CActionDCEngine::~CActionDCEngine()
 {
 
@@ -31,9 +40,12 @@ bool CActionDCEngine::runAction(ICycle* arg_stepParent){
 
     m_varClockwise->setValue(m_varClockwise->toInt()); //évite le cast pour faire un write sur le bus de com
     m_varPump->setValue(true);
-
-
-    QTimer::singleShot(m_varTimeout->toInt()*1000, this, SLOT(slotTimeout()));
+    if(!m_timer){
+        m_timer = new QTimer(this);
+        connect(m_timer, &QTimer::timeout, this, &CActionDCEngine::slotTimeout);
+    }
+    m_timer->stop();
+    m_timer->start(m_varTimeout->toInt()*1000);
     return true;
 }
 void CActionDCEngine::slotTimeout(){
@@ -79,10 +91,10 @@ void CActionDCEngine::setParameter(const QString& arg_key, IVariable* arg_parame
     else if(tr("Drive time")== arg_key)m_varTimeout= arg_parameter;
 
 }
-variableType CActionDCEngine::getWaitedType(const QString& arg_key){
-    if(tr("target engine")== arg_key) return type_bool;
-    else if(tr("Clockwise way")== arg_key) return type_int;
-    else if(tr("Drive time")== arg_key) return type_int;
+enumVariableType CActionDCEngine::getWaitedType(const QString& arg_key){
+    if(tr("target engine")== arg_key) return e_type_bool;
+    else if(tr("Clockwise way")== arg_key) return e_type_int;
+    else if(tr("Drive time")== arg_key) return e_type_int;
 
-    return type_unknow;
+    return e_type_unknow;
 }

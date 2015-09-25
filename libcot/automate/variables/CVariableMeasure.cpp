@@ -101,14 +101,14 @@ void CVariableMeasure::setValue(const QVariant & value){
 void CVariableMeasure::setToBindedValue(const QVariant & value){
 
 }
-variableType CVariableMeasure::getType()const{
-    return type_measure;
+enumVariableType CVariableMeasure::getType()const{
+    return e_type_measure;
 }
 void CVariableMeasure::switchToUnit(CUnit* targetUnit){
 
 }
 
-QVariantMap CVariableMeasure::serialise(){
+QVariantMap CVariableMeasure::serialize(){
     QVariantMap mapSerialise;
     mapSerialise.insert(QStringLiteral("name"), m_name);
     mapSerialise.insert(tr("fr_FR"), m_label);

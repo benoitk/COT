@@ -33,7 +33,7 @@ CVariableStream::CVariableStream(const QMap<QString, QVariant> &mapVar)
     if(mapVar.contains(QStringLiteral("cycles"))){
         QVariantList listVariable = mapVar.value(QStringLiteral("cycles")).toList();
         foreach(const QVariant &variant, listVariable){
-            ICycle *cycle = CAutomate::getInstance()->getCycle(variant.toString(), CYCLE_MESURE);
+            ICycle *cycle = CAutomate::getInstance()->getCycle(variant.toString(), e_cycle_measure);
 
             // SERES_TODO: avoid null cycles in list.
             if (cycle) {
@@ -163,15 +163,15 @@ void CVariableStream::setValue(const QVariant & value){
 void CVariableStream::setToBindedValue(const QVariant & value){
 
 }
-variableType CVariableStream::getType()const{
-    return type_stream;
+enumVariableType CVariableStream::getType()const{
+    return e_type_stream;
 }
 void CVariableStream::switchToUnit(CUnit* targetUnit){
 
 }
 
 //TO DO : change name to CVariableStream()
-QVariantMap CVariableStream::serialise(){
+QVariantMap CVariableStream::serialize(){
     QVariantMap mapSerialise;
     mapSerialise.insert(QStringLiteral("name"), m_name);
     mapSerialise.insert(tr("fr_FR"), m_label);
@@ -183,7 +183,7 @@ QVariantMap CVariableStream::serialise(){
     mapSerialise.insert(QStringLiteral("variables"), listVars);
     QList<QVariant> listMeasures;
     foreach(IVariable* var, m_listMeasures){
-        listMeasures.append(var->serialise());
+        listMeasures.append(var->serialize());
     }
     mapSerialise.insert(QStringLiteral("measures"), listMeasures);
     QList<QVariant> listCycles;

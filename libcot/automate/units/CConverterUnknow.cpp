@@ -11,3 +11,7 @@ QVariant CConverterUnknow::convert(const QVariant &valueToConvert){
 CUnit* CConverterUnknow::getTarget()const{
     return m_targetUnit;
 }
+
+QVariantMap CConverterUnknow::serialize(){
+    return QVariantMap();
+}

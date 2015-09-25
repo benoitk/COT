@@ -11,7 +11,7 @@ class CCycleFactory : public QObject
     Q_OBJECT
 
 public:
-    static ICycle* build(eTypeCycle type);
+    static ICycle* build(enumTypeCycle type);
     static ICycle* build(const QVariantMap &mapCycle, QObject* paren);
 
 

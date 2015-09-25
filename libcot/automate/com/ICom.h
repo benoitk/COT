@@ -6,15 +6,16 @@
 
 #include "cot_global.h"
 
-enum comType{
-        type_tcpip = 0,
-        type_jbus,
-        type_jbus_over_tcpip,
-        type_com_unknow
+enum enumComType{
+        e_type_tcpip = 0,
+        e_type_jbus,
+        e_type_jbus_over_tcpip,
+        e_type_com_unknow
 
 };
 
-LIBCOT_EXPORT comType stringToComType(const QString &type);
+LIBCOT_EXPORT enumComType stringToComType(const QString &type);
+LIBCOT_EXPORT QString comTypeToString(enumComType arg_eType);
 
 class IVariableInput;
 class IVariableOutput;
@@ -31,18 +32,20 @@ public:
     virtual QVariant readData(IVariableInput*)=0;
 
     virtual void writeData(IVariableOutput*)=0;
+    virtual void writeData(bool, const QString&)=0;
     virtual void addVariableOnDataTable(IVariableInput*)=0;
     virtual void addVariableOnDataTable(IVariableOutput*)=0;
 
     virtual void triggerUpdateAllData()=0;
     //virtual QList<IVariable*> getParameters()const=0;
     virtual QString getName()const =0;
-    virtual comType getType()const=0;
+    virtual enumComType getType()const=0;
+    virtual QVariantMap serialize();
 
 private:
 
 };
 
-Q_DECLARE_METATYPE(comType)
+Q_DECLARE_METATYPE(enumComType)
 
 #endif // ICom_H

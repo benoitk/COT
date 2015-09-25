@@ -25,8 +25,8 @@ CConfiguratorCycleTab::CConfiguratorCycleTab(QWidget *parent)
 void CConfiguratorCycleTab::slotAddCycle()
 {
     // user can't deny a type
-    eTypeCycle cycleType;
-    if (!m_handler->selectCycleType(cycleType) || cycleType == CYCLE_INVALID) {
+    enumTypeCycle cycleType;
+    if (!m_handler->selectCycleType(cycleType) || cycleType == e_cycle_invalid) {
         return;
     }
 

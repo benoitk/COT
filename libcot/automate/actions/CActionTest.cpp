@@ -1,5 +1,6 @@
 #include "CActionTest.h"
 #include "IVariable.h"
+#include "CVariableAlarm.h"
 #include "CVariableFactory.h"
 #include "CAutomate.h"
 #include "IVariableInput.h"
@@ -12,25 +13,23 @@
 CActionTest::CActionTest(const QVariantMap &mapAction, QObject *parent)
     : IAction(mapAction, parent)
 {
+    IVariable* var = Q_NULLPTR;
+
     CAutomate* automate = CAutomate::getInstance();
     m_setpoint = automate->getVariable(mapAction[QStringLiteral("setpoint")].toString());
-    m_result = automate->getVariable(mapAction[QStringLiteral("result")].toString());
+
     m_waiting = automate->getVariable(mapAction[QStringLiteral("waiting")].toString());
     m_errorMargin = automate->getVariable(mapAction[QStringLiteral("error_margin")].toString());
     m_timeout = automate->getVariable(mapAction[QStringLiteral("timeout")].toString());
 
-    IVariable* var = Q_NULLPTR;
+    m_result = Q_NULLPTR;
+    var =  automate->getVariable(mapAction[QStringLiteral("result")].toString());
+    if(var->getType() == e_type_alarm)
+        m_result = dynamic_cast<CVariableAlarm*>(var);
     m_target = Q_NULLPTR;
     var = automate->getVariable(mapAction[QStringLiteral("target")].toString());
-    if(var->getOrganType() == type_organ_input)
+    if(var->getOrganType() == e_type_organ_input)
         m_target = dynamic_cast<IVariableInput*>(var);
-
-    QVariantMap variantMap;
-    variantMap.insert(QStringLiteral("name"), QStringLiteral("critical_error"));
-    variantMap.insert(QStringLiteral("fr_FR"), tr("Generate critical error"));
-    variantMap.insert(QStringLiteral("type"), QStringLiteral("boolean"));
-    variantMap.insert(QStringLiteral("value"), mapAction[QStringLiteral("critical_error")].toBool());
-    m_criticalError = dynamic_cast<CVariableBool*>(CVariableFactory::build(variantMap));
 
     QString sCondition = mapAction[QStringLiteral("condition")].toString();
     if(sCondition == QStringLiteral("target_equal_to_setpoint")) m_condition = m_eEqualToSetpoint;
@@ -40,7 +39,28 @@ CActionTest::CActionTest(const QVariantMap &mapAction, QObject *parent)
     //si autodelete à true, risque d'utilisation de l'objet alors qu'il est détruit à la fin du run.
     this->setAutoDelete(false);
 }
+QVariantMap CActionTest::serialize(){
+    QVariantMap mapSerialize = IAction::serialize();
+    mapSerialize.insert(QStringLiteral("setpoint"), m_setpoint->getName());
+    mapSerialize.insert(QStringLiteral("target"), m_target->getIVariable()->getName());
+    mapSerialize.insert(QStringLiteral("result"), m_result->getName());
+    mapSerialize.insert(QStringLiteral("waiting"), m_waiting->getName());
+    mapSerialize.insert(QStringLiteral("error_margin"), m_errorMargin->getName());
+    mapSerialize.insert(QStringLiteral("timeout"), m_timeout->getName());
+    mapSerialize.insert(QStringLiteral("type"), QStringLiteral("test"));
 
+    switch(m_condition){
+    case m_eEqualToSetpoint:
+        mapSerialize.insert(QStringLiteral("condition"), QStringLiteral("target_equal_to_setpoint"));
+    case m_eSuperiorToSetpoint:
+        mapSerialize.insert(QStringLiteral("condition"), QStringLiteral("target_superior_to_setpoint"));
+    default: // m_eInferiorToSetPoint:
+        mapSerialize.insert(QStringLiteral("condition"), QStringLiteral("target_inferior_to_setpoint"));
+    }
+
+
+    return mapSerialize;
+}
 CActionTest::~CActionTest()
 {
 
@@ -71,7 +91,7 @@ void CActionTest::run(){
 
 
     //envois de la consigne si la carte mesure attend une consigne
-    if(m_setpoint->getOrganType() == type_organ_output){
+    if(m_setpoint->getOrganType() == e_type_organ_output){
         IVariableOutput* outputSetpoint = dynamic_cast<IVariableOutput*>(m_setpoint);
         if(outputSetpoint) outputSetpoint->writeValue();
     }
@@ -86,7 +106,7 @@ void CActionTest::run(){
         qCDebug(COTAUTOMATE_LOG)<< "timeout " << timeout;
         qCDebug(COTAUTOMATE_LOG)<< "result " << result;
 
-        for(int i=0 ; ( (i < timeout && timeout > 0) || timeout == 0 )&& /*!result &&*/ !m_abort; ++i){
+        for(int i=0 ; ( (i < timeout && timeout > 0) || timeout == 0 )&& !m_abort; ++i){
             setpointMax = m_setpoint->toFloat() + (m_setpoint->toFloat() * (m_errorMargin->toFloat()*0.01));
             setpointMin = m_setpoint->toFloat() - (m_setpoint->toFloat() *  (m_errorMargin->toFloat()*0.01));
             result = acquisitionAndTest(setpointMin, setpointMax);
@@ -95,18 +115,8 @@ void CActionTest::run(){
                     + m_target->getIVariable()->getLabel() + " " +  QString::number(m_target->getIVariable()->toFloat(), 'f', 2)
                     + m_target->getIVariable()->getUnit()->getLabel() ;
             updateActionInfos(sActionInfo, stepParent);
-            if(m_name ==  "control_air_flow"){
-                qCDebug(COTAUTOMATE_LOG)<< "for timeout " << timeout - i;
-                qCDebug(COTAUTOMATE_LOG)<< "for target " << m_target->getIVariable()->toString();
-                qCDebug(COTAUTOMATE_LOG)<< "for m_condition " << m_condition;
-                qCDebug(COTAUTOMATE_LOG)<< "for setpoint_max " << setpointMax;
-                qCDebug(COTAUTOMATE_LOG)<< "for setpoint_min " << setpointMin;
-                qCDebug(COTAUTOMATE_LOG)<< "for result " << result;
-            }
-
+            QThread::msleep(1000);
         }
-
-//        m_result->setValue(result);
     }
     else{
         qDebug()<< "pas le type de target attendu";
@@ -136,8 +146,6 @@ bool CActionTest::acquisitionAndTest(float arg_setPointMin, float arg_setPointMa
         }
         break;
     }
-
-    QThread::msleep(1000);
     return result;
 }
 
@@ -145,12 +153,7 @@ bool CActionTest::waitUntilFinished(){
     return m_waiting->toBool();
 }
 
-bool CActionTest::finishedWithCriticalError(){
-    if(m_criticalError && m_result->toBool())
-        return true;
-    return false;
 
-}
 QList<IVariable*> CActionTest::getListParameters()const{
     QList<IVariable*> listParams;
     listParams.append(m_errorMargin);
@@ -176,9 +179,6 @@ QMap<QString, IVariable*> CActionTest::getMapIVariableParameters(){
 
 QMap<QString, IVariable*> CActionTest::getMapCstParameters(){
     QMap<QString, IVariable*>  map;
-
-    map.insert(tr("Generate critical error"), m_criticalError);
-
     return map;
 }
 actionType CActionTest::getType()const {
@@ -192,22 +192,22 @@ bool CActionTest::variableUsed(IVariable *arg_var)const {
 }
 void CActionTest::setParameter(const QString& arg_key, IVariable* arg_parameter){
     if(tr("Setpoint")== arg_key) m_setpoint= arg_parameter;
-    else if(tr("Target")== arg_key && arg_parameter->getOrganType() == type_organ_input )m_target= dynamic_cast<IVariableInput*>(arg_parameter);
-    else if(tr("Target")== arg_key && arg_parameter->getOrganType() != type_organ_input )m_target= Q_NULLPTR;
-    else if(tr("Result")== arg_key)m_result= arg_parameter;
+    else if(tr("Target")== arg_key && arg_parameter->getOrganType() == e_type_organ_input )m_target= dynamic_cast<IVariableInput*>(arg_parameter);
+    else if(tr("Target")== arg_key && arg_parameter->getOrganType() != e_type_organ_input )m_target= Q_NULLPTR;
+    else if(tr("Result")== arg_key && arg_parameter->getOrganType() == e_type_alarm )m_result= dynamic_cast<CVariableAlarm*>(arg_parameter);
+    else if(tr("Result")== arg_key && arg_parameter->getOrganType() != e_type_alarm )m_result= Q_NULLPTR;
     else if(tr("Waiting")== arg_key)m_waiting= arg_parameter;
     else if(tr("Error margin")== arg_key)m_errorMargin= arg_parameter;
     else if(tr("Timeout")== arg_key)m_timeout= arg_parameter;
-    else if(tr("Generate critical error")== arg_key)m_criticalError->setValue(arg_parameter->toBool());
 
 }
-variableType CActionTest::getWaitedType(const QString& arg_key){
-    if(tr("Setpoint")== arg_key) return type_float;
-    else if(tr("Target")== arg_key) return type_float;
-    else if(tr("Result")== arg_key)return type_float;
-    else if(tr("Waiting")== arg_key)return type_int;
-    else if(tr("Error margin")== arg_key)return type_bool;
-    else if(tr("Timeout")== arg_key)return type_int;
-    else if(tr("Generate critical error")== arg_key)return type_bool;
-    return type_unknow;
+enumVariableType CActionTest::getWaitedType(const QString& arg_key){
+    if(tr("Setpoint")== arg_key) return e_type_float;
+    else if(tr("Target")== arg_key) return e_type_float;
+    else if(tr("Result")== arg_key)return e_type_float;
+    else if(tr("Waiting")== arg_key)return e_type_int;
+    else if(tr("Error margin")== arg_key)return e_type_bool;
+    else if(tr("Timeout")== arg_key)return e_type_int;
+    else if(tr("Generate critical error")== arg_key)return e_type_bool;
+    return e_type_unknow;
 }

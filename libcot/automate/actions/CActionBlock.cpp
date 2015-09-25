@@ -26,7 +26,11 @@ bool CActionBlock::runAction(ICycle* arg_stepParent){
     return true;
 }
 
-
+QVariantMap CActionBlock::serialize(){
+    QVariantMap mapSerialize = IAction::serialize();
+     mapSerialize.insert(QStringLiteral("type"), QStringLiteral("block"));
+    return mapSerialize;
+}
 
 
 QList<IVariable*> CActionBlock::getListParameters()const{
@@ -57,8 +61,8 @@ void CActionBlock::setParameter(const QString& arg_key, IVariable* arg_parameter
 
 //    else if(tr("Generate critical error")== arg_key)m_criticalError->setValue(arg_parameter->toBool());
 }
-variableType CActionBlock::getWaitedType(const QString& arg_key){
+enumVariableType CActionBlock::getWaitedType(const QString& arg_key){
    //peu importe
 
-    return type_unknow;
+    return e_type_unknow;
 }

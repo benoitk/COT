@@ -25,18 +25,11 @@ QString CCycleAutonome::getRelatedStreamName()const{
 CVariableStream* CCycleAutonome::getRelatedStream()const{
     return CAutomate::getInstance()->getStream(CCycleMesure::getRelatedStreamName());
 }
-QVariantMap CCycleAutonome::serialise(){
-    QVariantMap mapSerialise;
-    mapSerialise.insert(QStringLiteral("name"), m_name);
-    mapSerialise.insert(tr("fr_FR"), m_label);
+QVariantMap CCycleAutonome::serialize(){
+    QVariantMap mapSerialise = ICycle::serialize();
+
     mapSerialise.insert(QStringLiteral("type"), QStringLiteral("autonome"));
 
-    QVariantList listSteps;
-    foreach(CStep* step, m_listSteps){
-        listSteps.append(step->serialise());
-    }
-    mapSerialise.insert(QStringLiteral("steps"), listSteps);
-    mapSerialise.insert(QStringLiteral("related_stream_name"), getRelatedStreamName());
     return mapSerialise;
 }
 void CCycleAutonome::setRelatedStreamName(const QString &name)

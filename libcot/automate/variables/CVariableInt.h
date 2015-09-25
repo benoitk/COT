@@ -13,7 +13,7 @@ class CVariableInt : public IVariable
 public:
     CVariableInt(QObject *parent = Q_NULLPTR);
     CVariableInt(const QVariantMap& mapVar);
-    CVariableInt(int, int address = 0, variableAccess =access_read);
+    CVariableInt(int, int address = 0, enumVariableAccess =e_access_read);
     ~CVariableInt();
 
 
@@ -24,9 +24,9 @@ public:
     bool toBool() Q_DECL_OVERRIDE;
     void setValue(int iValeur);
     void setValue(const QVariant & value) Q_DECL_OVERRIDE;
-    variableType getType()const Q_DECL_OVERRIDE;
+    enumVariableType getType()const Q_DECL_OVERRIDE;
     void switchToUnit(CUnit*) Q_DECL_OVERRIDE;
-    QVariantMap serialise() Q_DECL_OVERRIDE;
+    QVariantMap serialize() Q_DECL_OVERRIDE;
     void setToBindedValue(const QVariant &) Q_DECL_OVERRIDE;
 
 protected:

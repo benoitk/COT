@@ -18,7 +18,7 @@ void CThreadDiag::run(){
     m_stoped = false;
     QList<IVariable*> listVars(CAutomate::getInstance()->getDisplayConf()->getListForScreenDiagnostic());
     foreach (IVariable* var, listVars) {
-        if(var->getOrganType() == type_organ_input)
+        if(var->getOrganType() == e_type_organ_input)
             m_listDiagInputVars.append(dynamic_cast<IVariableInput*>(var));
     }
     while(!m_stoped){

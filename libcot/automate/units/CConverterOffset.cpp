@@ -20,3 +20,11 @@ QVariant CConverterOffset::convert(const QVariant &valueToConvert){
 CUnit* CConverterOffset::getTarget()const{
     return m_targetUnit;
 }
+
+QVariantMap CConverterOffset::serialize(){
+    QVariantMap mapSerialise;
+    mapSerialise.insert(QStringLiteral("name"), m_targetUnit->getName());
+    mapSerialise.insert(QStringLiteral("offset"), m_offset);
+    mapSerialise.insert(QStringLiteral("type"), QStringLiteral("offset"));
+    return mapSerialise;
+}

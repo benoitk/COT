@@ -23,7 +23,7 @@ public:
     CStep* getStepStop()const Q_DECL_OVERRIDE;
     void setListSteps(const QList<CStep *> &steps, CStep *stopStep = Q_NULLPTR) Q_DECL_OVERRIDE;
     int getCurrentStepIndex() const Q_DECL_OVERRIDE;
-    QVariantMap serialise() Q_DECL_OVERRIDE;
+    QVariantMap serialize() Q_DECL_OVERRIDE;
 
     void updateCycleInfosStep(float arg_numStep, QString arg_info) Q_DECL_OVERRIDE;
     void updateCycleInfosAction(QString arg_info) Q_DECL_OVERRIDE;
@@ -31,7 +31,7 @@ public:
 
 private:
     int m_idCycle;
-    eTypeCycle m_typeCycle;
+    enumTypeCycle m_typeCycle;
     QString m_name;
     QString m_label;
 

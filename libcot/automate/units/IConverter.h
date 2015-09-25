@@ -2,14 +2,15 @@
 #define ICONVERTER_H
 
 #include "qvariant.h"
+#include "CUnit.h"
 
-class CUnit;
 class IConverter
 {
 public:
     virtual ~IConverter() {}
     virtual QVariant convert(const QVariant &)=0;
     virtual CUnit* getTarget()const=0;
+    virtual QVariantMap serialize()=0;
 
 private:
 

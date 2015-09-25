@@ -21,12 +21,12 @@ void CConfiguratorVariablesTab::slotAddVariable()
 {
     CAutomate *automate = CAutomate::getInstance();
 
-    variableType varType;
-    if (!m_ivariableUIHandler->selectVariableType(varType) || (varType == type_unknow)) {
+    enumVariableType varType;
+    if (!m_ivariableUIHandler->selectVariableType(varType) || (varType == e_type_unknow)) {
         return;
     }
 
-    VariableOrganType organType = type_organ_none;
+    enumVariableOrganType organType = e_type_organ_none;
     m_ivariableUIHandler->selectOrganType(organType);
 
     QString name;

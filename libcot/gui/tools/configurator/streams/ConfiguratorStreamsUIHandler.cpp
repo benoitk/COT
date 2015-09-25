@@ -40,7 +40,7 @@ int ConfiguratorStreamsUIHandler::columnCount() const
 
 QWidget *ConfiguratorStreamsUIHandler::createWidget(int column, IVariable *ivar)
 {
-    const bool isStream = ivar && ivar->getType() == type_stream;
+    const bool isStream = ivar && ivar->getType() == e_type_stream;
 
     switch (column) {
         case 0: {
@@ -69,7 +69,7 @@ void ConfiguratorStreamsUIHandler::rowInserted(const IVariableUIHandler::Row &ro
 
 void ConfiguratorStreamsUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariable *ivar)
 {
-    const bool isStream = ivar && ivar->getType() == type_stream;
+    const bool isStream = ivar && ivar->getType() == e_type_stream;
     row.widgetAt<CPushButton *>(isStream ? 0 : 1)->setText(ivar->getLabel());
 }
 
@@ -79,10 +79,10 @@ void ConfiguratorStreamsUIHandler::rowAboutToBeDeleted(const IVariableUIHandler:
     CAutomate *automate = CAutomate::getInstance();
     CVariableStream *varStream = qobject_cast<CVariableStream *>(ivar);
 
-    if (ivar->getType() == type_stream) {
+    if (ivar->getType() == e_type_stream) {
         Q_ASSERT(varStream);
         automate->delStream(varStream);
-    } else if (ivar->getType() == type_measure) {
+    } else if (ivar->getType() == e_type_measure) {
         CVariableMeasure *varMeasure = qobject_cast<CVariableMeasure *>(ivar);
         Q_ASSERT(varMeasure);
 
@@ -160,7 +160,7 @@ void ConfiguratorStreamsUIHandler::addNewMeasureToStream(CVariableStream *stream
         return;
 
     const QString tempName = CVariableFactory::buildTemporaryName("Measure");
-    IVariable *varMeasure = CVariableFactory::buildTemporary(tempName, type_measure);
+    IVariable *varMeasure = CVariableFactory::buildTemporary(tempName, e_type_measure);
     Q_ASSERT(varMeasure);
 
     varMeasure->setLabel(label);
@@ -209,7 +209,7 @@ void ConfiguratorStreamsUIHandler::slotAddStreams()
         return;
 
     const QString tempName = CVariableFactory::buildTemporaryName("Stream");
-    CVariableStream *varStream = qobject_cast<CVariableStream *>(CVariableFactory::buildTemporary(tempName, type_stream));
+    CVariableStream *varStream = qobject_cast<CVariableStream *>(CVariableFactory::buildTemporary(tempName, e_type_stream));
 
     varStream->setLabel(label);
     addNewMeasureToStream(varStream);

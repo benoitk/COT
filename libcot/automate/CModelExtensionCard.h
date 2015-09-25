@@ -29,7 +29,7 @@ public:
     QString getName()const;
     QVariant readOrganneValue(IVariableInput*);
 
-
+    QVariantMap serialize();
 
 
     //IComObserver

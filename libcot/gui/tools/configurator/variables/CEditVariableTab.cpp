@@ -37,14 +37,14 @@ void CEditVariableTab::applyProperties(const QVariant &object)
         IOrgan *iorgan = automate->getOrgan(organ->toString());
 
         switch (ivar->getOrganType()) {
-            case type_organ_input: {
+            case e_type_organ_input: {
                 IVariableInput *iivar = dynamic_cast<IVariableInput *>(ivar);
                 Q_ASSERT(iivar);
                 iivar->setOrgan(iorgan ? iorgan->getExtCard() : Q_NULLPTR, iorgan ? iorgan->getName() : QString());
                 break;
             }
 
-            case type_organ_output: {
+            case e_type_organ_output: {
                 IVariableOutput *oivar = dynamic_cast<IVariableOutput *>(ivar);
                 Q_ASSERT(oivar);
                 oivar->setOrgan(iorgan ? iorgan->getExtCard() : Q_NULLPTR, iorgan ? iorgan->getName() : QString());

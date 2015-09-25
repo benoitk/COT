@@ -23,6 +23,8 @@ public:
     int getNumberOfStream() const;
     ICycle* getCycle(int);
 
+    void saveJson(const QVariantMap& arg_mapSerialized);
+
 private:
     QJsonDocument* m_jsonDoc;
 

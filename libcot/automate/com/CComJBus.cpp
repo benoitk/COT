@@ -113,7 +113,7 @@ CComJBus::CComJBus(const QVariantMap &mapCom, QObject *parent)
     , m_ctx(Q_NULLPTR)
     , m_modbusThread(new QThread(this))
     , m_slave(-1)
-    , m_type(type_com_unknow)
+    , m_type(e_type_com_unknow)
 {
     m_ip = mapCom.value(QStringLiteral("ip")).toString();
     m_name = mapCom.value(QStringLiteral("name")).toString();
@@ -125,16 +125,16 @@ CComJBus::CComJBus(const QVariantMap &mapCom, QObject *parent)
     m_type = stringToComType(mapCom.value(QStringLiteral("type")).toString());
     switch(m_type)
     {
-    case type_jbus_over_tcpip:
+    case e_type_jbus_over_tcpip:
         m_ctx.reset(initTcp(mapCom, modbus_new_rtutcp));
         break;
-    case type_jbus:
+    case e_type_jbus:
         m_ctx.reset(initRtu(mapCom));
         break;
-    case type_tcpip:
+    case e_type_tcpip:
         m_ctx.reset(initTcp(mapCom, modbus_new_tcp));
         break;
-    case type_com_unknow:
+    case e_type_com_unknow:
         qCDebug(COTAUTOMATE_LOG) << "CComJBus type unknow:" << mapCom;
     }
 
@@ -212,6 +212,11 @@ QVariant CComJBus::readData(IVariableInput* arg_input){
     }
     return QVariant();
 }
+//permet de faire des commande passive ou active avec les booléens
+void CComJBus::writeData(bool value, const QString& addr){
+    QMutexLocker lock(&m_mutex);
+    writeBool(addr.toInt(0,16), value);
+}
 void CComJBus::writeData(IVariableOutput* arg_output)
 {
     QMutexLocker lock(&m_mutex);
@@ -220,16 +225,16 @@ void CComJBus::writeData(IVariableOutput* arg_output)
     IVariable* variable = arg_output->getIVariable();
     switch (variable->getType())
     {
-    case type_bool:
+    case e_type_bool:
         writeBool(address, variable->toBool());
         break;
-    case type_int:
+    case e_type_int:
         writeInt(address, variable->toInt());
         break;
-    case type_float:
+    case e_type_float:
         writeFloat(address, variable->toFloat());
         break;
-    case type_unknow:
+    case e_type_unknow:
     default:
         break;
     }
@@ -379,8 +384,18 @@ void CComJBus::addVariableOnDataTable(IVariableOutput* arg_varOutput){
 QString CComJBus::getName()const{
     return m_name;
 }
-comType CComJBus::getType()const{
+enumComType CComJBus::getType()const{
     return m_type; //typer slave et master ?
 }
+QVariantMap CComJBus::serialize(){
+    QVariantMap mapSerialize;
+    mapSerialize.insert(QStringLiteral("name"), m_name);
+    mapSerialize.insert(QStringLiteral("type"),comTypeToString(m_type) );
+    mapSerialize.insert(QStringLiteral("slave"), m_slave);
+    mapSerialize.insert(QStringLiteral("slave"), m_ip);
+    mapSerialize.insert(QStringLiteral("port"), 502); //?Pas utilisé le port ?
+    mapSerialize.insert(QStringLiteral("debug"), false);
 
+    return mapSerialize;
+}
 #include "CComJBus.moc"

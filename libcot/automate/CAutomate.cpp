@@ -3,6 +3,7 @@
 #include "CScheduler.h"
 #include "ICycle.h"
 #include "IVariable.h"
+#include "CVariableAlarm.h"
 #include "CCycleMesure.h"
 #include "CCycleMaintenance.h"
 #include "CCycleAutonome.h"
@@ -19,11 +20,15 @@
 #include "CVariableStream.h"
 #include "CVariableMeasure.h"
 #include "CThreadDiag.h"
-
+#include "IConverter.h"
 
 #include "cotautomate_debug.h"
 #include "qtimer.h"
 #include "qfile.h"
+#include "qdir.h"
+
+#include <QJsonDocument>
+
 CAutomate* CAutomate::singleton = 0;
 
 CAutomate* CAutomate::getInstance(){
@@ -44,8 +49,8 @@ CAutomate::CAutomate()
     QTimer* timer = new QTimer(this);
     m_iClock = 0;
     connect(timer, &QTimer::timeout, this, &CAutomate::slotClock);
-    timer->setInterval(1000);
-  //  timer->start();
+    timer->setInterval(250);
+   // timer->start();
 
     // for use in queued signal/slot connections
     qRegisterMetaType<CAutomate::eStateAutomate>();
@@ -85,66 +90,66 @@ void CAutomate::addCyclePrivate(ICycle * cycle)
 {
     //CControlerCycle* controlerCycle = new CControlerCycle(this, cycle);
     switch(cycle->getType()){
-        case CYCLE_MESURE:
+        case e_cycle_measure:
             Q_ASSERT(!m_listCycleMesures.contains(cycle->getName()));
             m_listCycleMesures[cycle->getName()] = cycle;
             break;
-        case CYCLE_MAINTENANCE :
+        case e_cycle_maintenance :
             Q_ASSERT(!m_listCycleMaintenances.contains(cycle->getName()));
             m_listCycleMaintenances[cycle->getName()] = cycle;
             break;
-        case CYCLE_AUTONOME:
+        case e_cycle_autonome:
             Q_ASSERT(!m_listlCycleAutonomes.contains(cycle->getName()));
             m_listlCycleAutonomes[cycle->getName()] = cycle;
             break;
 
-        case CYCLE_PAUSE:
+        case e_cycle_pause:
             break;
 
-        case CYCLE_ALL:
+        case e_cycle_all:
             Q_ASSERT(false);
             break;
     }
 }
 void CAutomate::acquitAlarms(){
-    // SERES_TODO: implement
 
-    IVariable *defectVar = getVariable(QStringLiteral("alarm_defaut_eau"));
-    defectVar->setValue(false);
+    foreach(IVariable* var, m_displayConf->getListForScreenAlarms()){
+        var->setValue(false);
+    }
 }
 
 QList<ICycle *> CAutomate::getListCyclesPrivate(int cycleType)
 {
     QList<ICycle*> listAllCycles;
 
-    switch (static_cast<eTypeCycle>(cycleType)) {
-        case CYCLE_ALL: {
+    switch (static_cast<enumTypeCycle>(cycleType)) {
+        case e_cycle_all: {
             listAllCycles << m_listCycleMesures.values();
             listAllCycles << m_listCycleMaintenances.values();
             listAllCycles << m_listlCycleAutonomes.values();
             break;
         }
 
-        case CYCLE_MESURE: {
+        case e_cycle_measure: {
             listAllCycles << m_listCycleMesures.values();
             break;
         }
 
-        case CYCLE_AUTONOME: {
+        case e_cycle_autonome: {
             listAllCycles << m_listlCycleAutonomes.values();
             break;
         }
 
-        case CYCLE_MAINTENANCE: {
+        case e_cycle_maintenance: {
             listAllCycles << m_listCycleMaintenances.values();
             break;
         }
 
-        case CYCLE_PAUSE: {
+        case e_cycle_pause: {
             break;
         }
 
-        case CYCLE_INVALID:
+        case e_cycle_invalid:
             Q_ASSERT(false);
             break;
     }
@@ -191,7 +196,7 @@ void CAutomate::addVariable(const QString& name, IVariable* var){
 }
 
 void CAutomate::addVariablePrivate(const QString& name, IVariable* var){
-    if(var && var->getType() != type_unknow){
+    if(var && var->getType() != e_type_unknow){
         m_mapVariables.insert(name, var);
         if(var->getAddress() != 0){
             m_mappingCom.insert(QString::number(var->getAddress(), 16 /*hexa*/), var);
@@ -337,18 +342,29 @@ QList<ICycle*> CAutomate::getListCycles(int cycleType){
     return getListCyclesPrivate(cycleType);
 }
 void CAutomate::slotClock(){
-    m_iClock = (m_iClock + 1) % 600;
-    qCDebug(COTAUTOMATE_LOG) << "Tick " << m_iClock;
+  //  qCDebug(COTAUTOMATE_LOG) << "Tick " << m_iClock;
 
-//    // TEST CODE (for graph and history)
+    // TEST CODE (for graph and history)
 //    getVariable(QStringLiteral("measure_cot"))->setValue(QVariant(m_iClock));
 //    IVariable *phosphore = getVariable(QStringLiteral("phosphore"));
 //    phosphore->setValue(m_iClock * 2);
-//    if ((m_iClock % 5) == 2) {
-//        IVariable *azote= getVariable(QStringLiteral("azote"));
-//        azote->setValue(m_iClock * 1.5);
-//    }
-//    emit signalUpdatePlotting();
+    if ((m_iClock++ % 5) == 0) {
+        IVariable *var= getVariable(QStringLiteral("var_measure_cot"));
+        float tmp = rand() %5000;
+        tmp = (tmp + 45000)/1000;
+        var->setValue(tmp);
+
+        var= getVariable(QStringLiteral("var_measure_cit"));
+        tmp = rand() %5000;
+        tmp = (tmp + 45000)/1000;
+        var->setValue(tmp);
+
+        var= getVariable(QStringLiteral("var_measure_npoc"));
+        tmp = rand() %5000;
+        tmp = (tmp + 45000)/1000;
+        var->setValue(tmp);
+    }
+    emit signalUpdatePlotting();
 //    if (m_iClock == 6) {
 //        emit signalUpdateStateStream("stream_1", WATER_DEFAULT);
 //    } else if (m_iClock == 10) {
@@ -560,23 +576,23 @@ void CAutomate::delCycle(ICycle *cycle)
     m_scheduler->removeCycleAutonome(cycle);
 
     switch(cycle->getType()){
-        case CYCLE_MESURE:
+        case e_cycle_measure:
             delete m_listCycleMesures.take(cycle->getName());
             break;
 
-        case CYCLE_MAINTENANCE :
+        case e_cycle_maintenance :
             delete m_listCycleMaintenances.take(cycle->getName());
             break;
 
 
-        case CYCLE_AUTONOME:
+        case e_cycle_autonome:
             delete m_listlCycleAutonomes.take(cycle->getName());
             break;
 
-        case CYCLE_PAUSE:
+        case e_cycle_pause:
             break;
 
-        case CYCLE_ALL:
+        case e_cycle_all:
             Q_ASSERT(false);
             break;
     }
@@ -604,7 +620,7 @@ IVariable* CAutomate::getVariableByAddr(const QString &addr_var)const{
 }
 void CAutomate::addVariableToMappingCom(IVariable* var){
     QMutexLocker locker(&m_mutex);
-    if(var && var->getType() != type_unknow)
+    if(var && var->getType() != e_type_unknow)
         m_mappingCom.insert(QString::number(var->getAddress(), 16 /*hexa*/), var);
 }
 
@@ -624,17 +640,17 @@ ICycle *CAutomate::getCycle(const QString &name, int type) const
 {
     QMutexLocker locker(&m_mutex);
 
-    switch(static_cast<eTypeCycle>(type)){
-        case CYCLE_MESURE:
+    switch(static_cast<enumTypeCycle>(type)){
+        case e_cycle_measure:
             return m_listCycleMesures.value(name, Q_NULLPTR);
-        case CYCLE_MAINTENANCE :
+        case e_cycle_maintenance :
             return m_listCycleMaintenances.value(name, Q_NULLPTR);
-        case CYCLE_AUTONOME:
+        case e_cycle_autonome:
             return m_listlCycleAutonomes.value(name, Q_NULLPTR);
-        case CYCLE_PAUSE:
+        case e_cycle_pause:
             break;
 
-        case CYCLE_ALL: {
+        case e_cycle_all: {
             ICycle * cycle = m_listCycleMesures.value(name, Q_NULLPTR);
 
             if (!cycle) {
@@ -711,15 +727,12 @@ CVariableMeasure *CAutomate::getMeasure(const QString &name) const
     return Q_NULLPTR;
 }
 
-void CAutomate::setStateCycleMesure(eStateCycle arg_state, bool arg_criticalError){
+void CAutomate::setStateCycleMesure(eStateCycle arg_state){
     QMutexLocker locker(&m_mutex);
     m_stateCycleMesure = arg_state;
     switch(arg_state){
     case CYCLE_STATE_STOP:
-        if(!arg_criticalError)
-            emit signalUpdateStateAutomate(STOPPED);
-        else
-            emit signalUpdateStateAutomate(GENERAL_DEFAULT);
+        emit signalUpdateStateAutomate(STOPPED);
         break;
     case CYCLE_STATE_RUN:
         emit signalUpdateStateAutomate(RUNNING);
@@ -728,6 +741,37 @@ void CAutomate::setStateCycleMesure(eStateCycle arg_state, bool arg_criticalErro
         break;
     }
 
+}
+void CAutomate::slotNewAlarm(CVariableAlarm* arg_alarm){
+    switch(arg_alarm->getAlarmType()){
+    case e_not_critical_error_skip_cycle_try_again:
+        m_scheduler->slotRequestPlayNextSequenceMesure();
+        break;
+    case e_critical_error_stop_cycle:
+        m_scheduler->slotRequestStopSequenceMesure();
+        break;
+    case e_warning_do_nothing:
+    default:
+        break;
+    }
+
+    //intérêt du display conf pour les alarms ?
+    if(m_displayConf->getListForScreenAlarms().contains(arg_alarm)){
+        emit signalNewAlarm(arg_alarm->getLabel());
+    }
+}
+void CAutomate::slotCancelAlarm(CVariableAlarm* arg_alarm){
+
+    //lors d'une reprise après un rétablissement d'un défaut
+    switch(arg_alarm->getAlarmType()){
+    case e_critical_error_stop_cycle:
+        m_scheduler->slotRequestPlayNextSequenceMesure();
+        break;
+    case e_not_critical_error_skip_cycle_try_again:
+    case e_warning_do_nothing:
+    default:
+        break;
+    }
 }
 
 void CAutomate::setStateCycleIO(eStateCycle state){
@@ -833,9 +877,154 @@ void CAutomate::setDisplayConf(CDisplayConf* displayConf){
 
 void CAutomate::addLoggedVariable(const QString& arg_varName){
     IVariable* var = getVariable(arg_varName);
-    m_listLogedVar.append(var);
+    m_listLoggedVar.append(var);
     //if(var && var->getType() != type_unknow)
         //connect(var, &IVariable::signalVariableChanged, this, &CAutomate::slotLogVariable);
+
+}
+void CAutomate::slotSerializeAndSave(){
+    QVariantMap mapSerialize;
+    mapSerialize.insert(QStringLiteral("name"), QStringLiteral("TOC"));
+    mapSerialize.insert(tr("fr_FR"), tr("COT"));
+    mapSerialize.insert(QStringLiteral("version"), QStringLiteral("0.0.1"));
+
+    //extensions
+    {
+        QVariantList listTmp;
+        foreach(CModelExtensionCard* ext, m_mapExtCards){
+            listTmp.append(ext->serialize());
+        }
+        mapSerialize.insert(QStringLiteral("extensions"), listTmp);
+    }
+
+    //units et convertion
+    {
+        QVariantList listTmp;
+        QVariantList listTmp2;
+        foreach(CUnit* unit, m_listUnits){
+            listTmp.append(unit->serialize());
+//            foreach(IConverter* converter, unit->getConverters()){
+//                QVariantMap mapTmp = converter->serialize();
+//                mapTmp.insert(QStringLiteral("source"), unit->getName());
+//                listTmp2.append(mapTmp);
+//            }
+        }
+        mapSerialize.insert(QStringLiteral("units"), listTmp);
+    }
+    //variables et binds
+    {
+        QVariantList listTmp;
+        QVariantList listBinds;
+        foreach(IVariable* var, m_mapVariables){
+            listTmp.append(var->serialize());
+            foreach(IVariable* bindedVar, var->getListOutBinds()){
+                QVariantMap mapBind;
+                mapBind.insert(QStringLiteral("source"), var->getName());
+                mapBind.insert(QStringLiteral("target"), bindedVar->getName());
+                listBinds.append(mapBind);
+            }
+        }
+        mapSerialize.insert(QStringLiteral("variables"), listTmp);
+        mapSerialize.insert(QStringLiteral("binds"), listBinds);
+    }
+    //Display
+    {
+        mapSerialize.insert(QStringLiteral("variables"), m_displayConf->serialize());
+    }
+
+    //action
+    {
+        QVariantList listTmp;
+        foreach(IAction* action, m_listActions){
+            listTmp.append(action->serialize());
+        }
+        mapSerialize.insert(QStringLiteral("actions"), listTmp);
+    }
+
+    //cycles
+    {
+        QVariantList listTmp;
+        foreach(ICycle* cycle, m_listCycleMesures){
+            listTmp.append(cycle->serialize());
+        }
+        mapSerialize.insert(QStringLiteral("cycles"), listTmp);
+    }
+
+    //Scheduler measure
+    {
+        QStringList listTmp;
+        foreach(ICycle* cycle, m_scheduler->getListSequenceCyclesMesures() ){
+            listTmp.append(cycle->getName());
+        }
+        mapSerialize.insert(QStringLiteral("scheduler_measure"), listTmp);
+
+    }
+
+    //Scheduler autonome
+    {
+        QStringList listTmp;
+        foreach(ICycle* cycle, m_scheduler->getListSequenceCyclesAutonomes() ){
+            listTmp.append(cycle->getName());
+        }
+        mapSerialize.insert(QStringLiteral("scheduler_autonome"), listTmp);
+
+    }
+
+    //Scheduler maintenance
+    {
+        QStringList listTmp;
+        foreach(ICycle* cycle, m_scheduler->getListCyclesMaintenances() ){
+            listTmp.append(cycle->getName());
+        }
+        mapSerialize.insert(QStringLiteral("list_cycles_maintenances"), listTmp);
+
+    }
+
+    //streams
+    {
+        QVariantList listTmp;
+        foreach(CVariableStream* stream, m_listStreams){
+            QVariantMap map;
+            map.insert(QStringLiteral("name"), stream->getName());
+            map.insert(tr("fr_FR"), stream->getLabel());
+            QVariantList listVarStream;
+            foreach(IVariable* var, stream->getListVariables()){
+                listVarStream.append(var->getName());
+            }
+            map.insert(QStringLiteral("variables"), listVarStream);
+            QVariantList listMeasureStream;
+            foreach(IVariable* var, stream->getListMeasures()){
+                listMeasureStream.append(var->serialize());
+            }
+            map.insert(QStringLiteral("Measures"), listMeasureStream);
+            QVariantList listCyclesStream;
+            foreach(ICycle* cycle , stream->getListCycles()){
+                if(cycle)
+                    listMeasureStream.append(cycle->getName());
+            }
+            map.insert(QStringLiteral("Cycles"), listCyclesStream);
+            listTmp.append(map);
+        }
+        mapSerialize.insert(QStringLiteral("Streams"), listTmp);
+    }
+
+    //logs
+    {
+          QVariantList listTmp;
+          foreach (IVariable* var, m_listLoggedVar) {
+              listTmp.append(var->getName());
+          }
+          mapSerialize.insert(QStringLiteral("Logs"), listTmp);
+    }
+
+    QJsonDocument doc = QJsonDocument::fromVariant(mapSerialize);
+    QFile jsonFile(QString::fromLocal8Bit(JSON_DIRECTORY "/test_save.json"));
+
+    if (!jsonFile.open(QIODevice::ReadWrite)) {
+        qCDebug(COTAUTOMATE_LOG) << "Couldn't open save file.";
+    }
+    jsonFile.write(doc.toJson());
+    jsonFile.close();
 
 }
 
@@ -843,15 +1032,25 @@ void CAutomate::addLoggedVariable(const QString& arg_varName){
 void CAutomate::slotLogVariable(){
     QMutexLocker locker(&m_mutex);
     QTimer::singleShot(1000, this, SLOT(slotLogVariable()));
-    QString path = QString(LOG_SOURCE_DIRECTORY) + "/log_"+QDate::currentDate().toString(Qt::ISODate)+".txt";
+    QString dirPath = QString(LOG_SOURCE_DIRECTORY);
+    QDir dir = QDir(dirPath);
+    if(!dir.exists()){
+        dir.mkdir(dirPath);
+    }
+    QString path = dirPath+ "/log_"+QDate::currentDate().toString(Qt::ISODate)+".txt";
     QFile data(path);
     if (data.open(QFile::Append)) {
         QTextStream out(&data);
         out << QDateTime::currentDateTime().toString(Qt::ISODate);
-        foreach(IVariable* arg_var, m_listLogedVar)
-            out << ";" << arg_var->getLabel() << ";" << QString::number(arg_var->toFloat(), 'f' , 10) ;
+        foreach(IVariable* arg_var, m_listLoggedVar){
+            QString tmp = QString::number(arg_var->toFloat(), 'f', 10);
+            out << ";" << arg_var->getLabel() << ";" << tmp;
+           // qDebug() << ";" << arg_var->getLabel() << ";" << tmp;
+        }
         out << endl;
+    }else{
+        qDebug() << "Can't open file";
     }
-
+    data.close();
 }
 

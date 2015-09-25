@@ -47,10 +47,9 @@ CModelExtensionCard::CModelExtensionCard(const QVariantMap& mapExt)
 ICom* CModelExtensionCard::getICom()const{
     return m_interfaceCom;
 }
-CModelExtensionCard::~CModelExtensionCard()
-{
 
-}
+CModelExtensionCard::~CModelExtensionCard(){}
+
 IOrgan* CModelExtensionCard::getOrgan(const QString& arg_name){
     IOrgan* organ;
     if(m_mapOrgans.contains(arg_name))
@@ -98,5 +97,16 @@ QString CModelExtensionCard::getLabel() const
     return getName();
 }
 
-
+QVariantMap CModelExtensionCard::serialize(){
+    QVariantMap mapSerialize;
+    mapSerialize.insert(QStringLiteral("name"), m_name);
+    mapSerialize.insert(tr("fr_FR"), m_label);
+    mapSerialize.insert(QStringLiteral("com"), m_interfaceCom->serialize());
+    QVariantList listSerializedOrgans;
+    foreach(IOrgan* organ, m_mapOrgans){
+        listSerializedOrgans.append(organ->serialize());
+    }
+    mapSerialize.insert(QStringLiteral("organs"), listSerializedOrgans);
+    return mapSerialize;
+}
 

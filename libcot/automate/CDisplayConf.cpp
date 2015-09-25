@@ -25,7 +25,7 @@ CDisplayConf::CDisplayConf(const QJsonArray& jsonArray, QObject *parent)
             QVariantList variantList = mapScreen.value(QStringLiteral("variables")).toList();
             foreach(QVariant variant, variantList){
                 IVariable* var = CAutomate::getInstance()->getVariable(variant.toString());
-                if(var->getType() != type_unknow){
+                if(var->getType() != e_type_unknow){
                     addVariableToScreenDiagnostic(var);
                 }
                 else qCDebug(COTAUTOMATE_LOG) << "CDisplay Conf diagnostic type_unknow" << mapScreen;
@@ -35,7 +35,7 @@ CDisplayConf::CDisplayConf(const QJsonArray& jsonArray, QObject *parent)
             QVariantList variantList = mapScreen.value(QStringLiteral("variables")).toList();
             foreach(QVariant variant, variantList){
                 IVariable* var = CAutomate::getInstance()->getVariable(variant.toString());
-                if(var->getType() != type_unknow){
+                if(var->getType() != e_type_unknow){
                     addVariableToScreenOptions(var);
                 }
                 else qCDebug(COTAUTOMATE_LOG) << "CDisplay Conf options type_unknow" << mapScreen;
@@ -44,7 +44,7 @@ CDisplayConf::CDisplayConf(const QJsonArray& jsonArray, QObject *parent)
             QVariantList variantList = mapScreen.value(QStringLiteral("variables")).toList();
             foreach(QVariant variant, variantList){
                 IVariable* var = CAutomate::getInstance()->getVariable(variant.toString());
-                if(var->getType() != type_unknow){
+                if(var->getType() != e_type_unknow){
                     addVariableToScreenHistory(var);
                 }
                 else qCDebug(COTAUTOMATE_LOG) << "CDisplay Conf history type_unknow" << mapScreen;
@@ -53,7 +53,7 @@ CDisplayConf::CDisplayConf(const QJsonArray& jsonArray, QObject *parent)
             QVariantList variantList = mapScreen.value(QStringLiteral("variables")).toList();
             foreach(QVariant variant, variantList){
                 IVariable* var = CAutomate::getInstance()->getVariable(variant.toString());
-                if(var->getType() != type_unknow){
+                if(var->getType() != e_type_unknow){
                     addVariableToScreenAlarms(var);
                 }
                 else qCDebug(COTAUTOMATE_LOG) << "CDisplay Conf alarms type_unknow" << mapScreen;
@@ -225,4 +225,89 @@ QList<IVariable *> CDisplayConf::getListInitialsTestVariablesTest(){
 
 QList<IVariable *> CDisplayConf::getListInitialsTestVariablesIndicator(){
     return m_listInitialTestVariablesIndicator;
+}
+
+QVariantList CDisplayConf::serialize(){
+    QVariantList listSerialize;
+    //diagnostic
+    {
+        QVariantMap mapDiag;
+        mapDiag.insert(QStringLiteral("name"), QStringLiteral("diagnostic"));
+        QVariantList listVar;
+        foreach(IVariable* var, m_listForScrenDiagnostic){
+            listVar.append(var->getName());
+        }
+        mapDiag.insert(QStringLiteral("variables"), listVar);
+        listSerialize.append(mapDiag);
+    }
+
+    //tests elec
+    {
+        QVariantMap mapTestsElec;
+        mapTestsElec.insert(QStringLiteral("name"), QStringLiteral("elec_tests"));
+        QVariantList listTabs;
+        QMap<QString, QList<IVariable*> >::iterator it;
+        for(it=m_mapForScrenElectricalTests.begin(); it != m_mapForScrenElectricalTests.end(); ++it){
+            QVariantList listVar;
+            foreach(IVariable* var, it.value()){
+                listVar.append(var->getName());
+            }
+            QVariantMap mapTab;
+            mapTab.insert(QStringLiteral("name"), it.key());
+            mapTab.insert(QStringLiteral("variables"), listVar);
+            listTabs.append(mapTab);
+        }
+        mapTestsElec.insert(QStringLiteral("map_tabs"), listTabs);
+        listSerialize.append(mapTestsElec);
+    }
+    //options
+    {
+        QVariantMap mapOption;
+        mapOption.insert(QStringLiteral("name"), QStringLiteral("options"));
+        QVariantList listVar;
+        foreach(IVariable* var, m_listForScrenOptions){
+            listVar.append(var->getName());
+        }
+        mapOption.insert(QStringLiteral("variables"), listVar);
+        listSerialize.append(mapOption);
+    }
+    //History
+    {
+        QVariantMap mapHistory;
+        mapHistory.insert(QStringLiteral("name"), QStringLiteral("history"));
+        QVariantList listVar;
+        foreach(IVariable* var, m_listForScrenHistory){
+            listVar.append(var->getName());
+        }
+        mapHistory.insert(QStringLiteral("variables"), listVar);
+        listSerialize.append(mapHistory);
+    }
+    //alarms
+    {
+        QVariantMap mapAlarms;
+        mapAlarms.insert(QStringLiteral("name"), QStringLiteral("alarms"));
+        QVariantList listVar;
+        foreach(IVariable* var, m_listForScrenAlarms){
+            listVar.append(var->getName());
+        }
+        mapAlarms.insert(QStringLiteral("variables"), listVar);
+        listSerialize.append(mapAlarms);
+    }
+
+    //initial_tests
+    {
+        QVariantMap mapTestInitial;
+        mapTestInitial.insert(QStringLiteral("name"), QStringLiteral("initial_tests"));
+        QVariantList listMap;
+        for(int i=0; i<m_listInitialTestVariablesIndicator.count() && i<m_listInitialTestVariablesTest.count(); ++i){
+            QVariantMap map;
+            map.insert(QStringLiteral("test"), m_listInitialTestVariablesTest.at(i)->getName());
+            map.insert(QStringLiteral("indicator"), m_listInitialTestVariablesIndicator.at(i)->getName());
+            listMap.append(map);
+        }
+        mapTestInitial.insert(QStringLiteral("variables"), listMap);
+        listSerialize.append(mapTestInitial);
+    }
+
+    return listSerialize;
 }

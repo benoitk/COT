@@ -49,7 +49,7 @@ void ConfiguratorVariablesUIHandler::layout()
         }
     }
     // Add fake global stream
-    IVariable *streamVar = CVariableFactory::buildTemporary(QString("fake_stream"), tr("Global"), type_stream);
+    IVariable *streamVar = CVariableFactory::buildTemporary(QString("fake_stream"), tr("Global"), e_type_stream);
     m_internalVariables[streamVar->getName()] = streamVar;
     ivars << streamVar;
 
@@ -121,8 +121,8 @@ IVariable *ConfiguratorVariablesUIHandler::getVariable(const QString &name) cons
 QWidget *ConfiguratorVariablesUIHandler::createWidget(int column, IVariable *ivar)
 {
 
-    const bool isStream = ivar && (ivar->getType() == type_stream);
-    const bool isMeasure = ivar && (ivar->getType() == type_measure);
+    const bool isStream = ivar && (ivar->getType() == e_type_stream);
+    const bool isMeasure = ivar && (ivar->getType() == e_type_measure);
     const bool isVariable = !isStream && !isMeasure;
     IVariable *varParent = isVariable ? getStreamOrMeasure(ivar) : Q_NULLPTR;
     switch(column) {
@@ -132,21 +132,21 @@ QWidget *ConfiguratorVariablesUIHandler::createWidget(int column, IVariable *iva
         }
         break;
     case 1:
-        if ((isVariable && !varParent) || (isVariable && (varParent->getType() == type_stream))) {
+        if ((isVariable && !varParent) || (isVariable && (varParent->getType() == e_type_stream))) {
             return newButton(ivar);
         } else if (isMeasure) {
             return newLabel(ivar);
         }
         break;
     case 2:
-        if (isVariable && varParent && (varParent->getType() == type_measure)) {
+        if (isVariable && varParent && (varParent->getType() == e_type_measure)) {
             return newButton(ivar);
         } else if (!isStream && !isMeasure) {
             return newDeleteButton(ivar);
         }
         break;
     case 3:
-        if (isVariable && varParent && (varParent->getType() == type_measure)) {
+        if (isVariable && varParent && (varParent->getType() == e_type_measure)) {
             return newDeleteButton(ivar);
         }
         break;
@@ -162,8 +162,8 @@ void ConfiguratorVariablesUIHandler::rowInserted(const IVariableUIHandler::Row &
 
 void ConfiguratorVariablesUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariable *ivar)
 {
-    const bool isStream = ivar && (ivar->getType() == type_stream);
-    const bool isMeasure = ivar && (ivar->getType() == type_measure);
+    const bool isStream = ivar && (ivar->getType() == e_type_stream);
+    const bool isMeasure = ivar && (ivar->getType() == e_type_measure);
     //const bool isVariable = !isStream && !isMeasure;
     //IVariable *varParent = isVariable ? getStreamOrMeasure(ivar) : Q_NULLPTR;
 

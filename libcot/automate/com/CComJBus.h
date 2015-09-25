@@ -25,11 +25,11 @@ public:
     void writeData(IVariableOutput*) Q_DECL_OVERRIDE;
     void addVariableOnDataTable(IVariableInput*) Q_DECL_OVERRIDE;
     void addVariableOnDataTable(IVariableOutput*) Q_DECL_OVERRIDE;
-
+    void writeData(bool, const QString&) Q_DECL_OVERRIDE;
     void triggerUpdateAllData() Q_DECL_OVERRIDE;
-
+    QVariantMap serialize() Q_DECL_OVERRIDE;
     QString getName()const Q_DECL_OVERRIDE;
-    comType getType()const Q_DECL_OVERRIDE;
+    enumComType getType()const Q_DECL_OVERRIDE;
 
 signals:
     void connected(bool success);
@@ -76,7 +76,7 @@ private:
     QMap<int, IVariableOutput*> m_mapOutputTable;
 
     QString m_name;
-    comType m_type;
+    enumComType m_type;
     QString m_ip;
     friend class JBusTest;
 

@@ -26,7 +26,13 @@ CActionCmdDigitalOutput::~CActionCmdDigitalOutput()
 {
 
 }
-
+QVariantMap CActionCmdDigitalOutput::serialize(){
+    QVariantMap mapSerialize = IAction::serialize();
+    mapSerialize.insert(QStringLiteral("target"), m_varDigitalOutput->getName());
+    mapSerialize.insert(QStringLiteral("state"), m_state->toBool());
+    mapSerialize.insert(QStringLiteral("type"), QStringLiteral("cmd_digital_output"));
+    return mapSerialize;
+}
 
 bool CActionCmdDigitalOutput::runAction(ICycle* arg_stepParent){
     m_varDigitalOutput->setValue(QVariant(m_state->toBool()));
@@ -68,8 +74,8 @@ void CActionCmdDigitalOutput::setParameter(const QString& arg_key, IVariable* ar
     if(tr("Open")== arg_key)m_state->setValue(arg_parameter->toBool());
 
 }
-variableType CActionCmdDigitalOutput::getWaitedType(const QString& arg_key){
+enumVariableType CActionCmdDigitalOutput::getWaitedType(const QString& arg_key){
    //peu importe
 
-    return type_unknow;
+    return e_type_unknow;
 }

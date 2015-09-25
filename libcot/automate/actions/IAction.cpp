@@ -1,5 +1,6 @@
 #include "IAction.h"
 #include "ICycle.h"
+#include "CAutomate.h"
 #include "cotautomate_debug.h"
 #include "qvariant.h"
 
@@ -9,6 +10,7 @@ IAction::IAction(const QVariantMap &mapAction, QObject *parent):QObject(parent),
     if(m_label == "" ) m_label = tr("Label non renseignée");
     m_name = mapAction[QStringLiteral("name")].toString();
     if(m_name == "") m_name =  tr("Nom non renseignée");
+
 }
 
 IAction::~IAction(){}
@@ -16,9 +18,7 @@ IAction::~IAction(){}
 bool IAction::waitUntilFinished(){
   return false;
 }
-bool IAction::finishedWithCriticalError(){
-    return false;
-}
+
 
 QString IAction::typeToString(actionType arg_type)
 {
@@ -82,4 +82,11 @@ ICycle* IAction::getStepParent(){
 
 void IAction::updateActionInfos(QString arg_actionInfo, ICycle* arg_stepParent){
     arg_stepParent->updateCycleInfosAction(arg_actionInfo);
+}
+
+QVariantMap IAction::serialize(){
+    QVariantMap mapSerialise;
+    mapSerialise.insert(QStringLiteral("name"), m_name);
+    mapSerialise.insert(tr("fr_FR"), m_label);
+    return mapSerialise;
 }

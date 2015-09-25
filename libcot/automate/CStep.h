@@ -27,12 +27,11 @@ public:
     //void setNextStep(CStep*);
     //FIN API
     void execStep();
-    QVariantMap serialise();
+    QVariantMap serialize();
     void addAction(IAction*);
     void removeAction(IAction*);
     void setListActions(const QList<IAction *> &actions);
     void abortStep();
-    bool finishedWithcriticalError();
 public slots:
 
     void slotActionFinished(IAction* );
@@ -46,7 +45,6 @@ private:
     QList<IAction*> m_listActions;
     QList<IAction*> m_listActionsWaited;
     bool m_bWaitForActions;
-    bool m_criticalErrorDuringActions;
 
     float m_numStep; //peut gérer des pas flotant pour affiner le timming
     ICycle* m_parentCycle;

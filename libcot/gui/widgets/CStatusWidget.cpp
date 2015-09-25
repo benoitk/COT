@@ -24,6 +24,8 @@ CStatusWidget::CStatusWidget(QWidget *parent)
             this, &CStatusWidget::slotUpdateCountStep);
     connect(automate, &CAutomate::signalUpdateCurrentAction,
             this, &CStatusWidget::slotUpdateCurrentAction);
+    connect(automate, &CAutomate::signalNewAlarm,
+            this, &CStatusWidget::slotAddAlarm);
 }
 
 CStatusWidget::~CStatusWidget()
@@ -57,14 +59,19 @@ void CStatusWidget::slotUpdateStateAutomate(CAutomate::eStateAutomate state)
     case CAutomate::STOPPED:
         text = tr("STOPPED");
         break;
-    case CAutomate::GENERAL_DEFAULT:
-        text = tr("DEFAULT");
-        ui->lCycle->setStyleSheet("QLabel { color : red; }");
-        break;
     }
 
     ui->lCycle->setText(text);
 
+}
+void CStatusWidget::slotAddAlarm(const QString& arg_default){
+    ui->lCycle->setStyleSheet("QLabel { color : red; }");
+    ui->lCycle->setText(ui->lCycle->text() + " / " + arg_default);
+}
+void CStatusWidget::slotCleanDefaults(){
+    ui->lCycle->setStyleSheet("QLabel { color : black; }");
+    QString tmp = ui->lCycle->text();
+    ui->lCycle->setText(tmp.split("/").value(0));
 }
 
 void CStatusWidget::slotUpdateCurrentStream(int stream, const QString &label)

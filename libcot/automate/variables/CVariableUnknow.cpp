@@ -38,14 +38,14 @@ void CVariableUnknow::setValue(const QVariant &){
 //Pas de récursivité dans les binds pour l'instant pour ne pas gérer les binds croisés({var1, var2}, {var2, var1})
 void CVariableUnknow::setToBindedValue(const QVariant & value){
 }
-variableType CVariableUnknow::getType()const{
-    return type_unknow;
+enumVariableType CVariableUnknow::getType()const{
+    return e_type_unknow;
 }
 void CVariableUnknow::switchToUnit(CUnit* targetUnit){
 
 }
 
-QVariantMap CVariableUnknow::serialise(){
+QVariantMap CVariableUnknow::serialize(){
     QVariantMap mapSerialise;
     mapSerialise.insert(QStringLiteral("unserialized"), QStringLiteral("CVariableUnknow"));
     return mapSerialise;

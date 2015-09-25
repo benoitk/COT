@@ -33,8 +33,8 @@ CCyclePause::~CCyclePause()
 {
 
 }
-QVariantMap CCyclePause::serialise(){
-    QVariantMap mapSerialise = ICycle::serialise();
+QVariantMap CCyclePause::serialize(){
+    QVariantMap mapSerialise = ICycle::serialize();
 
     mapSerialise.insert(QStringLiteral("type"), QStringLiteral("pause"));
     mapSerialise.insert(QStringLiteral("timer"), m_iTimer);
@@ -46,8 +46,8 @@ void CCyclePause::initTimer(){
     connect(m_timer, &QTimer::timeout, this, &CCyclePause::slotExecNextStep);
     m_timer->setInterval(1000);
 }
-eTypeCycle CCyclePause::getType()const{
-    return CYCLE_PAUSE;
+enumTypeCycle CCyclePause::getType()const{
+    return e_cycle_pause;
 }
 void CCyclePause::slotRunCycle(){
     qCDebug(COTAUTOMATE_LOG) << "CCyclePause::slotRunCycle()";

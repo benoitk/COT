@@ -56,11 +56,11 @@ public:
     // return an action type: calc_coef, calc_rien, block, etc.
     static bool selectActionType(actionType &value, const QString &title = QString());
     // Select a variable type (float, int, string)
-    static bool selectVariableType(variableType &value, const QString &title = QString());
+    static bool selectVariableType(enumVariableType &value, const QString &title = QString());
     // Select a variable organ type (input, output, none)
-    static bool selectOrganType(VariableOrganType &value, const QString &title = QString());
+    static bool selectOrganType(enumVariableOrganType &value, const QString &title = QString());
     // Select a cycle type (maintenance, autonome, pause...)
-    static bool selectCycleType(eTypeCycle &value, const QString &title = QString());
+    static bool selectCycleType(enumTypeCycle &value, const QString &title = QString());
     //Select a variable
     static bool selectVariable(QString &value, const QString &title = QString());
     // Select a stream name
@@ -116,7 +116,7 @@ protected:
 
     virtual void applyEditorConstraints(QWidget *editor, IVariable *ivar);
     virtual CToolButton *newDeleteButton(IVariable *ivar);
-    void setVariableAccess(IVariable *ivar, variableAccess access);
+    void setVariableAccess(IVariable *ivar, enumVariableAccess access);
     CClickableLabel *newLabel(IVariable *ivar);
     QWidget *newEditor(IVariable *ivar);
     CClickableLabel *newUnit(IVariable *ivar);

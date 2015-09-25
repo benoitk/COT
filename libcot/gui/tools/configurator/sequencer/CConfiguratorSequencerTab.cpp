@@ -32,7 +32,7 @@ void CConfiguratorSequencerTab::slotAddSequencer()
     ICycle *cycle = automate->getCycle(cycleName);
     Q_ASSERT(cycle);
 
-    if (cycle->getType() != CYCLE_MESURE) {
+    if (cycle->getType() != e_cycle_measure) {
         return;
     }
 

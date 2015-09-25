@@ -43,6 +43,11 @@ void CActionUnknow::setParameter(const QString& arg_key, IVariable* arg_paramete
 
 }
 
-variableType CActionUnknow::getWaitedType(const QString& arg_key){
-    return type_unknow;
+enumVariableType CActionUnknow::getWaitedType(const QString& arg_key){
+    return e_type_unknow;
+}
+QVariantMap CActionUnknow::serialize(){
+    QVariantMap mapSerialize = IAction::serialize();
+    mapSerialize.insert(QStringLiteral("type"), QStringLiteral("unknow"));
+    return mapSerialize;
 }

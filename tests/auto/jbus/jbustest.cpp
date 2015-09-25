@@ -100,7 +100,7 @@ void JBusTest::testInitialize_data()
 {
     QTest::addColumn<QVariantMap>("map");
     QTest::addColumn<QString>("name");
-    QTest::addColumn<comType>("type");
+    QTest::addColumn<enumComType>("type");
     QTest::addColumn<bool>("initialized");
 
     {
@@ -110,7 +110,7 @@ void JBusTest::testInitialize_data()
         map["ip"] = m_tcp.serverAddress().toString();
         map["port"] = m_tcp.serverPort();
         map["debug"] = true;
-        QTest::newRow("jbus_over_tcpip") << map << "com_jbus_tcpip_master" << type_jbus_over_tcpip << true;
+        QTest::newRow("jbus_over_tcpip") << map << "com_jbus_tcpip_master" << e_type_jbus_over_tcpip << true;
     }
     {
         QVariantMap map;
@@ -121,7 +121,7 @@ void JBusTest::testInitialize_data()
         map["stop"] = "1";
         map["data"] = "8";
         map["debug"] = true;
-        QTest::newRow("jbus") << map << "com_jbus_master" << type_jbus << true;
+        QTest::newRow("jbus") << map << "com_jbus_master" << e_type_jbus << true;
     }
     {
         QVariantMap map;
@@ -130,19 +130,19 @@ void JBusTest::testInitialize_data()
         map["ip"] = m_tcp.serverAddress().toString();
         map["port"] = m_tcp.serverPort();
         map["debug"] = true;
-        QTest::newRow("tcpip") << map << "com_tcpip_master" << type_tcpip << true;
+        QTest::newRow("tcpip") << map << "com_tcpip_master" << e_type_tcpip << true;
     }
     {
         QVariantMap map;
         map["name"] = "com_name";
         map["debug"] = true;
-        QTest::newRow("unknown_type") << map << "com_name" << type_com_unknow << false;
+        QTest::newRow("unknown_type") << map << "com_name" << e_type_com_unknow << false;
     }
     {
         QVariantMap map;
         map["type"] = "jbus";
         map["debug"] = true;
-        QTest::newRow("unknown_name") << map << "Com not named" << type_jbus << false;
+        QTest::newRow("unknown_name") << map << "Com not named" << e_type_jbus << false;
     }
 }
 
@@ -150,7 +150,7 @@ void JBusTest::testInitialize()
 {
     QFETCH(QVariantMap, map);
     QFETCH(QString, name);
-    QFETCH(comType, type);
+    QFETCH(enumComType, type);
     QFETCH(bool, initialized);
 
     CComJBus bus(map);
@@ -227,23 +227,23 @@ void JBusTest::testSlave()
         });
         int socket = -1;
 
-        const comType type = stringToComType(config["type"].toString());
+        const enumComType type = stringToComType(config["type"].toString());
         switch (type)
         {
-        case type_jbus_over_tcpip:
-        case type_tcpip:
+        case e_type_jbus_over_tcpip:
+        case e_type_tcpip:
             {
                 const QByteArray ip = config["ip"].toByteArray();
                 const int port = config["port"].toInt();
 
-                if (type == type_tcpip)
+                if (type == e_type_tcpip)
                     ctx.reset(modbus_new_tcp(ip.constData(), port));
                 else
                     ctx.reset(modbus_new_rtutcp(ip.constData(), port));
 
                 if (!ctx) {
                     fprintf(stderr, "%s failed on %s:%d: %s\n",
-                            (type == type_tcpip ? "modbus_new_tcp" : "modbus_new_rtutcp"),
+                            (type == e_type_tcpip ? "modbus_new_tcp" : "modbus_new_rtutcp"),
                             ip.constData(), port, modbus_strerror(errno));
                 }
 
@@ -256,7 +256,7 @@ void JBusTest::testSlave()
 
                 break;
             }
-        case type_jbus:
+        case e_type_jbus:
             {
                 const QByteArray device = config["device"].toByteArray();
                 const int baudrate = config["baudrate"].toInt();
@@ -270,7 +270,7 @@ void JBusTest::testSlave()
                 break;
             }
             break;
-        case type_com_unknow:
+        case e_type_com_unknow:
             fprintf(stderr, "unhandled com type: %s\n",
                     qPrintable(config["type"].toString()));
             break;
@@ -284,7 +284,7 @@ void JBusTest::testSlave()
         modbus_set_debug(ctx.get(), true);
 
         startSlave.set_value(true);
-        if (type == type_jbus) {
+        if (type == e_type_jbus) {
             if (modbus_connect(ctx.get()) == -1) {
                 fprintf(stderr, "Unable to connect %s\n", modbus_strerror(errno));
                 return;
