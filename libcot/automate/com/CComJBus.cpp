@@ -392,7 +392,7 @@ QVariantMap CComJBus::serialize(){
     mapSerialize.insert(QStringLiteral("name"), m_name);
     mapSerialize.insert(QStringLiteral("type"),comTypeToString(m_type) );
     mapSerialize.insert(QStringLiteral("slave"), m_slave);
-    mapSerialize.insert(QStringLiteral("slave"), m_ip);
+    mapSerialize.insert(QStringLiteral("ip"), m_ip);
     mapSerialize.insert(QStringLiteral("port"), 502); //?Pas utilisé le port ?
     mapSerialize.insert(QStringLiteral("debug"), false);
 

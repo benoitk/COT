@@ -43,7 +43,10 @@ void CStep::abortStep(){
 QVariantMap CStep::serialize(){
     QVariantMap mapSerialise;
     mapSerialise.insert(tr("fr_FR"), m_label);
-    mapSerialise.insert(QStringLiteral("type"), QStringLiteral("measure"));
+    QString nameStep = QString("step_") + QString::number(m_numStep*100, 'f', 1);
+    mapSerialise.insert(QStringLiteral("name"), nameStep);
+    mapSerialise.insert(QStringLiteral("step"), m_numStep);
+
     QStringList listActionName;
     foreach(IAction* action, m_listActions){
         listActionName.append(action->getName());

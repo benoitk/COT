@@ -13,7 +13,7 @@ IVariable::IVariable(QObject *parent)
 {
     m_label = "label_IVariable";
     m_name = "name_IVariable";
-     m_unit = new CUnit("tmp", "µg/l");
+    m_unit = new CUnit("tmp", "µg/l");
 }
 IVariable::IVariable(const QVariantMap& arg_varMap): QObject(){
     QString sAccess = arg_varMap.value(QStringLiteral("access")).toString();
@@ -239,4 +239,25 @@ enumVariableOrganType IVariable::getOrganType() const {
 }
 IVariable* IVariable::getIVariable(){
     return this;
+}
+
+QVariantMap IVariable::serialize(){
+    QVariantMap mapSerialise;
+    mapSerialise.insert(QStringLiteral("name"), m_name);
+    mapSerialise.insert(tr("fr_FR"), m_label);
+    switch(m_access){
+    case e_access_read:
+        mapSerialise.insert(QStringLiteral("access"), QStringLiteral("read"));
+        break;
+    case e_access_write:
+        mapSerialise.insert(QStringLiteral("access"), QStringLiteral("write"));
+        break;
+    case e_access_read_write:
+    default:
+        mapSerialise.insert(QStringLiteral("access"), QStringLiteral("read_write"));
+        break;
+    }
+    mapSerialise.insert(QStringLiteral("unit"), m_unit->getName());
+
+    return mapSerialise;
 }

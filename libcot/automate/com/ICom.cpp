@@ -35,5 +35,5 @@ ICom::~ICom()
 }
 QVariantMap ICom::serialize(){
 
-
+    return QVariantMap();
 }

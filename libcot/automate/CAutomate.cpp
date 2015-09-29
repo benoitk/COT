@@ -28,6 +28,9 @@
 #include "qdir.h"
 
 #include <QJsonDocument>
+#ifdef Q_OS_UNIX
+#include <QProcess>
+#endif
 
 CAutomate* CAutomate::singleton = 0;
 
@@ -882,7 +885,11 @@ void CAutomate::addLoggedVariable(const QString& arg_varName){
         //connect(var, &IVariable::signalVariableChanged, this, &CAutomate::slotLogVariable);
 
 }
+
+
+
 void CAutomate::slotSerializeAndSave(){
+    qDebug() << "CAutomate::slotSerializeAndSave(){";
     QVariantMap mapSerialize;
     mapSerialize.insert(QStringLiteral("name"), QStringLiteral("TOC"));
     mapSerialize.insert(tr("fr_FR"), tr("COT"));
@@ -929,7 +936,7 @@ void CAutomate::slotSerializeAndSave(){
     }
     //Display
     {
-        mapSerialize.insert(QStringLiteral("variables"), m_displayConf->serialize());
+        mapSerialize.insert(QStringLiteral("display"), m_displayConf->serialize());
     }
 
     //action
@@ -983,29 +990,10 @@ void CAutomate::slotSerializeAndSave(){
     //streams
     {
         QVariantList listTmp;
-        foreach(CVariableStream* stream, m_listStreams){
-            QVariantMap map;
-            map.insert(QStringLiteral("name"), stream->getName());
-            map.insert(tr("fr_FR"), stream->getLabel());
-            QVariantList listVarStream;
-            foreach(IVariable* var, stream->getListVariables()){
-                listVarStream.append(var->getName());
-            }
-            map.insert(QStringLiteral("variables"), listVarStream);
-            QVariantList listMeasureStream;
-            foreach(IVariable* var, stream->getListMeasures()){
-                listMeasureStream.append(var->serialize());
-            }
-            map.insert(QStringLiteral("Measures"), listMeasureStream);
-            QVariantList listCyclesStream;
-            foreach(ICycle* cycle , stream->getListCycles()){
-                if(cycle)
-                    listMeasureStream.append(cycle->getName());
-            }
-            map.insert(QStringLiteral("Cycles"), listCyclesStream);
-            listTmp.append(map);
+        foreach(CVariableStream* stream, m_listStreams){   
+            listTmp.append(stream->serialize());
         }
-        mapSerialize.insert(QStringLiteral("Streams"), listTmp);
+        mapSerialize.insert(QStringLiteral("streams"), listTmp);
     }
 
     //logs
@@ -1014,11 +1002,13 @@ void CAutomate::slotSerializeAndSave(){
           foreach (IVariable* var, m_listLoggedVar) {
               listTmp.append(var->getName());
           }
-          mapSerialize.insert(QStringLiteral("Logs"), listTmp);
+          mapSerialize.insert(QStringLiteral("logs"), listTmp);
     }
 
     QJsonDocument doc = QJsonDocument::fromVariant(mapSerialize);
-    QFile jsonFile(QString::fromLocal8Bit(JSON_DIRECTORY "/test_save.json"));
+    QFile jsonFile(QString::fromLocal8Bit(JSON_DIRECTORY "/save.json"));
+
+    if(jsonFile.exists()) jsonFile.remove();
 
     if (!jsonFile.open(QIODevice::ReadWrite)) {
         qCDebug(COTAUTOMATE_LOG) << "Couldn't open save file.";
@@ -1026,6 +1016,11 @@ void CAutomate::slotSerializeAndSave(){
     jsonFile.write(doc.toJson());
     jsonFile.close();
 
+#ifdef   Q_OS_UNIX
+    QProcess process;
+    process.start("sync");
+    process.waitForFinished();
+#endif
 }
 
 //void CAutomate::slotLogVariable(IVariable* arg_var){

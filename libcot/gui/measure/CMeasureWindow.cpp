@@ -31,6 +31,7 @@ CMeasureWindow::~CMeasureWindow()
 
 void CMeasureWindow::backTriggered()
 {
+    CAutomate::getInstance()->slotSerializeAndSave();
     close();
 }
 

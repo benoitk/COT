@@ -69,7 +69,7 @@ void CPCMeasureTab::slotStopTriggered()
 
 void CPCMeasureTab::slotStopEndCycleTriggered()
 {
-    CAutomate::getInstance()->slotSerializeAndSave();
+
 }
 
 void CPCMeasureTab::slotNextStreamTriggered()

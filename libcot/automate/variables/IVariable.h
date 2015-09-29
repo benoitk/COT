@@ -81,7 +81,7 @@ public:
     virtual enumVariableAccess getAccess()const;
     virtual int getAddress()const;
     //qvariantmap can be converted to a json object
-    virtual QVariantMap serialize()=0;
+    virtual QVariantMap serialize();
     virtual void setRelatedStreamName(const QString &name) ;
 
     static QString typeToString(enumVariableType type);

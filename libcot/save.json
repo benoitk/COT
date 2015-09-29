@@ -508,8 +508,7 @@
                     "target" : "var_ev_event_COV", "state" : true
                 },
                 {   "name" : "action_ev_event_COV_close", "type" : "cmd_digital_output",
-                    "fr_FR" : "Fermeture EV event_COV
-                    ",
+                    "fr_FR" : "Fermeture EV event_COV",
                     "target" : "var_ev_event_COV", "state" : false
                 },
                 {   "name" : "action_heater_reactor_on", "type" : "cmd_digital_output",
@@ -855,7 +854,7 @@
                       ]
         },
         {
-            "name" : "cycle_calibration NPOC",
+            "name" : "cycle_calibration_NPOC",
             "fr_FR" : "Cycle Etalonnage NPOC",
             "type" : "maintenance",
             "variables_input" : ["var_etalon_npoc"],
@@ -907,7 +906,7 @@
                                {"name":"measure_2", "fr_FR":"Mesure NPOC", "variable_measure":"var_measure_npoc", "variable_range_max":"var_measure_npoc_max" , "variable_range_min":"var_measure_npoc_min", "variables":["var_zero_npoc", "var_coef_calibration_npoc", "var_co2g", "var_measure_calibration_npoc", "var_etalon_npoc"]},
                                {"name":"measure_3", "fr_FR":"Mesure DCO", "variable_measure":"var_measure_cot", "variable_range_max":"var_measure_cot_max" , "variable_range_min":"var_measure_cot_min", "variables":[]}
                                ],
-                    "cycles":["cycle_control", "cycle_calibration"]
+                    "cycles":["cycle_control", "cycle_mesure_cot"]
 
                 }
                

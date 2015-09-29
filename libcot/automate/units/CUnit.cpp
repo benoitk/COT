@@ -42,5 +42,7 @@ QMap<QString, IConverter*> CUnit::getConverters(){
 
 QVariantMap CUnit::serialize(){
     QVariantMap mapSerialize;
+    mapSerialize.insert(QStringLiteral("name"), m_name);
+    mapSerialize.insert(tr("fr_FR"), m_label);
     return mapSerialize;
 }

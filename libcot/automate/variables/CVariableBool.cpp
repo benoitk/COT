@@ -64,9 +64,7 @@ enumVariableType CVariableBool::getType()const{
 }
 
 QVariantMap CVariableBool::serialize(){
-    QVariantMap mapSerialise;
-    mapSerialise.insert(QStringLiteral("name"), m_name);
-    mapSerialise.insert(tr("fr_FR"), m_label);
+    QVariantMap mapSerialise = IVariable::serialize();
     mapSerialise.insert(QStringLiteral("type"), QStringLiteral("boolean"));
     mapSerialise.insert(QStringLiteral("value"), m_value);
     return mapSerialise;

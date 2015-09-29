@@ -109,9 +109,8 @@ void CVariableMeasure::switchToUnit(CUnit* targetUnit){
 }
 
 QVariantMap CVariableMeasure::serialize(){
-    QVariantMap mapSerialise;
-    mapSerialise.insert(QStringLiteral("name"), m_name);
-    mapSerialise.insert(tr("fr_FR"), m_label);
+   QVariantMap mapSerialise = IVariable::serialize();
+
     mapSerialise.insert(tr("variable_measure"), m_measure->getName());
     mapSerialise.insert(tr("variable_range_max"), m_measureMax->getName());
     mapSerialise.insert(tr("variable_range_min"), m_measureMin->getName());
@@ -120,6 +119,7 @@ QVariantMap CVariableMeasure::serialize(){
     foreach(IVariable* var, m_listVariables){
         listVars.append(var->getName());
     }
+    mapSerialise.insert(QStringLiteral("variables"), listVars);
 
     return mapSerialise;
 }

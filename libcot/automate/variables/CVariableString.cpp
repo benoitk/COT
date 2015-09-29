@@ -64,9 +64,7 @@ void CVariableString::switchToUnit(CUnit* targetUnit){
 }
 
 QVariantMap CVariableString::serialize(){
-    QVariantMap mapSerialise;
-    mapSerialise.insert(QStringLiteral("name"), m_name);
-    mapSerialise.insert(tr("fr_FR"), m_label);
+    QVariantMap mapSerialise = IVariable::serialize();
     mapSerialise.insert(QStringLiteral("type"), QStringLiteral("string"));
     mapSerialise.insert(QStringLiteral("value"), m_sValeur);
     return mapSerialise;

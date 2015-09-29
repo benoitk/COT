@@ -34,13 +34,13 @@ CVariableStream::CVariableStream(const QMap<QString, QVariant> &mapVar)
         QVariantList listVariable = mapVar.value(QStringLiteral("cycles")).toList();
         foreach(const QVariant &variant, listVariable){
             ICycle *cycle = CAutomate::getInstance()->getCycle(variant.toString(), e_cycle_measure);
-
             // SERES_TODO: avoid null cycles in list.
             if (cycle) {
                 cycle->setRelatedStreamName(getName());
+                m_listCycles.append(cycle);
             }
 
-            m_listCycles.append(cycle);
+
         }
     }
 
@@ -170,28 +170,34 @@ void CVariableStream::switchToUnit(CUnit* targetUnit){
 
 }
 
-//TO DO : change name to CVariableStream()
 QVariantMap CVariableStream::serialize(){
-    QVariantMap mapSerialise;
-    mapSerialise.insert(QStringLiteral("name"), m_name);
-    mapSerialise.insert(tr("fr_FR"), m_label);
-    mapSerialise.insert(QStringLiteral("type"), QStringLiteral("stream"));
-    QList<QVariant> listVars;
-    foreach(IVariable* var, m_listVariables){
-        listVars.append(var->getName());
-    }
-    mapSerialise.insert(QStringLiteral("variables"), listVars);
-    QList<QVariant> listMeasures;
-    foreach(IVariable* var, m_listMeasures){
-        listMeasures.append(var->serialize());
-    }
-    mapSerialise.insert(QStringLiteral("measures"), listMeasures);
-    QList<QVariant> listCycles;
-    foreach(IVariable* cycle, m_listMeasures){
-        listCycles.append(cycle->getName());
-    }
-    mapSerialise.insert(QStringLiteral("measures"), listMeasures);
-    return mapSerialise;
+   QVariantMap mapSerialise = IVariable::serialize();
+   mapSerialise.insert(QStringLiteral("type"), QStringLiteral("stream"));
+
+   {
+       QList<QVariant> listVars;
+       foreach(IVariable* var, m_listVariables){
+           listVars.append(var->getName());
+       }
+       mapSerialise.insert(QStringLiteral("variables"), listVars);
+
+   }
+   {
+       QList<QVariant> listMeasures;
+       foreach(IVariable* var, m_listMeasures){
+           listMeasures.append(var->serialize());
+       }
+       mapSerialise.insert(QStringLiteral("measures"), listMeasures);
+   }
+
+   {
+       QList<QVariant> listCycles;
+       foreach(ICycle* cycle, m_listCycles){
+           listCycles.append(cycle->getName());
+       }
+       mapSerialise.insert(QStringLiteral("cycles"), listCycles);
+   }
+   return mapSerialise;
 }
 
 void CVariableStream::addCycle(ICycle *cycle)

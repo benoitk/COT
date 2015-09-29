@@ -39,9 +39,7 @@ IVariable* CVariableInputFloat::getIVariable(){
 }
 
 QVariantMap CVariableInputFloat::serialize(){
-     QVariantMap mapSerialise;
-    mapSerialise.insert(QStringLiteral("name"), m_name);
-    mapSerialise.insert(tr("fr_FR"), m_label);
+    QVariantMap mapSerialise = IVariable::serialize();
     mapSerialise.insert(QStringLiteral("type"), QStringLiteral("input_float"));
     mapSerialise.insert(QStringLiteral("value"), m_value);
     mapSerialise.insert(QStringLiteral("extension_name"), m_organ->getExtCard()->getName());

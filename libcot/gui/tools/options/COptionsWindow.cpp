@@ -5,6 +5,7 @@
 #include "COptionsThresholdTab.h"
 #include "COptionsDateTimeTab.h"
 #include <CConfiguratorSequencerTab.h>
+#include "CAutomate.h"
 
 COptionsWindow::COptionsWindow(QWidget *parent)
     : QWidget(parent)
@@ -25,6 +26,7 @@ COptionsWindow::~COptionsWindow()
 
 void COptionsWindow::backTriggered()
 {
+    CAutomate::getInstance()->slotSerializeAndSave();
     close();
 }
 
