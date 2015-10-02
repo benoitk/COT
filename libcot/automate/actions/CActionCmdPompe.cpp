@@ -3,6 +3,7 @@
 #include "CVariableString.h"
 #include "CVariableFactory.h"
 #include "CAutomate.h"
+#include <QThread>
 
 #include "cotautomate_debug.h"
 
@@ -18,6 +19,7 @@ CActionCmdPompe::CActionCmdPompe(const QVariantMap &mapAction, QObject *parent)
     m_clockwise = Q_NULLPTR;
     m_speed = Q_NULLPTR;
     m_OriginReturn = Q_NULLPTR;
+    m_default = Q_NULLPTR;
     if(automate->getVariable(mapAction[QStringLiteral("alim")].toString())->getOrganType() == e_type_organ_output)
         m_alim = dynamic_cast<CVariableOutputBool*>(automate->getVariable(mapAction[QStringLiteral("alim")].toString()));
     if(automate->getVariable(mapAction[QStringLiteral("nbr_turns")].toString())->getOrganType() == e_type_organ_output)
@@ -30,6 +32,9 @@ CActionCmdPompe::CActionCmdPompe(const QVariantMap &mapAction, QObject *parent)
         m_speed =dynamic_cast<CVariableOutputInt*>( automate->getVariable(mapAction[QStringLiteral("speed")].toString()));
     if(automate->getVariable(mapAction[QStringLiteral("origin_return_before")].toString())->getOrganType() == e_type_organ_output)
         m_OriginReturn = dynamic_cast<CVariableOutputBool*>(automate->getVariable(mapAction[QStringLiteral("origin_return_before")].toString()));
+    if(automate->getVariable(mapAction[QStringLiteral("default")].toString())->getOrganType() == e_type_organ_input)
+        m_default = dynamic_cast<CVariableInputBool*>(automate->getVariable(mapAction[QStringLiteral("default")].toString()));
+
     m_stepByStep = automate->getVariable(mapAction[QStringLiteral("pump_persulfate_step_by_step")].toString());
 
 
@@ -67,17 +72,43 @@ bool CActionCmdPompe::runAction(ICycle* arg_stepParent){
     qDebug() << "CActionCmdPompe::runAction" << m_alim->getName();
 
     if(m_alim && m_OriginReturn && m_clockwise && m_nbTurns && m_speed){
+          bool test = m_default->toBool();
         if(!m_alim->toBool()) m_alim->setValue(true);
         m_alim->writeValue();
+        QThread::msleep(50);
+        m_default->readValue();
+         test = m_default->toBool();
+        if(test){
+            test = false;
+        }
         m_clockwise->writeValue();
+        QThread::msleep(50);
+        m_default->readValue();
+         test = m_default->toBool();
+        if(test){
+            test = false;
+        }
         m_speed->writeValue();
-
+        QThread::msleep(50);
+        m_default->readValue();
+         test = m_default->toBool();
+        if(test){
+            test = false;
+        }
         if(m_stepByStep->toBool())
             m_nbSteps->writeValue();
         else
             m_nbTurns->writeValue();
+
         //m_nbSteps->writeValue();
+        m_default->readValue();
+         test = m_default->toBool();
+        if(test){
+            test = false;
+        }
     }
+
+
 
     emit signalActionFinished(this);
     return true;

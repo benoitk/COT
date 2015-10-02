@@ -24,6 +24,7 @@ void CThreadDiag::run(){
     while(!m_stoped){
 
         foreach(IVariableInput* var, m_listDiagInputVars){
+  //          if(var->getIVariable()->getName() == QStringLiteral("var_ndir_measure_cell"))
             var->readValue();
         }
 

@@ -25,7 +25,7 @@ void CVariableOutputInt::writeValue(){
 
 }
 
-void CVariableOutputInt::setValue(float arg_value){
+void CVariableOutputInt::setValue(int arg_value){
     CVariableInt::setValue(arg_value);
     this->writeValue();
 }

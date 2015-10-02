@@ -2,7 +2,7 @@
 #include "ui_CStatusWidget.h"
 #include <QDateTime>
 #include <QTimer>
-
+#include <qdebug.h>
 CStatusWidget::CStatusWidget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::CStatusWidget)
@@ -26,6 +26,9 @@ CStatusWidget::CStatusWidget(QWidget *parent)
             this, &CStatusWidget::slotUpdateCurrentAction);
     connect(automate, &CAutomate::signalNewAlarm,
             this, &CStatusWidget::slotAddAlarm);
+    connect(automate, &CAutomate::signalRemoveAlarm,
+            this, &CStatusWidget::slotRemoveAlarm);
+
 }
 
 CStatusWidget::~CStatusWidget()
@@ -66,12 +69,26 @@ void CStatusWidget::slotUpdateStateAutomate(CAutomate::eStateAutomate state)
 }
 void CStatusWidget::slotAddAlarm(const QString& arg_default){
     ui->lCycle->setStyleSheet("QLabel { color : red; }");
-    ui->lCycle->setText(ui->lCycle->text() + " / " + arg_default);
+    if(!ui->lCycle->text().contains(arg_default))
+        ui->lCycle->setText(ui->lCycle->text() + " / " + arg_default);
+}
+void CStatusWidget::slotRemoveAlarm(const QString& arg_default){
+
+    QStringList list = ui->lCycle->text().split(" / ");
+    QString tmp = list.takeFirst();
+    if(list.count()<2)
+        ui->lCycle->setStyleSheet("QLabel { color : black; }");
+    foreach (const QString& s, list) {
+        qDebug() << s << "&&"<< arg_default << "&&";
+        if(s != arg_default)
+            tmp += " / " + s;
+    }
+    ui->lCycle->setText(tmp);
 }
 void CStatusWidget::slotCleanDefaults(){
     ui->lCycle->setStyleSheet("QLabel { color : black; }");
     QString tmp = ui->lCycle->text();
-    ui->lCycle->setText(tmp.split("/").value(0));
+    ui->lCycle->setText(tmp.split(" / ").value(0));
 }
 
 void CStatusWidget::slotUpdateCurrentStream(int stream, const QString &label)

@@ -9,6 +9,8 @@
 #include "CActionRewriteOutput.h"
 #include "CActionAcquisitionCitNpoc.h"
 #include "CActionCalibrationCalcul.h"
+#include "CActionCmd420.h"
+
 #include "qvariant.h"
 #include "qmap.h"
 #include "cotautomate_debug.h"
@@ -44,6 +46,9 @@ IAction* CActionFactory::build(const QVariantMap &mapAction, QObject *parent){
     }
     else if(type == QStringLiteral("calibration_calcul")){
         action = new CActionCalibrationCalcul(mapAction,parent);
+    }
+    else if(type == QStringLiteral("cmd_loop_4_20")){
+        action = new CActionCmd420(mapAction,parent);
     }
     else{
         action = new CActionUnknow(mapAction,parent);

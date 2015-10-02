@@ -27,6 +27,7 @@ CVariableInputBool::CVariableInputBool(const QMap<QString, QVariant> &mapVar)
 IVariable* CVariableInputBool::readValue(){
     QMutexLocker lock(&m_mutex);
     m_value = m_organ->getExtCard()->getICom()->readData(this).toFloat();
+    CVariableBool::setValue(m_value);
     return this;
 }
 

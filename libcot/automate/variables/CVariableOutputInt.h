@@ -24,7 +24,7 @@ public:
     QVariantMap serialize() Q_DECL_OVERRIDE;
     enumVariableType getType()const Q_DECL_OVERRIDE;
 
-    void setValue(float);
+    void setValue(int);
     using CVariableInt::setValue;
 
 

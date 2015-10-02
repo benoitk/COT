@@ -995,217 +995,221 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
 
     // Keep in synch with newEditor
     switch (ivar->getType()) {
-        case e_type_bool: {
-            switch (ivar->getOrganType()) {
-                case e_type_organ_none:
-                case e_type_organ_output: {
-                    qobject_cast<CSwitchButton *>(editor)->setChecked(ivar->toBool());
-                    return;
-                }
+    case e_type_alarm:
+        qobject_cast<CLedButton *>(editor)->setChecked(ivar->toBool());
+        return;
 
-                case e_type_organ_input: {
-                    break;
-                }
-            }
-
-            qobject_cast<CLedButton *>(editor)->setChecked(ivar->toBool());
+    case e_type_bool: {
+        switch (ivar->getOrganType()) {
+        case e_type_organ_none:
+        case e_type_organ_output: {
+            qobject_cast<CSwitchButton *>(editor)->setChecked(ivar->toBool());
             return;
         }
 
-        case e_type_float: {
-            switch (ivar->getOrganType()) {
-                case e_type_organ_none:
-                case e_type_organ_output: {
-                    break;
-                }
-
-                case e_type_organ_input: {
-                    break;
-                }
-            }
-
-            qobject_cast<CPushButton *>(editor)->setText(ivar->toString());
-            return;
-        }
-
-        case e_type_int: {
-            switch (ivar->getOrganType()) {
-                case e_type_organ_none:
-                case e_type_organ_output: {
-                    break;
-                }
-
-                case e_type_organ_input: {
-                    break;
-                }
-            }
-
-            qobject_cast<CPushButton *>(editor)->setText(ivar->toString());
-            return;
-        }
-
-        case e_type_string: {
-            switch (ivar->getOrganType()) {
-                case e_type_organ_none:
-                case e_type_organ_output: {
-                    break;
-                }
-
-                case e_type_organ_input: {
-                    break;
-                }
-            }
-
-            qobject_cast<CPushButton *>(editor)->setText(ivar->toString());
-            return;
-        }
-
-        case e_type_stream: {
-            switch (ivar->getOrganType()) {
-                case e_type_organ_none:
-                case e_type_organ_output: {
-                    break;
-                }
-
-                case e_type_organ_input: {
-                    break;
-                }
-            }
-
-            qobject_cast<CPushButton *>(editor)->setText(ivar->toString());
-            return;
-        }
-
-        case e_type_measure: {
-            switch (ivar->getOrganType()) {
-                case e_type_organ_none:
-                case e_type_organ_output: {
-                    break;
-                }
-
-                case e_type_organ_input: {
-                    break;
-                }
-            }
-
-            qobject_cast<CPushButton *>(editor)->setText(ivar->toString());
-            return;
-        }
-
-        case e_type_unknow: {
-            switch (ivar->getOrganType()) {
-                case e_type_organ_none:
-                case e_type_organ_output: {
-                    break;
-                }
-
-                case e_type_organ_input: {
-                    break;
-                }
-            }
-
-            qobject_cast<CPushButton *>(editor)->setText(ivar->toString());
-            return;
-        }
-
-        case e_type_list_variables:
-            break;
-
-        case type_mutable: {
-            CAutomate *automate = CAutomate::getInstance();
-            CVariableMutable *vmutable = static_cast<CVariableMutable *>(ivar);
-            CPushButton *button = qobject_cast<CPushButton *>(editor);
-
-            switch (vmutable->mutableType()) {
-                case CVariableMutable::Undefined:
-                    break;
-
-                case CVariableMutable::CycleType: {
-                    button->setText(ICycle::typeToString(enumTypeCycle(ivar->toInt())));
-                    break;
-                }
-
-                case CVariableMutable::Cycle: {
-                    ICycle *cycle = automate->getCycle(ivar->toString());
-                    button->setText(cycle ? cycle->getLabel() : QString());
-                    break;
-                }
-
-                case CVariableMutable::VariableType: {
-                    button->setText(IVariable::typeToString(enumVariableType(ivar->toInt())));
-                    break;
-                }
-
-                case CVariableMutable::VarOrganType: {
-                    button->setText(IVariable::organTypeToString(enumVariableOrganType(ivar->toInt())));
-                    break;
-                }
-
-                case CVariableMutable::Unit: {
-                    CUnit *unit = automate->getUnit(ivar->toString());
-                    button->setText(unit ? unit->getLabel() : QString());
-                    break;
-                }
-
-                case CVariableMutable::Extension: {
-                    CModelExtensionCard *card = automate->getExtensionCard(ivar->toString());
-                    button->setText(card ? card->getLabel() : QString());
-                    break;
-                }
-
-                case CVariableMutable::Organ: {
-                    IOrgan *organ = automate->getOrgan(ivar->toString());
-                    button->setText(organ ? organ->getName() : QString()); // SERES_TODO: add label for organs ?
-                    break;
-                }
-
-                case CVariableMutable::Stream: {
-                    CVariableStream *stream = automate->getStream(ivar->toString());
-                    button->setText(stream ? stream->getLabel() : QString());
-                    break;
-                }
-
-                case CVariableMutable::Format: {
-                    button->setText(ivar->toString());
-                    break;
-                }
-
-                case CVariableMutable::Measure: {
-                    CVariableMeasure *measure = automate->getMeasure(ivar->toString());
-                    button->setText(measure ? measure->getLabel() : QString());
-                    break;
-                }
-
-                case CVariableMutable::Variable: {
-                    IVariable *variable = automate->getVariable(ivar->toString());
-                    button->setText(variable ? variable->getLabel() : QString());
-                    break;
-                }
-
-                case CVariableMutable::Action: {
-                    IAction *action = automate->getAction(ivar->toString());
-                    button->setText(action ? action->getLabel() : QString());
-                    break;
-                }
-
-                case CVariableMutable::ActionType: {
-                    actionType type = static_cast<actionType>(ivar->toInt());
-                    button->setText(IAction::typeToString(type));
-                    break;
-                }
-
-                case CVariableMutable::StreamOrMeasure: {
-                    const QString name = ivar->toString();
-                    CVariableStream *stream = automate->getStream(name);
-                    CVariableMeasure *measure = automate->getMeasure(name);
-                    const QString text = stream ? stream->getLabel() : (measure ? measure->getLabel() : QString());
-                    button->setText(text);
-                    break;
-                }
-            }
-
+        case e_type_organ_input: {
             break;
         }
+        }
+
+        qobject_cast<CLedButton *>(editor)->setChecked(ivar->toBool());
+        return;
+    }
+
+    case e_type_float: {
+        switch (ivar->getOrganType()) {
+        case e_type_organ_none:
+        case e_type_organ_output: {
+            break;
+        }
+
+        case e_type_organ_input: {
+            break;
+        }
+        }
+
+        qobject_cast<CPushButton *>(editor)->setText(ivar->toString());
+        return;
+    }
+
+    case e_type_int: {
+        switch (ivar->getOrganType()) {
+        case e_type_organ_none:
+        case e_type_organ_output: {
+            break;
+        }
+
+        case e_type_organ_input: {
+            break;
+        }
+        }
+
+        qobject_cast<CPushButton *>(editor)->setText(ivar->toString());
+        return;
+    }
+
+    case e_type_string: {
+        switch (ivar->getOrganType()) {
+        case e_type_organ_none:
+        case e_type_organ_output: {
+            break;
+        }
+
+        case e_type_organ_input: {
+            break;
+        }
+        }
+
+        qobject_cast<CPushButton *>(editor)->setText(ivar->toString());
+        return;
+    }
+
+    case e_type_stream: {
+        switch (ivar->getOrganType()) {
+        case e_type_organ_none:
+        case e_type_organ_output: {
+            break;
+        }
+
+        case e_type_organ_input: {
+            break;
+        }
+        }
+
+        qobject_cast<CPushButton *>(editor)->setText(ivar->toString());
+        return;
+    }
+
+    case e_type_measure: {
+        switch (ivar->getOrganType()) {
+        case e_type_organ_none:
+        case e_type_organ_output: {
+            break;
+        }
+
+        case e_type_organ_input: {
+            break;
+        }
+        }
+
+        qobject_cast<CPushButton *>(editor)->setText(ivar->toString());
+        return;
+    }
+
+    case e_type_unknow: {
+        switch (ivar->getOrganType()) {
+        case e_type_organ_none:
+        case e_type_organ_output: {
+            break;
+        }
+
+        case e_type_organ_input: {
+            break;
+        }
+        }
+
+        qobject_cast<CPushButton *>(editor)->setText(ivar->toString());
+        return;
+    }
+
+    case e_type_list_variables:
+        break;
+
+    case type_mutable: {
+        CAutomate *automate = CAutomate::getInstance();
+        CVariableMutable *vmutable = static_cast<CVariableMutable *>(ivar);
+        CPushButton *button = qobject_cast<CPushButton *>(editor);
+
+        switch (vmutable->mutableType()) {
+        case CVariableMutable::Undefined:
+            break;
+
+        case CVariableMutable::CycleType: {
+            button->setText(ICycle::typeToString(enumTypeCycle(ivar->toInt())));
+            break;
+        }
+
+        case CVariableMutable::Cycle: {
+            ICycle *cycle = automate->getCycle(ivar->toString());
+            button->setText(cycle ? cycle->getLabel() : QString());
+            break;
+        }
+
+        case CVariableMutable::VariableType: {
+            button->setText(IVariable::typeToString(enumVariableType(ivar->toInt())));
+            break;
+        }
+
+        case CVariableMutable::VarOrganType: {
+            button->setText(IVariable::organTypeToString(enumVariableOrganType(ivar->toInt())));
+            break;
+        }
+
+        case CVariableMutable::Unit: {
+            CUnit *unit = automate->getUnit(ivar->toString());
+            button->setText(unit ? unit->getLabel() : QString());
+            break;
+        }
+
+        case CVariableMutable::Extension: {
+            CModelExtensionCard *card = automate->getExtensionCard(ivar->toString());
+            button->setText(card ? card->getLabel() : QString());
+            break;
+        }
+
+        case CVariableMutable::Organ: {
+            IOrgan *organ = automate->getOrgan(ivar->toString());
+            button->setText(organ ? organ->getName() : QString()); // SERES_TODO: add label for organs ?
+            break;
+        }
+
+        case CVariableMutable::Stream: {
+            CVariableStream *stream = automate->getStream(ivar->toString());
+            button->setText(stream ? stream->getLabel() : QString());
+            break;
+        }
+
+        case CVariableMutable::Format: {
+            button->setText(ivar->toString());
+            break;
+        }
+
+        case CVariableMutable::Measure: {
+            CVariableMeasure *measure = automate->getMeasure(ivar->toString());
+            button->setText(measure ? measure->getLabel() : QString());
+            break;
+        }
+
+        case CVariableMutable::Variable: {
+            IVariable *variable = automate->getVariable(ivar->toString());
+            button->setText(variable ? variable->getLabel() : QString());
+            break;
+        }
+
+        case CVariableMutable::Action: {
+            IAction *action = automate->getAction(ivar->toString());
+            button->setText(action ? action->getLabel() : QString());
+            break;
+        }
+
+        case CVariableMutable::ActionType: {
+            actionType type = static_cast<actionType>(ivar->toInt());
+            button->setText(IAction::typeToString(type));
+            break;
+        }
+
+        case CVariableMutable::StreamOrMeasure: {
+            const QString name = ivar->toString();
+            CVariableStream *stream = automate->getStream(name);
+            CVariableMeasure *measure = automate->getMeasure(name);
+            const QString text = stream ? stream->getLabel() : (measure ? measure->getLabel() : QString());
+            button->setText(text);
+            break;
+        }
+        }
+
+        break;
+    }
     }
 }
 

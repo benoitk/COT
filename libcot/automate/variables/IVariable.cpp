@@ -261,3 +261,10 @@ QVariantMap IVariable::serialize(){
 
     return mapSerialise;
 }
+bool IVariable::operator<(IVariable* arg_var){
+    return this->toFloat() < arg_var->toFloat();
+}
+
+bool IVariable::operator>(IVariable* arg_var){
+    return this->toFloat() > arg_var->toFloat();
+}

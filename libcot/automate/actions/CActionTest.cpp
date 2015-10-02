@@ -52,10 +52,13 @@ QVariantMap CActionTest::serialize(){
     switch(m_condition){
     case m_eEqualToSetpoint:
         mapSerialize.insert(QStringLiteral("condition"), QStringLiteral("target_equal_to_setpoint"));
+        break;
     case m_eSuperiorToSetpoint:
         mapSerialize.insert(QStringLiteral("condition"), QStringLiteral("target_superior_to_setpoint"));
+        break;
     default: // m_eInferiorToSetPoint:
         mapSerialize.insert(QStringLiteral("condition"), QStringLiteral("target_inferior_to_setpoint"));
+        break;
     }
 
 
@@ -102,6 +105,7 @@ void CActionTest::run(){
         float setpointMin = m_setpoint->toFloat() - (m_setpoint->toFloat() *  (m_errorMargin->toFloat()*0.01));
         int timeout = m_timeout->toInt();
         bool result = false;
+        int timeUnitlAlarm = 0;
 
         qCDebug(COTAUTOMATE_LOG)<< "timeout " << timeout;
         qCDebug(COTAUTOMATE_LOG)<< "result " << result;
@@ -110,7 +114,16 @@ void CActionTest::run(){
             setpointMax = m_setpoint->toFloat() + (m_setpoint->toFloat() * (m_errorMargin->toFloat()*0.01));
             setpointMin = m_setpoint->toFloat() - (m_setpoint->toFloat() *  (m_errorMargin->toFloat()*0.01));
             result = acquisitionAndTest(setpointMin, setpointMax);
-            m_result->setValue(result);
+            if(result == false && m_result->toBool() == true && timeUnitlAlarm++ > 4){
+                m_result->setValue(result);
+                timeUnitlAlarm = 0;
+            }
+            else if(result == m_result->toBool()){
+                timeUnitlAlarm = 0;
+            }else if(result && m_result->toBool() == false){
+                m_result->setValue(result);
+                timeUnitlAlarm = 0;
+            }
             QString  sActionInfo =  tr("Lecture ") + QString::number(i+1) + "/"  +QString::number(timeout) + " "
                     + m_target->getIVariable()->getLabel() + " " +  QString::number(m_target->getIVariable()->toFloat(), 'f', 2)
                     + m_target->getIVariable()->getUnit()->getLabel() ;
@@ -131,17 +144,17 @@ bool CActionTest::acquisitionAndTest(float arg_setPointMin, float arg_setPointMa
 
     switch(m_condition){
     case m_eEqualToSetpoint:
-        if(target < arg_setPointMax && target > arg_setPointMin) {
+        if(target <= arg_setPointMax && target >= arg_setPointMin) {
             result = true;
         }
         break;
     case m_eInferiorToSetPoint:
-        if(target < arg_setPointMin) {
+        if(target <= arg_setPointMin) {
             result = true;
         }
         break;
     case m_eSuperiorToSetpoint:
-        if(target > arg_setPointMin) {
+        if(target >= arg_setPointMin) {
             result = true;
         }
         break;

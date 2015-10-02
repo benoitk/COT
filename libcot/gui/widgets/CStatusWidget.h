@@ -20,6 +20,7 @@ private Q_SLOTS:
     void slotTimeChanged();
     void slotUpdateStateAutomate(CAutomate::eStateAutomate state);
     void slotAddAlarm(const QString& arg_default);
+    void slotRemoveAlarm(const QString& arg_default);
     void slotCleanDefaults();
     void slotUpdateCurrentStream(int stream, const QString &label);
     void slotUpdateCurrentStep(float step, const QString &label);

@@ -8,6 +8,7 @@
 enum actionType{
     type_block = 0,
     type_cmd_pump,
+    type_cmd_420,
     type_cmd_digital_output,
     type_rewrite_output,
     type_cmd_dc_engine,

@@ -89,6 +89,9 @@ public:
 
     virtual IVariable* getIVariable();
 
+    bool operator<(IVariable*);
+    bool operator>(IVariable*);
+
 protected:
     virtual void setAccess(enumVariableAccess access);
     virtual void setAddress(int address);

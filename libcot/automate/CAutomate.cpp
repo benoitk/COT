@@ -775,6 +775,9 @@ void CAutomate::slotCancelAlarm(CVariableAlarm* arg_alarm){
     default:
         break;
     }
+    if(m_displayConf->getListForScreenAlarms().contains(arg_alarm)){
+        emit signalRemoveAlarm(arg_alarm->getLabel());
+    }
 }
 
 void CAutomate::setStateCycleIO(eStateCycle state){

@@ -179,6 +179,7 @@ signals:
     void signalUpdateMeasureLabels(int, const QString &);
 
     void signalNewAlarm(const QString&);
+    void signalRemoveAlarm(const QString&);
 
     //1 signal par section du json, dès qu'une valeur est modifié
     void signalNetworkUpdated();

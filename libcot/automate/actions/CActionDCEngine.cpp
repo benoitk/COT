@@ -42,6 +42,7 @@ bool CActionDCEngine::runAction(ICycle* arg_stepParent){
     m_varPump->setValue(true);
     if(!m_timer){
         m_timer = new QTimer(this);
+        m_timer->setSingleShot(true);
         connect(m_timer, &QTimer::timeout, this, &CActionDCEngine::slotTimeout);
     }
     m_timer->stop();

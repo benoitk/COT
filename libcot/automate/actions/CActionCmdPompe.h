@@ -5,6 +5,7 @@
 
 class IVariable;
 class CVariableOutputBool;
+class CVariableInputBool;
 class CVariableOutputInt;
 class CActionCmdPompe : public IAction
 {
@@ -39,6 +40,7 @@ private:
     IVariable* m_stepByStep;
     CVariableOutputInt* m_nbTurns;
     CVariableOutputBool* m_OriginReturn;
+    CVariableInputBool* m_default;
 };
 
 #endif // CACTIONCMDPOMPE_H

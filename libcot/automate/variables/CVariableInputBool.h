@@ -23,11 +23,11 @@ public:
     enumVariableType getType()const Q_DECL_OVERRIDE;
     QVariantMap serialize() Q_DECL_OVERRIDE;
     enumVariableOrganType getOrganType() const Q_DECL_OVERRIDE;
-
+    IVariable* readValue() Q_DECL_OVERRIDE;
 private:
 
     //IVariableInput
-    IVariable* readValue() Q_DECL_OVERRIDE;
+
 
 
 
