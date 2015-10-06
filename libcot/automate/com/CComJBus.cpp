@@ -352,8 +352,9 @@ void CComJBus::writeInt(int addrVar, int value)
 {
     WordArray words(sizeof(int) / sizeof(uint16_t));
     memcpy(words.data(), &value, sizeof(int));
-    writeNWordsFunction16(addrVar, words);
-    //writeWordFunction6(addrVar, value);
+    //writeNWordsFunction16(addrVar, words);
+    //Fonction 16 non fonctionnel sur deuxième 4-20
+    writeWordFunction6((short int)addrVar, value);
 }
 
 float CComJBus::readFloat(int addrVar, Type type)

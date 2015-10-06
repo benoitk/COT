@@ -30,14 +30,18 @@ public:
     void writeValue() Q_DECL_OVERRIDE;
 
     enumAlarmType getAlarmType();
-
+public slots:
+    void slotAcquit();
 signals:
     void signalNewAlarm(CVariableAlarm*);
-    void signalCancelAlarm(CVariableAlarm*);
-
+    void signalAquitAlarm(CVariableAlarm*);
+    void signalStillInAlarm(CVariableAlarm*);
 private:
     bool m_passive;
     enumAlarmType m_alarmType;
+    bool m_autoAcquit;
+    int m_countUntilSetAlarm;
+    int m_numUntilSetAlarm;
 };
 
 #endif

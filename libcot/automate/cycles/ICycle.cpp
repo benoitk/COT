@@ -30,6 +30,7 @@ ICycle::ICycle(const QVariantMap &mapCycle, QObject *parent)
 
     const QVariantMap mapStepStop = mapCycle[QStringLiteral("step_stop")].toMap();
     m_stepStop = new CStep(this, mapStepStop);
+    m_itListStepsPasEnCours == m_listSteps.end();
 
 }
 void ICycle::abortCycle(){
@@ -41,8 +42,7 @@ void ICycle::abortCycle(){
     foreach(CStep* step, m_listSteps){
         step->abortStep();
     }
-    if(m_stepStop)
-        m_stepStop->execStep();
+
     if(m_itListStepsPasEnCours != m_listSteps.end())
         m_itListStepsPasEnCours = m_listSteps.end();
 }

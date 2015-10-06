@@ -6,6 +6,7 @@
 #include <CVariableStream.h>
 #include <CPlotObject.h>
 #include <IVariableMeasuresUIHandler.h>
+#include <qdebug.h>
 
 CPCHistogramTab::CPCHistogramTab(QWidget *parent)
     : IPCTab(parent)
@@ -94,12 +95,17 @@ void CPCHistogramTab::updateActions()
 
 void CPCHistogramTab::showCurve(int num)
 {
+
     m_currentCurveNumber = num;
-    ui->graphicsWidget->showPlotObject(m_plots.at(num));
-    const QList<CVariableMeasure *> measures = allMeasures();
-    IVariable *variable = measures.at(num)->getMeasureVariable();
-    Q_ASSERT(variable);
-    m_measuresHandler->layout(QList<IVariable *>() << variable);
+    if(m_plots.count()>num && num > -1){
+        ui->graphicsWidget->showPlotObject(m_plots.at(num));
+        const QList<CVariableMeasure *> measures = allMeasures();
+        IVariable *variable = measures.at(num)->getMeasureVariable();
+        Q_ASSERT(variable);
+        m_measuresHandler->layout(QList<IVariable *>() << variable);
+    }
+    else
+        qDebug() << "Numéro de courbe inccorect";
 }
 
 QList<CVariableMeasure *> CPCHistogramTab::allMeasures() // could maybe be API in CAutomate.

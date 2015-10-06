@@ -58,13 +58,13 @@ void CPCMeasureTab::slotAlarmsTriggered()
 
 void CPCMeasureTab::slotPlayTriggered()
 {
-    CAutomate::getInstance()->playScheduler();
+    CAutomate::getInstance()->requestPlayScheduler();
 }
 
 void CPCMeasureTab::slotStopTriggered()
 {
 
-    CAutomate::getInstance()->stopScheduler();
+    CAutomate::getInstance()->requestStopScheduler();
 }
 
 void CPCMeasureTab::slotStopEndCycleTriggered()

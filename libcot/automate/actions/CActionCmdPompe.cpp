@@ -75,26 +75,14 @@ bool CActionCmdPompe::runAction(ICycle* arg_stepParent){
           bool test = m_default->toBool();
         if(!m_alim->toBool()) m_alim->setValue(true);
         m_alim->writeValue();
-        QThread::msleep(50);
-        m_default->readValue();
-         test = m_default->toBool();
-        if(test){
-            test = false;
-        }
+        QThread::msleep(5);
+
         m_clockwise->writeValue();
-        QThread::msleep(50);
-        m_default->readValue();
-         test = m_default->toBool();
-        if(test){
-            test = false;
-        }
+        QThread::msleep(5);
+
         m_speed->writeValue();
-        QThread::msleep(50);
-        m_default->readValue();
-         test = m_default->toBool();
-        if(test){
-            test = false;
-        }
+        QThread::msleep(5);
+
         if(m_stepByStep->toBool())
             m_nbSteps->writeValue();
         else
@@ -102,13 +90,8 @@ bool CActionCmdPompe::runAction(ICycle* arg_stepParent){
 
         //m_nbSteps->writeValue();
         m_default->readValue();
-         test = m_default->toBool();
-        if(test){
-            test = false;
-        }
+
     }
-
-
 
     emit signalActionFinished(this);
     return true;

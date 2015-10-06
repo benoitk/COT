@@ -58,8 +58,8 @@ public:
     void informAboutCycleChanges(ICycle *cycle, const QVariantMap &oldData);
     void informAboutVariableChanges(IVariable *variable, const QVariantMap &oldData);
 
-    void playScheduler();
-    void stopScheduler();
+    void requestPlayScheduler();
+    void requestStopScheduler();
     void pauseScheduler();
 
 
@@ -137,7 +137,8 @@ public slots:
     // void slotLogVariable(IVariable* arg_var);
     void slotLogVariable();
     void slotNewAlarm(CVariableAlarm*);
-    void slotCancelAlarm(CVariableAlarm*);
+    void slotAcquitAlarm(CVariableAlarm*);
+    void slotStillInAlarm(CVariableAlarm*);
 signals:
     void signalRunCycle(int);
     void signalVariableChanged(const QString &name, const QDateTime &dateTime);
@@ -199,6 +200,14 @@ protected slots:
     void slotVariableChanged();
 
 private:
+
+    //Gestion redémarage du cycle en cas d'arrêt du à une alarm
+    void requestStopFromNewAlarm(CVariableAlarm * arg_alarm);
+    void restartFromCanceledAlarm(CVariableAlarm* arg_alarm);
+    void stopScheduler();
+    QMap<QString, CVariableAlarm *> m_mapAlarmWhichStopScheduler;
+    bool m_schedulerStoppedFromIHM;
+
     void removeVariableFromTree(IVariable* arg_var);
     static CAutomate* singleton;
     CAutomate();

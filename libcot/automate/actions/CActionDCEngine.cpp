@@ -6,11 +6,11 @@
 #include "cotautomate_debug.h"
 
 #include "qtimer.h"
-
+#include "qthread.h"
 CActionDCEngine::CActionDCEngine(const QVariantMap &mapAction, QObject *parent)
     : IAction(mapAction, parent)
 {
-    m_timer = Q_NULLPTR;
+
     CAutomate* automate = CAutomate::getInstance();
     m_varPump = automate->getVariable(mapAction[QStringLiteral("target")].toString()); //l'automate assure qu'il n'y ai pas de pointeur vide
     m_varClockwise = automate->getVariable(mapAction[QStringLiteral("clockwise")].toString()); //l'automate assure qu'il n'y ai pas de pointeur vide
@@ -28,25 +28,28 @@ QVariantMap CActionDCEngine::serialize(){
 }
 CActionDCEngine::~CActionDCEngine()
 {
-
+    foreach(QTimer* timer, m_listTimer){
+        while(timer->isActive())
+            delete timer;
+    }
 }
-
 
 bool CActionDCEngine::runAction(ICycle* arg_stepParent){
     qCDebug(COTAUTOMATE_LOG)<< "Action commande pompe cc "
             << " label fr " << m_label
             << " clockwise " << m_varClockwise->toString()
             << " timout " << m_varTimeout->toString();
-
+    QThread* currentThread = QThread::currentThread();
     m_varClockwise->setValue(m_varClockwise->toInt()); //évite le cast pour faire un write sur le bus de com
     m_varPump->setValue(true);
-    if(!m_timer){
-        m_timer = new QTimer(this);
-        m_timer->setSingleShot(true);
-        connect(m_timer, &QTimer::timeout, this, &CActionDCEngine::slotTimeout);
+    if(!m_listTimer.contains(currentThread)){
+        QTimer* timer = new QTimer(this);
+        m_listTimer.insert(currentThread, timer);
+        timer->setSingleShot(true);
+        connect(timer, &QTimer::timeout, this, &CActionDCEngine::slotTimeout);
     }
-    m_timer->stop();
-    m_timer->start(m_varTimeout->toInt()*1000);
+    m_listTimer.value(currentThread)->stop();
+    m_listTimer.value(currentThread)->start(m_varTimeout->toInt()*1000);
     return true;
 }
 void CActionDCEngine::slotTimeout(){

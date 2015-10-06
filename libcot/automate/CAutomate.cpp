@@ -42,6 +42,8 @@ CAutomate* CAutomate::getInstance(){
 
 CAutomate::CAutomate()
 {
+    m_schedulerStoppedFromIHM = false;
+
     m_stateCycleMesure = CYCLE_STATE_STOP;
     m_stateCycleIO = CYCLE_STATE_STOP;
     m_stateCycleMaintenance = CYCLE_STATE_STOP;
@@ -115,7 +117,9 @@ void CAutomate::addCyclePrivate(ICycle * cycle)
     }
 }
 void CAutomate::acquitAlarms(){
-
+    //TO DO : virer la list screen alarm, pour laisser les alarmes s'afficher toutes seul et les
+    // ajouter une liste de variable pour les acquiter
+    m_mapAlarmWhichStopScheduler.clear();
     foreach(IVariable* var, m_displayConf->getListForScreenAlarms()){
         var->setValue(false);
     }
@@ -482,13 +486,40 @@ CVariableStream* CAutomate::getVariableStream(IVariable* arg_var) const{
 
     return returnStream;
 }
-void CAutomate::playScheduler(){
-    m_scheduler->slotPlaySequenceMeasure();
+void CAutomate::requestPlayScheduler(){
+    if(m_mapAlarmWhichStopScheduler.isEmpty()){
+        m_scheduler->slotPlaySequenceMeasure();
+        m_schedulerStoppedFromIHM = false;
+    }
+}
+
+void CAutomate::requestStopScheduler(){
+    m_schedulerStoppedFromIHM = true;
+    if(m_mapAlarmWhichStopScheduler.isEmpty())
+    this->stopScheduler();
 }
 
 void CAutomate::stopScheduler(){
 
-    m_scheduler->slotRequestStopSequenceMesure();
+        m_scheduler->slotRequestStopSequenceMesure();
+}
+
+void CAutomate::requestStopFromNewAlarm(CVariableAlarm* arg_alarm){
+    if(!m_mapAlarmWhichStopScheduler.contains(arg_alarm->getName())){
+        m_mapAlarmWhichStopScheduler.insert(arg_alarm->getName(), arg_alarm);
+        if(!m_schedulerStoppedFromIHM){
+            stopScheduler();
+        }
+    }
+}
+
+void CAutomate::restartFromCanceledAlarm(CVariableAlarm* arg_alarm){
+    if(m_mapAlarmWhichStopScheduler.contains(arg_alarm->getName())){
+        m_mapAlarmWhichStopScheduler.remove(arg_alarm->getName());
+        if(!m_schedulerStoppedFromIHM){
+            requestPlayScheduler();
+        }
+    }
 }
 
 void CAutomate::pauseScheduler(){
@@ -751,7 +782,7 @@ void CAutomate::slotNewAlarm(CVariableAlarm* arg_alarm){
         m_scheduler->slotRequestPlayNextSequenceMesure();
         break;
     case e_critical_error_stop_cycle:
-        m_scheduler->slotRequestStopSequenceMesure();
+        requestStopFromNewAlarm(arg_alarm);
         break;
     case e_warning_do_nothing:
     default:
@@ -763,12 +794,12 @@ void CAutomate::slotNewAlarm(CVariableAlarm* arg_alarm){
         emit signalNewAlarm(arg_alarm->getLabel());
     }
 }
-void CAutomate::slotCancelAlarm(CVariableAlarm* arg_alarm){
+void CAutomate::slotAcquitAlarm(CVariableAlarm* arg_alarm){
 
     //lors d'une reprise après un rétablissement d'un défaut
     switch(arg_alarm->getAlarmType()){
     case e_critical_error_stop_cycle:
-        m_scheduler->slotRequestPlayNextSequenceMesure();
+        restartFromCanceledAlarm(arg_alarm);
         break;
     case e_not_critical_error_skip_cycle_try_again:
     case e_warning_do_nothing:
@@ -777,6 +808,18 @@ void CAutomate::slotCancelAlarm(CVariableAlarm* arg_alarm){
     }
     if(m_displayConf->getListForScreenAlarms().contains(arg_alarm)){
         emit signalRemoveAlarm(arg_alarm->getLabel());
+    }
+}
+void CAutomate::slotStillInAlarm(CVariableAlarm* arg_alarm){
+    switch(arg_alarm->getAlarmType()){
+
+    case e_not_critical_error_skip_cycle_try_again:
+        m_scheduler->slotRequestPlayNextSequenceMesure();
+        break;
+    case e_warning_do_nothing:
+    case e_critical_error_stop_cycle:
+    default:
+        break;
     }
 }
 

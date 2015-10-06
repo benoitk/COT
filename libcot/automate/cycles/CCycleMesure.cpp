@@ -57,7 +57,7 @@ void CCycleMesure::slotStepFinished(CStep* arg_step){
     }
 
     if(m_itListStepsPasEnCours == m_listSteps.end()) { //fin du cycle
-        m_isRunning = false; //a changer avec m_itListStepsPasEnCours = m_listSteps.end pour savoir si un cycle est en cours ou pas    
+        m_isRunning = false; //a changer avec m_itListStepsPasEnCours = m_listSteps.end pour savoir si un cycle est en cours ou pas
         emit CAutomate::getInstance()->signalUpdatePlotting();
         emit signalReadyForPlayNextCycle();
     }else{
@@ -68,7 +68,6 @@ void CCycleMesure::slotStepFinished(CStep* arg_step){
         qCDebug(COTAUTOMATE_LOG) << "time out before next step : " << m_timeout;
         if(m_timer) m_timer->start(m_timeout);
     }
-
 }
 
 void CCycleMesure::slotExecNextStep(){
@@ -111,10 +110,11 @@ void CCycleMesure::slotPauseCycle(){
 void CCycleMesure::slotStopCycle(){
     QMutexLocker lock(&m_mutex);
 
-   abortCycle();
-
-
-
+    if(m_itListStepsPasEnCours != m_listSteps.end()){
+        abortCycle();
+        if(m_stepStop)
+            m_stepStop->execStep();
+    }
 
     m_isRunning = false;
 

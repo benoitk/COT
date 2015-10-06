@@ -20,13 +20,18 @@ CVariableAlarm::CVariableAlarm(const QMap<QString, QVariant> &mapVar)
     : CVariableOutputBool(mapVar)
 {
     connect(this, &CVariableAlarm::signalNewAlarm, CAutomate::getInstance(), &CAutomate::slotNewAlarm);
-    connect(this, &CVariableAlarm::signalCancelAlarm, CAutomate::getInstance(), &CAutomate::slotCancelAlarm);
+    connect(this, &CVariableAlarm::signalAquitAlarm, CAutomate::getInstance(), &CAutomate::slotAcquitAlarm);
+    connect(this, &CVariableAlarm::signalStillInAlarm, CAutomate::getInstance(), &CAutomate::slotStillInAlarm);
     m_passive = mapVar.value(QStringLiteral("passive")).toBool(); //false par défaut même si il n'y a de champs passive dans le json
     QString alarmType = mapVar.value(QStringLiteral("alarm_type")).toString();
 
     if(alarmType == QStringLiteral("not_critical_error_skip_cycle_try_again")) m_alarmType = e_not_critical_error_skip_cycle_try_again;
     else if(alarmType == QStringLiteral("critical_error_stop_cycle")) m_alarmType = e_critical_error_stop_cycle;
     else m_alarmType = e_warning_do_nothing; //"warning_do_nothing"
+
+    m_autoAcquit = mapVar.value(QStringLiteral("auto_acquit")).toBool();
+    m_numUntilSetAlarm = mapVar.value(QStringLiteral("delay")).toInt() -1;
+    m_countUntilSetAlarm = m_numUntilSetAlarm;
 }
 
 void CVariableAlarm::writeValue(){
@@ -37,12 +42,26 @@ void CVariableAlarm::writeValue(){
 }
 
  void CVariableAlarm::setValue(bool arg_value){
-     if(m_value && m_value != arg_value) //si mise en alarme et pas déjà en alarme
-         emit signalNewAlarm(this);
-     else if(!m_value && m_value != arg_value)
-         emit signalCancelAlarm(this);
 
-     CVariableOutputBool::setValue(arg_value);
+     if(m_value && m_value != arg_value && m_countUntilSetAlarm-- < 0){ //si mise en alarme et pas déjà en alarme
+         emit signalNewAlarm(this);
+         CVariableOutputBool::setValue(arg_value);
+         m_countUntilSetAlarm = m_numUntilSetAlarm;
+     }
+     else if(!m_value && m_value != arg_value && m_autoAcquit){
+         emit signalAquitAlarm(this);
+         CVariableOutputBool::setValue(arg_value);
+         m_countUntilSetAlarm = m_numUntilSetAlarm;
+     }
+     else if(!m_value && m_value == arg_value){
+         emit signalStillInAlarm(this);
+     }
+
+ }
+
+ void CVariableAlarm::slotAcquit(){
+     CVariableOutputBool::setValue(false);
+      emit signalAquitAlarm(this);
  }
 
 
