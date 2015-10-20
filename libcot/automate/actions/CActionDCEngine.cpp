@@ -28,7 +28,7 @@ QVariantMap CActionDCEngine::serialize(){
 }
 CActionDCEngine::~CActionDCEngine()
 {
-    foreach(QTimer* timer, m_listTimer){
+    foreach(QTimer* timer, m_mapTimer){
         while(timer->isActive())
             delete timer;
     }
@@ -42,14 +42,14 @@ bool CActionDCEngine::runAction(ICycle* arg_stepParent){
     QThread* currentThread = QThread::currentThread();
     m_varClockwise->setValue(m_varClockwise->toInt()); //évite le cast pour faire un write sur le bus de com
     m_varPump->setValue(true);
-    if(!m_listTimer.contains(currentThread)){
-        QTimer* timer = new QTimer(this);
-        m_listTimer.insert(currentThread, timer);
+    if(!m_mapTimer.contains(currentThread)){
+        QTimer* timer = new QTimer();
+        m_mapTimer.insert(currentThread, timer);
         timer->setSingleShot(true);
         connect(timer, &QTimer::timeout, this, &CActionDCEngine::slotTimeout);
     }
-    m_listTimer.value(currentThread)->stop();
-    m_listTimer.value(currentThread)->start(m_varTimeout->toInt()*1000);
+    m_mapTimer.value(currentThread)->stop();
+    m_mapTimer.value(currentThread)->start(m_varTimeout->toInt()*1000);
     return true;
 }
 void CActionDCEngine::slotTimeout(){

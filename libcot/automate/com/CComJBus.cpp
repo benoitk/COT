@@ -238,6 +238,7 @@ void CComJBus::writeData(IVariableOutput* arg_output)
     default:
         break;
     }
+
 }
 
 CComJBus::BitArray CComJBus::readNBitsFunction1(int addrVar, int nbBitsToRead)

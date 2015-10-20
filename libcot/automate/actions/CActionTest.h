@@ -41,7 +41,7 @@ private:
     bool acquisitionAndTest(float arg_setPointMin, float arg_setPointMax);
     enum eContidion{m_eEqualToSetpoint=0, m_eSuperiorToSetpoint, m_eInferiorToSetPoint};
     IVariable* m_setpoint;
-    IVariableInput* m_target;
+    IVariable* m_target;
     CVariableAlarm* m_result;
     IVariable* m_waiting;
     eContidion m_condition;

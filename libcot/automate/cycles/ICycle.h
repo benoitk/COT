@@ -4,6 +4,7 @@
 #include <QObject>
 #include "qmutex.h"
 #include <QTimer>
+#include "qmap.h"
 
 enum enumTypeCycle{
     e_cycle_invalid = -1,
@@ -103,7 +104,7 @@ protected:
     QString m_label;
     int m_idCycle;
     QString m_name;
-    QTimer* m_timer;
+    QMap<QThread* ,QTimer*> m_mapTimer;
 
     bool m_editInProgress;
     QMutex m_mutex;

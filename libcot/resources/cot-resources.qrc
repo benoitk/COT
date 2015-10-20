@@ -9,7 +9,6 @@
         <file>fonts/LiberationSansNarrow-Regular.ttf</file>
         <file>fonts/LiberationSans-Regular.ttf</file>
     </qresource>
-
     <qresource prefix="/hd-icons">
         <file>pictohd/Ana-tor active.png</file>
         <file>pictohd/Ana-tor.png</file>
@@ -100,6 +99,9 @@
         <file>pictohd/fleche haut active.png</file>
         <file>pictohd/fleche haut grisee.png</file>
         <file>pictohd/fleche haut.png</file>
+        <file>pictohd/chargement.png</file>
+        <file>pictohd/chargement active.png</file>
+        <file>pictohd/chargement grisée.png</file>
     </qresource>
     <qresource prefix="/icons">
         <file>picto/flechebas.png</file>
@@ -206,4 +208,3 @@
         <file>picto/transfert copie.png</file>
     </qresource>
 </RCC>
-

@@ -26,10 +26,12 @@ CActionTest::CActionTest(const QVariantMap &mapAction, QObject *parent)
     var =  automate->getVariable(mapAction[QStringLiteral("result")].toString());
     if(var->getType() == e_type_alarm)
         m_result = dynamic_cast<CVariableAlarm*>(var);
-    m_target = Q_NULLPTR;
-    var = automate->getVariable(mapAction[QStringLiteral("target")].toString());
-    if(var->getOrganType() == e_type_organ_input)
-        m_target = dynamic_cast<IVariableInput*>(var);
+//    m_target = Q_NULLPTR;
+//    var = automate->getVariable(mapAction[QStringLiteral("target")].toString());
+//    if(var->getOrganType() == e_type_organ_input)
+//        m_target = dynamic_cast<IVariableInput*>(var);
+
+    m_target = automate->getVariable(mapAction[QStringLiteral("target")].toString());
 
     QString sCondition = mapAction[QStringLiteral("condition")].toString();
     if(sCondition == QStringLiteral("target_equal_to_setpoint")) m_condition = m_eEqualToSetpoint;
@@ -42,7 +44,7 @@ CActionTest::CActionTest(const QVariantMap &mapAction, QObject *parent)
 QVariantMap CActionTest::serialize(){
     QVariantMap mapSerialize = IAction::serialize();
     mapSerialize.insert(QStringLiteral("setpoint"), m_setpoint->getName());
-    mapSerialize.insert(QStringLiteral("target"), m_target->getIVariable()->getName());
+    mapSerialize.insert(QStringLiteral("target"), m_target->getName());
     mapSerialize.insert(QStringLiteral("result"), m_result->getName());
     mapSerialize.insert(QStringLiteral("waiting"), m_waiting->getName());
     mapSerialize.insert(QStringLiteral("error_margin"), m_errorMargin->getName());
@@ -105,20 +107,24 @@ void CActionTest::run(){
         float setpointMin = m_setpoint->toFloat() - (m_setpoint->toFloat() *  (m_errorMargin->toFloat()*0.01));
         int timeout = m_timeout->toInt();
         bool result = true;
-        int timeUnitlAlarm = 0;
+        bool bSortie = false;
 
         qCDebug(COTAUTOMATE_LOG)<< "timeout " << timeout;
         qCDebug(COTAUTOMATE_LOG)<< "result " << result;
 
-        for(int i=0 ; ( (i < timeout && timeout > 0) || timeout == 0 )&& !m_abort && ( (m_result->toBool()) || (!timeout)  ); ++i){
+        for(int i=0 ; ( (i < timeout && timeout > 0) || timeout == 0 )&& !m_abort && !bSortie ; ++i){
+
             setpointMax = m_setpoint->toFloat() + (m_setpoint->toFloat() * (m_errorMargin->toFloat()*0.01));
             setpointMin = m_setpoint->toFloat() - (m_setpoint->toFloat() *  (m_errorMargin->toFloat()*0.01));
+
             result = acquisitionAndTest(setpointMin, setpointMax);
             m_result->setValue(result);
+            if(result && m_result->toBool() && timeout > 0)
+                bSortie = true;
 
             QString  sActionInfo =  tr("Lecture ") + QString::number(i+1) + "/"  +QString::number(timeout) + " "
-                    + m_target->getIVariable()->getLabel() + " " +  QString::number(m_target->getIVariable()->toFloat(), 'f', 2)
-                    + m_target->getIVariable()->getUnit()->getLabel() ;
+                    + m_target->getLabel() + " " +  QString::number(m_target->toFloat(), 'f', 2)
+                    + m_target->getUnit()->getLabel() ;
             updateActionInfos(sActionInfo, stepParent);
             QThread::msleep(1000);
         }
@@ -131,7 +137,13 @@ void CActionTest::run(){
 }
 
 bool CActionTest::acquisitionAndTest(float arg_setPointMin, float arg_setPointMax){
-    float  target = m_target->readValue()->toFloat();
+//    float  target = m_target->readValue()->toFloat();
+    float  target = 0;
+    if(m_target->getOrganType() == e_type_organ_input)
+        target = dynamic_cast<IVariableInput*>(m_target)->readValue()->toFloat();
+    else
+        target = m_target->toFloat();
+
     bool result= false;
 
     switch(m_condition){
@@ -164,7 +176,8 @@ QList<IVariable*> CActionTest::getListParameters()const{
     listParams.append(m_errorMargin);
     listParams.append(m_result);
     listParams.append(m_setpoint);
-    listParams.append(dynamic_cast<IVariable*>(m_target));
+    //listParams.append(dynamic_cast<IVariable*>(m_target));
+    listParams.append(m_target);
     listParams.append(m_timeout);
     listParams.append(m_waiting);
 
@@ -197,7 +210,8 @@ bool CActionTest::variableUsed(IVariable *arg_var)const {
 }
 void CActionTest::setParameter(const QString& arg_key, IVariable* arg_parameter){
     if(tr("Setpoint")== arg_key) m_setpoint= arg_parameter;
-    else if(tr("Target")== arg_key && arg_parameter->getOrganType() == e_type_organ_input )m_target= dynamic_cast<IVariableInput*>(arg_parameter);
+    else if(tr("Target")== arg_key && arg_parameter->getOrganType() == e_type_organ_input )m_target= arg_parameter;
+//    else if(tr("Target")== arg_key && arg_parameter->getOrganType() == e_type_organ_input )m_target= dynamic_cast<IVariableInput*>(arg_parameter);
     else if(tr("Target")== arg_key && arg_parameter->getOrganType() != e_type_organ_input )m_target= Q_NULLPTR;
     else if(tr("Result")== arg_key && arg_parameter->getOrganType() == e_type_alarm )m_result= dynamic_cast<CVariableAlarm*>(arg_parameter);
     else if(tr("Result")== arg_key && arg_parameter->getOrganType() != e_type_alarm )m_result= Q_NULLPTR;

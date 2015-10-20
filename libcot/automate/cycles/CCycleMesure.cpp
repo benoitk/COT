@@ -17,7 +17,7 @@ CCycleMesure::CCycleMesure(QObject *parent)
 
 CCycleMesure::CCycleMesure(const QVariantMap &mapCycle, QObject *parent): ICycle(mapCycle, parent) {
     //qCDebug(COTAUTOMATE_LOG) << "constructor CCycleMesure(const QVariantMap &mapCycle) mapCycle:" << mapCycle;
-    m_timer = Q_NULLPTR;
+    //m_timer = Q_NULLPTR;
      qDebug() << "moveThread CCycleMesure";
     this->moveToThread(&m_thread);
     m_thread.start();
@@ -66,7 +66,10 @@ void CCycleMesure::slotStepFinished(CStep* arg_step){
         }else
             m_timeout = (*m_itListStepsPasEnCours)->getNumStep()*1000;
         qCDebug(COTAUTOMATE_LOG) << "time out before next step : " << m_timeout;
-        if(m_timer) m_timer->start(m_timeout);
+        QThread* currentThread = QThread::currentThread();
+        if(m_mapTimer.contains(currentThread)){
+            m_mapTimer.value(currentThread)->start(m_timeout);
+        }
     }
 }
 
@@ -82,10 +85,12 @@ void CCycleMesure::slotExecNextStep(){
 void CCycleMesure::slotRunCycle(){
     QMutexLocker lock(&m_mutex);
 
-    if(!m_timer){
-        m_timer = new QTimer(this); //ne pas le créer dans le constructeur car il n'est pas éxecuté dans le même thread
-        m_timer->setSingleShot(true);
-        connect(m_timer, &QTimer::timeout, this, &CCycleMesure::slotExecNextStep);
+    QThread* currentThread = QThread::currentThread();
+    if(!m_mapTimer.contains(currentThread)){
+        QTimer* timer = new QTimer();
+        m_mapTimer.insert(currentThread, timer);
+        timer->setSingleShot(true);
+        connect(timer, &QTimer::timeout, this, &CCycleMesure::slotExecNextStep);
     }
     qCDebug(COTAUTOMATE_LOG) << "CCycleMesure::slotRunCycle()";
 
@@ -95,7 +100,7 @@ void CCycleMesure::slotRunCycle(){
         m_timeout = m_listSteps.first()->getNumStep() * 1000; //step en seconde
         updateCycleInfosCountStep();
         qCDebug(COTAUTOMATE_LOG) << "time out before next step : " << m_timeout;
-        m_timer->start(m_timeout);
+        m_mapTimer.value(currentThread)->start(m_timeout);
     }
     else
         qCDebug(COTAUTOMATE_LOG) << "m_listSteps.isEmpty()";

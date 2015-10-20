@@ -42,6 +42,7 @@ CAutomate* CAutomate::getInstance(){
 
 CAutomate::CAutomate()
 {
+    m_debug = false;
     m_schedulerStoppedFromIHM = false;
 
     m_stateCycleMesure = CYCLE_STATE_STOP;
@@ -61,6 +62,9 @@ CAutomate::CAutomate()
     qRegisterMetaType<CAutomate::eStateAutomate>();
     qRegisterMetaType<CAutomate::eStateStream>();
 }
+void CAutomate::setDebug(bool arg_debug){
+    m_debug = arg_debug;
+}
 
 void CAutomate::initConfig(){
 
@@ -72,7 +76,8 @@ void CAutomate::slotStartAutomate(){
 
     CModelConfigFile configFile(this);
 
-    QTimer::singleShot(1000, this, SLOT(slotLogVariable()));
+    if(m_debug)
+        QTimer::singleShot(1000, this, SLOT(slotLogVariable()));
 
 }
 
@@ -119,10 +124,8 @@ void CAutomate::addCyclePrivate(ICycle * cycle)
 void CAutomate::acquitAlarms(){
     //TO DO : virer la list screen alarm, pour laisser les alarmes s'afficher toutes seul et les
     // ajouter une liste de variable pour les acquiter
-    m_mapAlarmWhichStopScheduler.clear();
-    foreach(IVariable* var, m_displayConf->getListForScreenAlarms()){
-        var->setValue(false);
-    }
+    m_mapAlarmWhichStoppedScheduler.clear();
+    emit signalAquitAllAlarm();
 }
 
 QList<ICycle *> CAutomate::getListCyclesPrivate(int cycleType)
@@ -487,7 +490,7 @@ CVariableStream* CAutomate::getVariableStream(IVariable* arg_var) const{
     return returnStream;
 }
 void CAutomate::requestPlayScheduler(){
-    if(m_mapAlarmWhichStopScheduler.isEmpty()){
+    if(m_mapAlarmWhichStoppedScheduler.isEmpty()){
         m_scheduler->slotPlaySequenceMeasure();
         m_schedulerStoppedFromIHM = false;
     }
@@ -495,7 +498,7 @@ void CAutomate::requestPlayScheduler(){
 
 void CAutomate::requestStopScheduler(){
     m_schedulerStoppedFromIHM = true;
-    if(m_mapAlarmWhichStopScheduler.isEmpty())
+    if(m_mapAlarmWhichStoppedScheduler.isEmpty())
     this->stopScheduler();
 }
 
@@ -503,23 +506,27 @@ void CAutomate::stopScheduler(){
 
         m_scheduler->slotRequestStopSequenceMesure();
 }
+void CAutomate::playNextSequenceMesure(){
+    if(m_mapAlarmWhichStoppedScheduler.isEmpty() && !m_schedulerStoppedFromIHM)
+        m_scheduler->slotRequestPlayNextSequenceMesure();
+}
 
 void CAutomate::requestStopFromNewAlarm(CVariableAlarm* arg_alarm){
-    if(!m_mapAlarmWhichStopScheduler.contains(arg_alarm->getName())){
-        m_mapAlarmWhichStopScheduler.insert(arg_alarm->getName(), arg_alarm);
-        if(!m_schedulerStoppedFromIHM){
+    if(!m_mapAlarmWhichStoppedScheduler.contains(arg_alarm->getName())){
+        m_mapAlarmWhichStoppedScheduler.insert(arg_alarm->getName(), arg_alarm);
+        if(!m_schedulerStoppedFromIHM && m_mapAlarmWhichStoppedScheduler.count()==1){
             stopScheduler();
         }
     }
 }
 
 void CAutomate::restartFromCanceledAlarm(CVariableAlarm* arg_alarm){
-    if(m_mapAlarmWhichStopScheduler.contains(arg_alarm->getName())){
-        m_mapAlarmWhichStopScheduler.remove(arg_alarm->getName());
-        if(!m_schedulerStoppedFromIHM){
-            requestPlayScheduler();
-        }
+    if(m_mapAlarmWhichStoppedScheduler.remove(arg_alarm->getName())
+            && m_mapAlarmWhichStoppedScheduler.isEmpty()
+            && !m_schedulerStoppedFromIHM){
+        requestPlayScheduler();
     }
+
 }
 
 void CAutomate::pauseScheduler(){
@@ -779,7 +786,7 @@ void CAutomate::setStateCycleMesure(eStateCycle arg_state){
 void CAutomate::slotNewAlarm(CVariableAlarm* arg_alarm){
     switch(arg_alarm->getAlarmType()){
     case e_not_critical_error_skip_cycle_try_again:
-        m_scheduler->slotRequestPlayNextSequenceMesure();
+        playNextSequenceMesure();
         break;
     case e_critical_error_stop_cycle:
         requestStopFromNewAlarm(arg_alarm);
@@ -794,7 +801,7 @@ void CAutomate::slotNewAlarm(CVariableAlarm* arg_alarm){
         emit signalNewAlarm(arg_alarm->getLabel());
     }
 }
-void CAutomate::slotAcquitAlarm(CVariableAlarm* arg_alarm){
+void CAutomate::slotAcquitedAlarm(CVariableAlarm* arg_alarm){
 
     //lors d'une reprise après un rétablissement d'un défaut
     switch(arg_alarm->getAlarmType()){
@@ -814,7 +821,7 @@ void CAutomate::slotStillInAlarm(CVariableAlarm* arg_alarm){
     switch(arg_alarm->getAlarmType()){
 
     case e_not_critical_error_skip_cycle_try_again:
-        m_scheduler->slotRequestPlayNextSequenceMesure();
+        playNextSequenceMesure();
         break;
     case e_warning_do_nothing:
     case e_critical_error_stop_cycle:
@@ -924,12 +931,16 @@ void CAutomate::setDisplayConf(CDisplayConf* displayConf){
     m_displayConf = displayConf;
 }
 
-void CAutomate::addLoggedVariable(const QString& arg_varName){
+void CAutomate::addLoggedVariable(const QString& arg_varName, bool arg_debug){
     IVariable* var = getVariable(arg_varName);
-    m_listLoggedVar.append(var);
-    //if(var && var->getType() != type_unknow)
-        //connect(var, &IVariable::signalVariableChanged, this, &CAutomate::slotLogVariable);
-
+    if(arg_debug)
+        m_listLoggedVarDebug.append(var);
+    else
+    {
+        m_listLoggedVar.append(var);
+        if(var && var->getType() != e_type_unknow && !m_debug)
+            connect(var, SIGNAL(signalVariableChanged(IVariable*)), this, SLOT(slotLogVariable(IVariable*)));
+    }
 }
 
 
@@ -1069,10 +1080,8 @@ void CAutomate::slotSerializeAndSave(){
 #endif
 }
 
-//void CAutomate::slotLogVariable(IVariable* arg_var){
-void CAutomate::slotLogVariable(){
+void CAutomate::slotLogVariable(IVariable* arg_var){
     QMutexLocker locker(&m_mutex);
-    QTimer::singleShot(1000, this, SLOT(slotLogVariable()));
     QString dirPath = QString(LOG_SOURCE_DIRECTORY);
     QDir dir = QDir(dirPath);
     if(!dir.exists()){
@@ -1083,7 +1092,32 @@ void CAutomate::slotLogVariable(){
     if (data.open(QFile::Append)) {
         QTextStream out(&data);
         out << QDateTime::currentDateTime().toString(Qt::ISODate);
-        foreach(IVariable* arg_var, m_listLoggedVar){
+        QString tmp = QString::number(arg_var->toFloat(), 'f', 10);
+        out << ";" << arg_var->getLabel() << ";" << tmp;
+        // qDebug() << ";" << arg_var->getLabel() << ";" << tmp;
+        out << endl;
+    }else{
+        qDebug() << "Can't open file";
+    }
+    data.close();
+}
+
+void CAutomate::slotLogVariable(){
+    QMutexLocker locker(&m_mutex);
+    QTimer::singleShot(1000, this, SLOT(slotLogVariable()));
+    QString dirPath = QString(LOG_SOURCE_DIRECTORY);
+    QDir dir = QDir(dirPath);
+    if(!dir.exists()){
+        dir.mkdir(dirPath);
+    }
+    QString path = dirPath+ "/log_debug_"+QDate::currentDate().toString(Qt::ISODate)+".txt";
+    QFile data(path);
+    if (data.open(QFile::Append)) {
+        QTextStream out(&data);
+        out << QDateTime::currentDateTime().toString(Qt::ISODate);
+        foreach(IVariable* arg_var, m_listLoggedVarDebug){
+            if(arg_var->getOrganType() == e_type_organ_input)
+                (dynamic_cast<IVariableInput*>(arg_var))->readValue();
             QString tmp = QString::number(arg_var->toFloat(), 'f', 10);
             out << ";" << arg_var->getLabel() << ";" << tmp;
            // qDebug() << ";" << arg_var->getLabel() << ";" << tmp;

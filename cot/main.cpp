@@ -57,8 +57,9 @@ int main(int argc, char *argv[])
         w.setFixedSize(QSize(1024, 600));
         initialTestWindow.setFixedSize(QSize(1024, 600));
     }
-    initialTestWindow.exec();
     w.show();
+    initialTestWindow.exec();
+
 
 #if defined(Q_OS_OSX)
     // Specific to Filipe secondary screen, can be removed at the end

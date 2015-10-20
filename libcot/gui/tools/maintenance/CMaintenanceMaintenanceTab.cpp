@@ -99,7 +99,8 @@ void CMaintenanceMaintenanceTab::slotPlayPressed(){
         connect(cycle, &ICycle::signalStopped, this, &CMaintenanceMaintenanceTab::slotCycleStopped);
         connect(cycle, &ICycle::signalReadyForPlayNextCycle, this, &CMaintenanceMaintenanceTab::slotCycleStopped);
         connect(this, &CMaintenanceMaintenanceTab::signalStopCycle, cycle, &ICycle::slotStopCycle);
-        if(bRunCycle) cycle->slotRunCycle();
+        connect(this, &CMaintenanceMaintenanceTab::signalRunCycle, cycle, &ICycle::slotRunCycle);
+        if(bRunCycle) emit signalRunCycle();
     }
 
 }

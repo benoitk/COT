@@ -23,6 +23,7 @@ private:
 
 signals:
     void signalStopCycle();
+    void signalRunCycle();
 
 private slots:
     void slotUpdateLayout();

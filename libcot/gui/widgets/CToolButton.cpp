@@ -200,13 +200,20 @@ QIcon CToolButton::buttonIcon(CToolButton::Type type)
 
     // enum Mode { Normal, Disabled, Selected };
     switch (type) {
-        case CToolButton::StopEndCycle:
-        case CToolButton::NextStream:
-        case CToolButton::Update:
-        case CToolButton::Copy:
-        case CToolButton::Move:
-        case CToolButton::AddStopStep:
-        case CToolButton::Edit:
+    case CToolButton::StopEndCycle:
+        icon = iconFromPixmaps("arret fin cycle");
+        break;
+
+    case CToolButton::NextStream:
+        icon = iconFromPixmaps("next mesure");
+        break;
+    case CToolButton::Update:
+        icon = iconFromPixmaps("chargement");
+        break;
+    case CToolButton::Copy:
+    case CToolButton::Move:
+    case CToolButton::AddStopStep:
+    case CToolButton::Edit:
         case CToolButton::Retry:
             // SERES_TODO: Add correct icons. // COT-66
             break;

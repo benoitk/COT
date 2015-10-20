@@ -27,7 +27,7 @@ public slots:
 
 private:
 
-    QMap<QThread* ,QTimer*> m_listTimer;
+    QMap<QThread* ,QTimer*> m_mapTimer;
     IVariable* m_varPump;
     IVariable* m_varClockwise;
     IVariable* m_varTimeout;

@@ -59,6 +59,14 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
 
     CAutomate *automate = CAutomate::getInstance();
 
+    //debug
+    if(jsonObjectAll[QStringLiteral("extensions")] == QJsonValue::Undefined){
+        qCDebug(COTAUTOMATE_LOG) << "jsonObject[\"extensions\"] == QJsonValue::Undefined";
+    }
+    else{
+        automate->setDebug(jsonObjectAll[QStringLiteral("debug")].toBool());
+    }
+
     //extension
     if(jsonObjectAll[QStringLiteral("extensions")] == QJsonValue::Undefined){
         qCDebug(COTAUTOMATE_LOG) << "jsonObject[\"extensions\"] == QJsonValue::Undefined";
@@ -302,6 +310,7 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
     }
 
      //Logs
+     {
      QJsonObject jsonObjectLogs = m_jsonDoc->object();
      if(jsonObjectLogs[QStringLiteral("logs")] == QJsonValue::Undefined){
          qCDebug(COTAUTOMATE_LOG) << "jsonObject[\"logs\"] == QJsonValue::Undefined";
@@ -316,7 +325,24 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
                  qCDebug(COTAUTOMATE_LOG) << "Logs null : map = " << varName;
          }
      }
-
+     }
+     //Logs debug
+     {
+     QJsonObject jsonObjectLogs = m_jsonDoc->object();
+     if(jsonObjectLogs[QStringLiteral("logs_debug")] == QJsonValue::Undefined){
+         qCDebug(COTAUTOMATE_LOG) << "jsonObject[\"logs_debug\"] == QJsonValue::Undefined";
+     }
+     else {
+         QJsonArray jsonArrayLogs = jsonObjectLogs[QStringLiteral("logs_debug")].toArray();
+         foreach(QJsonValue jsonVarName, jsonArrayLogs){
+             QString varName = jsonVarName.toVariant().toString();
+             if(varName != QStringLiteral(""))
+                 automate->addLoggedVariable(varName, true);
+             else
+                 qCDebug(COTAUTOMATE_LOG) << "Logs null : map = " << varName;
+         }
+     }
+    }
     qCDebug(COTAUTOMATE_LOG) << "FIN CModelConfigFile(QObject *parent)";
 }
 void CModelConfigFile::saveJson(const QVariantMap& arg_mapSerialized){

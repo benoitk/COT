@@ -55,6 +55,7 @@ CInitialTestsWindow::CInitialTestsWindow(QWidget *parent) :
 
 void CInitialTestsWindow::slotBackTriggered()
 {
+    CAutomate::getInstance()->acquitAlarms();
     close();
 }
 

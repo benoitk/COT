@@ -126,7 +126,7 @@ public:
     void initConfig();
     void quit();
 
-    void addLoggedVariable(const QString& arg_varName);
+    void addLoggedVariable(const QString& arg_varName, bool arg_debug=false);
 
 public slots:
     void slotSerializeAndSave();
@@ -134,11 +134,13 @@ public slots:
     void slotClock();
     void slotStartAutomate();
     void slotTabChanged(int tab_index);
-    // void slotLogVariable(IVariable* arg_var);
+    void slotLogVariable(IVariable* arg_var);
     void slotLogVariable();
     void slotNewAlarm(CVariableAlarm*);
-    void slotAcquitAlarm(CVariableAlarm*);
+    void slotAcquitedAlarm(CVariableAlarm*);
     void slotStillInAlarm(CVariableAlarm*);
+
+    void setDebug(bool arg_debug);
 signals:
     void signalRunCycle(int);
     void signalVariableChanged(const QString &name, const QDateTime &dateTime);
@@ -180,6 +182,7 @@ signals:
     void signalUpdateMeasureLabels(int, const QString &);
 
     void signalNewAlarm(const QString&);
+    void signalAquitAllAlarm();
     void signalRemoveAlarm(const QString&);
 
     //1 signal par section du json, dès qu'une valeur est modifié
@@ -205,7 +208,8 @@ private:
     void requestStopFromNewAlarm(CVariableAlarm * arg_alarm);
     void restartFromCanceledAlarm(CVariableAlarm* arg_alarm);
     void stopScheduler();
-    QMap<QString, CVariableAlarm *> m_mapAlarmWhichStopScheduler;
+    void playNextSequenceMesure();
+    QMap<QString, CVariableAlarm *> m_mapAlarmWhichStoppedScheduler;
     bool m_schedulerStoppedFromIHM;
 
     void removeVariableFromTree(IVariable* arg_var);
@@ -215,6 +219,7 @@ private:
     bool shouldQuit();
 
     QList<IVariable*> m_listLoggedVar;
+    QList<IVariable*> m_listLoggedVarDebug;
     mutable QMutex m_mutex;
 
     eStateCycle m_stateCycleMesure; //0 stoped, 1 run, 2 pause
@@ -250,6 +255,8 @@ private:
     void addVariablePrivate(const QString &name, IVariable *var);
     QList<ICycle*> getListCyclesPrivate(int cycleType = 0);
     QMap<QString, IVariable*> getMapVariablesPrivate();
+
+    bool m_debug;
 };
 
 Q_DECLARE_METATYPE(CAutomate::eStateAutomate)

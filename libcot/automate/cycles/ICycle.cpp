@@ -2,6 +2,7 @@
 #include "CStep.h"
 #include "CAutomate.h"
 #include "cotautomate_debug.h"
+#include "qthread.h"
 
 ICycle::ICycle(QObject *parent)
     : QObject(parent), m_stepStop(Q_NULLPTR), m_mutex(QMutex::Recursive), m_editInProgress(false)
@@ -34,8 +35,9 @@ ICycle::ICycle(const QVariantMap &mapCycle, QObject *parent)
 
 }
 void ICycle::abortCycle(){
-    if(m_timer)
-        m_timer->stop();
+    QThread* currentThread = QThread::currentThread();
+    if(m_mapTimer.contains(currentThread))
+        m_mapTimer.value(currentThread)->stop();
     else
         qDebug() << "TIMER NON CREE DANS CE CYCLE , cycle :" << this->getName() ;
 

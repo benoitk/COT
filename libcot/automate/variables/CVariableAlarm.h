@@ -28,13 +28,14 @@ public:
     void setValue(bool);
     using CVariableOutputBool::setValue;
     void writeValue() Q_DECL_OVERRIDE;
+    void setToBindedValue(const QVariant & value) Q_DECL_OVERRIDE;
 
     enumAlarmType getAlarmType();
 public slots:
     void slotAcquit();
 signals:
     void signalNewAlarm(CVariableAlarm*);
-    void signalAquitAlarm(CVariableAlarm*);
+    void signalAquitedAlarm(CVariableAlarm*);
     void signalStillInAlarm(CVariableAlarm*);
 private:
     bool m_passive;

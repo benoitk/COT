@@ -75,4 +75,5 @@ void CAlarmsWindow::slotAlarmsChanged()
 void CAlarmsWindow::slotRemoveAlarms()
 {
     m_pendingAlarms->clearAlarms();
+    CAutomate::getInstance()->acquitAlarms();
 }

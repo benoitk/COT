@@ -48,6 +48,7 @@ QVariantMap CActionCmdPompe::serialize(){
     mapSerialize.insert(QStringLiteral("nbr_steps"), m_nbSteps->getName());
     mapSerialize.insert(QStringLiteral("origin_return_before"), m_OriginReturn->getName());
     mapSerialize.insert(QStringLiteral("step_by_step"), m_stepByStep->getName());
+    mapSerialize.insert(QStringLiteral("default"), m_default->getName());
     mapSerialize.insert(QStringLiteral("type"), QStringLiteral("cmd_pump"));
     return mapSerialize;
 }

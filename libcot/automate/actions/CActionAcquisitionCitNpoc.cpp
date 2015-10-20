@@ -134,46 +134,49 @@ void CActionAcquisitionCitNpoc::run(){
 
             airflow = measureAirflow->readValue()->toFloat();
 
-            x = log10(zero/mesure);
-            varLogZeroMesure->setValue(x);
-            co2ppmv = m_coef1->toFloat() * pow(x, 5)
-                    + m_coef2->toFloat() * pow(x, 4)
-                    + m_coef3->toFloat() * pow(x,3)
-                    + m_coef4->toFloat() * pow(x,2)
-                    + m_coef5->toFloat() * x
-                    + m_Offset->toFloat();
-            varCo2ppmv->setValue(co2ppmv);
-            co2g += (co2ppmv * m_CstConversion->toFloat()) * ((airflow*0.001)/60000);
-            m_co2g->setValue(co2g);
+            if(mesure != 0){
+                x = log10(zero/mesure);
+                varLogZeroMesure->setValue(x);
+                co2ppmv = m_coef1->toFloat() * pow(x, 5)
+                        + m_coef2->toFloat() * pow(x, 4)
+                        + m_coef3->toFloat() * pow(x,3)
+                        + m_coef4->toFloat() * pow(x,2)
+                        + m_coef5->toFloat() * x
+                        + m_Offset->toFloat();
+                varCo2ppmv->setValue(co2ppmv);
+                co2g += (co2ppmv * m_CstConversion->toFloat()) * ((airflow*0.001)/60000);
+                m_co2g->setValue(co2g);
 
-            co2ppmv += 100; //ajoute un pied pour le calcul de l'intégral
-            if(m_derivativeCalcul->toBool() && m_derivativeIntervalTx->toBool()){
-                if(co2ppmvPrevious2 > 0 && co2ppmvPrevious > 0 && co2ppmv > 0){
-                    integral +=abs((2.0f/6.0f) * (co2ppmvPrevious2 + 4 * co2ppmvPrevious + co2ppmv));
-                }
-                if(( i % m_derivativeIntervalTx->toInt()) == 0 ){
-
-                    if( integral > 0 && integralPrevious > 0){
-                        derivativePrevious = derivative;
-                        derivative = (integral - integralPrevious) / m_derivativeIntervalTx->toFloat();
-                        varDerivee->setValue(derivative);
+                co2ppmv += 100; //ajoute un pied pour le calcul de l'intégral
+                if(m_derivativeCalcul->toBool() && m_derivativeIntervalTx->toBool()){
+                    if(co2ppmvPrevious2 > 0 && co2ppmvPrevious > 0 && co2ppmv > 0){
+                        integral +=abs((2.0f/6.0f) * (co2ppmvPrevious2 + 4 * co2ppmvPrevious + co2ppmv));
                     }
-                    integralPrevious = integral;
-                }
-                co2ppmvPrevious2 = co2ppmvPrevious;
-                co2ppmvPrevious = co2ppmv;
-            }
-            sActionInfo =  tr("Mesure ") + QString::number(i+1) + "/"  + QString::number(m_timeout->toInt()) + " "
-                    + tr("Co2 g") + QString::number(co2g, 'f', 8)
-                    + tr("derivée ") + QString::number(derivative, 'f', 4);
-            qCDebug(COTAUTOMATE_LOG)<< sActionInfo;
-            updateActionInfos(sActionInfo, stepParent);
+                    if(( i % m_derivativeIntervalTx->toInt()) == 0 ){
 
-            if(derivative < m_derivativeThresold->toFloat() && derivative < derivativePrevious ) m_abort = true;
-            QThread::msleep(1000);
+                        if( integral > 0 && integralPrevious > 0){
+                            derivativePrevious = derivative;
+                            derivative = (integral - integralPrevious) / m_derivativeIntervalTx->toFloat();
+                            varDerivee->setValue(derivative);
+                        }
+                        integralPrevious = integral;
+                    }
+                    co2ppmvPrevious2 = co2ppmvPrevious;
+                    co2ppmvPrevious = co2ppmv;
+                }
+                sActionInfo =  tr("Mesure ") + QString::number(i+1) + "/"  + QString::number(m_timeout->toInt()) + " "
+                        + tr("Co2 g") + QString::number(co2g, 'f', 8)
+                        + tr("derivée ") + QString::number(derivative, 'f', 4);
+                qCDebug(COTAUTOMATE_LOG)<< sActionInfo;
+                updateActionInfos(sActionInfo, stepParent);
+
+                if(derivative < m_derivativeThresold->toFloat() && derivative < derivativePrevious ) m_abort = true;
+                QThread::msleep(1000);
+            }
         }
         m_result->setValue( (co2g * 12000) / ( (m_vesselVolume->toFloat() / 1000) * 44) * m_coefCorrection->toFloat());
     }
+
     updateActionInfos(m_label + tr(" finit"), stepParent);
     emit signalActionFinished(this);
 }

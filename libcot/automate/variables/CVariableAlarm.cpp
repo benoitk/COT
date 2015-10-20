@@ -20,8 +20,9 @@ CVariableAlarm::CVariableAlarm(const QMap<QString, QVariant> &mapVar)
     : CVariableOutputBool(mapVar)
 {
     connect(this, &CVariableAlarm::signalNewAlarm, CAutomate::getInstance(), &CAutomate::slotNewAlarm);
-    connect(this, &CVariableAlarm::signalAquitAlarm, CAutomate::getInstance(), &CAutomate::slotAcquitAlarm);
+    connect(this, &CVariableAlarm::signalAquitedAlarm, CAutomate::getInstance(), &CAutomate::slotAcquitedAlarm);
     connect(this, &CVariableAlarm::signalStillInAlarm, CAutomate::getInstance(), &CAutomate::slotStillInAlarm);
+    connect(CAutomate::getInstance(), &CAutomate::signalAquitAllAlarm, this, &CVariableAlarm::slotAcquit);
     m_passive = mapVar.value(QStringLiteral("passive")).toBool(); //false par défaut même si il n'y a de champs passive dans le json
     QString alarmType = mapVar.value(QStringLiteral("alarm_type")).toString();
 
@@ -49,7 +50,7 @@ void CVariableAlarm::writeValue(){
          m_countUntilSetAlarm = m_numUntilSetAlarm;
      }
      else if(!m_value && m_value != arg_value && m_autoAcquit){
-         emit signalAquitAlarm(this);
+         emit signalAquitedAlarm(this);
          CVariableOutputBool::setValue(arg_value);
          m_countUntilSetAlarm = m_numUntilSetAlarm;
      }
@@ -58,10 +59,23 @@ void CVariableAlarm::writeValue(){
      }
 
  }
+void CVariableAlarm::setToBindedValue(const QVariant & arg_value){
+    if(m_value && m_value != arg_value && m_countUntilSetAlarm-- < 0){ //si mise en alarme et pas déjà en alarme
+        emit signalNewAlarm(this);
+        m_countUntilSetAlarm = m_numUntilSetAlarm;
+    }
+    else if(!m_value && m_value != arg_value && m_autoAcquit){
+        emit signalAquitedAlarm(this);
+        m_countUntilSetAlarm = m_numUntilSetAlarm;
+    }
+    else if(!m_value && m_value == arg_value){
+        emit signalStillInAlarm(this);
+    }
+}
 
  void CVariableAlarm::slotAcquit(){
-     CVariableOutputBool::setValue(false);
-      emit signalAquitAlarm(this);
+     CVariableAlarm::setValue(true);
+      emit signalAquitedAlarm(this);
  }
 
 

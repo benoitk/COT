@@ -2,6 +2,7 @@
 #include "ui_CMaintenanceWindow.h"
 #include "CMaintenanceMaintenanceTab.h"
 #include "CMaintenanceDiagnosticTab.h"
+#include "CAutomate.h"
 
 CMaintenanceWindow::CMaintenanceWindow(QWidget *parent)
     : QWidget(parent)
@@ -10,6 +11,7 @@ CMaintenanceWindow::CMaintenanceWindow(QWidget *parent)
     ui->setupUi(this);
     addTab(new CMaintenanceMaintenanceTab(this), QString());
     addTab(new CMaintenanceDiagnosticTab(this), QString());
+    connect(ui->twPages, &QTabWidget::currentChanged, CAutomate::getInstance(), &CAutomate::slotTabChanged);
     retranslate();
 }
 
