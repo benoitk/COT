@@ -16,17 +16,22 @@ CStep::CStep(){
 CStep::CStep(ICycle *parent, const QVariantMap &mapStep)
     : QObject(parent), m_bWaitForActions(false),  m_parentCycle(parent)
 {
-    m_numStep = mapStep.value(QStringLiteral("step")).toFloat();
-    m_label = mapStep.value(tr("fr_FR")).toString();
-    const QVariantList listActions = mapStep.value(QStringLiteral("actions")).toList();
-    foreach(const QVariant &varAction, listActions){
-        const QString actionName = varAction.toString();
-        IAction* action = CAutomate::getInstance()->getAction(actionName);
-        if(action->getType() != actionType::type_action_unknow){
-            m_listActions.append(action);
-        }else{
-            qCDebug(COTAUTOMATE_LOG) << "CStep::CStep Action inconue";
+    if(!mapStep.isEmpty()){
+        m_numStep = mapStep.value(QStringLiteral("step")).toFloat();
+        m_label = mapStep.value(tr("fr_FR")).toString();
+        const QVariantList listActions = mapStep.value(QStringLiteral("actions")).toList();
+        foreach(const QVariant &varAction, listActions){
+            const QString actionName = varAction.toString();
+            IAction* action = CAutomate::getInstance()->getAction(actionName);
+            if(action->getType() != actionType::type_action_unknow){
+                m_listActions.append(action);
+            }else{
+                qCDebug(COTAUTOMATE_LOG) << "CStep::CStep Action inconue";
+            }
         }
+    }else{
+        m_numStep = 0;
+        m_label = tr("Start cycle");
     }
 }
 

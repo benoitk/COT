@@ -161,6 +161,7 @@ signals:
     //desc : Pas en cours changé
     //entrées : pas en cours; label du pas
     void signalUpdateCurrentStep(float, const QString &);
+    void signalUpdateNumStep(float);
     void signalUpdateCurrentAction(const QString &);
     //desc : Nombre total de pas changé
     //entrées : Nombre de pas total

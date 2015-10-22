@@ -28,7 +28,10 @@ ICycle::ICycle(const QVariantMap &mapCycle, QObject *parent)
         CStep* step = new CStep(this, mapStep);
         m_listSteps.append(step);
     }
-
+    if(m_listSteps.first()->getNumStep() != 0){
+        CStep* step = new CStep(this);
+        m_listSteps.prepend(step);
+    }
     const QVariantMap mapStepStop = mapCycle[QStringLiteral("step_stop")].toMap();
     m_stepStop = new CStep(this, mapStepStop);
     m_itListStepsPasEnCours == m_listSteps.end();
@@ -36,8 +39,10 @@ ICycle::ICycle(const QVariantMap &mapCycle, QObject *parent)
 }
 void ICycle::abortCycle(){
     QThread* currentThread = QThread::currentThread();
-    if(m_mapTimer.contains(currentThread))
-        m_mapTimer.value(currentThread)->stop();
+    if(m_mapTimerSchedulerStep.contains(currentThread) && m_mapTimerInfoNumStep.contains(currentThread)){
+        m_mapTimerSchedulerStep.value(currentThread)->stop();
+        m_mapTimerInfoNumStep.value(currentThread)->stop();
+    }
     else
         qDebug() << "TIMER NON CREE DANS CE CYCLE , cycle :" << this->getName() ;
 
@@ -439,8 +444,16 @@ void ICycle::setName(const QString &name){
 
 void ICycle::updateCycleInfosStep(float arg_numStep, QString arg_info){
     QMutexLocker lock(&m_mutex);
+    m_numStepInfo = arg_numStep;
     emit CAutomate::getInstance()->signalUpdateCurrentStep(arg_numStep, arg_info);
 }
+void ICycle::slotUpdateCycleInfosNumStep(){
+    QMutexLocker lock(&m_mutex);
+    m_numStepInfo+=0.1f;
+
+    emit CAutomate::getInstance()->signalUpdateNumStep(m_numStepInfo);
+}
+
 void ICycle::updateCycleInfosAction(QString arg_info){
     QMutexLocker lock(&m_mutex);
     emit CAutomate::getInstance()->signalUpdateCurrentAction(arg_info);

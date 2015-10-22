@@ -48,6 +48,13 @@ CInitialTestsWindow::CInitialTestsWindow(QWidget *parent) :
   connect(CAutomate::getInstance(), &CAutomate::signalDisplayUpdated,
           this, &CInitialTestsWindow::slotUpdateWindow);
 
+  //init tout les relais au démarage, toutes cartes confondues
+  foreach(IVariable* var, CAutomate::getInstance()->getMapVariables()){
+      if(var->getOrganType() == e_type_organ_output && (var->getType() == e_type_bool || var->getType() == e_type_alarm)){
+          (dynamic_cast<IVariableOutput*>(var))->writeValue();
+      }
+  }
+
   CAutomate::getInstance()->getScheduler()->slotStartAllCyleAutonome();
   m_timerTests.singleShot(1000, this, SLOT(slotTests()));
 
@@ -73,7 +80,7 @@ void CInitialTestsWindow::slotUpdateWindow()
 void CInitialTestsWindow::slotTests(){
     bool test = true;
     foreach(IVariable* var, CAutomate::getInstance()->getDisplayConf()->getListInitialsTestVariablesTest()){
-        if(!var->toBool())
+        if(var->toBool())
             test = false;
 
     }

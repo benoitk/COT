@@ -190,8 +190,9 @@ QIcon CToolButton::iconFromPixmaps(const QString &baseName)
 QString CToolButton::pixmapFilePath(const QString &name)
 {
     const bool isHd = StyleRepository::screenSize() == StyleRepository::TenInch;
-    return isHd ? QString(":/hd-icons/pictohd/%1").arg(name)
-                : QString(":/icons/picto/%1").arg(name);
+    return QString(":/hd-icons/pictohd/%1").arg(name);
+    //return isHd ? QString(":/hd-icons/pictohd/%1").arg(name)
+    //            : QString(":/icons/picto/%1").arg(name);
 }
 
 QIcon CToolButton::buttonIcon(CToolButton::Type type)
@@ -215,6 +216,7 @@ QIcon CToolButton::buttonIcon(CToolButton::Type type)
     case CToolButton::AddStopStep:
     case CToolButton::Edit:
         case CToolButton::Retry:
+    case CToolButton::Screenshot:
             // SERES_TODO: Add correct icons. // COT-66
             break;
 

@@ -22,12 +22,19 @@ CVariableOutputBool::CVariableOutputBool(const QMap<QString, QVariant> &mapVar)
 }
 
 void CVariableOutputBool::writeValue(){
-    m_organ->getExtCard()->getICom()->writeData(this);
+    if(m_passive)
+        m_organ->getExtCard()->getICom()->writeData(m_value, this->getOrganAddr());
+    else
+        m_organ->getExtCard()->getICom()->writeData(!m_value, this->getOrganAddr());
 }
 
  void CVariableOutputBool::setValue(bool arg_value){
      CVariableBool::setValue(arg_value);
      this->writeValue();
+ }
+ void CVariableOutputBool::setToBindedValue(const QVariant & arg_value){
+    CVariableBool::setToBindedValue(arg_value);
+    this->writeValue();
  }
 
 enumVariableType CVariableOutputBool::getType()const{

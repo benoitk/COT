@@ -144,7 +144,7 @@ void CActionAcquisitionCitNpoc::run(){
                         + m_coef5->toFloat() * x
                         + m_Offset->toFloat();
                 varCo2ppmv->setValue(co2ppmv);
-                co2g += (co2ppmv * m_CstConversion->toFloat()) * ((airflow*0.001)/60000);
+                co2g += mesure;//(co2ppmv * m_CstConversion->toFloat()) * ((airflow*0.001)/60000);
                 m_co2g->setValue(co2g);
 
                 co2ppmv += 100; //ajoute un pied pour le calcul de l'intégral
@@ -171,8 +171,9 @@ void CActionAcquisitionCitNpoc::run(){
                 updateActionInfos(sActionInfo, stepParent);
 
                 if(derivative < m_derivativeThresold->toFloat() && derivative < derivativePrevious ) m_abort = true;
-                QThread::msleep(1000);
+
             }
+            QThread::msleep(1000);
         }
         m_result->setValue( (co2g * 12000) / ( (m_vesselVolume->toFloat() / 1000) * 44) * m_coefCorrection->toFloat());
     }

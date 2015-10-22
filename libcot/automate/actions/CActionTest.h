@@ -47,6 +47,7 @@ private:
     eContidion m_condition;
     IVariable* m_errorMargin;
     IVariable* m_timeout;
+    IVariable* m_nbMinimumTry;
 
 };
 

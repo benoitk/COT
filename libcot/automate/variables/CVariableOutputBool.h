@@ -25,10 +25,10 @@ public:
     enumVariableOrganType getOrganType() const Q_DECL_OVERRIDE;
     void setValue(bool);
     using CVariableBool::setValue;
-
+    void setToBindedValue(const QVariant &) Q_DECL_OVERRIDE;
     void writeValue() Q_DECL_OVERRIDE;
 
-private:
+protected:
     bool m_passive;
 
 };

@@ -67,8 +67,8 @@ void CCycleMesure::slotStepFinished(CStep* arg_step){
             m_timeout = (*m_itListStepsPasEnCours)->getNumStep()*1000;
         qCDebug(COTAUTOMATE_LOG) << "time out before next step : " << m_timeout;
         QThread* currentThread = QThread::currentThread();
-        if(m_mapTimer.contains(currentThread)){
-            m_mapTimer.value(currentThread)->start(m_timeout);
+        if(m_mapTimerSchedulerStep.contains(currentThread)){
+            m_mapTimerSchedulerStep.value(currentThread)->start(m_timeout);
         }
     }
 }
@@ -86,11 +86,20 @@ void CCycleMesure::slotRunCycle(){
     QMutexLocker lock(&m_mutex);
 
     QThread* currentThread = QThread::currentThread();
-    if(!m_mapTimer.contains(currentThread)){
+    if(!m_mapTimerSchedulerStep.contains(currentThread)){
         QTimer* timer = new QTimer();
-        m_mapTimer.insert(currentThread, timer);
+        m_mapTimerSchedulerStep.insert(currentThread, timer);
         timer->setSingleShot(true);
         connect(timer, &QTimer::timeout, this, &CCycleMesure::slotExecNextStep);
+    }
+    if(!m_mapTimerInfoNumStep.contains(currentThread)){
+        QTimer* timer = new QTimer();
+        m_mapTimerInfoNumStep.insert(currentThread, timer);
+        m_numStepInfo =0;
+        connect(timer, &QTimer::timeout, this, &ICycle::slotUpdateCycleInfosNumStep);
+        timer->start(100);
+    }else{
+        m_mapTimerInfoNumStep.value(currentThread)->start();
     }
     qCDebug(COTAUTOMATE_LOG) << "CCycleMesure::slotRunCycle()";
 
@@ -100,7 +109,7 @@ void CCycleMesure::slotRunCycle(){
         m_timeout = m_listSteps.first()->getNumStep() * 1000; //step en seconde
         updateCycleInfosCountStep();
         qCDebug(COTAUTOMATE_LOG) << "time out before next step : " << m_timeout;
-        m_mapTimer.value(currentThread)->start(m_timeout);
+        m_mapTimerSchedulerStep.value(currentThread)->start(m_timeout);
     }
     else
         qCDebug(COTAUTOMATE_LOG) << "m_listSteps.isEmpty()";

@@ -47,7 +47,8 @@ public:
         Empty,
         Copy,
         Move,
-        Retry
+        Retry,
+        Screenshot
     };
 
     explicit CToolButton(QWidget *parent = Q_NULLPTR);

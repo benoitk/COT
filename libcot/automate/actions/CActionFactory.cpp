@@ -10,6 +10,7 @@
 #include "CActionAcquisitionCitNpoc.h"
 #include "CActionCalibrationCalcul.h"
 #include "CActionCmd420.h"
+#include "CActionSum.h"
 
 #include "qvariant.h"
 #include "qmap.h"
@@ -49,6 +50,9 @@ IAction* CActionFactory::build(const QVariantMap &mapAction, QObject *parent){
     }
     else if(type == QStringLiteral("cmd_loop_4_20")){
         action = new CActionCmd420(mapAction,parent);
+    }
+    else if(type == QStringLiteral("sum")){
+        action = new CActionSum(mapAction,parent);
     }
     else{
         action = new CActionUnknow(mapAction,parent);

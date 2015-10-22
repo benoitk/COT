@@ -996,7 +996,7 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
     // Keep in synch with newEditor
     switch (ivar->getType()) {
     case e_type_alarm:
-        qobject_cast<CLedButton *>(editor)->setChecked(ivar->toBool());
+        qobject_cast<CLedButton *>(editor)->setChecked(!ivar->toBool());
         return;
 
     case e_type_bool: {

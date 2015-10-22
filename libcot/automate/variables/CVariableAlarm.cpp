@@ -23,59 +23,58 @@ CVariableAlarm::CVariableAlarm(const QMap<QString, QVariant> &mapVar)
     connect(this, &CVariableAlarm::signalAquitedAlarm, CAutomate::getInstance(), &CAutomate::slotAcquitedAlarm);
     connect(this, &CVariableAlarm::signalStillInAlarm, CAutomate::getInstance(), &CAutomate::slotStillInAlarm);
     connect(CAutomate::getInstance(), &CAutomate::signalAquitAllAlarm, this, &CVariableAlarm::slotAcquit);
-    m_passive = mapVar.value(QStringLiteral("passive")).toBool(); //false par défaut même si il n'y a de champs passive dans le json
     QString alarmType = mapVar.value(QStringLiteral("alarm_type")).toString();
 
     if(alarmType == QStringLiteral("not_critical_error_skip_cycle_try_again")) m_alarmType = e_not_critical_error_skip_cycle_try_again;
     else if(alarmType == QStringLiteral("critical_error_stop_cycle")) m_alarmType = e_critical_error_stop_cycle;
     else m_alarmType = e_warning_do_nothing; //"warning_do_nothing"
+//    m_alarmType = e_warning_do_nothing; //"warning_do_nothing"
 
     m_autoAcquit = mapVar.value(QStringLiteral("auto_acquit")).toBool();
     m_numUntilSetAlarm = mapVar.value(QStringLiteral("delay")).toInt() -1;
     m_countUntilSetAlarm = m_numUntilSetAlarm;
 }
 
-void CVariableAlarm::writeValue(){
-    if(m_passive)
-        m_organ->getExtCard()->getICom()->writeData(m_value, this->getOrganAddr());
-    else
-        m_organ->getExtCard()->getICom()->writeData(!m_value, this->getOrganAddr());
-}
-
  void CVariableAlarm::setValue(bool arg_value){
+     this->setValue(arg_value, false);
+ }
 
-     if(m_value && m_value != arg_value && m_countUntilSetAlarm-- < 0){ //si mise en alarme et pas déjà en alarme
+ void CVariableAlarm::setValue(bool arg_value, bool arg_forceAcquit){
+
+     if(!m_value && m_value != arg_value && m_countUntilSetAlarm-- < 0){ //si mise en alarme et pas déjà en alarme
          emit signalNewAlarm(this);
          CVariableOutputBool::setValue(arg_value);
          m_countUntilSetAlarm = m_numUntilSetAlarm;
      }
-     else if(!m_value && m_value != arg_value && m_autoAcquit){
+     else if(m_value && m_value != arg_value && (m_autoAcquit|arg_forceAcquit)){
          emit signalAquitedAlarm(this);
          CVariableOutputBool::setValue(arg_value);
          m_countUntilSetAlarm = m_numUntilSetAlarm;
      }
-     else if(!m_value && m_value == arg_value){
+     else if(m_value && m_value == arg_value){
          emit signalStillInAlarm(this);
      }
 
  }
 void CVariableAlarm::setToBindedValue(const QVariant & arg_value){
-    if(m_value && m_value != arg_value && m_countUntilSetAlarm-- < 0){ //si mise en alarme et pas déjà en alarme
+    //m_passive = false -> garde l'état; true -> inverse l'état
+    if(!m_value && m_value != arg_value && m_countUntilSetAlarm-- < 0){ //si mise en alarme et pas déjà en alarme
         emit signalNewAlarm(this);
+        CVariableOutputBool::setToBindedValue(arg_value);
         m_countUntilSetAlarm = m_numUntilSetAlarm;
     }
-    else if(!m_value && m_value != arg_value && m_autoAcquit){
+    else if(m_value && m_value != arg_value && m_autoAcquit){
         emit signalAquitedAlarm(this);
+        CVariableOutputBool::setToBindedValue(arg_value);
         m_countUntilSetAlarm = m_numUntilSetAlarm;
     }
-    else if(!m_value && m_value == arg_value){
+    else if(m_value && m_value == arg_value){
         emit signalStillInAlarm(this);
     }
 }
 
  void CVariableAlarm::slotAcquit(){
-     CVariableAlarm::setValue(true);
-      emit signalAquitedAlarm(this);
+     setValue(false, true);
  }
 
 

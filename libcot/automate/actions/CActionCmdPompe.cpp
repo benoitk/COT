@@ -4,7 +4,7 @@
 #include "CVariableFactory.h"
 #include "CAutomate.h"
 #include <QThread>
-
+#include "CVariableAlarm.h"
 #include "cotautomate_debug.h"
 
 
@@ -20,6 +20,7 @@ CActionCmdPompe::CActionCmdPompe(const QVariantMap &mapAction, QObject *parent)
     m_speed = Q_NULLPTR;
     m_OriginReturn = Q_NULLPTR;
     m_default = Q_NULLPTR;
+    m_alarm = Q_NULLPTR;
     if(automate->getVariable(mapAction[QStringLiteral("alim")].toString())->getOrganType() == e_type_organ_output)
         m_alim = dynamic_cast<CVariableOutputBool*>(automate->getVariable(mapAction[QStringLiteral("alim")].toString()));
     if(automate->getVariable(mapAction[QStringLiteral("nbr_turns")].toString())->getOrganType() == e_type_organ_output)
@@ -34,6 +35,8 @@ CActionCmdPompe::CActionCmdPompe(const QVariantMap &mapAction, QObject *parent)
         m_OriginReturn = dynamic_cast<CVariableOutputBool*>(automate->getVariable(mapAction[QStringLiteral("origin_return_before")].toString()));
     if(automate->getVariable(mapAction[QStringLiteral("default")].toString())->getOrganType() == e_type_organ_input)
         m_default = dynamic_cast<CVariableInputBool*>(automate->getVariable(mapAction[QStringLiteral("default")].toString()));
+    if(automate->getVariable(mapAction[QStringLiteral("alarm")].toString())->getOrganType() == e_type_organ_output)
+        m_alarm = dynamic_cast<CVariableAlarm*>(automate->getVariable(mapAction[QStringLiteral("alarm")].toString()));
 
     m_stepByStep = automate->getVariable(mapAction[QStringLiteral("pump_persulfate_step_by_step")].toString());
 
@@ -49,6 +52,7 @@ QVariantMap CActionCmdPompe::serialize(){
     mapSerialize.insert(QStringLiteral("origin_return_before"), m_OriginReturn->getName());
     mapSerialize.insert(QStringLiteral("step_by_step"), m_stepByStep->getName());
     mapSerialize.insert(QStringLiteral("default"), m_default->getName());
+    mapSerialize.insert(QStringLiteral("alarm"), m_alarm->getName());
     mapSerialize.insert(QStringLiteral("type"), QStringLiteral("cmd_pump"));
     return mapSerialize;
 }
@@ -73,8 +77,8 @@ bool CActionCmdPompe::runAction(ICycle* arg_stepParent){
     qDebug() << "CActionCmdPompe::runAction" << m_alim->getName();
 
     if(m_alim && m_OriginReturn && m_clockwise && m_nbTurns && m_speed){
-          bool test = m_default->toBool();
         if(!m_alim->toBool()) m_alim->setValue(true);
+
         m_alim->writeValue();
         QThread::msleep(5);
 
@@ -90,8 +94,8 @@ bool CActionCmdPompe::runAction(ICycle* arg_stepParent){
             m_nbTurns->writeValue();
 
         //m_nbSteps->writeValue();
-        m_default->readValue();
-
+        if(m_alarm)
+            m_alarm->setValue(m_default->readValue()->toBool());
     }
 
     emit signalActionFinished(this);

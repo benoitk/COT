@@ -7,6 +7,7 @@ class IVariable;
 class CVariableOutputBool;
 class CVariableInputBool;
 class CVariableOutputInt;
+class CVariableAlarm;
 class CActionCmdPompe : public IAction
 {
     Q_OBJECT
@@ -41,6 +42,7 @@ private:
     CVariableOutputInt* m_nbTurns;
     CVariableOutputBool* m_OriginReturn;
     CVariableInputBool* m_default;
+    CVariableAlarm* m_alarm;
 };
 
 #endif // CACTIONCMDPOMPE_H

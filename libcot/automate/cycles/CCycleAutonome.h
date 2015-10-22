@@ -29,6 +29,9 @@ public:
     void updateCycleInfosAction(QString arg_info) Q_DECL_OVERRIDE;
     void updateCycleInfosCountStep() Q_DECL_OVERRIDE;
 
+public slots:
+    void slotUpdateCycleInfosNumStep() Q_DECL_OVERRIDE;
+
 private:
     int m_idCycle;
     enumTypeCycle m_typeCycle;

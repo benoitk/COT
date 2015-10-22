@@ -25,9 +25,8 @@ public:
     QVariantMap serialize() Q_DECL_OVERRIDE;
     enumVariableType getType()const Q_DECL_OVERRIDE;
     enumVariableOrganType getOrganType() const Q_DECL_OVERRIDE;
-    void setValue(bool);
+    void setValue(bool arg_value);
     using CVariableOutputBool::setValue;
-    void writeValue() Q_DECL_OVERRIDE;
     void setToBindedValue(const QVariant & value) Q_DECL_OVERRIDE;
 
     enumAlarmType getAlarmType();
@@ -38,7 +37,7 @@ signals:
     void signalAquitedAlarm(CVariableAlarm*);
     void signalStillInAlarm(CVariableAlarm*);
 private:
-    bool m_passive;
+    void setValue(bool arg_value, bool arg_forceAcquit);
     enumAlarmType m_alarmType;
     bool m_autoAcquit;
     int m_countUntilSetAlarm;

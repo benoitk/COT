@@ -6,6 +6,7 @@
 #include "CAboutWindow.h"
 #include "CMessageBox.h"
 #include "CConfigurationBackup.h"
+#include "tools/screenshot/CDialogScreenShots.h"
 
 CPCPlusTab::CPCPlusTab(QWidget *parent)
     : IPCTab(parent)
@@ -15,6 +16,7 @@ CPCPlusTab::CPCPlusTab(QWidget *parent)
     m_buttons->setButtons(QList<CToolButton::Type>()
                           << CToolButton::Informations
                           << CToolButton::CreateRecovery
+                          << CToolButton::Screenshot
                           << CToolButton::RestoreConfig);
 
     ui->setupUi(this);
@@ -82,7 +84,11 @@ void CPCPlusTab::slotButtonClicked(CLabelledToolButton *button)
         }
         break;
     }
+    case CToolButton::Screenshot:{
 
+        CDialogScreenShots::getInstance()->exec();
+    }
+        break;
     default:
         Q_ASSERT(false);
         break;

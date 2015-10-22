@@ -21,6 +21,7 @@ CActionTest::CActionTest(const QVariantMap &mapAction, QObject *parent)
     m_waiting = automate->getVariable(mapAction[QStringLiteral("waiting")].toString());
     m_errorMargin = automate->getVariable(mapAction[QStringLiteral("error_margin")].toString());
     m_timeout = automate->getVariable(mapAction[QStringLiteral("timeout")].toString());
+    m_nbMinimumTry = automate->getVariable(mapAction[QStringLiteral("nb_minimum_try")].toString());
 
     m_result = Q_NULLPTR;
     var =  automate->getVariable(mapAction[QStringLiteral("result")].toString());
@@ -108,6 +109,7 @@ void CActionTest::run(){
         int timeout = m_timeout->toInt();
         bool result = true;
         bool bSortie = false;
+        int nbMiniTry = m_nbMinimumTry->toInt();
 
         qCDebug(COTAUTOMATE_LOG)<< "timeout " << timeout;
         qCDebug(COTAUTOMATE_LOG)<< "result " << result;
@@ -118,9 +120,11 @@ void CActionTest::run(){
             setpointMin = m_setpoint->toFloat() - (m_setpoint->toFloat() *  (m_errorMargin->toFloat()*0.01));
 
             result = acquisitionAndTest(setpointMin, setpointMax);
-            m_result->setValue(result);
-            if(result && m_result->toBool() && timeout > 0)
+            m_result->CVariableAlarm::setValue(!result);
+            if(result && m_result->toBool() && timeout > 0 && nbMiniTry-- < 0)
                 bSortie = true;
+            else if(!result)
+                nbMiniTry = m_nbMinimumTry->toInt();
 
             QString  sActionInfo =  tr("Lecture ") + QString::number(i+1) + "/"  +QString::number(timeout) + " "
                     + m_target->getLabel() + " " +  QString::number(m_target->toFloat(), 'f', 2)

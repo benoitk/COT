@@ -58,3 +58,4 @@ int CCycleAutonome::getCurrentStepIndex() const
 void CCycleAutonome::updateCycleInfosStep(float arg_numStep, QString arg_info){}
 void CCycleAutonome::updateCycleInfosAction(QString arg_info){}
 void CCycleAutonome::updateCycleInfosCountStep() {}
+void CCycleAutonome::slotUpdateCycleInfosNumStep() {}

@@ -50,20 +50,22 @@ public:
 
     static QString typeToString(enumTypeCycle type);
 
-     bool swapStep(float from, float to);
-     bool copySteps(float from, float length, float to);
-     bool copyStep(float from, float to);
-     bool moveSteps(float from, float length, float to);
-     bool moveStep(float from, float to);
-     bool deleteSteps(float from, float length);
-     bool deleteStep(float at);
-     virtual CStep* addStep(float pos, const QString& lbl);
+    bool swapStep(float from, float to);
+    bool copySteps(float from, float length, float to);
+    bool copyStep(float from, float to);
+    bool moveSteps(float from, float length, float to);
+    bool moveStep(float from, float to);
+    bool deleteSteps(float from, float length);
+    bool deleteStep(float at);
+    virtual CStep* addStep(float pos, const QString& lbl);
 
-     virtual void updateCycleInfosStep(float arg_numStep, QString arg_info);
-     virtual void updateCycleInfosAction(QString arg_info);
-     virtual void updateCycleInfosCountStep();
+    virtual void updateCycleInfosStep(float arg_numStep, QString arg_info);
+
+    virtual void updateCycleInfosAction(QString arg_info);
+    virtual void updateCycleInfosCountStep();
 
 public slots:
+    virtual void slotUpdateCycleInfosNumStep();
     virtual void slotRunCycle()=0;
     virtual void slotPauseCycle()=0;
     virtual void slotUnPauseCycle()=0;
@@ -94,7 +96,7 @@ protected:
 
     bool m_isRunning;
     bool m_isPaused;
-
+    float m_numStepInfo;
     CStep* m_stepStop;
     QList<CStep*> m_listSteps;
     QList<CStep*> m_savedListSteps;
@@ -104,7 +106,8 @@ protected:
     QString m_label;
     int m_idCycle;
     QString m_name;
-    QMap<QThread* ,QTimer*> m_mapTimer;
+    QMap<QThread* ,QTimer*> m_mapTimerSchedulerStep;
+    QMap<QThread* ,QTimer*> m_mapTimerInfoNumStep;
 
     bool m_editInProgress;
     QMutex m_mutex;

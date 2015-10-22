@@ -228,7 +228,9 @@ HEADERS *= \
     $$PWD/gui/widgets/CDialogMaintenance.h \
     $$PWD/automate/actions/CActionCalibrationCalcul.h \
     $$PWD/automate/variables/CVariableAlarm.h \
-    $$PWD/automate/actions/CActionCmd420.h
+    $$PWD/automate/actions/CActionCmd420.h \
+    $$PWD/gui/tools/screenshot/CDialogScreenShots.h \
+    $$PWD/automate/actions/CActionSum.h
 
 SOURCES *= \
     $$PWD/automate/CAutomate.cpp \
@@ -412,5 +414,7 @@ SOURCES *= \
     $$PWD/gui/widgets/CDialogMaintenance.cpp \
     $$PWD/automate/actions/CActionCalibrationCalcul.cpp \
     $$PWD/automate/variables/CVariableAlarm.cpp \
-    $$PWD/automate/actions/CActionCmd420.cpp
+    $$PWD/automate/actions/CActionCmd420.cpp \
+    $$PWD/gui/tools/screenshot/CDialogScreenShots.cpp \
+    $$PWD/automate/actions/CActionSum.cpp
 

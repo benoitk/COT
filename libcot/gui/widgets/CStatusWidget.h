@@ -24,6 +24,7 @@ private Q_SLOTS:
     void slotCleanDefaults();
     void slotUpdateCurrentStream(int stream, const QString &label);
     void slotUpdateCurrentStep(float step, const QString &label);
+    void slotUpdateNumStep(float step);
     void slotUpdateCurrentAction(const QString &label);
     void slotUpdateCountStep(int stepCount);
 
@@ -31,6 +32,7 @@ private:
     Ui::CStatusWidget *ui;
 
     QString m_lblInfoStep;
+    int m_stepCount;
 };
 
 #endif // CSTATUSWIDGET_H
