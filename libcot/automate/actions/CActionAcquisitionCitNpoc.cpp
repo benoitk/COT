@@ -144,7 +144,8 @@ void CActionAcquisitionCitNpoc::run(){
                         + m_coef5->toFloat() * x
                         + m_Offset->toFloat();
                 varCo2ppmv->setValue(co2ppmv);
-                co2g += mesure;//(co2ppmv * m_CstConversion->toFloat()) * ((airflow*0.001)/60000);
+                co2g += (co2ppmv * m_CstConversion->toFloat()) * ((airflow*0.001)/60000);
+                //co2g += mesure;
                 m_co2g->setValue(co2g);
 
                 co2ppmv += 100; //ajoute un pied pour le calcul de l'intégral

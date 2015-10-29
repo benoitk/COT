@@ -90,3 +90,14 @@ void CCycleMaintenance::doValidationCopies(){
         pair.second->setValue(pair.first->toVariant());
     }
 }
+void CCycleMaintenance::slotStepFinished(CStep* arg_step){
+    qCDebug(COTAUTOMATE_LOG) << "CCycleMaintenance::slotStepFinished(CStep* arg_step) ";
+    QMutexLocker lock(&m_mutex);
+    CCycleMesure::slotStepFinished(arg_step);
+    if(m_itListStepsPasEnCours == m_listSteps.end()) { //fin du cycle
+        QThread* currentThread = QThread::currentThread();
+        if(m_mapTimerInfoNumStep.contains(currentThread)){
+            m_mapTimerInfoNumStep.value(currentThread)->stop();
+        }
+    }
+}

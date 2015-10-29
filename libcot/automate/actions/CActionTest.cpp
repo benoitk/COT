@@ -50,6 +50,7 @@ QVariantMap CActionTest::serialize(){
     mapSerialize.insert(QStringLiteral("waiting"), m_waiting->getName());
     mapSerialize.insert(QStringLiteral("error_margin"), m_errorMargin->getName());
     mapSerialize.insert(QStringLiteral("timeout"), m_timeout->getName());
+    mapSerialize.insert(QStringLiteral("nb_minimum_try"), m_nbMinimumTry->getName());
     mapSerialize.insert(QStringLiteral("type"), QStringLiteral("test"));
 
     switch(m_condition){

@@ -22,7 +22,7 @@ public:
     void doValidationCopies();
 
 public slots:
-
+    void slotStepFinished(CStep*) Q_DECL_OVERRIDE;
 
 private:
     QList<IVariable*> m_listVariablesInput;

@@ -178,7 +178,7 @@
                     {"name":"var_measure_calibration_cit", "fr_FR" : "Mesure calibration CIT", "type":"float", "value" : 0, "unit":"mg_l", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
 
                     {"name":"var_zero_npoc", "fr_FR" : "Zéro CIT", "type":"float", "value" : 0, "unit":"V", "address":"0x0102", "access":"read", "com_name":"com_jbus_rs_slave"},
-                    {"name":"var_measure_npoc", "fr_FR" : "Mesure NPOC", "type":"float", "value" : 20, "unit":"mg_l", "address":"0x0102", "access":"read_write", "com_name":"com_jbus_rs_slave"},
+                    {"name":"var_measure_npoc", "fr_FR" : "Mesure NPOC", "type":"float", "value" : 100, "unit":"mg_l", "address":"0x0102", "access":"read_write", "com_name":"com_jbus_rs_slave"},
                     {"name":"var_measure_npoc_min", "fr_FR" : "Plage min NPOC", "type":"float", "value" : 0, "unit":"mg_l", "address":"0x0102", "access":"read_write", "com_name":"com_jbus_rs_slave"},
                     {"name":"var_measure_npoc_max", "fr_FR" : "Plage max NPOC", "type":"float", "value" : 100, "unit":"mg_l", "address":"0x0102", "access":"read_write", "com_name":"com_jbus_rs_slave"},
                     {"name":"var_acquisition_measure_npoc_timeout", "fr_FR" : "Temps d'acquisition", "type":"integer", "value" : 300, "unit":"second", "address":"0x0102", "access":"read_write", "com_name":"com_jbus_rs_slave"},
@@ -401,7 +401,7 @@
                           "value":false, "extension_name":"measure_card_1", "organ_name":"step_by_step_pump_3_run_stop", "passive":true
                     },
                     {"name" : "var_loop_4_20_min", "fr_FR":"Ajustement 4mA", "value": 819, "type":"integer", "unit":"pts"},
-                    {"name" : "var_loop_4_20_max", "fr_FR":"Ajustement 20mA","value":4095, "type":"integer", "unit":"pts"},
+                    {"name" : "var_loop_4_20_max", "fr_FR":"Ajustement 20mA","value":3800, "type":"integer", "unit":"pts"},
                     {"name" : "var_loop_4_20_data", "type":"output_integer", "value":0, "unit":"pts", "extension_name":"io_card_1", "organ_name":"loop_0_20_data_1"},
                     {"name" : "var_loop_4_20_data_2", "type":"output_integer", "value":0, "unit":"pts", "extension_name":"io_card_1", "organ_name":"loop_0_20_data_2"}
 
@@ -891,7 +891,8 @@
             "fr_FR" : "Mesure test des 4 20",
             "type" : "measure",
             "step_stop" : {"fr_FR":"Arrêt cycle", "actions":["action_ev_sample_close", "action_ev_reactor_filling_close", "action_ev_nettoyage_close", "action_ev_sample_inerting_close", "action_ev_air_ozone_close", "action_ev_air_direct_close", "action_ev_emptying_close", "action_ev_purge_close", "action_pump_sample_off", "action_cmd_pump_acide_off", "action_cmd_pump_persulfate_off", "action_cmd_pump_soude_off", "action_uv_lamp_off" ]},
-            "steps" : [{"name":"step_1", "step":3,"fr_FR":"Test 420", "actions":["action_cmd_loop_4_20", "action_cmd_loop_4_20_2"]}
+            "steps" : [{"name":"step_1", "step":3,"fr_FR":"Test 420", "actions":["action_cmd_loop_4_20", "action_cmd_loop_4_20_2"]},
+            {"name":"step_10", "step":4,"fr_FR":"Fin mesure NPOC", "actions":[""]}
                      ]
         },
         {
@@ -1043,7 +1044,7 @@
         }
     ],
 
-    "scheduler_measure" : ["cycle_test_scheduler"],
+    "scheduler_measure" : ["cycle_test420"],
     "scheduler_autonome" : ["cycle_control"],
     "list_cycles_maintenances" : ["cycle_test_pompe_cc", "cycle_test_pompe_cc_2","cycle_zero", "cycle_calibration CIT", "cycle_mesure_control NPOC", "cycle_calibration NPOC"],
 
@@ -1057,6 +1058,6 @@
                 }
                
     ],
-    "logs_debug" : ["var_ndir_measure_cell", "var_measure_card_default_register"],
-    "logs" : ["var_measure_cit"]
+    "logs_debug" : ["var_ndir_measure_cell","var_co2g","var_zero_cit","var_measure_cit","var_measure_npoc","var_reactor_temperature"],
+    "logs" : ["var_ndir_measure_cell","var_zero_cit","var_measure_cit","var_measure_npoc","var_reactor_temperature"]
 }

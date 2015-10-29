@@ -36,7 +36,7 @@ public slots:
     void slotExecNextStep() Q_DECL_OVERRIDE;
 
 
-    void slotStepFinished(CStep*);
+    virtual void slotStepFinished(CStep*);
 
 private:
 
