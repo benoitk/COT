@@ -30,8 +30,8 @@ float CVariableString::toFloat(){
     return m_sValeur.toFloat();
 }
 bool CVariableString::toBool(){
-    if(m_sValeur == tr("vrai"))    return true;
-    else if(m_sValeur == tr("faux")) return false;
+    if(m_sValeur == tr("true"))    return true;
+    else if(m_sValeur == tr("false")) return false;
     else return m_sValeur.toInt();
 }
 QVariant CVariableString::toVariant(){

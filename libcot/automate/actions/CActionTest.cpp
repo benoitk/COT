@@ -127,7 +127,7 @@ void CActionTest::run(){
             else if(!result)
                 nbMiniTry = m_nbMinimumTry->toInt();
 
-            QString  sActionInfo =  tr("Lecture ") + QString::number(i+1) + "/"  +QString::number(timeout) + " "
+            QString  sActionInfo =  tr("Read ") + QString::number(i+1) + "/"  +QString::number(timeout) + " "
                     + m_target->getLabel() + " " +  QString::number(m_target->toFloat(), 'f', 2)
                     + m_target->getUnit()->getLabel() ;
             updateActionInfos(sActionInfo, stepParent);
@@ -137,7 +137,7 @@ void CActionTest::run(){
     else{
         qDebug()<< "pas le type de target attendu";
     }
-    updateActionInfos(m_label + tr(" finit"), stepParent);
+    updateActionInfos(m_label + tr(" ending"), stepParent);
     emit signalActionFinished(this);
 }
 

@@ -27,7 +27,7 @@ public:
 private:
 
     //IVariableInput
-
+    bool m_passive;
 
 
 

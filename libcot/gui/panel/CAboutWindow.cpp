@@ -32,63 +32,7 @@ CAboutWindow::~CAboutWindow()
 QString CAboutWindow::analyzerString() const
 {
     QString typeAnalyseur;
-#ifdef SONDE
-    typeAnalyseur = "SONDE";
-#elif defined(KMNO4)
-    typeAnalyseur = "KMNO4";
-#elif defined(TITRI)
-    typeAnalyseur = "TITRI";
-#elif defined(SILICE)
-    typeAnalyseur = "SILICE";
-#elif defined(COULEUR)
-    typeAnalyseur = "COULEUR";
-#elif defined(COLO)
-    typeAnalyseur = "COLO";
-#endif
-
-#if defined(CALIBRATIONS_INDEPENDANTE)
-    typeAnalyseur = "\nCALIBRATION INDEPENDANTE DES VOIES\n" + typeAnalyseur;
-#endif
-#if defined(MULTI_STREAM)
-    typeAnalyseur = "MULTI STREAM " + typeAnalyseur;
-#endif
-
-#if defined(MULTI_MEASURE)
-    typeAnalyseur = "MULTI MEASURE " + typeAnalyseur;
-#endif
-
-#if defined(PH)
-    typeAnalyseur = "PH " + typeAnalyseur;
-#endif
-
-#if defined(CHROME)
-    typeAnalyseur = "CHROME " + typeAnalyseur;
-#endif
-
-#ifdef MULTI_EV
-    typeAnalyseur = "\nMulti EV " + typeAnalyseur;
-#endif
-
-#ifdef SULFITE
-    typeAnalyseur = "SULFITE " + typeAnalyseur;
-#endif
-#ifdef CERIUM
-    typeAnalyseur = "CERIUM " + typeAnalyseur;
-#endif
-#if defined(MAGNESIUM)
-    typeAnalyseur = "MAGNESIUM " + typeAnalyseur;
-#endif
-#if defined(CALCIUM_MAGNESIUM)
-    typeAnalyseur = "Ca+Mg " + typeAnalyseur;
-#endif
-
-#if defined(SELECTEUR)
-    typeAnalyseur = typeAnalyseur +tr(" avec SELECTEUR");
-#endif
-
-#if defined(R_D)
-    typeAnalyseur = typeAnalyseur + "\nVERSION R&D";
-#endif
+    typeAnalyseur = tr("COT");
 
     return typeAnalyseur;
 }

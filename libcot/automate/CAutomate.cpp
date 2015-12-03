@@ -32,6 +32,9 @@
 #include <QProcess>
 #endif
 
+#include <QApplication>
+#include <QTranslator>
+
 CAutomate* CAutomate::singleton = 0;
 
 CAutomate* CAutomate::getInstance(){
@@ -44,7 +47,8 @@ CAutomate::CAutomate()
 {
     m_debug = false;
     m_schedulerStoppedFromIHM = false;
-
+    m_lang = "en_US";
+    m_countBeforeCheckLogFileToDelete = 0;
     m_stateCycleMesure = CYCLE_STATE_STOP;
     m_stateCycleIO = CYCLE_STATE_STOP;
     m_stateCycleMaintenance = CYCLE_STATE_STOP;
@@ -101,6 +105,7 @@ void CAutomate::addCyclePrivate(ICycle * cycle)
     //CControlerCycle* controlerCycle = new CControlerCycle(this, cycle);
     switch(cycle->getType()){
         case e_cycle_measure:
+        case e_cycle_pause:
             Q_ASSERT(!m_listCycleMesures.contains(cycle->getName()));
             m_listCycleMesures[cycle->getName()] = cycle;
             break;
@@ -113,8 +118,8 @@ void CAutomate::addCyclePrivate(ICycle * cycle)
             m_listlCycleAutonomes[cycle->getName()] = cycle;
             break;
 
-        case e_cycle_pause:
-            break;
+        //case e_cycle_pause:
+        //    break;
 
         case e_cycle_all:
             Q_ASSERT(false);
@@ -140,7 +145,8 @@ QList<ICycle *> CAutomate::getListCyclesPrivate(int cycleType)
             break;
         }
 
-        case e_cycle_measure: {
+        case e_cycle_measure:
+        case e_cycle_pause:{
             listAllCycles << m_listCycleMesures.values();
             break;
         }
@@ -155,9 +161,9 @@ QList<ICycle *> CAutomate::getListCyclesPrivate(int cycleType)
             break;
         }
 
-        case e_cycle_pause: {
-            break;
-        }
+//        case e_cycle_pause: {
+//            break;
+//        }
 
         case e_cycle_invalid:
             Q_ASSERT(false);
@@ -618,6 +624,7 @@ void CAutomate::delCycle(ICycle *cycle)
 
     switch(cycle->getType()){
         case e_cycle_measure:
+    case e_cycle_pause:
             delete m_listCycleMesures.take(cycle->getName());
             break;
 
@@ -630,8 +637,8 @@ void CAutomate::delCycle(ICycle *cycle)
             delete m_listlCycleAutonomes.take(cycle->getName());
             break;
 
-        case e_cycle_pause:
-            break;
+//        case e_cycle_pause:
+//            break;
 
         case e_cycle_all:
             Q_ASSERT(false);
@@ -683,13 +690,14 @@ ICycle *CAutomate::getCycle(const QString &name, int type) const
 
     switch(static_cast<enumTypeCycle>(type)){
         case e_cycle_measure:
+    case e_cycle_pause:
             return m_listCycleMesures.value(name, Q_NULLPTR);
         case e_cycle_maintenance :
             return m_listCycleMaintenances.value(name, Q_NULLPTR);
         case e_cycle_autonome:
             return m_listlCycleAutonomes.value(name, Q_NULLPTR);
-        case e_cycle_pause:
-            break;
+//        case e_cycle_pause:
+//            break;
 
         case e_cycle_all: {
             ICycle * cycle = m_listCycleMesures.value(name, Q_NULLPTR);
@@ -949,8 +957,9 @@ void CAutomate::slotSerializeAndSave(){
     qDebug() << "CAutomate::slotSerializeAndSave(){";
     QVariantMap mapSerialize;
     mapSerialize.insert(QStringLiteral("name"), QStringLiteral("TOC"));
-    mapSerialize.insert(tr("fr_FR"), tr("COT"));
+    mapSerialize.insert(tr("en_US"), tr("TOC"));
     mapSerialize.insert(QStringLiteral("version"), QStringLiteral("0.0.1"));
+    mapSerialize.insert(QStringLiteral("lang"), m_lang);
 
     //extensions
     {
@@ -1082,6 +1091,7 @@ void CAutomate::slotSerializeAndSave(){
 
 void CAutomate::slotLogVariable(IVariable* arg_var){
     QMutexLocker locker(&m_mutex);
+    qDebug() << "slotLogVariable(arg)";
     QString dirPath = QString(LOG_SOURCE_DIRECTORY);
     QDir dir = QDir(dirPath);
     if(!dir.exists()){
@@ -1100,6 +1110,18 @@ void CAutomate::slotLogVariable(IVariable* arg_var){
         qDebug() << "Can't open file";
     }
     data.close();
+
+    if(m_countBeforeCheckLogFileToDelete++ > 3600){
+        m_countBeforeCheckLogFileToDelete = 0;
+        dir.setSorting(QDir::Time|QDir::Reversed);
+        if(dir.entryList().count()> 60){ //2 mois de rétention
+            int count = dir.entryList().count() -60;
+            for(int i=0; i< count; ++i){
+                QFile file(dirPath+ "/" + dir.entryList().at(i));
+                file.remove();
+            }
+        }
+    }
 }
 
 void CAutomate::slotLogVariable(){
@@ -1127,5 +1149,21 @@ void CAutomate::slotLogVariable(){
         qDebug() << "Can't open file";
     }
     data.close();
+
+    if(m_countBeforeCheckLogFileToDelete++ > 3600){
+        m_countBeforeCheckLogFileToDelete = 0;
+        dir.setSorting(QDir::Time|QDir::Reversed);
+        if(dir.entryList().count()> 60){ //2 mois de rétention
+            int count = dir.entryList().count() -60;
+            for(int i=0; i< count; ++i){
+                QFile file(dirPath+ "/" + dir.entryList().at(i));
+                file.remove();
+            }
+        }
+    }
+}
+
+void CAutomate::setLang(const QString& arg){
+    m_lang = arg;
 }
 

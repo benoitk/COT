@@ -18,20 +18,25 @@ public:
 
     void addVariableToScreenDiagnostic(IVariable*);
     void addVariableToScreenElectricalTest(const QString&, IVariable*);
+    void addVariableToScreenElectricalTests420mA(const QString&, IVariable*);
     void addTabToScreenElectricalTest(const QString&);
+    void addTabToScreenElectricalTests420(const QString&);
     void addVariableToScreenOptions(IVariable*);
     void addVariableToScreenHistory(IVariable*);
     void addVariableToScreenAlarms(IVariable*);
 
     void delVariableToScreenDiagnostic(IVariable*);
     void delVariableToScreenElectricalTest(const QString&, IVariable*);
+    void delVariableToScreenElectricalTests420mA(const QString&, IVariable*);
     void delTabToScreenElectricalTest(const QString&);
+    void delTabToScreenElectricalTests420mA(const QString&);
     void delVariableToScreenOptions(IVariable*);
     void delVariableToScreenHistory(IVariable*);
     void delVariableToScreenAlarms(IVariable*);
 
     QList<IVariable*> getListForScreenDiagnostic() const;
     QMap<QString, QList<IVariable*> > getMapForScreenElectricalTests() const;
+    QMap<QString, QList<IVariable*> > getMapForScreenElectricalTests420mA() const;
     QList<IVariable*> getListForScreenOptions() const;
     QList<IVariable*> getListForScreenHistory() const;
     QList<IVariable*> getListForScreenAlarms() const;
@@ -48,10 +53,13 @@ public:
     static const QString STR_ELEC_INPUTS;
     static const QString STR_ELEC_PUMP;
     static const QString STR_ELEC_ACTUATOR;
+    static const QString STR_ELEC_SOLENOIDS;
 
 private:
     QList<IVariable*> m_listForScrenDiagnostic;
     QMap<QString, QList<IVariable*> > m_mapForScrenElectricalTests;
+    QMap<QString, QList<IVariable*> > m_mapForScrenElectricalTests420mA;
+
     QList<IVariable*> m_listForScrenOptions;
     QList<IVariable*> m_listForScrenHistory;
     QList<IVariable*> m_listForScrenAlarms;

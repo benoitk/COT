@@ -46,9 +46,10 @@ IVariable* CVariableOutputBool::getIVariable(){
 
 
 QVariantMap CVariableOutputBool::serialize(){
-    QVariantMap mapSerialise = IVariable::serialize();
+    QVariantMap mapSerialise = CVariableBool::serialize();
     mapSerialise.insert(QStringLiteral("type"), QStringLiteral("output_boolean"));
-    mapSerialise.insert(QStringLiteral("value"), m_value);
+    mapSerialise.insert(QStringLiteral("passive"), m_passive);
+  //  mapSerialise.insert(QStringLiteral("value"), m_value);
     mapSerialise.insert(QStringLiteral("extension_name"), m_organ->getExtCard()->getName());
     mapSerialise.insert(QStringLiteral("organ_name"), m_organ->getName());
     return mapSerialise;

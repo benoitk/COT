@@ -30,6 +30,9 @@
 #include "CVariableMeasure.h"
 //
 
+#include <QApplication>
+#include <QTranslator>
+
 CModelConfigFile::CModelConfigFile(QObject *parent)
     : QObject(parent)
 {
@@ -59,8 +62,26 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
 
     CAutomate *automate = CAutomate::getInstance();
 
-    //debug
-    if(jsonObjectAll[QStringLiteral("extensions")] == QJsonValue::Undefined){
+
+    //lang
+    if(jsonObjectAll[QStringLiteral("lang")] == QJsonValue::Undefined){
+        qCDebug(COTAUTOMATE_LOG) << "jsonObject[\"lang\"] == QJsonValue::Undefined";
+    }
+    else{
+        QTranslator* qtTranslator = new QTranslator;
+        QString lang = jsonObjectAll[QStringLiteral("lang")].toString();
+        automate->setLang(lang);
+        if(qtTranslator->load(QString(":/"+lang+".qm")))
+            qDebug() << "Fichier français chargé" ;
+        else
+            qDebug() << "Pas de fichier de trad chargé" ;
+        if(!QApplication::instance()->installTranslator(qtTranslator)){
+            qDebug() << "Trad non installé";
+        }
+
+    }
+        //debug
+    if(jsonObjectAll[QStringLiteral("debug")] == QJsonValue::Undefined){
         qCDebug(COTAUTOMATE_LOG) << "jsonObject[\"extensions\"] == QJsonValue::Undefined";
     }
     else{
@@ -98,7 +119,7 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
                 QVariantMap mapUnit = jsonValueUnit.toVariant().toMap();
                 if(!mapUnit[QStringLiteral("name")].isNull()) {
                     CUnit* unit = new CUnit(mapUnit[QStringLiteral("name")].toString()
-                                          , mapUnit[tr("fr_FR")].toString());
+                                          , mapUnit[tr("en_US")].toString());
                     automate->addUnit(unit);
                 }else{
                     qCDebug(COTAUTOMATE_LOG) << "Unit null : map = " << mapUnit ;
@@ -356,7 +377,7 @@ CModelConfigFile::~CModelConfigFile()
 
 QString CModelConfigFile::getLabelAnalyser(const QLocale &local){
     QJsonObject jsonObject = m_jsonDoc->object();
-    if(jsonObject[tr("fr_FR")] == QJsonValue::Undefined)
+    if(jsonObject[tr("en_US")] == QJsonValue::Undefined)
         return tr("lbl_analyser not find see save.json file");
     else
         return jsonObject[tr("l_analyser")].toString();

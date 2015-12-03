@@ -70,7 +70,7 @@ ConfiguratorSequencerUIHandler::CyclePairList ConfiguratorSequencerUIHandler::fr
     CyclePairList pairs;
 
     foreach (ICycle *cycle, cycles) {
-        if (cycle->getType() != e_cycle_measure) {
+        if (cycle->getType() != e_cycle_measure && cycle->getType() != e_cycle_pause ) {
             continue;
         }
 

@@ -125,7 +125,7 @@ public:
 
     void initConfig();
     void quit();
-
+    void setLang(const QString&);
     void addLoggedVariable(const QString& arg_varName, bool arg_debug=false);
 
 public slots:
@@ -257,7 +257,9 @@ private:
     QList<ICycle*> getListCyclesPrivate(int cycleType = 0);
     QMap<QString, IVariable*> getMapVariablesPrivate();
 
+    QString m_lang;
     bool m_debug;
+    int m_countBeforeCheckLogFileToDelete;
 };
 
 Q_DECLARE_METATYPE(CAutomate::eStateAutomate)

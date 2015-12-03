@@ -11,6 +11,8 @@
 #include "CActionCalibrationCalcul.h"
 #include "CActionCmd420.h"
 #include "CActionSum.h"
+#include "CActionFindClosestFromReference.h"
+#include "CActionFindBiggerValue.h"
 
 #include "qvariant.h"
 #include "qmap.h"
@@ -53,6 +55,12 @@ IAction* CActionFactory::build(const QVariantMap &mapAction, QObject *parent){
     }
     else if(type == QStringLiteral("sum")){
         action = new CActionSum(mapAction,parent);
+    }
+    else if(type == QStringLiteral("find_closest_from_reference")){
+        action = new CActionFindClosestFromReference(mapAction,parent);
+    }
+    else if(type == QStringLiteral("find_bigger_value")){
+        action = new CActionFindBiggerValue(mapAction,parent);
     }
     else{
         action = new CActionUnknow(mapAction,parent);

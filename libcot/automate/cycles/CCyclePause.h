@@ -39,8 +39,8 @@ private :
     void initTimer();
 
     QTimer* m_timer;
-    int m_iTimer;
-    int m_iTempsCycle;
+    float m_fTimer;
+    float m_fTempsCycle;
 
 
     QThread m_thread;

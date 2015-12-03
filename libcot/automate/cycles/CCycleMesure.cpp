@@ -58,8 +58,9 @@ void CCycleMesure::slotStepFinished(CStep* arg_step){
 
     if(m_itListStepsPasEnCours == m_listSteps.end()) { //fin du cycle
         m_isRunning = false; //a changer avec m_itListStepsPasEnCours = m_listSteps.end pour savoir si un cycle est en cours ou pas
+
         emit CAutomate::getInstance()->signalUpdatePlotting();
-        emit signalReadyForPlayNextCycle();
+        slotGetReadyForPlayNextCycle();
     }else{
         if((m_itListStepsPasEnCours != m_listSteps.begin())){
             m_timeout = (*m_itListStepsPasEnCours)->getNumStep()*1000 - (*m_itListStepsPasEnCours.operator-(1))->getNumStep()*1000;

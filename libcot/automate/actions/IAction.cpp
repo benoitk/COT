@@ -6,10 +6,10 @@
 
 
 IAction::IAction(const QVariantMap &mapAction, QObject *parent):QObject(parent), m_abort(false){
-    m_label = mapAction[tr("fr_FR")].toString();
-    if(m_label == "" ) m_label = tr("Label non renseignée");
+    m_label = mapAction[tr("en_US")].toString();
+    if(m_label == "" ) m_label = tr("None given label");
     m_name = mapAction[QStringLiteral("name")].toString();
-    if(m_name == "") m_name =  tr("Nom non renseignée");
+    if(m_name == "") m_name =  tr("None given name");
 
 }
 
@@ -87,6 +87,6 @@ void IAction::updateActionInfos(QString arg_actionInfo, ICycle* arg_stepParent){
 QVariantMap IAction::serialize(){
     QVariantMap mapSerialise;
     mapSerialise.insert(QStringLiteral("name"), m_name);
-    mapSerialise.insert(tr("fr_FR"), m_label);
+    mapSerialise.insert(tr("en_US"), m_label);
     return mapSerialise;
 }

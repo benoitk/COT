@@ -19,10 +19,10 @@ public:
 
 private slots:
     void backTriggered();
-
+    void slotTabChanged(int index);
 private:
     Ui::CElectricalTestsWindow *ui;
-
+    QTimer* m_timerInput;
     void addTab(IElectricalTestsTab *tab, const QString &title);
 };
 

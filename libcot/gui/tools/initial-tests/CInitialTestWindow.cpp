@@ -55,6 +55,10 @@ CInitialTestsWindow::CInitialTestsWindow(QWidget *parent) :
       }
   }
 
+  //et des alarm des init qui doivent toujours être à faux au démarage.
+  foreach(IVariable* var, CAutomate::getInstance()->getDisplayConf()->getListInitialsTestVariablesTest()){
+        var->setValue(true);
+  }
   CAutomate::getInstance()->getScheduler()->slotStartAllCyleAutonome();
   m_timerTests.singleShot(1000, this, SLOT(slotTests()));
 

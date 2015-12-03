@@ -37,7 +37,8 @@ FORMS *= \
     $$PWD/gui/tools/maintenance/CMaintenanceMaintenanceTab.ui \
     $$PWD/gui/tools/maintenance/CMaintenanceWindow.ui \
     $$PWD/gui/tools/configurator/CConfiguratorWindow.ui \
-    $$PWD/gui/tools/configurator/IConfiguratorEditWindow.ui
+    $$PWD/gui/tools/configurator/IConfiguratorEditWindow.ui \
+    $$PWD/gui/tools/electrical-tests/CElectricalTestsSolenoidsTab.ui
 
 HEADERS *= \
     $$PWD/automate/CAutomate.h \
@@ -230,7 +231,10 @@ HEADERS *= \
     $$PWD/automate/variables/CVariableAlarm.h \
     $$PWD/automate/actions/CActionCmd420.h \
     $$PWD/gui/tools/screenshot/CDialogScreenShots.h \
-    $$PWD/automate/actions/CActionSum.h
+    $$PWD/automate/actions/CActionSum.h \
+    $$PWD/automate/actions/CActionFindClosestFromReference.h \
+    $$PWD/automate/actions/CActionFindBiggerValue.h \
+    $$PWD/gui/tools/electrical-tests/CElectricalTestsSolenoidsTab.h
 
 SOURCES *= \
     $$PWD/automate/CAutomate.cpp \
@@ -416,5 +420,10 @@ SOURCES *= \
     $$PWD/automate/variables/CVariableAlarm.cpp \
     $$PWD/automate/actions/CActionCmd420.cpp \
     $$PWD/gui/tools/screenshot/CDialogScreenShots.cpp \
-    $$PWD/automate/actions/CActionSum.cpp
+    $$PWD/automate/actions/CActionSum.cpp \
+    $$PWD/automate/actions/CActionFindClosestFromReference.cpp \
+    $$PWD/automate/actions/CActionFindBiggerValue.cpp \
+    $$PWD/gui/tools/electrical-tests/CElectricalTestsSolenoidsTab.cpp
+
+DISTFILES +=
 

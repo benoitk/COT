@@ -18,7 +18,7 @@ CVariableMeasure::CVariableMeasure(const QMap<QString, QVariant> &mapVar)
     if (m_name.isEmpty())
         m_name = QSL("Stream unamed");
 
-    m_label = mapVar.value(tr("fr_FR")).toString();
+    m_label = mapVar.value(tr("en_US")).toString();
     if (m_label.isEmpty())
         m_label = tr("Stream no label");
 
@@ -111,9 +111,9 @@ void CVariableMeasure::switchToUnit(CUnit* targetUnit){
 QVariantMap CVariableMeasure::serialize(){
    QVariantMap mapSerialise = IVariable::serialize();
 
-    mapSerialise.insert(tr("variable_measure"), m_measure->getName());
-    mapSerialise.insert(tr("variable_range_max"), m_measureMax->getName());
-    mapSerialise.insert(tr("variable_range_min"), m_measureMin->getName());
+    mapSerialise.insert(QStringLiteral("variable_measure"), m_measure->getName());
+    mapSerialise.insert(QStringLiteral("variable_range_max"), m_measureMax->getName());
+    mapSerialise.insert(QStringLiteral("variable_range_min"), m_measureMin->getName());
     mapSerialise.insert(QStringLiteral("type"), QStringLiteral("measure"));
     QList<QVariant> listVars;
     foreach(IVariable* var, m_listVariables){

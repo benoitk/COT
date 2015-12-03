@@ -24,7 +24,7 @@ IVariable::IVariable(const QVariantMap& arg_varMap): QObject(){
 
 
      m_name = arg_varMap.value(QStringLiteral("name")).toString();
-     m_label = arg_varMap.value(tr("fr_FR")).toString();
+     m_label = arg_varMap.value(tr("en_US")).toString();
 
      if(arg_varMap.contains(QStringLiteral("address"))) m_address = arg_varMap.value(QStringLiteral("address")).toInt();
 
@@ -244,7 +244,7 @@ IVariable* IVariable::getIVariable(){
 QVariantMap IVariable::serialize(){
     QVariantMap mapSerialise;
     mapSerialise.insert(QStringLiteral("name"), m_name);
-    mapSerialise.insert(tr("fr_FR"), m_label);
+    mapSerialise.insert(tr("en_US"), m_label);
     switch(m_access){
     case e_access_read:
         mapSerialise.insert(QStringLiteral("access"), QStringLiteral("read"));

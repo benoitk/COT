@@ -92,7 +92,7 @@ void CMaintenanceMaintenanceTab::slotPlayPressed(){
             CCycleMaintenance* cycleMaintenance = dynamic_cast<CCycleMaintenance*>(cycle);
             if(cycleMaintenance->getListVariablesInput().count() > 0){
                 m_dialog->slotUpdateLayout(cycleMaintenance->getListVariablesInput());
-                m_dialog->setTitle(tr("Valeurs étalon (") + cycle->getLabel() + ")");
+                m_dialog->setTitle(tr("Calibration value (") + cycle->getLabel() + ")");
                 bRunCycle = m_dialog->exec();
             }
         }
@@ -116,7 +116,7 @@ void CMaintenanceMaintenanceTab::slotCycleStopped(){
         CCycleMaintenance* cycleMaintenance = dynamic_cast<CCycleMaintenance*>(cycle);
         if(cycleMaintenance->getListVariablesOutput().count() > 0){
             m_dialog->slotUpdateLayout(cycleMaintenance->getListVariablesOutput());
-            m_dialog->setTitle(tr("Fin étalonnage (") + cycle->getLabel() + ")");
+            m_dialog->setTitle(tr("End of calibration (") + cycle->getLabel() + ")");
             if(m_dialog->exec()) cycleMaintenance->doValidationCopies();
         }
 

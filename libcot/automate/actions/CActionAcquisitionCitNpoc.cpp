@@ -37,7 +37,7 @@ CActionAcquisitionCitNpoc::CActionAcquisitionCitNpoc(const QVariantMap &mapActio
 
     QVariantMap variantMapDerivativeCalcul;
     variantMapDerivativeCalcul.insert(QStringLiteral("name"), QStringLiteral("derivative_calcul"));
-    variantMapDerivativeCalcul.insert(QStringLiteral("fr_FR"), tr("Generate critical error"));
+    variantMapDerivativeCalcul.insert(tr("en_US"), tr("Generate critical error"));
     variantMapDerivativeCalcul.insert(QStringLiteral("type"), QStringLiteral("boolean"));
     variantMapDerivativeCalcul.insert(QStringLiteral("value"), mapAction[QStringLiteral("derivative_calcul")].toBool());
     m_derivativeCalcul = dynamic_cast<CVariableBool*>(CVariableFactory::build(variantMapDerivativeCalcul));
@@ -165,9 +165,9 @@ void CActionAcquisitionCitNpoc::run(){
                     co2ppmvPrevious2 = co2ppmvPrevious;
                     co2ppmvPrevious = co2ppmv;
                 }
-                sActionInfo =  tr("Mesure ") + QString::number(i+1) + "/"  + QString::number(m_timeout->toInt()) + " "
+                sActionInfo =  tr("Measure ") + QString::number(i+1) + "/"  + QString::number(m_timeout->toInt()) + " "
                         + tr("Co2 g") + QString::number(co2g, 'f', 8)
-                        + tr("derivée ") + QString::number(derivative, 'f', 4);
+                        + tr("Derivate ") + QString::number(derivative, 'f', 4);
                 qCDebug(COTAUTOMATE_LOG)<< sActionInfo;
                 updateActionInfos(sActionInfo, stepParent);
 

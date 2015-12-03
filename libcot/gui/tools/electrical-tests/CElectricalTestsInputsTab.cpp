@@ -31,6 +31,15 @@ void CElectricalTestsInputsTab::updateElecTestInputs()
     CAutomate *automate = CAutomate::getInstance();
     CDisplayConf *displayConf = automate->getDisplayConf();
     QMap<QString, QList<IVariable*> > screenElecVariables = displayConf->getMapForScreenElectricalTests();
-    IVariablePtrList screenElecInputs =  screenElecVariables.value(CDisplayConf::STR_ELEC_INPUTS);
-    m_elecTestInputsHandler->layout(screenElecInputs);
+    m_listInputVar =  screenElecVariables.value(CDisplayConf::STR_ELEC_INPUTS);
+    m_elecTestInputsHandler->layout(m_listInputVar);
+}
+
+
+void CElectricalTestsInputsTab::slotUpdateInput(){
+    foreach (IVariable* var, m_listInputVar) {
+        if(var->getType() == e_type_bool && var->getOrganType() == e_type_organ_input){
+            dynamic_cast<IVariableInput*>(var)->readValue();
+        }
+    }
 }

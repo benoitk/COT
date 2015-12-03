@@ -2,6 +2,8 @@
 #include <QFile>
 #include <QDesktopWidget>
 #include <QScreen>
+#include <QTranslator>
+#include <qdebug.h>
 
 #include "CControlerAutomate.h"
 #include "CPCWindow.h"
@@ -21,6 +23,13 @@ int main(int argc, char *argv[])
     app.setApplicationDisplayName(QStringLiteral("COT"));
     app.setApplicationVersion(QStringLiteral("1.1.0"));
     app.setQuitOnLastWindowClosed(true);
+
+//    QTranslator qtTranslator;
+//    if(qtTranslator.load(QString(":/fr_FR.qm")))
+//        qDebug() << "Fichier français chargé" ;
+//    else
+//        qDebug() << "Pas de fichier de trad chargé" ;
+//    QApplication::instance()->installTranslator(&qtTranslator);
 
 #ifdef DEVICE_BUILD
     app.setOverrideCursor(QCursor(Qt::BlankCursor));

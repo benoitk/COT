@@ -20,22 +20,25 @@ ICycle::ICycle(const QVariantMap &mapCycle, QObject *parent)
         m_name = mapCycle[QStringLiteral("name")].toString();
     else
         m_name = QStringLiteral("Cycle not named");
-    m_label = mapCycle[tr("fr_FR")].toString();
+    m_label = mapCycle[tr("en_US")].toString();
 
-    const QVariantList listSteps = mapCycle[QStringLiteral("steps")].toList();
-    foreach(const QVariant &varStep, listSteps){
-        const QVariantMap mapStep = varStep.toMap();
-        CStep* step = new CStep(this, mapStep);
-        m_listSteps.append(step);
+    if(mapCycle.contains(QStringLiteral("steps"))){
+        const QVariantList listSteps = mapCycle[QStringLiteral("steps")].toList();
+        foreach(const QVariant &varStep, listSteps){
+            const QVariantMap mapStep = varStep.toMap();
+            CStep* step = new CStep(this, mapStep);
+            m_listSteps.append(step);
+        }
+        if(m_listSteps.first()->getNumStep() != 0){
+            CStep* step = new CStep(this);
+            m_listSteps.prepend(step);
+        }
     }
-    if(m_listSteps.first()->getNumStep() != 0){
-        CStep* step = new CStep(this);
-        m_listSteps.prepend(step);
+    if(mapCycle.contains(QStringLiteral("step_stop"))){
+        const QVariantMap mapStepStop = mapCycle[QStringLiteral("step_stop")].toMap();
+        m_stepStop = new CStep(this, mapStepStop);
+        m_itListStepsPasEnCours == m_listSteps.end();
     }
-    const QVariantMap mapStepStop = mapCycle[QStringLiteral("step_stop")].toMap();
-    m_stepStop = new CStep(this, mapStepStop);
-    m_itListStepsPasEnCours == m_listSteps.end();
-
 }
 void ICycle::abortCycle(){
     QThread* currentThread = QThread::currentThread();
@@ -365,7 +368,7 @@ QVariantMap ICycle::serialize(){
 
     QVariantMap mapSerialise;
     mapSerialise.insert(QStringLiteral("name"), m_name);
-    mapSerialise.insert(tr("fr_FR"), m_label);
+    mapSerialise.insert(tr("en_US"), m_label);
 
 
     QVariantList listSteps;

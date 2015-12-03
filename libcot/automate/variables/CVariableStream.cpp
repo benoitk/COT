@@ -17,8 +17,8 @@ CVariableStream::CVariableStream(const QMap<QString, QVariant> &mapVar)
         m_name = mapVar.value(QStringLiteral("name")).toString();
     else m_name = QStringLiteral("Stream unamed");
 
-    if(mapVar.contains(tr("fr_FR")))
-        m_label = mapVar.value(tr("fr_FR")).toString();
+    if(mapVar.contains(tr("en_US")))
+        m_label = mapVar.value(tr("en_US")).toString();
     else m_label = QStringLiteral("Stream no label");
 
     m_activeState = CAutomate::getInstance()->getVariable(mapVar.value(QStringLiteral("active_state")).toString());

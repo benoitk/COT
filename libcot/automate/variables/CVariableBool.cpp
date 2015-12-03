@@ -10,6 +10,7 @@ CVariableBool::CVariableBool(QObject *parent)
 }
 CVariableBool::CVariableBool(const QVariantMap& mapVar):IVariable(mapVar){
     m_value = mapVar.value(QStringLiteral("value")).toBool();
+    m_defaultValue = m_value;
 }
 
 CVariableBool::CVariableBool(bool arg_value, int arg_address, enumVariableAccess arg_access)
@@ -29,9 +30,9 @@ CVariableBool::~CVariableBool()
 
 QString CVariableBool::toString(){
     if(m_value)
-        return tr("vrai");
+        return tr("true");
     else
-        return tr("faux");
+        return tr("false");
 }
 int CVariableBool::toInt(){
     return m_value;
@@ -66,7 +67,7 @@ enumVariableType CVariableBool::getType()const{
 QVariantMap CVariableBool::serialize(){
     QVariantMap mapSerialise = IVariable::serialize();
     mapSerialise.insert(QStringLiteral("type"), QStringLiteral("boolean"));
-    mapSerialise.insert(QStringLiteral("value"), m_value);
+    mapSerialise.insert(QStringLiteral("value"), m_defaultValue);
     return mapSerialise;
 }
 

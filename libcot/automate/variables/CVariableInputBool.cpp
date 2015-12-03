@@ -21,12 +21,17 @@ CVariableInputBool::~CVariableInputBool()
 CVariableInputBool::CVariableInputBool(const QMap<QString, QVariant> &mapVar)
     : CVariableBool(mapVar), IVariableInput(mapVar)
 {
+    m_passive = mapVar.value(QStringLiteral("passive")).toBool(); //false par défaut même si il n'y a de champs passive dans le json
 
 }
 
 IVariable* CVariableInputBool::readValue(){
     QMutexLocker lock(&m_mutex);
-    m_value = m_organ->getExtCard()->getICom()->readData(this).toFloat();
+    if(m_passive)
+        m_value = m_organ->getExtCard()->getICom()->readData(this).toFloat();
+    else
+        m_value = !m_organ->getExtCard()->getICom()->readData(this).toFloat();
+
     CVariableBool::setValue(m_value);
     return this;
 }

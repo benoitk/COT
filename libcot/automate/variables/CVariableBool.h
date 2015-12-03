@@ -30,6 +30,7 @@ public:
 protected:
 
     bool m_value;
+    bool m_defaultValue;
 
 };
 #endif // CVARIABLEBOOL_H

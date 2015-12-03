@@ -18,7 +18,7 @@ CStep::CStep(ICycle *parent, const QVariantMap &mapStep)
 {
     if(!mapStep.isEmpty()){
         m_numStep = mapStep.value(QStringLiteral("step")).toFloat();
-        m_label = mapStep.value(tr("fr_FR")).toString();
+        m_label = mapStep.value(tr("en_US")).toString();
         const QVariantList listActions = mapStep.value(QStringLiteral("actions")).toList();
         foreach(const QVariant &varAction, listActions){
             const QString actionName = varAction.toString();
@@ -47,7 +47,7 @@ void CStep::abortStep(){
 
 QVariantMap CStep::serialize(){
     QVariantMap mapSerialise;
-    mapSerialise.insert(tr("fr_FR"), m_label);
+    mapSerialise.insert(tr("en_US"), m_label);
     QString nameStep = QString("step_") + QString::number(m_numStep*100, 'f', 1);
     mapSerialise.insert(QStringLiteral("name"), nameStep);
     mapSerialise.insert(QStringLiteral("step"), m_numStep);

@@ -22,8 +22,8 @@ CModelExtensionCard::CModelExtensionCard(const QVariantMap& mapExt)
     else
         m_name = QStringLiteral("unamed_extension_card");
 
-    if(mapExt.contains(QStringLiteral("fr_FR")))
-        m_label = mapExt.value(QStringLiteral("fr_FR")).toString();
+    if(mapExt.contains(tr("en_US")))
+        m_label = mapExt.value(tr("en_US")).toString();
     else
         m_label = m_name;
     QVariantMap mapCom;
@@ -100,7 +100,7 @@ QString CModelExtensionCard::getLabel() const
 QVariantMap CModelExtensionCard::serialize(){
     QVariantMap mapSerialize;
     mapSerialize.insert(QStringLiteral("name"), m_name);
-    mapSerialize.insert(tr("fr_FR"), m_label);
+    mapSerialize.insert(tr("en_US"), m_label);
     mapSerialize.insert(QStringLiteral("com"), m_interfaceCom->serialize());
     QVariantList listSerializedOrgans;
     foreach(IOrgan* organ, m_mapOrgans){

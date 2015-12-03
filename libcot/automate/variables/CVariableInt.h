@@ -22,7 +22,7 @@ public:
     int toInt() Q_DECL_OVERRIDE;
     float toFloat() Q_DECL_OVERRIDE;
     bool toBool() Q_DECL_OVERRIDE;
-    void setValue(int iValeur);
+    virtual void setValue(int iValeur);
     void setValue(const QVariant & value) Q_DECL_OVERRIDE;
     enumVariableType getType()const Q_DECL_OVERRIDE;
     void switchToUnit(CUnit*) Q_DECL_OVERRIDE;

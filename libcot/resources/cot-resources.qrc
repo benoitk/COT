@@ -8,6 +8,7 @@
         <file>fonts/LiberationSansNarrow-Italic.ttf</file>
         <file>fonts/LiberationSansNarrow-Regular.ttf</file>
         <file>fonts/LiberationSans-Regular.ttf</file>
+        <file>fr_FR.qm</file>
     </qresource>
     <qresource prefix="/hd-icons">
         <file>pictohd/Ana-tor active.png</file>

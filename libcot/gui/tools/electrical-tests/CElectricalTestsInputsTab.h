@@ -8,7 +8,7 @@ class CElectricalTestsInputsTab;
 }
 
 class IVariableUIHandler;
-
+class IVariable;
 class CElectricalTestsInputsTab : public IElectricalTestsTab
 {
     Q_OBJECT
@@ -19,10 +19,13 @@ public:
 
 protected slots:
     void updateElecTestInputs();
+ public slots:
+    void slotUpdateInput();
 
 private:
     Ui::CElectricalTestsInputsTab *ui;
     IVariableUIHandler *m_elecTestInputsHandler;
+    QList<IVariable*> m_listInputVar;
 };
 
 #endif // CELECTRICALTESTSINPUTSTAB_H

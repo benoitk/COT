@@ -14,7 +14,7 @@ CActionCmdDigitalOutput::CActionCmdDigitalOutput(const QVariantMap &mapAction, Q
 
     QVariantMap variantMap;
     variantMap.insert(QStringLiteral("name"), QStringLiteral("state"));
-    variantMap.insert(QStringLiteral("fr_FR"), tr("State output"));
+    variantMap.insert(tr("en_US"), tr("State output"));
     variantMap.insert(QStringLiteral("type"), QStringLiteral("boolean"));
     variantMap.insert(QStringLiteral("value"), mapAction[QStringLiteral("state")].toBool());
     m_state = dynamic_cast<CVariableBool*>(CVariableFactory::build(variantMap));
