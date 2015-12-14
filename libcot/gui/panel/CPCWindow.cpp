@@ -185,7 +185,7 @@ void CPCWindow::slotUpdateAvailable(const QString &version)
 
 void CPCWindow::slotUpdateTriggered()
 {
-    const QString appFilePath = qApp->applicationFilePath();
+    const QString appFilePath = qApp->applicationFilePath() + " -platform xcb";
     CUpdateDialog dlg(m_updateManager, this);
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {

@@ -260,6 +260,7 @@ private:
     QString m_lang;
     bool m_debug;
     int m_countBeforeCheckLogFileToDelete;
+
 };
 
 Q_DECLARE_METATYPE(CAutomate::eStateAutomate)

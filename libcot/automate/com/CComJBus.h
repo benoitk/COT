@@ -23,16 +23,23 @@ public:
     QVariant readData() Q_DECL_OVERRIDE;
     QVariant readData(IVariableInput*) Q_DECL_OVERRIDE;
     void writeData(IVariableOutput*) Q_DECL_OVERRIDE;
-    void addVariableOnDataTable(IVariableInput*) Q_DECL_OVERRIDE;
-    void addVariableOnDataTable(IVariableOutput*) Q_DECL_OVERRIDE;
+    void addVariableInputOnDataTable(IVariableInput*) Q_DECL_OVERRIDE;
+    void addVariableOutputOnDataTable(IVariableOutput*) Q_DECL_OVERRIDE;
+    void addVariableOnDataTable(IVariable*) Q_DECL_OVERRIDE;
     void writeData(bool, const QString&) Q_DECL_OVERRIDE;
     void triggerUpdateAllData() Q_DECL_OVERRIDE;
     QVariantMap serialize() Q_DECL_OVERRIDE;
     QString getName()const Q_DECL_OVERRIDE;
     enumComType getType()const Q_DECL_OVERRIDE;
+    bool isMaster()const;
+
+    void runJBusReceiveReply();
 
 signals:
     void connected(bool success);
+
+private slots:
+    void slotVariableUpdated(IVariable* arg_var);
 
 private:
     typedef QVarLengthArray<uint8_t, 32> BitArray;
@@ -74,12 +81,19 @@ private:
     int m_slave;
     QMap<int, IVariableInput*> m_mapInputTable;
     QMap<int, IVariableOutput*> m_mapOutputTable;
+    QList<IVariable*> m_listDataTableVariableBool;
+    QList<IVariable*> m_listDataTableVariableWords;
+
+    BitArray m_dataTableBits;
+    BitArray m_dataTableInputBits; //not used yet
+    WordArray m_dataTableInputWords; //not used yet
+    WordArray m_dataTableWords;
 
     QString m_name;
     enumComType m_type;
     QString m_ip;
     friend class JBusTest;
-
+    bool m_masterMode;
     QMutex m_mutex;
 };
 

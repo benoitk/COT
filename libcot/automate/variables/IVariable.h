@@ -33,7 +33,7 @@ enum enumVariableOrganType {
 
 class CUnit;
 class CVariableMeasure;
-
+class ICom;
 //Interface pour toute les variables de l'automate
 class IVariable : public QObject
 {
@@ -88,13 +88,15 @@ public:
     static QString organTypeToString(enumVariableOrganType type);
 
     virtual IVariable* getIVariable();
+    virtual void initComs();
 
     bool operator<(IVariable*);
     bool operator>(IVariable*);
 
+    virtual void setAddress(int address);
 protected:
     virtual void setAccess(enumVariableAccess access);
-    virtual void setAddress(int address);
+
 
 signals:
     void signalVariableChanged(IVariable*);
@@ -110,7 +112,7 @@ protected:
     QList<IVariable*> m_listBinds;
     CUnit* m_unit;
     QMutex m_mutex;
-
+    QList<ICom*> m_coms;
 
 };
 

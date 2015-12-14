@@ -6,10 +6,13 @@
 #include "CModelExtensionCard.h"
 #include "cotautomate_debug.h"
 #include "IOrgan.h"
+#include "CVariableFloat.h"
 #include <QThread>
 
 #include <cstring>
 #include <cerrno>
+#include <modbus-data.c>
+#include "unistd.h"
 
 namespace {
 modbus_t *initRtu(const QVariantMap &options)
@@ -66,9 +69,10 @@ class Worker : public QObject
 {
     Q_OBJECT
 public:
-    explicit Worker(modbus_t *ctx, QThread *thread)
+    explicit Worker(modbus_t *ctx, QThread *thread, CComJBus* jbus)
         : QObject(Q_NULLPTR)
         , m_ctx(ctx)
+        , m_jbus(jbus)
     {
         qDebug() << "moveThread Worker";
         moveToThread(thread);
@@ -84,15 +88,22 @@ signals:
 private:
     void run()
     {
+        if(m_jbus->isMaster()){
+
+
         if (modbus_connect(m_ctx) == -1) {
             qWarning("Failed to connect to com bus: %s\n", modbus_strerror(errno));
             connected(false);
             return;
         }
         emit connected(true);
-        // TODO: receive messages, reply to them
+        }
+        else{
+            // TODO: receive messages, reply to them
+            m_jbus->runJBusReceiveReply();
+        }
     }
-
+    CComJBus * m_jbus;
     modbus_t *m_ctx;
 };
 }
@@ -107,7 +118,9 @@ struct CComJBus::FreeModbus
         }
     }
 };
-
+bool CComJBus::isMaster()const{
+    return m_masterMode;
+}
 CComJBus::CComJBus(const QVariantMap &mapCom, QObject *parent)
     : ICom(parent)
     , m_ctx(Q_NULLPTR)
@@ -121,7 +134,7 @@ CComJBus::CComJBus(const QVariantMap &mapCom, QObject *parent)
         qCDebug(COTAUTOMATE_LOG) << "CComJBus not named.";
         m_name = QStringLiteral("Com not named");
     }
-
+    m_masterMode = !mapCom.value(QStringLiteral("is_slave")).toBool();
     m_type = stringToComType(mapCom.value(QStringLiteral("type")).toString());
     switch(m_type)
     {
@@ -154,6 +167,8 @@ CComJBus::CComJBus(const QVariantMap &mapCom, QObject *parent)
         // connect to the connected signal, and still get their slot called.
         QMetaObject::invokeMethod(this, "connected", Qt::QueuedConnection, Q_ARG(bool, false));
     }
+
+
 }
 
 CComJBus::~CComJBus()
@@ -177,7 +192,7 @@ void CComJBus::initializeModbus()
     if (m_slave >= 0)
         modbus_set_slave(m_ctx.data(), m_slave);
 
-    Worker *worker = new Worker(m_ctx.data(), m_modbusThread);
+    Worker *worker = new Worker(m_ctx.data(), m_modbusThread, this);
     connect(worker, &Worker::connected,
             this, [this] (bool success) {
                 if (!success) {
@@ -185,8 +200,113 @@ void CComJBus::initializeModbus()
                 }
                 emit connected(success);
             });
-    m_modbusThread->start();    
+    m_modbusThread->start();
 
+}
+
+//appeler uniquement en mode slave (!isMaster())
+void CComJBus::runJBusReceiveReply(){
+
+    for(;;){
+        int socket = modbus_tcp_listen(m_ctx.data(), 1);
+
+        if(socket != -1){
+            if (m_type == e_type_jbus) {
+                if (modbus_connect(m_ctx.data()) == -1) {
+                    fprintf(stderr, "Unable to connect %s\n", modbus_strerror(errno));
+                    return;
+                }
+            } else {
+                if (modbus_tcp_accept(m_ctx.data(), &socket) == -1) {
+                    fprintf(stderr, "modbus_tcp_accept failed: %s\n", modbus_strerror(errno));
+                    return;
+                }
+            }
+
+            for (;;) {
+                uint8_t query[MODBUS_TCP_MAX_ADU_LENGTH];
+
+                int rc = modbus_receive(m_ctx.data(), query);
+                if (rc == -1) {
+                    fprintf(stderr, "modbus_receive failed: %s\n", modbus_strerror(errno));
+                    break;
+                }
+                else
+                {
+
+                    modbus_mapping_t mapping = {
+                        m_dataTableBits.size(), m_dataTableBits.size(), m_dataTableWords.size(), m_dataTableWords.size(),
+                        m_dataTableBits.data(), m_dataTableBits.data(), m_dataTableWords.data(), m_dataTableWords.data(),
+                        false, false, false, false
+                    };
+                    //        modbus_mapping_t mapping = {
+                    //            m_dataTableBits.size(), m_dataTableInputBits.size(), m_dataTableInputWords.size(), m_dataTableWords.size(),
+                    //            m_dataTableBits.data(), m_dataTableInputBits.data(), m_dataTableInputWords.data(), m_dataTableWords.data(),
+                    //            false, false, false, false
+                    //        };
+                    m_mutex.lock(); //protection de la table JBus
+                    rc = modbus_reply(m_ctx.data(), query, rc, &mapping);
+                    m_mutex.unlock();
+                    if (rc == -1) {
+                        fprintf(stderr, "modbus_reply failed: %s\n", modbus_strerror(errno));
+                        break;
+                    }
+
+                    if(mapping.tab_bits_updated){
+                        for(int i =0; i < m_listDataTableVariableBool.count(); ++i) {
+
+                            int wordAddr = i / 16;
+                            int value = m_dataTableWords.value(wordAddr);
+                            value |= arg_var->toInt() << (arg_var->getAddress()%16);
+                            m_dataTableWords.replace(wordAddr, value);
+
+                            m_listDataTableVariableBool.value(i)->setValue(m_dataTableBits.at(i));
+                        }
+                        mapping.tab_bits_updated = false;
+                    }
+                    if(mapping.tab_registers_updated){
+                        for(int i =0; i < m_listDataTableVariableWords.count(); ++i) {
+                            WordArray words; //sert pour la gestion des flottant et des entiers large
+                            IVariable* var = m_listDataTableVariableWords.value(i);
+                            if(var->getType() == e_type_float){
+                                //si un jour on se décide à gérer les flotants avec le JBus, remplacer le code suivant avec celui en commentaire
+                                float fValue = m_dataTableWords.value(i);
+                                 for(int k=0; k<((CVariableFloat*)var)->getPrecision();++k)
+                                     fValue = fValue/10;
+
+//                                for(int j=0; j<sizeof(float) / sizeof(uint16_t); ++j)
+//                                    words.append(m_dataTableWords.value(i+j));
+//                                float fValue = modbus_get_float(words.data());
+                                var->setValue(fValue);
+                            }
+                            else if(var->getType() == e_type_int){
+                                  //si un jour on se décide à gérer les entiers de plus de 16bits, remplacer le code suivant avec celui en commentaire
+                                  int iValue = m_dataTableWords.value(i);
+//                                for(int j=0; j<sizeof(int) / sizeof(uint16_t); ++j)
+//                                    words.append(m_dataTableWords.value(i+j));
+//                                int iValue = 0;
+//                                for(int k=0; k<words.count();++k)
+//                                    iValue += ((int)words.at(k)) << (16*k);
+                                var->setValue(iValue);
+                            }
+                            else if(var->getType() == e_type_bool){
+                                short int iValue = m_dataTableWords.value(i);
+                                for(int k=0; k<16;++k){
+
+                                }
+                            }
+                        }
+                    }
+                    mapping.tab_registers_updated = false;
+                }
+                QThread::msleep(100);
+            }
+        }
+        QThread::msleep(1000);
+        close(socket);
+
+    }
+    QThread::msleep(1000);
 }
 
 QVariant CComJBus::readData(){
@@ -217,6 +337,7 @@ void CComJBus::writeData(bool value, const QString& addr){
     QMutexLocker lock(&m_mutex);
     writeBool(addr.toInt(0,16), value);
 }
+
 void CComJBus::writeData(IVariableOutput* arg_output)
 {
     QMutexLocker lock(&m_mutex);
@@ -375,12 +496,127 @@ void CComJBus::triggerUpdateAllData(){
 
 }
 
-void CComJBus::addVariableOnDataTable(IVariableInput* arg_varInput){
+void CComJBus::addVariableInputOnDataTable(IVariableInput* arg_varInput){
     m_mapInputTable.insert(arg_varInput->getOrganAddr().toInt(), arg_varInput);
 
 }
-void CComJBus::addVariableOnDataTable(IVariableOutput* arg_varOutput){
+void CComJBus::addVariableOutputOnDataTable(IVariableOutput* arg_varOutput){
     m_mapOutputTable.insert(arg_varOutput->getOrganAddr().toInt(), arg_varOutput);
+}
+
+void CComJBus::addVariableOnDataTable(IVariable* arg_var){
+    QMutexLocker lock(&m_mutex);
+
+    switch (arg_var->getType()) {
+    case e_type_alarm:
+    case e_type_bool:
+        arg_var->setAddress(m_dataTableBits.count());
+        if( (m_dataTableBits.count() % 16) == 0){
+            m_listDataTableVariableWords.append(arg_var);
+            m_dataTableWords.append(arg_var->toInt());
+        }
+        else{
+            int wordAddr = m_dataTableBits.count() / 16;
+            int value = m_dataTableWords.value(wordAddr);
+            value |= arg_var->toInt() << (arg_var->getAddress()%16);
+            m_dataTableWords.replace(wordAddr, value);
+
+        }
+        m_dataTableBits.append(arg_var->toBool());
+        m_listDataTableVariableBool.append(arg_var);
+
+        break;
+    case e_type_float:
+    {
+        //si un jour on se décide à gérer les flotants avec le JBus, remplacer le code suivant avec celui en commentaire
+          float valueTemp = arg_var->toFloat();
+          for(int i=0; i<((CVariableFloat*)arg_var)->getPrecision();++i)
+              valueTemp = valueTemp * 10;
+          short int value = valueTemp;
+          arg_var->setAddress(m_dataTableWords.count());
+          m_dataTableWords.append(value);
+//        WordArray words(sizeof(float) / sizeof(uint16_t));
+//        modbus_set_float(arg_var->toFloat(), words.data());
+//        arg_var->setAddress(m_dataTableWords.count());
+//        for(int i=0; i < words.count(); ++i){
+//            m_dataTableWords.append(words.at(i));;
+//        }
+
+        m_listDataTableVariableWords.append(arg_var);
+    }
+        break;
+    case e_type_int:
+    {
+        //si un jour on se décide à gérer les entiers de plus de 16bits, remplacer le code suivant avec celui en commentaire
+        short int value = arg_var->toInt();
+        arg_var->setAddress(m_dataTableWords.count());
+        m_dataTableWords.append(value);
+//        WordArray words(sizeof(int) / sizeof(uint16_t));
+//        int value = arg_var->toInt();
+//        memcpy(words.data(), &value, sizeof(int));
+//        arg_var->setAddress(m_dataTableWords.count());
+//        for(int i=0; i < words.count(); ++i){
+//            m_dataTableWords.append(words.at(i));;
+//        }
+        m_listDataTableVariableWords.append(arg_var);
+    }
+        break;
+    default:
+        break;
+    }
+    connect(arg_var, &IVariable::signalVariableChanged, this, &CComJBus::slotVariableUpdated);
+
+}
+void CComJBus::slotVariableUpdated(IVariable* arg_var){
+    QMutexLocker lock(&m_mutex);
+    switch (arg_var->getType()) {
+    case e_type_alarm:
+    case e_type_bool:
+        if(arg_var->getAddress() < m_dataTableBits.count()){
+
+            int wordAddr = arg_var->getAddress() / 16;
+            int value = m_dataTableWords.value(wordAddr);
+            value |= arg_var->toInt() << (arg_var->getAddress()%16);
+            m_dataTableWords.replace(wordAddr, value);
+
+            m_dataTableBits.replace(arg_var->getAddress(), arg_var->toBool());
+        }
+        break;
+    case e_type_float:
+    {
+        if(arg_var->getAddress() < m_dataTableWords.count()){
+           float valueTemp = arg_var->toFloat();
+            for(int i=0; i<((CVariableFloat*)arg_var)->getPrecision();++i)
+                valueTemp = valueTemp * 10;
+            short int value = valueTemp;
+            m_dataTableWords.replace(arg_var->getAddress(), value);
+//            WordArray words(sizeof(float) / sizeof(uint16_t));
+//            modbus_set_float(arg_var->toFloat(), words.data());
+//            for(int i=0; i < words.count(); ++i){
+//                m_dataTableWords.replace(arg_var->getAddress()+i, words.at(i));
+//            }
+        }
+    }
+        break;
+    case e_type_int:
+    {
+        if(arg_var->getAddress() < m_dataTableWords.count()){
+            //si un jour on se décide à gérer les entiers de plus de 16bits, remplacer le code suivant avec celui en commentaire
+            short int value = arg_var->toInt();
+            m_dataTableWords.replace(arg_var->getAddress(),value);
+
+//            WordArray words(sizeof(int) / sizeof(uint16_t));
+//            int value = arg_var->toInt();
+//            memcpy(words.data(), &value, sizeof(int));
+//            for(int i=0; i < words.count(); ++i){
+//                m_dataTableWords.replace(arg_var->getAddress()+i, words.at(i));
+//            }
+        }
+    }
+        break;
+    default:
+        break;
+    }
 }
 
 QString CComJBus::getName()const{

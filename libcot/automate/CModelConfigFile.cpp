@@ -88,6 +88,23 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
         automate->setDebug(jsonObjectAll[QStringLiteral("debug")].toBool());
     }
 
+    //slave com
+    if(jsonObjectAll[QStringLiteral("slave_coms_available")] == QJsonValue::Undefined){
+        qCDebug(COTAUTOMATE_LOG) << "jsonObject[\"slave_coms_available\"] == QJsonValue::Undefined";
+    }
+    else {
+        QJsonArray jsonArrayVariables = jsonObjectAll[QStringLiteral("slave_coms_available")].toArray();
+        foreach(QJsonValue jsonValueVariable, jsonArrayVariables){
+            QVariantMap mapVariable = jsonValueVariable.toVariant().toMap();
+            mapVariable.insert(QStringLiteral("is_slave"), true);
+            ICom* var = CComFactory::build(mapVariable);
+            if(var)
+                automate->addCom(var);
+            else
+                qCDebug(COTAUTOMATE_LOG) << "slave_coms_available null : map = " << mapVariable;
+        }
+    }
+
     //extension
     if(jsonObjectAll[QStringLiteral("extensions")] == QJsonValue::Undefined){
         qCDebug(COTAUTOMATE_LOG) << "jsonObject[\"extensions\"] == QJsonValue::Undefined";
@@ -163,8 +180,10 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
         foreach(QJsonValue jsonValueVariable, jsonArrayVariables){
             QVariantMap mapVariable = jsonValueVariable.toVariant().toMap();
             IVariable* var = CVariableFactory::build(mapVariable);
-            if(var)
+            if(var){
                 automate->addVariable(mapVariable[QStringLiteral("name")].toString(),var);
+                var->initComs();
+            }
             else
                 qCDebug(COTAUTOMATE_LOG) << "Variables null : map = " << mapVariable;
         }

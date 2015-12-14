@@ -33,8 +33,10 @@ public:
 
     virtual void writeData(IVariableOutput*)=0;
     virtual void writeData(bool, const QString&)=0;
-    virtual void addVariableOnDataTable(IVariableInput*)=0;
-    virtual void addVariableOnDataTable(IVariableOutput*)=0;
+    virtual void addVariableInputOnDataTable(IVariableInput*)=0;
+    virtual void addVariableOutputOnDataTable(IVariableOutput*)=0;
+    virtual void addVariableOnDataTable(IVariable*)=0;
+
 
     virtual void triggerUpdateAllData()=0;
     //virtual QList<IVariable*> getParameters()const=0;

@@ -31,8 +31,6 @@ public:
     QVariantMap serialize() Q_DECL_OVERRIDE;
     void setToBindedValue(const QVariant &) Q_DECL_OVERRIDE;
 
-    IVariable* getVariable(const QString&);
-    void addVaraiable(IVariable*);
     void writeValue() Q_DECL_OVERRIDE;
 private:
 

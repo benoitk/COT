@@ -3,6 +3,8 @@
 #include "CVariableStream.h"
 #include "CAutomate.h"
 #include "CUnit.h"
+#include "ICom.h"
+
 #include "qdebug.h"
 int IVariable::FLOAT_PRECISION = 3;
 
@@ -29,7 +31,17 @@ IVariable::IVariable(const QVariantMap& arg_varMap): QObject(){
      if(arg_varMap.contains(QStringLiteral("address"))) m_address = arg_varMap.value(QStringLiteral("address")).toInt();
 
     m_unit = CAutomate::getInstance()->getUnit(arg_varMap.value(QStringLiteral("unit")).toString());
+
+    QStringList listComName = arg_varMap.value(QStringLiteral("coms_name_used")).toStringList();
+    foreach(QString comName, listComName){
+        m_coms.append(CAutomate::getInstance()->getCom(comName));
+    }
 //    m_unit = new CUnit("tmp", "µg/l");
+}
+void IVariable::initComs(){
+    foreach(ICom* com, m_coms){
+        com->addVariableOnDataTable(this);
+    }
 }
 
 IVariable::IVariable(): QObject()
@@ -258,6 +270,12 @@ QVariantMap IVariable::serialize(){
         break;
     }
     mapSerialise.insert(QStringLiteral("unit"), m_unit->getName());
+
+    QStringList listComName;
+    foreach(ICom* com, m_coms){
+        listComName.append(com->getName());
+    }
+    mapSerialise.insert(QStringLiteral("coms_name_used"), listComName);
 
     return mapSerialise;
 }

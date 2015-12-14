@@ -804,6 +804,7 @@ int modbus_reply(modbus_t *ctx, const uint8_t *req,
 
             if (data == 0xFF00 || data == 0x0) {
                 mb_mapping->tab_bits[address] = (data) ? ON : OFF;
+                mb_mapping->tab_bits_updated= TRUE;
                 memcpy(rsp, req, req_length);
                 rsp_length = req_length;
             } else {
@@ -831,6 +832,7 @@ int modbus_reply(modbus_t *ctx, const uint8_t *req,
             int data = (req[offset + 3] << 8) + req[offset + 4];
 
             mb_mapping->tab_registers[address] = data;
+            mb_mapping->tab_registers_updated = TRUE;
             memcpy(rsp, req, req_length);
             rsp_length = req_length;
         }
@@ -859,7 +861,7 @@ int modbus_reply(modbus_t *ctx, const uint8_t *req,
         } else {
             /* 6 = byte count */
             modbus_set_bits_from_bytes(mb_mapping->tab_bits, address, nb, &req[offset + 6]);
-
+            mb_mapping->tab_bits_updated = TRUE;
             rsp_length = ctx->backend->build_response_basis(&sft, rsp);
             /* 4 to copy the bit address (2) and the quantity of bits */
             memcpy(rsp + rsp_length, req + rsp_length, 4);
@@ -902,7 +904,9 @@ int modbus_reply(modbus_t *ctx, const uint8_t *req,
             memcpy(rsp + rsp_length, req + rsp_length, 4);
             rsp_length += 4;
         }
+        mb_mapping->tab_registers_updated = TRUE;
     }
+
         break;
     case _FC_REPORT_SLAVE_ID: {
         int str_len;
@@ -974,6 +978,7 @@ int modbus_reply(modbus_t *ctx, const uint8_t *req,
                 rsp[rsp_length++] = mb_mapping->tab_registers[i] & 0xFF;
             }
         }
+        mb_mapping->tab_bits_updated = TRUE;
     }
         break;
 
@@ -1566,6 +1571,7 @@ modbus_mapping_t* modbus_mapping_new(int nb_bits, int nb_input_bits,
     mb_mapping->nb_bits = nb_bits;
     if (nb_bits == 0) {
         mb_mapping->tab_bits = NULL;
+
     } else {
         /* Negative number raises a POSIX error */
         mb_mapping->tab_bits =
@@ -1576,6 +1582,7 @@ modbus_mapping_t* modbus_mapping_new(int nb_bits, int nb_input_bits,
         }
         memset(mb_mapping->tab_bits, 0, nb_bits * sizeof(uint8_t));
     }
+    mb_mapping->tab_bits_updated = FALSE;
 
     /* 1X */
     mb_mapping->nb_input_bits = nb_input_bits;
@@ -1591,6 +1598,7 @@ modbus_mapping_t* modbus_mapping_new(int nb_bits, int nb_input_bits,
         }
         memset(mb_mapping->tab_input_bits, 0, nb_input_bits * sizeof(uint8_t));
     }
+    mb_mapping->tab_bits_input_updated = FALSE;
 
     /* 4X */
     mb_mapping->nb_registers = nb_registers;
@@ -1607,6 +1615,7 @@ modbus_mapping_t* modbus_mapping_new(int nb_bits, int nb_input_bits,
         }
         memset(mb_mapping->tab_registers, 0, nb_registers * sizeof(uint16_t));
     }
+    mb_mapping->tab_registers_updated = FALSE;
 
     /* 3X */
     mb_mapping->nb_input_registers = nb_input_registers;
@@ -1625,7 +1634,7 @@ modbus_mapping_t* modbus_mapping_new(int nb_bits, int nb_input_bits,
         memset(mb_mapping->tab_input_registers, 0,
                nb_input_registers * sizeof(uint16_t));
     }
-
+    mb_mapping->tab_registers_input_updated = FALSE;
     return mb_mapping;
 }
 

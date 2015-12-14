@@ -32,10 +32,12 @@ void CComUnknow::triggerUpdateAllData(){
 
 }
 
-void CComUnknow::addVariableOnDataTable(IVariableInput* arg_varInput){
+void CComUnknow::addVariableInputOnDataTable(IVariableInput* arg_varInput){
 
 }
-void CComUnknow::addVariableOnDataTable(IVariableOutput* arg_varOutput){
+void CComUnknow::addVariableOutputOnDataTable(IVariableOutput* arg_varOutput){
+}
+void CComUnknow::addVariableOnDataTable(IVariable* arg_varOutput){
 }
 
 QString CComUnknow::getName()const{
