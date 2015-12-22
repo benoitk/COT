@@ -257,7 +257,12 @@ void CComJBus::runJBusReceiveReply(){
 
                             int wordAddr = i / 16;
                             int value = m_dataTableWords.value(wordAddr);
-                            value |= arg_var->toInt() << (arg_var->getAddress()%16);
+                            int valueBit = m_dataTableBits.at(i);
+                            int adressBit = m_listDataTableVariableBool.at(i)->getAddress()%16;
+                            if(valueBit)
+                                value |=  valueBit << adressBit;
+                            else
+                                value &=  ((1 << adressBit) ^ 0xFF);
                             m_dataTableWords.replace(wordAddr, value);
 
                             m_listDataTableVariableBool.value(i)->setValue(m_dataTableBits.at(i));
@@ -291,8 +296,14 @@ void CComJBus::runJBusReceiveReply(){
                             }
                             else if(var->getType() == e_type_bool){
                                 short int iValue = m_dataTableWords.value(i);
-                                for(int k=0; k<16;++k){
-
+                                int numBit = 1;
+                                int addrBase = m_listDataTableVariableBool.at(m_listDataTableVariableWords.at(i)->getAddress())
+                                                        ->getAddress();
+                                for(int k=addrBase; k< (addrBase + 16);++k){
+                                    int valueBit = iValue & numBit;
+                                    m_listDataTableVariableBool.value(k)->setValue(valueBit);
+                                    m_dataTableBits.replace(k, valueBit);
+                                    numBit *= 2;
                                 }
                             }
                         }
@@ -518,7 +529,11 @@ void CComJBus::addVariableOnDataTable(IVariable* arg_var){
         else{
             int wordAddr = m_dataTableBits.count() / 16;
             int value = m_dataTableWords.value(wordAddr);
-            value |= arg_var->toInt() << (arg_var->getAddress()%16);
+            if(arg_var->toBool())
+                value |=  arg_var->toInt() << (arg_var->getAddress()%16);
+            else
+                value &=  ((1 << (arg_var->getAddress()%16)) ^ 0xFF);
+
             m_dataTableWords.replace(wordAddr, value);
 
         }
@@ -576,7 +591,10 @@ void CComJBus::slotVariableUpdated(IVariable* arg_var){
 
             int wordAddr = arg_var->getAddress() / 16;
             int value = m_dataTableWords.value(wordAddr);
-            value |= arg_var->toInt() << (arg_var->getAddress()%16);
+            if(arg_var->toBool())
+                value |=  arg_var->toInt() << (arg_var->getAddress()%16);
+            else
+                value &=  ((1 << (arg_var->getAddress()%16)) ^ 0xFF);
             m_dataTableWords.replace(wordAddr, value);
 
             m_dataTableBits.replace(arg_var->getAddress(), arg_var->toBool());

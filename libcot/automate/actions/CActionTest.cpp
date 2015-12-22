@@ -102,6 +102,9 @@ void CActionTest::run(){
         IVariableOutput* outputSetpoint = dynamic_cast<IVariableOutput*>(m_setpoint);
         if(outputSetpoint) outputSetpoint->writeValue();
     }
+    if(m_result->getName() == QStringLiteral("var_water_pressure_ILS_default")){
+        int test = false;
+    }
 
     if(m_target){
 
