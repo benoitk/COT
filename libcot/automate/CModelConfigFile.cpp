@@ -96,7 +96,6 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
         QJsonArray jsonArrayVariables = jsonObjectAll[QStringLiteral("slave_coms_available")].toArray();
         foreach(QJsonValue jsonValueVariable, jsonArrayVariables){
             QVariantMap mapVariable = jsonValueVariable.toVariant().toMap();
-            mapVariable.insert(QStringLiteral("is_slave"), true);
             ICom* var = CComFactory::build(mapVariable);
             if(var)
                 automate->addCom(var);
