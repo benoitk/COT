@@ -50,8 +50,13 @@ QVariantMap CVariableOutputBool::serialize(){
     mapSerialise.insert(QStringLiteral("type"), QStringLiteral("output_boolean"));
     mapSerialise.insert(QStringLiteral("passive"), m_passive);
   //  mapSerialise.insert(QStringLiteral("value"), m_value);
-    mapSerialise.insert(QStringLiteral("extension_name"), m_organ->getExtCard()->getName());
-    mapSerialise.insert(QStringLiteral("organ_name"), m_organ->getName());
+
+    if(m_organ->getName() != QStringLiteral("unknown_organ")){
+        mapSerialise.insert(QStringLiteral("extension_name"), m_organ->getExtCard()->getName());
+        mapSerialise.insert(QStringLiteral("organ_name"), m_organ->getName());
+    }
+//    mapSerialise.insert(QStringLiteral("extension_name"), m_organ->getExtCard()->getName());
+//    mapSerialise.insert(QStringLiteral("organ_name"), m_organ->getName());
     return mapSerialise;
 }
 enumVariableOrganType CVariableOutputBool::getOrganType() const {

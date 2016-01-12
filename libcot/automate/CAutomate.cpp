@@ -1020,6 +1020,12 @@ void CAutomate::slotSerializeAndSave(){
         foreach(ICycle* cycle, m_listCycleMesures){
             listTmp.append(cycle->serialize());
         }
+        foreach(ICycle* cycle, m_listCycleMaintenances){
+            listTmp.append(cycle->serialize());
+        }
+        foreach(ICycle* cycle, m_listlCycleAutonomes){
+            listTmp.append(cycle->serialize());
+        }
         mapSerialize.insert(QStringLiteral("cycles"), listTmp);
     }
 

@@ -89,13 +89,13 @@ enumAlarmType CVariableAlarm::getAlarmType(){
 }
 
 QVariantMap CVariableAlarm::serialize(){
-    QVariantMap mapSerialise = CVariableBool::serialize();
+    QVariantMap mapSerialise = CVariableOutputBool::serialize();
     mapSerialise.insert(QStringLiteral("type"), QStringLiteral("alarm"));
 
-    if(m_organ->getName() != QStringLiteral("unknown_organ")){
-        mapSerialise.insert(QStringLiteral("extension_name"), m_organ->getExtCard()->getName());
-        mapSerialise.insert(QStringLiteral("organ_name"), m_organ->getName());
-    }
+//    if(m_organ->getName() != QStringLiteral("unknown_organ")){
+//        mapSerialise.insert(QStringLiteral("extension_name"), m_organ->getExtCard()->getName());
+//        mapSerialise.insert(QStringLiteral("organ_name"), m_organ->getName());
+//    }
 
     QString alarmType;
     switch(m_alarmType){
@@ -112,7 +112,7 @@ QVariantMap CVariableAlarm::serialize(){
     }
     mapSerialise.insert(QStringLiteral("alarm_type"), alarmType);
     mapSerialise.insert(QStringLiteral("auto_acquit"), m_autoAcquit);
-    mapSerialise.insert(QStringLiteral("delay"), m_numUntilSetAlarm );
+    mapSerialise.insert(QStringLiteral("delay"), m_numUntilSetAlarm+1 );
 
     return mapSerialise;
 }

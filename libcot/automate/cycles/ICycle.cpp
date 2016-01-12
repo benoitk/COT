@@ -29,7 +29,7 @@ ICycle::ICycle(const QVariantMap &mapCycle, QObject *parent)
             CStep* step = new CStep(this, mapStep);
             m_listSteps.append(step);
         }
-        if(m_listSteps.first()->getNumStep() != 0){
+        if(!m_listSteps.isEmpty() &&  m_listSteps.first()->getNumStep() != 0){
             CStep* step = new CStep(this);
             m_listSteps.prepend(step);
         }
@@ -39,6 +39,8 @@ ICycle::ICycle(const QVariantMap &mapCycle, QObject *parent)
         m_stepStop = new CStep(this, mapStepStop);
         m_itListStepsPasEnCours == m_listSteps.end();
     }
+    else
+        m_stepStop = new CStep(this, QVariantMap());
 }
 void ICycle::abortCycle(){
     QThread* currentThread = QThread::currentThread();
@@ -376,6 +378,7 @@ QVariantMap ICycle::serialize(){
         listSteps.append(step->serialize());
     }
     mapSerialise.insert(QStringLiteral("steps"), listSteps);
+    mapSerialise.insert(QStringLiteral("step_stop"), m_stepStop->serialize());
 
     return mapSerialise;
 }

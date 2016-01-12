@@ -50,6 +50,7 @@ QVariantMap CVariableInputBool::serialize(){
     mapSerialise.insert(QStringLiteral("value"), m_value);
     mapSerialise.insert(QStringLiteral("extension_name"), m_organ->getExtCard()->getName());
     mapSerialise.insert(QStringLiteral("organ_name"), m_organ->getName());
+    mapSerialise.insert(QStringLiteral("passive"), m_passive);
     return mapSerialise;
 }
 enumVariableOrganType CVariableInputBool::getOrganType() const {
