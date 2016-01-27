@@ -49,9 +49,7 @@ CAutomate::CAutomate()
     m_schedulerStoppedFromIHM = false;
     m_lang = "en_US";
     m_countBeforeCheckLogFileToDelete = 0;
-    m_stateCycleMesure = CYCLE_STATE_STOP;
-    m_stateCycleIO = CYCLE_STATE_STOP;
-    m_stateCycleMaintenance = CYCLE_STATE_STOP;
+    m_stateScheduler = CYCLE_STATE_STOP;
 
    // m_mappingCom.insert(QStringLiteral("0xffff"), CVariableFactory::build(QVariantMap())); //unknown address com
 
@@ -776,9 +774,9 @@ CVariableMeasure *CAutomate::getMeasure(const QString &name) const
     return Q_NULLPTR;
 }
 
-void CAutomate::setStateCycleMesure(eStateCycle arg_state){
+void CAutomate::setStateScheduler(eStateScheduler arg_state){
     QMutexLocker locker(&m_mutex);
-    m_stateCycleMesure = arg_state;
+    m_stateScheduler = arg_state;
     switch(arg_state){
     case CYCLE_STATE_STOP:
         emit signalUpdateStateAutomate(STOPPED);
@@ -838,33 +836,6 @@ void CAutomate::slotStillInAlarm(CVariableAlarm* arg_alarm){
     }
 }
 
-void CAutomate::setStateCycleIO(eStateCycle state){
-    QMutexLocker locker(&m_mutex);
-    // TODO
-}
-
-void CAutomate::setStateCycleMaintenance(eStateCycle state){
-    QMutexLocker locker(&m_mutex);
-    // TODO
-}
-
-CAutomate::eStateCycle CAutomate::getStateCycleMesure(){
-    QMutexLocker locker(&m_mutex);
-    // TODO
-    return CAutomate::CYCLE_STATE_STOP;
-}
-
-CAutomate::eStateCycle CAutomate::getStateCycleIO( ){
-    QMutexLocker locker(&m_mutex);
-    // TODO
-    return CAutomate::CYCLE_STATE_STOP;
-}
-
-CAutomate::eStateCycle CAutomate::getStateCycleMaintenance( ){
-    QMutexLocker locker(&m_mutex);
-    // TODO
-    return CAutomate::CYCLE_STATE_STOP;
-}
 
 void CAutomate::slotVariableChanged()
 {

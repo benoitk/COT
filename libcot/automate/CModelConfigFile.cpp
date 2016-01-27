@@ -305,12 +305,30 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
             if(sequenceName != QStringLiteral(""))
                 automate->getScheduler()->addCycleMaintenance(m_mapCycles[sequenceName]);
             else
-                qCDebug(COTAUTOMATE_LOG) << "Sequence name cycle null : map = " << sequenceName;
+                qCDebug(COTAUTOMATE_LOG) << "name cycle null : map = " << sequenceName;
         }
         qCDebug(COTAUTOMATE_LOG) << "SEQUENCER : " << automate->getScheduler()->getListCyclesMaintenances();
 
     }
 
+    //Séquenceur maintenance
+    QJsonObject jsonObjectSequencerMaintenanceAuto = m_jsonDoc->object();
+    if(jsonObjectSequencerMaintenanceAuto[QStringLiteral("scheduler_maintenances")] == QJsonValue::Undefined){
+        qCDebug(COTAUTOMATE_LOG) << "jsonObject[\"scheduler_maintenances\"] == QJsonValue::Undefined";
+    }
+    else {
+        QJsonArray jsonArraySeqeuceur = jsonObjectSequencerAutonome[QStringLiteral("scheduler_maintenances")].toArray();
+        foreach(QJsonValue jsonValueSequence, jsonArraySeqeuceur){
+            QVariantMap sequenceMap = jsonValueSequence.toVariant().toMap();
+            if(!sequenceMap.isEmpty())
+                automate->getScheduler()
+                        ->addCycleMaintenanceAuto(CSequenceMaintenanceFactory::build(sequenceMap, CScheduler::getInstance()));
+            else
+                qCDebug(COTAUTOMATE_LOG) << "Sequence maintenance auto null : map = " << sequenceMap;
+        }
+        //qCDebug(COTAUTOMATE_LOG) << "SEQUENCER : " << automate->getSequencer()->getListSequenceCyclesAutonomes();
+
+    }
 
      //Streams :
      if(jsonObjectAll[QStringLiteral("streams")] == QJsonValue::Undefined){

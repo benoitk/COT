@@ -14,7 +14,7 @@ QVariantMap IOrgan::serialize(){
         mapSerialize.insert(QStringLiteral("type"), QStringLiteral("output_integer"));
         break;
     case organ_type_input_bool:
-        mapSerialize.insert(QStringLiteral("type"), QStringLiteral("output_boolean"));
+        mapSerialize.insert(QStringLiteral("type"), QStringLiteral("input_boolean"));
         break;
     case organ_type_input_float:
         mapSerialize.insert(QStringLiteral("type"), QStringLiteral("input_float"));

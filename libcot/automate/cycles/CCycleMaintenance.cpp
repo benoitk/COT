@@ -53,6 +53,8 @@ QVariantMap CCycleMaintenance::serialize(){
     foreach(IVariable* var, m_listVariablesInput){
         listInputVar.append(var->getName());
     }
+    mapSerialise.insert(QStringLiteral("variables_input"), listInputVar);
+
     QStringList listOutputVar;
     foreach(IVariable* var, m_listVariablesOutput){
         listOutputVar.append(var->getName());

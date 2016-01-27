@@ -6,6 +6,7 @@
 //GEstion de l'éxecution des cycles
 class ICycle;
 class CControlerCycle;
+class ISequenceMaintenanceAuto;
 class CScheduler : public QObject
 {
     Q_OBJECT
@@ -32,6 +33,7 @@ public:
     QList<ICycle*> getListCyclesMaintenances();
     void setListCyclesMaintenances(QList<ICycle*> );
     void addCycleMaintenance(ICycle*);
+    void addCycleMaintenanceAuto(ISequenceMaintenanceAuto*);
 
     void removeCycleMeasure(ICycle *);
     void removeCycleMaintenance(ICycle *);
@@ -45,6 +47,7 @@ public:
     //void apendSequenceMesureRunCycle(CControlerCycle*, int nbCycle);
     void apendSequenceMeasurePause(int minute);
 
+    QString getCycleInProgressName();
 
 
 public slots:
@@ -91,6 +94,7 @@ private:
     void disconnectCycle(ICycle*);
     void setSequenceMeasure();
 
+    ISequenceMaintenanceAuto* haveToPlaySequenceMaintenanceAuto();
     void playMaintenance(int id_cycle);
     void playSequenceAutonome();
 
@@ -100,6 +104,7 @@ private:
     QList<ICycle*> m_listSequenceCyclesMeasures;
     QList<ICycle*> m_listSequenceCyclesAutonomes;
     QList<ICycle*> m_listCyclesMaintenances;
+    QList<ISequenceMaintenanceAuto*> m_listSequenceCyclesMaintenancesAuto;
 
     /*QList<CControlerCycle*> m_listSequenceCyclesMesure;
     QList<CControlerCycle*> m_listSequenceCyclesAutonome;
@@ -114,9 +119,43 @@ private:
 
     QList<ICycle*>::iterator m_itListSequenceCyclesMesures;
 
-    ICycle* m_cycleMeasureEnCours;
-    ICycle* m_cycleMaintenanceEnCours;
-    ICycle* m_cycleAutonomeEnCours;
+    ICycle* m_cycleEnCours;
+};
+
+
+class ISequenceMaintenanceAuto: public QObject
+{
+    Q_OBJECT
+public :
+    virtual bool haveToBeRun()=0;
+    virtual ICycle* getCycle();
+public:
+    ISequenceMaintenanceAuto(const QVariantMap&,  QObject *parent);
+private:
+    ICycle* m_cycle;
+};
+class IVariable;
+class CSequenceMaintenanceAutoEveryNCycles : public ISequenceMaintenanceAuto
+{
+public:
+    CSequenceMaintenanceAutoEveryNCycles(const QVariantMap&,  QObject *parent);
+    bool haveToBeRun();
+ private:
+    IVariable* m_nbCycle;
+    int m_cpt;
+};
+class CSequenceMaintenanceAutoUnknow : public ISequenceMaintenanceAuto
+{
+public:
+    CSequenceMaintenanceAutoUnknow(const QVariantMap&,  QObject *parent);
+    bool haveToBeRun();
+
+};
+class CSequenceMaintenanceFactory : public QObject
+{
+    Q_OBJECT
+public:
+    static ISequenceMaintenanceAuto* build(const QVariantMap&,  QObject *parent);
 };
 
 #endif // CSCHEDULER_H

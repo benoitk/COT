@@ -16,9 +16,8 @@ CScheduler::CScheduler()
 
     m_itListSequenceCyclesMesures = m_listSequenceCyclesMeasures.begin();
 
-    m_cycleMeasureEnCours = 0;
-    m_cycleMaintenanceEnCours = 0;
-    m_cycleAutonomeEnCours = 0;
+    m_cycleEnCours = 0;
+
 
     connect(this, &CScheduler::signalGetReadyForPlayCycleMesure, this, &CScheduler::slotPlaySequenceMeasure);
 
@@ -63,43 +62,37 @@ void CScheduler::slotStartAllCyleAutonome(){
     emit signalRunCycleAutonome();
 }
 
+QString CScheduler::getCycleInProgressName(){
+    if(m_cycleEnCours)
+        return m_cycleEnCours->getLabel();
+    else
+        return tr("No cycle");
+}
+
 void CScheduler::setSequenceMeasure(){
     qCDebug(COTAUTOMATE_LOG) << "void CSequencer::setSequenceMesure()";
-    if(m_cycleMaintenanceEnCours){
-        emit this->signalStopCycleMaintenance();
-        // A revoir pour ne pas mettre de boucle bloquante
-        //        while(m_cycleMaintenanceEnCours->isRunning()){
-//            QThread::msleep(50);
-//        }
-        this->disconnectCycle(m_cycleMaintenanceEnCours);
-    }
-
-    this->disconnectCycle(m_cycleMeasureEnCours);
-
 
     if( m_itListSequenceCyclesMesures != m_listSequenceCyclesMeasures.end()){
 
-        // SERES_TODO: Fix null pointers.
-        m_cycleMeasureEnCours = (*m_itListSequenceCyclesMesures);
-        if (!m_cycleMeasureEnCours) {
+        if (!m_cycleEnCours) {
             qCDebug(COTAUTOMATE_LOG) << "m_cycleMesureEnCours ptr null";
             return;
         }
-        qCDebug(COTAUTOMATE_LOG) << "Cycle : " << m_cycleMeasureEnCours->getName() << m_cycleMeasureEnCours->thread();
+        qCDebug(COTAUTOMATE_LOG) << "Cycle : " << m_cycleEnCours->getName() << m_cycleEnCours->thread();
         //Si les signaux ne fonctionne pas, vérfier que le cycle à était déplacer dans un QThread à part(movethead)
-        connect(this, &CScheduler::signalRunCycleMesure, m_cycleMeasureEnCours, &ICycle::slotRunCycle);//, Qt::DirectConnection);
-        connect(this, &CScheduler::signalPauseCycleMesure, m_cycleMeasureEnCours, &ICycle::slotPauseCycle);
-        connect(this, &CScheduler::signalUnPauseCycleMesure, m_cycleMeasureEnCours, &ICycle::slotUnPauseCycle); //en double avec play
-        connect(this, &CScheduler::signalStopCycleMesure, m_cycleMeasureEnCours, &ICycle::slotStopCycle);
-        connect(this, &CScheduler::signalGoToEndCycleMesure, m_cycleMeasureEnCours, &ICycle::slotGoToEndCycle);
-        connect(this, &CScheduler::signalGetReadyForPlayNextCycleMesure, m_cycleMeasureEnCours, &ICycle::slotGetReadyForPlayNextCycle);
-        connect(this, &CScheduler::signalGetReadyForPlayCycleMesure, m_cycleMeasureEnCours, &ICycle::slotGetReadyForPlayCycle);
-        connect(m_cycleMeasureEnCours, &ICycle::signalRunning, this, &CScheduler::slotCycleMesureIsRunning);
-        connect(m_cycleMeasureEnCours, &ICycle::signalStopped, this, &CScheduler::slotCycleMesureIsStopped);
-        connect(m_cycleMeasureEnCours, &ICycle::signalPaused, this, &CScheduler::slotCycleMesureIsPaused);
-        connect(m_cycleMeasureEnCours, &ICycle::signalReadyForPlayNextCycle, this, &CScheduler::slotPlayNextSequenceMeasure);
+        connect(this, &CScheduler::signalRunCycleMesure, m_cycleEnCours, &ICycle::slotRunCycle);//, Qt::DirectConnection);
+        connect(this, &CScheduler::signalPauseCycleMesure, m_cycleEnCours, &ICycle::slotPauseCycle);
+        connect(this, &CScheduler::signalUnPauseCycleMesure, m_cycleEnCours, &ICycle::slotUnPauseCycle); //en double avec play
+        connect(this, &CScheduler::signalStopCycleMesure, m_cycleEnCours, &ICycle::slotStopCycle);
+        connect(this, &CScheduler::signalGoToEndCycleMesure, m_cycleEnCours, &ICycle::slotGoToEndCycle);
+        connect(this, &CScheduler::signalGetReadyForPlayNextCycleMesure, m_cycleEnCours, &ICycle::slotGetReadyForPlayNextCycle);
+        connect(this, &CScheduler::signalGetReadyForPlayCycleMesure, m_cycleEnCours, &ICycle::slotGetReadyForPlayCycle);
+        connect(m_cycleEnCours, &ICycle::signalRunning, this, &CScheduler::slotCycleMesureIsRunning);
+        connect(m_cycleEnCours, &ICycle::signalStopped, this, &CScheduler::slotCycleMesureIsStopped);
+        connect(m_cycleEnCours, &ICycle::signalPaused, this, &CScheduler::slotCycleMesureIsPaused);
+        connect(m_cycleEnCours, &ICycle::signalReadyForPlayNextCycle, this, &CScheduler::slotPlayNextSequenceMeasure);
         disconnect(this, &CScheduler::signalGetReadyForPlayCycleMesure, this, &CScheduler::slotPlaySequenceMeasure);
-        connect(m_cycleMeasureEnCours, &ICycle::signalReadyForPlayCycle, this, &CScheduler::slotPlaySequenceMeasure);
+        connect(m_cycleEnCours, &ICycle::signalReadyForPlayCycle, this, &CScheduler::slotPlaySequenceMeasure);
     }
     else qCDebug(COTAUTOMATE_LOG) << "liste m_listSequenceCyclesMesures vide :" << m_listSequenceCyclesMeasures;
     qCDebug(COTAUTOMATE_LOG) << "FIN void CSequencer::setSequenceMesure()";
@@ -121,14 +114,37 @@ void CScheduler::playSequenceAutonome(){
 void CScheduler::slotRequestPlayNextSequenceMesure(){
     emit signalGetReadyForPlayNextCycleMesure();
 }
-void CScheduler::slotPlayNextSequenceMeasure(){
-    if(m_cycleMeasureEnCours){
-        if( (++m_itListSequenceCyclesMesures) == m_listSequenceCyclesMeasures.end()){
-            m_itListSequenceCyclesMesures = m_listSequenceCyclesMeasures.begin();
+ISequenceMaintenanceAuto* CScheduler::haveToPlaySequenceMaintenanceAuto(){
+    ISequenceMaintenanceAuto* returnedSeq = Q_NULLPTR;
+    foreach (ISequenceMaintenanceAuto* seq, m_listSequenceCyclesMaintenancesAuto) {
+        if(seq->haveToBeRun()){
+            returnedSeq = seq;
+            break;
         }
-        this->setSequenceMeasure();
-        emit signalRunCycleMesure();
     }
+    return returnedSeq;
+}
+
+void CScheduler::slotPlayNextSequenceMeasure(){
+    if(m_cycleEnCours){
+        this->disconnectCycle(m_cycleEnCours);
+    }
+    ISequenceMaintenanceAuto* seq = Q_NULLPTR;
+    if(seq = haveToPlaySequenceMaintenanceAuto()){
+        m_cycleEnCours = seq->getCycle();
+    }
+    else if( (++m_itListSequenceCyclesMesures) == m_listSequenceCyclesMeasures.end()){
+        m_itListSequenceCyclesMesures = m_listSequenceCyclesMeasures.begin();
+        m_cycleEnCours = (*m_itListSequenceCyclesMesures);
+    }
+    else{
+        m_cycleEnCours = (*m_itListSequenceCyclesMesures);
+    }
+    this->setSequenceMeasure();
+
+    CAutomate::getInstance()->setStateScheduler(CAutomate::CYCLE_STATE_RUN);
+    emit signalRunCycleMesure();
+
 }
 //Fin Play Next  cycle Mesure
 
@@ -137,10 +153,10 @@ void CScheduler::slotRequestStopSequenceMesure(){
    emit signalStopCycleMesure();
 }
 void CScheduler::slotCycleMesureIsStopped(){
-    if(m_cycleMeasureEnCours){
-        this->disconnectCycle(m_cycleMeasureEnCours);
+    if(m_cycleEnCours){
+        this->disconnectCycle(m_cycleEnCours);
     }
-    CAutomate::getInstance()->setStateCycleMesure(CAutomate::CYCLE_STATE_STOP);
+    CAutomate::getInstance()->setStateScheduler(CAutomate::CYCLE_STATE_STOP);
 }
 
 //Fin Stop cycle Mesure
@@ -163,14 +179,13 @@ void CScheduler::slotRequestPlaySequenceMesure(){
     emit signalGetReadyForPlayCycleMesure();
 }
 void CScheduler::slotPlaySequenceMeasure(){
-    qCDebug(COTAUTOMATE_LOG) << "CSequencer::slotPlaySequenceMesure()" << m_cycleMeasureEnCours;
-    if(!m_cycleMeasureEnCours || (m_cycleMeasureEnCours && !m_cycleMeasureEnCours->isRunning()))
+    qCDebug(COTAUTOMATE_LOG) << "CSequencer::slotPlaySequenceMesure()" << m_cycleEnCours;
+    if(!m_cycleEnCours || (m_cycleEnCours && !m_cycleEnCours->isRunning()))
     {
 
         m_itListSequenceCyclesMesures = m_listSequenceCyclesMeasures.begin();
-        this->setSequenceMeasure();
-        emit signalRunCycleMesure();
-        CAutomate::getInstance()->setStateCycleMesure(CAutomate::CYCLE_STATE_RUN);
+        this->slotPlayNextSequenceMeasure();
+
     }
     qCDebug(COTAUTOMATE_LOG) << "FIN CSequencer::slotPlaySequenceMesure()";
 
@@ -251,6 +266,11 @@ void CScheduler::addCycleMaintenance(ICycle* arg_cycle){
         m_listCyclesMaintenances.append(arg_cycle);
     }
 }
+void CScheduler::addCycleMaintenanceAuto(ISequenceMaintenanceAuto* arg_sequence){
+    if(arg_sequence){
+        m_listSequenceCyclesMaintenancesAuto.append(arg_sequence);
+    }
+}
 
 void CScheduler::replaceCycleMeasureAt(int arg_index, ICycle* arg_cycle){
     if(arg_cycle && arg_cycle->getType() != e_cycle_invalid && arg_index > 0 && arg_index < m_listSequenceCyclesMeasures.size()){
@@ -311,3 +331,46 @@ ICycle*  CScheduler::getCycleMeasureAt(int arg_index) const{
 ICycle*  CScheduler::getCycleAutonomeAt(int arg_index) const{
     return m_listSequenceCyclesAutonomes.value(arg_index, Q_NULLPTR);
 }
+
+
+//DEFINITION SEQUENCE MAINTENANCE
+ISequenceMaintenanceAuto::ISequenceMaintenanceAuto(const QVariantMap& arg_map,  QObject *parent):QObject(parent){
+    m_cycle = CAutomate::getInstance()->getCycle(arg_map.value("cycle_name").toString());
+}
+ICycle* ISequenceMaintenanceAuto::getCycle(){
+    return m_cycle;
+}
+CSequenceMaintenanceAutoEveryNCycles::CSequenceMaintenanceAutoEveryNCycles(const QVariantMap& arg_map,  QObject *parent):
+    ISequenceMaintenanceAuto(arg_map, parent){
+    m_nbCycle = CAutomate::getInstance()->getVariable(arg_map.value(QStringLiteral("nb_cycles")).toString());
+    m_cpt = 0;
+}
+
+bool CSequenceMaintenanceAutoEveryNCycles::haveToBeRun(){
+    bool bHaveToBeRun = false;
+    if(++m_cpt > m_nbCycle->toInt()){
+        m_cpt = 0;
+        bHaveToBeRun = true;
+    }
+
+    return bHaveToBeRun;
+}
+
+CSequenceMaintenanceAutoUnknow::CSequenceMaintenanceAutoUnknow(const QVariantMap& arg_map,  QObject *parent):
+    ISequenceMaintenanceAuto(arg_map,  parent){}
+bool CSequenceMaintenanceAutoUnknow::haveToBeRun(){  return false; }
+
+ISequenceMaintenanceAuto* CSequenceMaintenanceFactory::build(const QVariantMap& arg_map,  QObject *parent){
+    ISequenceMaintenanceAuto* sequence = Q_NULLPTR;
+    const QString type = arg_map.value(QStringLiteral("sequence_type")).toString();
+    if(type == QStringLiteral("n_cycles")){
+        sequence = new CSequenceMaintenanceAutoEveryNCycles(arg_map,parent);
+    }
+    else{
+        sequence = new CSequenceMaintenanceAutoUnknow(arg_map,parent);
+        qCDebug(COTAUTOMATE_LOG) << "Classe sequence INCONNUE :" << type;
+    }
+
+    return sequence;
+}
+//FIN SEQUENCE MAINTENANCE

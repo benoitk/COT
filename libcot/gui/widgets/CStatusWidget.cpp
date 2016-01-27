@@ -1,5 +1,7 @@
 #include "CStatusWidget.h"
 #include "ui_CStatusWidget.h"
+#include "CScheduler.h"
+
 #include <QDateTime>
 #include <QTimer>
 #include <qdebug.h>
@@ -53,7 +55,7 @@ void CStatusWidget::slotUpdateStateAutomate(CAutomate::eStateAutomate state)
     QString oldText = ui->lCycle->text();
     switch (state) {
     case CAutomate::RUNNING:
-        text = tr("CYCLE IN PROGRESS");
+        text = tr("CYCLE IN PROGRESS : ") + CScheduler::getInstance()->getCycleInProgressName() + "\n";
         break;
     case CAutomate::PAUSED:
         text = tr("PAUSED");

@@ -75,17 +75,14 @@ public:
 
     static QString formatHistoryEntry(const QString &name, const QDateTime &dateTime);
 
-    enum eStateCycle{CYCLE_STATE_RUN = 1, CYCLE_STATE_PAUSE = 2, CYCLE_STATE_STOP = 0};
+    enum eStateScheduler{CYCLE_STATE_RUN = 1, CYCLE_STATE_PAUSE = 2, CYCLE_STATE_STOP = 0};
     enum eStateAutomate{RUNNING,PAUSED, CALIBRATION, WAITING,STOPPED};
     enum eStateStream{STREAM_DEFAULT, WATER_DEFAULT, ACTIVE, INACTIVE};
     static CAutomate* getInstance();
 
-    void setStateCycleMesure(eStateCycle);
-    eStateCycle getStateCycleMesure();
-    void setStateCycleIO(eStateCycle);
-    eStateCycle getStateCycleIO();
-    void setStateCycleMaintenance(eStateCycle);
-    eStateCycle getStateCycleMaintenance();
+    void setStateScheduler(eStateScheduler);
+
+
     void setDisplayConf(CDisplayConf*);
 
     void addCycle(ICycle*);
@@ -154,7 +151,7 @@ signals:
 
     //desc : Etat changé : En court, en pause, en arrêt
     //entrées : enum de l'état du cycle en cours
-    void signalUpdateStateCycle(CAutomate::eStateCycle);
+    void signalUpdateStateScheduler(CAutomate::eStateScheduler);
     //desc : Etat changé : En défaut, en cycle, en maintenance
     //entrées : enum de l'état de l'automate
     void signalUpdateStateAutomate(CAutomate::eStateAutomate);
@@ -223,9 +220,7 @@ private:
     QList<IVariable*> m_listLoggedVarDebug;
     mutable QMutex m_mutex;
 
-    eStateCycle m_stateCycleMesure; //0 stoped, 1 run, 2 pause
-    eStateCycle m_stateCycleIO; //0 stoped, 1 run, 2 pause
-    eStateCycle m_stateCycleMaintenance; //0 stoped, 1 run, 2 pause
+    eStateScheduler m_stateScheduler;
     eStateAutomate m_stateAutomate;
 
     CScheduler* m_scheduler;

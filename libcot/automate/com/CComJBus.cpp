@@ -99,7 +99,6 @@ private:
             emit connected(true);
         }
         else{
-            // TODO: receive messages, reply to them
             m_jbus->runJBusReceiveReply();
         }
     }

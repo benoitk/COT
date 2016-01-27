@@ -96,7 +96,9 @@ void CActionTest::run(){
             << " label fr " << m_label
          ;
 
-
+    if(m_name == "action_control_water_ILS_default"){
+        m_name = "action_control_water_ILS_default";
+    }
     //envois de la consigne si la carte mesure attend une consigne
     if(m_setpoint->getOrganType() == e_type_organ_output){
         IVariableOutput* outputSetpoint = dynamic_cast<IVariableOutput*>(m_setpoint);
