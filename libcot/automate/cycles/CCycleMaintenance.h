@@ -19,6 +19,8 @@ public:
 
     QList<IVariable*>  getListVariablesInput();
     QList<IVariable*>  getListVariablesOutput();
+    QList<IVariable*>  getListVariablesDefault();
+    bool finishedWithErrors();
     void doValidationCopies();
 
 public slots:
@@ -27,6 +29,7 @@ public slots:
 private:
     QList<IVariable*> m_listVariablesInput;
     QList<IVariable*> m_listVariablesOutput;
+    QList<IVariable*> m_listVariablesDefault;
     QList<QPair<IVariable*, IVariable*>> m_listVariablesCopyOnValidation;
 
 

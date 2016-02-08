@@ -34,6 +34,13 @@ CActionDCEngine::~CActionDCEngine()
     }
 }
 
+void CActionDCEngine::abortAction(){
+    foreach(QTimer* timer, m_mapTimer){
+        timer->stop();
+    }
+    slotTimeout();
+}
+
 bool CActionDCEngine::runAction(ICycle* arg_stepParent){
     qCDebug(COTAUTOMATE_LOG)<< "Action commande pompe cc "
             << " label fr " << m_label

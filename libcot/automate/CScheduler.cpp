@@ -69,32 +69,36 @@ QString CScheduler::getCycleInProgressName(){
         return tr("No cycle");
 }
 
-void CScheduler::setSequenceMeasure(){
+void CScheduler::setSequence(bool isMaintenance){
     qCDebug(COTAUTOMATE_LOG) << "void CSequencer::setSequenceMesure()";
 
-    if( m_itListSequenceCyclesMesures != m_listSequenceCyclesMeasures.end()){
+    // if( m_itListSequenceCyclesMesures != m_listSequenceCyclesMeasures.end()){
 
-        if (!m_cycleEnCours) {
-            qCDebug(COTAUTOMATE_LOG) << "m_cycleMesureEnCours ptr null";
-            return;
-        }
-        qCDebug(COTAUTOMATE_LOG) << "Cycle : " << m_cycleEnCours->getName() << m_cycleEnCours->thread();
-        //Si les signaux ne fonctionne pas, vérfier que le cycle à était déplacer dans un QThread à part(movethead)
-        connect(this, &CScheduler::signalRunCycleMesure, m_cycleEnCours, &ICycle::slotRunCycle);//, Qt::DirectConnection);
-        connect(this, &CScheduler::signalPauseCycleMesure, m_cycleEnCours, &ICycle::slotPauseCycle);
-        connect(this, &CScheduler::signalUnPauseCycleMesure, m_cycleEnCours, &ICycle::slotUnPauseCycle); //en double avec play
-        connect(this, &CScheduler::signalStopCycleMesure, m_cycleEnCours, &ICycle::slotStopCycle);
-        connect(this, &CScheduler::signalGoToEndCycleMesure, m_cycleEnCours, &ICycle::slotGoToEndCycle);
-        connect(this, &CScheduler::signalGetReadyForPlayNextCycleMesure, m_cycleEnCours, &ICycle::slotGetReadyForPlayNextCycle);
-        connect(this, &CScheduler::signalGetReadyForPlayCycleMesure, m_cycleEnCours, &ICycle::slotGetReadyForPlayCycle);
-        connect(m_cycleEnCours, &ICycle::signalRunning, this, &CScheduler::slotCycleMesureIsRunning);
-        connect(m_cycleEnCours, &ICycle::signalStopped, this, &CScheduler::slotCycleMesureIsStopped);
-        connect(m_cycleEnCours, &ICycle::signalPaused, this, &CScheduler::slotCycleMesureIsPaused);
-        connect(m_cycleEnCours, &ICycle::signalReadyForPlayNextCycle, this, &CScheduler::slotPlayNextSequenceMeasure);
-        disconnect(this, &CScheduler::signalGetReadyForPlayCycleMesure, this, &CScheduler::slotPlaySequenceMeasure);
-        connect(m_cycleEnCours, &ICycle::signalReadyForPlayCycle, this, &CScheduler::slotPlaySequenceMeasure);
+    if (!m_cycleEnCours) {
+        qCDebug(COTAUTOMATE_LOG) << "m_cycleMesureEnCours ptr null";
+        return;
     }
-    else qCDebug(COTAUTOMATE_LOG) << "liste m_listSequenceCyclesMesures vide :" << m_listSequenceCyclesMeasures;
+    qCDebug(COTAUTOMATE_LOG) << "Cycle : " << m_cycleEnCours->getName() << m_cycleEnCours->thread();
+    //Si les signaux ne fonctionne pas, vérfier que le cycle à était déplacer dans un QThread à part(movethead)
+    connect(this, &CScheduler::signalRunCycle, m_cycleEnCours, &ICycle::slotRunCycle);//, Qt::DirectConnection);
+    connect(this, &CScheduler::signalPauseCycle, m_cycleEnCours, &ICycle::slotPauseCycle);
+    connect(this, &CScheduler::signalUnPauseCycle, m_cycleEnCours, &ICycle::slotUnPauseCycle); //en double avec play
+    connect(this, &CScheduler::signalStopCycle, m_cycleEnCours, &ICycle::slotStopCycle);
+    connect(this, &CScheduler::signalGoToEndCycleMesure, m_cycleEnCours, &ICycle::slotGoToEndCycle);
+    connect(this, &CScheduler::signalGetReadyForPlayNextCycleMesure, m_cycleEnCours, &ICycle::slotGetReadyForPlayNextCycle);
+    connect(this, &CScheduler::signalGetReadyForPlayCycleMesure, m_cycleEnCours, &ICycle::slotGetReadyForPlayCycle);
+    connect(m_cycleEnCours, &ICycle::signalRunning, this, &CScheduler::slotCycleMesureIsRunning);
+    connect(m_cycleEnCours, &ICycle::signalStopped, this, &CScheduler::slotCycleIsStopped);
+    connect(m_cycleEnCours, &ICycle::signalPaused, this, &CScheduler::slotCycleMesureIsPaused);
+
+    if(!isMaintenance)
+        connect(m_cycleEnCours, &ICycle::signalReadyForPlayNextCycle, this, &CScheduler::slotPlayNextSequenceMeasure);
+    else
+        connect(m_cycleEnCours, &ICycle::signalReadyForPlayNextCycle, this, &CScheduler::slotCycleIsStopped);
+    disconnect(this, &CScheduler::signalGetReadyForPlayCycleMesure, this, &CScheduler::slotPlaySequenceMeasure);
+
+    //}
+    //else qCDebug(COTAUTOMATE_LOG) << "liste m_listSequenceCyclesMesures vide :" << m_listSequenceCyclesMeasures;
     qCDebug(COTAUTOMATE_LOG) << "FIN void CSequencer::setSequenceMesure()";
 }
 void CScheduler::disconnectCycle(ICycle* cycle){
@@ -140,22 +144,23 @@ void CScheduler::slotPlayNextSequenceMeasure(){
     else{
         m_cycleEnCours = (*m_itListSequenceCyclesMesures);
     }
-    this->setSequenceMeasure();
+    this->setSequence();
 
     CAutomate::getInstance()->setStateScheduler(CAutomate::CYCLE_STATE_RUN);
-    emit signalRunCycleMesure();
+    emit signalRunCycle();
 
 }
 //Fin Play Next  cycle Mesure
 
 //Stop cycle Mesure
-void CScheduler::slotRequestStopSequenceMesure(){
-   emit signalStopCycleMesure();
+void CScheduler::slotRequestStopSequence(){
+   emit signalStopCycle();
 }
-void CScheduler::slotCycleMesureIsStopped(){
+void CScheduler::slotCycleIsStopped(){
     if(m_cycleEnCours){
         this->disconnectCycle(m_cycleEnCours);
     }
+    emit signalCycleIsStopped(m_cycleEnCours->getName());
     CAutomate::getInstance()->setStateScheduler(CAutomate::CYCLE_STATE_STOP);
 }
 
@@ -163,13 +168,13 @@ void CScheduler::slotCycleMesureIsStopped(){
 
 //Pasue cycle Mesure
 void CScheduler::slotRequestPauseSequenceMesure(){
-    emit signalPauseCycleMesure();
+    emit signalPauseCycle();
 }
 //Fin Pause cycle Mesure
 
 //Unpause  cycle Mesure
 void CScheduler::slotRequestUnPauseSequenceMesure(){
-    emit signalUnPauseCycleMesure();
+    emit signalUnPauseCycle();
 }
 //Fin Unpause cycle Mesure
 
@@ -330,6 +335,19 @@ ICycle*  CScheduler::getCycleMeasureAt(int arg_index) const{
 }
 ICycle*  CScheduler::getCycleAutonomeAt(int arg_index) const{
     return m_listSequenceCyclesAutonomes.value(arg_index, Q_NULLPTR);
+}
+
+void CScheduler::slotPlayMaintenance(const QString& arg_cycleName){
+    ICycle* cycle = CAutomate::getInstance()->getCycle(arg_cycleName);
+    if(m_cycleEnCours){
+        this->disconnectCycle(m_cycleEnCours);
+    }
+    if(cycle->getType() != e_cycle_invalid){
+        m_cycleEnCours = cycle;
+        setSequence(true);
+        CAutomate::getInstance()->setStateScheduler(CAutomate::CYCLE_STATE_RUN);
+        emit signalRunCycle();
+    }
 }
 
 

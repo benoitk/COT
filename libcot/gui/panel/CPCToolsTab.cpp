@@ -76,6 +76,7 @@ void CPCToolsTab::slotButtonClicked(CLabelledToolButton *button)
 {
     switch (button->type()) {
         case CToolButton::Maintenance:
+            CAutomate::getInstance()->requestStopScheduler();
             CPCWindow::openModal<CMaintenanceWindow>();
             break;
 

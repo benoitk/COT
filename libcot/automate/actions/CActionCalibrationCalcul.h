@@ -25,6 +25,8 @@ private:
     IVariable* m_standardValue;
     IVariable* m_coefCalibration;
     IVariable* m_coefCalibrationNew;
+    IVariable* m_default;
+    IVariable* m_marginDefault;
     IVariable* m_co2g;
     IVariable* m_vesselVolume;
 };

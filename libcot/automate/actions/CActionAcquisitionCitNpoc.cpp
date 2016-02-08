@@ -21,6 +21,7 @@ CActionAcquisitionCitNpoc::CActionAcquisitionCitNpoc(const QVariantMap &mapActio
     m_coef4 = automate->getVariable(mapAction[QStringLiteral("coef_4")].toString());
     m_coef5 = automate->getVariable(mapAction[QStringLiteral("coef_5")].toString());
     m_coefCorrection = automate->getVariable(mapAction[QStringLiteral("coef_correction")].toString());
+    m_coefCourbe = automate->getVariable(mapAction[QStringLiteral("coef_courbe")].toString());
     m_Offset = automate->getVariable(mapAction[QStringLiteral("offset")].toString());
     m_CstConversion = automate->getVariable(mapAction[QStringLiteral("co2_ppmv_to_co2_gm3_cst")].toString());
     m_zero = automate->getVariable(mapAction[QStringLiteral("zero_point")].toString());
@@ -62,6 +63,7 @@ QVariantMap CActionAcquisitionCitNpoc::serialize(){
     mapSerialize.insert(QStringLiteral("coef_4"), m_coef4->getName());
     mapSerialize.insert(QStringLiteral("coef_5"), m_coef5->getName());
     mapSerialize.insert(QStringLiteral("coef_correction"), m_coefCorrection->getName());
+    mapSerialize.insert(QStringLiteral("coef_courbe"), m_coefCourbe->getName());
     mapSerialize.insert(QStringLiteral("offset"), m_Offset->getName());
     mapSerialize.insert(QStringLiteral("co2_ppmv_to_co2_gm3_cst"), m_CstConversion->getName());
     mapSerialize.insert(QStringLiteral("co2g"), m_co2g->getName());
@@ -127,6 +129,7 @@ void CActionAcquisitionCitNpoc::run(){
 //        m_zero->setValue(zero);
 
         const float zero = m_zero->toFloat();
+        const float coefCourbe = m_coefCourbe->toFloat();
 
         for(int i = 0; i < m_timeout->toInt() && !m_abort; ++i){
 
@@ -137,11 +140,11 @@ void CActionAcquisitionCitNpoc::run(){
             if(mesure != 0){
                 x = log10(zero/mesure);
                 varLogZeroMesure->setValue(x);
-                co2ppmv = m_coef1->toFloat() * pow(x, 5)
-                        + m_coef2->toFloat() * pow(x, 4)
-                        + m_coef3->toFloat() * pow(x,3)
-                        + m_coef4->toFloat() * pow(x,2)
-                        + m_coef5->toFloat() * x
+                co2ppmv = m_coef1->toFloat() * pow(x, 5) *coefCourbe
+                        + m_coef2->toFloat() * pow(x, 4) *coefCourbe
+                        + m_coef3->toFloat() * pow(x,3) *coefCourbe
+                        + m_coef4->toFloat() * pow(x,2) *coefCourbe
+                        + m_coef5->toFloat() * x *coefCourbe
                         + m_Offset->toFloat();
                 varCo2ppmv->setValue(co2ppmv);
                 co2g += (co2ppmv * m_CstConversion->toFloat()) * ((airflow*0.001)/60000);

@@ -21,10 +21,11 @@ public:
 
     void setTitle(const QString &title);
     void setMainWidget(QWidget *widget);
+    void setDisabledValidationButton(bool arg_disabled);
 
 public slots:
     void slotUpdateLayout(QList<IVariable*> arg_listIVariable);
-    void slotUpdateError(const QString& arg_error);
+    void setErrors(QList<IVariable*> arg_listIVariable);
 
 protected:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;

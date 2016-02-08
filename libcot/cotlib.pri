@@ -234,7 +234,8 @@ HEADERS *= \
     $$PWD/automate/actions/CActionSum.h \
     $$PWD/automate/actions/CActionFindClosestFromReference.h \
     $$PWD/automate/actions/CActionFindBiggerValue.h \
-    $$PWD/gui/tools/electrical-tests/CElectricalTestsSolenoidsTab.h
+    $$PWD/gui/tools/electrical-tests/CElectricalTestsSolenoidsTab.h \
+    $$PWD/automate/commands/ICommand.h
 
 SOURCES *= \
     $$PWD/automate/CAutomate.cpp \
@@ -423,7 +424,8 @@ SOURCES *= \
     $$PWD/automate/actions/CActionSum.cpp \
     $$PWD/automate/actions/CActionFindClosestFromReference.cpp \
     $$PWD/automate/actions/CActionFindBiggerValue.cpp \
-    $$PWD/gui/tools/electrical-tests/CElectricalTestsSolenoidsTab.cpp
+    $$PWD/gui/tools/electrical-tests/CElectricalTestsSolenoidsTab.cpp \
+    $$PWD/automate/commands/ICommand.cpp
 
 DISTFILES +=
 

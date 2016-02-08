@@ -293,9 +293,11 @@ void IVariableUIHandler::layout(const QList<IVariable *> &variables, bool addDel
     m_scrollable->setScrollablePagerWidget(m_container);
 
     m_container->ensurePolished();
+    m_container->repaint();
     m_scrollable->ensurePolished();
     m_scrollable->viewport()->ensurePolished();
     m_scrollable->verticalScrollBar()->setValue(vscroll);
+
 }
 
 CScrollableWidget *IVariableUIHandler::getScrollableWidget() const

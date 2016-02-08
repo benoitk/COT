@@ -14,6 +14,8 @@ CActionCalibrationCalcul::CActionCalibrationCalcul(const QVariantMap &mapAction,
     m_standardValue = automate->getVariable(mapAction[QStringLiteral("standard_value")].toString());
     m_coefCalibration = automate->getVariable(mapAction[QStringLiteral("coef_calibration")].toString());
     m_coefCalibrationNew = automate->getVariable(mapAction[QStringLiteral("new_coef_calibration")].toString());
+    m_default= automate->getVariable(mapAction[QStringLiteral("default")].toString());
+    m_marginDefault = automate->getVariable(mapAction[QStringLiteral("margin_default")].toString());
     m_co2g= automate->getVariable(mapAction[QStringLiteral("co2g")].toString());
     m_vesselVolume= automate->getVariable(mapAction[QStringLiteral("vessel_volume")].toString());
 }
@@ -28,9 +30,12 @@ QVariantMap CActionCalibrationCalcul::serialize(){
     mapSerialize.insert(QStringLiteral("standard_value"), m_standardValue->getName());
     mapSerialize.insert(QStringLiteral("coef_calibration"), m_coefCalibration->getName());
     mapSerialize.insert(QStringLiteral("new_coef_calibration"), m_coefCalibrationNew->getName());
+    mapSerialize.insert(QStringLiteral("default"), m_default->getName());
+    mapSerialize.insert(QStringLiteral("margin_default"), m_marginDefault->getName());
     mapSerialize.insert(QStringLiteral("co2g"), m_co2g->getName());
     mapSerialize.insert(QStringLiteral("vessel_volume"), m_vesselVolume->getName());
     mapSerialize.insert(QStringLiteral("type"), QStringLiteral("calibration_calcul"));
+
     return mapSerialize;
 }
 
@@ -45,7 +50,12 @@ bool CActionCalibrationCalcul::runAction(ICycle* arg_stepParent){
 
     //Calcul calibration inverse
     m_coefCalibrationNew->setValue( (m_standardValue->toFloat() * m_coefCalibration->toFloat() ) / m_measure->toFloat() );
-
+    float marginHight = m_coefCalibration->toFloat() * (1 + m_marginDefault->toFloat()/100);
+    float marginLow = m_coefCalibration->toFloat() * m_marginDefault->toFloat() /100;
+    if(m_coefCalibrationNew->toFloat() < marginLow || m_coefCalibrationNew->toFloat() > marginHight)
+        m_default->setValue(true);
+    else
+        m_default->setValue(false);
     return true;
 }
 

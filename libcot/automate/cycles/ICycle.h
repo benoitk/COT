@@ -82,10 +82,10 @@ public slots:
     void slotCancelEditing();
 
 signals:
-    void signalStopped();
+    void signalStopped(ICycle*);
     void signalPaused();
     void signalRunning();
-    void signalReadyForPlayNextCycle();
+    void signalReadyForPlayNextCycle(ICycle*);
     void signalReadyForPlayCycle();
 protected:
 

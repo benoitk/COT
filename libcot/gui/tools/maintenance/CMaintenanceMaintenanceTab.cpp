@@ -9,6 +9,7 @@
 #include "qlayout.h"
 #include "StyleRepository.h"
 #include "CDialogMaintenance.h"
+#include "CScheduler.h"
 
 CMaintenanceMaintenanceTab::CMaintenanceMaintenanceTab(QWidget *parent)
     : IMaintenanceTab(parent), m_cyclesLayout(Q_NULLPTR), m_cycleContainerWidget(Q_NULLPTR), m_dialog(Q_NULLPTR)
@@ -17,9 +18,9 @@ CMaintenanceMaintenanceTab::CMaintenanceMaintenanceTab(QWidget *parent)
 
     QHBoxLayout* mainLayout = new QHBoxLayout(this);
     QVBoxLayout* leftLayout = new QVBoxLayout;
-    CVerticalButtonBar* vbbButtons = new CVerticalButtonBar(this);
+    m_vbbButtons = new CVerticalButtonBar(this);
     mainLayout->addLayout(leftLayout);
-    mainLayout->addWidget(vbbButtons);
+    mainLayout->addWidget(m_vbbButtons);
 
     m_cycleContainerWidget = new QWidget(this);
     slotUpdateLayout();
@@ -33,8 +34,13 @@ CMaintenanceMaintenanceTab::CMaintenanceMaintenanceTab(QWidget *parent)
 
     connect(automate, &CAutomate::signalCyclesUpdated, this, &CMaintenanceMaintenanceTab::slotUpdateLayout);
     connect(automate, &CAutomate::signalCurrentMaintenanceCycleChanged, this, &CMaintenanceMaintenanceTab::slotCurrentMaintenanceCycleChanged);
-    connect(vbbButtons->addAction(CToolButton::Stop), &QAction::triggered, this, &CMaintenanceMaintenanceTab::signalStopCycle);
-    connect(vbbButtons->addAction(CToolButton::Back), &QAction::triggered, this, &IMaintenanceTab::backTriggered);
+    connect(m_vbbButtons->addAction(CToolButton::Stop), &QAction::triggered, this, &CMaintenanceMaintenanceTab::signalStopCycle);
+    connect(m_vbbButtons->addAction(CToolButton::Back), &QAction::triggered, this, &IMaintenanceTab::backTriggered);
+
+    connect(this, &CMaintenanceMaintenanceTab::signalStopCycle, CScheduler::getInstance(), &CScheduler::slotRequestStopSequence);
+    connect(CScheduler::getInstance(), &CScheduler::signalCycleIsStopped, this, &CMaintenanceMaintenanceTab::slotCycleStopped);
+
+    m_vbbButtons->button(CToolButton::Stop)->setEnabled(false);
 }
 
 CMaintenanceMaintenanceTab::~CMaintenanceMaintenanceTab()
@@ -61,7 +67,7 @@ void CMaintenanceMaintenanceTab::slotUpdateLayout()
         buttonPlay->setCheckable(true);
         buttonPlay->setUserData(cycle->getName());
         connect(buttonPlay, &CToolButton::clicked, this, &CMaintenanceMaintenanceTab::slotPlayPressed);
-
+        connect(this, &CMaintenanceMaintenanceTab::signalRunCycle, CScheduler::getInstance(), &CScheduler::slotPlayMaintenance);
         row->addWidget(buttonPlay);
 
         row->addSpacing(200);
@@ -73,22 +79,15 @@ void CMaintenanceMaintenanceTab::slotUpdateLayout()
 
 void CMaintenanceMaintenanceTab::slotPlayPressed(){
     bool bRunCycle = true;
-    const CToolButton *button = qobject_cast<CToolButton *>(sender());
-    foreach(CToolButton* bt, m_listButtonsPlay){
-        if(bt != button){
-            bt->setEnabled(false);
-        }else{
-            bt->setChecked(true);
-        }
-    }
 
+    CToolButton *button = qobject_cast<CToolButton *>(sender());
     const QString cycleName = button->userData().toString();
     CAutomate *automate = CAutomate::getInstance();
     ICycle *cycle = automate->getCycle(cycleName); //ne pas spécifier le type dans getCycle, au cas ou on une maintenance est à faire avec un cycle normale
 
     if(!cycle->isRunning()){
         if(cycle->getType() == e_cycle_maintenance){
-            if(!m_dialog) m_dialog = new CDialogMaintenance(this);
+            resetDialog();
             CCycleMaintenance* cycleMaintenance = dynamic_cast<CCycleMaintenance*>(cycle);
             if(cycleMaintenance->getListVariablesInput().count() > 0){
                 m_dialog->slotUpdateLayout(cycleMaintenance->getListVariablesInput());
@@ -96,27 +95,47 @@ void CMaintenanceMaintenanceTab::slotPlayPressed(){
                 bRunCycle = m_dialog->exec();
             }
         }
-        connect(cycle, &ICycle::signalStopped, this, &CMaintenanceMaintenanceTab::slotCycleStopped);
-        connect(cycle, &ICycle::signalReadyForPlayNextCycle, this, &CMaintenanceMaintenanceTab::slotCycleStopped);
-        connect(this, &CMaintenanceMaintenanceTab::signalStopCycle, cycle, &ICycle::slotStopCycle);
-        connect(this, &CMaintenanceMaintenanceTab::signalRunCycle, cycle, &ICycle::slotRunCycle);
-        if(bRunCycle) emit signalRunCycle();
+        if(bRunCycle) {
+            foreach(CToolButton* bt, m_listButtonsPlay){
+                if(bt != button){
+                    bt->setEnabled(false);
+                }else{
+                    bt->setChecked(true);
+                }
+            }
+            m_vbbButtons->button(CToolButton::Back)->setEnabled(false);
+            m_vbbButtons->button(CToolButton::Stop)->setEnabled(true);
+            emit signalRunCycle(cycleName);
+        }
+        else
+            button->setChecked(false);
     }
 
 }
+CDialogMaintenance* CMaintenanceMaintenanceTab::resetDialog(){
+    if(!m_dialog) m_dialog = new CDialogMaintenance(this);
+    m_dialog->setDisabledValidationButton(false);
+    m_dialog->setErrors(QList<IVariable*>());
+}
 
-void CMaintenanceMaintenanceTab::slotCycleStopped(){
-    //TODO virer toutes les méthodes sender(). Les remplacer par des ID
-    ICycle *cycle = qobject_cast<ICycle*>(sender());
+void CMaintenanceMaintenanceTab::slotCycleStopped(const QString& arg_cycleName){
+    ICycle * cycle = CAutomate::getInstance()->getCycle(arg_cycleName);
     disconnect(cycle, 0, this, 0);
     disconnect(this, 0, cycle, 0);
 
     if(cycle->getType() == e_cycle_maintenance){
-        if(!m_dialog) m_dialog = new CDialogMaintenance(this);
+        resetDialog();
         CCycleMaintenance* cycleMaintenance = dynamic_cast<CCycleMaintenance*>(cycle);
         if(cycleMaintenance->getListVariablesOutput().count() > 0){
             m_dialog->slotUpdateLayout(cycleMaintenance->getListVariablesOutput());
             m_dialog->setTitle(tr("End of calibration (") + cycle->getLabel() + ")");
+            if(cycleMaintenance->finishedWithErrors()){
+                m_dialog->setErrors(cycleMaintenance->getListVariablesDefault());
+                m_dialog->setDisabledValidationButton(true);
+            }
+            else
+                m_dialog->setDisabledValidationButton(false);
+
             if(m_dialog->exec()) cycleMaintenance->doValidationCopies();
         }
 
@@ -125,6 +144,8 @@ void CMaintenanceMaintenanceTab::slotCycleStopped(){
         bt->setEnabled(true);
         bt->setChecked(false);
     }
+    m_vbbButtons->button(CToolButton::Back)->setEnabled(true);
+    m_vbbButtons->button(CToolButton::Stop)->setEnabled(false);
 }
 
 void CMaintenanceMaintenanceTab::slotStopCycle(){

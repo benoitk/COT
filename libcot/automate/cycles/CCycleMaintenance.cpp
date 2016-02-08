@@ -22,6 +22,12 @@ CCycleMaintenance::CCycleMaintenance(const QVariantMap& mapCycle,QObject *parent
             m_listVariablesOutput.append(CAutomate::getInstance()->getVariable(var.toString()));
         }
     }
+    if(mapCycle.contains(QStringLiteral("variables_default"))){
+        const QVariantList listVariablesDefault = mapCycle[QStringLiteral("variables_default")].toList();
+        foreach(const QVariant &var, listVariablesDefault){
+            m_listVariablesDefault.append(CAutomate::getInstance()->getVariable(var.toString()));
+        }
+    }
 
     if(mapCycle.contains(QStringLiteral("variables_copy_on_validation"))){
         const QVariantList listVariables = mapCycle[QStringLiteral("variables_copy_on_validation")].toList();
@@ -34,6 +40,17 @@ CCycleMaintenance::CCycleMaintenance(const QVariantMap& mapCycle,QObject *parent
         }
     }
 
+}
+
+bool CCycleMaintenance::finishedWithErrors(){
+    bool bDefault = false;
+    foreach (IVariable* var, m_listVariablesDefault) {
+        if(var->toBool()==true){
+            bDefault = true;
+            break;
+        }
+    }
+    return bDefault;
 }
 
 CCycleMaintenance::CCycleMaintenance(enumTypeCycle typeCycle, QObject* parent): CCycleMesure(parent) {
@@ -61,6 +78,12 @@ QVariantMap CCycleMaintenance::serialize(){
     }
     mapSerialise.insert(QStringLiteral("variables_output"), listOutputVar);
 
+    QStringList listDefaultVar;
+    foreach(IVariable* var, m_listVariablesDefault){
+        listDefaultVar.append(var->getName());
+    }
+    mapSerialise.insert(QStringLiteral("variables_default"), listDefaultVar);
+
     QVariantList listMapVarCopyOnValidations;
     for(int i=0; i<m_listVariablesCopyOnValidation.count(); ++i){
         QPair<IVariable*, IVariable*> pair = m_listVariablesCopyOnValidation.at(i);
@@ -84,6 +107,10 @@ QList<IVariable*>  CCycleMaintenance::getListVariablesInput(){
 
 QList<IVariable*>  CCycleMaintenance::getListVariablesOutput(){
     return m_listVariablesOutput;
+}
+
+QList<IVariable*>  CCycleMaintenance::getListVariablesDefault(){
+    return m_listVariablesDefault;
 }
 
 void CCycleMaintenance::doValidationCopies(){

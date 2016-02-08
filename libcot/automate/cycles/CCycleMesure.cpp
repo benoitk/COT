@@ -135,12 +135,12 @@ void CCycleMesure::slotStopCycle(){
 
     qCDebug(COTAUTOMATE_LOG) << "Fin slotStopCycle";
     lock.unlock();
-    emit signalStopped();
+    emit signalStopped(this);
 }
 
 void CCycleMesure::slotGetReadyForPlayNextCycle(){
     abortCycle();
-    emit signalReadyForPlayNextCycle();
+    emit signalReadyForPlayNextCycle(this);
 }
 
 

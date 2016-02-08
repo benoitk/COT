@@ -46,6 +46,7 @@ private:
     IVariable* m_coef4;
     IVariable* m_coef5;
     IVariable* m_coefCorrection;
+    IVariable* m_coefCourbe;
     IVariable* m_Offset;
     IVariable* m_CstConversion;
     IVariable* m_derivativeIntervalTx;

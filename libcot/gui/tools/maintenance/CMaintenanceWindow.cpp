@@ -17,7 +17,8 @@ CMaintenanceWindow::CMaintenanceWindow(QWidget *parent)
 
 CMaintenanceWindow::~CMaintenanceWindow()
 {
-
+    int test = 4;
+    test ++;
 }
 
 void CMaintenanceWindow::backTriggered()

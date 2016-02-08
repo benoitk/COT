@@ -53,7 +53,7 @@ public:
 public slots:
     void slotRequestPlaySequenceMesure(); //démarre ou redémarre
     void slotRequestPlayNextSequenceMesure();
-    void slotRequestStopSequenceMesure();
+    void slotRequestStopSequence();
     void slotRequestPauseSequenceMesure();
     void slotRequestUnPauseSequenceMesure();
 
@@ -63,21 +63,19 @@ public slots:
     void slotPlayNextSequenceAutonome();
 
     void slotCycleMesureIsRunning();
-    void slotCycleMesureIsStopped();
+    void slotCycleIsStopped();
     void slotCycleMesureIsPaused();
+
+    void slotPlayMaintenance(const QString& arg_cycleName);
 
     void slotStartAllCyleAutonome();
 
 signals:
     void signalUpdated();
-    void signalRunCycleMesure();
-    void signalPauseCycleMesure();
-    void signalUnPauseCycleMesure();
-    void signalStopCycleMesure();
-    void signalRunCycleMaintenance();
-    void signalPauseCycleMaintenance();
-    void signalUnPauseCycleMaintenance();
-    void signalStopCycleMaintenance();
+    void signalRunCycle();
+    void signalPauseCycle();
+    void signalUnPauseCycle();
+    void signalStopCycle();
     void signalRunCycleAutonome();
     void signalPauseCycleAutonome();
     void signalUnPauseCycleAutonome();
@@ -85,6 +83,7 @@ signals:
     void signalGoToEndCycleMesure();
     void signalGetReadyForPlayNextCycleMesure();
     void signalGetReadyForPlayCycleMesure();
+    void signalCycleIsStopped(const QString&);
 
 
 private:
@@ -92,7 +91,7 @@ private:
     ~CScheduler();
 
     void disconnectCycle(ICycle*);
-    void setSequenceMeasure();
+    void setSequence(bool isMaintenance=false);
 
     ISequenceMaintenanceAuto* haveToPlaySequenceMaintenanceAuto();
     void playMaintenance(int id_cycle);

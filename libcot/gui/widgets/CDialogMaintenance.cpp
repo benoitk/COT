@@ -14,7 +14,7 @@ CDialogMaintenance::CDialogMaintenance(QWidget *parent)
     : QDialog(parent)
 {
     setAttribute(Qt::WA_TranslucentBackground, true);
-
+    setMinimumWidth(500);
     m_tabWidget = new QTabWidget(this);
     QWidget *page = new QWidget(m_tabWidget);
     m_tabWidget->addTab(page, QString(QStringLiteral("no_label")) /* let's hope setTitle will be called! */);
@@ -32,6 +32,7 @@ CDialogMaintenance::CDialogMaintenance(QWidget *parent)
 
     QVBoxLayout* leftLayout  =new QVBoxLayout;
     m_errorLabel = new QLabel(page);
+    m_errorLabel->setStyleSheet("QLabel { color : red; }");
     m_calibValueHandler = new IVariableUIHandler(swWidget, page);
     leftLayout->addWidget(swWidget);
     leftLayout->addWidget(m_errorLabel);
@@ -39,20 +40,32 @@ CDialogMaintenance::CDialogMaintenance(QWidget *parent)
     QHBoxLayout * pageLayout = new QHBoxLayout(page);
     pageLayout->addLayout(leftLayout);
     pageLayout->addWidget(m_buttonBar);
+
+
 }
 
 void CDialogMaintenance::slotUpdateLayout(QList<IVariable*> arg_listIVariables)
 {
     m_calibValueHandler->layout(arg_listIVariables);
+
     repaint();
+}
+void CDialogMaintenance::setDisabledValidationButton(bool arg_disabled){
+    m_buttonBar->button(CToolButton::Ok)->setDisabled(arg_disabled);
 }
 
 void CDialogMaintenance::setTitle(const QString &title)
 {
     m_tabWidget->setTabText(0, title);
 }
-void CDialogMaintenance::slotUpdateError(const QString& arg_error){
-    m_errorLabel->setText(arg_error);
+void CDialogMaintenance::setErrors(QList<IVariable*> arg_listIVariable){
+    QString sErrors;
+    foreach (IVariable* var, arg_listIVariable) {
+        if(var->toBool() == true)
+            sErrors += var->getLabel() + "  ";
+    }
+    m_errorLabel->setText(sErrors);
+
 }
 
 

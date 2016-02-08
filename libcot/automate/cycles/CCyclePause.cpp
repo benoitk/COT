@@ -68,7 +68,7 @@ void CCyclePause::slotExecNextStep(){
     }
     else{
         m_timer->stop();
-        emit signalReadyForPlayNextCycle();
+        emit signalReadyForPlayNextCycle(this);
     }
 
 }

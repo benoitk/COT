@@ -508,7 +508,7 @@ void CAutomate::requestStopScheduler(){
 
 void CAutomate::stopScheduler(){
 
-        m_scheduler->slotRequestStopSequenceMesure();
+        m_scheduler->slotRequestStopSequence();
 }
 void CAutomate::playNextSequenceMesure(){
     if(m_mapAlarmWhichStoppedScheduler.isEmpty() && !m_schedulerStoppedFromIHM)
