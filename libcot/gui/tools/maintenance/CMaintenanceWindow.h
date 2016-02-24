@@ -12,10 +12,12 @@ class IMaintenanceTab;
 class CMaintenanceWindow : public QWidget
 {
     Q_OBJECT
-public:
-    explicit CMaintenanceWindow(QWidget *parent = Q_NULLPTR);
+public :
+    static CMaintenanceWindow* getInstance();
+private:
+    explicit CMaintenanceWindow();
     ~CMaintenanceWindow();
-
+    static CMaintenanceWindow* singleton;
 public slots:
     void retranslate();
 

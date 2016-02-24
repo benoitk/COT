@@ -57,6 +57,9 @@ void CStatusWidget::slotUpdateStateAutomate(CAutomate::eStateAutomate state)
     case CAutomate::RUNNING:
         text = tr("CYCLE IN PROGRESS : ") + CScheduler::getInstance()->getCycleInProgressName() + "\n";
         break;
+    case CAutomate::RUNNING_WILL_STOP_END_CYCLE:
+        text = tr("STOP END CYCLE : ") + CScheduler::getInstance()->getCycleInProgressName() + "\n";
+        break;
     case CAutomate::PAUSED:
         text = tr("PAUSED");
         break;

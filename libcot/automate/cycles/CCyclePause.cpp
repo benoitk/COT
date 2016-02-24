@@ -15,7 +15,7 @@ CCyclePause::CCyclePause(const QVariantMap &mapCycle, QObject* parent)
     : ICycle(mapCycle, parent)
 {
     m_fTempsCycle = mapCycle[QStringLiteral("timer")].toInt();
-
+    m_isRunning = false;
     initTimer();
     qDebug() << "moveThread CCyclePause";
     this->moveToThread(&m_thread);
@@ -59,6 +59,7 @@ void CCyclePause::slotRunCycle(){
     emit CAutomate::getInstance()->signalUpdateCountStep(m_fTempsCycle);
     updateCycleInfosStep(0, tr("En pause"));
 
+    m_isRunning = true;
     m_timer->start();
 }
 void CCyclePause::slotExecNextStep(){
@@ -81,10 +82,16 @@ void CCyclePause::slotUnPauseCycle(){
 }
 void CCyclePause::slotStopCycle(){
     m_timer->stop();
+    m_isRunning = false;
+    emit signalStopped(this);
 }
 
 void CCyclePause::slotStopEndCycle() {}
 void CCyclePause::slotGoToEndCycle() {}
 void CCyclePause::slotGoToStepCycle(int) {}
-void CCyclePause::slotGetReadyForPlayNextCycle()  {}
+void CCyclePause::slotGetReadyForPlayNextCycle()  {
+    m_timer->stop();
+    m_isRunning = false;
+    emit signalReadyForPlayNextCycle(this);
+}
 void CCyclePause::slotGetReadyForPlayCycle()  {}

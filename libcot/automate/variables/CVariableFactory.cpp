@@ -15,6 +15,7 @@
 #include "CVariableOutputListVariables.h"
 #include "CVariableMutable.h"
 #include "CVariableAlarm.h"
+#include "CVariableCurve.h"
 #include "cotautomate_debug.h"
 
 #include <QVariant>
@@ -51,6 +52,8 @@ IVariable* CVariableFactory::build(const QVariantMap &mapVar){
         variable = new CVariableOutputFloat(mapVar);
     }else if(type == QStringLiteral("alarm")){
         variable = new CVariableAlarm(mapVar);
+    }else if(type == QStringLiteral("curve")){
+        variable = new CVariableCurve(mapVar);
     }else if(type == QStringLiteral("output_list_variables")){
         variable = new CVariableUnknow(mapVar);
     }else{

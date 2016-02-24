@@ -18,8 +18,6 @@ CMaintenanceDiagnosticTab::CMaintenanceDiagnosticTab(QWidget *parent)
     connect(CAutomate::getInstance(), &CAutomate::signalDisplayUpdated,
             this, &CMaintenanceDiagnosticTab::slotUpdateLayout);
 
-    connect(ui->vbbButtons->addAction(CToolButton::Back), &QAction::triggered,
-            this, &IMaintenanceTab::backTriggered);
 }
 
 CMaintenanceDiagnosticTab::~CMaintenanceDiagnosticTab()

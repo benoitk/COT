@@ -15,6 +15,7 @@ enum actionType{
     type_cmd_read_input,
     type_test,
     type_acquisition_cit_npoc,
+    type_slope,
     type_action_unknow
 
 };

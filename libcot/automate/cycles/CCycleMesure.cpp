@@ -75,6 +75,7 @@ void CCycleMesure::slotStepFinished(CStep* arg_step){
 }
 
 void CCycleMesure::slotExecNextStep(){
+    qDebug() << "void CCycleMesure::slotExecNextStep(){";
     QMutexLocker lock(&m_mutex);
     if(m_itListStepsPasEnCours != m_listSteps.end()){
         qCDebug(COTAUTOMATE_LOG) << "CCycleMesure slotExecNextStep. Setp : " << (*m_itListStepsPasEnCours)->getLabel() << " step : " << (*m_itListStepsPasEnCours)->getNumStep();

@@ -1,16 +1,16 @@
-#ifndef CACTIONACQUISITIONCITNPOC_H
-#define CACTIONACQUISITIONCITNPOC_H
+#ifndef CACTIONLINEARISATION_H
+#define CACTIONLINEARISATION_H
 
 #include <QObject>
 #include "IAction.h"
 #include "qrunnable.h"
 
 class CVariableBool;
-class CActionAcquisitionCitNpoc : public IAction, QRunnable
+class CActionLinearisation : public IAction, QRunnable
 {
-    Q_OBJECT
+       Q_OBJECT
 public:
-    CActionAcquisitionCitNpoc(const QVariantMap&, QObject *parent);
+    CActionLinearisation(const QVariantMap&, QObject *parent);
 
 
     void run() Q_DECL_OVERRIDE; //fom QRunnable
@@ -34,12 +34,11 @@ public:
 
 private:
 
-    IVariable* m_measureCell;
-    IVariable* m_co2g;
-    IVariable* m_result;
+
+
+
     IVariable* m_zero;
-    IVariable* m_airflow;
-    IVariable* m_vesselVolume;
+
     IVariable* m_coef1;
     IVariable* m_coef2;
     IVariable* m_coef3;
@@ -48,14 +47,13 @@ private:
     IVariable* m_coefCorrection;
     IVariable* m_coefCourbe;
     IVariable* m_Offset;
-    IVariable* m_CstConversion;
-    IVariable* m_derivativeIntervalTx;
-    IVariable* m_derivativeThresold;
-    IVariable* m_linearisationCurve;
 
-    IVariable* m_timeout;
+
+
+
+
     CVariableBool* m_derivativeCalcul;
     bool m_waitUntilFinished;
 };
 
-#endif // CACTIONACQUISITIONCITNPOC_H
+#endif // CACTIONLINEARISATION_H

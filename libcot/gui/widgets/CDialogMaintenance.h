@@ -12,6 +12,7 @@ class IVariable;
 /**
  * @brief This is the base class for dialogs.
  * Use CPCWindow::openModal or openExec to show it.
+ * TODO : A changer l'utilisation de openModal et openExec pour éviter de créer/détruire toujours exactement les mêmes objets.
  */
 class LIBCOT_EXPORT CDialogMaintenance : public QDialog
 {

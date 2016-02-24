@@ -13,6 +13,8 @@ class CScheduler : public QObject
 
 public:
 
+    bool isCyclesRunning();
+
     //API
     QList<ICycle*> getListSequenceCyclesMesures();
     void setListSequenceCyclesMesures(QList<ICycle*>, bool = false );
@@ -54,6 +56,8 @@ public slots:
     void slotRequestPlaySequenceMesure(); //démarre ou redémarre
     void slotRequestPlayNextSequenceMesure();
     void slotRequestStopSequence();
+    void slotRequestStopEndCycleSequence();
+    void slotRequestCancelStopSequenceEndCycle();
     void slotRequestPauseSequenceMesure();
     void slotRequestUnPauseSequenceMesure();
 
@@ -91,6 +95,7 @@ private:
     ~CScheduler();
 
     void disconnectCycle(ICycle*);
+
     void setSequence(bool isMaintenance=false);
 
     ISequenceMaintenanceAuto* haveToPlaySequenceMaintenanceAuto();
@@ -105,19 +110,9 @@ private:
     QList<ICycle*> m_listCyclesMaintenances;
     QList<ISequenceMaintenanceAuto*> m_listSequenceCyclesMaintenancesAuto;
 
-    /*QList<CControlerCycle*> m_listSequenceCyclesMesure;
-    QList<CControlerCycle*> m_listSequenceCyclesAutonome;
-    QList<CControlerCycle*> m_listSequenceCyclesMaintenance;*/
-
-    bool m_bPlaySequenceMesure;
-    bool m_bPlayMaintenance;
-    bool m_bPlaySequenceAutonome;
-
-    bool m_bCycleMesurePaused;
-    bool m_bCycleMesureRunning;
-
     QList<ICycle*>::iterator m_itListSequenceCyclesMesures;
 
+    bool m_haveToStopEndCycle;
     ICycle* m_cycleEnCours;
 };
 
@@ -127,6 +122,7 @@ class ISequenceMaintenanceAuto: public QObject
     Q_OBJECT
 public :
     virtual bool haveToBeRun()=0;
+    virtual void reset()=0;
     virtual ICycle* getCycle();
 public:
     ISequenceMaintenanceAuto(const QVariantMap&,  QObject *parent);
@@ -138,7 +134,8 @@ class CSequenceMaintenanceAutoEveryNCycles : public ISequenceMaintenanceAuto
 {
 public:
     CSequenceMaintenanceAutoEveryNCycles(const QVariantMap&,  QObject *parent);
-    bool haveToBeRun();
+    bool haveToBeRun() Q_DECL_OVERRIDE;
+    void reset() Q_DECL_OVERRIDE;
  private:
     IVariable* m_nbCycle;
     int m_cpt;
@@ -147,8 +144,8 @@ class CSequenceMaintenanceAutoUnknow : public ISequenceMaintenanceAuto
 {
 public:
     CSequenceMaintenanceAutoUnknow(const QVariantMap&,  QObject *parent);
-    bool haveToBeRun();
-
+    bool haveToBeRun() Q_DECL_OVERRIDE;
+    void reset() Q_DECL_OVERRIDE;
 };
 class CSequenceMaintenanceFactory : public QObject
 {

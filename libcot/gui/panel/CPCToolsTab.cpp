@@ -1,4 +1,5 @@
 #include "CPCToolsTab.h"
+#include "CDialogConfirmation.h"
 #include "ui_CPCToolsTab.h"
 #include "CLabelledToolButtonGrid.h"
 #include "CLabelledToolButton.h"
@@ -11,6 +12,7 @@
 #include "CAutomate.h"
 #include "CDisplayConf.h"
 #include "CConfiguratorWindow.h"
+
 
 #include <QTextDocument>
 #include <QTextOption>
@@ -76,9 +78,16 @@ void CPCToolsTab::slotButtonClicked(CLabelledToolButton *button)
 {
     switch (button->type()) {
         case CToolButton::Maintenance:
-            CAutomate::getInstance()->requestStopScheduler();
-            CPCWindow::openModal<CMaintenanceWindow>();
-            break;
+        if(CAutomate::getInstance()->isCyclesRunning() && CPCWindow::openExec<CDialogConfirmation>(tr("Are you sure ? \nIt will stop the current measurment"),this)){
+            CAutomate::getInstance()->enterMaintenanceMode();
+            //CPCWindow::openModal<CMaintenanceWindow>();
+            CPCWindow::openModal(CMaintenanceWindow::getInstance(), false);
+        }else if(!CAutomate::getInstance()->isCyclesRunning()){
+            CAutomate::getInstance()->enterMaintenanceMode();
+            //CPCWindow::openModal<CMaintenanceWindow>();
+            CPCWindow::openModal(CMaintenanceWindow::getInstance(), false);
+        }
+        break;
 
         case CToolButton::ElectricalTests:
             CPCWindow::openModal<CElectricalTestsWindow>();

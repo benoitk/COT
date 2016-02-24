@@ -76,7 +76,6 @@ CActionTest::~CActionTest()
 bool CActionTest::runAction(ICycle* arg_stepParent){
     IAction::runAction(arg_stepParent);
 
-
     QThreadPool* threadPool = QThreadPool::globalInstance();
     bool result = threadPool->tryStart(this);
     if(!result && (threadPool->maxThreadCount() ==  threadPool->activeThreadCount())){

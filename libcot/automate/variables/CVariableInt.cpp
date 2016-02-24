@@ -10,6 +10,8 @@ CVariableInt::CVariableInt(QObject *parent)
 
 CVariableInt::CVariableInt(const QVariantMap& mapVar):IVariable(mapVar){
     m_value = mapVar.value(QStringLiteral("value")).toInt();
+    m_valueMin = mapVar.value(QStringLiteral("value_min")).toInt();
+    m_valueMax = mapVar.value(QStringLiteral("value_max")).toInt();
 }
 CVariableInt::CVariableInt(int arg_int, int arg_address, enumVariableAccess arg_access)
     : IVariable()
@@ -36,7 +38,7 @@ bool CVariableInt::toBool(){
     return m_value;
 }
 void CVariableInt::setValue(int value){
-    m_value = value;
+    m_value = IVariable::setValue(value, m_valueMin, m_valueMax);
     checkBindedVariable(QVariant(value));
 
     emit signalVariableChanged(this);
@@ -65,6 +67,8 @@ QVariantMap CVariableInt::serialize(){
    QVariantMap mapSerialise = IVariable::serialize();
     mapSerialise.insert(QStringLiteral("type"), QStringLiteral("integer"));
     mapSerialise.insert(QStringLiteral("value"), m_value);
+    mapSerialise.insert(QStringLiteral("value_min"), m_valueMin);
+    mapSerialise.insert(QStringLiteral("value_max"), m_valueMax);
     return mapSerialise;
 }
 QVariant CVariableInt::toVariant(){

@@ -235,7 +235,11 @@ HEADERS *= \
     $$PWD/automate/actions/CActionFindClosestFromReference.h \
     $$PWD/automate/actions/CActionFindBiggerValue.h \
     $$PWD/gui/tools/electrical-tests/CElectricalTestsSolenoidsTab.h \
-    $$PWD/automate/commands/ICommand.h
+    $$PWD/automate/commands/ICommand.h \
+    $$PWD/gui/widgets/CDialogConfirmation.h \
+    $$PWD/automate/actions/CActionLinearisation.h \
+    $$PWD/automate/variables/CVariableCurve.h \
+    $$PWD/automate/actions/CActionSlope.h
 
 SOURCES *= \
     $$PWD/automate/CAutomate.cpp \
@@ -425,7 +429,11 @@ SOURCES *= \
     $$PWD/automate/actions/CActionFindClosestFromReference.cpp \
     $$PWD/automate/actions/CActionFindBiggerValue.cpp \
     $$PWD/gui/tools/electrical-tests/CElectricalTestsSolenoidsTab.cpp \
-    $$PWD/automate/commands/ICommand.cpp
+    $$PWD/automate/commands/ICommand.cpp \
+    $$PWD/gui/widgets/CDialogConfirmation.cpp \
+    $$PWD/automate/actions/CActionLinearisation.cpp \
+    $$PWD/automate/variables/CVariableCurve.cpp \
+    $$PWD/automate/actions/CActionSlope.cpp
 
 DISTFILES +=
 

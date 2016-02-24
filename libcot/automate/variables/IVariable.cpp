@@ -38,6 +38,8 @@ IVariable::IVariable(const QVariantMap& arg_varMap): QObject(){
     }
 //    m_unit = new CUnit("tmp", "µg/l");
 }
+
+
 void IVariable::initComs(){
     foreach(ICom* com, m_coms){
         com->addVariableOnDataTable(this);

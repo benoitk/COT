@@ -41,6 +41,9 @@ class CAutomate : public QObject, IComObserver
     Q_OBJECT
 
 public:
+    bool isCycleStoppeByAlarm();
+    void enterMaintenanceMode();
+    void exitMaintenanceMode();
 
     //use for API
     QMap<QString, CModelExtensionCard*> getMapExtensions();
@@ -59,9 +62,11 @@ public:
     void informAboutVariableChanges(IVariable *variable, const QVariantMap &oldData);
 
     void requestPlayScheduler();
+    bool requestPlayMaintenance(const QString&);
     void requestStopScheduler();
+    void requestStopEndCycleScheduler();
     void pauseScheduler();
-
+    void requestPlayNextSequenceMesure();
 
     void changeCycleStream(ICycle*, CVariableStream* arg_dest_stream);
     void changeVariableStream(IVariable*, CVariableStream* arg_dest_stream);
@@ -75,8 +80,8 @@ public:
 
     static QString formatHistoryEntry(const QString &name, const QDateTime &dateTime);
 
-    enum eStateScheduler{CYCLE_STATE_RUN = 1, CYCLE_STATE_PAUSE = 2, CYCLE_STATE_STOP = 0};
-    enum eStateAutomate{RUNNING,PAUSED, CALIBRATION, WAITING,STOPPED};
+    enum eStateScheduler{CYCLE_STATE_RUN = 1, CYCLE_STATE_PAUSE = 2, CYCLE_STATE_STOP = 0, CYCLE_STATE_STOP_END_CYCLE = 3};
+    enum eStateAutomate{RUNNING, RUNNING_WILL_STOP_END_CYCLE,PAUSED, CALIBRATION, WAITING,STOPPED};
     enum eStateStream{STREAM_DEFAULT, WATER_DEFAULT, ACTIVE, INACTIVE};
     static CAutomate* getInstance();
 
@@ -124,6 +129,8 @@ public:
     void quit();
     void setLang(const QString&);
     void addLoggedVariable(const QString& arg_varName, bool arg_debug=false);
+
+    bool isCyclesRunning();
 
 public slots:
     void slotSerializeAndSave();
@@ -202,11 +209,13 @@ protected slots:
 
 private:
 
+    bool m_isInMaintenanceMode;
+
     //Gestion redémarage du cycle en cas d'arrêt du à une alarm
     void requestStopFromNewAlarm(CVariableAlarm * arg_alarm);
     void restartFromCanceledAlarm(CVariableAlarm* arg_alarm);
     void stopScheduler();
-    void playNextSequenceMesure();
+
     QMap<QString, CVariableAlarm *> m_mapAlarmWhichStoppedScheduler;
     bool m_schedulerStoppedFromIHM;
 

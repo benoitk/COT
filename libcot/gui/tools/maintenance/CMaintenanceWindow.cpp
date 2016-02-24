@@ -4,8 +4,16 @@
 #include "CMaintenanceDiagnosticTab.h"
 #include "CAutomate.h"
 
-CMaintenanceWindow::CMaintenanceWindow(QWidget *parent)
-    : QWidget(parent)
+CMaintenanceWindow* CMaintenanceWindow::singleton = 0;
+
+CMaintenanceWindow* CMaintenanceWindow::getInstance(){
+    if(!singleton)
+        singleton = new CMaintenanceWindow();
+    return singleton;
+}
+
+CMaintenanceWindow::CMaintenanceWindow()
+    : QWidget()
     , ui(new Ui::CMaintenanceWindow)
 {
     ui->setupUi(this);
@@ -23,6 +31,7 @@ CMaintenanceWindow::~CMaintenanceWindow()
 
 void CMaintenanceWindow::backTriggered()
 {
+    CAutomate::getInstance()->exitMaintenanceMode();
     close();
 }
 

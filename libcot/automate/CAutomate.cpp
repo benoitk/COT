@@ -47,6 +47,7 @@ CAutomate::CAutomate()
 {
     m_debug = false;
     m_schedulerStoppedFromIHM = false;
+    m_isInMaintenanceMode = false;
     m_lang = "en_US";
     m_countBeforeCheckLogFileToDelete = 0;
     m_stateScheduler = CYCLE_STATE_STOP;
@@ -125,8 +126,6 @@ void CAutomate::addCyclePrivate(ICycle * cycle)
     }
 }
 void CAutomate::acquitAlarms(){
-    //TO DO : virer la list screen alarm, pour laisser les alarmes s'afficher toutes seul et les
-    // ajouter une liste de variable pour les acquiter
     m_mapAlarmWhichStoppedScheduler.clear();
     emit signalAquitAllAlarm();
 }
@@ -379,29 +378,6 @@ void CAutomate::slotClock(){
         var->setValue(tmp);
     }
     emit signalUpdatePlotting();
-//    if (m_iClock == 6) {
-//        emit signalUpdateStateStream("stream_1", WATER_DEFAULT);
-//    } else if (m_iClock == 10) {
-//        emit signalUpdateStateStream("stream_1", ACTIVE);
-//    }
-
-//    // TEST CODE (for the alarms window)
-//    if ((m_iClock % 3) == 0) {
-//        IVariable *defectVar = getVariable(QStringLiteral("alarm_defaut_eau"));
-//        defectVar->setValue(true);
-//    }
-
-//    // TEST CODE (for the status widget)
-//    if (m_iClock > 5 && m_iClock < 50) {
-//        if (m_iClock == 5)
-//            emit signalUpdateStateAutomate(RUNNING);
-//        else if (m_iClock == 49)
-//            emit signalUpdateStateAutomate(GENERAL_DEFAULT);
-
-//        emit signalUpdateCurrentStep(m_iClock / 2, "Step Name Goes Here");
-//        if ((m_iClock % 20) == 0)
-//            emit signalUpdateCurrentStream(m_iClock / 20, "Stream Name");
-//    }
 }
 
 
@@ -499,6 +475,21 @@ void CAutomate::requestPlayScheduler(){
         m_schedulerStoppedFromIHM = false;
     }
 }
+bool CAutomate::requestPlayMaintenance(const QString &  arg_cycleName){
+    acquitAlarms();
+    m_scheduler->slotPlayMaintenance(arg_cycleName);
+    return true;
+}
+
+void CAutomate::enterMaintenanceMode(){
+    m_isInMaintenanceMode = true;
+    requestStopScheduler();
+}
+
+void CAutomate::exitMaintenanceMode(){
+    acquitAlarms();
+    m_isInMaintenanceMode = false;
+}
 
 void CAutomate::requestStopScheduler(){
     m_schedulerStoppedFromIHM = true;
@@ -506,28 +497,42 @@ void CAutomate::requestStopScheduler(){
     this->stopScheduler();
 }
 
+void CAutomate::requestStopEndCycleScheduler(){
+    m_schedulerStoppedFromIHM = true;
+    if(m_mapAlarmWhichStoppedScheduler.isEmpty())
+        m_scheduler->slotRequestStopEndCycleSequence();
+}
+
 void CAutomate::stopScheduler(){
 
         m_scheduler->slotRequestStopSequence();
 }
-void CAutomate::playNextSequenceMesure(){
+bool CAutomate::isCyclesRunning(){
+    return m_scheduler->isCyclesRunning();
+}
+
+void CAutomate::requestPlayNextSequenceMesure(){
     if(m_mapAlarmWhichStoppedScheduler.isEmpty() && !m_schedulerStoppedFromIHM)
         m_scheduler->slotRequestPlayNextSequenceMesure();
+}
+bool CAutomate::isCycleStoppeByAlarm(){
+    if(m_mapAlarmWhichStoppedScheduler.isEmpty()) return false;
+    else return true;
 }
 
 void CAutomate::requestStopFromNewAlarm(CVariableAlarm* arg_alarm){
     if(!m_mapAlarmWhichStoppedScheduler.contains(arg_alarm->getName())){
         m_mapAlarmWhichStoppedScheduler.insert(arg_alarm->getName(), arg_alarm);
-        if(!m_schedulerStoppedFromIHM && m_mapAlarmWhichStoppedScheduler.count()==1){
+//        if(!m_schedulerStoppedFromIHM && m_mapAlarmWhichStoppedScheduler.count()==1){
             stopScheduler();
-        }
+//        }
     }
 }
 
 void CAutomate::restartFromCanceledAlarm(CVariableAlarm* arg_alarm){
     if(m_mapAlarmWhichStoppedScheduler.remove(arg_alarm->getName())
             && m_mapAlarmWhichStoppedScheduler.isEmpty()
-            && !m_schedulerStoppedFromIHM){
+            && !m_schedulerStoppedFromIHM && !m_isInMaintenanceMode){
         requestPlayScheduler();
     }
 
@@ -784,6 +789,10 @@ void CAutomate::setStateScheduler(eStateScheduler arg_state){
     case CYCLE_STATE_RUN:
         emit signalUpdateStateAutomate(RUNNING);
         break;
+    case CYCLE_STATE_STOP_END_CYCLE:
+        emit signalUpdateStateAutomate(RUNNING_WILL_STOP_END_CYCLE);
+        break;
+
     default:
         break;
     }
@@ -792,7 +801,10 @@ void CAutomate::setStateScheduler(eStateScheduler arg_state){
 void CAutomate::slotNewAlarm(CVariableAlarm* arg_alarm){
     switch(arg_alarm->getAlarmType()){
     case e_not_critical_error_skip_cycle_try_again:
-        playNextSequenceMesure();
+        if(m_isInMaintenanceMode )
+            requestStopFromNewAlarm(arg_alarm);
+        else
+            requestPlayNextSequenceMesure();
         break;
     case e_critical_error_stop_cycle:
         requestStopFromNewAlarm(arg_alarm);
@@ -827,7 +839,10 @@ void CAutomate::slotStillInAlarm(CVariableAlarm* arg_alarm){
     switch(arg_alarm->getAlarmType()){
 
     case e_not_critical_error_skip_cycle_try_again:
-        playNextSequenceMesure();
+        if(arg_alarm->haveToStopAfterToMuchSkip())
+            requestStopFromNewAlarm(arg_alarm);
+        else
+            requestPlayNextSequenceMesure();
         break;
     case e_warning_do_nothing:
     case e_critical_error_stop_cycle:

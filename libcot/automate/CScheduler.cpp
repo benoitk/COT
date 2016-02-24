@@ -10,14 +10,11 @@ CScheduler* CScheduler::singleton = 0;
 CScheduler::CScheduler()
     : QObject()
 {
-    m_bPlaySequenceMesure = false;
-    m_bPlayMaintenance = false;
-    m_bPlaySequenceAutonome = false;
 
     m_itListSequenceCyclesMesures = m_listSequenceCyclesMeasures.begin();
 
     m_cycleEnCours = 0;
-
+    m_haveToStopEndCycle = false;
 
     connect(this, &CScheduler::signalGetReadyForPlayCycleMesure, this, &CScheduler::slotPlaySequenceMeasure);
 
@@ -28,30 +25,19 @@ CScheduler::~CScheduler()
 
 }
 
-void CScheduler::apendSequenceMeasureRunCycle(ICycle* arg_cycle, int arg_nbMesure){
-    //CControlerCycle* ctrlCycle = new CControlerCycle(this, cycle);
-    //this->apendSequenceMesureRunCycle(ctrlCycle, nbMesure);
+void CScheduler::apendSequenceMeasureRunCycle(ICycle* arg_cycle, int arg_nbMesure){  
     if(arg_cycle){
         while(arg_nbMesure>0){
             qCDebug(COTAUTOMATE_LOG) << "nbMesure " << arg_nbMesure;
             m_listSequenceCyclesMeasures.append(arg_cycle);
             arg_nbMesure--;
         }
-
-        //m_listSequenceCycles << CyclePair(arg_cycle, arg_nbMesure);
     }
 }
 
-/*void CSequencer::apendSequenceMesureRunCycle(CControlerCycle* ctrlCycle, int nbMesur    e){
-    while(nbMesure--<0){
-        m_listSequenceCyclesMesure.append(ctrlCycle );
-    }
-}*/
 void CScheduler::apendSequenceMeasurePause(int minute){
-    CCyclePause* cyclePause = new CCyclePause(minute, this);
-    //CControlerCycle* ctrlCycle = new CControlerCycle(this, cyclePause);
+    CCyclePause* cyclePause = new CCyclePause(minute, this); 
     m_listSequenceCyclesMeasures.append(cyclePause);
-    //m_listSequenceCycles << CyclePair(cyclePause, minute);
 }
 
 //pas de séquence pour les cycles autonomes, il s'éxécute tous d'un coup et se déroule en roue libre
@@ -72,7 +58,6 @@ QString CScheduler::getCycleInProgressName(){
 void CScheduler::setSequence(bool isMaintenance){
     qCDebug(COTAUTOMATE_LOG) << "void CSequencer::setSequenceMesure()";
 
-    // if( m_itListSequenceCyclesMesures != m_listSequenceCyclesMeasures.end()){
 
     if (!m_cycleEnCours) {
         qCDebug(COTAUTOMATE_LOG) << "m_cycleMesureEnCours ptr null";
@@ -97,8 +82,6 @@ void CScheduler::setSequence(bool isMaintenance){
         connect(m_cycleEnCours, &ICycle::signalReadyForPlayNextCycle, this, &CScheduler::slotCycleIsStopped);
     disconnect(this, &CScheduler::signalGetReadyForPlayCycleMesure, this, &CScheduler::slotPlaySequenceMeasure);
 
-    //}
-    //else qCDebug(COTAUTOMATE_LOG) << "liste m_listSequenceCyclesMesures vide :" << m_listSequenceCyclesMeasures;
     qCDebug(COTAUTOMATE_LOG) << "FIN void CSequencer::setSequenceMesure()";
 }
 void CScheduler::disconnectCycle(ICycle* cycle){
@@ -130,35 +113,62 @@ ISequenceMaintenanceAuto* CScheduler::haveToPlaySequenceMaintenanceAuto(){
 }
 
 void CScheduler::slotPlayNextSequenceMeasure(){
-    if(m_cycleEnCours){
-        this->disconnectCycle(m_cycleEnCours);
-    }
-    ISequenceMaintenanceAuto* seq = Q_NULLPTR;
-    if(seq = haveToPlaySequenceMaintenanceAuto()){
-        m_cycleEnCours = seq->getCycle();
-    }
-    else if( (++m_itListSequenceCyclesMesures) == m_listSequenceCyclesMeasures.end()){
-        m_itListSequenceCyclesMesures = m_listSequenceCyclesMeasures.begin();
-        m_cycleEnCours = (*m_itListSequenceCyclesMesures);
+    if(!m_haveToStopEndCycle){
+        if(m_cycleEnCours){
+            this->disconnectCycle(m_cycleEnCours);
+        }
+        ISequenceMaintenanceAuto* seq = Q_NULLPTR;
+        if(seq = haveToPlaySequenceMaintenanceAuto()){
+            m_cycleEnCours = seq->getCycle();
+        }
+        else if( (++m_itListSequenceCyclesMesures) == m_listSequenceCyclesMeasures.end()){
+            m_itListSequenceCyclesMesures = m_listSequenceCyclesMeasures.begin();
+            m_cycleEnCours = (*m_itListSequenceCyclesMesures);
+        }
+        else{
+            m_cycleEnCours = (*m_itListSequenceCyclesMesures);
+        }
+        this->setSequence();
+
+        CAutomate::getInstance()->setStateScheduler(CAutomate::CYCLE_STATE_RUN);
+        emit signalRunCycle();
     }
     else{
-        m_cycleEnCours = (*m_itListSequenceCyclesMesures);
+        m_haveToStopEndCycle = false;
+        m_cycleEnCours->slotStopCycle();
     }
-    this->setSequence();
-
-    CAutomate::getInstance()->setStateScheduler(CAutomate::CYCLE_STATE_RUN);
-    emit signalRunCycle();
-
 }
 //Fin Play Next  cycle Mesure
 
 //Stop cycle Mesure
 void CScheduler::slotRequestStopSequence(){
-   emit signalStopCycle();
+    if(m_cycleEnCours && m_cycleEnCours->isRunning())
+        emit signalStopCycle();
 }
+void  CScheduler::slotRequestStopEndCycleSequence(){
+    if(m_cycleEnCours && m_cycleEnCours->isRunning()){
+        m_haveToStopEndCycle = true;
+        CAutomate::getInstance()->setStateScheduler(CAutomate::CYCLE_STATE_STOP_END_CYCLE);
+    }
+}
+void  CScheduler::slotRequestCancelStopSequenceEndCycle(){
+    m_haveToStopEndCycle = false;
+    if(m_cycleEnCours && m_cycleEnCours->isRunning()){
+        CAutomate::getInstance()->setStateScheduler(CAutomate::CYCLE_STATE_RUN);
+    }
+}
+
+bool CScheduler::isCyclesRunning(){
+    return m_cycleEnCours->isRunning();
+}
+
 void CScheduler::slotCycleIsStopped(){
     if(m_cycleEnCours){
         this->disconnectCycle(m_cycleEnCours);
+    }
+    m_itListSequenceCyclesMesures = m_listCyclesMaintenances.begin();
+    foreach (ISequenceMaintenanceAuto* sequence, m_listSequenceCyclesMaintenancesAuto) {
+        sequence->reset();
     }
     emit signalCycleIsStopped(m_cycleEnCours->getName());
     CAutomate::getInstance()->setStateScheduler(CAutomate::CYCLE_STATE_STOP);
@@ -185,7 +195,7 @@ void CScheduler::slotRequestPlaySequenceMesure(){
 }
 void CScheduler::slotPlaySequenceMeasure(){
     qCDebug(COTAUTOMATE_LOG) << "CSequencer::slotPlaySequenceMesure()" << m_cycleEnCours;
-    if(!m_cycleEnCours || (m_cycleEnCours && !m_cycleEnCours->isRunning()))
+    if(!m_cycleEnCours || (m_cycleEnCours && !m_cycleEnCours->isRunning() ))
     {
 
         m_itListSequenceCyclesMesures = m_listSequenceCyclesMeasures.begin();
@@ -366,17 +376,21 @@ CSequenceMaintenanceAutoEveryNCycles::CSequenceMaintenanceAutoEveryNCycles(const
 
 bool CSequenceMaintenanceAutoEveryNCycles::haveToBeRun(){
     bool bHaveToBeRun = false;
-    if(++m_cpt > m_nbCycle->toInt()){
+    if(m_nbCycle->toInt() != 0 && ++m_cpt > m_nbCycle->toInt()){
         m_cpt = 0;
         bHaveToBeRun = true;
     }
 
     return bHaveToBeRun;
 }
+void CSequenceMaintenanceAutoEveryNCycles::reset(){
+    m_cpt = 0;
+}
 
 CSequenceMaintenanceAutoUnknow::CSequenceMaintenanceAutoUnknow(const QVariantMap& arg_map,  QObject *parent):
     ISequenceMaintenanceAuto(arg_map,  parent){}
 bool CSequenceMaintenanceAutoUnknow::haveToBeRun(){  return false; }
+void CSequenceMaintenanceAutoUnknow::reset(){  }
 
 ISequenceMaintenanceAuto* CSequenceMaintenanceFactory::build(const QVariantMap& arg_map,  QObject *parent){
     ISequenceMaintenanceAuto* sequence = Q_NULLPTR;

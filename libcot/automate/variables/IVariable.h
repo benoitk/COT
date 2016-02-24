@@ -14,6 +14,7 @@ enum enumVariableType{
     e_type_measure,
     e_type_list_variables,
     e_type_alarm,
+    e_type_curve,
     e_type_unknow,
         // Internal to GUI
         type_mutable // a special variable used in gui which has an internal mutable custom type.
@@ -96,6 +97,17 @@ public:
     virtual void setAddress(int address);
 protected:
     virtual void setAccess(enumVariableAccess access);
+    template<typename T> T setValue(T arg_value, T arg_valueMin, T arg_valueMax){
+        T resultValue;
+        if(arg_valueMin == arg_valueMax || (arg_value > arg_valueMin && arg_value < arg_valueMax) )
+            resultValue = arg_value;
+        else if(arg_value < arg_valueMin)
+            resultValue = arg_valueMin;
+        else if(arg_value > arg_valueMax)
+            resultValue = arg_valueMax;
+
+        return resultValue;
+    }
 
 
 signals:

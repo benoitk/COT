@@ -41,7 +41,10 @@ CStep::~CStep()
 }
 void CStep::abortStep(){
     foreach (IAction* action, m_listActions) {
+        disconnect(this, 0, action, 0);
+        disconnect(action, 0, this, 0);
         action->abortAction();
+        m_listActionsWaited.removeOne(action);
     }
 }
 

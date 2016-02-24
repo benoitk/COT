@@ -27,7 +27,7 @@ public:
 protected:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
 
-private:
+
     CVerticalButtonBar *m_buttonBar;
     QHBoxLayout *m_pageLayout;
     QTabWidget *m_tabWidget;

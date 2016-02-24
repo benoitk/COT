@@ -200,7 +200,7 @@
                     {"name":"var_default_measure_card", "fr_FR" : "Défaut carte mesure", "en_US" : "Measure card failure", "type":"alarm","auto_acquit":false , "delay":0, "alarm_type":"warning_do_nothing", "value" : false, "access":"read_write"},
                     {"name":"var_measure_card_default_register", "fr_FR" : "Registre défault carte mesure", "en_US" : "Measure card register failure", "type":"input_boolean", "extension_name":"measure_card_1", "organ_name":"defaults_register", "value" : 0},
                    
-                    {"name":"var_nb_cycles_after_maintenance", "fr_FR" : "Nb cycles av mainteannce auto", "type":"integer", "value" : 2, "access":"read_write", "coms_name_used":[]},
+                    {"name":"var_nb_cycles_after_maintenance", "fr_FR" : "Nb cycles av maintenance auto", "type":"integer", "value" : 50, "access":"read_write", "coms_name_used":[]},
 
                     {"name":"var_measure_seuil_1", "fr_FR" : "Seuil Mesure 1", "en_US" : "Threshold 1", "type":"float", "value" : 100, "unit":"mg_l", "access":"read_write"},
                     {"name":"var_measure_seuil_1_default", "fr_FR" : "Défaut Seuil 1", "en_US" : "Exceeded Threshold 1", "type":"alarm", "extension_name":"io_card_1", "organ_name":"tor_output_0", "alarm_type":"warning_do_nothing", "auto_acquit":true, "delay":1, "value" : false, "passive":true, "access":"read_write"},
@@ -214,7 +214,7 @@
                     {"name":"var_measure_seuil_2_error_margin", "fr_FR" : "Marge d'erreur défaut seuil 2", "en_US" : "Threshold 2 default error margin", "type":"float", "value" : 0, "unit":"percent", "access":"read_write"},
                     {"name":"var_measure_seuil_2_control_timeout", "fr_FR" : "Temps stabilisation seuil 2", "en_US" : "Threshold 2 stabilization time", "type":"integer", "value" : 2, "unit":"second", "access":"read_write"},
                      
-                    {"name":"var_reactor_volume", "fr_FR" : "Volume réacteur", "en_US" : "Reactor volume", "type":"float", "value" : 24, "unit":"mL", "access":"read_write"},
+                    {"name":"var_reactor_volume", "fr_FR" : "Volume réacteur", "en_US" : "Reactor volume", "type":"float", "value" : 20, "unit":"mL", "access":"read_write"},
                     {"name":"var_calcul_cot_coef_1", "fr_FR" : "Coef calib Co2 ppmv 1", "type":"float", "value" : 571035, "access":"read_write"},
                     {"name":"var_calcul_cot_coef_2", "fr_FR" : "Coef calib Co2 ppmv 2", "type":"float", "value" : -456946, "access":"read_write"},
                     {"name":"var_calcul_cot_coef_3", "fr_FR" : "Coef calib Co2 ppmv 3", "type":"float", "value" : 129483, "access":"read_write"},
@@ -226,7 +226,7 @@
                     {"name":"var_zero_reference", "fr_FR" : "Zéro de référence", "en_US" : "Reference zero", "type":"float", "value" : 2.5, "unit":"volt", "access":"read_write"},
                     
                     {"name":"var_zero_measured_maintenance_cycle", "fr_FR" : "Zéro mesuré", "en_US" : "Measured zero", "type":"float", "value" : 0, "unit":"volt", "access":"read"},
-                    {"name":"var_zero_measured_maintenance_cycle_default", "fr_FR" : "Défaut zéro cellule mesure", "en_US" : "Measure cell zero default", "type":"alarm", "alarm_type":"warning_do_nothing", "auto_acquit":true, "delay":1, "value" : true, "access":"read_write"},
+                    {"name":"var_zero_measured_maintenance_cycle_default", "fr_FR" : "Défaut zéro cellule mesure", "en_US" : "Measure cell zero default", "type":"alarm", "alarm_type":"critical_error_stop_cycle", "auto_acquit":true, "delay":1, "value" : true, "access":"read_write"},
                     {"name":"var_zero_measured_maintenance_cycle_control_needed", "fr_FR" : "Zéro maintenance cycle bloquant", "en_US" : "Cycle maintenance zero blocker", "type":"boolean", "value" : true, "access":"read_write"},
                     {"name":"var_zero_measured_maintenance_cycle_error_margin", "fr_FR" : "Marge d'erreur zéro maintenance cycle", "en_US" : "Cycle maintenance zero error margin", "type":"float", "value" : 40, "unit":"percent", "access":"read_write"},
                     {"name":"var_zero_measured_maintenance_cycle_control_timeout", "fr_FR" : "Temps stabilisation zéro maintenance cycle", "en_US" : "Cycle maintenance zero stabilization time", "type":"integer", "value" : 2, "unit":"second", "access":"read_write"},
@@ -237,101 +237,105 @@
                     {"name":"var_derivee", "fr_FR" : "Dérivée", "en_US" : "Derivative", "type":"float", "value" : 0, "unit":"mg_l", "access":"read_write"},
 
                     {"name":"var_zero_cit", "fr_FR" : "Zéro CIT", "en_US" : "TIC Zero", "type":"float", "value" : 0, "unit":"V", "access":"read"},       
-                    {"name":"var_measure_cit", "fr_FR" : "CIT", "en_US" : "TIC", "type":"float", "value" : 0, "unit":"mg_l", "access":"read"},
+                    {"name":"var_measure_cit", "fr_FR" : "CIT", "en_US" : "TIC", "type":"float", "value" : 0, "unit":"mg_l", "value_min":0, "value_max":150, "access":"read"},
                     {"name":"var_measure_cit_min", "fr_FR" : "Plage min CIT", "en_US" : "TIC min range", "type":"float", "value" : 0, "unit":"mg_l", "access":"read_write"},
-                    {"name":"var_measure_cit_max", "fr_FR" : "Plage max CIT", "en_US" : "TIC max range", "type":"float", "value" : 90, "unit":"mg_l", "access":"read_write"},
+                    {"name":"var_measure_cit_max", "fr_FR" : "Plage max CIT", "en_US" : "TIC max range", "type":"float", "value" : 100, "unit":"mg_l", "access":"read_write"},
                     {"name":"var_measure_4_20_cit_min", "fr_FR" : "Plage min 4-20mA CIT", "en_US" : "TIC 4-20mA min range", "type":"float", "value" : 0, "unit":"mg_l", "access":"read_write"},
                     {"name":"var_measure_4_20_cit_max", "fr_FR" : "Plage max 4-20mA CIT", "en_US" : "TIC 4-20mA max range", "type":"float", "value" : 100, "unit":"mg_l", "access":"read_write"},
                     {"name":"var_acquisition_measure_cit_timeout", "fr_FR" : "Temps d'acquisition", "en_US" : "Acquisition time", "type":"integer", "value" : 90, "unit":"second", "access":"read_write"},
-                    {"name":"var_coef_calibration_cit", "fr_FR" : "Coefficient Etalonnage CIT", "en_US" : "TIC Calibration Coefficient", "type":"float", "value" : 1, "access":"read_write"},
+                    {"name":"var_coef_calibration_cit", "fr_FR" : "Coefficient Etalonnage CIT", "en_US" : "TIC Calibration Coefficient", "type":"float", "value" : 1.131, "access":"read_write"},
                     {"name":"var_new_coef_calibration_cit", "fr_FR" : "Coefficient calculé CIT", "en_US" : "TIC Calculated Coefficient", "type":"float", "value" : 0, "unit":"", "access":"read"},
-                    {"name":"var_etalon_cit", "fr_FR" : "Etalon CIT", "en_US" : "TIC standard", "type":"float", "value" : 50, "unit":"mg_l", "access":"read_write"},
+                    {"name":"var_etalon_cit", "fr_FR" : "Etalon CIT", "en_US" : "TIC standard", "type":"float", "value" : 50, "unit":"mg_l", "value_min":0, "value_max":100, "access":"read_write"},
                     {"name":"var_measure_calibration_cit", "fr_FR" : "Mesure calibration CIT", "en_US" : "TIC Calibration Measure", "type":"float", "value" : 0, "unit":"mg_l", "access":"read"},
                     {"name":"var_manual_measure_cit", "fr_FR" : "Mesure manuelle CIT", "en_US" : "TIC Manual measure", "type":"float", "value" : 0, "unit":"mg_l", "access":"read"},
 
                     {"name":"var_zero_npoc", "fr_FR" : "Zéro NPOC", "en_US" : "NPOC Zero", "type":"float", "value" : 0, "unit":"V", "access":"read"},
-                    {"name":"var_measure_npoc", "fr_FR" : "NPOC", "en_US" : "NPOC", "type":"float", "value" : 0, "unit":"mg_l", "access":"read"},
+                    {"name":"var_measure_npoc", "fr_FR" : "COT", "en_US" : "NPOC", "type":"float", "value" : 0, "unit":"mg_l", "value_min":0, "value_max":150, "access":"read"},
                     {"name":"var_measure_npoc_min", "fr_FR" : "Plage min NPOC", "en_US" : "NPOC min range", "type":"float", "value" : 0, "unit":"mg_l", "access":"read_write"},
                     {"name":"var_measure_npoc_max", "fr_FR" : "Plage max NPOC", "en_US" : "NPOC max range", "type":"float", "value" : 100, "unit":"mg_l", "access":"read_write"},
                     {"name":"var_measure_4_20_npoc_min", "fr_FR" : "Plage min 4-20mA NPOC", "en_US" : "NPOC 4-20mA min range", "type":"float", "value" : 0, "unit":"mg_l", "access":"read_write"},
                     {"name":"var_measure_4_20_npoc_max", "fr_FR" : "Plage max 4-20mA NPOC", "en_US" : "NPOC 4-20mA max range", "type":"float", "value" : 100, "unit":"mg_l", "access":"read_write"},
                     {"name":"var_acquisition_measure_npoc_timeout", "fr_FR" : "Temps d'acquisition", "en_US" : "Acquisition time", "type":"integer", "value" : 300, "unit":"second", "access":"read_write"},
-                    {"name":"var_coef_calibration_npoc", "fr_FR" : "Coefficient Etalonnage NPOC", "en_US" : "NPOC Calibration Coefficient", "type":"float", "value" : 1, "access":"read_write"},
+                    {"name":"var_coef_calibration_npoc", "fr_FR" : "Coefficient Etalonnage NPOC", "en_US" : "NPOC Calibration Coefficient", "type":"float", "value" : 1.13, "access":"read_write"},
                     {"name":"var_new_coef_calibration_npoc", "fr_FR" : "Coefficient calculé NPOC", "en_US" : "NPOC Calculated Coefficient", "type":"float", "value" : 0, "unit":"", "access":"read"},
                     {"name":"var_derivative_interval_tx_npoc", "fr_FR" : "Temps d'interval pour la dérivé", "en_US" : "Interval time for derivative", "type":"integer", "value" : 5, "unit":"second", "access":"read_write"},
                     {"name":"var_derivative_threshold_npoc", "fr_FR" : "Seuil de la dérivé en CO2ppmv", "en_US" : "Threshold derivative CO2ppmv", "type":"float", "value" : 300, "unit":"", "access":"read_write"},
-                    {"name":"var_etalon_npoc", "fr_FR" : "Etalon NPOC", "en_US" : "NPOC standard", "type":"float", "value" : 50, "unit":"mg_l", "access":"read_write"},
+                    {"name":"var_etalon_npoc", "fr_FR" : "Etalon NPOC", "en_US" : "NPOC standard", "type":"float", "value" : 50, "unit":"mg_l", "value_min":0, "value_max":100, "access":"read_write"},
                     {"name":"var_measure_calibration_npoc", "fr_FR" : "Mesure calibration NPOC", "en_US" : "NPOC Calibration Measure", "type":"float", "value" : 0, "unit":"mg_l", "access":"read"},
                     {"name":"var_manual_measure_npoc", "fr_FR" : "Mesure manuelle NPOC", "en_US" : "NPOC Manual measure", "type":"float", "value" : 0, "unit":"mg_l", "access":"read"},
 
                     {"name":"var_airflow_setpoint", "fr_FR" : "Consigne débit d'air", "en_US" : "Airflow setpoint", "type":"output_float", "extension_name":"measure_card_1", "organ_name":"spi_dac_1", "value" : 300, "unit":"ml_min", "access":"read_write"},
                     {"name":"var_airflow", "fr_FR" : "Débit d'air", "en_US" : "Airflow", "type":"input_float", "extension_name":"measure_card_1", "organ_name":"adc1_0_flowmeter_0", "value" : 0, "unit":"ml_min", "access":"read"},
-                    {"name":"var_airflow_default", "fr_FR" : "Défaut débit d'air", "en_US" : "Airflow default", "type":"alarm", "alarm_type":"critical_error_stop_cycle", "auto_acquit":true, "delay":5, "value" : true, "access":"read_write"},
+                    {"name":"var_airflow_default", "fr_FR" : "Défaut débit d'air", "en_US" : "Airflow default", "type":"alarm", "alarm_type":"critical_error_stop_cycle", "auto_acquit":true, "delay":10, "value" : true, "access":"read_write"},
                     {"name":"var_airflow_control_needed", "fr_FR" : "Débit d'air bloquant", "en_US" : "Airflow blocker", "type":"boolean", "value" : true, "access":"read_write"},
-                    {"name":"var_airflow_error_margin", "fr_FR" : "Marge d'erreur débit d'air", "en_US" : "Airflow error margin", "type":"float", "value" : 2, "unit":"percent", "access":"read_write"},
+                    {"name":"var_airflow_error_margin", "fr_FR" : "Marge d'erreur débit d'air", "en_US" : "Airflow error margin", "type":"float", "value" : 5, "unit":"percent", "access":"read_write"},
                     {"name":"var_airflow_control_timeout", "fr_FR" : "Temps stabilisation débit d'air", "en_US" : "Airflow stabilization time", "type":"integer", "value" : 0, "unit":"second", "access":"read_write"},
-                   
+                    {"name":"var_airflow_start_setpoint_slope", "fr_FR" : "Consigne de début de rampe débit d'air", "type":"float", "value" : 0, "unit":"ml_min", "access":"read_write"},
+                    {"name":"var_airflow_duration_slope", "fr_FR" : "Durée de la rampe débit d'air", "type":"integer", "value" : 15, "unit":"second", "access":"read_write"},
+                    {"name":"var_airflow_nb_sections_slope", "fr_FR" : "Nombre de sections rampe débit d'air", "type":"integer", "value" : 6, "unit":"percent", "access":"read_write"},
+                    
+
                     {"name":"var_ndir_temperature_setpoint", "fr_FR" : "Consigne température NDIR", "en_US" : "NDIR Temperature setpoint", "type":"output_float", "extension_name":"measure_card_1", "organ_name":"regu_ndir", "value" : 45, "unit":"deg_cel", "access":"read_write"},
                     {"name":"var_ndir_temperature", "fr_FR" : "Température NDIR", "en_US" : "NDIR Temperature", "type":"input_float","extension_name":"measure_card_1", "organ_name":"adc2_1_t_cuve", "value" : 0, "unit":"deg_cel", "access":"read"},
-                    {"name":"var_ndir_temperature_default", "fr_FR" : "Défaut température NDIR", "en_US" : "NDIR Temperature default", "type":"alarm", "alarm_type":"warning_do_nothing", "auto_acquit":true, "delay":5, "value" : true, "access":"read_write"},
+                    {"name":"var_ndir_temperature_default", "fr_FR" : "Défaut température NDIR", "en_US" : "NDIR Temperature default", "type":"alarm", "alarm_type":"critical_error_stop_cycle", "auto_acquit":true, "delay":10, "value" : true, "access":"read_write"},
                     {"name":"var_ndir_temperature_control_needed", "fr_FR" : "Régulation température NDIR bloquant", "en_US" : "NDIR Temperature regulation blocker", "type":"boolean", "value" : true, "access":"read_write"},
                     {"name":"var_ndir_temperature_error_margin", "fr_FR" : "Marge d'erreur régulation température NDIR", "en_US" : "NDIR Temperature regulation error margin", "type":"float", "value" : 5, "unit":"percent", "access":"read_write"},
                     {"name":"var_ndir_temperature_control_timeout", "fr_FR" : "Temps stabilisation régulation température NDIR", "en_US" : "NDIR Temperature regulation stabilization time", "type":"integer", "value" : 0, "unit":"second", "access":"read_write"},
                     
                     {"name":"var_condenser_temperature_setpoint", "fr_FR" : "Consigne température condenseur", "en_US" : "Condenser Temperature setpoint", "type":"output_float", "extension_name":"measure_card_1", "organ_name":"regu_peltier", "value" : 10, "unit":"deg_cel", "access":"read_write"},
                     {"name":"var_condenser_temperature", "fr_FR" : "Température condenseur", "en_US" : "Condenser Temperature", "type":"input_float","extension_name":"measure_card_1", "organ_name":"adc2_0_t_peltier", "value" : 0, "unit":"deg_cel", "access":"read"},
-                    {"name":"var_condenser_temperature_default", "fr_FR" : "Défaut température condenseur", "en_US" : "Condenser Temperature default", "type":"alarm", "alarm_type":"critical_error_stop_cycle", "auto_acquit":true, "delay":5, "value" : true, "access":"read_write"},
+                    {"name":"var_condenser_temperature_default", "fr_FR" : "Défaut température condenseur", "en_US" : "Condenser Temperature default", "type":"alarm", "alarm_type":"critical_error_stop_cycle", "auto_acquit":true, "delay":10, "value" : true, "access":"read_write"},
                     {"name":"var_condenser_temperature_control_needed", "fr_FR" : "Régulation température condenseur bloquant", "en_US" : "Condenser Temperature regulation blocker", "type":"boolean", "value" : true, "access":"read_write"},
-                    {"name":"var_condenser_temperature_error_margin", "fr_FR" : "Marge d'erreur régulation température condenseur", "en_US" : "Condenser Temperature regulation error margin", "type":"float", "value" : 10, "unit":"percent", "access":"read_write"},
+                    {"name":"var_condenser_temperature_error_margin", "fr_FR" : "Marge d'erreur régulation température condenseur", "en_US" : "Condenser Temperature regulation error margin", "type":"float", "value" : 50, "unit":"percent", "access":"read_write"},
                     {"name":"var_condenser_temperature_control_timeout", "fr_FR" : "Temps stabilisation régulation température condenseur", "en_US" : "Condenser Temperature regulation error margin", "type":"integer", "value" : 0, "unit":"second", "access":"read_write"},
                     
-                    {"name":"var_reactor_temperature_setpoint", "fr_FR" : "Consigne température réacteur", "en_US" : "Reactor Temperature setpoint", "type":"float", "value" : 60, "unit":"deg_cel", "access":"read_write"},
+                    {"name":"var_reactor_temperature_setpoint", "fr_FR" : "Consigne température réacteur", "en_US" : "Reactor Temperature setpoint", "type":"float", "value" : 50, "unit":"deg_cel", "access":"read_write"},
                     {"name":"var_reactor_temperature", "fr_FR" : "Température réacteur", "en_US" : "Reactor Temperature", "type":"input_float","extension_name":"measure_card_1", "organ_name":"adc2_2_t_elem", "value" : 0, "unit":"deg_cel", "access":"read"},
-                    {"name":"var_reactor_temperature_default", "fr_FR" : "Défaut température réacteur", "en_US" : "Reactor Temperature default", "type":"alarm", "alarm_type":"critical_error_stop_cycle", "auto_acquit":true, "delay":7,"nb_minimum_try":3 , "value" : true, "access":"read_write"},
+                    {"name":"var_reactor_temperature_default", "fr_FR" : "Défaut température réacteur", "en_US" : "Reactor Temperature default", "type":"alarm", "alarm_type":"warning_do_nothing", "auto_acquit":true, "delay":7, "value" : true, "access":"read_write"},
                     {"name":"var_reactor_temperature_control_needed", "fr_FR" : "Température réacteur bloquant", "en_US" : "Reactor Temperature blocker", "type":"boolean", "value" : true, "access":"read_write"},
-                    {"name":"var_reactor_temperature_error_margin", "fr_FR" : "Marge d'erreur température réacteur", "en_US" : "Reactor Temperature error margin", "type":"float", "value" : 45, "unit":"percent", "access":"read_write"},
+                    {"name":"var_reactor_temperature_error_margin", "fr_FR" : "Marge d'erreur température réacteur", "en_US" : "Reactor Temperature error margin", "type":"float", "value" : 50, "unit":"percent", "access":"read_write"},
                     {"name":"var_reactor_temperature_control_timeout", "fr_FR" : "Temps stabilisation température réacteur", "en_US" : "Reactor Temperature stabilization time", "type":"integer", "value" : 10, "unit":"second", "access":"read_write"},
                     
-                    {"name":"var_emitter_power_setpoint", "fr_FR" : "Consigne puissance émetteur", "en_US" : "Emitter power setpoint", "type":"float", "value" : 630, "unit":"miliwatt", "access":"read_write"},
+                    {"name":"var_emitter_power_setpoint", "fr_FR" : "Consigne puissance émetteur", "en_US" : "Emitter power setpoint", "type":"float", "value" : 640, "unit":"miliwatt", "access":"read_write"},
                     {"name":"var_emitter_power", "fr_FR" : "Puissance émetteur", "en_US" : "Emitter power", "type":"input_float","extension_name":"measure_card_1", "organ_name":"power_emitter", "value" : 0, "unit":"miliwatt", "access":"read"},
-                    {"name":"var_emitter_power_default", "fr_FR" : "Défaut puissance émetteur", "en_US" : "Emitter power default", "type":"alarm", "alarm_type":"warning_do_nothing", "auto_acquit":true, "delay":5, "value" : true, "access":"read_write"},
+                    {"name":"var_emitter_power_default", "fr_FR" : "Défaut puissance émetteur", "en_US" : "Emitter power default", "type":"alarm", "alarm_type":"critical_error_stop_cycle", "auto_acquit":true, "delay":10, "value" : true, "access":"read_write"},
                     {"name":"var_emitter_power_control_needed", "fr_FR" : "Puissance émetteur bloquant", "en_US" : "Emitter power blocker", "type":"boolean", "value" : true, "access":"read_write"},
                     {"name":"var_emitter_power_error_margin", "fr_FR" : "Marge d'erreur puissance émetteur", "en_US" : "Emitter power error margin", "type":"float", "value" : 5, "unit":"percent", "access":"read_write"},
                     {"name":"var_emitter_power_control_timeout", "fr_FR" : "Temps stabilisation puissance émetteur", "en_US" : "Emitter power stabilization time", "type":"integer", "value" : 0, "unit":"second", "access":"read_write"},
                     
-                    {"name":"var_water_pressure_setpoint", "fr_FR" : "Consigne défaut eau", "en_US" : "Water default setpoint", "type":"float", "value" : 4, "unit":"volt", "access":"read_write"},
+                    {"name":"var_water_pressure_setpoint", "fr_FR" : "Consigne défaut eau", "en_US" : "Water default setpoint", "type":"float", "value" : 3, "unit":"volt", "access":"read_write"},
                     {"name":"var_water_pressure", "fr_FR" : "Détecteur eau", "en_US" : "Water detector", "type":"input_float","extension_name":"measure_card_1", "organ_name":"adc1_2_water_sensor_0", "value" : 0, "unit":"volt", "access":"read"},
-                    {"name":"var_water_pressure_default", "fr_FR" : "Défaut eau", "en_US" : "Water failure", "nb_minimum_try":3 , "type":"alarm", "alarm_type":"warning_do_nothing", "auto_acquit":true, "delay":7, "value" : true, "access":"read_write"},
+                    {"name":"var_water_pressure_default", "fr_FR" : "Défaut eau capteur optique", "en_US" : "Water failure", "nb_skip_before_stop_cycle":10 , "type":"alarm", "alarm_type":"not_critical_error_skip_cycle_try_again", "auto_acquit":true, "delay":7, "value" : true, "access":"read_write"},
                     {"name":"var_water_pressure_control_needed", "fr_FR" : "Défaut eau bloquant", "en_US" : "Water default blocker", "type":"boolean", "value" : true, "access":"read_write"},
                     {"name":"var_water_pressure_error_margin", "fr_FR" : "Marge d'erreur défaut eau", "en_US" : "Water default error margin", "type":"float", "value" : 0, "unit":"percent", "access":"read_write"},
                     {"name":"var_water_pressure_control_timeout", "fr_FR" : "Temps stabilisation défaut eau", "en_US" : "Water default stabilization time", "type":"integer", "value" : 10, "unit":"second", "access":"read_write"},
                     
                     {"name":"var_water_pressure_ILS_setpoint", "fr_FR" : "Consigne défaut eau ILS", "type":"boolean", "value" : true, "unit":"", "access":"read_write"},
                     {"name":"var_water_pressure_ILS", "fr_FR" : "Détecteur eau ILS","type":"input_boolean","extension_name":"measure_card_1", "organ_name":"tor_input_1", "value" : 0, "unit":"", "access":"read"},
-                    {"name":"var_water_pressure_ILS_default", "fr_FR" : "Défaut eau ILS", "type":"alarm",  "alarm_type":"critical_error_stop_cycle", "auto_acquit":true, "delay":5,"value" : true, "access":"read_write"},
+                    {"name":"var_water_pressure_ILS_default", "fr_FR" : "Défaut eau ILS", "type":"alarm",  "alarm_type":"critical_error_stop_cycle", "auto_acquit":true, "delay":10,"value" : true, "access":"read_write"},
                     {"name":"var_water_pressure_ILS_control_needed", "fr_FR" : "Défaut eau ILS bloquant", "type":"boolean", "value" : true, "access":"read_write"},
                     {"name":"var_water_pressure_ILS_error_margin", "fr_FR" : "Marge d'erreur défaut eau ILS", "type":"float", "value" : 0, "unit":"percent", "access":"read_write"},
                     {"name":"var_water_pressure_ILS_control_timeout", "fr_FR" : "Temps stabilisation défaut eau ILS", "type":"integer", "value" : 0, "unit":"second", "access":"read_write"},
 
                     {"name":"var_lampeUV_relay_setpoint", "fr_FR" : "Consigne défaut lampe UV", "en_US" : "UV default setpoint", "type":"boolean", "value" : true, "unit":"", "access":"read_write"},
                     {"name":"var_lampeUV_relay", "fr_FR" : "Relais défaut Lampe UV", "en_US" : "UV default relay", "type":"input_boolean","extension_name":"measure_card_1", "organ_name":"tor_input_0", "value" : -1, "unit":"", "access":"read"},
-                    {"name":"var_lampeUV_relay_default", "fr_FR" : "Défaut Lampe UV", "en_US" : "UV default", "type":"alarm", "alarm_type":"critical_error_stop_cycle", "auto_acquit":true, "delay":2, "nb_minimum_try":2, "value" : true, "access":"read_write"},
+                    {"name":"var_lampeUV_relay_default", "fr_FR" : "Défaut Lampe UV", "en_US" : "UV default", "type":"alarm", "alarm_type":"not_critical_error_skip_cycle_try_again", "auto_acquit":true, "delay":2, "nb_skip_before_stop_cycle":2, "value" : true, "access":"read_write"},
                     {"name":"var_lampeUV_relay_control_needed", "fr_FR" : "Défaut Lampe UV bloquant", "en_US" : "UV default blocker", "type":"boolean", "value" : true, "access":"read_write"},
                     {"name":"var_lampeUV_relay_error_margin", "fr_FR" : "Marge d'erreur défaut Lampe UV", "en_US" : "UV default error margin", "type":"float", "value" : 0, "unit":"percent", "access":"read_write"},
-                    {"name":"var_lampeUV_relay_control_timeout", "fr_FR" : "Temps stabilisation défaut Lampe UV", "en_US" : "UV default stabilization time", "type":"integer", "value" : 3, "unit":"second", "access":"read_write"},
+                    {"name":"var_lampeUV_relay_control_timeout", "fr_FR" : "Temps stabilisation défaut Lampe UV", "en_US" : "UV default stabilization time", "type":"integer", "value" : 5, "unit":"second", "access":"read_write"},
 
                     {"name":"var_ndir_measure_cell_setpoint", "fr_FR" : "Consigne cellule NDIR", "en_US" : "NDIR cell setpoint", "type":"float", "value" : 0.01, "unit":"miliwatt", "access":"read_write"},
                     {"name":"var_ndir_measure_cell", "fr_FR" : "Cellule mesure", "en_US" : "Measure cell", "type":"input_float","extension_name":"measure_card_1", "organ_name":"measure_cell", "value" : 0, "unit":"volt", "access":"read"},
-                    {"name":"var_ndir_measure_cell_default", "fr_FR" : "Défaut Cellule mesure", "en_US" : "Measure cell default", "type":"alarm", "alarm_type":"warning_do_nothing", "auto_acquit":true, "delay":5, "value" : true, "access":"read_write"},
+                    {"name":"var_ndir_measure_cell_default", "fr_FR" : "Défaut Cellule mesure", "en_US" : "Measure cell default", "type":"alarm", "alarm_type":"warning_do_nothing", "auto_acquit":true, "delay":10, "value" : true, "access":"read_write"},
                     {"name":"var_ndir_measure_cell_control_needed", "fr_FR" : "Cellule NDIR bloquant", "en_US" : "NDIR cell blocker", "type":"boolean", "value" : true, "access":"read_write"},
                     {"name":"var_ndir_measure_cell_error_margin", "fr_FR" : "Marge d'erreur cellule NDIR", "en_US" : "NDIR cell error margin", "type":"float", "value" : 0, "unit":"percent", "access":"read_write"},
                     {"name":"var_ndir_measure_cell_control_timeout", "fr_FR" : "Temps stabilisation cellule NDIR", "en_US" : "NDIR cell stabilization time", "type":"integer", "value" : 0, "unit":"second", "access":"read_write"},
 
                     {"name":"var_airflow2_setpoint", "fr_FR" : "Consigne débit d'air COV", "en_US" : "Airflow2 setpoint", "type":"output_float", "extension_name":"measure_card_1", "organ_name":"spi_dac_2", "value" : 0, "unit":"ml_min", "access":"read_write"},
                     {"name":"var_airflow2", "fr_FR" : "Débit d'air COV", "en_US" : " VOC Airflow", "type":"input_float", "extension_name":"measure_card_1", "organ_name":"adc1_1_flowmeter_1", "value" : 0, "unit":"ml_min", "access":"read"},
-                    {"name":"var_airflow2_default", "fr_FR" : "Défaut débit d'air COV", "en_US" : "VOC Airflow default", "type":"alarm", "alarm_type":"warning_do_nothing", "auto_acquit":true, "delay":5, "value" : true, "access":"read_write"},
+                    {"name":"var_airflow2_default", "fr_FR" : "Défaut débit d'air COV", "en_US" : "VOC Airflow default", "type":"alarm", "alarm_type":"warning_do_nothing", "auto_acquit":true, "delay":10, "value" : true, "access":"read_write"},
                     {"name":"var_airflow2_control_needed", "fr_FR" : "Débit d'air COV bloquant", "en_US" : "VOC Airflow blocker", "type":"boolean", "value" : true, "access":"read_write"},
-                    {"name":"var_airflow2_error_margin", "fr_FR" : "Marge d'erreur débit d'air COV", "en_US" : "VOC Airflow error margin", "type":"float", "value" : 2, "unit":"percent", "access":"read_write"},
+                    {"name":"var_airflow2_error_margin", "fr_FR" : "Marge d'erreur débit d'air COV", "en_US" : "VOC Airflow error margin", "type":"float", "value" : 5, "unit":"percent", "access":"read_write"},
                     {"name":"var_airflow2_control_timeout", "fr_FR" : "Temps stabilisation débit d'air COV", "en_US" : "VOC Airflow stabilization time", "type":"integer", "value" : 0, "unit":"second", "access":"read_write"},
 
                     {"name":"var_TOC_calibration_default", "fr_FR" : "Défaut étalonnage COT", "type":"boolean", "value" : false, "access":"read_write"},
@@ -340,10 +344,11 @@
                     {"name":"var_TIC_calibration_default", "fr_FR" : "Défaut étalonnage CIT", "type":"boolean", "value" : false, "access":"read_write"},
                     {"name":"var_TIC_calibration_default_margin", "fr_FR" : "Marge d'erreur défaut calibration CIT", "type":"float", "value" : 50, "unit":"percent", "access":"read_write"},
 
-                    {"name":"var_TIC_control_default", "fr_FR" : "Défaut Courbe CIT", "type":"boolean", "value" : false, "access":"read_write"},
+                    {"name":"var_TIC_control_default", "fr_FR" : "Recalage Courbe NDIR", "type":"boolean", "value" : false, "access":"read_write"},
                     {"name":"var_TIC_control_margin", "fr_FR" : "Marge d'erreur défaut calibration COT", "type":"float", "value" : 50, "unit":"percent", "access":"read_write"},
 
-                    {"name":"var_coef_courbe", "fr_FR" : "Coefficient courbe", "type":"float", "value" : 1, "access":"read_write"},
+                    {"name":"var_coef_courbe", "fr_FR" : "Coefficient Recalage Courbe NDIR", "type":"float", "value" : 1, "access":"read_write"},
+                    {"name":"var_new_coef_courbe", "fr_FR" : "New Coefficient courbe", "type":"float", "value" : 1, "unit":"", "access":"read"},
                    
 
                     {"name":"var_ev_sample", "fr_FR" : "EV échantillon", "en_US" : "Sample EV", "type":"output_boolean", "access":"read_write",
@@ -406,8 +411,8 @@
                     },
                     {"name":"var_pump_sample_anticlockwise", "fr_FR" : "Pompe échantillon sens anti-horaire", "en_US" : "Sample pump anticlockwise", "type":"output_boolean", "access":"read_write",
                             "value" : true, "extension_name":"measure_card_1", "organ_name":"dc_engine_cw", "passive":true},
-                    {"name":"var_pump_sample_filling_loop_timeout", "fr_FR" : "Temps de remplissage boucle", "en_US" : "Charging time loop", "type":"integer", "value" : 18, "unit":"second", "access":"read_write"},
-                    {"name":"var_pump_sample_filling_reactor_timeout", "fr_FR" : "Temps de remplissage réacteur", "en_US" : "Reactor filling time", "type":"integer", "value" : 25, "unit":"second", "access":"read_write"},
+                    {"name":"var_pump_sample_filling_loop_timeout", "fr_FR" : "Temps de remplissage boucle", "en_US" : "Charging time loop", "type":"integer", "value" : 15, "unit":"second", "access":"read_write"},
+                    {"name":"var_pump_sample_filling_reactor_timeout", "fr_FR" : "Temps de remplissage réacteur", "en_US" : "Reactor filling time", "type":"integer", "value" : 12, "unit":"second", "access":"read_write"},
 
                   
                     {"name":"var_test_relay_1", "fr_FR" : "Relais CM 1", "en_US" : "MC Relay 1", "type":"output_boolean", "access":"read_write",
@@ -565,17 +570,25 @@
                          "type":"alarm", "alarm_type":"warning_do_nothing", "auto_acquit":true, "delay":1, "value" : true
                     },
 
-                    {"name" : "var_loop1_4_20_min", "fr_FR":"Ajustement_1 4mA", "en_US" : "4mA Adjust 1", "value": 682.5, "type":"integer", "unit":"pts"},
-                    {"name" : "var_loop1_4_20_max", "fr_FR":"Ajustement_1 20mA", "en_US" : "20mA Adjust 1","value":3412.5, "type":"integer", "unit":"pts"},
-                    {"name" : "var_loop1_4_20_data", "fr_FR":"Mesure_1 4-20mA", "en_US" : "4-20mA Measure 1", "type":"output_integer", "value":0, "unit":"pts", "extension_name":"io_card_1", "organ_name":"loop_0_20_data_1"},
-                    {"name" : "var_loop2_4_20_min", "fr_FR":"Ajustement_2 4mA", "en_US" : "4mA Adjust 2", "value": 682.5, "type":"integer", "unit":"pts"},
-                    {"name" : "var_loop2_4_20_max", "fr_FR":"Ajustement_2 20mA", "en_US" : "20mA Adjust 2","value":3412.5, "type":"integer", "unit":"pts"},
-                    {"name" : "var_loop2_4_20_data", "fr_FR":"Mesure_2 4-20mA", "en_US" : "4-20mA Measure 2", "type":"output_integer", "value":0, "unit":"pts", "extension_name":"io_card_1", "organ_name":"loop_0_20_data_2"},
+                    {"name" : "var_loop1_4_20_min", "fr_FR":"Ajustement_1 4mA", "en_US" : "4mA Adjust 1", "value": 682.5, "type":"integer", "unit":"pts", "access":"read_write"},
+                    {"name" : "var_loop1_4_20_max", "fr_FR":"Ajustement_1 20mA", "en_US" : "20mA Adjust 1","value":3412.5, "type":"integer", "unit":"pts", "access":"read_write"},
+                    {"name" : "var_loop1_4_20_data", "fr_FR":"Mesure_1 4-20mA", "en_US" : "4-20mA Measure 1", "type":"output_integer", "value":0, "unit":"pts", "extension_name":"io_card_1", "organ_name":"loop_0_20_data_1", "access":"read"},
+                    {"name" : "var_loop2_4_20_min", "fr_FR":"Ajustement_2 4mA", "en_US" : "4mA Adjust 2", "value": 682.5, "type":"integer", "unit":"pts", "access":"read_write"},
+                    {"name" : "var_loop2_4_20_max", "fr_FR":"Ajustement_2 20mA", "en_US" : "20mA Adjust 2","value":3412.5, "type":"integer", "unit":"pts", "access":"read_write"},
+                    {"name" : "var_loop2_4_20_data", "fr_FR":"Mesure_2 4-20mA", "en_US" : "4-20mA Measure 2", "type":"output_integer", "value":0, "unit":"pts", "extension_name":"io_card_1", "organ_name":"loop_0_20_data_2", "access":"read"},
                     {"name" : "var_test4mA_1", "fr_FR" : "Test 4mA sortie 1", "type":"boolean", "value" : false, "access":"read_write"},
                     {"name" : "var_test20mA_1", "fr_FR" : "Test 20mA sortie 1", "type":"boolean", "value" : false, "access":"read_write"},
                     {"name" : "var_test4mA_2", "fr_FR" : "Test 4mA sortie 2", "type":"boolean", "value" : false, "access":"read_write"},
-                    {"name" : "var_test20mA_2", "fr_FR" : "Test 20mA sortie 2", "type":"boolean", "value" : false, "access":"read_write"}
+                    {"name" : "var_test20mA_2", "fr_FR" : "Test 20mA sortie 2", "type":"boolean", "value" : false, "access":"read_write"},
 
+                    {"name" : "var_liearisation_curve", "fr_FR":"Courbe de linéarisation", "type":"curve", 
+                     "values": [{"y" : 0, "x" : 0},{"y" : 10, "x" : 0.0025290595},{"y" : 10, "x" : 0.0046479179},{"y" : 50, "x" : 0.0113547509},
+                     {"y" : 75, "x" : 0.0164173584},{"y" : 100, "x" : 0.0208042086},{"y" : 150, "x" : 0.0301634052},{"y" : 225, "x" : 0.0421919617},
+                     {"y" : 250, "x" : 0.0473168979},{"y" : 300, "x" : 0.0517132643},{"y" : 500, "x" : 0.0797419879},{"y" : 750, "x" : 0.1061130114},
+                     {"y" : 1000, "x" : 0.1266231388},{"y" : 1500, "x" : 0.1674910873},{"y" : 1800, "x" : 0.1907662099},{"y" : 2000, "x" : 0.1973365997},
+                     {"y" : 4800, "x" : 0.3399918436},{"y" : 7200, "x" : 0.4169109749},{"y" : 9600, "x" : 0.4743283545},{"y" : 12000, "x" : 0.5145533565} ]
+
+                    }
                     
     ],
 
@@ -586,12 +599,12 @@
                      {"name":"tab_relay", "variables":["var_test_relay_1", "var_test_relay_2", "var_test_relay_3", "var_test_tor_1", "var_test_tor_2", "var_test_tor_3", "var_test_tor_4"]},
                      {"name":"tab_entrees", "variables":["var_selection_stream1", "var_arret_fin_cycle"]},
                      {"name":"tab_pump", "variables":["var_pump_sample", "var_pump_sample_clockwise","var_pump_acide_run_stop", "var_pump_acide_nbr_turn", "var_pump_acide_clockwise", "var_pump_persulfate_run_stop", "var_pump_persulfate_nbr_turn", "var_pump_persulfate_clockwise", "var_pump_soude_run_stop", "var_pump_soude_nbr_turn", "var_pump_dilution_run_stop", "var_pump_dilution_nbr_turn", "var_pump_dilution_clockwise" ]},
-                      {"name":"tab_420","variables":["var_loop1_4_20_min", "var_loop1_4_20_max", "var_test4mA_1", "var_test20mA_1" , "var_loop1_4_20_data",
+                     {"name":"tab_420","variables":["var_loop1_4_20_min", "var_loop1_4_20_max", "var_test4mA_1", "var_test20mA_1" , "var_loop1_4_20_data",
                                                           "var_loop2_4_20_min", "var_loop2_4_20_max", "var_test4mA_2", "var_test20mA_2" , "var_loop2_4_20_data"]}
 
       
         ]},
-        {"name":"options" , "variables":["var_nb_cycles_after_maintenance", "var_airflow_setpoint", "var_ndir_temperature_setpoint", "var_condenser_temperature_setpoint", "var_reactor_temperature_setpoint", "var_water_pressure_setpoint", "var_airflow2_setpoint" ]},
+        {"name":"options" , "variables":["var_airflow_setpoint", "var_ndir_temperature_setpoint", "var_condenser_temperature_setpoint", "var_reactor_temperature_setpoint", "var_water_pressure_setpoint", "var_nb_cycles_after_maintenance" ]},
         {"name":"history", "variables":["var_measure_npoc"]},
         {"name":"alarms", "variables":["var_pump_acide_default_alarm", "var_pump_persulfate_default_alarm", "var_pump_soude_default_alarm", "var_default_measure_card", "var_ndir_measure_cell_default", "var_zero_measured_maintenance_cycle_default", "var_general_default", "var_water_default", "var_airflow_default","var_ndir_temperature_default", "var_condenser_temperature_default", "var_reactor_temperature_default", "var_emitter_power_default", "var_lampeUV_relay_default", "var_water_pressure_default", "var_water_pressure_ILS_default", "var_airflow2_default", "var_measure_seuil_1_default", "var_measure_seuil_2_default"]},
         {"name":"initial_tests","variables":[{"test":"var_emitter_power_default", "indicator":"var_emitter_power"},
@@ -608,11 +621,9 @@
                {"source":"var_ndir_temperature_default", "target":"var_general_default"},
                {"source":"var_condenser_temperature_default", "target":"var_general_default"},
                {"source":"var_emitter_power_default", "target":"var_general_default"},
-               {"source":"var_reactor_temperature_default", "target":"var_general_default"},
                {"source":"var_lampeUV_relay_default", "target":"var_general_default"},
                {"source":"var_pump_acide_default_alarm", "target":"var_general_default"},
                {"source":"var_pump_persulfate_default_alarm", "target":"var_general_default"},
-               {"source":"var_pump_soude_default_alarm", "target":"var_general_default"},
                {"source":"var_water_pressure_default", "target":"var_water_default"},
                {"source":"var_water_pressure_ILS_default", "target":"var_water_default"}
   
@@ -932,6 +943,8 @@
                     "co2g":"var_co2g",
                     "wait_until_finished" : false,
           
+                    "linearisation_curve" : "var_liearisation_curve",
+
                     "derivative_calcul" : false,
                     "derivative_interval" : "var_derivative_interval_tx_npoc",
                     "derivative_threshold" : "var_derivative_threshold_npoc",
@@ -956,7 +969,7 @@
                     "co2_ppmv_to_co2_gm3_cst" : "var_co2_ppmv_to_co2_gm3_cst",
                     "co2g":"var_co2g",
                     "wait_until_finished" : false,
-          
+                    "linearisation_curve" : "var_liearisation_curve",
                     "derivative_calcul" : false,
                     "derivative_interval" : "var_derivative_interval_tx_npoc",
                     "derivative_threshold" : "var_derivative_threshold_npoc",
@@ -982,7 +995,7 @@
                     "co2_ppmv_to_co2_gm3_cst" : "var_co2_ppmv_to_co2_gm3_cst",
                     "co2g":"var_co2g",
                     "wait_until_finished" : false,
-          
+                    "linearisation_curve" : "var_liearisation_curve",
                     "derivative_calcul" : false,
                     "derivative_interval" : "var_derivative_interval_tx_npoc",
                     "derivative_threshold" : "var_derivative_threshold_npoc",
@@ -1007,7 +1020,7 @@
                     "co2_ppmv_to_co2_gm3_cst" : "var_co2_ppmv_to_co2_gm3_cst",
                     "co2g":"var_co2g",
                     "wait_until_finished" : false,
-          
+                    "linearisation_curve" : "var_liearisation_curve",
                     "derivative_calcul" : false,
                     "derivative_interval" : "var_derivative_interval_tx_npoc",
                     "derivative_threshold" : "var_derivative_threshold_npoc",
@@ -1032,7 +1045,7 @@
                     "co2_ppmv_to_co2_gm3_cst" : "var_co2_ppmv_to_co2_gm3_cst",
                     "co2g":"var_co2g",
                     "wait_until_finished" : false,
-          
+                    "linearisation_curve" : "var_liearisation_curve",
                     "derivative_calcul" : false,
                     "derivative_interval" : "var_derivative_interval_tx_npoc",
                     "derivative_threshold" : "var_derivative_threshold_npoc",
@@ -1057,7 +1070,7 @@
                     "co2_ppmv_to_co2_gm3_cst" : "var_co2_ppmv_to_co2_gm3_cst",
                     "co2g":"var_co2g",
                     "wait_until_finished" : false,
-          
+                    "linearisation_curve" : "var_liearisation_curve",
                     "derivative_calcul" : false,
                     "derivative_interval" : "var_derivative_interval_tx_npoc",
                     "derivative_threshold" : "var_derivative_threshold_npoc",
@@ -1083,6 +1096,15 @@
                     "new_coef_calibration" : "var_new_coef_calibration_npoc",
                     "default" : "var_TOC_calibration_default",
                     "margin_default" : "var_TOC_calibration_default_margin"
+                },
+                {   "name" : "action_autocontrol_cit", "type" : "calibration_calcul",
+                    "fr_FR" : "Coefficient autocontrol CIT",
+                    "measure" : "var_manual_measure_cit",
+                    "standard_value" : "var_etalon_cit",
+                    "coef_calibration" : "var_coef_courbe",
+                    "new_coef_calibration" : "var_new_coef_courbe",
+                    "default" : "var_TIC_control_default",
+                    "margin_default" : "var_TIC_control_margin"
                 },
                 {
                   "name" : "action_zero_measure", "type" : "cmd_read_input",
@@ -1259,7 +1281,7 @@
                 {
                   "name" : "action_cmd_loop1_4_20", "type" : "cmd_loop_4_20", 
                   "fr_FR" : "Commande 4-20mA N°1",
-                  "input_var" : "var_measure_npoc",
+                  "input_var" : "var_measure_cit",
                   "input_var_min" : "var_measure_4_20_npoc_min",
                   "input_var_max" : "var_measure_4_20_npoc_max",
                   "min_adjustement" : "var_loop1_4_20_min",
@@ -1269,7 +1291,7 @@
               {
                   "name" : "action_cmd_loop2_4_20", "type" : "cmd_loop_4_20", 
                   "fr_FR" : "Commande 4-20mA N°2",
-                  "input_var" : "var_measure_cit",
+                  "input_var" : "var_measure_npoc",
                   "input_var_min" : "var_measure_4_20_cit_min",
                   "input_var_max" : "var_measure_4_20_cit_max",
                   "min_adjustement" : "var_loop2_4_20_min",
@@ -1307,7 +1329,15 @@
                   "variables": [
                       "var_zero_npoc"
                   ]
-              }
+              },
+              {
+                    "name" : "action_slope_airflow", "type" : "slope",
+                    "inhibited_alarm" : "var_airflow_default",
+                    "start_setpoint": "var_airflow_start_setpoint_slope",
+                    "setpoint": "var_airflow_setpoint",
+                    "duration" : "var_airflow_duration_slope",
+                    "nb_sections" : "var_airflow_nb_sections_slope"
+                }
 
     ],
 
@@ -1319,7 +1349,7 @@
             "type" : "autonome",
             "steps" : [{"name":"step_10", "step":1,"fr_FR":"Initialisation cycle de control",
                         "actions":["action_compressor_on", "action_heater_reactor_on", "action_uv_lamp_on", "action_set_airflow_setpoint", "action_set_ndir_temperature_setpoint", "action_set_condenser_temperature_setpoint", "action_set_water_pressure_ILS_setpoint", "action_set_relay_lampe UV_setpoint", "action_set_water_pressure_setpoint"]}, 
-                       {"name":"step_20", "step":14,"fr_FR":"Tests", "actions":["action_control_relay_lampeUV_default"]},
+                       {"name":"step_20", "step":13,"fr_FR":"Tests", "actions":["action_control_relay_lampeUV_default"]},
                        {"name":"step_30", "step":15,"fr_FR":"Tests", "actions":["action_control_air_flow", "action_control_power_emitter", "action_control_temperature_ndir", "action_control_temperature_condenser", "action_control_water_ILS_default", "action_uv_lamp_off", "action_control_measure_cell"]}
                     ]
         },
@@ -1329,22 +1359,23 @@
             "en_US" : "Measure",
             "type" : "measure",
             "step_stop" : {"fr_FR":"Arrêt cycle", "actions":["action_ev_sample_close", "action_ev_reactor_filling_close", "action_ev_nettoyage_close", "action_ev_sample_inerting_close", "action_ev_air_ozone_close", "action_ev_air_direct_close", "action_ev_emptying_close", "action_ev_purge_close", "action_ev_zero_close", "var_ev_air_decolmatage", "action_pump_sample_off", "action_cmd_pump_acide_off", "action_cmd_pump_persulfate_off", "action_cmd_pump_soude_off", "action_cmd_pump_dilution_off", "action_uv_lamp_off"]},
-            "steps" : [{"name":"step_11", "step":1,"fr_FR":"Prélèvement Echantillon/Vidange réacteur", "en_US" : "Sample/Emptying reactor", "actions":["action_ev_emptying_open", "action_ev_sample_open", "action_pump_sample_filling_loop_on"]}, 
-                      {"name":"step_21", "step":17,"fr_FR":"Test Défaut d'eau", "en_US" : "Test Défaut d'eau", "actions":["action_control_water_default"]},
-                      {"name":"step_31", "step":19,"fr_FR":"Position transfert", "en_US" : "Transfert position", "actions":["action_ev_sample_close", "action_ev_reactor_filling_open"]},
+            "steps" : [{"name":"step_11", "step":1,"fr_FR":"Prélèvement Echantillon/Vidange réacteur", "en_US" : "Sample/Emptying reactor", "actions":["action_uv_lamp_off", "action_ev_emptying_open", "action_ev_sample_open", "action_pump_sample_filling_loop_on"]}, 
+                       {"name":"step_10", "step":10,"fr_FR":"Test rampe", "actions":["action_slope_airflow"]},
+                      {"name":"step_21", "step":14,"fr_FR":"Test Défaut d'eau", "en_US" : "Test Défaut d'eau", "actions":["action_control_water_default"]},
+                      {"name":"step_31", "step":16,"fr_FR":"Position transfert", "en_US" : "Transfert position", "actions":["action_ev_reactor_filling_open", "action_ev_sample_close"]},
                       {"name":"step_41", "step":31,"fr_FR":"Fin Vidange Réacteur", "en_US" : "End emptying reactor", "actions":["action_ev_emptying_close"]},
                       {"name":"step_51", "step":51,"fr_FR":"Mesure du Zéro", "en_US" : "Zero measure", "actions":["action_zero_measure"]},
                       {"name":"step_61", "step":52,"fr_FR":"Contrôle du Zéro", "en_US" : "Zero control", "actions":["action_control_zero_measure_cell_cycle"]},
-                      {"name":"step_71", "step":54,"fr_FR":"Transfert échantillon et Mesure CIT", "en_US" : "Sample transfert & TIC measure", "actions":["action_pump_sample_filling_reactor_on", "action_ev_sample_inerting_open", "action_acquisition_measure_cit"]},
+                      {"name":"step_71", "step":54,"fr_FR":"Transfert échantillon", "en_US" : "Sample transfert", "actions":["action_pump_sample_filling_reactor_on", "action_ev_sample_inerting_open", "action_acquisition_measure_cit"]},
                       {"name":"step_81", "step":57,"fr_FR":"Injection H2SO4", "en_US" : "H2SO4 injection", "actions":["action_cmd_pump_acide"]},
-                      {"name":"step_91", "step":80,"fr_FR":"Fin Transfert Echantillon", "en_US" : "End sample transfert", "actions":["action_ev_sample_inerting_close", "action_ev_sample_open", "action_ev_reactor_filling_close", "action_control_temperature_reactor"]},
+                      {"name":"step_91", "step":68,"fr_FR":"Purge CIT", "en_US" : "TIC purging", "actions":["action_ev_sample_inerting_close", "action_ev_sample_open", "action_ev_reactor_filling_close", "action_control_temperature_reactor"]},
                       {"name":"step_101", "step":145,"fr_FR":"Lampe UV ON", "en_US" : "UV lamp ON", "actions":["action_uv_lamp_on"]},
                       {"name":"step_111", "step":150,"fr_FR":"Mesure du Zéro", "en_US" : "Zero measure", "actions":["action_zero_measure_NPOC"]},
                       {"name":"step_121", "step":151,"fr_FR":"Contrôle du Zéro", "en_US" : "Zero control", "actions":["action_find_bigger_test"]},
-                      {"name":"step_131", "step":158,"fr_FR":"Fin Mesure CIT - Mesure NPOC", "en_US" : "End TIC measure - NPOC measure", "actions":["action_control_relay_lampeUV_default", "action_acquisition_measure_npoc", "action_cmd_pump_persulfate", "action_cmd_loop2_4_20"]},
-                      {"name":"step_131", "step":175,"fr_FR":"Fin Mesure CIT - Mesure NPOC", "en_US" : "End TIC measure - NPOC measure", "actions":["action_ev_air_ozone_open", "action_ev_air_direct_open"]},
-                      {"name":"step_141", "step":460,"fr_FR":"*Fin mesure NPOC*", "en_US" : "*End NPOC measure*", "actions":["action_uv_lamp_off", "action_ev_air_direct_close", "action_ev_air_ozone_close", "action_control_seuil_mesure_1", "action_control_seuil_mesure_2"]},
-                      {"name":"step_151", "step":463,"fr_FR":"**Fin mesure NPOC**", "en_US" : "**End NPOC measure**", "actions":["action_cmd_loop1_4_20"]}
+                      {"name":"step_131", "step":158,"fr_FR":"*Mesure COT*", "en_US" : "*TOC measure*", "actions":["action_control_relay_lampeUV_default", "action_acquisition_measure_npoc", "action_cmd_pump_persulfate", "action_cmd_loop1_4_20"]},
+                      {"name":"step_131", "step":175,"fr_FR":"**Mesure COT**", "en_US" : "**TOC measure**", "actions":["action_ev_air_ozone_open", "action_ev_air_direct_open"]},
+                      {"name":"step_141", "step":460,"fr_FR":"*Fin mesure COT*", "en_US" : "*End TOC measure*", "actions":["action_uv_lamp_off", "action_ev_air_direct_close", "action_ev_air_ozone_close", "action_control_seuil_mesure_1", "action_control_seuil_mesure_2"]},
+                      {"name":"step_151", "step":463,"fr_FR":"**Fin mesure COT**", "en_US" : "**End TOC measure**", "actions":["action_cmd_loop2_4_20"]}
                       ]
         },
         {
@@ -1356,11 +1387,11 @@
             "variables_output" : ["var_zero_measured_maintenance_cycle"],
             "variables_copy_on_validation" : [],
             "step_stop" : {"fr_FR":"Arrêt cycle", "actions":["action_ev_sample_close", "action_ev_reactor_filling_close", "action_ev_nettoyage_close", "action_ev_sample_inerting_close", "action_ev_air_ozone_close", "action_ev_air_direct_close", "action_ev_emptying_close", "action_ev_purge_close", "action_ev_zero_close", "var_ev_air_decolmatage", "action_pump_sample_off", "action_cmd_pump_acide_off", "action_cmd_pump_persulfate_off", "action_cmd_pump_soude_off", "action_cmd_pump_dilution_off", "action_uv_lamp_off"]},
-            "steps" : [{"name":"step_12", "step":1,"fr_FR":"Vidange", "en_US" : "Emptying", "actions":["action_ev_emptying_open", "action_ev_sample_close"]}, 
+            "steps" : [{"name":"step_12", "step":1,"fr_FR":"Vidange", "en_US" : "Emptying", "actions":["action_uv_lamp_off","action_ev_emptying_open", "action_ev_sample_close"]}, 
                       {"name":"step_22", "step":31,"fr_FR":"Fin Vidange Réacteur & Attente", "en_US" : "End reactor emptying & Waiting", "actions":["action_ev_emptying_close"]},
                       {"name":"step_32", "step":61,"fr_FR":"Mesure du Zéro", "en_US" : "Zero measure", "actions":["action_zero_measure_maintenance_cycle"]},
-                      {"name":"step_42", "step":62,"fr_FR":"Contrôle du Zéro", "en_US" : "Zero control", "actions":["action_control_zero_measure_cell_maintenance"]},
-                      {"name":"step_52", "step":64,"fr_FR":"Fin zéro", "en_US" : "End zero", "actions":[]}
+                      {"name":"step_42", "step":62,"fr_FR":"Contrôle du Zéro", "en_US" : "Zero control", "actions":["action_control_zero_measure_cell_maintenance", "action_ev_purge_open"]},
+                      {"name":"step_52", "step":64,"fr_FR":"Fin zéro", "en_US" : "End zero", "actions":["action_ev_purge_close"]}
                       ]
         },
         {
@@ -1369,19 +1400,20 @@
             "en_US" : "TIC Control",
             "type" : "maintenance",
             "variables_input" : ["var_etalon_cit"],
-            "variables_output" : ["var_measure_calibration_cit"],
-            "variables_copy_on_validation" : [],
+            "variables_output" : ["var_new_coef_courbe", "var_coef_courbe", "var_manual_measure_cit"],
+            "variables_default" : ["var_TIC_control_default"],
+            "variables_copy_on_validation" : [{"source": "var_new_coef_courbe", "target": "var_coef_courbe"}],
             "step_stop" : {"fr_FR":"Arrêt cycle", "actions":["action_ev_sample_close", "action_ev_reactor_filling_close", "action_ev_nettoyage_close", "action_ev_sample_inerting_close", "action_ev_air_ozone_close", "action_ev_air_direct_close", "action_ev_emptying_close", "action_ev_purge_close", "action_ev_zero_close", "var_ev_air_decolmatage", "action_pump_sample_off", "action_cmd_pump_acide_off", "action_cmd_pump_persulfate_off", "action_cmd_pump_soude_off", "action_cmd_pump_dilution_off", "action_uv_lamp_off"]},
-            "steps" : [{"name":"step_13", "step":1,"fr_FR":"Prélèvement Echantillon/Vidange réacteur", "en_US" : "Sample/Emptying reactor", "actions":["action_ev_emptying_open", "action_ev_sample_close", "action_pump_sample_filling_loop_on"]}, 
+            "steps" : [{"name":"step_13", "step":1,"fr_FR":"Prélèvement Echantillon/Vidange réacteur", "en_US" : "Sample/Emptying reactor", "actions":["action_uv_lamp_off","action_ev_emptying_open", "action_ev_sample_close", "action_pump_sample_filling_loop_on"]}, 
                       {"name":"step_23", "step":17,"fr_FR":"Test Défaut d'eau", "en_US" : "Water default control", "actions":["action_control_water_default"]},
                       {"name":"step_33", "step":19,"fr_FR":"Position transfert", "en_US" : "Transfert position", "actions":["action_ev_reactor_filling_open"]},
                       {"name":"step_43", "step":31,"fr_FR":"Fin Vidange Réacteur", "en_US" : "End emptying reactor", "actions":["action_ev_emptying_close"]},
                       {"name":"step_53", "step":51,"fr_FR":"Mesure du Zéro", "en_US" : "Zero measure", "actions":["action_zero_measure"]},
                       {"name":"step_63", "step":52,"fr_FR":"Contrôle du Zéro", "en_US" : "Zero control", "actions":["action_control_zero_measure_cell_cycle"]},
-                      {"name":"step_73", "step":54,"fr_FR":"Transfert échantillon et Mesure CIT", "en_US" : "Sample transfert & TIC measure", "actions":["action_pump_sample_filling_reactor_on", "action_ev_sample_inerting_open", "action_acquisition_measure_calibration_cit"]},
+                      {"name":"step_73", "step":54,"fr_FR":"Transfert échantillon et Mesure CIT", "en_US" : "Sample transfert & TIC measure", "actions":["action_pump_sample_filling_reactor_on", "action_ev_sample_inerting_open", "action_acquisition_manual_measure_cit"]},
                       {"name":"step_83", "step":57,"fr_FR":"Injection H2SO4", "en_US" : "H2SO4 injection", "actions":["action_cmd_pump_acide"]},
                       {"name":"step_93", "step":80,"fr_FR":"Fin Transfert Echantillon", "en_US" : "End sample transfert", "actions":["action_ev_sample_inerting_close", "action_ev_reactor_filling_close", "action_control_temperature_reactor"]},
-                      {"name":"step_103", "step":145,"fr_FR":"Calcul Coefficient", "en_US" : "Calculating coefficient", "actions":[]}
+                      {"name":"step_103", "step":145,"fr_FR":"Calcul Coefficient", "en_US" : "Calculating coefficient", "actions":["action_autocontrol_cit"]}
                       ]
         },
         {
@@ -1394,7 +1426,7 @@
             "variables_default" : ["var_TIC_calibration_default"],
             "variables_copy_on_validation" : [{"source":"var_new_coef_calibration_cit", "target":"var_coef_calibration_cit"}],
             "step_stop" : {"fr_FR":"Arrêt cycle", "actions":["action_ev_sample_close", "action_ev_reactor_filling_close", "action_ev_nettoyage_close", "action_ev_sample_inerting_close", "action_ev_air_ozone_close", "action_ev_air_direct_close", "action_ev_emptying_close", "action_ev_purge_close", "action_ev_zero_close", "var_ev_air_decolmatage", "action_pump_sample_off", "action_cmd_pump_acide_off", "action_cmd_pump_persulfate_off", "action_cmd_pump_soude_off", "action_cmd_pump_dilution_off", "action_uv_lamp_off"]},
-            "steps" : [{"name":"step_13", "step":1,"fr_FR":"Prélèvement Echantillon/Vidange réacteur", "en_US" : "Sample/Emptying reactor", "actions":["action_ev_emptying_open", "action_ev_sample_close", "action_pump_sample_filling_loop_on"]}, 
+            "steps" : [{"name":"step_13", "step":1,"fr_FR":"Prélèvement Echantillon/Vidange réacteur", "en_US" : "Sample/Emptying reactor", "actions":["action_uv_lamp_off","action_ev_emptying_open", "action_ev_sample_close", "action_pump_sample_filling_loop_on"]}, 
                       {"name":"step_23", "step":17,"fr_FR":"Test Défaut d'eau", "en_US" : "Water default control", "actions":["action_control_water_default"]},
                       {"name":"step_33", "step":19,"fr_FR":"Position transfert", "en_US" : "Transfert position", "actions":["action_ev_reactor_filling_open"]},
                       {"name":"step_43", "step":31,"fr_FR":"Fin Vidange Réacteur", "en_US" : "End emptying reactor", "actions":["action_ev_emptying_close"]},
@@ -1408,74 +1440,130 @@
         },
         {
             "name" : "cycle_calibration NPOC",
-            "fr_FR" : "Etalonnage NPOC",
-            "en_US" : "NPOC Calibration",
+            "fr_FR" : "Etalonnage COT",
+            "en_US" : "COT Calibration",
             "type" : "maintenance",
             "variables_input" : ["var_etalon_npoc"],
             "variables_output" : ["var_new_coef_calibration_npoc", "var_coef_calibration_npoc", "var_measure_calibration_npoc"],
             "variables_default" : ["var_TOC_calibration_default"],
             "variables_copy_on_validation" : [{"source":"var_new_coef_calibration_npoc", "target":"var_coef_calibration_npoc"}],
             "step_stop" : {"fr_FR":"Arrêt cycle", "actions":["action_ev_sample_close", "action_ev_reactor_filling_close", "action_ev_nettoyage_close", "action_ev_sample_inerting_close", "action_ev_air_ozone_close", "action_ev_air_direct_close", "action_ev_emptying_close", "action_ev_purge_close", "action_ev_zero_close", "var_ev_air_decolmatage", "action_pump_sample_off", "action_cmd_pump_acide_off", "action_cmd_pump_persulfate_off", "action_cmd_pump_soude_off", "action_cmd_pump_dilution_off", "action_uv_lamp_off"]},
-            "steps" : [{"name":"step_14", "step":1,"fr_FR":"Prélèvement Echantillon/Vidange réacteur", "en_US" : "Sample/Emptying reactor", "actions":["action_ev_emptying_open", "action_ev_sample_close", "action_pump_sample_filling_loop_on"]}, 
+            "steps" : [{"name":"step_14", "step":1,"fr_FR":"Prélèvement Echantillon/Vidange réacteur", "en_US" : "Sample/Emptying reactor", "actions":["action_uv_lamp_off","action_ev_emptying_open", "action_ev_sample_close", "action_pump_sample_filling_loop_on"]}, 
                       {"name":"step_24", "step":17,"fr_FR":"Test Défaut d'eau", "en_US" : "Water default control", "actions":["action_control_water_default"]},
                       {"name":"step_34", "step":19,"fr_FR":"Position transfert", "en_US" : "Transfert position", "actions":["action_ev_reactor_filling_open"]},
                       {"name":"step_44", "step":31,"fr_FR":"Fin Vidange Réacteur", "en_US" : "End emptying reactor", "actions":["action_ev_emptying_close"]},
                       {"name":"step_54", "step":51,"fr_FR":"Mesure du Zéro", "en_US" : "Zero measure", "actions":["action_zero_measure"]},
                       {"name":"step_64", "step":52,"fr_FR":"Contrôle du Zéro", "en_US" : "Zero control", "actions":["action_control_zero_measure_cell_cycle"]},
-                      {"name":"step_74", "step":54,"fr_FR":"Transfert échantillon et Mesure CIT", "en_US" : "Sample transfert & TIC measure", "actions":["action_pump_sample_filling_reactor_on", "action_ev_sample_inerting_open", "action_acquisition_measure_calibration_cit"]},
+                      {"name":"step_74", "step":54,"fr_FR":"Transfert échantillon", "en_US" : "Sample transfert", "actions":["action_pump_sample_filling_reactor_on", "action_ev_sample_inerting_open", "action_acquisition_measure_calibration_cit"]},
                       {"name":"step_84", "step":57,"fr_FR":"Injection H2SO4", "en_US" : "H2SO4 injection", "actions":["action_cmd_pump_acide"]},
-                      {"name":"step_94", "step":80,"fr_FR":"Fin Transfert Echantillon", "en_US" : "End sample transfert", "actions":["action_ev_sample_inerting_close", "action_ev_reactor_filling_close", "action_control_temperature_reactor"]},
+                      {"name":"step_94", "step":80,"fr_FR":"Purge CIT", "en_US" : "TIC purging", "actions":["action_ev_sample_inerting_close", "action_ev_reactor_filling_close", "action_control_temperature_reactor"]},
                       {"name":"step_104", "step":145,"fr_FR":"Lampe UV ON", "en_US" : "UV lamp ON", "actions":["action_uv_lamp_on"]},
                       {"name":"step_114", "step":150,"fr_FR":"Mesure du Zéro", "en_US" : "Zero measure", "actions":["action_zero_measure_NPOC"]},
                       {"name":"step_124", "step":151,"fr_FR":"Contrôle du Zéro", "en_US" : "Zero control", "actions":["action_find_bigger_test"]},
-                      {"name":"step_134", "step":158,"fr_FR":"Fin Mesure CIT - Mesure NPOC", "en_US" : "End TIC measure - NPOC measure", "actions":["action_control_relay_lampeUV_default", "action_acquisition_measure_calibration_npoc", "action_cmd_pump_persulfate"]},
-                      {"name":"step_131", "step":175,"fr_FR":"Fin Mesure CIT - Mesure NPOC", "en_US" : "End TIC measure - NPOC measure", "actions":["action_ev_air_ozone_open", "action_ev_air_direct_open"]},
-                      {"name":"step_144", "step":460,"fr_FR":"Fin mesure NPOC", "en_US" : "End NPOC measure", "actions":["action_uv_lamp_off", "action_ev_air_direct_close", "action_ev_air_ozone_close"]},
+                      {"name":"step_134", "step":158,"fr_FR":"**Mesure COT**", "en_US" : "TOC measure", "actions":["action_control_relay_lampeUV_default", "action_acquisition_measure_calibration_npoc", "action_cmd_pump_persulfate"]},
+                      {"name":"step_131", "step":175,"fr_FR":"*Mesure COT*", "en_US" : "TOC measure", "actions":["action_ev_air_ozone_open", "action_ev_air_direct_open"]},
+                      {"name":"step_144", "step":460,"fr_FR":"Fin mesure COT", "en_US" : "End TOC measure", "actions":["action_uv_lamp_off", "action_ev_air_direct_close", "action_ev_air_ozone_close"]},
                       {"name":"step_154", "step":463,"fr_FR":"Calcul Coefficient", "en_US" : "Calculating coefficient", "actions":["action_calibration_calcul_npoc"]}
                       ]
         },
         {
             "name" : "cycle_mesure_control NPOC",
-            "fr_FR" : "Mesure Control NPOC",
-            "en_US" : "NPOC Control Measure",
+            "fr_FR" : "Mesure manuelle COT",
+            "en_US" : "COT manual measure",
             "type" : "maintenance",
             "variables_input" : [],
-            "variables_output" : ["var_manual_measure_cit", "var_manual_measure_npoc"],
+            "variables_output" : ["var_manual_measure_npoc"],
             "step_stop" : {"fr_FR":"Arrêt cycle", "actions":["action_ev_sample_close", "action_ev_reactor_filling_close", "action_ev_nettoyage_close", "action_ev_sample_inerting_close", "action_ev_air_ozone_close", "action_ev_air_direct_close", "action_ev_emptying_close", "action_ev_purge_close", "action_ev_zero_close", "var_ev_air_decolmatage", "action_pump_sample_off", "action_cmd_pump_acide_off", "action_cmd_pump_persulfate_off", "action_cmd_pump_soude_off", "action_cmd_pump_dilution_off", "action_uv_lamp_off"]},
-            "steps" : [{"name":"step_15", "step":1,"fr_FR":"Prélèvement Echantillon/Vidange réacteur", "en_US" : "Sample/Emptying reactor", "actions":["action_ev_emptying_open", "action_ev_sample_close", "action_pump_sample_filling_loop_on"]}, 
+            "steps" : [{"name":"step_15", "step":1,"fr_FR":"Prélèvement Echantillon/Vidange réacteur", "en_US" : "Sample/Emptying reactor", "actions":["action_uv_lamp_off","action_ev_emptying_open", "action_ev_sample_close", "action_pump_sample_filling_loop_on"]}, 
                       {"name":"step_25", "step":17,"fr_FR":"Test Défaut d'eau", "en_US" : "Water default control", "actions":["action_control_water_default"]},
                       {"name":"step_35", "step":19,"fr_FR":"Position transfert", "en_US" : "Transfert position", "actions":["action_ev_reactor_filling_open"]},
                       {"name":"step_45", "step":31,"fr_FR":"Fin Vidange Réacteur", "en_US" : "End emptying reactor", "actions":["action_ev_emptying_close"]},
                       {"name":"step_55", "step":51,"fr_FR":"Mesure du Zéro", "en_US" : "Zero measure", "actions":["action_zero_measure"]},
                       {"name":"step_65", "step":52,"fr_FR":"Contrôle du Zéro", "en_US" : "Zero control", "actions":["action_control_zero_measure_cell_cycle"]},
-                      {"name":"step_75", "step":54,"fr_FR":"Transfert échantillon et Mesure CIT", "en_US" : "Sample transfert & TIC measure", "actions":["action_pump_sample_filling_reactor_on", "action_ev_sample_inerting_open", "action_acquisition_manual_measure_cit"]},
+                      {"name":"step_75", "step":54,"fr_FR":"Transfert échantillon", "en_US" : "Sample transfert", "actions":["action_pump_sample_filling_reactor_on", "action_ev_sample_inerting_open", "action_acquisition_manual_measure_cit"]},
                       {"name":"step_85", "step":57,"fr_FR":"Injection H2SO4", "en_US" : "H2SO4 injection", "actions":["action_cmd_pump_acide"]},
-                      {"name":"step_95", "step":80,"fr_FR":"Fin Transfert Echantillon", "en_US" : "End sample transfert", "actions":["action_ev_sample_inerting_close", "action_ev_reactor_filling_close", "action_control_temperature_reactor"]},
+                      {"name":"step_95", "step":80,"fr_FR":"Purge CIT", "en_US" : "TIC purging", "actions":["action_ev_sample_inerting_close", "action_ev_reactor_filling_close", "action_control_temperature_reactor"]},
                       {"name":"step_105", "step":145,"fr_FR":"Lampe UV ON", "en_US" : "UV lamp ON", "actions":["action_uv_lamp_on"]},
                       {"name":"step_115", "step":150,"fr_FR":"Mesure du Zéro", "en_US" : "Zero measure", "actions":["action_zero_measure_NPOC"]},
                       {"name":"step_125", "step":151,"fr_FR":"Contrôle du Zéro", "en_US" : "Zero control", "actions":["action_find_bigger_test"]},
-                      {"name":"step_135", "step":158,"fr_FR":"Fin Mesure CIT - Mesure NPOC", "en_US" : "End TIC measure - NPOC measure", "actions":["action_control_relay_lampeUV_default", "action_acquisition_manual_measure_npoc", "action_cmd_pump_persulfate"]},
-                      {"name":"step_131", "step":175,"fr_FR":"Fin Mesure CIT - Mesure NPOC", "en_US" : "End TIC measure - NPOC measure", "actions":["action_ev_air_ozone_open", "action_ev_air_direct_open"]},
-                      {"name":"step_145", "step":460,"fr_FR":"Fin mesure NPOC", "en_US" : "End NPOC measure", "actions":["action_uv_lamp_off", "action_ev_air_direct_close", "action_ev_air_ozone_close"]}
+                      {"name":"step_135", "step":158,"fr_FR":"Mesure COT", "en_US" : "TOC measure", "actions":["action_control_relay_lampeUV_default", "action_acquisition_manual_measure_npoc", "action_cmd_pump_persulfate"]},
+                      {"name":"step_131", "step":175,"fr_FR":"Mesure COT", "en_US" : "TOC measure", "actions":["action_ev_air_ozone_open", "action_ev_air_direct_open"]},
+                      {"name":"step_145", "step":460,"fr_FR":"Fin mesure COT", "en_US" : "End TOC measure", "actions":["action_uv_lamp_off", "action_ev_air_direct_close", "action_ev_air_ozone_close"]}
                       ]
+        },
+        {
+            "name" : "cycle_mesure_control CIT",
+            "fr_FR" : "Mesure manuelle CIT",
+            "en_US" : "TIC manual measure",
+            "type" : "maintenance",
+            "variables_input" : [],
+            "variables_output" : ["var_manual_measure_cit"],
+            "variables_default" : [],
+            "step_stop" : {"fr_FR":"Arrêt cycle", "actions":["action_ev_sample_close", "action_ev_reactor_filling_close", "action_ev_nettoyage_close", "action_ev_sample_inerting_close", "action_ev_air_ozone_close", "action_ev_air_direct_close", "action_ev_emptying_close", "action_ev_purge_close", "action_ev_zero_close", "var_ev_air_decolmatage", "action_pump_sample_off", "action_cmd_pump_acide_off", "action_cmd_pump_persulfate_off", "action_cmd_pump_soude_off", "action_cmd_pump_dilution_off", "action_uv_lamp_off"]},
+            "steps" : [{"name":"step_13", "step":1,"fr_FR":"Prélèvement Echantillon/Vidange réacteur", "en_US" : "Sample/Emptying reactor", "actions":["action_uv_lamp_off","action_ev_emptying_open", "action_ev_sample_close", "action_pump_sample_filling_loop_on"]}, 
+                      {"name":"step_23", "step":17,"fr_FR":"Test Défaut d'eau", "en_US" : "Water default control", "actions":["action_control_water_default"]},
+                      {"name":"step_33", "step":19,"fr_FR":"Position transfert", "en_US" : "Transfert position", "actions":["action_ev_reactor_filling_open"]},
+                      {"name":"step_43", "step":31,"fr_FR":"Fin Vidange Réacteur", "en_US" : "End emptying reactor", "actions":["action_ev_emptying_close"]},
+                      {"name":"step_53", "step":51,"fr_FR":"Mesure du Zéro", "en_US" : "Zero measure", "actions":["action_zero_measure"]},
+                      {"name":"step_63", "step":52,"fr_FR":"Contrôle du Zéro", "en_US" : "Zero control", "actions":["action_control_zero_measure_cell_cycle"]},
+                      {"name":"step_73", "step":54,"fr_FR":"Transfert échantillon et Mesure CIT", "en_US" : "Sample transfert & TIC measure", "actions":["action_pump_sample_filling_reactor_on", "action_ev_sample_inerting_open", "action_acquisition_manual_measure_cit"]},
+                      {"name":"step_83", "step":57,"fr_FR":"Injection H2SO4", "en_US" : "H2SO4 injection", "actions":["action_cmd_pump_acide"]},
+                      {"name":"step_93", "step":80,"fr_FR":"Fin Transfert Echantillon", "en_US" : "End sample transfert", "actions":["action_ev_sample_inerting_close", "action_ev_reactor_filling_close", "action_control_temperature_reactor"]},
+                      {"name":"step_103", "step":145,"fr_FR":"Calcul Coefficient", "en_US" : "Calculating coefficient", "actions":[]}
+                      ]
+        },
+        {
+            "name" : "cycle_nettoyage",
+            "fr_FR" : "Nettoyage",
+            "en_US" : "Cleaning",
+            "type" : "maintenance",
+            "variables_input" : [],
+            "variables_output" : [],
+            "variables_copy_on_validation" : [],
+            "step_stop" : {"fr_FR":"Arrêt cycle", "actions":["action_ev_sample_close", "action_ev_reactor_filling_close", "action_ev_nettoyage_close", "action_ev_sample_inerting_close", "action_ev_air_ozone_close", "action_ev_air_direct_close", "action_ev_emptying_close", "action_ev_purge_close", "action_ev_zero_close", "var_ev_air_decolmatage", "action_pump_sample_off", "action_cmd_pump_acide_off", "action_cmd_pump_persulfate_off", "action_cmd_pump_soude_off", "action_cmd_pump_dilution_off", "action_uv_lamp_off"]},
+            "steps" : [{"name":"step_16", "step":1,"fr_FR":"Prélèvement Echantillon/Vidange réacteur", "en_US" : "Sample/Emptying reactor", "actions":["action_uv_lamp_off","action_ev_reactor_filling_open", "action_pump_sample_filling_loop_on"]}, 
+                      {"name":"step_26", "step":20,"fr_FR":"Test Défaut d'eau", "en_US" : "Water default control", "actions":["action_ev_emptying_open", "action_ev_sample_open", "action_ev_reactor_filling_close", "action_ev_sample_inerting_open", "action_pump_sample_filling_reactor_on"]},
+                      {"name":"step_36", "step":50,"fr_FR":"Position transfert", "en_US" : "Transfert position", "actions":["action_ev_sample_inerting_open"]},
+                      {"name":"step_46", "step":51,"fr_FR":"Fin Vidange Réacteur", "en_US" : "End emptying reactor", "actions":["action_ev_emptying_close"]}
+                      
+                      ]
+        },
+        {
+            "name" : "cycle_purge",
+            "fr_FR" : "Purge",
+            "en_US" : "Purging",
+            "type" : "maintenance",
+            "variables_input" : [],
+            "variables_output" : [],
+            "variables_copy_on_validation" : [],
+            "step_stop" : {"fr_FR":"Arrêt cycle", "actions":["action_ev_sample_close", "action_ev_reactor_filling_close", "action_ev_nettoyage_close", "action_ev_sample_inerting_close", "action_ev_air_ozone_close", "action_ev_air_direct_close", "action_ev_emptying_close", "action_ev_purge_close", "action_ev_zero_close", "var_ev_air_decolmatage", "action_pump_sample_off", "action_cmd_pump_acide_off", "action_cmd_pump_persulfate_off", "action_cmd_pump_soude_off", "action_cmd_pump_dilution_off", "action_uv_lamp_off"]},
+            "steps" : [{"name":"step_17", "step":1,"fr_FR":"Prélèvement Echantillon/Vidange réacteur", "en_US" : "Sample/Emptying reactor", "actions":["action_ev_purge_open"]}, 
+                      {"name":"step_27", "step":3,"fr_FR":"Test Défaut d'eau", "en_US" : "Water default control", "actions":["action_ev_purge_close"]}
+                      ]
+        },
+        {
+           "name":"cycle_pause",
+           "fr_FR":"10 secondes de pause",
+           "timer":3600,
+           "type":"pause"
         }
     ],
 
     "scheduler_measure" : ["cycle_mesure_cot"],
     "scheduler_autonome" : ["cycle_control"],
-    "scheduler_maintenances" : [{"cycle_name": "cycle_zero", "sequence_type" :"n_cycles", "nb_cycles" :"var_nb_cycles_after_maintenance"}],
-    "list_cycles_maintenances" : ["cycle_mesure_control NPOC", "cycle_controle CIT", "cycle_calibration NPOC", "cycle_zero", "cycle_calibration CIT"],
+    "scheduler_maintenances" : [{"cycle_name": "cycle_purge", "sequence_type" :"n_cycles", "nb_cycles" :"var_nb_cycles_after_maintenance"}],
+    "list_cycles_maintenances" : ["cycle_mesure_control NPOC", "cycle_calibration NPOC", "cycle_mesure_control CIT", "cycle_zero"],
 
     "streams" :[{"name":"stream_1", "fr_FR":"Voie 1", "en_US":"stream 1", "variables":[], "active_state": "var_stream_1_state",
-                    "measures":[{"name":"measure_1", "fr_FR":"Mesure CIT","en_US":"TIC measure", "variable_measure":"var_measure_cit", "variables":["var_measure_cit_min", "var_measure_cit_max", "var_measure_4_20_cit_min", "var_measure_4_20_cit_max", "var_coef_calibration_cit", "var_etalon_cit", "var_measure_calibration_cit", "var_zero_cit", "var_manual_measure_cit"]},
-                               {"name":"measure_2", "fr_FR":"Mesure NPOC","en_US":"NPOC measure", "variable_measure":"var_measure_npoc", "variables":["var_measure_seuil_1", "var_measure_seuil_2", "var_measure_npoc_min", "var_measure_npoc_max", "var_measure_4_20_npoc_min", "var_measure_4_20_npoc_max", "var_coef_calibration_npoc", "var_etalon_npoc", "var_measure_calibration_npoc", "var_zero_npoc", "var_manual_measure_npoc", "var_co2g"]}
+                    "measures":[
+                               {"name":"measure_2", "fr_FR":"Mesure COT","en_US":"NPOC measure", "variable_measure":"var_measure_npoc", "variables":["var_measure_cit", "var_coef_calibration_cit", "var_measure_seuil_1", "var_measure_seuil_2", "var_measure_npoc_min", "var_measure_npoc_max", "var_measure_4_20_npoc_min", "var_measure_4_20_npoc_max", "var_coef_calibration_npoc", "var_etalon_npoc", "var_zero_cit", "var_zero_npoc", "var_manual_measure_npoc", "var_manual_measure_cit", "var_coef_courbe"]}
                                ],
                     "cycles":["cycle_control", "cycle_calibration"]
 
                 }
                
     ], 
-    "logs" : ["var_measure_cit", "var_measure_npoc", "var_ndir_measure_cell"],
-    "logs_debug" : ["var_measure_cit", "var_measure_npoc", "var_ndir_measure_cell", "var_ndir_temperature", "var_airflow", "var_water_pressure", "var_condenser_temperature"]
+    "logs" : ["var_measure_npoc"],
+    "logs_debug" : ["var_measure_cit", "var_measure_npoc", "var_ndir_measure_cell", "var_condenser_temperature", "var_water_pressure", "var_water_pressure_default", "var_water_pressure_ILS_default"]
     
 }

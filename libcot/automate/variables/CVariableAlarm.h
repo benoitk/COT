@@ -30,6 +30,10 @@ public:
     void setToBindedValue(const QVariant & value) Q_DECL_OVERRIDE;
 
     enumAlarmType getAlarmType();
+    bool haveToStopAfterToMuchSkip();
+
+    void setInhibited(bool arg = true);
+
 public slots:
     void slotAcquit();
 signals:
@@ -42,6 +46,9 @@ private:
     bool m_autoAcquit;
     int m_countUntilSetAlarm;
     int m_numUntilSetAlarm;
+    int m_nbSkipBeforeStopCycle;
+    int m_countSkipBeforeStopCycle;
+    bool m_inhibited;
 };
 
 #endif

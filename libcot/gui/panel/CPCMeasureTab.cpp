@@ -69,12 +69,14 @@ void CPCMeasureTab::slotStopTriggered()
 
 void CPCMeasureTab::slotStopEndCycleTriggered()
 {
-
+    if(CPCWindow::openExec<CDialogConfirmation>(tr("Are you sure ? \nThe measurment will stop after this cycle"),this))
+      CAutomate::getInstance()->requestStopEndCycleScheduler();
 }
 
 void CPCMeasureTab::slotNextStreamTriggered()
 {
-
+    if(CPCWindow::openExec<CDialogConfirmation>(tr("Are you sure ? \nIt will stop the current measurment"),this))
+        CAutomate::getInstance()->requestPlayNextSequenceMesure();
 }
 
 void CPCMeasureTab::slotUpdateStreamsMeasures()

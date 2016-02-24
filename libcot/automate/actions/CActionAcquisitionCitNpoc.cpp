@@ -2,6 +2,7 @@
 #include "IVariable.h"
 #include "CVariableFactory.h"
 #include "CAutomate.h"
+#include "CVariableCurve.h"
 #include "IVariableInput.h"
 #include "cotautomate_debug.h"
 //#include "qmath.h"
@@ -31,9 +32,11 @@ CActionAcquisitionCitNpoc::CActionAcquisitionCitNpoc(const QVariantMap &mapActio
     m_timeout = automate->getVariable(mapAction[QStringLiteral("timeout")].toString());
     m_derivativeIntervalTx = automate->getVariable(mapAction[QStringLiteral("derivative_interval")].toString());
     m_derivativeThresold = automate->getVariable(mapAction[QStringLiteral("derivative_threshold")].toString());
+    m_linearisationCurve = automate->getVariable(mapAction[QStringLiteral("linearisation_curve")].toString());
 
     m_waitUntilFinished = mapAction[QStringLiteral("wait_until_finished")].toBool();
 
+     if(m_coefCourbe->toFloat() == 0) m_coefCourbe->setValue(1);
 
 
     QVariantMap variantMapDerivativeCalcul;
@@ -140,12 +143,18 @@ void CActionAcquisitionCitNpoc::run(){
             if(mesure != 0){
                 x = log10(zero/mesure);
                 varLogZeroMesure->setValue(x);
-                co2ppmv = m_coef1->toFloat() * pow(x, 5) *coefCourbe
-                        + m_coef2->toFloat() * pow(x, 4) *coefCourbe
-                        + m_coef3->toFloat() * pow(x,3) *coefCourbe
-                        + m_coef4->toFloat() * pow(x,2) *coefCourbe
-                        + m_coef5->toFloat() * x *coefCourbe
-                        + m_Offset->toFloat();
+                if(m_linearisationCurve && m_linearisationCurve->getType() == e_type_curve){
+                    CVariableCurve* linCurve = dynamic_cast<CVariableCurve*>(m_linearisationCurve);
+                    co2ppmv = linCurve->getLiearisedY(x);
+                }
+                else {
+                    co2ppmv = m_coef1->toFloat() * pow(x, 5) *coefCourbe
+                            + m_coef2->toFloat() * pow(x, 4) *coefCourbe
+                            + m_coef3->toFloat() * pow(x,3) *coefCourbe
+                            + m_coef4->toFloat() * pow(x,2) *coefCourbe
+                            + m_coef5->toFloat() * x *coefCourbe
+                            + m_Offset->toFloat();
+                }
                 varCo2ppmv->setValue(co2ppmv);
                 co2g += (co2ppmv * m_CstConversion->toFloat()) * ((airflow*0.001)/60000);
                 //co2g += mesure;

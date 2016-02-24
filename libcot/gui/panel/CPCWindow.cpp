@@ -67,14 +67,15 @@ CPCWindow::~CPCWindow()
     delete ui;
 }
 
-void CPCWindow::openModal(QWidget *widget) {
+void CPCWindow::openModal(QWidget *widget, bool arg_deleteOnClose) {
 #if 0 //def QT_DEBUG
     // add windows decorations when debugging
     widget->setWindowFlags(Qt::Window);
 #else
     widget->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
 #endif
-    widget->setAttribute(Qt::WA_DeleteOnClose);
+    if(arg_deleteOnClose)
+        widget->setAttribute(Qt::WA_DeleteOnClose);
     widget->setWindowModality(Qt::ApplicationModal);
     if (s_mainWindow) {
         widget->setGeometry(s_mainWindow->geometry());
@@ -90,6 +91,7 @@ void CPCWindow::openModal(QWidget *widget) {
     widget->show();
 }
 
+
 // static
 int CPCWindow::openExec(CDialog *dialog)
 {
@@ -104,7 +106,8 @@ int CPCWindow::openExec(CDialog *dialog)
     if (s_mainWindow)
         rect.moveCenter(s_mainWindow->geometry().center());
     dialog->setGeometry(rect);
-    return dialog->exec();
+    bool test = dialog->exec();
+    return test;
 }
 
 bool CPCWindow::showGraphInMainScreen()

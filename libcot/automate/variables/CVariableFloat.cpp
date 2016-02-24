@@ -7,6 +7,8 @@ CVariableFloat::CVariableFloat(QObject *parent)
 }
 CVariableFloat::CVariableFloat(const QVariantMap& mapVar):IVariable(mapVar){
     m_value = mapVar.value(QStringLiteral("value")).toFloat();
+    m_valueMin = mapVar.value(QStringLiteral("value_min")).toFloat();
+    m_valueMax = mapVar.value(QStringLiteral("value_max")).toFloat();
 }
 CVariableFloat::CVariableFloat(float arg_value, int arg_address, enumVariableAccess arg_access)
     : IVariable()
@@ -38,7 +40,8 @@ void CVariableFloat::setValue(const QVariant & value){
     setValue(value.toFloat());
 }
 void CVariableFloat::setValue(float value){
-    m_value = value;
+    m_value = IVariable::setValue(value, m_valueMin, m_valueMax);
+
     checkBindedVariable(QVariant(value));
 
     emit signalVariableChanged(this);
@@ -64,6 +67,8 @@ QVariantMap CVariableFloat::serialize(){
     QVariantMap mapSerialise = IVariable::serialize();
     mapSerialise.insert(QStringLiteral("type"), QStringLiteral("float"));
     mapSerialise.insert(QStringLiteral("value"), m_value);
+    mapSerialise.insert(QStringLiteral("value_min"), m_valueMin);
+    mapSerialise.insert(QStringLiteral("value_max"), m_valueMax);
     return mapSerialise;
 }
 

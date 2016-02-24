@@ -32,7 +32,8 @@ public:
 protected:
 
     int m_value;
-
+    int m_valueMin;
+    int m_valueMax;
 };
 
 #endif // CInt_H

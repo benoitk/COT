@@ -24,13 +24,15 @@ private:
     CDialogMaintenance* m_dialog;
     QList<CToolButton*>  m_listButtonsPlay;
     CVerticalButtonBar* m_vbbButtons;
+
+    bool m_isStoppedByIHM;
 signals:
-    void signalStopCycle();
+    void signalBtStopCyclePressed();
     void signalRunCycle(const QString&);
 
 private slots:
     void slotUpdateLayout();
-    void slotStopCycle();
+    void slotBtStopCyclePressed();
     void slotCycleStopped(const QString&);
     void slotPlayPressed();
     void slotCurrentMaintenanceCycleChanged(const QString &name);

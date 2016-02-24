@@ -13,6 +13,7 @@
 #include "CActionSum.h"
 #include "CActionFindClosestFromReference.h"
 #include "CActionFindBiggerValue.h"
+#include "CActionSlope.h"
 
 #include "qvariant.h"
 #include "qmap.h"
@@ -61,6 +62,9 @@ IAction* CActionFactory::build(const QVariantMap &mapAction, QObject *parent){
     }
     else if(type == QStringLiteral("find_bigger_value")){
         action = new CActionFindBiggerValue(mapAction,parent);
+    }
+    else if(type == QStringLiteral("slope")){
+        action = new CActionSlope(mapAction,parent);
     }
     else{
         action = new CActionUnknow(mapAction,parent);
