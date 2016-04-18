@@ -291,6 +291,12 @@ void CAutomate::addAction(IAction* action, bool emitSignal){
         }
     }
 }
+void CAutomate::addCommand(ICommand* cmd){
+    QMutexLocker locker(&m_mutex);
+    if(cmd){
+        m_listCommands.append(cmd);
+    }
+}
 
 void CAutomate::delAction(IAction* arg_action){
     QMutexLocker locker(&m_mutex);
@@ -946,6 +952,7 @@ void CAutomate::slotSerializeAndSave(){
     mapSerialize.insert(tr("en_US"), tr("TOC"));
     mapSerialize.insert(QStringLiteral("version"), QStringLiteral("0.0.1"));
     mapSerialize.insert(QStringLiteral("lang"), m_lang);
+    mapSerialize.insert(QStringLiteral("debug"), m_debug);
 
     //extensions
     {
@@ -1061,6 +1068,15 @@ void CAutomate::slotSerializeAndSave(){
               listTmp.append(var->getName());
           }
           mapSerialize.insert(QStringLiteral("logs"), listTmp);
+    }
+
+    //logs_debug
+    {
+        QVariantList listTmp;
+        foreach (IVariable* var, m_listLoggedVarDebug) {
+            listTmp.append(var->getName());
+        }
+        mapSerialize.insert(QStringLiteral("logs_debug"), listTmp);
     }
 
     QJsonDocument doc = QJsonDocument::fromVariant(mapSerialize);

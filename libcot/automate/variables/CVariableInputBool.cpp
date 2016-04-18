@@ -27,12 +27,16 @@ CVariableInputBool::CVariableInputBool(const QMap<QString, QVariant> &mapVar)
 
 IVariable* CVariableInputBool::readValue(){
     QMutexLocker lock(&m_mutex);
+    bool value;
+//    if(m_name =="var_entree_2")
+//        value = m_organ->getExtCard()->getICom()->readData(this).toFloat();
     if(m_passive)
-        m_value = m_organ->getExtCard()->getICom()->readData(this).toFloat();
+        value = m_organ->getExtCard()->getICom()->readData(this).toFloat();
     else
-        m_value = !m_organ->getExtCard()->getICom()->readData(this).toFloat();
+        value = !m_organ->getExtCard()->getICom()->readData(this).toFloat();
 
-    CVariableBool::setValue(m_value);
+
+    CVariableBool::setValue(value);
     return this;
 }
 

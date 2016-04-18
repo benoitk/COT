@@ -23,6 +23,7 @@
 
 //Automade de gestion des cycles
 class ICycle;
+class ICommand;
 class CControlerCycle;
 class CScheduler;
 class IVariable;
@@ -107,6 +108,7 @@ public:
     void addUnit(CUnit*);
     void addCom(ICom*);
     void addAction(IAction*, bool emitSignal = false);
+    void addCommand(ICommand*);
     void delAction(IAction*);
     void delAction(const QString&);
     void delVariable(IVariable *ivar);
@@ -244,6 +246,8 @@ private:
 
     QMap<QString, IAction*> m_mapActions;
     QList<IAction*> m_listActions; //en redondance avec m_mapActions pour ne pas refaire niveau IHM
+
+    QList<ICommand*> m_listCommands;
 
     QMap<QString, IVariable*> m_mapVariables;
     QList<CVariableStream*> m_listStreams;

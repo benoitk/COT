@@ -239,7 +239,14 @@ HEADERS *= \
     $$PWD/gui/widgets/CDialogConfirmation.h \
     $$PWD/automate/actions/CActionLinearisation.h \
     $$PWD/automate/variables/CVariableCurve.h \
-    $$PWD/automate/actions/CActionSlope.h
+    $$PWD/automate/actions/CActionSlope.h \
+    $$PWD/automate/CUserSession.h \
+    $$PWD/gui/widgets/CDialogPassword.h \
+    $$PWD/automate/commands/CCommandStopEndCycle.h \
+    $$PWD/automate/commands/ccommandfactory.h \
+    $$PWD/automate/commands/ccommandunknow.h \
+    $$PWD/automate/commands/CCommandPlayStopCycle.h \
+    $$PWD/automate/actions/CActionCopy.h
 
 SOURCES *= \
     $$PWD/automate/CAutomate.cpp \
@@ -433,7 +440,14 @@ SOURCES *= \
     $$PWD/gui/widgets/CDialogConfirmation.cpp \
     $$PWD/automate/actions/CActionLinearisation.cpp \
     $$PWD/automate/variables/CVariableCurve.cpp \
-    $$PWD/automate/actions/CActionSlope.cpp
+    $$PWD/automate/actions/CActionSlope.cpp \
+    $$PWD/automate/CUserSession.cpp \
+    $$PWD/gui/widgets/CDialogPassword.cpp \
+    $$PWD/automate/commands/CCommandStopEndCycle.cpp \
+    $$PWD/automate/commands/ccommandfactory.cpp \
+    $$PWD/automate/commands/ccommandunknow.cpp \
+    $$PWD/automate/commands/CCommandPlayStopCycle.cpp \
+    $$PWD/automate/actions/CActionCopy.cpp
 
 DISTFILES +=
 

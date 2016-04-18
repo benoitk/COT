@@ -67,28 +67,31 @@ CPCWindow::~CPCWindow()
     delete ui;
 }
 
-void CPCWindow::openModal(QWidget *widget, bool arg_deleteOnClose) {
-#if 0 //def QT_DEBUG
-    // add windows decorations when debugging
-    widget->setWindowFlags(Qt::Window);
-#else
-    widget->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
-#endif
-    if(arg_deleteOnClose)
-        widget->setAttribute(Qt::WA_DeleteOnClose);
-    widget->setWindowModality(Qt::ApplicationModal);
-    if (s_mainWindow) {
-        widget->setGeometry(s_mainWindow->geometry());
 
-        if (widget->inherits("CMessageBox")) {
-            widget->adjustSize();
-            QRect rect = widget->rect();
-            rect.setSize(rect.size().boundedTo(s_mainWindow->size()));
-            rect.moveCenter(s_mainWindow->geometry().center());
-            widget->setGeometry(rect);
+void CPCWindow::openModal(QWidget *widget, bool arg_deleteOnClose) {
+    if(CUserSession::getInstance()->loginUser()){ //peut être en double dans certain cas. Si des actions sont a prévoir avant l'ouverture d'une fenêtre : ex : maintenance.
+#if 0 //def QT_DEBUG
+        // add windows decorations when debugging
+        widget->setWindowFlags(Qt::Window);
+#else
+        widget->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
+#endif
+        if(arg_deleteOnClose)
+            widget->setAttribute(Qt::WA_DeleteOnClose);
+        widget->setWindowModality(Qt::ApplicationModal);
+        if (s_mainWindow) {
+            widget->setGeometry(s_mainWindow->geometry());
+
+            if (widget->inherits("CMessageBox")) {
+                widget->adjustSize();
+                QRect rect = widget->rect();
+                rect.setSize(rect.size().boundedTo(s_mainWindow->size()));
+                rect.moveCenter(s_mainWindow->geometry().center());
+                widget->setGeometry(rect);
+            }
         }
+        widget->show();
     }
-    widget->show();
 }
 
 
@@ -188,12 +191,14 @@ void CPCWindow::slotUpdateAvailable(const QString &version)
 
 void CPCWindow::slotUpdateTriggered()
 {
-    const QString appFilePath = qApp->applicationFilePath() + " -platform xcb";
-    CUpdateDialog dlg(m_updateManager, this);
+    if(CUserSession::getInstance()->loginUser()){
+        const QString appFilePath = qApp->applicationFilePath() + " -platform xcb";
+        CUpdateDialog dlg(m_updateManager, this);
 
-    if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
-        if (QProcess::startDetached(appFilePath)) {
-            close();
+        if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
+            if (QProcess::startDetached(appFilePath)) {
+                close();
+            }
         }
     }
 }

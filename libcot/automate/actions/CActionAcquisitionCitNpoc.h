@@ -38,7 +38,7 @@ private:
     IVariable* m_co2g;
     IVariable* m_result;
     IVariable* m_zero;
-    IVariable* m_airflow;
+    QList<IVariable*> m_listAirflows;
     IVariable* m_vesselVolume;
     IVariable* m_coef1;
     IVariable* m_coef2;

@@ -173,6 +173,7 @@ void IVariableMeasuresUIHandler::slotButtonMeasureDetailsClicked()
     const QString measureName = button->userData().toString();
     CVariableStream *streamVar = findStreamForMeasure(measureName).first;
     CPCWindow::openModal<CMeasureWindow>(streamVar);
+
 }
 
 QString IVariableMeasuresUIHandler::textForStreamState(CAutomate::eStateStream state) const

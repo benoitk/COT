@@ -14,20 +14,24 @@ enum commandType{
     type_get_cycle_state
 };
 
+
 class ICommand : public QObject
 {
     Q_OBJECT
 public:
-    explicit ICommand(QObject *parent = 0);
+    explicit ICommand(const QVariantMap &mapCmd, QObject *parent);
     QString getName();
     commandType getType();
+
 signals:
 
 
 public slots:
     virtual void slotRunCommand() =0;
+    virtual void slotReadInput()=0;
 private:
     QString m_name;
+    QString m_label;
     commandType m_type;
 };
 

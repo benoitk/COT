@@ -11,6 +11,7 @@
 #include "CActionCalibrationCalcul.h"
 #include "CActionCmd420.h"
 #include "CActionSum.h"
+#include "CActionCopy.h"
 #include "CActionFindClosestFromReference.h"
 #include "CActionFindBiggerValue.h"
 #include "CActionSlope.h"
@@ -65,6 +66,9 @@ IAction* CActionFactory::build(const QVariantMap &mapAction, QObject *parent){
     }
     else if(type == QStringLiteral("slope")){
         action = new CActionSlope(mapAction,parent);
+    }
+    else if(type == QStringLiteral("copy")){
+        action = new CActionCopy(mapAction,parent);
     }
     else{
         action = new CActionUnknow(mapAction,parent);

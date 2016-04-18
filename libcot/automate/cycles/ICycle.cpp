@@ -16,6 +16,7 @@ ICycle::ICycle()
 }
 ICycle::ICycle(const QVariantMap &mapCycle, QObject *parent)
     : QObject(), m_isRunning(false), m_stepStop(Q_NULLPTR), m_mutex(QMutex::Recursive), m_editInProgress(false){
+
     if(mapCycle.contains(QStringLiteral("name")))
         m_name = mapCycle[QStringLiteral("name")].toString();
     else
@@ -454,10 +455,13 @@ void ICycle::updateCycleInfosStep(float arg_numStep, QString arg_info){
     emit CAutomate::getInstance()->signalUpdateCurrentStep(arg_numStep, arg_info);
 }
 void ICycle::slotUpdateCycleInfosNumStep(){
-    QMutexLocker lock(&m_mutex);
-    m_numStepInfo+=0.1f;
+    if(*m_itListStepsPasEnCours && (*m_itListStepsPasEnCours)->getNumStep() > m_numStepInfo)
+    {
+        QMutexLocker lock(&m_mutex);
+        m_numStepInfo+=0.1f;
 
-    emit CAutomate::getInstance()->signalUpdateNumStep(m_numStepInfo);
+        emit CAutomate::getInstance()->signalUpdateNumStep(m_numStepInfo);
+    }
 }
 
 void ICycle::updateCycleInfosAction(QString arg_info){

@@ -69,6 +69,7 @@ INCLUDEPATH *= \
     $${LIBCOT_SRC_PWD}/automate/com \
     $${LIBCOT_SRC_PWD}/automate/cycles \
     $${LIBCOT_SRC_PWD}/automate/actions \
+    $${LIBCOT_SRC_PWD}/automate/commands \
     $${LIBCOT_SRC_PWD}/automate/units \
     $${LIBCOT_SRC_PWD}/updater \
     $${LIBCOT_SRC_PWD}/keyboards \

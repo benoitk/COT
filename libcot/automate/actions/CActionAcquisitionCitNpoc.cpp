@@ -27,7 +27,13 @@ CActionAcquisitionCitNpoc::CActionAcquisitionCitNpoc(const QVariantMap &mapActio
     m_CstConversion = automate->getVariable(mapAction[QStringLiteral("co2_ppmv_to_co2_gm3_cst")].toString());
     m_zero = automate->getVariable(mapAction[QStringLiteral("zero_point")].toString());
     m_result = automate->getVariable(mapAction[QStringLiteral("result")].toString());
-    m_airflow = automate->getVariable(mapAction[QStringLiteral("debit_airflow")].toString());
+    if(mapAction.contains("debits_airflow")){
+        QVariantList listDebits  = mapAction[QStringLiteral("debit_airflow")].toList();
+        foreach(QVariant var, listDebits)
+            m_listAirflows.append(automate->getVariable(var.toString()));
+    }
+    else
+        m_listAirflows.append(automate->getVariable(mapAction[QStringLiteral("debit_airflow")].toString()));
     m_vesselVolume = automate->getVariable(mapAction[QStringLiteral("vessel_volume")].toString());
     m_timeout = automate->getVariable(mapAction[QStringLiteral("timeout")].toString());
     m_derivativeIntervalTx = automate->getVariable(mapAction[QStringLiteral("derivative_interval")].toString());
@@ -58,7 +64,10 @@ QVariantMap CActionAcquisitionCitNpoc::serialize(){
     mapSerialize.insert(QStringLiteral("cellule"), m_measureCell->getName());
     mapSerialize.insert(QStringLiteral("result"), m_result->getName());
     mapSerialize.insert(QStringLiteral("zero_point"), m_zero->getName());
-    mapSerialize.insert(QStringLiteral("debit_airflow"), m_airflow->getName());
+    QStringList list;
+    foreach(IVariable* var, m_listAirflows)
+        list.append(var->getName());
+    mapSerialize.insert(QStringLiteral("debits_airflow"), list);
     mapSerialize.insert(QStringLiteral("vessel_volume"), m_vesselVolume->getName());
     mapSerialize.insert(QStringLiteral("coef_1"), m_coef1->getName());
     mapSerialize.insert(QStringLiteral("coef_2"), m_coef2->getName());
@@ -104,21 +113,22 @@ void CActionAcquisitionCitNpoc::run(){
     if(m_measureCell->getOrganType() == e_type_organ_input)
         measureCell = dynamic_cast<IVariableInput*>(m_measureCell);
 
-    IVariableInput* measureAirflow = Q_NULLPTR;
-    if(m_airflow->getOrganType() == e_type_organ_input)
-        measureAirflow = dynamic_cast<IVariableInput*>(m_airflow);
-
+    QList<IVariableInput*> listMeasureAirflow;
+    foreach(IVariable* var, m_listAirflows){
+        if(var->getOrganType() == e_type_organ_input)
+            listMeasureAirflow.append(dynamic_cast<IVariableInput*>(var));
+    }
     IVariable* varLogZeroMesure = CAutomate::getInstance()->getVariable(QStringLiteral("var_log_zero_mesure"));
     IVariable* varCo2ppmv = CAutomate::getInstance()->getVariable(QStringLiteral("var_co2ppmv"));
     IVariable* varDerivee = CAutomate::getInstance()->getVariable(QStringLiteral("var_derivee"));
 
-    if(measureCell && measureAirflow){
+    if(measureCell && !listMeasureAirflow.isEmpty()){
 
         float mesure = 0;
         float x = 0;
         float co2ppmv=0;
         float co2g=0;
-        float airflow = 0;
+        float airflow=0;
         float derivative =0;
         float derivativePrevious =0;
         float co2ppmvPrevious = 0;
@@ -138,7 +148,9 @@ void CActionAcquisitionCitNpoc::run(){
 
             mesure = measureCell->readValue()->toFloat();
 
-            airflow = measureAirflow->readValue()->toFloat();
+            airflow=0;
+            foreach(IVariableInput* inputVar, listMeasureAirflow)
+                airflow += inputVar->readValue()->toFloat();
 
             if(mesure != 0){
                 x = log10(zero/mesure);
@@ -218,18 +230,6 @@ bool CActionAcquisitionCitNpoc::variableUsed(IVariable *arg_var)const {
 QMap<QString, IVariable*> CActionAcquisitionCitNpoc::getMapIVariableParameters(){
     QMap<QString, IVariable*>  map;
 
-    map.insert(tr("Cellule"), m_measureCell);
-    map.insert(tr("Zero point"), m_zero);
-    map.insert(tr("Result"), m_result);
-    map.insert(tr("Air flow"), m_airflow);
-    map.insert(tr("Vessel volume"), m_vesselVolume);
-    map.insert(tr("Coefficient 1"), m_coef1);
-    map.insert(tr("Coefficient 2"), m_coef2);
-    map.insert(tr("Coefficient 3"), m_coef3);
-    map.insert(tr("Coefficient 4"), m_coef4);
-    map.insert(tr("Coefficient 5"), m_coef5);
-    map.insert(tr("Co2 ppmv to Co2 g/m3"), m_CstConversion);
-    map.insert(tr("Time acquisition"), m_timeout);
 
     return map;
 }
@@ -239,18 +239,7 @@ QMap<QString, IVariable*> CActionAcquisitionCitNpoc::getMapCstParameters(){
     return map;
 }
 void CActionAcquisitionCitNpoc::setParameter(const QString& arg_key, IVariable* arg_parameter){
-    if(tr("Cellule")== arg_key) m_measureCell= arg_parameter;
-    else if(tr("Zero point")== arg_key)m_zero= arg_parameter;
-    else if(tr("Result")== arg_key)m_result= arg_parameter;
-    else if(tr("Air flow")== arg_key)m_airflow= arg_parameter;
-    else if(tr("Vessel volume")== arg_key)m_vesselVolume= arg_parameter;
-    else if(tr("Coefficient 1")== arg_key)m_coef1= arg_parameter;
-    else if(tr("Coefficient 2")== arg_key)m_coef2= arg_parameter;
-    else if(tr("Coefficient 3")== arg_key)m_coef3= arg_parameter;
-    else if(tr("Coefficient 4")== arg_key)m_coef4= arg_parameter;
-    else if(tr("Coefficient 5")== arg_key)m_coef5= arg_parameter;
-    else if(tr("Co2 ppmv to Co2 g/m3")== arg_key)m_CstConversion= arg_parameter;
-    else if(tr("Time acquisition")== arg_key)m_timeout= arg_parameter;
+
 
 }
 enumVariableType CActionAcquisitionCitNpoc::getWaitedType(const QString& arg_key){

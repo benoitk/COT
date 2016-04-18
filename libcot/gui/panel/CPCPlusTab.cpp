@@ -8,6 +8,8 @@
 #include "CConfigurationBackup.h"
 #include "tools/screenshot/CDialogScreenShots.h"
 
+#include <QProcess>
+
 CPCPlusTab::CPCPlusTab(QWidget *parent)
     : IPCTab(parent)
     , ui(new Ui::CPCPlusTab)
@@ -16,7 +18,7 @@ CPCPlusTab::CPCPlusTab(QWidget *parent)
     m_buttons->setButtons(QList<CToolButton::Type>()
                           << CToolButton::Informations
                           << CToolButton::CreateRecovery
-                          << CToolButton::Screenshot
+                 //         << CToolButton::Screenshot
                           << CToolButton::RestoreConfig);
 
     ui->setupUi(this);
@@ -57,36 +59,49 @@ void CPCPlusTab::changeEvent(QEvent *event)
 
 void CPCPlusTab::slotButtonClicked(CLabelledToolButton *button)
 {
+
     switch (button->type()) {
     case CToolButton::Informations:
         CPCWindow::openExec<CAboutWindow>(this);
         break;
 
     case CToolButton::CreateRecovery: {
-        CConfigurationBackup bckp;
-        const QString error = bckp.createRecoveryFile();
-        if (error.isEmpty()) {
-            CPCWindow::openModal<CMessageBox>(tr("Backup file successfully created."));
-        } else {
-            CPCWindow::openModal<CMessageBox>(tr("ERROR: The backup file couldn't be created.\n%1").arg(error));
+        if(CUserSession::getInstance()->loginAdmin()){
+            CConfigurationBackup bckp;
+            const QString error = bckp.createRecoveryFile();
+            if (error.isEmpty()) {
+                CPCWindow::openModal<CMessageBox>(tr("Backup file successfully created."));
+            } else {
+                CPCWindow::openModal<CMessageBox>(tr("ERROR: The backup file couldn't be created.\n%1").arg(error));
+            }
         }
         break;
     }
 
     case CToolButton::RestoreConfig: {
-        QString backupFile;
-        CConfigurationBackup bckp;
-        const QString error = bckp.overwriteConfigurationFile(&backupFile);
-        if (error.isEmpty()) {
-            CPCWindow::openModal<CMessageBox>(tr("Configuration file successfully overwritten.\nThe previous configuration file was saved under the name:\n%1").arg(backupFile));
-        } else {
-            CPCWindow::openModal<CMessageBox>(tr("ERROR: The configuration file couldn't be overwritten.\n%1").arg(error));
+        if(CUserSession::getInstance()->loginAdmin()){
+            QString backupFile;
+            CConfigurationBackup bckp;
+            const QString error = bckp.overwriteConfigurationFile(&backupFile);
+            //en attendant de mettre une vrai boite de dialog avec barre de défilement pour être sur que la copie soit finit ...
+#ifdef   Q_OS_UNIX
+    QProcess process;
+    process.start("sync");
+    process.waitForFinished();
+#endif
+
+            //TODO : remplacer la message box par une boite de copie de fichier, avec barre de défillement
+            if (error.isEmpty()) {
+                CPCWindow::openModal<CMessageBox>(tr("Configuration file successfully overwritten.\nThe previous configuration file was saved under the name:\n%1").arg(backupFile));
+            } else {
+                CPCWindow::openModal<CMessageBox>(tr("ERROR: The configuration file couldn't be overwritten.\n%1").arg(error));
+            }
         }
         break;
     }
     case CToolButton::Screenshot:{
-
-        CDialogScreenShots::getInstance()->exec();
+        if(CUserSession::getInstance()->loginAdmin())
+            CDialogScreenShots::getInstance()->exec();
     }
         break;
     default:

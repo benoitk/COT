@@ -102,6 +102,7 @@ protected:
     QList<CStep*> m_savedListSteps;
     QList<CStep*>::iterator m_itListStepsPasEnCours;
 
+
     //QString m_streamName;
     QString m_label;
     int m_idCycle;
@@ -111,6 +112,7 @@ protected:
 
     bool m_editInProgress;
     QMutex m_mutex;
+
 };
 
 #endif // ICYCLE_H

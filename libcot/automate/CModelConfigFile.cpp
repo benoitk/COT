@@ -4,6 +4,8 @@
 #include "ICycle.h"
 #include "IConverter.h"
 #include "ICom.h"
+#include "ICommand.h"
+#include "ccommandfactory.h"
 #include "CComFactory.h"
 #include "CConverterFactory.h"
 #include "CCycleFactory.h"
@@ -219,6 +221,25 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
                 automate->addAction(action);
             }else
                 qCDebug(COTAUTOMATE_LOG) << "Action null : map = " << mapAction;
+        }
+        //qCDebug(COTAUTOMATE_LOG) << "ACTIONS : " << m_mapActions;
+
+    }
+
+    //Commands
+    if(jsonObjectAll[QStringLiteral("commands")] == QJsonValue::Undefined){
+        qCDebug(COTAUTOMATE_LOG) << "jsonObject[\"commands\"] == QJsonValue::Undefined";
+    }
+    else {
+        QJsonArray jsonArrayCommands = jsonObjectAll[QStringLiteral("commands")].toArray();
+        foreach(QJsonValue jsonValueCmd, jsonArrayCommands){
+            QVariantMap mapCmd = jsonValueCmd.toVariant().toMap();
+            ICommand* command = CCommandFactory::build(mapCmd, automate);
+            if(command){
+                //m_mapCmd.insert(command->getName(),command);
+                //automate->addAction(command);
+            }else
+                qCDebug(COTAUTOMATE_LOG) << "ICommand null : map = " << mapCmd;
         }
         //qCDebug(COTAUTOMATE_LOG) << "ACTIONS : " << m_mapActions;
 

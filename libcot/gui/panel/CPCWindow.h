@@ -5,8 +5,10 @@
 #include <QWidget>
 #include <QApplication>
 
+#include "CUserSession.h"
 #include "cot_global.h"
 #include "CVerticalButtonBar.h"
+
 
 namespace Ui {
 class CPCWindow;
@@ -15,12 +17,13 @@ class CPCWindow;
 class IPCTab;
 class CUpdateManager;
 class CDialog;
-
 class LIBCOT_EXPORT CPCWindow : public QWidget
 {
     Q_OBJECT
 
 public:
+
+
     explicit CPCWindow(QWidget *parent = Q_NULLPTR);
     ~CPCWindow();
 

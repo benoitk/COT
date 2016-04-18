@@ -34,6 +34,7 @@ protected:
     float m_value;
     float m_valueMin;
     float m_valueMax;
+    int m_precision;
 
 };
 

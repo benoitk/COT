@@ -20,12 +20,14 @@ private:
     static CMaintenanceWindow* singleton;
 public slots:
     void retranslate();
+    void slotUserSessionClosed();
+
 
 protected:
     void changeEvent(QEvent *event) Q_DECL_OVERRIDE;
 
 private slots:
-    void backTriggered();
+    void slotBackTriggered();
 
 private:
     Ui::CMaintenanceWindow *ui;

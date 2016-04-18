@@ -112,6 +112,7 @@ QString CConfigurationBackup::writeToConfigurationFile(const QByteArray &newCont
 
 QString CConfigurationBackup::createFile(const QString &fileName, const QByteArray &contents)
 {
+    qDebug() << "CConfigurationBackup::createFile " << fileName;
     QFile file(fileName);
 
     if (file.exists()) {

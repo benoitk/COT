@@ -13,9 +13,9 @@ COptionsWindow::COptionsWindow(QWidget *parent)
 {
     ui->setupUi(this);
     addTab(new COptionsOptionsTab(this), tr("OPTIONS"));
-    addTab(new COptionsAutoCyclesTab(this), tr("AUTO. CYCLES"));
-    addTab(new CConfiguratorSequencerTab(this), tr("SCHEDULER"));
-    addTab(new COptionsThresholdTab(this), tr("THRESHOLD"));
+ //   addTab(new COptionsAutoCyclesTab(this), tr("AUTO. CYCLES"));
+ //   addTab(new CConfiguratorSequencerTab(this), tr("SCHEDULER"));
+ //   addTab(new COptionsThresholdTab(this), tr("THRESHOLD"));
     addTab(new COptionsDateTimeTab(this), tr("DATE/TIME"));
 }
 

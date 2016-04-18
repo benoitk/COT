@@ -30,8 +30,8 @@ CPCToolsTab::CPCToolsTab(QWidget *parent)
                           << CToolButton::ElectricalTests
                           << CToolButton::Options
                           << CToolButton::History
-                          << CToolButton::LogFiles
-                          << CToolButton::Configure);
+                          << CToolButton::LogFiles);
+                       //   << CToolButton::Configure);
 
     ui->setupUi(this);
     ui->swCentral->setScrollablePagerWidget(m_buttons);
@@ -62,7 +62,7 @@ void CPCToolsTab::retranslate()
     m_buttons->button(CToolButton::Options)->setText(tr("Options"));
     m_buttons->button(CToolButton::History)->setText(tr("History"));
     m_buttons->button(CToolButton::LogFiles)->setText(tr("Log files copy"));
-    m_buttons->button(CToolButton::Configure)->setText(tr("Configurator"));
+//    m_buttons->button(CToolButton::Configure)->setText(tr("Configurator"));
 }
 
 void CPCToolsTab::changeEvent(QEvent *event)
@@ -76,18 +76,24 @@ void CPCToolsTab::changeEvent(QEvent *event)
 
 void CPCToolsTab::slotButtonClicked(CLabelledToolButton *button)
 {
-    switch (button->type()) {
+    if(CUserSession::getInstance()->loginUser()){
+        switch (button->type()) {
         case CToolButton::Maintenance:
-        if(CAutomate::getInstance()->isCyclesRunning() && CPCWindow::openExec<CDialogConfirmation>(tr("Are you sure ? \nIt will stop the current measurment"),this)){
-            CAutomate::getInstance()->enterMaintenanceMode();
-            //CPCWindow::openModal<CMaintenanceWindow>();
-            CPCWindow::openModal(CMaintenanceWindow::getInstance(), false);
-        }else if(!CAutomate::getInstance()->isCyclesRunning()){
-            CAutomate::getInstance()->enterMaintenanceMode();
-            //CPCWindow::openModal<CMaintenanceWindow>();
-            CPCWindow::openModal(CMaintenanceWindow::getInstance(), false);
-        }
-        break;
+            if((CAutomate::getInstance()->isCyclesRunning() && CPCWindow::openExec<CDialogConfirmation>(tr("Are you sure ? \nIt will stop the current measurment"),this))
+                    || !CAutomate::getInstance()->isCyclesRunning()){
+                CAutomate::getInstance()->enterMaintenanceMode();
+                //CPCWindow::openModal<CMaintenanceWindow>();
+//                connect(CUserSession::getInstance(), &CUserSession::signalUserSessionClosed,
+//                              CMaintenanceWindow::getInstance(), &CMaintenanceWindow::slotUserSessionClosed);
+                CPCWindow::openModal(CMaintenanceWindow::getInstance(), false);
+//            }else if(!CAutomate::getInstance()->isCyclesRunning()){
+//                CAutomate::getInstance()->enterMaintenanceMode();
+//                //CPCWindow::openModal<CMaintenanceWindow>();
+//                connect(CUserSession::getInstance(), &CUserSession::signalUserSessionClosed,
+//                              CMaintenanceWindow::getInstance(), &CMaintenanceWindow::slotUserSessionClosed);
+//                CPCWindow::openModal(CMaintenanceWindow::getInstance(), false);
+            }
+            break;
 
         case CToolButton::ElectricalTests:
             CPCWindow::openModal<CElectricalTestsWindow>();
@@ -110,6 +116,7 @@ void CPCToolsTab::slotButtonClicked(CLabelledToolButton *button)
         default:
             Q_ASSERT(false);
             break;
+        }
     }
 }
 

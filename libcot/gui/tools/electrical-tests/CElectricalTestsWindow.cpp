@@ -6,7 +6,7 @@
 #include "CElectricalTests420Tab.h"
 #include "CElectricalTestsInputsTab.h"
 #include "CElectricalTestsSolenoidsTab.h"
-
+#include "CUserSession.h"
 
 #include <qtimer.h>
 
@@ -37,7 +37,6 @@ void CElectricalTestsWindow::slotTabChanged(int index){
         m_timerInput->start(1000);
     }
     else if(m_timerInput) m_timerInput->stop();
-
 }
 
 CElectricalTestsWindow::~CElectricalTestsWindow()
@@ -47,6 +46,8 @@ CElectricalTestsWindow::~CElectricalTestsWindow()
 
 void CElectricalTestsWindow::backTriggered()
 {
+    //a l'essais pour ne pas utiliser le slotUserSessionClosed
+    CUserSession::getInstance()->loginAsLastUser(true);
     if(m_timerInput) m_timerInput->stop();
     close();
 }

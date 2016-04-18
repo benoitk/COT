@@ -44,15 +44,29 @@ CActionCmdPompe::CActionCmdPompe(const QVariantMap &mapAction, QObject *parent)
 }
 QVariantMap CActionCmdPompe::serialize(){
     QVariantMap mapSerialize = IAction::serialize();
+    if(m_alim)
     mapSerialize.insert(QStringLiteral("alim"), m_alim->getName());
+    else
+        mapSerialize.insert(QStringLiteral("alim"), tr("UNKNOW VAR"));
+    if(m_speed)
     mapSerialize.insert(QStringLiteral("speed"), m_speed->getName());
-    mapSerialize.insert(QStringLiteral("clockwise"), m_clockwise->getName());
-    mapSerialize.insert(QStringLiteral("nbr_turns"), m_nbTurns->getName());
-    mapSerialize.insert(QStringLiteral("nbr_steps"), m_nbSteps->getName());
-    mapSerialize.insert(QStringLiteral("origin_return_before"), m_OriginReturn->getName());
-    mapSerialize.insert(QStringLiteral("step_by_step"), m_stepByStep->getName());
-    mapSerialize.insert(QStringLiteral("default"), m_default->getName());
-    mapSerialize.insert(QStringLiteral("alarm"), m_alarm->getName());
+    else
+        mapSerialize.insert(QStringLiteral("speed"), tr("UNKNOW VAR"));
+    if(m_clockwise)mapSerialize.insert(QStringLiteral("clockwise"), m_clockwise->getName());
+    else mapSerialize.insert(QStringLiteral("clockwise"), tr("UNKNOW VAR"));
+    if(m_nbTurns)mapSerialize.insert(QStringLiteral("nbr_turns"), m_nbTurns->getName());
+    else mapSerialize.insert(QStringLiteral("nbr_turns"), tr("UNKNOW VAR"));
+    if(m_nbSteps)mapSerialize.insert(QStringLiteral("nbr_steps"), m_nbSteps->getName());
+    else mapSerialize.insert(QStringLiteral("nbr_steps"), tr("UNKNOW VAR"));
+    if(m_OriginReturn)mapSerialize.insert(QStringLiteral("origin_return_before"), m_OriginReturn->getName());
+    else mapSerialize.insert(QStringLiteral("origin_return_before"), tr("UNKNOW VAR"));
+    if(m_stepByStep)mapSerialize.insert(QStringLiteral("step_by_step"), m_stepByStep->getName());
+    else mapSerialize.insert(QStringLiteral("step_by_step"), tr("UNKNOW VAR"));
+    if(m_default)mapSerialize.insert(QStringLiteral("default"), m_default->getName());
+    else mapSerialize.insert(QStringLiteral("default"), tr("UNKNOW VAR"));
+    if(m_alarm)mapSerialize.insert(QStringLiteral("alarm"), m_alarm->getName());
+    else mapSerialize.insert(QStringLiteral("alarm"), tr("UNKNOW VAR"));
+    mapSerialize.insert(QStringLiteral("type"), QStringLiteral("cmd_pump"));
     mapSerialize.insert(QStringLiteral("type"), QStringLiteral("cmd_pump"));
     return mapSerialize;
 }

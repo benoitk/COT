@@ -2,6 +2,7 @@
 #include "ui_CMaintenanceWindow.h"
 #include "CMaintenanceMaintenanceTab.h"
 #include "CMaintenanceDiagnosticTab.h"
+#include "CUserSession.h"
 #include "CAutomate.h"
 
 CMaintenanceWindow* CMaintenanceWindow::singleton = 0;
@@ -28,10 +29,19 @@ CMaintenanceWindow::~CMaintenanceWindow()
     int test = 4;
     test ++;
 }
-
-void CMaintenanceWindow::backTriggered()
+void CMaintenanceWindow::slotUserSessionClosed()
 {
+//	if(!CUserSession::getInstance()->loginAsLastUser())
+//		slotBackTriggered();
+    CUserSession::getInstance()->loginAsLastUser(true);
+}
+
+void CMaintenanceWindow::slotBackTriggered()
+{
+    //a l'essais pour ne pas utiliser le slotUserSessionClosed
+    CUserSession::getInstance()->loginAsLastUser(true);
     CAutomate::getInstance()->exitMaintenanceMode();
+    disconnect(CUserSession::getInstance(), 0, this, 0);
     close();
 }
 
@@ -45,7 +55,7 @@ void CMaintenanceWindow::retranslate()
 void CMaintenanceWindow::addTab(IMaintenanceTab *tab, const QString &title)
 {
     ui->twPages->addTab(tab, title);
-    connect(tab, &IMaintenanceTab::backTriggered, this, &CMaintenanceWindow::backTriggered);
+    connect(tab, &IMaintenanceTab::backTriggered, this, &CMaintenanceWindow::slotBackTriggered);
 }
 
 void CMaintenanceWindow::changeEvent(QEvent *event)

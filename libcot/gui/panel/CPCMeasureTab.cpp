@@ -8,6 +8,8 @@
 #include "CPlotObject.h"
 #include "CVariableStream.h"
 #include "CVariableMeasure.h"
+#include "CDialogConfirmation.h"
+
 #include <QDebug>
 
 CPCMeasureTab::CPCMeasureTab(QWidget *parent)
@@ -58,24 +60,28 @@ void CPCMeasureTab::slotAlarmsTriggered()
 
 void CPCMeasureTab::slotPlayTriggered()
 {
-    CAutomate::getInstance()->requestPlayScheduler();
+    if(CUserSession::getInstance()->loginUser() )
+        CAutomate::getInstance()->requestPlayScheduler();
 }
 
 void CPCMeasureTab::slotStopTriggered()
 {
-
-    CAutomate::getInstance()->requestStopScheduler();
+    if(CUserSession::getInstance()->loginUser())
+        CAutomate::getInstance()->requestStopScheduler();
 }
 
 void CPCMeasureTab::slotStopEndCycleTriggered()
 {
-    if(CPCWindow::openExec<CDialogConfirmation>(tr("Are you sure ? \nThe measurment will stop after this cycle"),this))
-      CAutomate::getInstance()->requestStopEndCycleScheduler();
+    if(CUserSession::getInstance()->loginUser() &&
+            CPCWindow::openExec<CDialogConfirmation>(tr("Are you sure ? \nThe measurment will stop after this cycle"),this))
+    {
+        CAutomate::getInstance()->requestStopEndCycleScheduler();
+    }
 }
 
 void CPCMeasureTab::slotNextStreamTriggered()
 {
-    if(CPCWindow::openExec<CDialogConfirmation>(tr("Are you sure ? \nIt will stop the current measurment"),this))
+    if(CUserSession::getInstance()->loginUser() && CPCWindow::openExec<CDialogConfirmation>(tr("Are you sure ? \nIt will stop the current measurment"),this))
         CAutomate::getInstance()->requestPlayNextSequenceMesure();
 }
 

@@ -11,7 +11,7 @@ CPushButton::CPushButton(QWidget *parent)
     : QPushButton(parent)
 {
     QPalette pal = palette();
-    pal.setColor(backgroundRole(), QColor(Qt::gray));
+    pal.setColor(backgroundRole(), QColor(Qt::darkGray));
     pal.setColor(foregroundRole(), QColor(Qt::white));
     setPalette(pal);
 }
@@ -27,7 +27,10 @@ void CPushButton::paintEvent(QPaintEvent *event)
     painter.setRenderHint(QPainter::Antialiasing);
 
     painter.setPen(Qt::NoPen);
-    painter.setBrush(palette().color(backgroundRole()).lighter(isDown() || !isEnabled() ? 120 : 0));
+    if(isDown() || !isEnabled())
+        painter.setBrush(Qt::gray);
+    else
+        painter.setBrush(Qt::darkGray);
     painter.drawRoundedRect(rect(), CORNER_RADIUS, CORNER_RADIUS);
 
     painter.setPen(palette().color(foregroundRole()));

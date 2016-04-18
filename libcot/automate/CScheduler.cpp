@@ -13,7 +13,7 @@ CScheduler::CScheduler()
 
     m_itListSequenceCyclesMesures = m_listSequenceCyclesMeasures.begin();
 
-    m_cycleEnCours = 0;
+    m_cycleEnCours = Q_NULLPTR;
     m_haveToStopEndCycle = false;
 
     connect(this, &CScheduler::signalGetReadyForPlayCycleMesure, this, &CScheduler::slotPlaySequenceMeasure);
@@ -58,7 +58,6 @@ QString CScheduler::getCycleInProgressName(){
 void CScheduler::setSequence(bool isMaintenance){
     qCDebug(COTAUTOMATE_LOG) << "void CSequencer::setSequenceMesure()";
 
-
     if (!m_cycleEnCours) {
         qCDebug(COTAUTOMATE_LOG) << "m_cycleMesureEnCours ptr null";
         return;
@@ -67,7 +66,7 @@ void CScheduler::setSequence(bool isMaintenance){
     //Si les signaux ne fonctionne pas, vérfier que le cycle à était déplacer dans un QThread à part(movethead)
     connect(this, &CScheduler::signalRunCycle, m_cycleEnCours, &ICycle::slotRunCycle);//, Qt::DirectConnection);
     connect(this, &CScheduler::signalPauseCycle, m_cycleEnCours, &ICycle::slotPauseCycle);
-    connect(this, &CScheduler::signalUnPauseCycle, m_cycleEnCours, &ICycle::slotUnPauseCycle); //en double avec play
+    connect(this, &CScheduler::signalUnPauseCycle, m_cycleEnCours,  &ICycle::slotUnPauseCycle); //en double avec play
     connect(this, &CScheduler::signalStopCycle, m_cycleEnCours, &ICycle::slotStopCycle);
     connect(this, &CScheduler::signalGoToEndCycleMesure, m_cycleEnCours, &ICycle::slotGoToEndCycle);
     connect(this, &CScheduler::signalGetReadyForPlayNextCycleMesure, m_cycleEnCours, &ICycle::slotGetReadyForPlayNextCycle);
@@ -194,8 +193,9 @@ void CScheduler::slotRequestPlaySequenceMesure(){
     emit signalGetReadyForPlayCycleMesure();
 }
 void CScheduler::slotPlaySequenceMeasure(){
-    qCDebug(COTAUTOMATE_LOG) << "CSequencer::slotPlaySequenceMesure()" << m_cycleEnCours;
-    if(!m_cycleEnCours || (m_cycleEnCours && !m_cycleEnCours->isRunning() ))
+    qCDebug(COTAUTOMATE_LOG) << "CSequencer::slotPlaySequenceMesure()" ;
+    if(        (!m_cycleEnCours && !m_listSequenceCyclesMeasures.isEmpty())
+            || (m_cycleEnCours && !m_cycleEnCours->isRunning() ))
     {
 
         m_itListSequenceCyclesMesures = m_listSequenceCyclesMeasures.begin();
@@ -352,7 +352,7 @@ void CScheduler::slotPlayMaintenance(const QString& arg_cycleName){
     if(m_cycleEnCours){
         this->disconnectCycle(m_cycleEnCours);
     }
-    if(cycle->getType() != e_cycle_invalid){
+    if(cycle && cycle->getType() != e_cycle_invalid){
         m_cycleEnCours = cycle;
         setSequence(true);
         CAutomate::getInstance()->setStateScheduler(CAutomate::CYCLE_STATE_RUN);
