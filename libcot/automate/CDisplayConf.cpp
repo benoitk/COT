@@ -34,6 +34,8 @@ CDisplayConf::CDisplayConf(const QJsonArray& jsonArray, QObject *parent)
             }
         }else if(mapScreen.contains(QStringLiteral("name")) && mapScreen["name"].toString() == QStringLiteral("options")){
             QVariantList variantList = mapScreen.value(QStringLiteral("variables")).toList();
+
+            addVariableToScreenOptions(CAutomate::getInstance()->getLocalControlForced());
             foreach(QVariant variant, variantList){
                 IVariable* var = CAutomate::getInstance()->getVariable(variant.toString());
                 if(var->getType() != e_type_unknow){

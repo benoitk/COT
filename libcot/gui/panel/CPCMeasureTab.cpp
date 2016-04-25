@@ -9,6 +9,7 @@
 #include "CVariableStream.h"
 #include "CVariableMeasure.h"
 #include "CDialogConfirmation.h"
+#include "ICommand.h"
 
 #include <QDebug>
 
@@ -23,10 +24,10 @@ CPCMeasureTab::CPCMeasureTab(QWidget *parent)
 
     connect(ui->vbbButtons->addAction(CToolButton::Alarms), &QAction::triggered,
             this, &CPCMeasureTab::slotAlarmsTriggered);
-    connect(ui->vbbButtons->addAction(CToolButton::Play), &QAction::triggered,
-            this, &CPCMeasureTab::slotPlayTriggered);
-    connect(ui->vbbButtons->addAction(CToolButton::Stop), &QAction::triggered,
-            this, &CPCMeasureTab::slotStopTriggered);
+    connect(ui->vbbButtons->addAction(CToolButton::PlayStop), &QAction::triggered,
+            this, &CPCMeasureTab::slotPlayStopTriggered);
+   // connect(ui->vbbButtons->addAction(CToolButton::Stop), &QAction::triggered,
+   //         this, &CPCMeasureTab::slotStopTriggered);
     connect(ui->vbbButtons->addAction(CToolButton::StopEndCycle), &QAction::triggered,
             this, &CPCMeasureTab::slotStopEndCycleTriggered);
     connect(ui->vbbButtons->addAction(CToolButton::NextStream), &QAction::triggered,
@@ -58,10 +59,12 @@ void CPCMeasureTab::slotAlarmsTriggered()
     CPCWindow::openModal<CAlarmsWindow>(m_pendingAlarms);
 }
 
-void CPCMeasureTab::slotPlayTriggered()
+void CPCMeasureTab::slotPlayStopTriggered()
 {
+    CToolButton *button = ui->vbbButtons->button(CToolButton::PlayStop);
     if(CUserSession::getInstance()->loginUser() )
-        CAutomate::getInstance()->requestPlayScheduler();
+        button->setCheckable(CAutomate::getInstance()->getCommandPlayStop()->slotRunCommand());
+
 }
 
 void CPCMeasureTab::slotStopTriggered()

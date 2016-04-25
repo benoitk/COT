@@ -1242,6 +1242,7 @@ void IVariableUIHandler::slotVariableChanged(const QString &name)
 
 void IVariableUIHandler::slotSwitchClicked()
 {
+    //A creuser : pourquoi va t'il chercher la variable dans CAutomate, il aurait pas pu passer le pointeur a  CSwitchButton direct ? ??
     CSwitchButton *editor = qobject_cast<CSwitchButton *>(sender());
     IVariable *ivar = getVariable(editor->userData().toString());
     ivar->setValue(editor->isChecked());

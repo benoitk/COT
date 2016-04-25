@@ -16,6 +16,7 @@ public:
         Alarms,
         AlarmsActive,
         Play,
+        PlayStop,
         Stop,
         StopEndCycle,
         NextStream,

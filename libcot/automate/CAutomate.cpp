@@ -21,6 +21,7 @@
 #include "CVariableMeasure.h"
 #include "CThreadDiag.h"
 #include "IConverter.h"
+#include "ccommandfactory.h"
 
 #include "cotautomate_debug.h"
 #include "qtimer.h"
@@ -51,9 +52,17 @@ CAutomate::CAutomate()
     m_lang = "en_US";
     m_countBeforeCheckLogFileToDelete = 0;
     m_stateScheduler = CYCLE_STATE_STOP;
+    m_commandNextCycle = Q_NULLPTR;
+    m_commandStopEndCycle = Q_NULLPTR;
+    m_commandPlayStop = Q_NULLPTR;
+    m_localControlForced = new CVariableBool(false, 0,e_access_read_write);
+    m_localControlForced->setName("localControlForced");
+    m_localControlForced->setLabel(tr("Local control forced"));
+    addVariable(m_localControlForced->getName(), m_localControlForced); //va me peter à la gueule dès que le configurateur sera en place
+//    m_localControlForced->setAccess(e_access_read_write);
+//    m_localControlForced->setValue(false);
 
    // m_mappingCom.insert(QStringLiteral("0xffff"), CVariableFactory::build(QVariantMap())); //unknown address com
-
 
     QTimer* timer = new QTimer(this);
     m_iClock = 0;
@@ -64,6 +73,12 @@ CAutomate::CAutomate()
     // for use in queued signal/slot connections
     qRegisterMetaType<CAutomate::eStateAutomate>();
     qRegisterMetaType<CAutomate::eStateStream>();
+}
+bool CAutomate::isLocalControlForced(){
+    return m_localControlForced->toBool();
+}
+IVariable* CAutomate::getLocalControlForced(){
+    return m_localControlForced;
 }
 void CAutomate::setDebug(bool arg_debug){
     m_debug = arg_debug;
@@ -291,12 +306,42 @@ void CAutomate::addAction(IAction* action, bool emitSignal){
         }
     }
 }
-void CAutomate::addCommand(ICommand* cmd){
+void CAutomate::setCommandPlayStop(ICommand* cmd){
     QMutexLocker locker(&m_mutex);
-    if(cmd){
-        m_listCommands.append(cmd);
+    if(cmd && !m_commandPlayStop){
+        m_commandPlayStop = cmd;
     }
 }
+void CAutomate::setCommandStopEndCycle(ICommand* cmd){
+    QMutexLocker locker(&m_mutex);
+    if(cmd && !m_commandStopEndCycle){
+        m_commandStopEndCycle = cmd;
+    }
+}
+void CAutomate::setCommandNextCycle(ICommand* cmd){
+    QMutexLocker locker(&m_mutex);
+    if(cmd && !m_commandNextCycle){
+        m_commandNextCycle= cmd;
+    }
+}
+
+ICommand* CAutomate::getCommandPlayStop(){
+    if(!m_commandPlayStop)
+        m_commandPlayStop = CCommandFactory::build(QVariantMap(), QThread::currentThread()->parent());
+    return m_commandPlayStop;
+}
+
+ICommand* CAutomate::getCommandStopEndCycle(){
+    if(m_commandStopEndCycle)
+        return m_commandStopEndCycle;
+    return CCommandFactory::build(QVariantMap(), QThread::currentThread()->parent());
+}
+ICommand* CAutomate::getCommandNextCycle(){
+    if(m_commandNextCycle)
+        return m_commandNextCycle;
+    return CCommandFactory::build(QVariantMap(), QThread::currentThread()->parent());
+}
+
 
 void CAutomate::delAction(IAction* arg_action){
     QMutexLocker locker(&m_mutex);
@@ -360,6 +405,7 @@ QList<ICycle*> CAutomate::getListCycles(int cycleType){
     QMutexLocker locker(&m_mutex);
     return getListCyclesPrivate(cycleType);
 }
+
 void CAutomate::slotClock(){
   //  qCDebug(COTAUTOMATE_LOG) << "Tick " << m_iClock;
 
@@ -489,11 +535,13 @@ bool CAutomate::requestPlayMaintenance(const QString &  arg_cycleName){
 
 void CAutomate::enterMaintenanceMode(){
     m_isInMaintenanceMode = true;
+    m_localControlForced->setValue(true);
     requestStopScheduler();
 }
 
 void CAutomate::exitMaintenanceMode(){
     acquitAlarms();
+    m_localControlForced->setValue(false);
     m_isInMaintenanceMode = false;
 }
 
@@ -1077,6 +1125,16 @@ void CAutomate::slotSerializeAndSave(){
             listTmp.append(var->getName());
         }
         mapSerialize.insert(QStringLiteral("logs_debug"), listTmp);
+    }
+
+    //commands
+    {
+        QVariantList listTmp;
+        listTmp.append(m_commandPlayStop->serialize());
+        listTmp.append(m_commandStopEndCycle->serialize());
+        listTmp.append(m_commandNextCycle->serialize());
+        mapSerialize.insert(QStringLiteral("commands"), listTmp);
+
     }
 
     QJsonDocument doc = QJsonDocument::fromVariant(mapSerialize);

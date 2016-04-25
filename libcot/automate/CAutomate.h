@@ -108,10 +108,18 @@ public:
     void addUnit(CUnit*);
     void addCom(ICom*);
     void addAction(IAction*, bool emitSignal = false);
-    void addCommand(ICommand*);
     void delAction(IAction*);
     void delAction(const QString&);
     void delVariable(IVariable *ivar);
+
+    //commandes
+    void setCommandPlayStop(ICommand*);
+    void setCommandStopEndCycle(ICommand*);
+    void setCommandNextCycle(ICommand*);
+
+    ICommand* getCommandPlayStop();
+    ICommand* getCommandStopEndCycle();
+    ICommand* getCommandNextCycle();
 
     CModelExtensionCard* getExtensionCard(const QString&);
     void addExtensionCard(const QString&, CModelExtensionCard*);
@@ -133,6 +141,8 @@ public:
     void addLoggedVariable(const QString& arg_varName, bool arg_debug=false);
 
     bool isCyclesRunning();
+    bool isLocalControlForced();
+    IVariable* getLocalControlForced();
 
 public slots:
     void slotSerializeAndSave();
@@ -212,6 +222,7 @@ protected slots:
 private:
 
     bool m_isInMaintenanceMode;
+    CVariableBool* m_localControlForced;
 
     //Gestion redémarage du cycle en cas d'arrêt du à une alarm
     void requestStopFromNewAlarm(CVariableAlarm * arg_alarm);
@@ -232,7 +243,6 @@ private:
     mutable QMutex m_mutex;
 
     eStateScheduler m_stateScheduler;
-    eStateAutomate m_stateAutomate;
 
     CScheduler* m_scheduler;
     CThreadDiag* m_threadDiag;
@@ -247,7 +257,9 @@ private:
     QMap<QString, IAction*> m_mapActions;
     QList<IAction*> m_listActions; //en redondance avec m_mapActions pour ne pas refaire niveau IHM
 
-    QList<ICommand*> m_listCommands;
+    ICommand* m_commandPlayStop;
+    ICommand* m_commandStopEndCycle;
+    ICommand* m_commandNextCycle;
 
     QMap<QString, IVariable*> m_mapVariables;
     QList<CVariableStream*> m_listStreams;

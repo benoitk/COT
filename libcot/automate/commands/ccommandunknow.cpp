@@ -5,9 +5,13 @@ CCommandUnknow::CCommandUnknow(const QVariantMap &mapCmd, QObject *parent): ICom
 
 }
 
-void CCommandUnknow::slotRunCommand(){
-
+bool CCommandUnknow::slotRunCommand(IVariable*){
+    return false;
 }
 void CCommandUnknow::slotReadInput(){
 
+}
+QVariantMap CCommandUnknow::serialize(){
+    QVariantMap mapSerialise = ICommand::serialize();
+    return mapSerialise;
 }

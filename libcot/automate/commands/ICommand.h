@@ -2,6 +2,7 @@
 #define ICOMMANDS_H
 
 #include <QObject>
+#include <QVariant>
 
 enum commandType{
     type_stop_cycle = 0,
@@ -14,20 +15,21 @@ enum commandType{
     type_get_cycle_state
 };
 
-
+class IVariable;
 class ICommand : public QObject
 {
     Q_OBJECT
 public:
     explicit ICommand(const QVariantMap &mapCmd, QObject *parent);
+    ~ICommand();
     QString getName();
     commandType getType();
-
+    virtual QVariantMap serialize();
 signals:
 
 
 public slots:
-    virtual void slotRunCommand() =0;
+    virtual bool slotRunCommand(IVariable* = Q_NULLPTR) =0;
     virtual void slotReadInput()=0;
 private:
     QString m_name;

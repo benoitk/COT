@@ -232,12 +232,16 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
     }
     else {
         QJsonArray jsonArrayCommands = jsonObjectAll[QStringLiteral("commands")].toArray();
+
         foreach(QJsonValue jsonValueCmd, jsonArrayCommands){
             QVariantMap mapCmd = jsonValueCmd.toVariant().toMap();
             ICommand* command = CCommandFactory::build(mapCmd, automate);
-            if(command){
-                //m_mapCmd.insert(command->getName(),command);
-                //automate->addAction(command);
+            if(command && command->getName() == QStringLiteral("cmd_play_stop_cycle")){
+                automate->setCommandPlayStop(command);
+            }else if(command && command->getName() == QStringLiteral("cmd_stop_end_cycle")){
+                automate->setCommandStopEndCycle(command);
+            }else if(command && command->getName() == QStringLiteral("cmd_next_cycle")){
+                automate->setCommandNextCycle(command);
             }else
                 qCDebug(COTAUTOMATE_LOG) << "ICommand null : map = " << mapCmd;
         }

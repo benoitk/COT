@@ -103,6 +103,8 @@
         <file>pictohd/chargement.png</file>
         <file>pictohd/chargement active.png</file>
         <file>pictohd/chargement grisée.png</file>
+        <file>pictohd/play stop.png</file>
+        <file>pictohd/play stop active.png</file>
     </qresource>
     <qresource prefix="/icons">
         <file>picto/flechebas.png</file>

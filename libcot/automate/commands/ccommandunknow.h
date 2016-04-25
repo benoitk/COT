@@ -10,12 +10,12 @@ class CCommandUnknow: public ICommand
 public:
 
     explicit CCommandUnknow(const QVariantMap &mapCmd, QObject *parent);
-
+    QVariantMap serialize() Q_DECL_OVERRIDE;
 signals:
 
 
 public slots:
-    void slotRunCommand() Q_DECL_OVERRIDE;
+    bool slotRunCommand(IVariable* = Q_NULLPTR) Q_DECL_OVERRIDE;
     void slotReadInput() Q_DECL_OVERRIDE;
 
 };

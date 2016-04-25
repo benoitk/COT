@@ -17,11 +17,14 @@ signals:
 
 
 public slots:
-    void slotRunCommand() Q_DECL_OVERRIDE;
+    bool slotRunCommand(IVariable* = Q_NULLPTR) Q_DECL_OVERRIDE;
     void slotReadInput() Q_DECL_OVERRIDE;
+    QVariantMap serialize() Q_DECL_OVERRIDE;
 
 protected:
     IVariable* m_inputVariable;
+    QList<QString> m_listPriorityOrder;
+    int m_lastOrderPriority;
     bool m_oldValue;
 
 };

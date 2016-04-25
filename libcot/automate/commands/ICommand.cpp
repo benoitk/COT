@@ -10,6 +10,9 @@ ICommand::ICommand(const QVariantMap &mapCmd, QObject *parent) : QObject(parent)
 
 
 }
+ICommand::~ICommand(){
+
+}
 
 QString ICommand::getName(){
     return m_name;
@@ -20,3 +23,11 @@ commandType ICommand::getType(){
 }
 
 
+QVariantMap ICommand::serialize(){
+    QVariantMap mapSerialise;
+    mapSerialise.insert(QStringLiteral("name"), m_name);
+    mapSerialise.insert(tr("en_US"), m_label);
+
+
+    return mapSerialise;
+}

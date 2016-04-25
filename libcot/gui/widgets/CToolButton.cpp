@@ -120,21 +120,21 @@ void CToolButton::initialize(CToolButton::Type type, QAction *action)
     }
 
     switch (type) {
-        case CToolButton::Back:
-        case CToolButton::Quit:
-        case CToolButton::Cancel: {
-            if (action) {
-                action->setShortcut(QKeySequence(Qt::Key_Escape));
-            }
-            else {
-                setShortcut(QKeySequence(Qt::Key_Escape));
-            }
-
-            break;
+    case CToolButton::Back:
+    case CToolButton::Quit:
+    case CToolButton::Cancel: {
+        if (action) {
+            action->setShortcut(QKeySequence(Qt::Key_Escape));
+        }
+        else {
+            setShortcut(QKeySequence(Qt::Key_Escape));
         }
 
-        default:
-            break;
+        break;
+    }
+
+    default:
+        break;
     }
 
     updateDefaultText();
@@ -215,109 +215,113 @@ QIcon CToolButton::buttonIcon(CToolButton::Type type)
     case CToolButton::Move:
     case CToolButton::AddStopStep:
     case CToolButton::Edit:
-        case CToolButton::Retry:
+    case CToolButton::Retry:
     case CToolButton::Screenshot:
-            // SERES_TODO: Add correct icons. // COT-66
-            break;
+        // SERES_TODO: Add correct icons. // COT-66
+        break;
 
-        case CToolButton::Empty:
-            icon = iconFromPixmaps("empty");
-            break;
+    case CToolButton::Empty:
+        icon = iconFromPixmaps("empty");
+        break;
 
-        case CToolButton::Add:
-            icon = iconFromPixmaps("Plus");
-            break;
+    case CToolButton::Add:
+        icon = iconFromPixmaps("Plus");
+        break;
 
-        case CToolButton::Remove:
-            icon = iconFromPixmaps("moins");
-            break;
+    case CToolButton::Remove:
+        icon = iconFromPixmaps("moins");
+        break;
 
-        case CToolButton::Play:
-            icon = iconFromPixmaps("lancer maintenance");
-            break;
+    case CToolButton::PlayStop:
+        icon = iconFromPixmaps("play stop");
+        break;
 
-        case CToolButton::Stop:
-            icon = iconFromPixmaps("stop mesure");
-            break;
+    case CToolButton::Play:
+        icon = iconFromPixmaps("lancer maintenance");
+        break;
 
-        case CToolButton::Alarms:
-            icon = iconFromPixmaps("alarme mesure");
-            break;
+    case CToolButton::Stop:
+        icon = iconFromPixmaps("stop mesure");
+        break;
 
-        case CToolButton::AlarmsActive:
-            icon = iconFromPixmaps("alarme mesure gif");
-            break;
+    case CToolButton::Alarms:
+        icon = iconFromPixmaps("alarme mesure");
+        break;
 
-        case CToolButton::ScrollUp:
-            icon = iconFromPixmaps("fleche haut");
-            break;
+    case CToolButton::AlarmsActive:
+        icon = iconFromPixmaps("alarme mesure gif");
+        break;
 
-        case CToolButton::ScrollDown:
-            icon = iconFromPixmaps("fleche bas");
-            break;
+    case CToolButton::ScrollUp:
+        icon = iconFromPixmaps("fleche haut");
+        break;
 
-        case CToolButton::Back:
-        case CToolButton::Quit:
-            icon = iconFromPixmaps("quitter");
-            break;
+    case CToolButton::ScrollDown:
+        icon = iconFromPixmaps("fleche bas");
+        break;
 
-        case CToolButton::On:
-            icon = iconFromPixmaps("on");
-            break;
+    case CToolButton::Back:
+    case CToolButton::Quit:
+        icon = iconFromPixmaps("quitter");
+        break;
 
-        case CToolButton::Off:
-            icon = iconFromPixmaps("off");
-            break;
+    case CToolButton::On:
+        icon = iconFromPixmaps("on");
+        break;
 
-        case CToolButton::Led:
-            icon = iconFromPixmaps("Ana-tor");
-            break;
+    case CToolButton::Off:
+        icon = iconFromPixmaps("off");
+        break;
 
-        case CToolButton::Maintenance:
-            icon = iconFromPixmaps("menu maintenance");
-            break;
+    case CToolButton::Led:
+        icon = iconFromPixmaps("Ana-tor");
+        break;
 
-        case CToolButton::ElectricalTests:
-            icon = iconFromPixmaps("menu carte mesure");
-            break;
+    case CToolButton::Maintenance:
+        icon = iconFromPixmaps("menu maintenance");
+        break;
 
-        case CToolButton::Options:
-            icon = iconFromPixmaps("menu sequenceur");
-            break;
+    case CToolButton::ElectricalTests:
+        icon = iconFromPixmaps("menu carte mesure");
+        break;
 
-        case CToolButton::History:
-            icon = iconFromPixmaps("historique");
-            break;
+    case CToolButton::Options:
+        icon = iconFromPixmaps("menu sequenceur");
+        break;
 
-        case CToolButton::LogFiles:
-            icon = iconFromPixmaps("transfert copie");
-            break;
+    case CToolButton::History:
+        icon = iconFromPixmaps("historique");
+        break;
 
-        case CToolButton::MeasureDetails:
-        case CToolButton::Configure: // SERES_TODO: Add correct icons. // COT-66
-            icon = iconFromPixmaps("detail mesure");
-            break;
+    case CToolButton::LogFiles:
+        icon = iconFromPixmaps("transfert copie");
+        break;
 
-        case CToolButton::Ok:
-            icon = iconFromPixmaps("appliquer");
-            break;
+    case CToolButton::MeasureDetails:
+    case CToolButton::Configure: // SERES_TODO: Add correct icons. // COT-66
+        icon = iconFromPixmaps("detail mesure");
+        break;
 
-        case CToolButton::Cancel:
-        case CToolButton::Delete:
-            icon = iconFromPixmaps("annule");
-            break;
+    case CToolButton::Ok:
+        icon = iconFromPixmaps("appliquer");
+        break;
 
-        case CToolButton::Informations:
-            icon = iconFromPixmaps("menu information");
-            break;
+    case CToolButton::Cancel:
+    case CToolButton::Delete:
+        icon = iconFromPixmaps("annule");
+        break;
 
-        case CToolButton::CreateRecovery:
-        case CToolButton::RestoreConfig:
-            icon = iconFromPixmaps("menu sauvegarde");
-            break;
+    case CToolButton::Informations:
+        icon = iconFromPixmaps("menu information");
+        break;
 
-        case CToolButton::Invalid:
-            break;
+    case CToolButton::CreateRecovery:
+    case CToolButton::RestoreConfig:
+        icon = iconFromPixmaps("menu sauvegarde");
+        break;
+
+    case CToolButton::Invalid:
+        break;
     }
 
     return icon;

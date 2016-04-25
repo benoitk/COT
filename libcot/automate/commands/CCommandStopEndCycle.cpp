@@ -7,7 +7,7 @@ CCommandStopEndCycle::CCommandStopEndCycle(const QVariantMap &mapCmd, QObject *p
 
 }
 
-void CCommandStopEndCycle::slotRunCommand(){
+bool CCommandStopEndCycle::slotRunCommand(IVariable* arg){
     if(!m_inputVariable->toBool() && m_oldValue){
         m_oldValue = !m_oldValue;
         CAutomate::getInstance()->requestPlayScheduler();
@@ -17,5 +17,6 @@ void CCommandStopEndCycle::slotRunCommand(){
         m_oldValue = !m_oldValue;
         CAutomate::getInstance()->requestStopEndCycleScheduler();
     }
-
+    return m_oldValue;
 }
+

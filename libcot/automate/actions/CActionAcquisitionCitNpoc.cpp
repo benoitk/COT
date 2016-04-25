@@ -9,7 +9,6 @@
 
 #include "qthreadpool.h"
 
-
 CActionAcquisitionCitNpoc::CActionAcquisitionCitNpoc(const QVariantMap &mapAction, QObject *parent)
     : IAction(mapAction, parent)
 {
@@ -26,9 +25,10 @@ CActionAcquisitionCitNpoc::CActionAcquisitionCitNpoc(const QVariantMap &mapActio
     m_Offset = automate->getVariable(mapAction[QStringLiteral("offset")].toString());
     m_CstConversion = automate->getVariable(mapAction[QStringLiteral("co2_ppmv_to_co2_gm3_cst")].toString());
     m_zero = automate->getVariable(mapAction[QStringLiteral("zero_point")].toString());
+    m_offsetCo2g = automate->getVariable(mapAction[QStringLiteral("offset_co2g")].toString());
     m_result = automate->getVariable(mapAction[QStringLiteral("result")].toString());
     if(mapAction.contains("debits_airflow")){
-        QVariantList listDebits  = mapAction[QStringLiteral("debit_airflow")].toList();
+        QVariantList listDebits  = mapAction[QStringLiteral("debits_airflow")].toList();
         foreach(QVariant var, listDebits)
             m_listAirflows.append(automate->getVariable(var.toString()));
     }
@@ -44,7 +44,6 @@ CActionAcquisitionCitNpoc::CActionAcquisitionCitNpoc(const QVariantMap &mapActio
 
      if(m_coefCourbe->toFloat() == 0) m_coefCourbe->setValue(1);
 
-
     QVariantMap variantMapDerivativeCalcul;
     variantMapDerivativeCalcul.insert(QStringLiteral("name"), QStringLiteral("derivative_calcul"));
     variantMapDerivativeCalcul.insert(tr("en_US"), tr("Generate critical error"));
@@ -52,12 +51,9 @@ CActionAcquisitionCitNpoc::CActionAcquisitionCitNpoc(const QVariantMap &mapActio
     variantMapDerivativeCalcul.insert(QStringLiteral("value"), mapAction[QStringLiteral("derivative_calcul")].toBool());
     m_derivativeCalcul = dynamic_cast<CVariableBool*>(CVariableFactory::build(variantMapDerivativeCalcul));
 
-
-
     //si autodelete à true, risque d'utilisation de l'objet alors qu'il est détruit à la fin du run.
     this->setAutoDelete(false);
 }
-
 
 QVariantMap CActionAcquisitionCitNpoc::serialize(){
     QVariantMap mapSerialize = IAction::serialize();
@@ -103,8 +99,6 @@ bool CActionAcquisitionCitNpoc::runAction(ICycle* arg_stepParent){
     return true;
 }
 
-
-
 void CActionAcquisitionCitNpoc::run(){
     ICycle* stepParent = getStepParent();
     qCDebug(COTAUTOMATE_LOG)<< "CActionAcquisitionCitNpoc 'qrunnable' ";
@@ -123,23 +117,17 @@ void CActionAcquisitionCitNpoc::run(){
     IVariable* varDerivee = CAutomate::getInstance()->getVariable(QStringLiteral("var_derivee"));
 
     if(measureCell && !listMeasureAirflow.isEmpty()){
-
         float mesure = 0;
         float x = 0;
         float co2ppmv=0;
-        float co2g=0;
+        float co2g= 0;
         float airflow=0;
         float derivative =0;
         float derivativePrevious =0;
         float co2ppmvPrevious = 0;
         float co2ppmvPrevious2 = 0;
-
         float integral = 0;
         float integralPrevious = 0;
-
-
-        //        const float zero = measureCell->readValue()->toFloat();
-//        m_zero->setValue(zero);
 
         const float zero = m_zero->toFloat();
         const float coefCourbe = m_coefCourbe->toFloat();
@@ -200,7 +188,7 @@ void CActionAcquisitionCitNpoc::run(){
             }
             QThread::msleep(1000);
         }
-        m_result->setValue( (co2g * 12000) / ( (m_vesselVolume->toFloat() / 1000) * 44) * m_coefCorrection->toFloat());
+        m_result->setValue( ( (co2g-m_offsetCo2g->toFloat()) * 12000) / ( (m_vesselVolume->toFloat() / 1000) * 44) * m_coefCorrection->toFloat());
     }
 
     updateActionInfos(m_label + tr(" finit"), stepParent);

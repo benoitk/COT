@@ -95,8 +95,9 @@ public:
     bool operator>(IVariable*);
 
     virtual void setAddress(int address);
-protected:
     virtual void setAccess(enumVariableAccess access);
+protected:
+
     template<typename T> T setValue(T arg_value, T arg_valueMin, T arg_valueMax){
         T resultValue;
         if(arg_valueMin == arg_valueMax || (arg_value > arg_valueMin && arg_value < arg_valueMax) )

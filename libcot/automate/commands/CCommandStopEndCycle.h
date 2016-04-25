@@ -10,7 +10,7 @@ public:
    explicit CCommandStopEndCycle(const QVariantMap &mapCmd, QObject *parent);
 
 public slots:
-    void slotRunCommand() Q_DECL_OVERRIDE;
+    bool slotRunCommand(IVariable* = Q_NULLPTR) Q_DECL_OVERRIDE;
 
 };
 

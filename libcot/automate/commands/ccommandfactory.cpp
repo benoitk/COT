@@ -12,7 +12,7 @@
 ICommand* CCommandFactory::build(const QVariantMap &mapCommand, QObject *parent){
 
     ICommand* command = Q_NULLPTR;
-    const QString type = mapCommand[QStringLiteral("type")].toString();
+    const QString type = mapCommand[QStringLiteral("name")].toString();
     if(type == QStringLiteral("cmd_play_stop_cycle")){
         command = new CCommandPlayStopCycle(mapCommand,parent);
     }
@@ -21,7 +21,7 @@ ICommand* CCommandFactory::build(const QVariantMap &mapCommand, QObject *parent)
     }
     else{
         command = new CCommandUnknow(mapCommand,parent);
-        qCDebug(COTAUTOMATE_LOG) << "Classe action INCONNUE :" << type;
+        qCDebug(COTAUTOMATE_LOG) << "Classe command INCONNUE :" << type;
     }
 
     return command;

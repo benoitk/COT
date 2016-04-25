@@ -22,7 +22,7 @@ public:
 
 private slots:
     void slotAlarmsTriggered();
-    void slotPlayTriggered();
+    void slotPlayStopTriggered();
     void slotStopTriggered();
     void slotStopEndCycleTriggered();
     void slotNextStreamTriggered();
