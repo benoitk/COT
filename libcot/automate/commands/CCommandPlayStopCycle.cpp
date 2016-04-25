@@ -1,4 +1,5 @@
 #include "CCommandPlayStopCycle.h"
+#include "CCommandStopEndCycle.h"
 #include "IVariable.h"
 #include "IVariableInput.h"
 #include "CAutomate.h"
@@ -7,37 +8,46 @@
 
 CCommandPlayStopCycle::CCommandPlayStopCycle(const QVariantMap &mapCmd, QObject *parent):ICommand(mapCmd, parent)
 {
+    m_cmdStop = Q_NULLPTR;
     CAutomate* a = CAutomate::getInstance();
     m_inputVariable = a->getVariable( mapCmd.value(QStringLiteral("input_variable")).toString());
     if(m_inputVariable->getType() != e_type_unknow)
         connect(m_inputVariable, &IVariable::signalVariableChanged, this, &ICommand::slotRunCommand);
-    m_oldValue = false;
-    slotReadInput();
-    slotRunCommand();
+    m_currentValue = true;
+
 
 }
+void CCommandPlayStopCycle::setOtherCmdStop(CCommandPlayStopCycle* arg_cmd){
+    if(arg_cmd)
+        m_cmdStop = arg_cmd;
+    slotReadInput();
+    slotRunCommand();
+}
 
-bool CCommandPlayStopCycle::slotRunCommand(IVariable* arg_var){
+bool CCommandPlayStopCycle::slotRunCommand(bool arg_externalCmdOnly){
     //si arg_var =  Q_NULLPTR -> IHM
-    if(arg_var==m_inputVariable && m_inputVariable->toBool()
-            && !m_oldValue && !CAutomate::getInstance()->isLocalControlForced()){
-        m_oldValue = !m_oldValue;
-        CAutomate::getInstance()->requestPlayScheduler();
+    if(m_inputVariable->getType() != e_type_unknow && m_inputVariable->toBool()
+            && !m_currentValue && !CAutomate::getInstance()->isLocalControlForced() ){
+        m_currentValue = !m_currentValue;
+        if (!m_cmdStop || m_cmdStop->getStateCommand())
+            CAutomate::getInstance()->requestPlayScheduler();
     }
-    else if( (arg_var==m_inputVariable && !m_inputVariable->toBool())
-             && m_oldValue && !CAutomate::getInstance()->isLocalControlForced()){
-        m_oldValue = !m_oldValue;
+    else if( (m_inputVariable->getType() != e_type_unknow && !m_inputVariable->toBool())
+             && m_currentValue && !CAutomate::getInstance()->isLocalControlForced()){
+        m_currentValue = !m_currentValue;
         CAutomate::getInstance()->requestStopScheduler();
     }
-    else if(arg_var== Q_NULLPTR && (m_inputVariable->getType() == e_type_unknow || CAutomate::getInstance()->isLocalControlForced()) && !m_oldValue){
-        m_oldValue = !m_oldValue;
+    else if( (m_inputVariable->getType() == e_type_unknow || CAutomate::getInstance()->isLocalControlForced())
+             && !m_currentValue && !arg_externalCmdOnly ){
+        m_currentValue = !m_currentValue;
+        if (!m_cmdStop || m_cmdStop->getStateCommand())
         CAutomate::getInstance()->requestPlayScheduler();
     }
-    else if(arg_var== Q_NULLPTR && (m_inputVariable->getType() == e_type_unknow || CAutomate::getInstance()->isLocalControlForced())&& m_oldValue){
-        m_oldValue = !m_oldValue;
+    else if((m_inputVariable->getType() == e_type_unknow || CAutomate::getInstance()->isLocalControlForced())&& m_currentValue && !arg_externalCmdOnly){
+        m_currentValue = !m_currentValue;
         CAutomate::getInstance()->requestStopScheduler();
     }
-    return m_oldValue;
+    return m_currentValue;
 }
 
 void CCommandPlayStopCycle::slotReadInput(){
@@ -48,7 +58,7 @@ void CCommandPlayStopCycle::slotReadInput(){
 }
 
 bool CCommandPlayStopCycle::getStateCommand(){
-    return m_inputVariable->toBool();
+    return m_currentValue;
 }
 QVariantMap CCommandPlayStopCycle::serialize(){
     QVariantMap mapSerialise = ICommand::serialize();

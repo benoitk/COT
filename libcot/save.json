@@ -1415,22 +1415,7 @@
             "step_stop" : {"fr_FR":"Arrêt cycle", "actions":["action_ev_sample_close", "action_ev_reactor_filling_close", "action_ev_nettoyage_close", "action_ev_sample_inerting_close", "action_ev_air_ozone_close", "action_ev_air_direct_close", "action_ev_emptying_close", "action_ev_purge_close", "action_ev_zero_close", "var_ev_air_decolmatage", "action_pump_sample_off", "action_cmd_pump_acide_off", "action_cmd_pump_persulfate_off", "action_cmd_pump_soude_off", "action_cmd_pump_dilution_off", "action_uv_lamp_off"]},
             "steps" : [{"name":"step_01", "step":0,"fr_FR":"Initialisation", "en_US" : "Initialization", "actions":["action_ev_sample_close", "action_ev_reactor_filling_close", "action_ev_nettoyage_close", "action_ev_sample_inerting_close", "action_ev_air_ozone_close", "action_ev_air_direct_close", "action_ev_emptying_close", "action_ev_purge_close", "action_ev_zero_close", "var_ev_air_decolmatage", "action_pump_sample_off", "action_cmd_pump_acide_off", "action_cmd_pump_persulfate_off", "action_cmd_pump_soude_off", "action_cmd_pump_dilution_off", "action_uv_lamp_off"]},
                       {"name":"step_11", "step":1,"fr_FR":"Prélèvement Echantillon/Vidange réacteur", "en_US" : "Sample/Emptying reactor", "actions":["action_ev_emptying_open", "action_ev_sample_open", "action_pump_sample_filling_loop_on"]}, 
-                      {"name":"step_21", "step":14,"fr_FR":"Test Défaut d'eau", "en_US" : "Test Défaut d'eau", "actions":["action_control_water_default"]},
-                      {"name":"step_31", "step":16,"fr_FR":"Position transfert", "en_US" : "Transfert position", "actions":["action_ev_reactor_filling_open", "action_ev_sample_close"]},
-                      {"name":"step_41", "step":31,"fr_FR":"Fin Vidange Réacteur", "en_US" : "End emptying reactor", "actions":["action_ev_emptying_close"]},
-                      {"name":"step_51", "step":51,"fr_FR":"Mesure du Zéro", "en_US" : "Zero measure", "actions":["action_zero_measure"]},
-                      {"name":"step_61", "step":52,"fr_FR":"Contrôle du Zéro", "en_US" : "Zero control", "actions":["action_control_zero_measure_cell_cycle"]},
-                      {"name":"step_71", "step":54,"fr_FR":"Transfert échantillon", "en_US" : "Sample transfert", "actions":["action_pump_sample_filling_reactor_on", "action_ev_sample_inerting_open", "action_acquisition_measure_cit"]},
-                      {"name":"step_81", "step":57,"fr_FR":"Injection H2SO4", "en_US" : "H2SO4 injection", "actions":["action_cmd_pump_acide"]},
-                      {"name":"step_81", "step":64,"fr_FR":"Injection H2SO4", "en_US" : "H2SO4 injection", "actions":["action_pump_sample_filling_reactor_on2"]},
-                      {"name":"step_91", "step":68,"fr_FR":"Purge CIT", "en_US" : "TIC purging", "actions":["action_ev_sample_inerting_close", "action_ev_sample_open", "action_ev_reactor_filling_close", "action_control_temperature_reactor"]},
-                      {"name":"step_101", "step":155,"fr_FR":"Lampe UV ON", "en_US" : "UV lamp ON", "actions":["action_uv_lamp_on"]},
-                      {"name":"step_111", "step":160,"fr_FR":"Mesure du Zéro", "en_US" : "Zero measure", "actions":["action_zero_measure_NPOC"]},
-                      {"name":"step_121", "step":161,"fr_FR":"Contrôle du Zéro", "en_US" : "Zero control", "actions":["action_find_bigger_test"]},
-                      {"name":"step_131", "step":168,"fr_FR":"*Mesure COT*", "en_US" : "*TOC measure*", "actions":["action_control_relay_lampeUV_default", "action_acquisition_measure_npoc", "action_cmd_pump_persulfate", "action_cmd_loop1_4_20"]},
-                      {"name":"step_131", "step":185,"fr_FR":"**Mesure COT**", "en_US" : "**TOC measure**", "actions":["action_ev_air_ozone_open", "action_ev_air_direct_open"]},
-                      {"name":"step_141", "step":470,"fr_FR":"*Fin mesure COT*", "en_US" : "*End TOC measure*", "actions":["action_uv_lamp_off", "action_ev_air_direct_close", "action_ev_air_ozone_close", "action_control_seuil_mesure_1", "action_control_seuil_mesure_2"]},
-                      {"name":"step_151", "step":473,"fr_FR":"**Fin mesure COT**", "en_US" : "**End TOC measure**", "actions":["action_cmd_loop2_4_20"]}
+                      {"name":"step_21", "step":7,"fr_FR":"Test Défaut d'eau", "en_US" : "Test Défaut d'eau", "actions":["action_ev_emptying_close"]}
                       ]
         },
         {

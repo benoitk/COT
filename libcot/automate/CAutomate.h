@@ -66,6 +66,7 @@ public:
     bool requestPlayMaintenance(const QString&);
     void requestStopScheduler();
     void requestStopEndCycleScheduler();
+    void requestCancelStopEndCycleScheduler();
     void pauseScheduler();
     void requestPlayNextSequenceMesure();
 
@@ -146,7 +147,7 @@ public:
 
 public slots:
     void slotSerializeAndSave();
-
+    void slotResetCommands();
     void slotClock();
     void slotStartAutomate();
     void slotTabChanged(int tab_index);

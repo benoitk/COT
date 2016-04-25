@@ -15,7 +15,7 @@ signals:
 
 
 public slots:
-    bool slotRunCommand(IVariable* = Q_NULLPTR) Q_DECL_OVERRIDE;
+    bool slotRunCommand(bool arg_externalCmdOnly = false) Q_DECL_OVERRIDE;
     void slotReadInput() Q_DECL_OVERRIDE;
 
 };

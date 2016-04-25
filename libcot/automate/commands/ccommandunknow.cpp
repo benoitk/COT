@@ -5,7 +5,7 @@ CCommandUnknow::CCommandUnknow(const QVariantMap &mapCmd, QObject *parent): ICom
 
 }
 
-bool CCommandUnknow::slotRunCommand(IVariable*){
+bool CCommandUnknow::slotRunCommand(bool arg_externalCmdOnly){
     return false;
 }
 void CCommandUnknow::slotReadInput(){

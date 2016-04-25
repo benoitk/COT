@@ -29,7 +29,7 @@ signals:
 
 
 public slots:
-    virtual bool slotRunCommand(IVariable* = Q_NULLPTR) =0;
+    virtual bool slotRunCommand(bool arg_externalCmdOnly = false) =0;
     virtual void slotReadInput()=0;
 private:
     QString m_name;

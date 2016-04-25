@@ -10,14 +10,13 @@ class CCommandPlayStopCycle: public ICommand
 public:
 
     explicit CCommandPlayStopCycle(const QVariantMap &mapAction, QObject *parent);
-
-
+    void setOtherCmdStop(CCommandPlayStopCycle* arg_cmd);
     bool getStateCommand();
 signals:
 
 
 public slots:
-    bool slotRunCommand(IVariable* = Q_NULLPTR) Q_DECL_OVERRIDE;
+    bool slotRunCommand(bool arg_externalCmdOnly = false) Q_DECL_OVERRIDE;
     void slotReadInput() Q_DECL_OVERRIDE;
     QVariantMap serialize() Q_DECL_OVERRIDE;
 
@@ -25,7 +24,8 @@ protected:
     IVariable* m_inputVariable;
     QList<QString> m_listPriorityOrder;
     int m_lastOrderPriority;
-    bool m_oldValue;
+    bool m_currentValue;
+    CCommandPlayStopCycle* m_cmdStop;
 
 };
 

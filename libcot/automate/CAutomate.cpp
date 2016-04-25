@@ -22,6 +22,8 @@
 #include "CThreadDiag.h"
 #include "IConverter.h"
 #include "ccommandfactory.h"
+#include "CCommandPlayStopCycle.h"
+#include "CCommandStopEndCycle.h"
 
 #include "cotautomate_debug.h"
 #include "qtimer.h"
@@ -59,16 +61,17 @@ CAutomate::CAutomate()
     m_localControlForced->setName("localControlForced");
     m_localControlForced->setLabel(tr("Local control forced"));
     addVariable(m_localControlForced->getName(), m_localControlForced); //va me peter à la gueule dès que le configurateur sera en place
-//    m_localControlForced->setAccess(e_access_read_write);
-//    m_localControlForced->setValue(false);
+    connect(m_localControlForced, &CVariableBool::signalVariableChanged, this, &CAutomate::slotResetCommands);
+    //    m_localControlForced->setAccess(e_access_read_write);
+    //    m_localControlForced->setValue(false);
 
-   // m_mappingCom.insert(QStringLiteral("0xffff"), CVariableFactory::build(QVariantMap())); //unknown address com
+    // m_mappingCom.insert(QStringLiteral("0xffff"), CVariableFactory::build(QVariantMap())); //unknown address com
 
-    QTimer* timer = new QTimer(this);
+ //   QTimer* timer = new QTimer(this);
     m_iClock = 0;
-    connect(timer, &QTimer::timeout, this, &CAutomate::slotClock);
-    timer->setInterval(250);
-   // timer->start();
+//    connect(timer, &QTimer::timeout, this, &CAutomate::slotClock);
+//    timer->setInterval(250);
+//    timer->start();
 
     // for use in queued signal/slot connections
     qRegisterMetaType<CAutomate::eStateAutomate>();
@@ -80,6 +83,15 @@ bool CAutomate::isLocalControlForced(){
 IVariable* CAutomate::getLocalControlForced(){
     return m_localControlForced;
 }
+
+void CAutomate::slotResetCommands(){
+    if(!m_localControlForced->toBool()){
+        m_commandPlayStop->slotRunCommand(true);
+        m_commandStopEndCycle->slotRunCommand(true);
+        m_commandNextCycle->slotRunCommand(true);
+    }
+}
+
 void CAutomate::setDebug(bool arg_debug){
     m_debug = arg_debug;
 }
@@ -93,7 +105,8 @@ void CAutomate::slotStartAutomate(){
     m_threadDiag = new CThreadDiag(this);
 
     CModelConfigFile configFile(this);
-
+    (dynamic_cast<CCommandPlayStopCycle*>(m_commandPlayStop))->setOtherCmdStop((dynamic_cast<CCommandPlayStopCycle*>(m_commandStopEndCycle)));
+    (dynamic_cast<CCommandPlayStopCycle*>(m_commandStopEndCycle))->setOtherCmdStop((dynamic_cast<CCommandPlayStopCycle*>(m_commandPlayStop)));
     if(m_debug)
         QTimer::singleShot(1000, this, SLOT(slotLogVariable()));
 
@@ -414,12 +427,12 @@ void CAutomate::slotClock(){
 //    IVariable *phosphore = getVariable(QStringLiteral("phosphore"));
 //    phosphore->setValue(m_iClock * 2);
     if ((m_iClock++ % 5) == 0) {
-        IVariable *var= getVariable(QStringLiteral("var_measure_cot"));
+        IVariable *var= getVariable(QStringLiteral("var_measure_cit"));
         float tmp = rand() %5000;
         tmp = (tmp + 45000)/1000;
         var->setValue(tmp);
 
-        var= getVariable(QStringLiteral("var_measure_cit"));
+        var= getVariable(QStringLiteral("var_measure_cod"));
         tmp = rand() %5000;
         tmp = (tmp + 45000)/1000;
         var->setValue(tmp);
@@ -552,9 +565,12 @@ void CAutomate::requestStopScheduler(){
 }
 
 void CAutomate::requestStopEndCycleScheduler(){
-    m_schedulerStoppedFromIHM = true;
     if(m_mapAlarmWhichStoppedScheduler.isEmpty())
         m_scheduler->slotRequestStopEndCycleSequence();
+}
+void CAutomate::requestCancelStopEndCycleScheduler(){
+    if(m_mapAlarmWhichStoppedScheduler.isEmpty())
+        m_scheduler->slotRequestCancelStopSequenceEndCycle();
 }
 
 void CAutomate::stopScheduler(){

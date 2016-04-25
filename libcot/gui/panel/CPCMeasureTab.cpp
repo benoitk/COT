@@ -75,10 +75,12 @@ void CPCMeasureTab::slotStopTriggered()
 
 void CPCMeasureTab::slotStopEndCycleTriggered()
 {
+    CToolButton *button = ui->vbbButtons->button(CToolButton::StopEndCycle);
     if(CUserSession::getInstance()->loginUser() &&
             CPCWindow::openExec<CDialogConfirmation>(tr("Are you sure ? \nThe measurment will stop after this cycle"),this))
     {
-        CAutomate::getInstance()->requestStopEndCycleScheduler();
+        button->setCheckable(CAutomate::getInstance()->getCommandStopEndCycle()->slotRunCommand());
+
     }
 }
 
