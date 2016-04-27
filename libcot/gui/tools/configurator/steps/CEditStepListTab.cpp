@@ -317,7 +317,7 @@ void CEditStepListTab::slotCopyTriggered()
     }
 
     float to = 0.0;
-    if (!IVariableUIHandler::enterFloat(to, tr("Enter the destination interval (copy)"))) {
+    if (!IVariableUIHandler::enterFloat(to,1, tr("Enter the destination interval (copy)"))) {
         return;
     }
 
@@ -338,7 +338,7 @@ void CEditStepListTab::slotMoveTriggered()
     }
 
     float to = 0.0;
-    if (!IVariableUIHandler::enterFloat(to, tr("Enter the destination interval (move)"))) {
+    if (!IVariableUIHandler::enterFloat(to, 1,tr("Enter the destination interval (move)"))) {
         return;
     }
 

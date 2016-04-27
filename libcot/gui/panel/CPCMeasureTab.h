@@ -2,6 +2,7 @@
 #define CPCMEASURETAB_H
 
 #include "IPCTab.h"
+#include "CAutomate.h"
 
 namespace Ui {
 class CPCMeasureTab;
@@ -30,6 +31,7 @@ private slots:
     void slotVariableChanged(const QString &name, const QDateTime &dateTime);
     void slotUpdatePlotting();
     void updateAlarmsAction();
+    void slotUpdateControlButtons(CAutomate::eStateAutomate arg_state);
 
 private:
     Ui::CPCMeasureTab *ui;

@@ -70,9 +70,10 @@ float CNumericalKeyboardWidget::floatNumber() const
     return value;
 }
 
-void CNumericalKeyboardWidget::setFloatNumber(float number)
+void CNumericalKeyboardWidget::setFloatNumber(float number, int precision)
 {
-    m_lineEdit->setText(formatFloat(number, IVariable::FLOAT_PRECISION));
+    m_precision = precision;
+    m_lineEdit->setText(formatFloat(number, m_precision));
 }
 
 bool CNumericalKeyboardWidget::event(QEvent *ev)
@@ -202,7 +203,7 @@ void CNumericalKeyboardWidget::setFixedText(const QString &text)
 
         // The latest typed decimal become the maximal one
         if (!decimals.isEmpty()) {
-            while (decimals.count() > IVariable::FLOAT_PRECISION) {
+            while (decimals.count() > m_precision) {
                 decimals.remove(decimals.length() -2, 1);
             }
 

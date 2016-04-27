@@ -353,11 +353,11 @@ bool IVariableUIHandler::enterInteger(int &value, const QString &title)
     return CNumericalKeyboardDialog::getInteger(value, title);
 }
 
-bool IVariableUIHandler::enterFloat(float &value, const QString &title)
+bool IVariableUIHandler::enterFloat(float &value, int precision, const QString &title)
 {
     CNumericalKeyboardDialog dlg(CNumericalKeyboardWidget::Double);
     dlg.setTitle(!title.isEmpty() ? title : tr("Enter a new value"));
-    dlg.setFloatValue(value);
+    dlg.setFloatValue(value, precision);
 
     if (CPCWindow::openExec(&dlg) == QDialog::Accepted) {
         value = dlg.floatValue();
@@ -1276,7 +1276,13 @@ void IVariableUIHandler::slotRequestDouble()
     IVariable *ivar = getVariable(editor->userData().toString());
     float value = ivar->toFloat();
 
-    if (enterFloat(value, getVariableLabel(ivar))) {
+    int precision = 0;
+    if(ivar->getType() == e_type_float)
+        precision = (dynamic_cast<CVariableFloat*>(ivar))->getPrecision();
+    else
+        precision = CVariableFloat::FLOAT_PRECISION;
+
+    if (enterFloat(value ,precision, getVariableLabel(ivar))) {
         ivar->setValue(value);
     }
 }

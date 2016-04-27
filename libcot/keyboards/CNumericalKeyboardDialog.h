@@ -17,7 +17,7 @@ public:
     void setIntegerValue(int value);
 
     float floatValue() const;
-    void setFloatValue(float value);
+    void setFloatValue(float value, int precision);
 
     static bool getInteger(int &value, const QString &title, QWidget *parent = Q_NULLPTR);
 

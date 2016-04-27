@@ -123,7 +123,7 @@ void UISelectTest::on_pbInteger_clicked()
 void UISelectTest::on_pbDouble_clicked()
 {
     float r = rowLabel(sender()).toFloat();
-    handler->enterFloat(r);
+    handler->enterFloat(r, 0);
     setRowLabel(sender(), r);
 }
 

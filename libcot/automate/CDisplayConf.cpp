@@ -269,7 +269,8 @@ QVariantList CDisplayConf::serialize(){
         mapOption.insert(QStringLiteral("name"), QStringLiteral("options"));
         QVariantList listVar;
         foreach(IVariable* var, m_listForScrenOptions){
-            listVar.append(var->getName());
+            if(var != CAutomate::getInstance()->getLocalControlForced())
+                listVar.append(var->getName());
         }
         mapOption.insert(QStringLiteral("variables"), listVar);
         listSerialize.append(mapOption);

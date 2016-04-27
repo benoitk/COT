@@ -60,6 +60,7 @@ CAutomate::CAutomate()
     m_localControlForced = new CVariableBool(false, 0,e_access_read_write);
     m_localControlForced->setName("localControlForced");
     m_localControlForced->setLabel(tr("Local control forced"));
+
     addVariable(m_localControlForced->getName(), m_localControlForced); //va me peter à la gueule dès que le configurateur sera en place
     connect(m_localControlForced, &CVariableBool::signalVariableChanged, this, &CAutomate::slotResetCommands);
     //    m_localControlForced->setAccess(e_access_read_write);
@@ -1046,12 +1047,14 @@ void CAutomate::slotSerializeAndSave(){
         QVariantList listTmp;
         QVariantList listBinds;
         foreach(IVariable* var, m_mapVariables){
-            listTmp.append(var->serialize());
-            foreach(IVariable* bindedVar, var->getListOutBinds()){
-                QVariantMap mapBind;
-                mapBind.insert(QStringLiteral("source"), var->getName());
-                mapBind.insert(QStringLiteral("target"), bindedVar->getName());
-                listBinds.append(mapBind);
+            if(var != m_localControlForced){
+                listTmp.append(var->serialize());
+                foreach(IVariable* bindedVar, var->getListOutBinds()){
+                    QVariantMap mapBind;
+                    mapBind.insert(QStringLiteral("source"), var->getName());
+                    mapBind.insert(QStringLiteral("target"), bindedVar->getName());
+                    listBinds.append(mapBind);
+                }
             }
         }
         mapSerialize.insert(QStringLiteral("variables"), listTmp);

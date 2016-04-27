@@ -28,7 +28,7 @@ void NumericalKeyboardWidgetTest::shouldHaveDefaultValue()
 void NumericalKeyboardWidgetTest::shouldLimitToFloatPrecision()
 {
     CNumericalKeyboardWidget w;
-    w.setFloatNumber(3333.3);
+    w.setFloatNumber(3333.3,1);
     QCOMPARE(QString::number(w.floatNumber(), 'g', 7), QString("3333.3"));
     QPushButton *button3 = 0;
     foreach(QPushButton *button, w.findChildren<QPushButton *>()) {
@@ -47,7 +47,7 @@ void NumericalKeyboardWidgetTest::shouldLimitToFloatPrecision()
     QCOMPARE(lineEdit->text(), QString("3,333.333"));
 
     // Another testcase from the bug report
-    w.setFloatNumber(3333333);
+    w.setFloatNumber(3333333,0);
     QCOMPARE(lineEdit->text(), QString("3,333,333"));
     QCOMPARE(QString::number(w.floatNumber(), 'f', 0), QString("3333333"));
     button3->click();

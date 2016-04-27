@@ -34,9 +34,9 @@ float CNumericalKeyboardDialog::floatValue() const
     return m_nkwKeyboard->floatNumber();
 }
 
-void CNumericalKeyboardDialog::setFloatValue(float value)
+void CNumericalKeyboardDialog::setFloatValue(float value, int precision)
 {
-    m_nkwKeyboard->setFloatNumber(value);
+    m_nkwKeyboard->setFloatNumber(value, precision);
 }
 
 bool CNumericalKeyboardDialog::getInteger(int &value, const QString &title, QWidget *parent)

@@ -15,7 +15,7 @@ IVariable::IVariable(QObject *parent)
 {
     m_label = "label_IVariable";
     m_name = "name_IVariable";
-    m_unit = new CUnit("tmp", "µg/l");
+    m_unit = new CUnit("no_unit", "");
 }
 IVariable::IVariable(const QVariantMap& arg_varMap): QObject(){
     QString sAccess = arg_varMap.value(QStringLiteral("access")).toString();
@@ -51,7 +51,7 @@ IVariable::IVariable(): QObject()
 , m_address(0){
     m_label = "label_IVariable";
     m_name = "name_IVariable";
-     m_unit = new CUnit("tmp", "µg/lkk");
+     m_unit = new CUnit("no_unit", "");
 }
 
 QString IVariable::typeToString(enumVariableType type)

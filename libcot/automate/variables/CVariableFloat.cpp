@@ -81,5 +81,5 @@ QVariantMap CVariableFloat::serialize(){
  }
 int CVariableFloat::getPrecision(){
     //TO DO : mettre la precision en donnée membre
-    return  IVariable::FLOAT_PRECISION;
+    return  m_precision;
 }

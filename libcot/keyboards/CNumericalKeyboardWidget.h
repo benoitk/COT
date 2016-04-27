@@ -26,7 +26,7 @@ public:
     void setIntegerNumber(int number);
 
     float floatNumber() const;
-    void setFloatNumber(float number);
+    void setFloatNumber(float number, int precision);
 
 Q_SIGNALS:
     void returnPressed();
@@ -47,6 +47,7 @@ private:
     void initializeKeyboardLayout();
     QVBoxLayout *m_mainLayout;
     QLineEdit *m_lineEdit;
+    int m_precision;
     CKeyboardNormalButton *m_digitalButton;
     CNumericalKeyboardWidget::Mode m_mode;
 };

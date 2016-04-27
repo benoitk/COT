@@ -1,7 +1,6 @@
 #include "CPCMeasureTab.h"
 #include "ui_CPCMeasureTab.h"
 #include "IVariableMeasuresUIHandler.h"
-#include "CAutomate.h"
 #include "CPCWindow.h"
 #include "CAlarmsWindow.h"
 #include "CDisplayConf.h"
@@ -26,10 +25,12 @@ CPCMeasureTab::CPCMeasureTab(QWidget *parent)
             this, &CPCMeasureTab::slotAlarmsTriggered);
     connect(ui->vbbButtons->addAction(CToolButton::PlayStop), &QAction::triggered,
             this, &CPCMeasureTab::slotPlayStopTriggered);
+    ui->vbbButtons->button(CToolButton::PlayStop)->setCheckable(true);
    // connect(ui->vbbButtons->addAction(CToolButton::Stop), &QAction::triggered,
    //         this, &CPCMeasureTab::slotStopTriggered);
     connect(ui->vbbButtons->addAction(CToolButton::StopEndCycle), &QAction::triggered,
             this, &CPCMeasureTab::slotStopEndCycleTriggered);
+    ui->vbbButtons->button(CToolButton::StopEndCycle)->setCheckable(true);
     connect(ui->vbbButtons->addAction(CToolButton::NextStream), &QAction::triggered,
             this, &CPCMeasureTab::slotNextStreamTriggered);
     ui->vbbButtons->addAction(CToolButton::ScrollUp, ui->swCentral->moveUp());
@@ -39,7 +40,7 @@ CPCMeasureTab::CPCMeasureTab(QWidget *parent)
     connect(CAutomate::getInstance(), &CAutomate::signalVariableChanged,
             this, &CPCMeasureTab::slotVariableChanged);
     connect(m_pendingAlarms, &CPendingAlarms::changed, this, &CPCMeasureTab::updateAlarmsAction);
-
+    connect(CAutomate::getInstance(), &CAutomate::signalUpdateStateAutomate, this, &CPCMeasureTab::slotUpdateControlButtons);
     updateAlarmsAction();
     slotUpdateStreamsMeasures();
 }
@@ -54,6 +55,22 @@ CVerticalButtonBar *CPCMeasureTab::buttonBar() const
     return ui->vbbButtons;
 }
 
+void CPCMeasureTab::slotUpdateControlButtons(CAutomate::eStateAutomate arg_state){
+    switch(arg_state){
+    case CAutomate::RUNNING:
+        ui->vbbButtons->button(CToolButton::PlayStop)->setChecked(true);
+        ui->vbbButtons->button(CToolButton::StopEndCycle)->setChecked(false);
+        break;
+    case CAutomate::STOPPED:
+        ui->vbbButtons->button(CToolButton::PlayStop)->setChecked(false);
+        ui->vbbButtons->button(CToolButton::StopEndCycle)->setChecked(false);
+        break;
+    case CAutomate::RUNNING_WILL_STOP_END_CYCLE:
+        ui->vbbButtons->button(CToolButton::StopEndCycle)->setChecked(true);
+        break;
+    }
+}
+
 void CPCMeasureTab::slotAlarmsTriggered()
 {
     CPCWindow::openModal<CAlarmsWindow>(m_pendingAlarms);
@@ -61,9 +78,8 @@ void CPCMeasureTab::slotAlarmsTriggered()
 
 void CPCMeasureTab::slotPlayStopTriggered()
 {
-    CToolButton *button = ui->vbbButtons->button(CToolButton::PlayStop);
     if(CUserSession::getInstance()->loginUser() )
-        button->setCheckable(CAutomate::getInstance()->getCommandPlayStop()->slotRunCommand());
+        CAutomate::getInstance()->getCommandPlayStop()->slotRunCommand();
 
 }
 
@@ -75,12 +91,14 @@ void CPCMeasureTab::slotStopTriggered()
 
 void CPCMeasureTab::slotStopEndCycleTriggered()
 {
-    CToolButton *button = ui->vbbButtons->button(CToolButton::StopEndCycle);
-    if(CUserSession::getInstance()->loginUser() &&
-            CPCWindow::openExec<CDialogConfirmation>(tr("Are you sure ? \nThe measurment will stop after this cycle"),this))
+    if(CUserSession::getInstance()->loginUser())
     {
-        button->setCheckable(CAutomate::getInstance()->getCommandStopEndCycle()->slotRunCommand());
-
+        if(!ui->vbbButtons->button(CToolButton::StopEndCycle)->isChecked() &&
+                CPCWindow::openExec<CDialogConfirmation>(tr("Are you sure ? \nThe measurment will stop after this cycle"),this))
+            CAutomate::getInstance()->getCommandStopEndCycle()->slotRunCommand();
+        else if(ui->vbbButtons->button(CToolButton::StopEndCycle)->isChecked() &&
+                CPCWindow::openExec<CDialogConfirmation>(tr("Cancel stop end cycle ? \n"),this))
+            CAutomate::getInstance()->getCommandStopEndCycle()->slotRunCommand();
     }
 }
 
