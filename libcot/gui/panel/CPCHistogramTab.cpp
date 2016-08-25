@@ -59,7 +59,7 @@ void CPCHistogramTab::slotUpdatePlotting()
     for (int i = 0 ; i < measures.count() ; ++i) {
         CVariableMeasure *measureVar = measures.at(i);
         const float value = measureVar->toFloat();
-        ui->graphicsWidget->addPoint(value, m_plots.at(i));
+        ui->graphicsWidget->addPoint(value, m_plots.at(i), measureVar->getMeasureMin()->toFloat(), measureVar->getMeasureMax()->toFloat());
     }
     ui->graphicsWidget->doneUpdatingPlotting();
 }

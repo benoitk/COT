@@ -15,6 +15,8 @@
 #include "CActionFindClosestFromReference.h"
 #include "CActionFindBiggerValue.h"
 #include "CActionSlope.h"
+#include "CActionInhibiDisinhibitAlarm.h"
+#include "CActionWaitForAction.h"
 
 #include "qvariant.h"
 #include "qmap.h"
@@ -69,6 +71,12 @@ IAction* CActionFactory::build(const QVariantMap &mapAction, QObject *parent){
     }
     else if(type == QStringLiteral("copy")){
         action = new CActionCopy(mapAction,parent);
+    }
+    else if(type == QStringLiteral("cmd_inhibit_desinhibit_alarm")){
+        action = new CActionInhibiDisinhibitAlarm(mapAction,parent);
+    }
+    else if(type == QStringLiteral("cmd_wait_for_actions_end")){
+        action = new CActionWaitForAction(mapAction,parent);
     }
     else{
         action = new CActionUnknow(mapAction,parent);

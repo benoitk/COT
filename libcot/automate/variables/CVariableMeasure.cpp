@@ -81,16 +81,29 @@ QString CVariableMeasure::toString(){
     return m_label;
 }
 int CVariableMeasure::toInt(){
+    if(m_measure->toInt() > m_measureMax->toInt())
+        return m_measureMax->toInt();
+    if(m_measure->toInt() < m_measureMin->toInt())
+        return m_measureMin->toInt();
     return m_measure->toInt();
 }
 float CVariableMeasure::toFloat(){
+    if(m_measure->toFloat() > m_measureMax->toFloat())
+        return m_measureMax->toFloat();
+    if(m_measure->toFloat() < m_measureMin->toFloat())
+        return m_measureMin->toFloat();
     return m_measure->toFloat();
+
 }
 bool CVariableMeasure::toBool(){
     return m_measure->toBool();
 }
 QVariant CVariableMeasure::toVariant(){
-        return m_measure->toVariant();
+    if(m_measure->toVariant() > m_measureMax->toVariant())
+        return m_measureMax->toVariant();
+    if(m_measure->toVariant() < m_measureMin->toVariant())
+        return m_measureMin->toVariant();
+    return m_measure->toVariant();
 }
 
 void CVariableMeasure::setValue(int iValue){

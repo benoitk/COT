@@ -100,15 +100,16 @@ protected:
 
     template<typename T> T setValue(T arg_value, T arg_valueMin, T arg_valueMax){
         T resultValue;
-        if(arg_valueMin == arg_valueMax || (arg_value > arg_valueMin && arg_value < arg_valueMax) )
+        if(arg_valueMin == arg_valueMax || (arg_value >= arg_valueMin && arg_value <= arg_valueMax) )
             resultValue = arg_value;
         else if(arg_value < arg_valueMin)
             resultValue = arg_valueMin;
         else if(arg_value > arg_valueMax)
             resultValue = arg_valueMax;
 
-        return resultValue;
-    }
+            return resultValue;
+        }
+
 
 
 signals:

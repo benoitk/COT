@@ -286,6 +286,9 @@ void CScheduler::addCycleMaintenanceAuto(ISequenceMaintenanceAuto* arg_sequence)
         m_listSequenceCyclesMaintenancesAuto.append(arg_sequence);
     }
 }
+QList<ISequenceMaintenanceAuto*> CScheduler::getListCycleMaintenanceAuto(){
+    return m_listSequenceCyclesMaintenancesAuto;
+}
 
 void CScheduler::replaceCycleMeasureAt(int arg_index, ICycle* arg_cycle){
     if(arg_cycle && arg_cycle->getType() != e_cycle_invalid && arg_index > 0 && arg_index < m_listSequenceCyclesMeasures.size()){
@@ -374,6 +377,16 @@ CSequenceMaintenanceAutoEveryNCycles::CSequenceMaintenanceAutoEveryNCycles(const
     m_cpt = 0;
 }
 
+QVariantMap CSequenceMaintenanceAutoEveryNCycles::serialize(){
+    QVariantMap mapSequence;
+
+    mapSequence.insert(QStringLiteral("cycle_name"), m_cycle->getName());
+    mapSequence.insert(QStringLiteral("sequence_type"), QStringLiteral("n_cycles"));
+    mapSequence.insert(QStringLiteral("nb_cycles"), m_nbCycle->getName());
+
+    return mapSequence;
+}
+
 bool CSequenceMaintenanceAutoEveryNCycles::haveToBeRun(){
     bool bHaveToBeRun = false;
     if(m_nbCycle->toInt() != 0 && ++m_cpt > m_nbCycle->toInt()){
@@ -391,6 +404,10 @@ CSequenceMaintenanceAutoUnknow::CSequenceMaintenanceAutoUnknow(const QVariantMap
     ISequenceMaintenanceAuto(arg_map,  parent){}
 bool CSequenceMaintenanceAutoUnknow::haveToBeRun(){  return false; }
 void CSequenceMaintenanceAutoUnknow::reset(){  }
+QVariantMap CSequenceMaintenanceAutoUnknow::serialize(){
+    QVariantMap mapSequence;
+    return mapSequence;
+}
 
 ISequenceMaintenanceAuto* CSequenceMaintenanceFactory::build(const QVariantMap& arg_map,  QObject *parent){
     ISequenceMaintenanceAuto* sequence = Q_NULLPTR;

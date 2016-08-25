@@ -76,7 +76,7 @@ CDialogPassword::CDialogPassword(QWidget*  parent): CDialog(parent)
     hLayout->addLayout(vLayoutPaveNum);
     widgetMain->setLayout(hLayout);
     //: Nom de l'onglet à mettre en majuscule dans toutes les langues si possible
-    setTitle(tr("AUTHENTIFICATION"));
+    setTitle(tr("AUTHENTICATION"));
     setMainWidget(widgetMain);
 
     setConnexion();

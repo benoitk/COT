@@ -47,7 +47,7 @@ QList<IVariable*> CActionSum::getListParameters()const{
     return listParams;
 }
 actionType CActionSum::getType()const {
-    return actionType::type_cmd_dc_engine;
+    return actionType::type_sum;
 }
 
 bool CActionSum::variableUsed(IVariable *arg_var)const {

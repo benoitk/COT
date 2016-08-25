@@ -11,6 +11,7 @@
 #include "qlabel.h"
 #include "StyleRepository.h"
 #include <QHBoxLayout>
+#include "CVariableAlarm.h"
 
 CInitialTestsWindow::CInitialTestsWindow(QWidget *parent) :
     CDialog(parent)
@@ -56,8 +57,11 @@ CInitialTestsWindow::CInitialTestsWindow(QWidget *parent) :
   }
 
   //et des alarm des init qui doivent toujours être à faux au démarage.
+  //problème pour les alarm dans l'init qui ont l'autoacquit à false
   foreach(IVariable* var, CAutomate::getInstance()->getDisplayConf()->getListInitialsTestVariablesTest()){
         var->setValue(true);
+        if(var->getType() == e_type_alarm)
+            dynamic_cast<CVariableAlarm*>(var)->deconnectFromAutomate();
   }
   CAutomate::getInstance()->getScheduler()->slotStartAllCyleAutonome();
   m_timerTests.singleShot(1000, this, SLOT(slotTests()));
@@ -67,6 +71,10 @@ CInitialTestsWindow::CInitialTestsWindow(QWidget *parent) :
 void CInitialTestsWindow::slotBackTriggered()
 {
     CAutomate::getInstance()->acquitAlarms();
+    foreach(IVariable* var, CAutomate::getInstance()->getDisplayConf()->getListInitialsTestVariablesTest()){
+          if(var->getType() == e_type_alarm)
+              dynamic_cast<CVariableAlarm*>(var)->connectFromAutomate();
+    }
     close();
 }
 
@@ -88,7 +96,8 @@ void CInitialTestsWindow::slotTests(){
             test = false;
 
     }
-    if(test) emit m_actBack->triggered();
+    if(test)
+        emit m_actBack->triggered();
     else m_timerTests.singleShot(1000, this, SLOT(slotTests()));
 ;
 }

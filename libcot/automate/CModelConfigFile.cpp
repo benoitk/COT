@@ -74,7 +74,7 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
         QString lang = jsonObjectAll[QStringLiteral("lang")].toString();
         automate->setLang(lang);
         if(qtTranslator->load(QString(":/"+lang+".qm")))
-            qDebug() << "Fichier français chargé" ;
+            qDebug() << "Fichier "+ QString(":/"+lang+".qm") +" chargé" ;
         else
             qDebug() << "Pas de fichier de trad chargé" ;
         if(!QApplication::instance()->installTranslator(qtTranslator)){

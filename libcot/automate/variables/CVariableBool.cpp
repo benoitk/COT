@@ -14,16 +14,14 @@ CVariableBool::CVariableBool(const QVariantMap& mapVar):IVariable(mapVar){
 }
 
 CVariableBool::CVariableBool(bool arg_value, int arg_address, enumVariableAccess arg_access)
-    : IVariable()
-{
+    : IVariable(){
     m_value = arg_value;
     m_access = arg_access;
     m_address = arg_address;
 }
 
 
-CVariableBool::~CVariableBool()
-{
+CVariableBool::~CVariableBool(){
 
 }
 
@@ -47,25 +45,23 @@ bool CVariableBool::toBool(){
 void CVariableBool::setValue(const QVariant & value){
     this->setValue(value.toBool());
 }
+
 void CVariableBool::setValue(bool value){
-    if(m_value != value)
-    {
+    if(m_value != value){
         m_value = value;
         checkBindedVariable(QVariant(value));
-
         emit signalVariableChanged(this);
     }
 }
 
 //Pas de récursivité dans les binds pour l'instant pour ne pas gérer les binds croisés({var1, var2}, {var2, var1})
 void CVariableBool::setToBindedValue(const QVariant & value){
-    if(m_value != value.toBool())
-    {
+    if(m_value != value.toBool()){
         m_value = value.toBool();
-
         emit signalVariableChanged(this);
     }
 }
+
 enumVariableType CVariableBool::getType()const{
     return e_type_bool;
 }

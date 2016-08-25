@@ -27,7 +27,7 @@ public:
     /**
      * Updates X for next time and recalculates limits
      */
-    void addPoint(float value, CPlotObject *curve);
+    void addPoint(float value, CPlotObject *curve, int arg_valueMin=0,int arg_valueMax=0);
 
     /**
      * Updates X for next time and recalculates limits

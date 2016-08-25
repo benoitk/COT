@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     app.setApplicationName(QStringLiteral("COT"));
     app.setApplicationDisplayName(QStringLiteral("COT"));
-    app.setApplicationVersion(QStringLiteral("1.1.0"));
+    app.setApplicationVersion(QStringLiteral("1.1.1"));
     app.setQuitOnLastWindowClosed(true);
 
 //    QTranslator qtTranslator;

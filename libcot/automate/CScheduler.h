@@ -35,6 +35,8 @@ public:
     QList<ICycle*> getListCyclesMaintenances();
     void setListCyclesMaintenances(QList<ICycle*> );
     void addCycleMaintenance(ICycle*);
+
+    QList<ISequenceMaintenanceAuto*> getListCycleMaintenanceAuto();
     void addCycleMaintenanceAuto(ISequenceMaintenanceAuto*);
 
     void removeCycleMeasure(ICycle *);
@@ -123,10 +125,11 @@ class ISequenceMaintenanceAuto: public QObject
 public :
     virtual bool haveToBeRun()=0;
     virtual void reset()=0;
+    virtual QVariantMap serialize()=0;
     virtual ICycle* getCycle();
 public:
     ISequenceMaintenanceAuto(const QVariantMap&,  QObject *parent);
-private:
+protected:
     ICycle* m_cycle;
 };
 class IVariable;
@@ -136,6 +139,7 @@ public:
     CSequenceMaintenanceAutoEveryNCycles(const QVariantMap&,  QObject *parent);
     bool haveToBeRun() Q_DECL_OVERRIDE;
     void reset() Q_DECL_OVERRIDE;
+    QVariantMap serialize() Q_DECL_OVERRIDE;
  private:
     IVariable* m_nbCycle;
     int m_cpt;
@@ -146,6 +150,7 @@ public:
     CSequenceMaintenanceAutoUnknow(const QVariantMap&,  QObject *parent);
     bool haveToBeRun() Q_DECL_OVERRIDE;
     void reset() Q_DECL_OVERRIDE;
+    QVariantMap serialize() Q_DECL_OVERRIDE;
 };
 class CSequenceMaintenanceFactory : public QObject
 {

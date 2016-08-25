@@ -59,7 +59,7 @@ CAutomate::CAutomate()
     m_commandPlayStop = Q_NULLPTR;
     m_localControlForced = new CVariableBool(false, 0,e_access_read_write);
     m_localControlForced->setName("localControlForced");
-    m_localControlForced->setLabel(tr("Local control forced"));
+
 
     addVariable(m_localControlForced->getName(), m_localControlForced); //va me peter à la gueule dès que le configurateur sera en place
     connect(m_localControlForced, &CVariableBool::signalVariableChanged, this, &CAutomate::slotResetCommands);
@@ -110,7 +110,7 @@ void CAutomate::slotStartAutomate(){
     (dynamic_cast<CCommandPlayStopCycle*>(m_commandStopEndCycle))->setOtherCmdStop((dynamic_cast<CCommandPlayStopCycle*>(m_commandPlayStop)));
     if(m_debug)
         QTimer::singleShot(1000, this, SLOT(slotLogVariable()));
-
+    m_localControlForced->setLabel(tr("Local control forced"));
 }
 
 CAutomate::~CAutomate()
@@ -1004,7 +1004,8 @@ void CAutomate::addLoggedVariable(const QString& arg_varName, bool arg_debug){
     {
         m_listLoggedVar.append(var);
         if(var && var->getType() != e_type_unknow && !m_debug)
-            connect(var, SIGNAL(signalVariableChanged(IVariable*)), this, SLOT(slotLogVariable(IVariable*)));
+            //connect(var, SIGNAL(signalVariableChanged(IVariable*)), this, SLOT(slotLogVariable(IVariable*)));
+            connect(var, &IVariable::signalVariableChanged, this, static_cast<void (CAutomate::*)(IVariable*)>(&CAutomate::slotLogVariable));
     }
 }
 
@@ -1069,6 +1070,8 @@ void CAutomate::slotSerializeAndSave(){
     {
         QVariantList listTmp;
         foreach(IAction* action, m_listActions){
+            if(action->getName() ==  "action_cmd_loop1_4_20" || action->getName() ==  "action_cmd_loop2_4_20" )
+                action->serialize();
             listTmp.append(action->serialize());
         }
         mapSerialize.insert(QStringLiteral("actions"), listTmp);
@@ -1109,13 +1112,23 @@ void CAutomate::slotSerializeAndSave(){
 
     }
 
-    //Scheduler maintenance
+    //liste cycle maintenance
     {
         QStringList listTmp;
         foreach(ICycle* cycle, m_scheduler->getListCyclesMaintenances() ){
             listTmp.append(cycle->getName());
         }
         mapSerialize.insert(QStringLiteral("list_cycles_maintenances"), listTmp);
+
+    }
+
+    //Scheduler maintenance
+    {
+        QVariantList listTmp;
+        foreach(ISequenceMaintenanceAuto* seq, m_scheduler->getListCycleMaintenanceAuto()){
+            listTmp.append(seq->serialize());
+        }
+        mapSerialize.insert(QStringLiteral("scheduler_maintenances"), listTmp);
 
     }
 
@@ -1186,6 +1199,7 @@ void CAutomate::slotLogVariable(IVariable* arg_var){
     QFile data(path);
     if (data.open(QFile::Append)) {
         QTextStream out(&data);
+        out.setCodec("UTF-8");
         out << QDateTime::currentDateTime().toString(Qt::ISODate);
         QString tmp = QString::number(arg_var->toFloat(), 'f', 10);
         out << ";" << arg_var->getLabel() << ";" << tmp;
@@ -1221,6 +1235,7 @@ void CAutomate::slotLogVariable(){
     QFile data(path);
     if (data.open(QFile::Append)) {
         QTextStream out(&data);
+        out.setCodec("UTF-8");
         out << QDateTime::currentDateTime().toString(Qt::ISODate);
         foreach(IVariable* arg_var, m_listLoggedVarDebug){
             if(arg_var->getOrganType() == e_type_organ_input)

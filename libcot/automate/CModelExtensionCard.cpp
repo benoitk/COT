@@ -32,7 +32,7 @@ CModelExtensionCard::CModelExtensionCard(const QVariantMap& mapExt)
         mapCom .insert(QStringLiteral("is_master"), true);
     }
     m_interfaceCom = CComFactory::build(mapCom);
-//    m_interfaceCom = CAutomate::getInstance()->getCom(nameCom);
+//  m_interfaceCom = CAutomate::getInstance()->getCom(nameCom);
 
     if(mapExt.contains(QStringLiteral("organs"))){
         QVariantList listOrgans = mapExt.value(QStringLiteral("organs")).toList();

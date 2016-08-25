@@ -246,7 +246,9 @@ HEADERS *= \
     $$PWD/automate/commands/ccommandfactory.h \
     $$PWD/automate/commands/ccommandunknow.h \
     $$PWD/automate/commands/CCommandPlayStopCycle.h \
-    $$PWD/automate/actions/CActionCopy.h
+    $$PWD/automate/actions/CActionCopy.h \
+    $$PWD/automate/actions/CActionInhibiDisinhibitAlarm.h \
+    $$PWD/automate/actions/CActionWaitForAction.h
 
 SOURCES *= \
     $$PWD/automate/CAutomate.cpp \
@@ -447,7 +449,9 @@ SOURCES *= \
     $$PWD/automate/commands/ccommandfactory.cpp \
     $$PWD/automate/commands/ccommandunknow.cpp \
     $$PWD/automate/commands/CCommandPlayStopCycle.cpp \
-    $$PWD/automate/actions/CActionCopy.cpp
+    $$PWD/automate/actions/CActionCopy.cpp \
+    $$PWD/automate/actions/CActionInhibiDisinhibitAlarm.cpp \
+    $$PWD/automate/actions/CActionWaitForAction.cpp
 
 DISTFILES +=
 

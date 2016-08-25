@@ -28,6 +28,7 @@ CActionCmd420::CActionCmd420(const QVariantMap &mapAction, QObject *parent)
 
 QVariantMap CActionCmd420::serialize(){
     QVariantMap mapSerialize = IAction::serialize();
+    mapSerialize.insert(QStringLiteral("type"), QStringLiteral("cmd_loop_4_20"));
     mapSerialize.insert(QStringLiteral("input_var"), m_inputVar->getName());
     mapSerialize.insert(QStringLiteral("input_var_min"), m_inputVarMin->getName());
     mapSerialize.insert(QStringLiteral("input_var_max"), m_inputVarMax->getName());
@@ -48,13 +49,13 @@ bool CActionCmd420::runAction(ICycle* arg_stepParent){
         qCDebug(COTAUTOMATE_LOG)<< "Output " << m_outputVar->toString();
 
         float fTemp = m_inputVar->toFloat();
-        if (fTemp > m_inputVarMax->toFloat()){
+        if (fTemp >= m_inputVarMax->toFloat()){
             m_outputVar->setValue(m_maxAdjustement->toInt());
         }
-        else  if (fTemp < m_inputVarMin->toFloat()){
+        else  if (fTemp <= m_inputVarMin->toFloat()){
             m_outputVar->setValue(m_minAdjustement->toInt());
         }
-        else  if (m_inputVarMax > m_inputVarMin){
+        else  if (m_inputVarMax->toFloat() > m_inputVarMin->toFloat()){
             //(short)( (m_ValMaxConvertisseur.nGetVal() - m_ValMinConvertisseur.nGetVal()) * (fTemp - m_AnalogZero.fGetVal()) / (m_AnalogPlage.fGetVal() - m_AnalogZero.fGetVal()) ) + m_ValMinConvertisseur.nGetVal()
             int result = ( (m_maxAdjustement->toInt() - m_minAdjustement->toInt()) * (fTemp - m_inputVarMin->toFloat())
                            / (m_inputVarMax->toFloat() - m_inputVarMin->toFloat()) ) + m_minAdjustement->toInt();

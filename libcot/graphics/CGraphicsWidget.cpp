@@ -72,7 +72,7 @@ void CGraphicsWidget::changeLimits(double x1, double x2, double y1, double y2)
     m_plotWidget->setLimits(x1, x2, y1, y2);
 }
 
-void CGraphicsWidget::addPoint(float value, CPlotObject *curve)
+void CGraphicsWidget::addPoint(float value, CPlotObject *curve, int arg_valueMin,int arg_valueMax)
 {
     bool needToChangeGraphicLimit = false;
 
@@ -89,10 +89,12 @@ void CGraphicsWidget::addPoint(float value, CPlotObject *curve)
         x1 = m_x - s_maxPointsInCurve + 1;
     }
 
-    // SERES_TODO: add API for range, so a fixedrange can be used here?
-    if (value >= m_verticalMaximumValue) {
+    if (arg_valueMax == arg_valueMin && value >= m_verticalMaximumValue) {
         needToChangeGraphicLimit = true;
         m_verticalMaximumValue += INCREMENT_Y;
+    }else if(arg_valueMax > m_verticalMaximumValue){
+        needToChangeGraphicLimit = true;
+        m_verticalMaximumValue = arg_valueMax+(arg_valueMax*0.10f);
     }
     if (needToChangeGraphicLimit) {
         changeLimits(x1, x2, 0, m_verticalMaximumValue);

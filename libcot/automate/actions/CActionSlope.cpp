@@ -93,7 +93,7 @@ QList<IVariable*> CActionSlope::getListParameters()const{
     return listParams;
 }
 actionType CActionSlope::getType()const {
-    return actionType::type_cmd_dc_engine;
+    return actionType::type_slope;
 }
 
 bool CActionSlope::variableUsed(IVariable *arg_var)const {

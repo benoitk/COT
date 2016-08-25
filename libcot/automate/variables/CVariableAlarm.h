@@ -33,6 +33,8 @@ public:
     bool haveToStopAfterToMuchSkip();
 
     void setInhibited(bool arg = true);
+    void deconnectFromAutomate();
+    void connectFromAutomate();
 
 public slots:
     void slotAcquit();

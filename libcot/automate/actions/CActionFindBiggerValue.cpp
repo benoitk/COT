@@ -55,7 +55,7 @@ QList<IVariable*> CActionFindBiggerValue::getListParameters()const{
     return listParams;
 }
 actionType CActionFindBiggerValue::getType()const {
-    return actionType::type_rewrite_output;
+    return actionType::type_find_bigger_value;
 }
 
 bool CActionFindBiggerValue::variableUsed(IVariable *arg_var)const {

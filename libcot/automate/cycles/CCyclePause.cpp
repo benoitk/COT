@@ -57,7 +57,7 @@ void CCyclePause::slotRunCycle(){
     m_fTimer = 0;
 
     emit CAutomate::getInstance()->signalUpdateCountStep(m_fTempsCycle);
-    updateCycleInfosStep(0, tr("En pause"));
+    updateCycleInfosStep(0, tr("Paused"));
 
     m_isRunning = true;
     m_timer->start();

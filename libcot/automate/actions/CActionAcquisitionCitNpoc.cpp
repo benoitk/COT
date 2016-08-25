@@ -191,7 +191,7 @@ void CActionAcquisitionCitNpoc::run(){
         m_result->setValue( ( (co2g-m_offsetCo2g->toFloat()) * 12000) / ( (m_vesselVolume->toFloat() / 1000) * 44) * m_coefCorrection->toFloat());
     }
 
-    updateActionInfos(m_label + tr(" finit"), stepParent);
+    updateActionInfos(m_label + tr(" finished"), stepParent);
     emit signalActionFinished(this);
 }
 
@@ -201,8 +201,6 @@ bool CActionAcquisitionCitNpoc::waitUntilFinished(){
 
 QList<IVariable*> CActionAcquisitionCitNpoc::getListParameters()const{
     QList<IVariable*> listParams;
-
-
     return listParams;
 }
 actionType CActionAcquisitionCitNpoc::getType()const {
@@ -211,14 +209,11 @@ actionType CActionAcquisitionCitNpoc::getType()const {
 
 bool CActionAcquisitionCitNpoc::variableUsed(IVariable *arg_var)const {
     if(m_measureCell == arg_var) return true;
-
     return false;
 }
 
 QMap<QString, IVariable*> CActionAcquisitionCitNpoc::getMapIVariableParameters(){
     QMap<QString, IVariable*>  map;
-
-
     return map;
 }
 

@@ -16,6 +16,14 @@ enum actionType{
     type_test,
     type_acquisition_cit_npoc,
     type_slope,
+    type_inhibit_disinhibit_alarm,
+    type_calibration_calcul,
+    type_copy,
+    type_find_bigger_value,
+    type_find_closest_value,
+    type_linearisation,
+    type_sum,
+    type_wait_for_action,
     type_action_unknow
 
 };

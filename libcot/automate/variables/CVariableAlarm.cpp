@@ -41,6 +41,17 @@ CVariableAlarm::CVariableAlarm(const QMap<QString, QVariant> &mapVar)
 void CVariableAlarm::setInhibited(bool arg){
     m_inhibited = arg;
 }
+void CVariableAlarm::deconnectFromAutomate(){
+    disconnect(this, &CVariableAlarm::signalNewAlarm, CAutomate::getInstance(), &CAutomate::slotNewAlarm);
+    disconnect(this, &CVariableAlarm::signalAquitedAlarm, CAutomate::getInstance(), &CAutomate::slotAcquitedAlarm);
+    disconnect(this, &CVariableAlarm::signalStillInAlarm, CAutomate::getInstance(), &CAutomate::slotStillInAlarm);
+}
+
+void CVariableAlarm::connectFromAutomate(){
+    connect(this, &CVariableAlarm::signalNewAlarm, CAutomate::getInstance(), &CAutomate::slotNewAlarm);
+    connect(this, &CVariableAlarm::signalAquitedAlarm, CAutomate::getInstance(), &CAutomate::slotAcquitedAlarm);
+    connect(this, &CVariableAlarm::signalStillInAlarm, CAutomate::getInstance(), &CAutomate::slotStillInAlarm);
+}
 
  void CVariableAlarm::setValue(bool arg_value){
      this->setValue(arg_value, false);

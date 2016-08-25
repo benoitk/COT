@@ -69,7 +69,7 @@ QList<IVariable*> CActionCalibrationCalcul::getListParameters()const{
     return listParams;
 }
 actionType CActionCalibrationCalcul::getType()const {
-    return actionType::type_cmd_dc_engine;
+    return actionType::type_calibration_calcul;
 }
 
 bool CActionCalibrationCalcul::variableUsed(IVariable *arg_var)const {

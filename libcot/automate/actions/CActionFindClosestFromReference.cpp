@@ -65,7 +65,7 @@ QList<IVariable*> CActionFindClosestFromReference::getListParameters()const{
     return listParams;
 }
 actionType CActionFindClosestFromReference::getType()const {
-    return actionType::type_rewrite_output;
+    return actionType::type_find_closest_value;
 }
 
 bool CActionFindClosestFromReference::variableUsed(IVariable *arg_var)const {

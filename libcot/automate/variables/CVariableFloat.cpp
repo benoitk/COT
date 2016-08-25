@@ -7,8 +7,16 @@ CVariableFloat::CVariableFloat(QObject *parent)
 }
 CVariableFloat::CVariableFloat(const QVariantMap& mapVar):IVariable(mapVar){
     m_value = mapVar.value(QStringLiteral("value")).toFloat();
-    m_valueMin = mapVar.value(QStringLiteral("value_min")).toFloat();
-    m_valueMax = mapVar.value(QStringLiteral("value_max")).toFloat();
+    if(mapVar.contains(QStringLiteral("value_min")))
+       m_valueMin = mapVar.value(QStringLiteral("value_min")).toFloat();
+    else
+        m_valueMin = 0;
+
+    if(mapVar.contains(QStringLiteral("value_max")))
+        m_valueMax = mapVar.value(QStringLiteral("value_max")).toInt();
+    else
+        m_valueMax = 999999999;
+
     if(mapVar.contains(QStringLiteral("precision")))
         m_precision = mapVar.value(QStringLiteral("precision")).toInt();
     else
@@ -44,6 +52,9 @@ void CVariableFloat::setValue(const QVariant & value){
     setValue(value.toFloat());
 }
 void CVariableFloat::setValue(float value){
+    QString yolo;
+    if(m_name == QString("var_measure_npoc") && value >= m_valueMax)
+        yolo = "bim";
     m_value = IVariable::setValue(value, m_valueMin, m_valueMax);
 
     checkBindedVariable(QVariant(value));
@@ -73,6 +84,7 @@ QVariantMap CVariableFloat::serialize(){
     mapSerialise.insert(QStringLiteral("value"), m_value);
     mapSerialise.insert(QStringLiteral("value_min"), m_valueMin);
     mapSerialise.insert(QStringLiteral("value_max"), m_valueMax);
+    mapSerialise.insert(QStringLiteral("precision"), m_precision);
     return mapSerialise;
 }
 

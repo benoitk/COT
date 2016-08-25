@@ -81,7 +81,7 @@ void CDialogScreenShots::slotTakeScreenShot(){
 
 
     }else{
-        m_label->setText(tr("Clé non montée"));
+        m_label->setText(tr("USB Key unmouted"));
     }
 }
 

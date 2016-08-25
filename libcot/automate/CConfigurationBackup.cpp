@@ -43,8 +43,7 @@ QString CConfigurationBackup::createRecoveryFile()
     return createFile(jsonRecoveryFile(), saveFile.readAll());
 }
 
-QString CConfigurationBackup::overwriteConfigurationFile(QString *generatedBackupFileName)
-{
+QString CConfigurationBackup::overwriteConfigurationFile(QString *generatedBackupFileName){
     QFile recoveryFile(jsonRecoveryFile());
     QFile saveFile(jsonSaveFile());
 
@@ -78,20 +77,17 @@ QString CConfigurationBackup::overwriteConfigurationFile(QString *generatedBacku
     return writeToConfigurationFile(recoveryFile.readAll());
 }
 
-void CConfigurationBackup::setJsonDirectory(const QString &directory)
-{
+void CConfigurationBackup::setJsonDirectory(const QString &directory){
     if (!directory.isEmpty()) {
         m_jsonDirectory = directory;
     }
 }
 
-QString CConfigurationBackup::jsonDirectory() const
-{
+QString CConfigurationBackup::jsonDirectory() const{
     return m_jsonDirectory;
 }
 
-QString CConfigurationBackup::writeToConfigurationFile(const QByteArray &newContents)
-{
+QString CConfigurationBackup::writeToConfigurationFile(const QByteArray &newContents){
     if (newContents.isEmpty()) {
         return tr("Cannot override configuration file with empty data.");
     }

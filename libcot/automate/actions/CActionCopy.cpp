@@ -37,7 +37,7 @@ QList<IVariable*> CActionCopy::getListParameters()const{
     return listParams;
 }
 actionType CActionCopy::getType()const {
-    return actionType::type_cmd_dc_engine;
+    return actionType::type_copy;
 }
 
 bool CActionCopy::variableUsed(IVariable *arg_var)const {

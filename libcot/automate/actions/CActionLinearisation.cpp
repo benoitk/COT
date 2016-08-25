@@ -16,35 +16,24 @@ CActionLinearisation::CActionLinearisation(const QVariantMap &mapAction, QObject
 {
     CAutomate* automate = CAutomate::getInstance();
 
-
-
     m_coefCorrection = automate->getVariable(mapAction[QStringLiteral("coef_correction")].toString());
     m_coefCourbe = automate->getVariable(mapAction[QStringLiteral("coef_courbe")].toString());
     m_Offset = automate->getVariable(mapAction[QStringLiteral("offset")].toString());
     m_zero = automate->getVariable(mapAction[QStringLiteral("zero_point")].toString());
 
-
-
-
-
-
-
     m_waitUntilFinished = mapAction[QStringLiteral("wait_until_finished")].toBool();
 
      if(m_coefCourbe->toFloat() == 0) m_coefCourbe->setValue(1);
 
+     QVariantMap variantMapDerivativeCalcul;
+     variantMapDerivativeCalcul.insert(QStringLiteral("name"), QStringLiteral("derivative_calcul"));
+     variantMapDerivativeCalcul.insert(tr("en_US"), tr("Generate critical error"));
+     variantMapDerivativeCalcul.insert(QStringLiteral("type"), QStringLiteral("boolean"));
+     variantMapDerivativeCalcul.insert(QStringLiteral("value"), mapAction[QStringLiteral("derivative_calcul")].toBool());
+     m_derivativeCalcul = dynamic_cast<CVariableBool*>(CVariableFactory::build(variantMapDerivativeCalcul));
 
-    QVariantMap variantMapDerivativeCalcul;
-    variantMapDerivativeCalcul.insert(QStringLiteral("name"), QStringLiteral("derivative_calcul"));
-    variantMapDerivativeCalcul.insert(tr("en_US"), tr("Generate critical error"));
-    variantMapDerivativeCalcul.insert(QStringLiteral("type"), QStringLiteral("boolean"));
-    variantMapDerivativeCalcul.insert(QStringLiteral("value"), mapAction[QStringLiteral("derivative_calcul")].toBool());
-    m_derivativeCalcul = dynamic_cast<CVariableBool*>(CVariableFactory::build(variantMapDerivativeCalcul));
-
-
-
-    //si autodelete à true, risque d'utilisation de l'objet alors qu'il est détruit à la fin du run.
-    this->setAutoDelete(false);
+     //si autodelete à true, risque d'utilisation de l'objet alors qu'il est détruit à la fin du run.
+     this->setAutoDelete(false);
 }
 
 
@@ -149,7 +138,7 @@ QList<IVariable*> CActionLinearisation::getListParameters()const{
     return listParams;
 }
 actionType CActionLinearisation::getType()const {
-    return actionType::type_acquisition_cit_npoc;
+    return actionType::type_linearisation;
 }
 
 bool CActionLinearisation::variableUsed(IVariable *arg_var)const {

@@ -174,7 +174,7 @@ void CPCMeasureTab::slotUpdatePlotting()
                 m_plotObjectHash.insert(measureVar->getName(), plot);
                 ui->graphicsWidget->showPlotObject(plot);
             }
-            ui->graphicsWidget->addPoint(value, plot);
+            ui->graphicsWidget->addPoint(value, plot,measureVar->getMeasureMin()->toFloat(), measureVar->getMeasureMax()->toFloat());
         }
     }
     ui->graphicsWidget->doneUpdatingPlotting();
