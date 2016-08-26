@@ -27,7 +27,7 @@ public:
     /**
      * Updates X for next time and recalculates limits
      */
-    void addPoint(float value, CPlotObject *curve, int arg_valueMin=0,int arg_valueMax=0);
+    void addPoint(float value, CPlotObject *curve, float arg_valueMin=0,float arg_valueMax=0);
 
     /**
      * Updates X for next time and recalculates limits
@@ -37,7 +37,7 @@ public:
 private:
     void changeLimits(double x1, double x2, double y1, double y2);
     void initializeGraphic();
-    int m_x;
+    float m_x;
     int m_verticalMaximumValue;
     KPlotWidget *m_plotWidget;
 };

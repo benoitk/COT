@@ -3,7 +3,7 @@
 #include <QPen>
 #include <QDebug>
 
-extern int s_maxPointsInCurve; // see CGraphicsWidget.cpp
+extern double s_maxPointsInCurve; // see CGraphicsWidget.cpp
 
 CPlotObject::CPlotObject(const QColor &col)
     : KPlotObject(col)
@@ -15,7 +15,7 @@ CPlotObject::~CPlotObject()
 {
 }
 
-void CPlotObject::addValue(int x, float value)
+void CPlotObject::addValue(double x, float value)
 {
     if (x >= s_maxPointsInCurve) {
         removePoint(0);

@@ -1414,8 +1414,7 @@
             "type" : "measure",
             "step_stop" : {"fr_FR":"Arrêt cycle", "actions":["action_ev_sample_close", "action_ev_reactor_filling_close", "action_ev_nettoyage_close", "action_ev_sample_inerting_close", "action_ev_air_ozone_close", "action_ev_air_direct_close", "action_ev_emptying_close", "action_ev_purge_close", "action_ev_zero_close", "var_ev_air_decolmatage", "action_pump_sample_off", "action_cmd_pump_acide_off", "action_cmd_pump_persulfate_off", "action_cmd_pump_soude_off", "action_cmd_pump_dilution_off", "action_uv_lamp_off"]},
             "steps" : [{"name":"step_01", "step":0,"fr_FR":"Initialisation", "en_US" : "Initialization", "actions":["action_ev_sample_close", "action_ev_reactor_filling_close", "action_ev_nettoyage_close", "action_ev_sample_inerting_close", "action_ev_air_ozone_close", "action_ev_air_direct_close", "action_ev_emptying_close", "action_ev_purge_close", "action_ev_zero_close", "var_ev_air_decolmatage", "action_pump_sample_off", "action_cmd_pump_acide_off", "action_cmd_pump_persulfate_off", "action_cmd_pump_soude_off", "action_cmd_pump_dilution_off", "action_uv_lamp_off"]},
-                      {"name":"step_11", "step":1,"fr_FR":"Prélèvement Echantillon/Vidange réacteur", "en_US" : "Sample/Emptying reactor", "actions":["action_ev_emptying_open", "action_ev_sample_open", "action_pump_sample_filling_loop_on"]}, 
-                      {"name":"step_21", "step":7,"fr_FR":"Test Défaut d'eau", "en_US" : "Test Défaut d'eau", "actions":["action_ev_emptying_clo"]}
+                      {"name":"step_11", "step":0.1,"fr_FR":"Prélèvement Echantillon/Vidange réacteur", "en_US" : "Sample/Emptying reactor", "actions":["action_ev_emptying_open", "action_ev_sample_open", "action_pump_sample_filling_loop_on"]}
                       ]
         },
         {
@@ -1597,7 +1596,7 @@
 
     "streams" :[{"name":"stream_1", "fr_FR":"Voie 1", "en_US":"stream 1", "variables":[], "active_state": "var_stream_1_state",
                     "measures":[
-                               {"name":"measure_2", "fr_FR":"Mesure COT","en_US":"NPOC measure", "variable_measure":"var_measure_npoc", "variables":["var_measure_cit", "var_measure_seuil_1", "var_measure_seuil_2", "var_measure_npoc_min", "var_measure_npoc_max", "var_measure_4_20_npoc_min", "var_measure_4_20_npoc_max", "var_coef_calibration_npoc", "var_etalon_npoc", "var_zero_cit", "var_zero_npoc", "var_manual_measure_npoc", "var_coef_calibration_cit", "var_manual_measure_cit", "var_coef_courbe"]}
+                               {"name":"measure_2", "fr_FR":"Mesure COT","en_US":"NPOC measure", "variable_measure":"var_measure_npoc", "variable_range_max":"var_measure_npoc_max", "variable_range_min":"var_measure_npoc_min", "variables":["var_measure_cit", "var_measure_seuil_1", "var_measure_seuil_2", "var_measure_npoc_min", "var_measure_npoc_max", "var_measure_4_20_npoc_min", "var_measure_4_20_npoc_max", "var_coef_calibration_npoc", "var_etalon_npoc", "var_zero_cit", "var_zero_npoc", "var_manual_measure_npoc", "var_coef_calibration_cit", "var_manual_measure_cit", "var_coef_courbe"]}
                                ],
                     "cycles":["cycle_control", "cycle_calibration"]
 

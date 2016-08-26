@@ -10,7 +10,7 @@ public:
     CPlotObject(const QColor &col);
     ~CPlotObject();
 
-    void addValue(int x, float value);
+    void addValue(double x, float value);
 
     static QColor createNewColor();
 
