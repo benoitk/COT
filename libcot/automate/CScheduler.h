@@ -90,7 +90,7 @@ signals:
     void signalGetReadyForPlayNextCycleMesure();
     void signalGetReadyForPlayCycleMesure();
     void signalCycleIsStopped(const QString&);
-
+    void signalCycleIsRunning(const QString&);
 
 private:
     CScheduler();

@@ -1,16 +1,20 @@
-#ifndef CACTIONLINEARISATION_H
-#define CACTIONLINEARISATION_H
+#ifndef CACTIONTITRATION_H
+#define CACTIONTITRATION_H
 
 #include <QObject>
 #include "IAction.h"
 #include "qrunnable.h"
 
-class CVariableCurve;
-class CActionLinearisation : public IAction, QRunnable
+class CVariableBool;
+class CVariableOutputBool;
+class CVariableOutputInt;
+class CVariableInputBool;
+class CVariableAlarm;
+class CActionTitration : public IAction, QRunnable
 {
-       Q_OBJECT
+    Q_OBJECT
 public:
-    CActionLinearisation(const QVariantMap&, QObject *parent);
+    CActionTitration(const QVariantMap&, QObject *parent);
 
 
     void run() Q_DECL_OVERRIDE; //fom QRunnable
@@ -33,10 +37,24 @@ public:
     QVariantMap serialize() Q_DECL_OVERRIDE;
 
 private:
-    IVariable* m_rawValue;
-    IVariable* m_value;
-    CVariableCurve* m_curve;
 
+    IVariable* m_measureCell;
+
+    IVariable* m_timeFirstInflection;
+    IVariable* m_threshold;
+
+    //Pompe
+    CVariableOutputBool* m_alimPump;
+    CVariableOutputInt* m_speedPump;
+    CVariableOutputBool* m_clockwisePump;
+    CVariableOutputBool* m_runOrStopPump;
+    CVariableOutputBool* m_OriginReturnPump;
+    CVariableInputBool* m_defaultPump;
+    CVariableAlarm* m_alarmPump;
+
+    IVariable* m_timeout;
+    bool m_waitUntilFinished;
 };
 
-#endif // CACTIONLINEARISATION_H
+
+#endif // CACTIONTITRATION_H

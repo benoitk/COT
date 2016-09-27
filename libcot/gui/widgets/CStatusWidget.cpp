@@ -19,8 +19,11 @@ CStatusWidget::CStatusWidget(QWidget *parent)
     timer->start(1);
 
     CAutomate *automate = CAutomate::getInstance();
-    connect(automate, &CAutomate::signalUpdateStateAutomate,
-            this, &CStatusWidget::slotUpdateStateAutomate);
+    connect(automate, &CAutomate::signalStateRunning, this, &CStatusWidget::slotUpdateStateRunning);
+    connect(automate, &CAutomate::signalStateCurrentCyclePaused, this, &CStatusWidget::slotUpdateStateCurrentCyclePaused);
+    connect(automate, &CAutomate::signalStateRunningAutoCalibration, this, &CStatusWidget::slotUpdateStateRunningAutoCalibration);
+    connect(automate, &CAutomate::signalStateRunningWillStioEndCycle, this, &CStatusWidget::slotUpdateStateRunningWillStioEndCycle);
+    connect(automate, &CAutomate::signalStateWaiting, this, &CStatusWidget::slotUpdateStateWaiting);
     connect(automate, &CAutomate::signalUpdateCurrentStream,
             this, &CStatusWidget::slotUpdateCurrentStream);
     connect(automate, &CAutomate::signalUpdateCurrentStep,
@@ -49,31 +52,10 @@ void CStatusWidget::slotTimeChanged()
     ui->lDateTime->setText(now.toString());
 }
 
-void CStatusWidget::slotUpdateStateAutomate(CAutomate::eStateAutomate state)
-{
+void CStatusWidget::setStateAutomate(QString state){
     QString text;
     QString oldText = ui->lCycle->text();
-    switch (state) {
-    case CAutomate::RUNNING:
-        text = tr("CYCLE IN PROGRESS : ") + CScheduler::getInstance()->getCycleInProgressName() + "\n";
-        break;
-    case CAutomate::RUNNING_WILL_STOP_END_CYCLE:
-        text = tr("STOP END CYCLE : ") + CScheduler::getInstance()->getCycleInProgressName() + "\n";
-        break;
-    case CAutomate::PAUSED:
-        text = tr("PAUSED");
-        break;
-    case CAutomate::CALIBRATION:
-        text = tr("CALIBRATION");
-        break;
-    case CAutomate::WAITING:
-        text = tr("WAITING");
-        break;
-    case CAutomate::STOPPED:
-        text = tr("STOPPED");
-        break;
-    }
-
+    text = state;
     if(oldText.contains(SEPARATOR_MEASURE_ALARM)){
         QStringList listTmp = oldText.split(SEPARATOR_MEASURE_ALARM);
         for(int i=1; i < listTmp.count(); ++i) text += QString(SEPARATOR_MEASURE_ALARM) +listTmp.at(i);
@@ -83,8 +65,41 @@ void CStatusWidget::slotUpdateStateAutomate(CAutomate::eStateAutomate state)
     }
 
     ui->lCycle->setText(text);
+}
+
+void  CStatusWidget::slotUpdateStateRunning(bool arg){
+    if(arg)
+        setStateAutomate( tr("CYCLE IN PROGRESS : ") + CScheduler::getInstance()->getCycleInProgressName() + "\n");
+    else
+        setStateAutomate(tr("STOPPED"));
 
 }
+
+void  CStatusWidget::slotUpdateStateRunningWillStioEndCycle(bool arg){
+    if(arg)
+        setStateAutomate(tr("STOP END CYCLE : ") + CScheduler::getInstance()->getCycleInProgressName() + "\n");
+    else
+        setStateAutomate(tr("STOPPED"));
+}
+
+void  CStatusWidget::slotUpdateStateCurrentCyclePaused(bool arg){
+    if(arg)
+        setStateAutomate(tr("PAUSED "));
+}
+
+void  CStatusWidget::slotUpdateStateRunningAutoCalibration(bool arg){
+    if(arg)
+        setStateAutomate(tr("CALIBRATION "));
+}
+void  CStatusWidget::slotUpdateStateRunningAutoBlank(bool arg){
+}
+void CStatusWidget:: slotUpdateStateInMaintenance(bool arg){
+}
+void  CStatusWidget::slotUpdateStateWaiting(bool arg){
+    if(arg)
+        setStateAutomate(tr("WAITING "));
+}
+
 void CStatusWidget::slotAddAlarm(const QString& arg_default){
     ui->lCycle->setStyleSheet("QLabel { color : red; }");
     if(!ui->lCycle->text().contains(arg_default))

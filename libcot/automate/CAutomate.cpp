@@ -53,7 +53,7 @@ CAutomate::CAutomate()
     m_isInMaintenanceMode = false;
     m_lang = "en_US";
     m_countBeforeCheckLogFileToDelete = 0;
-    m_stateScheduler = CYCLE_STATE_STOP;
+//    m_stateScheduler = CYCLE_STATE_STOP;
     m_commandNextCycle = Q_NULLPTR;
     m_commandStopEndCycle = Q_NULLPTR;
     m_commandPlayStop = Q_NULLPTR;
@@ -75,7 +75,6 @@ CAutomate::CAutomate()
 //    timer->start();
 
     // for use in queued signal/slot connections
-    qRegisterMetaType<CAutomate::eStateAutomate>();
     qRegisterMetaType<CAutomate::eStateStream>();
 }
 bool CAutomate::isLocalControlForced(){
@@ -850,25 +849,7 @@ CVariableMeasure *CAutomate::getMeasure(const QString &name) const
     return Q_NULLPTR;
 }
 
-void CAutomate::setStateScheduler(eStateScheduler arg_state){
-    QMutexLocker locker(&m_mutex);
-    m_stateScheduler = arg_state;
-    switch(arg_state){
-    case CYCLE_STATE_STOP:
-        emit signalUpdateStateAutomate(STOPPED);
-        break;
-    case CYCLE_STATE_RUN:
-        emit signalUpdateStateAutomate(RUNNING);
-        break;
-    case CYCLE_STATE_STOP_END_CYCLE:
-        emit signalUpdateStateAutomate(RUNNING_WILL_STOP_END_CYCLE);
-        break;
 
-    default:
-        break;
-    }
-
-}
 void CAutomate::slotNewAlarm(CVariableAlarm* arg_alarm){
     switch(arg_alarm->getAlarmType()){
     case e_not_critical_error_skip_cycle_try_again:
@@ -1005,7 +986,8 @@ void CAutomate::addLoggedVariable(const QString& arg_varName, bool arg_debug){
         m_listLoggedVar.append(var);
         if(var && var->getType() != e_type_unknow && !m_debug)
             //connect(var, SIGNAL(signalVariableChanged(IVariable*)), this, SLOT(slotLogVariable(IVariable*)));
-            connect(var, &IVariable::signalVariableChanged, this, static_cast<void (CAutomate::*)(IVariable*)>(&CAutomate::slotLogVariable));
+            connect(var, &IVariable::signalVariableChanged, this,
+                    static_cast<void (CAutomate::*)(IVariable*)>(&CAutomate::slotLogVariable));
     }
 }
 

@@ -1,9 +1,9 @@
-#include "CActionSum.h"
+#include "CActionMultiplication.h"
 #include "IVariable.h"
 #include "CVariableFactory.h"
 #include "CAutomate.h"
 #include "cotautomate_debug.h"
-CActionSum::CActionSum(const QVariantMap &mapAction, QObject *parent)
+CActionMultiplication::CActionMultiplication(const QVariantMap &mapAction, QObject *parent)
     : IAction(mapAction, parent)
 {
     CAutomate* automate = CAutomate::getInstance();
@@ -15,7 +15,7 @@ CActionSum::CActionSum(const QVariantMap &mapAction, QObject *parent)
 }
 
 
-QVariantMap CActionSum::serialize(){
+QVariantMap CActionMultiplication::serialize(){
     QVariantMap mapSerialize = IAction::serialize();
     mapSerialize.insert(QStringLiteral("result"), m_result->getName());
 
@@ -24,33 +24,33 @@ QVariantMap CActionSum::serialize(){
         listVarName.append(var->getName());
     }
     mapSerialize.insert(QStringLiteral("input_variables"), listVarName);
-    mapSerialize.insert(QStringLiteral("type"), QStringLiteral("sum"));
+    mapSerialize.insert(QStringLiteral("type"), QStringLiteral("multiplication"));
     return mapSerialize;
 }
 
 
-bool CActionSum::runAction(ICycle* arg_stepParent){
+bool CActionMultiplication::runAction(ICycle* arg_stepParent){
 
-    float tmp=0;
+    float tmp=1;
     foreach (IVariable* var, m_listVar) {
-        tmp += var->toFloat();
+        tmp *= var->toFloat();
     }
     m_result->setValue(tmp);
     return true;
 }
 
 
-QList<IVariable*> CActionSum::getListParameters()const{
+QList<IVariable*> CActionMultiplication::getListParameters()const{
     QList<IVariable*> listParams;
     listParams.append(m_result);
 
     return listParams;
 }
-actionType CActionSum::getType()const {
-    return actionType::type_sum;
+actionType CActionMultiplication::getType()const {
+    return actionType::type_multiplication;
 }
 
-bool CActionSum::variableUsed(IVariable *arg_var)const {
+bool CActionMultiplication::variableUsed(IVariable *arg_var)const {
 
     if(m_result == arg_var) return true;
      foreach (IVariable* var, m_listVar) {
@@ -60,23 +60,23 @@ bool CActionSum::variableUsed(IVariable *arg_var)const {
     return false;
 }
 
-QMap<QString, IVariable*> CActionSum::getMapIVariableParameters(){
+QMap<QString, IVariable*> CActionMultiplication::getMapIVariableParameters(){
     QMap<QString, IVariable*>  map;
     map.insert(tr("Result"), m_result);
     return map;
 }
 
-QMap<QString, IVariable*> CActionSum::getMapCstParameters(){
+QMap<QString, IVariable*> CActionMultiplication::getMapCstParameters(){
     QMap<QString, IVariable*>  map;
     return map;
 }
-void CActionSum::setParameter(const QString& arg_key, IVariable* arg_parameter){
+void CActionMultiplication::setParameter(const QString& arg_key, IVariable* arg_parameter){
 
     if(tr("Result")== arg_key)m_result= arg_parameter;
 
 
 }
-enumVariableType CActionSum::getWaitedType(const QString& arg_key){
+enumVariableType CActionMultiplication::getWaitedType(const QString& arg_key){
     if(tr("Result")== arg_key) return e_type_float;
 
     return e_type_unknow;

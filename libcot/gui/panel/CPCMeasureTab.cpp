@@ -39,9 +39,10 @@ CPCMeasureTab::CPCMeasureTab(QWidget *parent)
             this, &CPCMeasureTab::slotUpdateStreamsMeasures);
     connect(CAutomate::getInstance(), &CAutomate::signalVariableChanged,
             this, &CPCMeasureTab::slotVariableChanged);
-    connect(m_pendingAlarms, &CPendingAlarms::changed, this, &CPCMeasureTab::updateAlarmsAction);
-    connect(CAutomate::getInstance(), &CAutomate::signalUpdateStateAutomate, this, &CPCMeasureTab::slotUpdateControlButtons);
-    updateAlarmsAction();
+    connect(m_pendingAlarms, &CPendingAlarms::changed, this, &CPCMeasureTab::slotUpdateAlarmsAction);
+    connect(CAutomate::getInstance(), &CAutomate::signalStateRunning, this, &CPCMeasureTab::slotUpdatePlayStopButton);
+    connect(CAutomate::getInstance(), &CAutomate::signalStateRunningWillStioEndCycle, this, &CPCMeasureTab::slotUpdateStopEndCycleButton);
+    slotUpdateAlarmsAction();
     slotUpdateStreamsMeasures();
 }
 
@@ -55,20 +56,12 @@ CVerticalButtonBar *CPCMeasureTab::buttonBar() const
     return ui->vbbButtons;
 }
 
-void CPCMeasureTab::slotUpdateControlButtons(CAutomate::eStateAutomate arg_state){
-    switch(arg_state){
-    case CAutomate::RUNNING:
-        ui->vbbButtons->button(CToolButton::PlayStop)->setChecked(true);
-        ui->vbbButtons->button(CToolButton::StopEndCycle)->setChecked(false);
-        break;
-    case CAutomate::STOPPED:
-        ui->vbbButtons->button(CToolButton::PlayStop)->setChecked(false);
-        ui->vbbButtons->button(CToolButton::StopEndCycle)->setChecked(false);
-        break;
-    case CAutomate::RUNNING_WILL_STOP_END_CYCLE:
-        ui->vbbButtons->button(CToolButton::StopEndCycle)->setChecked(true);
-        break;
-    }
+void CPCMeasureTab::slotUpdatePlayStopButton(bool arg_running){
+    ui->vbbButtons->button(CToolButton::PlayStop)->setChecked(arg_running);
+    ui->vbbButtons->button(CToolButton::StopEndCycle)->setChecked(false);
+}
+void CPCMeasureTab::slotUpdateStopEndCycleButton(bool arg_stopEndCycle){
+    ui->vbbButtons->button(CToolButton::StopEndCycle)->setChecked(arg_stopEndCycle);
 }
 
 void CPCMeasureTab::slotAlarmsTriggered()
@@ -152,7 +145,7 @@ void CPCMeasureTab::slotVariableChanged(const QString &name, const QDateTime &da
     }
 }
 
-void CPCMeasureTab::updateAlarmsAction()
+void CPCMeasureTab::slotUpdateAlarmsAction()
 {
     QAction *action = ui->vbbButtons->action(CToolButton::Alarms);
     action->setIcon(!m_pendingAlarms->isEmpty()

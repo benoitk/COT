@@ -23,6 +23,9 @@ enum actionType{
     type_find_closest_value,
     type_linearisation,
     type_sum,
+    type_subtraction,
+    type_multiplication,
+    type_titration,
     type_wait_for_action,
     type_action_unknow
 

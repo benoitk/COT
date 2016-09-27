@@ -67,7 +67,7 @@ QVariantMap CActionCmdPompe::serialize(){
     if(m_alarm)mapSerialize.insert(QStringLiteral("alarm"), m_alarm->getName());
     else mapSerialize.insert(QStringLiteral("alarm"), tr("UNKNOW VAR"));
     mapSerialize.insert(QStringLiteral("type"), QStringLiteral("cmd_pump"));
-    mapSerialize.insert(QStringLiteral("type"), QStringLiteral("cmd_pump"));
+
     return mapSerialize;
 }
 CActionCmdPompe::~CActionCmdPompe()

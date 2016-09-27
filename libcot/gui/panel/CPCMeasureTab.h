@@ -30,8 +30,9 @@ private slots:
     void slotUpdateStreamsMeasures();
     void slotVariableChanged(const QString &name, const QDateTime &dateTime);
     void slotUpdatePlotting();
-    void updateAlarmsAction();
-    void slotUpdateControlButtons(CAutomate::eStateAutomate arg_state);
+    void slotUpdateAlarmsAction();
+    void slotUpdatePlayStopButton(bool arg_running);
+    void slotUpdateStopEndCycleButton(bool arg_stopEndCycle);
 
 private:
     Ui::CPCMeasureTab *ui;

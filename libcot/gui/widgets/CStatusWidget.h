@@ -18,7 +18,15 @@ public:
 
 private Q_SLOTS:
     void slotTimeChanged();
-    void slotUpdateStateAutomate(CAutomate::eStateAutomate state);
+
+    void slotUpdateStateRunning(bool);
+    void slotUpdateStateRunningWillStioEndCycle(bool);
+    void slotUpdateStateCurrentCyclePaused(bool);
+    void slotUpdateStateRunningAutoCalibration(bool);
+    void slotUpdateStateRunningAutoBlank(bool);
+    void slotUpdateStateInMaintenance(bool);
+    void slotUpdateStateWaiting(bool);
+
     void slotAddAlarm(const QString& arg_default);
     void slotRemoveAlarm(const QString& arg_default);
     void slotCleanDefaults();
@@ -29,6 +37,8 @@ private Q_SLOTS:
     void slotUpdateCountStep(int stepCount);
 
 private:
+
+    void setStateAutomate(QString state);
     Ui::CStatusWidget *ui;
 
     QString m_lblInfoStep;

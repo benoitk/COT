@@ -17,6 +17,10 @@
 #include "CActionSlope.h"
 #include "CActionInhibiDisinhibitAlarm.h"
 #include "CActionWaitForAction.h"
+#include "CActionTitration.h"
+#include "CActionMultiplication.h"
+#include "CActionSubtraction.h"
+#include "CActionLinearisation.h"
 
 #include "qvariant.h"
 #include "qmap.h"
@@ -77,6 +81,18 @@ IAction* CActionFactory::build(const QVariantMap &mapAction, QObject *parent){
     }
     else if(type == QStringLiteral("cmd_wait_for_actions_end")){
         action = new CActionWaitForAction(mapAction,parent);
+    }
+    else if(type == QStringLiteral("titration")){
+        action = new CActionTitration(mapAction,parent);
+    }
+    else if(type == QStringLiteral("multiplication")){
+        action = new CActionMultiplication(mapAction,parent);
+    }
+    else if(type == QStringLiteral("subtraction")){
+        action = new CActionSubtraction(mapAction,parent);
+    }
+    else if(type == QStringLiteral("linearisation")){
+        action = new CActionLinearisation(mapAction,parent);
     }
     else{
         action = new CActionUnknow(mapAction,parent);

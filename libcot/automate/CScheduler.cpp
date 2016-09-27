@@ -129,8 +129,9 @@ void CScheduler::slotPlayNextSequenceMeasure(){
         }
         this->setSequence();
 
-        CAutomate::getInstance()->setStateScheduler(CAutomate::CYCLE_STATE_RUN);
+        emit CAutomate::getInstance()->signalStateRunning(true);
         emit signalRunCycle();
+        emit signalCycleIsRunning(m_cycleEnCours->getName());
     }
     else{
         m_haveToStopEndCycle = false;
@@ -147,13 +148,13 @@ void CScheduler::slotRequestStopSequence(){
 void  CScheduler::slotRequestStopEndCycleSequence(){
     if(m_cycleEnCours && m_cycleEnCours->isRunning()){
         m_haveToStopEndCycle = true;
-        CAutomate::getInstance()->setStateScheduler(CAutomate::CYCLE_STATE_STOP_END_CYCLE);
+        emit CAutomate::getInstance()->signalStateRunningWillStioEndCycle(true);
     }
 }
 void  CScheduler::slotRequestCancelStopSequenceEndCycle(){
     m_haveToStopEndCycle = false;
     if(m_cycleEnCours && m_cycleEnCours->isRunning()){
-        CAutomate::getInstance()->setStateScheduler(CAutomate::CYCLE_STATE_RUN);
+        emit CAutomate::getInstance()->signalStateRunning(true);
     }
 }
 
@@ -170,7 +171,7 @@ void CScheduler::slotCycleIsStopped(){
         sequence->reset();
     }
     emit signalCycleIsStopped(m_cycleEnCours->getName());
-    CAutomate::getInstance()->setStateScheduler(CAutomate::CYCLE_STATE_STOP);
+    emit CAutomate::getInstance()->signalStateRunning(false);
 }
 
 //Fin Stop cycle Mesure
@@ -358,7 +359,7 @@ void CScheduler::slotPlayMaintenance(const QString& arg_cycleName){
     if(cycle && cycle->getType() != e_cycle_invalid){
         m_cycleEnCours = cycle;
         setSequence(true);
-        CAutomate::getInstance()->setStateScheduler(CAutomate::CYCLE_STATE_RUN);
+        emit CAutomate::getInstance()->signalStateRunning(true);
         emit signalRunCycle();
     }
 }

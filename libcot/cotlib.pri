@@ -248,7 +248,20 @@ HEADERS *= \
     $$PWD/automate/commands/CCommandPlayStopCycle.h \
     $$PWD/automate/actions/CActionCopy.h \
     $$PWD/automate/actions/CActionInhibiDisinhibitAlarm.h \
-    $$PWD/automate/actions/CActionWaitForAction.h
+    $$PWD/automate/actions/CActionWaitForAction.h \
+    $$PWD/automate/organs/COrganFactory.h \
+    $$PWD/automate/states/IState.h \
+    $$PWD/automate/states/CStateMaintenance.h \
+    $$PWD/automate/states/CStateStopped.h \
+    $$PWD/automate/states/CStateCycleRunning.h \
+    $$PWD/automate/states/CStateCyclePaused.h \
+    $$PWD/automate/states/CStateBlankCycleRunning.h \
+    $$PWD/automate/states/CStateFactory.h \
+    $$PWD/automate/states/CStateUnknow.h \
+    $$PWD/automate/actions/CActionSubtraction.h \
+    $$PWD/automate/actions/CActionMultiplication.h \
+    $$PWD/automate/actions/CActionDoubleTitration.h \
+    $$PWD/automate/actions/CActionTitration.h
 
 SOURCES *= \
     $$PWD/automate/CAutomate.cpp \
@@ -451,7 +464,19 @@ SOURCES *= \
     $$PWD/automate/commands/CCommandPlayStopCycle.cpp \
     $$PWD/automate/actions/CActionCopy.cpp \
     $$PWD/automate/actions/CActionInhibiDisinhibitAlarm.cpp \
-    $$PWD/automate/actions/CActionWaitForAction.cpp
+    $$PWD/automate/actions/CActionWaitForAction.cpp \
+    $$PWD/automate/states/IState.cpp \
+    $$PWD/automate/states/CStateMaintenance.cpp \
+    $$PWD/automate/states/CStateStopped.cpp \
+    $$PWD/automate/states/CStateCycleRunning.cpp \
+    $$PWD/automate/states/CStateCyclePaused.cpp \
+    $$PWD/automate/states/CStateBlankCycleRunning.cpp \
+    $$PWD/automate/states/CStateFactory.cpp \
+    $$PWD/automate/states/CStateUnknow.cpp \
+    $$PWD/automate/actions/CActionSubtraction.cpp \
+    $$PWD/automate/actions/CActionMultiplication.cpp \
+    $$PWD/automate/actions/CActionDoubleTitration.cpp \
+    $$PWD/automate/actions/CActionTitration.cpp
 
 DISTFILES +=
 

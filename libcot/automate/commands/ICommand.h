@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QVariant>
 
-enum commandType{
+enum enumCommandType{
     type_stop_cycle = 0,
     type_stop_end_cycle,
     type_pause_cycle,
@@ -23,7 +23,7 @@ public:
     explicit ICommand(const QVariantMap &mapCmd, QObject *parent);
     ~ICommand();
     QString getName();
-    commandType getType();
+    enumCommandType getType();
     virtual QVariantMap serialize();
 signals:
 
@@ -34,7 +34,7 @@ public slots:
 private:
     QString m_name;
     QString m_label;
-    commandType m_type;
+    enumCommandType m_type;
 };
 
 #endif // ICOMMANDS_H

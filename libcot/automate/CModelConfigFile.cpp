@@ -249,6 +249,29 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
 
     }
 
+//    //states
+//    if(jsonObjectAll[QStringLiteral("states")] == QJsonValue::Undefined){
+//        qCDebug(COTAUTOMATE_LOG) << "jsonObject[\"states\"] == QJsonValue::Undefined";
+//    }
+//    else {
+//        QJsonArray jsonArraystates = jsonObjectAll[QStringLiteral("states")].toArray();
+
+//        foreach(QJsonValue jsonValueState, jsonArraystates){
+//            QVariantMap mapState = jsonValueState.toVariant().toMap();
+//            ICommand* command = CCommandFactory::build(mapState, automate);
+//            if(command && command->getName() == QStringLiteral("State_play_stop_cycle")){
+//                automate->setCommandPlayStop(command);
+//            }else if(command && command->getName() == QStringLiteral("State_stop_end_cycle")){
+//                automate->setStatestopEndCycle(command);
+//            }else if(command && command->getName() == QStringLiteral("State_next_cycle")){
+//                automate->setCommandNextCycle(command);
+//            }else
+//                qCDebug(COTAUTOMATE_LOG) << "ICommand null : map = " << mapState;
+//        }
+//        //qCDebug(COTAUTOMATE_LOG) << "ACTIONS : " << m_mapActions;
+
+//    }
+
     //display
     if(jsonObjectAll[QStringLiteral("display")] == QJsonValue::Undefined){
         qCDebug(COTAUTOMATE_LOG) << "jsonObject[\"display\"] == QJsonValue::Undefined";

@@ -18,7 +18,7 @@ QString ICommand::getName(){
     return m_name;
 }
 
-commandType ICommand::getType(){
+enumCommandType ICommand::getType(){
     return m_type;
 }
 

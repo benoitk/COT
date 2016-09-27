@@ -82,12 +82,10 @@ public:
 
     static QString formatHistoryEntry(const QString &name, const QDateTime &dateTime);
 
-    enum eStateScheduler{CYCLE_STATE_RUN = 1, CYCLE_STATE_PAUSE = 2, CYCLE_STATE_STOP = 0, CYCLE_STATE_STOP_END_CYCLE = 3};
-    enum eStateAutomate{RUNNING, RUNNING_WILL_STOP_END_CYCLE,PAUSED, CALIBRATION, WAITING,STOPPED};
+
     enum eStateStream{STREAM_DEFAULT, WATER_DEFAULT, ACTIVE, INACTIVE};
     static CAutomate* getInstance();
 
-    void setStateScheduler(eStateScheduler);
 
 
     void setDisplayConf(CDisplayConf*);
@@ -169,12 +167,7 @@ signals:
     void signalUpdatePlotting();
 
 
-    //desc : Etat changé : En court, en pause, en arrêt
-    //entrées : enum de l'état du cycle en cours
-    void signalUpdateStateScheduler(CAutomate::eStateScheduler);
-    //desc : Etat changé : En défaut, en cycle, en maintenance
-    //entrées : enum de l'état de l'automate
-    void signalUpdateStateAutomate(CAutomate::eStateAutomate);
+
     //desc : Pas en cours changé
     //entrées : pas en cours; label du pas
     void signalUpdateCurrentStep(float, const QString &);
@@ -217,6 +210,16 @@ signals:
     void signalSchedulerUpdated();
     void signalStreamsUpdated();
 
+
+    //signals de mise à jours des états de l'automate TODO : virer l'enum stateAutomate
+    void signalStateRunning(bool);
+    void signalStateRunningWillStioEndCycle(bool);
+    void signalStateCurrentCyclePaused(bool);
+    void signalStateRunningAutoCalibration(bool);
+    void signalStateRunningAutoBlank(bool);
+    void signalStateInMaintenance(bool);
+    void signalStateWaiting(bool);
+
 protected slots:
     void slotVariableChanged();
 
@@ -243,7 +246,7 @@ private:
     QList<IVariable*> m_listLoggedVarDebug;
     mutable QMutex m_mutex;
 
-    eStateScheduler m_stateScheduler;
+    //eStateScheduler m_stateScheduler;
 
     CScheduler* m_scheduler;
     CThreadDiag* m_threadDiag;
@@ -284,7 +287,6 @@ private:
 
 };
 
-Q_DECLARE_METATYPE(CAutomate::eStateAutomate)
 Q_DECLARE_METATYPE(CAutomate::eStateStream)
 
 #endif // CAUTOMATE_H
