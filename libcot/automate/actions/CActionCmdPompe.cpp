@@ -38,7 +38,7 @@ CActionCmdPompe::CActionCmdPompe(const QVariantMap &mapAction, QObject *parent)
     if(automate->getVariable(mapAction[QStringLiteral("alarm")].toString())->getOrganType() == e_type_organ_output)
         m_alarm = dynamic_cast<CVariableAlarm*>(automate->getVariable(mapAction[QStringLiteral("alarm")].toString()));
 
-    m_stepByStep = automate->getVariable(mapAction[QStringLiteral("pump_persulfate_step_by_step")].toString());
+    m_stepByStep = automate->getVariable(mapAction[QStringLiteral("step_by_step")].toString());
 
 
 }

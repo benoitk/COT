@@ -1,17 +1,18 @@
-#ifndef CSTATESTOPPED_H
-#define CSTATESTOPPED_H
+//#ifndef CSTATESTOPPED_H
+//#define CSTATESTOPPED_H
 
-#include "IState.h"
+//#include "IState.h"
 
-class IVariable;
-class CStateStopped: public IState
-{
-    Q_OBJECT
+//class IVariable;
+//class CStateStopped: public IState
+//{
+//    Q_OBJECT
 
-public:
-    CStateStopped(const QVariantMap &mapSate, QObject *parent);
+//public:
+//    CStateStopped(const QVariantMap &mapSate, QObject *parent);
+//    CStateStopped(QObject *parent);
 
-public slots:
-   void slotSetStateVaraibles() Q_DECL_OVERRIDE;
-};
-#endif // CSTATESTOPPED_H
+//public slots:
+//   //void slotSetState() Q_DECL_OVERRIDE;
+//};
+//#endif // CSTATESTOPPED_H

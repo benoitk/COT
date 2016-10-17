@@ -261,7 +261,8 @@ HEADERS *= \
     $$PWD/automate/actions/CActionSubtraction.h \
     $$PWD/automate/actions/CActionMultiplication.h \
     $$PWD/automate/actions/CActionDoubleTitration.h \
-    $$PWD/automate/actions/CActionTitration.h
+    $$PWD/automate/actions/CActionTitration.h \
+    $$PWD/automate/CState.h
 
 SOURCES *= \
     $$PWD/automate/CAutomate.cpp \
@@ -476,7 +477,8 @@ SOURCES *= \
     $$PWD/automate/actions/CActionSubtraction.cpp \
     $$PWD/automate/actions/CActionMultiplication.cpp \
     $$PWD/automate/actions/CActionDoubleTitration.cpp \
-    $$PWD/automate/actions/CActionTitration.cpp
+    $$PWD/automate/actions/CActionTitration.cpp \
+    $$PWD/automate/CState.cpp
 
 DISTFILES +=
 

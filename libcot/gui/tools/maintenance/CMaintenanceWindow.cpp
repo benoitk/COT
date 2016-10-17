@@ -26,8 +26,6 @@ CMaintenanceWindow::CMaintenanceWindow()
 
 CMaintenanceWindow::~CMaintenanceWindow()
 {
-    int test = 4;
-    test ++;
 }
 void CMaintenanceWindow::slotUserSessionClosed()
 {

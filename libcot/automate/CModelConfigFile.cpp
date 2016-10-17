@@ -16,6 +16,8 @@
 #include "CDisplayConf.h"
 #include "CModelExtensionCard.h"
 #include "CScheduler.h"
+#include "CState.h"
+
 #include "qfile.h"
 #include "qjsonobject.h"
 #include "qlocale.h"
@@ -35,8 +37,8 @@
 #include <QApplication>
 #include <QTranslator>
 
-CModelConfigFile::CModelConfigFile(QObject *parent)
-    : QObject(parent)
+CModelConfigFile::CModelConfigFile(QObject *parent, CScheduler* scheduler)
+    : QObject(parent), m_scheduler(scheduler)
 {
     qCDebug(COTAUTOMATE_LOG) << "CModelConfigFile(QObject *parent) thread " << this->thread();
     QFile jsonFile(QString::fromLocal8Bit(JSON_DIRECTORY "/save.json"));
@@ -250,27 +252,38 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
     }
 
 //    //states
-//    if(jsonObjectAll[QStringLiteral("states")] == QJsonValue::Undefined){
-//        qCDebug(COTAUTOMATE_LOG) << "jsonObject[\"states\"] == QJsonValue::Undefined";
-//    }
-//    else {
-//        QJsonArray jsonArraystates = jsonObjectAll[QStringLiteral("states")].toArray();
+    if(jsonObjectAll[QStringLiteral("states")] == QJsonValue::Undefined){
+        qCDebug(COTAUTOMATE_LOG) << "jsonObject[\"states\"] == QJsonValue::Undefined";
+    }
+    else {
+        QJsonArray jsonArraystates = jsonObjectAll[QStringLiteral("states")].toArray();
 
-//        foreach(QJsonValue jsonValueState, jsonArraystates){
-//            QVariantMap mapState = jsonValueState.toVariant().toMap();
-//            ICommand* command = CCommandFactory::build(mapState, automate);
-//            if(command && command->getName() == QStringLiteral("State_play_stop_cycle")){
-//                automate->setCommandPlayStop(command);
-//            }else if(command && command->getName() == QStringLiteral("State_stop_end_cycle")){
-//                automate->setStatestopEndCycle(command);
-//            }else if(command && command->getName() == QStringLiteral("State_next_cycle")){
-//                automate->setCommandNextCycle(command);
-//            }else
-//                qCDebug(COTAUTOMATE_LOG) << "ICommand null : map = " << mapState;
-//        }
-//        //qCDebug(COTAUTOMATE_LOG) << "ACTIONS : " << m_mapActions;
+        foreach(QJsonValue jsonValueState, jsonArraystates){
+            QVariantMap mapState = jsonValueState.toVariant().toMap();
 
-//    }
+            CState* state = Q_NULLPTR;
+            if(mapState.value("name").toString() == QStringLiteral("state_in_maintenance")){
+                state = automate->getStateInMaintenance();
+            }else  if(mapState.value("name").toString() == QStringLiteral("state_cycle_runnning")){
+                state = automate->getStateIsRunning();
+            }else  if(mapState.value("name").toString() == QStringLiteral("state_cycle_paused")){
+                state = automate->getStateCurrentCycleIsPaused();
+            }else  if(mapState.value("name").toString() == QStringLiteral("state_cycle_auto_running")){
+                state = automate->getStateCycleAutoRunning();
+            }else  if(mapState.value("name").toString() == QStringLiteral("state_cycle_running_will_stop_end_cycle")){
+                state = automate->getStateWillStopEndCycle();
+            }
+            if(state != Q_NULLPTR){
+                state->setState(mapState.value("default_state").toBool());
+                QVariantList listOutputVariables = mapState.value("output_variables").toList();
+                foreach(QVariant var, listOutputVariables){
+                    state->addOutputVariable(automate->getVariable(var.toString()));
+                }
+            }
+        }
+        //qCDebug(COTAUTOMATE_LOG) << "ACTIONS : " << m_mapActions;
+
+    }
 
     //display
     if(jsonObjectAll[QStringLiteral("display")] == QJsonValue::Undefined){
@@ -370,7 +383,7 @@ CModelConfigFile::CModelConfigFile(QObject *parent)
             QVariantMap sequenceMap = jsonValueSequence.toVariant().toMap();
             if(!sequenceMap.isEmpty())
                 automate->getScheduler()
-                        ->addCycleMaintenanceAuto(CSequenceMaintenanceFactory::build(sequenceMap, CScheduler::getInstance()));
+                        ->addCycleMaintenanceAuto(CSequenceMaintenanceFactory::build(sequenceMap, m_scheduler));
             else
                 qCDebug(COTAUTOMATE_LOG) << "Sequence maintenance auto null : map = " << sequenceMap;
         }

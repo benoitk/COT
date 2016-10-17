@@ -119,17 +119,22 @@ void CScheduler::slotPlayNextSequenceMeasure(){
         ISequenceMaintenanceAuto* seq = Q_NULLPTR;
         if(seq = haveToPlaySequenceMaintenanceAuto()){
             m_cycleEnCours = seq->getCycle();
+            CAutomate::getInstance()->setStateCycleAutoRunning(true);
         }
         else if( (++m_itListSequenceCyclesMesures) == m_listSequenceCyclesMeasures.end()){
             m_itListSequenceCyclesMesures = m_listSequenceCyclesMeasures.begin();
             m_cycleEnCours = (*m_itListSequenceCyclesMesures);
+            CAutomate::getInstance()->setStateCycleAutoRunning(false);
         }
         else{
             m_cycleEnCours = (*m_itListSequenceCyclesMesures);
+            CAutomate::getInstance()->setStateCycleAutoRunning(false);
         }
         this->setSequence();
 
-        emit CAutomate::getInstance()->signalStateRunning(true);
+
+        CAutomate::getInstance()->setStateIsRunning(true);
+        //emit CAutomate::getInstance()->signalStateRunning(true);
         emit signalRunCycle();
         emit signalCycleIsRunning(m_cycleEnCours->getName());
     }
@@ -148,13 +153,13 @@ void CScheduler::slotRequestStopSequence(){
 void  CScheduler::slotRequestStopEndCycleSequence(){
     if(m_cycleEnCours && m_cycleEnCours->isRunning()){
         m_haveToStopEndCycle = true;
-        emit CAutomate::getInstance()->signalStateRunningWillStioEndCycle(true);
+        CAutomate::getInstance()->setStateWillStopEndCycle(true);
     }
 }
 void  CScheduler::slotRequestCancelStopSequenceEndCycle(){
     m_haveToStopEndCycle = false;
     if(m_cycleEnCours && m_cycleEnCours->isRunning()){
-        emit CAutomate::getInstance()->signalStateRunning(true);
+        CAutomate::getInstance()->setStateWillStopEndCycle(false);
     }
 }
 
@@ -171,7 +176,8 @@ void CScheduler::slotCycleIsStopped(){
         sequence->reset();
     }
     emit signalCycleIsStopped(m_cycleEnCours->getName());
-    emit CAutomate::getInstance()->signalStateRunning(false);
+    CAutomate::getInstance()->setStateIsRunning(false);
+//    emit CAutomate::getInstance()->signalStateRunning(false);
 }
 
 //Fin Stop cycle Mesure
@@ -359,7 +365,8 @@ void CScheduler::slotPlayMaintenance(const QString& arg_cycleName){
     if(cycle && cycle->getType() != e_cycle_invalid){
         m_cycleEnCours = cycle;
         setSequence(true);
-        emit CAutomate::getInstance()->signalStateRunning(true);
+        CAutomate::getInstance()->setStateIsRunning(true);
+        //emit CAutomate::getInstance()->signalStateRunning(true);
         emit signalRunCycle();
     }
 }

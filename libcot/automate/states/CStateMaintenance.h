@@ -1,14 +1,15 @@
-#ifndef CSTATEMAINTENANCE_H
-#define CSTATEMAINTENANCE_H
+//#ifndef CSTATEMAINTENANCE_H
+//#define CSTATEMAINTENANCE_H
 
-#include "IState.h"
+//#include "IState.h"
 
-class IVariable;
-class CStateMaintenance : public IState
-{
-    Q_OBJECT
-public:
-    CStateMaintenance(const QVariantMap &mapSate, QObject *parent);
-};
+//class IVariable;
+//class CStateMaintenance : public IState
+//{
+//    Q_OBJECT
+//public:
+//    CStateMaintenance(const QVariantMap &mapSate, QObject *parent);
+//    CStateMaintenance(QObject *parent);
+//};
 
-#endif // CSTATEMAINTENANCE_H
+//#endif // CSTATEMAINTENANCE_H

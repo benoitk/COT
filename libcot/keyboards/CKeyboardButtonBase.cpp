@@ -9,7 +9,7 @@ CKeyboardButtonBase::CKeyboardButtonBase(CKeyboardButtonBase::Type type, QWidget
     , m_type(type)
     , m_icon(CToolButton::buttonIcon(CToolButton::Empty))
 {
-    setMinimumSize( QSize( 41, 41 ) );
+    setMinimumSize( QSize( 70, 70 ) );
 
     if (m_type == Alpha) {
         setFont(QFont("Arial", font().pointSize() +2, QFont::Bold));

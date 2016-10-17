@@ -41,7 +41,7 @@ CPCMeasureTab::CPCMeasureTab(QWidget *parent)
             this, &CPCMeasureTab::slotVariableChanged);
     connect(m_pendingAlarms, &CPendingAlarms::changed, this, &CPCMeasureTab::slotUpdateAlarmsAction);
     connect(CAutomate::getInstance(), &CAutomate::signalStateRunning, this, &CPCMeasureTab::slotUpdatePlayStopButton);
-    connect(CAutomate::getInstance(), &CAutomate::signalStateRunningWillStioEndCycle, this, &CPCMeasureTab::slotUpdateStopEndCycleButton);
+    connect(CAutomate::getInstance(), &CAutomate::signalStateRunningWillStopEndCycle, this, &CPCMeasureTab::slotUpdateStopEndCycleButton);
     slotUpdateAlarmsAction();
     slotUpdateStreamsMeasures();
 }

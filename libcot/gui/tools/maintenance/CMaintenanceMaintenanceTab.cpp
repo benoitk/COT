@@ -66,7 +66,7 @@ void CMaintenanceMaintenanceTab::slotUpdateLayout()
         buttonPlay->setCheckable(true);
         buttonPlay->setUserData(cycle->getName());
         connect(buttonPlay, &CToolButton::clicked, this, &CMaintenanceMaintenanceTab::slotPlayPressed);
-        //connect(this, &CMaintenanceMaintenanceTab::signalRunCycle, CScheduler::getInstance(), &CScheduler::slotPlayMaintenance);
+        //connect(this, &CMaintenanceMaintenanceTab::signalRunCycle, CAutomate::getInstance()->getScheduler(), &CScheduler::slotPlayMaintenance);
         row->addWidget(buttonPlay);
 
         row->addSpacing(200);
@@ -106,7 +106,7 @@ void CMaintenanceMaintenanceTab::slotPlayPressed(){
             }
 
             connect(this, &CMaintenanceMaintenanceTab::signalBtStopCyclePressed, this,  &CMaintenanceMaintenanceTab::slotBtStopCyclePressed);
-            connect(CScheduler::getInstance(), &CScheduler::signalCycleIsStopped,
+            connect(CAutomate::getInstance()->getScheduler(), &CScheduler::signalCycleIsStopped,
                     this, &CMaintenanceMaintenanceTab::slotCycleStopped);
 
             m_vbbButtons->button(CToolButton::Back)->setEnabled(false);
@@ -132,7 +132,7 @@ void CMaintenanceMaintenanceTab::slotCycleStopped(const QString& arg_cycleName){
     disconnect(cycle, 0, this, 0);
     disconnect(this, 0, cycle, 0);
     disconnect(this, &CMaintenanceMaintenanceTab::signalBtStopCyclePressed, this,  &CMaintenanceMaintenanceTab::slotBtStopCyclePressed);
-    disconnect(CScheduler::getInstance(), &CScheduler::signalCycleIsStopped,
+    disconnect(CAutomate::getInstance()->getScheduler(), &CScheduler::signalCycleIsStopped,
                this, &CMaintenanceMaintenanceTab::slotCycleStopped);
     bool bTest = CAutomate::getInstance()->isCycleStoppeByAlarm();
     if(!bTest){
@@ -165,7 +165,7 @@ void CMaintenanceMaintenanceTab::slotCycleStopped(const QString& arg_cycleName){
 
 void CMaintenanceMaintenanceTab::slotBtStopCyclePressed(){
     m_isStoppedByIHM = true;
-    CScheduler::getInstance()->slotRequestStopSequence();
+    CAutomate::getInstance()->getScheduler()->slotRequestStopSequence();
 }
 
 void CMaintenanceMaintenanceTab::slotCurrentMaintenanceCycleChanged(const QString &name)

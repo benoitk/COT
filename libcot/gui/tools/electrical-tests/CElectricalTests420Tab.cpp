@@ -54,12 +54,12 @@ void CElectricalTests420Tab::slotOneOfBtTestsClicked(IVariable * arg_var){
             if(var != arg_var)
             var->setValue(false);
         }
-        if(arg_var->getName() == "var_test4mA_1")
+       if(arg_var->getName() == "var_test4mA_1")
             m_mapVar.value("var_loop1_4_20_data")->setValue(m_mapVar.value("var_loop1_4_20_min")->toInt());
        else if(arg_var->getName() == "var_test20mA_1")
             m_mapVar.value("var_loop1_4_20_data")->setValue(m_mapVar.value("var_loop1_4_20_max")->toInt());
 
-        else if(arg_var->getName() == "var_test4mA_2")
+       else if(arg_var->getName() == "var_test4mA_2")
             m_mapVar.value("var_loop2_4_20_data")->setValue(m_mapVar.value("var_loop2_4_20_min")->toInt());
        else if(arg_var->getName() == "var_test20mA_2")
             m_mapVar.value("var_loop2_4_20_data")->setValue(m_mapVar.value("var_loop2_4_20_max")->toInt());

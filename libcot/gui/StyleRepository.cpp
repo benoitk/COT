@@ -28,9 +28,9 @@ QSize StyleRepository::configuratorButtonSize()
 {
     switch (screenSize()) {
     case SevenInch:
-        return QSize(30, 30);
+        return QSize(100, 100);
     case TenInch:
-        return QSize(50, 50);
+        return QSize(100, 100);
     }
     return QSize(); // not reached
 }
@@ -50,9 +50,9 @@ QSize StyleRepository::playStopButtonSize()
 {
     switch (screenSize()) {
     case SevenInch:
-        return QSize(30, 30);
+        return QSize(90, 90);
     case TenInch:
-        return QSize(30, 30);
+        return QSize(90, 90);
     }
     return QSize(); // not reached
 }
@@ -61,7 +61,7 @@ QSize StyleRepository::verticalBarButtonSize()
 {
     switch (screenSize()) {
     case SevenInch:
-        return QSize(44, 44);
+        return QSize(65, 65);
     case TenInch:
         return QSize(65, 65);
     }
@@ -72,9 +72,9 @@ QSize StyleRepository::keyboardButtonSize()
 {
     switch (screenSize()) {
     case SevenInch:
-        return QSize(50, 50);
+        return QSize(70, 70);
     case TenInch:
-        return QSize(50, 50);
+        return QSize(70, 70);
     }
     return QSize(); // not reached
 }
@@ -110,7 +110,7 @@ void StyleRepository::installFont()
         }
 
         //qDebug() << "system font" << qApp->font().family() << "resolved to" << QFontInfo(qApp->font()).family();
-        QFont defaultFont(mainFontFamilies.at(0), 12);
+        QFont defaultFont(mainFontFamilies.at(0), 16);
         QApplication::setFont(defaultFont);
         //qDebug() << "our font" << qApp->font().family() << "resolved to" << QFontInfo(qApp->font()).family();
     }
@@ -138,14 +138,14 @@ QFont StyleRepository::tabBarFont()
 {
     QFont font = QApplication::font();
     // When changing this, ensure that the tabs of the configurator still fit ;)
-    font.setPointSize(12);
+    font.setPointSize(18);
     return font;
 }
 
 QFont StyleRepository::measureFont()
 {
     QFont font = QApplication::font();
-    font.setPointSize(24);
+    font.setPointSize(48);
     return font;
 }
 

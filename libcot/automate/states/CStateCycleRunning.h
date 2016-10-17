@@ -1,14 +1,15 @@
-#ifndef CSTATECYCLERUNNING_H
-#define CSTATECYCLERUNNING_H
+//#ifndef CSTATECYCLERUNNING_H
+//#define CSTATECYCLERUNNING_H
 
-#include "IState.h"
+//#include "IState.h"
 
-class IVariable;
-class CStateCycleRunning: public IState
-{
-    Q_OBJECT
-public:
-    CStateCycleRunning(const QVariantMap &mapSate, QObject *parent);
-};
+//class IVariable;
+//class CStateCycleRunning: public IState
+//{
+//    Q_OBJECT
+//public:
+//    CStateCycleRunning(const QVariantMap &mapSate, QObject *parent);
+//    CStateCycleRunning(QObject *parent);
+//};
 
-#endif // CSTATECYCLERUNNING_H
+//#endif // CSTATECYCLERUNNING_H

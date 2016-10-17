@@ -8,12 +8,13 @@
 class QByteArray;
 class IAction;
 class ICycle;
+class CScheduler;
 class CModelConfigFile : public QObject
 {
     Q_OBJECT
 
 public:
-    CModelConfigFile(QObject *parent);
+    CModelConfigFile(QObject *parent, CScheduler* scheduler);
     ~CModelConfigFile();
 
     QString getLabelAnalyser(const QLocale &);
@@ -32,6 +33,7 @@ private:
     QMap<QString, ICycle*> m_mapCycles;
     //QMap<QString, ICycle*> m_mapSequences;
     QList<ICycle*> m_listSequences;
+    CScheduler* m_scheduler;
 
 };
 

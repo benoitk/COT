@@ -141,6 +141,8 @@ void CCycleMesure::slotStopCycle(){
 
 void CCycleMesure::slotGetReadyForPlayNextCycle(){
     abortCycle();
+    if(m_stepStop)
+        m_stepStop->execStep();
     emit signalReadyForPlayNextCycle(this);
 }
 

@@ -119,6 +119,13 @@ void CCycleMaintenance::doValidationCopies(){
         pair.second->setValue(pair.first->toVariant());
     }
 }
+//   void CCycleMaintenance::slotRunCycle(){
+//       QMutexLocker lock(&m_mutex);
+//       CCycleMesure::slotStepFinished(arg_step);
+//       CAutomate::getInstance()->setStateWillStopEndCycle();
+
+//   }
+
 void CCycleMaintenance::slotStepFinished(CStep* arg_step){
     qCDebug(COTAUTOMATE_LOG) << "CCycleMaintenance::slotStepFinished(CStep* arg_step) ";
     QMutexLocker lock(&m_mutex);

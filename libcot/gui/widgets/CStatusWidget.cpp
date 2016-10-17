@@ -22,7 +22,7 @@ CStatusWidget::CStatusWidget(QWidget *parent)
     connect(automate, &CAutomate::signalStateRunning, this, &CStatusWidget::slotUpdateStateRunning);
     connect(automate, &CAutomate::signalStateCurrentCyclePaused, this, &CStatusWidget::slotUpdateStateCurrentCyclePaused);
     connect(automate, &CAutomate::signalStateRunningAutoCalibration, this, &CStatusWidget::slotUpdateStateRunningAutoCalibration);
-    connect(automate, &CAutomate::signalStateRunningWillStioEndCycle, this, &CStatusWidget::slotUpdateStateRunningWillStioEndCycle);
+    connect(automate, &CAutomate::signalStateRunningWillStopEndCycle, this, &CStatusWidget::slotUpdateStateRunningWillStioEndCycle);
     connect(automate, &CAutomate::signalStateWaiting, this, &CStatusWidget::slotUpdateStateWaiting);
     connect(automate, &CAutomate::signalUpdateCurrentStream,
             this, &CStatusWidget::slotUpdateCurrentStream);

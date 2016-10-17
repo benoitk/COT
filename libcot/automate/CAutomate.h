@@ -3,7 +3,7 @@
 
 #include "IComObserver.h"
 
-// KDAB: Remove me
+
 #include "CVariableFloat.h"
 #include "CVariableBool.h"
 #include "CVariableString.h"
@@ -14,6 +14,7 @@
 #include "CVariableOutputBool.h"
 #include "CVariableOutputFloat.h"
 #include "CVariableOutputInt.h"
+#include "CState.h"
 
 #include <QObject>
 #include <QStringList>
@@ -36,7 +37,6 @@ class IOrgan;
 class CVariableStream;
 class CThreadDiag;
 class CVariableMeasure;
-
 class CAutomate : public QObject, IComObserver
 {
     Q_OBJECT
@@ -80,13 +80,21 @@ public:
     CVariableStream *getMeasureStream(CVariableMeasure *measure) const;
     //FIN API
 
-    static QString formatHistoryEntry(const QString &name, const QDateTime &dateTime);
+    CState* getStateInMaintenance();
+    CState* getStateIsRunning();
+    CState* getStateCurrentCycleIsPaused();
+    CState* getStateWillStopEndCycle();
+    CState* getStateCycleAutoRunning();
 
+    void setStateWillStopEndCycle(bool);
+    void setStateCycleAutoRunning(bool);
+    void setStateIsRunning(bool);
+    void setStateCurrentCycleIsPaused(bool);
+
+    static QString formatHistoryEntry(const QString &name, const QDateTime &dateTime);
 
     enum eStateStream{STREAM_DEFAULT, WATER_DEFAULT, ACTIVE, INACTIVE};
     static CAutomate* getInstance();
-
-
 
     void setDisplayConf(CDisplayConf*);
 
@@ -213,7 +221,7 @@ signals:
 
     //signals de mise à jours des états de l'automate TODO : virer l'enum stateAutomate
     void signalStateRunning(bool);
-    void signalStateRunningWillStioEndCycle(bool);
+    void signalStateRunningWillStopEndCycle(bool);
     void signalStateCurrentCyclePaused(bool);
     void signalStateRunningAutoCalibration(bool);
     void signalStateRunningAutoBlank(bool);
@@ -225,7 +233,15 @@ protected slots:
 
 private:
 
-    bool m_isInMaintenanceMode;
+//    bool m_isInMaintenanceMode;
+
+    CState m_stateInMaintenance;
+    CState m_stateCycleIsRunning;
+    CState m_stateCurrentCycleIsPaused;
+    CState m_stateWillStopEndCycle;
+    CState m_stateCycleAutoRunning;
+
+
     CVariableBool* m_localControlForced;
 
     //Gestion redémarage du cycle en cas d'arrêt du à une alarm

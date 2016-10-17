@@ -24,6 +24,7 @@ CDialogPassword::CDialogPassword(QWidget*  parent): CDialog(parent)
     m_lblValue->setEchoMode(QLineEdit::Password);
     m_lblValue->setEnabled(false);
     m_lblValue->setObjectName("lineEditPwd");
+    m_lblValue->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
     //: Virgule à changer en point pour les nombres
     m_btComma = new CKeyboardNormalButton(CKeyboardButtonBase::Numeric, this);
     m_btComma->setCharacter(',');

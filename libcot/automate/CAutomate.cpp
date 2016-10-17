@@ -25,6 +25,7 @@
 #include "CCommandPlayStopCycle.h"
 #include "CCommandStopEndCycle.h"
 
+
 #include "cotautomate_debug.h"
 #include "qtimer.h"
 #include "qfile.h"
@@ -46,11 +47,14 @@ CAutomate* CAutomate::getInstance(){
     return singleton;
 }
 
-CAutomate::CAutomate()
+CAutomate::CAutomate():
+    m_stateInMaintenance(this), m_stateCurrentCycleIsPaused(this), m_stateCycleIsRunning(this),
+    m_stateWillStopEndCycle(this), m_stateCycleAutoRunning(this)
 {
     m_debug = false;
     m_schedulerStoppedFromIHM = false;
-    m_isInMaintenanceMode = false;
+//    m_isInMaintenanceMode = false; //remplacé par m_stateInMaintenance
+    m_stateInMaintenance.setState(false);
     m_lang = "en_US";
     m_countBeforeCheckLogFileToDelete = 0;
 //    m_stateScheduler = CYCLE_STATE_STOP;
@@ -99,12 +103,22 @@ void CAutomate::setDebug(bool arg_debug){
 void CAutomate::initConfig(){
 
 }
+
+
+CState* CAutomate::getStateInMaintenance(){return &m_stateInMaintenance;}
+CState* CAutomate::getStateIsRunning(){return &m_stateCycleIsRunning;}
+CState* CAutomate::getStateCurrentCycleIsPaused(){return &m_stateCurrentCycleIsPaused;}
+CState* CAutomate::getStateWillStopEndCycle(){return &m_stateWillStopEndCycle;}
+CState* CAutomate::getStateCycleAutoRunning(){return &m_stateCycleAutoRunning;}
+
+
+
 void CAutomate::slotStartAutomate(){
     m_scheduler = CScheduler::getInstance();
     connect(m_scheduler, &CScheduler::signalUpdated, this, &CAutomate::signalSchedulerUpdated);
     m_threadDiag = new CThreadDiag(this);
 
-    CModelConfigFile configFile(this);
+    CModelConfigFile configFile(this, m_scheduler);
     (dynamic_cast<CCommandPlayStopCycle*>(m_commandPlayStop))->setOtherCmdStop((dynamic_cast<CCommandPlayStopCycle*>(m_commandStopEndCycle)));
     (dynamic_cast<CCommandPlayStopCycle*>(m_commandStopEndCycle))->setOtherCmdStop((dynamic_cast<CCommandPlayStopCycle*>(m_commandPlayStop)));
     if(m_debug)
@@ -547,7 +561,8 @@ bool CAutomate::requestPlayMaintenance(const QString &  arg_cycleName){
 }
 
 void CAutomate::enterMaintenanceMode(){
-    m_isInMaintenanceMode = true;
+    //m_isInMaintenanceMode = true; remplacé par m_stateInMaintenance.setState(true);
+    m_stateInMaintenance.setState(true);
     m_localControlForced->setValue(true);
     requestStopScheduler();
 }
@@ -555,7 +570,8 @@ void CAutomate::enterMaintenanceMode(){
 void CAutomate::exitMaintenanceMode(){
     acquitAlarms();
     m_localControlForced->setValue(false);
-    m_isInMaintenanceMode = false;
+    //m_isInMaintenanceMode = false;  remplacé par m_stateInMaintenance.setState(false);
+    m_stateInMaintenance.setState(false);
 }
 
 void CAutomate::requestStopScheduler(){
@@ -568,15 +584,33 @@ void CAutomate::requestStopEndCycleScheduler(){
     if(m_mapAlarmWhichStoppedScheduler.isEmpty())
         m_scheduler->slotRequestStopEndCycleSequence();
 }
+//Si la request à réussi, confirmation ici
+void CAutomate::setStateWillStopEndCycle(bool arg){
+    if(arg)
+        emit signalStateRunningWillStopEndCycle(true);
+    else
+        setStateIsRunning(true); //emit signalStateRunning(true);
+    m_stateWillStopEndCycle.setState(arg);
+}
 void CAutomate::requestCancelStopEndCycleScheduler(){
     if(m_mapAlarmWhichStoppedScheduler.isEmpty())
         m_scheduler->slotRequestCancelStopSequenceEndCycle();
 }
-
+void CAutomate::setStateCycleAutoRunning(bool arg){
+     m_stateCycleAutoRunning.setState(arg);
+}
+void CAutomate::setStateIsRunning(bool arg){
+     m_stateCycleIsRunning.setState(arg);
+     emit CAutomate::getInstance()->signalStateRunning(arg);
+}
+void CAutomate::setStateCurrentCycleIsPaused(bool arg){
+    m_stateCurrentCycleIsPaused.setState(arg);
+}
 void CAutomate::stopScheduler(){
 
         m_scheduler->slotRequestStopSequence();
 }
+//TODO : redondance avec state running
 bool CAutomate::isCyclesRunning(){
     return m_scheduler->isCyclesRunning();
 }
@@ -602,7 +636,7 @@ void CAutomate::requestStopFromNewAlarm(CVariableAlarm* arg_alarm){
 void CAutomate::restartFromCanceledAlarm(CVariableAlarm* arg_alarm){
     if(m_mapAlarmWhichStoppedScheduler.remove(arg_alarm->getName())
             && m_mapAlarmWhichStoppedScheduler.isEmpty()
-            && !m_schedulerStoppedFromIHM && !m_isInMaintenanceMode){
+            && !m_schedulerStoppedFromIHM && !m_stateInMaintenance.getState()){ //!m_isInMaintenanceMode){ remplacé par m_stateInMaintenance
         requestPlayScheduler();
     }
 
@@ -853,7 +887,7 @@ CVariableMeasure *CAutomate::getMeasure(const QString &name) const
 void CAutomate::slotNewAlarm(CVariableAlarm* arg_alarm){
     switch(arg_alarm->getAlarmType()){
     case e_not_critical_error_skip_cycle_try_again:
-        if(m_isInMaintenanceMode )
+        if(m_stateInMaintenance.getState()) //if(m_isInMaintenanceMode ) remplacé par m_stateInMaintenance
             requestStopFromNewAlarm(arg_alarm);
         else
             requestPlayNextSequenceMesure();
@@ -1151,6 +1185,15 @@ void CAutomate::slotSerializeAndSave(){
 
     }
 
+    //states
+    {
+        QVariantList listTmp;
+        listTmp.append(m_stateInMaintenance.serialize());
+        listTmp.append(m_stateCycleIsRunning.serialize());
+        listTmp.append(m_stateCurrentCycleIsPaused.serialize());
+        mapSerialize.insert(QStringLiteral("states"), listTmp);
+    }
+
     QJsonDocument doc = QJsonDocument::fromVariant(mapSerialize);
     QFile jsonFile(QString::fromLocal8Bit(JSON_DIRECTORY "/save.json"));
 
@@ -1177,7 +1220,11 @@ void CAutomate::slotLogVariable(IVariable* arg_var){
     if(!dir.exists()){
         dir.mkdir(dirPath);
     }
-    QString path = dirPath+ "/log_"+QDate::currentDate().toString(Qt::ISODate)+".txt";
+    QString path;
+    if(arg_var->getType() == e_type_alarm)
+        path= dirPath+ "/log_alarm_"+QDate::currentDate().toString(Qt::ISODate)+".txt";
+    else
+        path= dirPath+ "/log_"+QDate::currentDate().toString(Qt::ISODate)+".txt";
     QFile data(path);
     if (data.open(QFile::Append)) {
         QTextStream out(&data);
@@ -1207,7 +1254,7 @@ void CAutomate::slotLogVariable(IVariable* arg_var){
 
 void CAutomate::slotLogVariable(){
     QMutexLocker locker(&m_mutex);
-    QTimer::singleShot(1000, this, SLOT(slotLogVariable()));
+    QTimer::singleShot(200, this, SLOT(slotLogVariable()));
     QString dirPath = QString(LOG_SOURCE_DIRECTORY);
     QDir dir = QDir(dirPath);
     if(!dir.exists()){
