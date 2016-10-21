@@ -8,14 +8,14 @@ class IVariable;
 
 typedef IVariable* IVariablePtr;
 typedef QList<IVariablePtr> IVariablePtrList;
-
+class CAutomate;
 class CGenericVariablesEditor : public IScrollableUIWidget
 {
     Q_OBJECT
 
 public:
     typedef bool (*ValidatorFunc)(CGenericVariablesEditor *editor, void *userData1, void *userData2);
-    explicit CGenericVariablesEditor(QWidget *parent = Q_NULLPTR);
+    explicit CGenericVariablesEditor(CAutomate* arg_automate, QWidget *parent = Q_NULLPTR);
 
     IVariable *getVariable(const QString &name) const;
 

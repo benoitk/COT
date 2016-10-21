@@ -6,10 +6,11 @@
 
 #include <CAutomate.h>
 
-CEditInBindsUIHandler::CEditInBindsUIHandler(CScrollableWidget *scrollable, QObject *parent)
-    : IConfiguratorUIHandler(scrollable, parent)
+CEditInBindsUIHandler::CEditInBindsUIHandler(CAutomate* arg_automate,CScrollableWidget *scrollable, QObject *parent)
+    : IConfiguratorUIHandler(arg_automate, scrollable, parent)
+    , m_automate(arg_automate)
 {
-    setDescriber(new CVariableIVariableInBindsDescriber(this));
+    setDescriber(new CVariableIVariableInBindsDescriber(arg_automate,this));
 }
 
 CEditInBindsUIHandler::~CEditInBindsUIHandler()
@@ -49,8 +50,8 @@ void CEditInBindsUIHandler::rowInserted(const IVariableUIHandler::Row &row, IVar
 
 void CEditInBindsUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariable *ivar)
 {
-    CAutomate *automate = CAutomate::getInstance();
+
     applyEditorConstraints(row.widgetAt<CPushButton *>(1), ivar);
     row.widgetAt<CClickableLabel *>(0)->setText(tr("Source"));
-    row.widgetAt<CPushButton *>(1)->setText(automate->getVariable(ivar->toString())->getLabel());
+    row.widgetAt<CPushButton *>(1)->setText(m_automate->getVariable(ivar->toString())->getLabel());
 }

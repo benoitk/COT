@@ -35,6 +35,7 @@ enum enumVariableOrganType {
 class CUnit;
 class CVariableMeasure;
 class ICom;
+class CAutomate;
 //Interface pour toute les variables de l'automate
 class IVariable : public QObject
 {
@@ -46,9 +47,9 @@ class IVariable : public QObject
 public:
     static int FLOAT_PRECISION;
 
-    IVariable(QObject *parent);
-    IVariable(const QVariantMap&);
-    IVariable();
+    IVariable(CAutomate* arg_automate, QObject *parent);
+    IVariable(const QVariantMap&, CAutomate* arg_automate, QObject* parent);
+   // IVariable();
     virtual ~IVariable() {}
     virtual enumVariableOrganType getOrganType() const;
     virtual QVariant toVariant()=0;
@@ -96,6 +97,8 @@ public:
 
     virtual void setAddress(int address);
     virtual void setAccess(enumVariableAccess access);
+
+    virtual CAutomate* getAutomate();
 protected:
 
     template<typename T> T setValue(T arg_value, T arg_valueMin, T arg_valueMax){
@@ -127,6 +130,8 @@ protected:
     CUnit* m_unit;
     QMutex m_mutex;
     QList<ICom*> m_coms;
+
+    CAutomate* m_automate;
 
 };
 

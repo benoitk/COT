@@ -12,8 +12,8 @@ class CVariableInputFloat : public CVariableFloat, public IVariableInput
     Q_OBJECT
 
 public:
-    CVariableInputFloat(QObject *parent = Q_NULLPTR);
-    CVariableInputFloat(const QMap<QString, QVariant> &mapVar);
+    CVariableInputFloat(CAutomate* arg_automate, QObject *parent = Q_NULLPTR);
+    CVariableInputFloat(const QMap<QString, QVariant> &mapVar, CAutomate* arg_automate, QObject *parent);
     ~CVariableInputFloat();
 
     //IVariableInput

@@ -2,17 +2,18 @@
 #define CINITIALTESTWINDOW_H
 
 #include <CDialog.h>
-#include "QTimer";
+#include "QTimer"
 
 #include "cot_global.h"
 
 class IVariableUIHandler;
 class QAction;
+class CAutomate;
 class LIBCOT_EXPORT CInitialTestsWindow : public CDialog
 {
     Q_OBJECT
 public:
-    explicit CInitialTestsWindow(QWidget *parent = 0);
+    explicit CInitialTestsWindow(CAutomate* arg_automate, QWidget *parent = 0);
 
 signals:
 
@@ -30,6 +31,7 @@ private:
 
     QAction* m_actBack;
     QTimer m_timerTests;
+    CAutomate* m_automate;
 };
 
 #endif // CINITIALTESTWINDOW_H

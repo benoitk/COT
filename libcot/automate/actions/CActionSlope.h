@@ -9,7 +9,7 @@ class CActionSlope : public IAction, QRunnable
 {
     Q_OBJECT
 public:
-    CActionSlope(const QVariantMap&, QObject *parent);
+    CActionSlope(const QVariantMap&, CAutomate *parent);
     ~CActionSlope();
 
     void run() Q_DECL_OVERRIDE; //fom QRunnable

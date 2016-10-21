@@ -18,14 +18,16 @@ In both cases, if there's any step (in 10, 11, 12 or 13) in the middle of the in
 they should be moved to after the inserted range (e.g. 14, 15, 16, 17), by moving everything after the
 inserted range by the same offset (e.g. 25 becomes 28). But this logic should be in the automat.
 => needs API in cycle for copy(begin, end, destination) and API for move(begin, end, destination)
-*/
+//TOUT Le principe d'édition est a refaire.
 
+*/
+class CAutomate;
 class CEditStepListTab : public IConfiguratorEditTab
 {
     Q_OBJECT
 
 public:
-    explicit CEditStepListTab(ICycle *cycle, QWidget *parent = Q_NULLPTR);
+    explicit CEditStepListTab(CAutomate* arg_automate, ICycle *cycle, QWidget *parent = Q_NULLPTR);
 
     void applyProperties(const QVariant &object) Q_DECL_OVERRIDE;
 
@@ -45,6 +47,8 @@ private:
     void moveSteps(const QList<CStepWidget *> &stepWidgets, float to);
     void reorderStepWidgets(CStepWidget *ensureVisibleStep = Q_NULLPTR);
     bool hasExistingInterval(float interval, CStepWidget *byPass = Q_NULLPTR) const;
+
+    CAutomate* m_automate;
 
 private slots:
     void slotMoveUp();

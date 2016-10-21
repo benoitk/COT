@@ -14,7 +14,7 @@ class CActionCmdPompe : public IAction
 
 public:
 
-    CActionCmdPompe(const QVariantMap &, QObject *parent);
+    CActionCmdPompe(const QVariantMap &, CAutomate *parent);
 
     ~CActionCmdPompe();
 

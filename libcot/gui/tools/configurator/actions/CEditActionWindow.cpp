@@ -8,17 +8,18 @@
 #include <CActionBlock.h>
 #include <CCycleAutonome.h>
 
-CEditActionWindow::CEditActionWindow(IAction *action, QWidget *parent)
+CEditActionWindow::CEditActionWindow(CAutomate* arg_automate, IAction *action, QWidget *parent)
     : IConfiguratorEditWindow(QVariant::fromValue(action), parent)
-    , m_ceditActionTab(new CEditActionTab(action, this))
+    , m_ceditActionTab(new CEditActionTab(arg_automate, action, this))
     , m_ceditActionStepsTab(Q_NULLPTR)
     , m_action(action)
+    , m_automate(arg_automate)
 {
     addTab(m_ceditActionTab);
 
     if (action->getType() == type_block) {
         CActionBlock *ab = qobject_cast<CActionBlock *>(action);
-        m_ceditActionStepsTab = new CEditStepListTab(ab->getCycle(), this);
+        m_ceditActionStepsTab = new CEditStepListTab(arg_automate, ab->getCycle(), this);
         addTab(m_ceditActionStepsTab);
     }
     initBaseWindow();
@@ -44,13 +45,12 @@ void CEditActionWindow::slotOkTriggered()
 {
     applyProperties();
 
-    CAutomate *automate = CAutomate::getInstance();
     IAction *action = editedObject().value<IAction *>();
     Q_ASSERT(action);
-    const bool isNew = !automate->getListActions().contains(action);
+    const bool isNew = !m_automate->getListActions().contains(action);
 
     if (isNew) {
-        automate->addAction(action, true);
+        m_automate->addAction(action, true);
     }
 
     close();
@@ -60,8 +60,7 @@ void CEditActionWindow::slotCancelTriggered()
 {
     IAction *action = editedObject().value<IAction *>();
     Q_ASSERT(action);
-    CAutomate *automate = CAutomate::getInstance();
-    const bool isNew = !automate->getListActions().contains(action);
+    const bool isNew = !m_automate->getListActions().contains(action);
 
     if (isNew) {
         delete action;

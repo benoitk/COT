@@ -10,15 +10,16 @@
 #include <CVariableStream.h>
 #include <CCycleFactory.h>
 
-CConfiguratorCycleTab::CConfiguratorCycleTab(QWidget *parent)
+CConfiguratorCycleTab::CConfiguratorCycleTab(CAutomate* arg_automate, QWidget *parent)
     : IConfiguratorTab(parent)
-    , m_handler(new CConfiguratorCycleTabUIHandler(scrollableWidget(), this))
+    , m_handler(new CConfiguratorCycleTabUIHandler(arg_automate, scrollableWidget(), this))
+    , m_automate(arg_automate)
 {
     slotUpdateLayout();
 
     connect(buttonBar()->addAction(CToolButton::Add), &QAction::triggered, this, &CConfiguratorCycleTab::slotAddCycle);
-    connect(CAutomate::getInstance(), &CAutomate::signalStreamsUpdated, this, &CConfiguratorCycleTab::slotUpdateLayout);
-    connect(CAutomate::getInstance(), &CAutomate::signalCyclesUpdated, this, &CConfiguratorCycleTab::slotUpdateLayout);
+    connect(arg_automate, &CAutomate::signalStreamsUpdated, this, &CConfiguratorCycleTab::slotUpdateLayout);
+    connect(arg_automate, &CAutomate::signalCyclesUpdated, this, &CConfiguratorCycleTab::slotUpdateLayout);
     initBaseTab();
 }
 
@@ -40,12 +41,11 @@ void CConfiguratorCycleTab::slotAddCycle()
     cycle->setName(CVariableFactory::buildTemporaryName(QStringLiteral("new_cycle")));
     cycle->setLbl(tr("New cycle"));
 
-    CAutomate * automate = CAutomate::getInstance();
-    CVariableStream * stream = automate->getStream(streamName);
-    automate->changeCycleStream(cycle, stream);
+    CVariableStream * stream = m_automate->getStream(streamName);
+    m_automate->changeCycleStream(cycle, stream);
 
     // Edit the new cycle
-    CPCWindow::openModal<CEditCycleWindow>(cycle);
+    CPCWindow::openModal<CEditCycleWindow>(m_automate, cycle);
 }
 
 void CConfiguratorCycleTab::slotUpdateLayout()

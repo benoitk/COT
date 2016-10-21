@@ -7,11 +7,15 @@
 class ICycle;
 class CControlerCycle;
 class ISequenceMaintenanceAuto;
+class CAutomate;
 class CScheduler : public QObject
 {
     Q_OBJECT
 
 public:
+
+    CScheduler(CAutomate *parent);
+    ~CScheduler();
 
     bool isCyclesRunning();
 
@@ -45,14 +49,12 @@ public:
 
     //FIN API
 
-    static CScheduler* getInstance();
-
     void apendSequenceMeasureRunCycle(ICycle*, int nbCycle);
     //void apendSequenceMesureRunCycle(CControlerCycle*, int nbCycle);
     void apendSequenceMeasurePause(int minute);
 
     QString getCycleInProgressName();
-
+    CAutomate* getAutomate();
 
 public slots:
     void slotRequestPlaySequenceMesure(); //démarre ou redémarre
@@ -93,8 +95,7 @@ signals:
     void signalCycleIsRunning(const QString&);
 
 private:
-    CScheduler();
-    ~CScheduler();
+
 
     void disconnectCycle(ICycle*);
 
@@ -116,6 +117,8 @@ private:
 
     bool m_haveToStopEndCycle;
     ICycle* m_cycleEnCours;
+
+    CAutomate* m_automate;
 };
 
 
@@ -128,15 +131,16 @@ public :
     virtual QVariantMap serialize()=0;
     virtual ICycle* getCycle();
 public:
-    ISequenceMaintenanceAuto(const QVariantMap&,  QObject *parent);
+    ISequenceMaintenanceAuto(const QVariantMap&,  CScheduler *parent);
 protected:
     ICycle* m_cycle;
+    CScheduler* m_scheduler;
 };
 class IVariable;
 class CSequenceMaintenanceAutoEveryNCycles : public ISequenceMaintenanceAuto
 {
 public:
-    CSequenceMaintenanceAutoEveryNCycles(const QVariantMap&,  QObject *parent);
+    CSequenceMaintenanceAutoEveryNCycles(const QVariantMap&,  CScheduler *parent);
     bool haveToBeRun() Q_DECL_OVERRIDE;
     void reset() Q_DECL_OVERRIDE;
     QVariantMap serialize() Q_DECL_OVERRIDE;
@@ -147,7 +151,7 @@ public:
 class CSequenceMaintenanceAutoUnknow : public ISequenceMaintenanceAuto
 {
 public:
-    CSequenceMaintenanceAutoUnknow(const QVariantMap&,  QObject *parent);
+    CSequenceMaintenanceAutoUnknow(const QVariantMap&,  CScheduler *parent);
     bool haveToBeRun() Q_DECL_OVERRIDE;
     void reset() Q_DECL_OVERRIDE;
     QVariantMap serialize() Q_DECL_OVERRIDE;
@@ -156,7 +160,7 @@ class CSequenceMaintenanceFactory : public QObject
 {
     Q_OBJECT
 public:
-    static ISequenceMaintenanceAuto* build(const QVariantMap&,  QObject *parent);
+    static ISequenceMaintenanceAuto* build(const QVariantMap&,  CScheduler *parent);
 };
 
 #endif // CSCHEDULER_H

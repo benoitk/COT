@@ -11,9 +11,9 @@ class CVariableBool : public IVariable
     Q_OBJECT
 
 public:
-    CVariableBool(QObject *parent = Q_NULLPTR);
-    CVariableBool(const QVariantMap&);
-    CVariableBool(bool, int = 0, enumVariableAccess =e_access_read);
+    CVariableBool(CAutomate* arg_automate, QObject *parent = Q_NULLPTR);
+    CVariableBool(const QVariantMap&, CAutomate* arg_automate, QObject* parent);
+    CVariableBool(CAutomate* arg_automate, QObject *parent,bool, int = 0, enumVariableAccess =e_access_read);
     ~CVariableBool();
 
     QString toString() Q_DECL_OVERRIDE;

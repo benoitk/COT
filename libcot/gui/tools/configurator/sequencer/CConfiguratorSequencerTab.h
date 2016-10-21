@@ -4,13 +4,13 @@
 #include "IConfiguratorTab.h"
 
 class ConfiguratorSequencerUIHandler;
-
+class CAutomate;
 class CConfiguratorSequencerTab : public IConfiguratorTab
 {
     Q_OBJECT
 
 public:
-    explicit CConfiguratorSequencerTab(QWidget *parent = Q_NULLPTR);
+    explicit CConfiguratorSequencerTab(CAutomate* arg_automate, QWidget *parent = Q_NULLPTR);
 
 private slots:
     void slotUpdateLayout();
@@ -18,6 +18,7 @@ private slots:
 
 private:
     ConfiguratorSequencerUIHandler *m_handler;
+    CAutomate* m_automate;
 };
 
 #endif // CCONFIGURATORSEQUENCERTAB_H

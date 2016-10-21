@@ -29,14 +29,8 @@
 #include <QDebug>
 #include "cotgui_debug.h"
 
-/*
-// Read / Write
-VariableOrganTypeNone
-// Write Only
-VariableOrganTypeOutput
-//Read Only
-VariableOrganTypeInput
-*/
+
+//TODO  virer ce WTF imbitable : API
 
 namespace {
 typedef QPair<QString, QVariant> PairStringString;
@@ -54,181 +48,184 @@ private:
 };
 
 IVariablePtrList buildTemporaryString(const PairPairStringStringList& pairs) {
-    IVariablePtrList ivars;
+//TODO API de l'automate, Un jour peut être.
+//    IVariablePtrList ivars;
 
-    foreach (const PairPairStringString& pair, pairs) {
-        ivars << CVariableFactory::buildTemporary(pair.first, pair.second.first, pair.second.second, e_type_string);
-    }
+//    CAutomate* automate = CAutomate::getInstance();
+//    foreach (const PairPairStringString& pair, pairs) {
+//        ivars << CVariableFactory::buildTemporary(automate, automate, pair.first, pair.second.first, pair.second.second, e_type_string);
+//    }
 
-    return ivars;
+//    return ivars;
 }
 
 IVariablePtrList buildActionType() {
     // SERES_TODO: Provide api (COT-54)
     // Note: this relates to CActionFactory::build()
-    return buildTemporaryString(PairPairStringStringList()
-                                    << PairPairStringString("type_block", qMakePair(IAction::typeToString(type_block), type_block))
-                                    << PairPairStringString("type_cmd_pump", qMakePair(IAction::typeToString(type_cmd_pump), type_cmd_pump))
-                                    << PairPairStringString("type_cmd_digital_output", qMakePair(IAction::typeToString(type_cmd_digital_output), type_cmd_digital_output))
-                                    << PairPairStringString("type_rewrite_output", qMakePair(IAction::typeToString(type_rewrite_output), type_rewrite_output))
-                                    << PairPairStringString("type_cmd_dc_engine", qMakePair(IAction::typeToString(type_cmd_dc_engine), type_cmd_dc_engine))
-                                    << PairPairStringString("type_cmd_read_input", qMakePair(IAction::typeToString(type_cmd_read_input), type_cmd_read_input))
-                                    << PairPairStringString("type_test", qMakePair(IAction::typeToString(type_test), type_test))
-                                    << PairPairStringString("type_acquisition_cit_npoc", qMakePair(IAction::typeToString(type_acquisition_cit_npoc), type_acquisition_cit_npoc))
-                                    << PairPairStringString("type_block", qMakePair(IAction::typeToString(type_block), type_block))
-                                    << PairPairStringString("type_block", qMakePair(IAction::typeToString(type_block), type_block))
-                                    << PairPairStringString("type_block", qMakePair(IAction::typeToString(type_block), type_block))
-                                );
+//    return buildTemporaryString(PairPairStringStringList()
+//                                    << PairPairStringString("type_block", qMakePair(IAction::typeToString(type_block), type_block))
+//                                    << PairPairStringString("type_cmd_pump", qMakePair(IAction::typeToString(type_cmd_pump), type_cmd_pump))
+//                                    << PairPairStringString("type_cmd_digital_output", qMakePair(IAction::typeToString(type_cmd_digital_output), type_cmd_digital_output))
+//                                    << PairPairStringString("type_rewrite_output", qMakePair(IAction::typeToString(type_rewrite_output), type_rewrite_output))
+//                                    << PairPairStringString("type_cmd_dc_engine", qMakePair(IAction::typeToString(type_cmd_dc_engine), type_cmd_dc_engine))
+//                                    << PairPairStringString("type_cmd_read_input", qMakePair(IAction::typeToString(type_cmd_read_input), type_cmd_read_input))
+//                                    << PairPairStringString("type_test", qMakePair(IAction::typeToString(type_test), type_test))
+//                                    << PairPairStringString("type_acquisition_cit_npoc", qMakePair(IAction::typeToString(type_acquisition_cit_npoc), type_acquisition_cit_npoc))
+//                                    << PairPairStringString("type_block", qMakePair(IAction::typeToString(type_block), type_block))
+//                                    << PairPairStringString("type_block", qMakePair(IAction::typeToString(type_block), type_block))
+//                                    << PairPairStringString("type_block", qMakePair(IAction::typeToString(type_block), type_block))
+//                                );
 }
 
 IVariablePtrList buildVariableTypes() {
     // SERES_TODO: Provide api (COT-55)
-    return buildTemporaryString(PairPairStringStringList() <<
-                                    PairPairStringString("type_bool", qMakePair(IVariableUIHandler::tr("Boolean"), e_type_bool)) <<
-                                    PairPairStringString("type_float", qMakePair(IVariableUIHandler::tr("Float"), e_type_float)) <<
-                                    PairPairStringString("type_int", qMakePair(IVariableUIHandler::tr("Integer"), e_type_int)) <<
-                                    PairPairStringString("type_string", qMakePair(IVariableUIHandler::tr("String"), e_type_string)) <<
-                                    PairPairStringString("type_stream", qMakePair(IVariableUIHandler::tr("Stream"), e_type_stream))
-                                );
+//    return buildTemporaryString(PairPairStringStringList() <<
+//                                    PairPairStringString("type_bool", qMakePair(IVariableUIHandler::tr("Boolean"), e_type_bool)) <<
+//                                    PairPairStringString("type_float", qMakePair(IVariableUIHandler::tr("Float"), e_type_float)) <<
+//                                    PairPairStringString("type_int", qMakePair(IVariableUIHandler::tr("Integer"), e_type_int)) <<
+//                                    PairPairStringString("type_string", qMakePair(IVariableUIHandler::tr("String"), e_type_string)) <<
+//                                    PairPairStringString("type_stream", qMakePair(IVariableUIHandler::tr("Stream"), e_type_stream))
+//                                );
 }
 
 IVariablePtrList buildOrganTypes() {
     // SERES_TODO: Provide api (COT-56)
-    return buildTemporaryString(PairPairStringStringList() <<
-                                    PairPairStringString("VariableOrganTypeNone", qMakePair(IVariableUIHandler::tr("None"), e_type_organ_none)) <<
-                                    PairPairStringString("VariableOrganTypeInput", qMakePair(IVariableUIHandler::tr("Input"), e_type_organ_input)) <<
-                                    PairPairStringString("VariableOrganTypeOutput", qMakePair(IVariableUIHandler::tr("Output"), e_type_organ_output))
-                                );
+//    return buildTemporaryString(PairPairStringStringList() <<
+//                                    PairPairStringString("VariableOrganTypeNone", qMakePair(IVariableUIHandler::tr("None"), e_type_organ_none)) <<
+//                                    PairPairStringString("VariableOrganTypeInput", qMakePair(IVariableUIHandler::tr("Input"), e_type_organ_input)) <<
+//                                    PairPairStringString("VariableOrganTypeOutput", qMakePair(IVariableUIHandler::tr("Output"), e_type_organ_output))
+//                                );
 }
 
 
 IVariablePtrList buildCycleTypes() {
     // SERES_TODO: Provide api (COT-57)
-    return buildTemporaryString(PairPairStringStringList() <<
-                                    PairPairStringString("CYCLE_MESURE", qMakePair(IVariableUIHandler::tr("Measure"), e_cycle_measure)) <<
-                                    PairPairStringString("CYCLE_AUTONOME", qMakePair(IVariableUIHandler::tr("Autonome"), e_cycle_autonome)) <<
-                                    PairPairStringString("CYCLE_MAINTENANCE", qMakePair(IVariableUIHandler::tr("Maintenance"), e_cycle_maintenance)) <<
-                                    PairPairStringString("CYCLE_PAUSE", qMakePair(IVariableUIHandler::tr("Pause"), e_cycle_pause))
-                                );
+//    return buildTemporaryString(PairPairStringStringList() <<
+//                                    PairPairStringString("CYCLE_MESURE", qMakePair(IVariableUIHandler::tr("Measure"), e_cycle_measure)) <<
+//                                    PairPairStringString("CYCLE_AUTONOME", qMakePair(IVariableUIHandler::tr("Autonome"), e_cycle_autonome)) <<
+//                                    PairPairStringString("CYCLE_MAINTENANCE", qMakePair(IVariableUIHandler::tr("Maintenance"), e_cycle_maintenance)) <<
+//                                    PairPairStringString("CYCLE_PAUSE", qMakePair(IVariableUIHandler::tr("Pause"), e_cycle_pause))
+//                                );
 }
 
 IVariablePtrList buildVariables() {
-    CAutomate *automate = CAutomate::getInstance();
-    return automate->getMapVariables().values();
+//    CAutomate *automate = CAutomate::getInstance();
+//    return automate->getMapVariables().values();
 }
 
 //IVariablePtrList buildStreams() {
 QList<CVariableStream*> buildStreams() {
-CAutomate *automate = CAutomate::getInstance();
-    return automate->getListStreams();
+//CAutomate *automate = CAutomate::getInstance();
+//    return automate->getListStreams();
 }
 
 IVariablePtrList buildMeasures() {
-    const QList<CVariableStream*> streams = buildStreams();
-    IVariablePtrList ivars;
+//    const QList<CVariableStream*> streams = buildStreams();
+//    IVariablePtrList ivars;
 
-    foreach (CVariableStream *streamVar, streams) {
-        ivars << streamVar->getListMeasures();
-    }
+//    foreach (CVariableStream *streamVar, streams) {
+//        ivars << streamVar->getListMeasures();
+//    }
 
-    return ivars;
+//    return ivars;
 }
 
 IVariablePtrList buildCycles() {
-    CAutomate *automate = CAutomate::getInstance();
-    const QList<ICycle *> cycles = automate->getListCycles();
-    IVariablePtrList ivars;
+//    CAutomate *automate = CAutomate::getInstance();
+//    const QList<ICycle *> cycles = automate->getListCycles();
+//    IVariablePtrList ivars;
 
-    foreach (ICycle *cycle, cycles) {
-        ivars << CVariableFactory::buildTemporary(cycle->getName(), cycle->getLabel(), e_type_string);
-    }
+//    foreach (ICycle *cycle, cycles) {
+//        ivars << CVariableFactory::buildTemporary(automate, automate, cycle->getName(), cycle->getLabel(), e_type_string);
+//    }
 
-    return ivars;
+//    return ivars;
 }
 
 IVariablePtrList buildActions() {
-    CAutomate *automate = CAutomate::getInstance();
-    const QList<IAction *> actions = automate->getListActions();
-    IVariablePtrList ivars;
+//    CAutomate *automate = CAutomate::getInstance();
+//    const QList<IAction *> actions = automate->getListActions();
+//    IVariablePtrList ivars;
 
-    foreach (IAction *action, actions) {
-        ivars << CVariableFactory::buildTemporary(action->getName(), action->getLabel(), e_type_string);
-    }
+//    foreach (IAction *action, actions) {
+//        ivars << CVariableFactory::buildTemporary(automate, automate, action->getName(), action->getLabel(), e_type_string);
+//    }
 
-    return ivars;
+//    return ivars;
 }
 
 IVariablePtrList buildStreamsMeasures() {
-    CAutomate *automate = CAutomate::getInstance();
-    const QList<CVariableStream *> streams = automate->getListStreams();
-    IVariablePtrList ivars;
+//    CAutomate *automate = CAutomate::getInstance();
+//    const QList<CVariableStream *> streams = automate->getListStreams();
+//    IVariablePtrList ivars;
 
-    ivars << CVariableFactory::buildTemporary(QString(), IVariableUIHandler::tr("Analyzer"), e_type_string);
+//    ivars << CVariableFactory::buildTemporary(automate, automate, QString(), IVariableUIHandler::tr("Analyzer"), e_type_string);
 
-    foreach (CVariableStream *streamVar, streams) {
-        ivars << CVariableFactory::buildTemporary(streamVar->getName(), streamVar->getLabel(), e_type_string);
+//    foreach (CVariableStream *streamVar, streams) {
+//        ivars << CVariableFactory::buildTemporary(automate, automate, streamVar->getName(), streamVar->getLabel(), e_type_string);
 
-        foreach (IVariable *measure, streamVar->getListMeasures()) {
-            CVariableMeasure *measureVar = static_cast<CVariableMeasure *>(measure);
-            IVariable *ivar = CVariableFactory::buildTemporary(measureVar->getName(), measureVar->getLabel(), e_type_string);
-            ivar->setLabel(QString("%1 / %2").arg(streamVar->getLabel()).arg(measureVar->getLabel()));
-            ivars << ivar;
-        }
-    }
+//        foreach (IVariable *measure, streamVar->getListMeasures()) {
+//            CVariableMeasure *measureVar = static_cast<CVariableMeasure *>(measure);
+//            IVariable *ivar = CVariableFactory::buildTemporary(automate, automate, measureVar->getName(), measureVar->getLabel(), e_type_string);
+//            ivar->setLabel(QString("%1 / %2").arg(streamVar->getLabel()).arg(measureVar->getLabel()));
+//            ivars << ivar;
+//        }
+//    }
 
-    return ivars;
+//    return ivars;
 }
 
 IVariablePtrList buildExtensions() {
-    CAutomate *automate = CAutomate::getInstance();
-    QList<CModelExtensionCard*> cards = automate->getMapExtensions().values();
-    IVariablePtrList ivars;
+//    CAutomate *automate = CAutomate::getInstance();
+//    QList<CModelExtensionCard*> cards = automate->getMapExtensions().values();
+//    IVariablePtrList ivars;
 
-    foreach (CModelExtensionCard *card, cards) {
-        ivars << CVariableFactory::buildTemporary(card->getName(), card->getLabel(), e_type_string);
-    }
+//    foreach (CModelExtensionCard *card, cards) {
+//        ivars << CVariableFactory::buildTemporary(automate, automate, card->getName(), card->getLabel(), e_type_string);
+//    }
 
-    return ivars;
+//    return ivars;
 }
 
 IVariablePtrList buildOrgans() {
     // SERES_TODO: Provide api
-    CAutomate *automate = CAutomate::getInstance();
-    QList<CModelExtensionCard*> cards = automate->getMapExtensions().values();
-    IVariablePtrList ivars;
+//    CAutomate *automate = CAutomate::getInstance();
+//    QList<CModelExtensionCard*> cards = automate->getMapExtensions().values();
+//    IVariablePtrList ivars;
 
-    foreach (CModelExtensionCard *card, cards) {
-        foreach (IOrgan *organ, card->getListOrgans()) {
-            ivars << CVariableFactory::buildTemporary(organ->getName(), e_type_string);
-        }
-    }
+//    foreach (CModelExtensionCard *card, cards) {
+//        foreach (IOrgan *organ, card->getListOrgans()) {
+//            ivars << CVariableFactory::buildTemporary(automate, automate, organ->getName(), e_type_string);
+//        }
+//    }
 
-    return ivars;
+//    return ivars;
 }
 
 IVariablePtrList buildUnits() {
-    CAutomate *automate = CAutomate::getInstance();
-    QList<CUnit *> units = automate->getListUnits();
-    IVariablePtrList ivars;
+//    CAutomate *automate = CAutomate::getInstance();
+//    QList<CUnit *> units = automate->getListUnits();
+//    IVariablePtrList ivars;
 
-    foreach (CUnit *unit, units) {
-        ivars << CVariableFactory::buildTemporary(unit->getName(), unit->getLabel(), e_type_string);
-    }
+//    foreach (CUnit *unit, units) {
+//        ivars << CVariableFactory::buildTemporary(automate, automate, unit->getName(), unit->getLabel(), e_type_string);
+//    }
 
-    return ivars;
+//    return ivars;
 }
 }
 
-IVariableUIHandler::IVariableUIHandler(CScrollableWidget *scrollable, QObject *parent)
+IVariableUIHandler::IVariableUIHandler(CAutomate* arg_automate, CScrollableWidget *scrollable, QObject *parent)
     : QObject(parent)
     , m_container(Q_NULLPTR)
     , m_containerLayout(Q_NULLPTR)
     , m_scrollable(scrollable)
     , m_describer(Q_NULLPTR)
+    , m_automate(arg_automate)
 {
     Q_ASSERT(scrollable);
 
-    connect(CAutomate::getInstance(), &CAutomate::signalVariableChanged,
+    connect(arg_automate, &CAutomate::signalVariableChanged,
             this, &IVariableUIHandler::slotVariableChanged);
 }
 
@@ -633,7 +630,7 @@ IVariable *IVariableUIHandler::getVariable(const QString &name) const
     }
 
     if (!ivar) {
-        ivar = CAutomate::getInstance()->getVariable(name);
+        ivar = m_automate->getVariable(name);
     }
 
     return ivar;
@@ -1118,7 +1115,7 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
         break;
 
     case type_mutable: {
-        CAutomate *automate = CAutomate::getInstance();
+
         CVariableMutable *vmutable = static_cast<CVariableMutable *>(ivar);
         CPushButton *button = qobject_cast<CPushButton *>(editor);
 
@@ -1132,7 +1129,7 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
         }
 
         case CVariableMutable::Cycle: {
-            ICycle *cycle = automate->getCycle(ivar->toString());
+            ICycle *cycle = m_automate->getCycle(ivar->toString());
             button->setText(cycle ? cycle->getLabel() : QString());
             break;
         }
@@ -1148,25 +1145,25 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
         }
 
         case CVariableMutable::Unit: {
-            CUnit *unit = automate->getUnit(ivar->toString());
+            CUnit *unit = m_automate->getUnit(ivar->toString());
             button->setText(unit ? unit->getLabel() : QString());
             break;
         }
 
         case CVariableMutable::Extension: {
-            CModelExtensionCard *card = automate->getExtensionCard(ivar->toString());
+            CModelExtensionCard *card = m_automate->getExtensionCard(ivar->toString());
             button->setText(card ? card->getLabel() : QString());
             break;
         }
 
         case CVariableMutable::Organ: {
-            IOrgan *organ = automate->getOrgan(ivar->toString());
+            IOrgan *organ = m_automate->getOrgan(ivar->toString());
             button->setText(organ ? organ->getName() : QString()); // SERES_TODO: add label for organs ?
             break;
         }
 
         case CVariableMutable::Stream: {
-            CVariableStream *stream = automate->getStream(ivar->toString());
+            CVariableStream *stream = m_automate->getStream(ivar->toString());
             button->setText(stream ? stream->getLabel() : QString());
             break;
         }
@@ -1177,19 +1174,19 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
         }
 
         case CVariableMutable::Measure: {
-            CVariableMeasure *measure = automate->getMeasure(ivar->toString());
+            CVariableMeasure *measure = m_automate->getMeasure(ivar->toString());
             button->setText(measure ? measure->getLabel() : QString());
             break;
         }
 
         case CVariableMutable::Variable: {
-            IVariable *variable = automate->getVariable(ivar->toString());
+            IVariable *variable = m_automate->getVariable(ivar->toString());
             button->setText(variable ? variable->getLabel() : QString());
             break;
         }
 
         case CVariableMutable::Action: {
-            IAction *action = automate->getAction(ivar->toString());
+            IAction *action = m_automate->getAction(ivar->toString());
             button->setText(action ? action->getLabel() : QString());
             break;
         }
@@ -1202,8 +1199,8 @@ void IVariableUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariabl
 
         case CVariableMutable::StreamOrMeasure: {
             const QString name = ivar->toString();
-            CVariableStream *stream = automate->getStream(name);
-            CVariableMeasure *measure = automate->getMeasure(name);
+            CVariableStream *stream = m_automate->getStream(name);
+            CVariableMeasure *measure = m_automate->getMeasure(name);
             const QString text = stream ? stream->getLabel() : (measure ? measure->getLabel() : QString());
             button->setText(text);
             break;

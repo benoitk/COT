@@ -41,10 +41,11 @@ int findTargetIndex(QBoxLayout *layout, float interval) {
     return index;
 }
 
-CEditStepListTab::CEditStepListTab(ICycle *cycle, QWidget *parent)
+CEditStepListTab::CEditStepListTab(CAutomate* arg_automate, ICycle *cycle, QWidget *parent)
     : IConfiguratorEditTab(parent)
     , m_widget(new CScrollablePagerWidget(this))
     , m_layout(new QVBoxLayout(m_widget))
+    , m_automate(arg_automate)
 {
     m_layout->addStretch();
     m_cycle = cycle;
@@ -100,7 +101,7 @@ void CEditStepListTab::ensureStepWidgetVisible(CStepWidget *stepWidget)
 
 CStepWidget *CEditStepListTab::addStep(CStep *step)
 {
-    CStepWidget *sw = new CStepWidget(step, this);
+    CStepWidget *sw = new CStepWidget(m_automate, step, this);
     connect(sw, &CStepWidget::signalStepChanged, this, &CEditStepListTab::slotHandleStepChanged);
     connect(sw, &CStepWidget::signalDeleteRequested, this, &CEditStepListTab::slotHandleDeleteRequest);
     m_layout->insertWidget(m_layout->count() -1, sw); // -1 to add before last item which is stretch

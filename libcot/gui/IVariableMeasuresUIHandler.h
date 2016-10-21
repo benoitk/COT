@@ -17,13 +17,15 @@ public:
     };
     Q_DECLARE_FLAGS(Flags, Flag)
 
-    explicit IVariableMeasuresUIHandler(Flags flags, CScrollableWidget *scrollable, QObject *parent = Q_NULLPTR);
+    explicit IVariableMeasuresUIHandler(Flags flags, CScrollableWidget *scrollable, CAutomate* arg_automate, QObject *parent = Q_NULLPTR);
 
 protected:
     int columnCount() const Q_DECL_OVERRIDE;
     QWidget *createWidget(int index, IVariable *ivar) Q_DECL_OVERRIDE;
     void rowInserted(const Row &row, IVariable *ivar) Q_DECL_OVERRIDE;
     void rowChanged(const Row &row, IVariable *ivar) Q_DECL_OVERRIDE;
+
+    CAutomate* m_automate;
 
 private:
     QWidget *newDetailsButton(IVariable *ivar);

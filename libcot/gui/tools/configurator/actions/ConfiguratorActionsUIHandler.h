@@ -10,7 +10,7 @@ class LIBCOT_EXPORT ConfiguratorActionsUIHandler : public IConfiguratorUIHandler
     Q_OBJECT
 
 public:
-    explicit ConfiguratorActionsUIHandler(CScrollableWidget *scrollable = Q_NULLPTR, QObject *parent = Q_NULLPTR);
+    explicit ConfiguratorActionsUIHandler(CAutomate* arg_automate, CScrollableWidget *scrollable = Q_NULLPTR, QObject *parent = Q_NULLPTR);
     ~ConfiguratorActionsUIHandler();
 
     void layout();
@@ -29,6 +29,7 @@ private slots:
 
 private:
     QHash<QString, IVariable *> m_internalVariables;
+    CAutomate* m_automate;
 };
 
 #endif // CONFIGURATORACTIONSUIHANDLER_H

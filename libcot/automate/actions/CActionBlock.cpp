@@ -4,10 +4,11 @@
 #include "CCycleAutonome.h"
 #include "cotautomate_debug.h"
 
-CActionBlock::CActionBlock(const QVariantMap &mapAction, QObject *parent)
+CActionBlock::CActionBlock(const QVariantMap &mapAction, CAutomate *parent)
     : IAction(mapAction, parent)
 {
-    m_cycle = new CCycleAutonome(mapAction, this);
+    //TODO pouvoir mettre un parent autre que le séquenceur pour les cycles
+    m_cycle = new CCycleAutonome(mapAction, parent->getScheduler());
 }
 
 CActionBlock::~CActionBlock()

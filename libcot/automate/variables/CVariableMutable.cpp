@@ -1,16 +1,16 @@
 #include "CVariableMutable.h"
 
-CVariableMutable::CVariableMutable(QObject *parent)
-    : IVariable(parent)
+CVariableMutable::CVariableMutable(CAutomate* arg_automate, QObject *parent)
+    : IVariable(arg_automate, parent)
 {}
 
-CVariableMutable::CVariableMutable(const QVariantMap &data, QObject *parent)
-    : IVariable(parent)
+CVariableMutable::CVariableMutable(const QVariantMap &data, CAutomate* arg_automate, QObject *parent)
+    : IVariable(arg_automate, parent)
     , m_data(data)
 {}
 
-CVariableMutable::CVariableMutable(const QVariant &data, QObject *parent)
-    : IVariable(parent)
+CVariableMutable::CVariableMutable(const QVariant &data, CAutomate* arg_automate, QObject *parent)
+    : IVariable(arg_automate, parent)
 {
     if (data.type() == QVariant::Map) {
         m_data = data.toMap();

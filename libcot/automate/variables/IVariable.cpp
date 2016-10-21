@@ -8,16 +8,20 @@
 #include "qdebug.h"
 int IVariable::FLOAT_PRECISION = 3;
 
-IVariable::IVariable(QObject *parent)
+IVariable::IVariable(CAutomate* arg_automate, QObject *parent)
     : QObject(parent)
     , m_access(e_access_read)
     , m_address(0)
+    , m_automate(arg_automate)
 {
     m_label = "label_IVariable";
     m_name = "name_IVariable";
     m_unit = new CUnit("no_unit", "");
 }
-IVariable::IVariable(const QVariantMap& arg_varMap): QObject(){
+IVariable::IVariable(const QVariantMap& arg_varMap, CAutomate* arg_automate, QObject* parent):
+    QObject(parent),
+    m_automate(arg_automate)
+{
     QString sAccess = arg_varMap.value(QStringLiteral("access")).toString();
 
     if(sAccess == QStringLiteral("read_write")) m_access = e_access_read_write;
@@ -30,11 +34,11 @@ IVariable::IVariable(const QVariantMap& arg_varMap): QObject(){
 
      if(arg_varMap.contains(QStringLiteral("address"))) m_address = arg_varMap.value(QStringLiteral("address")).toInt();
 
-    m_unit = CAutomate::getInstance()->getUnit(arg_varMap.value(QStringLiteral("unit")).toString());
+    m_unit = m_automate->getUnit(arg_varMap.value(QStringLiteral("unit")).toString());
 
     QStringList listComName = arg_varMap.value(QStringLiteral("coms_name_used")).toStringList();
     foreach(QString comName, listComName){
-        m_coms.append(CAutomate::getInstance()->getCom(comName));
+        m_coms.append(m_automate->getCom(comName));
     }
 //    m_unit = new CUnit("tmp", "µg/l");
 }
@@ -46,12 +50,16 @@ void IVariable::initComs(){
     }
 }
 
-IVariable::IVariable(): QObject()
-, m_access(e_access_read)
-, m_address(0){
-    m_label = "label_IVariable";
-    m_name = "name_IVariable";
-     m_unit = new CUnit("no_unit", "");
+//IVariable::IVariable(): QObject()
+//, m_access(e_access_read)
+//, m_address(0){
+//    m_label = "label_IVariable";
+//    m_name = "name_IVariable";
+//     m_unit = new CUnit("no_unit", "");
+//}
+
+CAutomate* IVariable::getAutomate(){
+    return m_automate;
 }
 
 QString IVariable::typeToString(enumVariableType type)
@@ -140,7 +148,7 @@ CUnit * IVariable::getUnit() const{
     return m_unit;
 }
 bool  IVariable::isStreamRelated()const{
-    foreach(CVariableStream* stream, CAutomate::getInstance()->getListStreams()){
+    foreach(CVariableStream* stream, m_automate->getListStreams()){
         foreach(IVariable* var, stream->getListVariables()){
             if(var == this) return true;
         }
@@ -149,7 +157,7 @@ bool  IVariable::isStreamRelated()const{
     return false;
 }
 QString  IVariable::getRelatedStreamName()const{
-    foreach(CVariableStream* stream, CAutomate::getInstance()->getListStreams()){
+    foreach(CVariableStream* stream, m_automate->getListStreams()){
         foreach(IVariable* var, stream->getListVariables()){
             if(var == this) return stream->getName();
         }
@@ -158,7 +166,7 @@ QString  IVariable::getRelatedStreamName()const{
     return tr("Not related to a stream");
 }
 bool  IVariable::isMeasureRelated()const{
-    foreach(CVariableStream* stream, CAutomate::getInstance()->getListStreams()){
+    foreach(CVariableStream* stream, m_automate->getListStreams()){
         foreach(IVariable* measure,  stream->getListMeasures()){
             foreach(IVariable* var, ((CVariableMeasure*)measure)->getListVariables()){
                 if(var == this) return true;
@@ -176,7 +184,7 @@ QString  IVariable::getRelatedMeasureName()const{
 }
 CVariableMeasure *IVariable::getRelatedMeasure() const
 {
-    foreach (CVariableStream* stream, CAutomate::getInstance()->getListStreams()) {
+    foreach (CVariableStream* stream, m_automate->getListStreams()) {
         foreach (IVariable* measure, stream->getListMeasures()) {
             CVariableMeasure *measureVar = static_cast<CVariableMeasure*>(measure);
             if (measureVar->getMeasureVariable() == this)
@@ -205,7 +213,7 @@ QList<IVariable*>  IVariable::getListOutBinds()const{
 }
 QList<IVariable*>  IVariable::getListInBinds()const{
     QList<IVariable*>  list;
-    foreach (IVariable* var, CAutomate::getInstance()->getMapVariables()) {
+    foreach (IVariable* var, m_automate->getMapVariables()) {
         foreach(IVariable* varFromBinds, var->getListOutBinds()){
             if(varFromBinds == this) {
                 list.append(var);

@@ -7,9 +7,9 @@
 #include <IVariable.h>
 #include <IAction.h>
 
-CEditActionTab::CEditActionTab(IAction *action, QWidget *parent)
+CEditActionTab::CEditActionTab(CAutomate* arg_automate,IAction *action, QWidget *parent)
     : IConfiguratorEditTab(parent)
-    , m_handler(new CEditActionTabUIHandler(scrollableWidget(), this))
+    , m_handler(new CEditActionTabUIHandler(arg_automate, scrollableWidget(), this))
 {
     m_handler->layout(action);
     initBaseTab();

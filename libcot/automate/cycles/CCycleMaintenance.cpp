@@ -2,30 +2,31 @@
 #include "CStep.h"
 #include "cotautomate_debug.h"
 #include "CAutomate.h"
+#include "CScheduler.h"
 #include "CVariableStream.h"
 #include "qvariant.h"
-CCycleMaintenance::CCycleMaintenance(QObject *parent)
+CCycleMaintenance::CCycleMaintenance(CScheduler *parent)
     : CCycleMesure(parent)
 {
 
 }
-CCycleMaintenance::CCycleMaintenance(const QVariantMap& mapCycle,QObject *parent):CCycleMesure(mapCycle, parent){
+CCycleMaintenance::CCycleMaintenance(const QVariantMap& mapCycle,CScheduler *parent):CCycleMesure(mapCycle, parent){
     if(mapCycle.contains(QStringLiteral("variables_input"))){
         const QVariantList listVariablesInput = mapCycle[QStringLiteral("variables_input")].toList();
         foreach(const QVariant &var, listVariablesInput){
-            m_listVariablesInput.append(CAutomate::getInstance()->getVariable(var.toString()));
+            m_listVariablesInput.append(m_scheduler->getAutomate()->getVariable(var.toString()));
         }
     }
     if(mapCycle.contains(QStringLiteral("variables_output"))){
         const QVariantList listVariablesOuput = mapCycle[QStringLiteral("variables_output")].toList();
         foreach(const QVariant &var, listVariablesOuput){
-            m_listVariablesOutput.append(CAutomate::getInstance()->getVariable(var.toString()));
+            m_listVariablesOutput.append(m_scheduler->getAutomate()->getVariable(var.toString()));
         }
     }
     if(mapCycle.contains(QStringLiteral("variables_default"))){
         const QVariantList listVariablesDefault = mapCycle[QStringLiteral("variables_default")].toList();
         foreach(const QVariant &var, listVariablesDefault){
-            m_listVariablesDefault.append(CAutomate::getInstance()->getVariable(var.toString()));
+            m_listVariablesDefault.append(m_scheduler->getAutomate()->getVariable(var.toString()));
         }
     }
 
@@ -34,8 +35,8 @@ CCycleMaintenance::CCycleMaintenance(const QVariantMap& mapCycle,QObject *parent
         foreach(const QVariant &varMap, listVariables){
             const QVariant src = varMap.toMap().value(QStringLiteral("source"));
             const QVariant trg = varMap.toMap().value(QStringLiteral("target"));
-            QPair<IVariable*, IVariable*> pair(CAutomate::getInstance()->getVariable(src.toString())
-                          , CAutomate::getInstance()->getVariable(trg.toString()));
+            QPair<IVariable*, IVariable*> pair(m_scheduler->getAutomate()->getVariable(src.toString())
+                          , m_scheduler->getAutomate()->getVariable(trg.toString()));
             m_listVariablesCopyOnValidation.append(pair);
         }
     }
@@ -53,7 +54,7 @@ bool CCycleMaintenance::finishedWithErrors(){
     return bDefault;
 }
 
-CCycleMaintenance::CCycleMaintenance(enumTypeCycle typeCycle, QObject* parent): CCycleMesure(parent) {
+CCycleMaintenance::CCycleMaintenance(enumTypeCycle typeCycle, CScheduler* parent): CCycleMesure(parent) {
 
 }
 CCycleMaintenance::~CCycleMaintenance()
@@ -122,7 +123,7 @@ void CCycleMaintenance::doValidationCopies(){
 //   void CCycleMaintenance::slotRunCycle(){
 //       QMutexLocker lock(&m_mutex);
 //       CCycleMesure::slotStepFinished(arg_step);
-//       CAutomate::getInstance()->setStateWillStopEndCycle();
+//       m_automate->setStateWillStopEndCycle();
 
 //   }
 

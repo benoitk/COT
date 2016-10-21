@@ -21,8 +21,8 @@
 
 // IVariableObjectDescriber
 
-IVariableObjectDescriber::IVariableObjectDescriber(IVariableUIHandler *parent)
-    : QObject(parent)
+IVariableObjectDescriber::IVariableObjectDescriber(CAutomate* arg_automate, IVariableUIHandler *parent)
+    : QObject(parent), m_automate(arg_automate)
 {
     Q_ASSERT(parent);
 }
@@ -106,8 +106,8 @@ void IVariableObjectDescriber::slotVariableChanged()
 
 // CVariableICycleDescriber
 
-CVariableICycleDescriber::CVariableICycleDescriber(IVariableUIHandler *parent)
-    : IVariableObjectDescriber(parent)
+CVariableICycleDescriber::CVariableICycleDescriber(CAutomate* arg_automate,IVariableUIHandler *parent)
+    : IVariableObjectDescriber(arg_automate, parent)
 {
 }
 
@@ -116,28 +116,28 @@ void CVariableICycleDescriber::describe(const QVariant &object)
     ICycle *cycle = object.value<ICycle *>();
     Q_ASSERT(cycle);
 
-    CVariableStream * cycleStream = CAutomate::getInstance()->getCycleStream(cycle);
+    CVariableStream * cycleStream = m_automate->getCycleStream(cycle);
     QString streamName = cycleStream ? cycleStream->getName() : QString();
 
 
     clear();
 
-    CVariableString *label = CVariableFactory::castedBuild<CVariableString *>(e_type_string, e_type_organ_none, cycle->getLabel());
+    CVariableString *label = CVariableFactory::castedBuild<CVariableString *>(m_automate, this, e_type_string, e_type_organ_none, cycle->getLabel());
     label->setName("label");
     label->setLabel(tr("Label"));
 
-    CVariableMutable *type = CVariableFactory::castedBuild<CVariableMutable *>(type_mutable, e_type_organ_none, cycle->getType());
+    CVariableMutable *type = CVariableFactory::castedBuild<CVariableMutable *>(m_automate, this, type_mutable, e_type_organ_none, cycle->getType());
     setVariableAccess(type, e_access_read);
     type->setName("type");
     type->setLabel(tr("Type"));
     type->setMutableType(CVariableMutable::CycleType);
 
-    CVariableInt *timer = CVariableFactory::castedBuild<CVariableInt *>(e_type_int, e_type_organ_none, /*cycle->get()*/ -1); // SERES_TODO: Add api
+    CVariableInt *timer = CVariableFactory::castedBuild<CVariableInt *>(m_automate, this, e_type_int, e_type_organ_none, /*cycle->get()*/ -1); // SERES_TODO: Add api
     setVariableAccess(timer, e_access_read_write);
     timer->setName("timer");
     timer->setLabel(tr("Timer"));
 
-    CVariableMutable *stream = CVariableFactory::castedBuild<CVariableMutable *>(type_mutable, e_type_organ_none, streamName);
+    CVariableMutable *stream = CVariableFactory::castedBuild<CVariableMutable *>(m_automate, this, type_mutable, e_type_organ_none, streamName);
     setVariableAccess(stream, e_access_read_write);
     stream->setName("stream");
     stream->setLabel(tr("Stream"));
@@ -148,15 +148,14 @@ void CVariableICycleDescriber::describe(const QVariant &object)
 
 // CVariableIVariableDescriber
 
-CVariableIVariableDescriber::CVariableIVariableDescriber(IVariableUIHandler *parent)
-    : IVariableObjectDescriber(parent)
+CVariableIVariableDescriber::CVariableIVariableDescriber(CAutomate* arg_automate,IVariableUIHandler *parent)
+    : IVariableObjectDescriber(arg_automate, parent)
 {
 }
 
 void CVariableIVariableDescriber::describe(const QVariant &object)
 {
-    const CAutomate *automate = CAutomate::getInstance();
-    IVariable *ivar = object.value<IVariable *>();
+       IVariable *ivar = object.value<IVariable *>();
     Q_ASSERT(ivar);
     clear();
 
@@ -164,17 +163,17 @@ void CVariableIVariableDescriber::describe(const QVariant &object)
     CVariableMutable *organ = Q_NULLPTR;
     IVariable *value = Q_NULLPTR;
 
-    CVariableString *label = CVariableFactory::castedBuild<CVariableString *>(e_type_string, e_type_organ_none, ivar->getLabel());
+    CVariableString *label = CVariableFactory::castedBuild<CVariableString *>(m_automate, this, e_type_string, e_type_organ_none, ivar->getLabel());
     label->setName(QStringLiteral("label"));
     label->setLabel(tr("Label"));
 
-    CVariableMutable *type = CVariableFactory::castedBuild<CVariableMutable *>(type_mutable, e_type_organ_none, ivar->getType());
+    CVariableMutable *type = CVariableFactory::castedBuild<CVariableMutable *>(m_automate, this, type_mutable, e_type_organ_none, ivar->getType());
     setVariableAccess(type, e_access_read);
     type->setName(QStringLiteral("type"));
     type->setLabel(tr("Type"));
     type->setMutableType(CVariableMutable::VariableType);
 
-    CVariableMutable *subType = CVariableFactory::castedBuild<CVariableMutable *>(type_mutable, e_type_organ_none, ivar->getOrganType());
+    CVariableMutable *subType = CVariableFactory::castedBuild<CVariableMutable *>(m_automate, this, type_mutable, e_type_organ_none, ivar->getOrganType());
     setVariableAccess(subType, e_access_read);
     subType->setName(QStringLiteral("subtype"));
     subType->setLabel(tr("SubType"));
@@ -182,19 +181,19 @@ void CVariableIVariableDescriber::describe(const QVariant &object)
 
     switch (ivar->getType()) {
         case e_type_float:
-            value = CVariableFactory::castedBuild<CVariableFloat *>(e_type_float, e_type_organ_none, ivar->toFloat());
+            value = CVariableFactory::castedBuild<CVariableFloat *>(m_automate, this, e_type_float, e_type_organ_none, ivar->toFloat());
             break;
 
         case e_type_int:
-            value = CVariableFactory::castedBuild<CVariableInt *>(e_type_int, e_type_organ_none, ivar->toInt());
+            value = CVariableFactory::castedBuild<CVariableInt *>(m_automate, this, e_type_int, e_type_organ_none, ivar->toInt());
             break;
 
         case e_type_bool:
-            value = CVariableFactory::castedBuild<CVariableBool *>(e_type_bool, e_type_organ_none, ivar->toBool());
+            value = CVariableFactory::castedBuild<CVariableBool *>(m_automate, this, e_type_bool, e_type_organ_none, ivar->toBool());
             break;
 
         case e_type_string:
-            value = CVariableFactory::castedBuild<CVariableString *>(e_type_string, e_type_organ_none, ivar->toString());
+            value = CVariableFactory::castedBuild<CVariableString *>(m_automate, this, e_type_string, e_type_organ_none, ivar->toString());
             break;
 
         default:
@@ -206,7 +205,7 @@ void CVariableIVariableDescriber::describe(const QVariant &object)
     value->setLabel(tr("Value"));
 
     const QString unitName = ivar->getUnit() ? ivar->getUnit()->getName() : QString();
-    CVariableMutable *unit = CVariableFactory::castedBuild<CVariableMutable *>(type_mutable, e_type_organ_none, unitName);
+    CVariableMutable *unit = CVariableFactory::castedBuild<CVariableMutable *>(m_automate, this, type_mutable, e_type_organ_none, unitName);
     setVariableAccess(unit, e_access_read_write);
     unit->setName(QStringLiteral("unit"));
     unit->setLabel(tr("Unit"));
@@ -218,7 +217,7 @@ void CVariableIVariableDescriber::describe(const QVariant &object)
             Q_ASSERT(iivar);
             const IOrgan * iorgan = iivar->getOrgan();
             const QString organName = iorgan ? iorgan->getName() : QString();
-            organ = CVariableFactory::castedBuild<CVariableMutable *>(type_mutable, e_type_organ_none, organName);
+            organ = CVariableFactory::castedBuild<CVariableMutable *>(m_automate, this, type_mutable, e_type_organ_none, organName);
             break;
         }
 
@@ -227,7 +226,7 @@ void CVariableIVariableDescriber::describe(const QVariant &object)
             Q_ASSERT(oivar);
             const IOrgan * iorgan = oivar->getOrgan();
             const QString organName = iorgan ? iorgan->getName() : QString();
-            organ = CVariableFactory::castedBuild<CVariableMutable *>(type_mutable, e_type_organ_none, organName);
+            organ = CVariableFactory::castedBuild<CVariableMutable *>(m_automate, this, type_mutable, e_type_organ_none, organName);
             break;
         }
 
@@ -241,10 +240,10 @@ void CVariableIVariableDescriber::describe(const QVariant &object)
         organ->setMutableType(CVariableMutable::Organ);
     }
 
-    CVariableStream *stream = automate->getVariableStream(ivar);
-    CVariableMeasure *measure = automate->getVariableMeasure(ivar);
+    CVariableStream *stream = m_automate->getVariableStream(ivar);
+    CVariableMeasure *measure = m_automate->getVariableMeasure(ivar);
     const QString streamOrMeasureName = stream ? stream->getName() : (measure ? measure->getName() : QString());
-    CVariableMutable *streamOrMeasure = CVariableFactory::castedBuild<CVariableMutable *>(type_mutable, e_type_organ_none, streamOrMeasureName);
+    CVariableMutable *streamOrMeasure = CVariableFactory::castedBuild<CVariableMutable *>(m_automate, this, type_mutable, e_type_organ_none, streamOrMeasureName);
     setVariableAccess(streamOrMeasure, e_access_read_write);
     streamOrMeasure->setName(QStringLiteral("streamOrMeasure"));
     streamOrMeasure->setLabel(tr("Stream / Measure"));
@@ -263,8 +262,8 @@ void CVariableIVariableDescriber::describe(const QVariant &object)
 
 // CVariableIActionDescriber
 
-CVariableIActionDescriber::CVariableIActionDescriber(IVariableUIHandler *parent)
-    : IVariableObjectDescriber(parent)
+CVariableIActionDescriber::CVariableIActionDescriber(CAutomate* arg_automate, IVariableUIHandler *parent)
+    : IVariableObjectDescriber(arg_automate, parent)
 {
 }
 
@@ -274,14 +273,13 @@ void CVariableIActionDescriber::describe(const QVariant &object)
     Q_ASSERT(action);
 
     clear();
-
     IVariablePtrList ivars;
 
-    CVariableString *label = CVariableFactory::castedBuild<CVariableString *>(e_type_string, e_type_organ_none, action->getLabel());
+    CVariableString *label = CVariableFactory::castedBuild<CVariableString *>(m_automate, this, e_type_string, e_type_organ_none, action->getLabel());
     label->setName("label");
     label->setLabel(tr("Label"));
 
-    CVariableMutable *type = CVariableFactory::castedBuild<CVariableMutable *>(type_mutable, e_type_organ_none, action->getType());
+    CVariableMutable *type = CVariableFactory::castedBuild<CVariableMutable *>(m_automate, this, type_mutable, e_type_organ_none, action->getType());
     setVariableAccess(type, e_access_read);
     type->setName("type");
     type->setLabel(tr("Type"));
@@ -296,7 +294,7 @@ void CVariableIActionDescriber::describe(const QVariant &object)
     for(; propertiesIt != propertiesEnd; ++propertiesIt) {
         IVariable *ivar = propertiesIt.value();
         // We stock current value in ivar value and current variable name in ivar label
-        IVariable *property = CVariableFactory::castedBuild<IVariable *>(propertiesIt.value()->getType(), e_type_organ_none, ivar ? ivar->toVariant() : QVariant());
+        IVariable *property = CVariableFactory::castedBuild<IVariable *>(m_automate, this, propertiesIt.value()->getType(), e_type_organ_none, ivar ? ivar->toVariant() : QVariant());
         setVariableAccess(property, e_access_read_write);
         property->setName(QString("property_%1").arg(propertiesIt.key()));
         property->setLabel(ivar ? ivar->getName() : QString());
@@ -310,7 +308,7 @@ void CVariableIActionDescriber::describe(const QVariant &object)
     for(; constantsIt != constantsEnd; ++constantsIt) {
         IVariable *ivar = constantsIt.value();
         // We stock current value in ivar value and current variable name in ivar label
-        IVariable *constant = CVariableFactory::castedBuild<IVariable *>(constantsIt.value()->getType(), e_type_organ_none, ivar ? ivar->toVariant() : QVariant());
+        IVariable *constant = CVariableFactory::castedBuild<IVariable *>(m_automate, this, constantsIt.value()->getType(), e_type_organ_none, ivar ? ivar->toVariant() : QVariant());
         setVariableAccess(constant, e_access_read_write);
         constant->setName(QString("constant_%1").arg(constantsIt.key()));
         constant->setLabel(ivar ? ivar->getName() : QString());
@@ -322,8 +320,8 @@ void CVariableIActionDescriber::describe(const QVariant &object)
 
 // CVariableCStepDescriber
 
-CVariableCStepDescriber::CVariableCStepDescriber(IVariableUIHandler *parent)
-    : IVariableObjectDescriber(parent)
+CVariableCStepDescriber::CVariableCStepDescriber(CAutomate* arg_automate,IVariableUIHandler *parent)
+    : IVariableObjectDescriber(arg_automate, parent)
 {
 }
 
@@ -333,13 +331,12 @@ void CVariableCStepDescriber::describe(const QVariant &object)
     Q_ASSERT(step);
 
     clear();
-
-    CVariableFloat *interval = CVariableFactory::castedBuild<CVariableFloat *>(e_type_float, e_type_organ_none, step->getNumStep());
+    CVariableFloat *interval = CVariableFactory::castedBuild<CVariableFloat *>(m_automate, this, e_type_float, e_type_organ_none, step->getNumStep());
     setVariableAccess(interval, step->getNumStep() < 0 ? e_access_read : e_access_read_write);
     interval->setName("interval");
     interval->setLabel(tr("Interval"));
 
-    CVariableString *label = CVariableFactory::castedBuild<CVariableString *>(e_type_string, e_type_organ_none, step->getLabel());
+    CVariableString *label = CVariableFactory::castedBuild<CVariableString *>(m_automate, this, e_type_string, e_type_organ_none, step->getLabel());
     setVariableAccess(label, e_access_read_write);
     label->setName("label");
     label->setLabel(tr("Label"));
@@ -349,8 +346,8 @@ void CVariableCStepDescriber::describe(const QVariant &object)
 
 // CVariableIVariableOutBindsDescriber
 
-CVariableIVariableOutBindsDescriber::CVariableIVariableOutBindsDescriber(IVariableUIHandler *parent)
-    :  IVariableObjectDescriber(parent)
+CVariableIVariableOutBindsDescriber::CVariableIVariableOutBindsDescriber(CAutomate* arg_automate, IVariableUIHandler *parent)
+    :  IVariableObjectDescriber(arg_automate, parent)
 {
 
 }
@@ -366,9 +363,9 @@ void CVariableIVariableOutBindsDescriber::describe(const QVariant &object)
         bindings = ivar->getListOutBinds();
     }
     else if (object.canConvert<QStringList>()) {
-        CAutomate *automate = CAutomate::getInstance();
+
         const QStringList names = object.toStringList();
-        bindings = automate->getVariables(names);
+        bindings = m_automate->getVariables(names);
     }
     else {
         Q_ASSERT(false);
@@ -376,7 +373,7 @@ void CVariableIVariableOutBindsDescriber::describe(const QVariant &object)
 
     int i = 0;
     foreach (IVariable *ivar, bindings) {
-        CVariableMutable *outBind = CVariableFactory::castedBuild<CVariableMutable *>(type_mutable, e_type_organ_none, ivar->getName());
+        CVariableMutable *outBind = CVariableFactory::castedBuild<CVariableMutable *>(m_automate, this,  type_mutable, e_type_organ_none, ivar->getName());
         setVariableAccess(outBind, e_access_read_write);
         outBind->setName(QString("target_%1").arg(++i));
         outBind->setLabel(ivar->getLabel());
@@ -391,8 +388,8 @@ void CVariableIVariableOutBindsDescriber::describe(const QVariant &object)
 
 // CVariableIVariableInBindsDescriber
 
-CVariableIVariableInBindsDescriber::CVariableIVariableInBindsDescriber(IVariableUIHandler *parent)
-    :  IVariableObjectDescriber(parent)
+CVariableIVariableInBindsDescriber::CVariableIVariableInBindsDescriber(CAutomate* arg_automate,IVariableUIHandler *parent)
+    :  IVariableObjectDescriber(arg_automate,parent)
 {
 
 }
@@ -408,9 +405,9 @@ void CVariableIVariableInBindsDescriber::describe(const QVariant &object)
         bindings = ivar->getListInBinds();
     }
     else if (object.canConvert<QStringList>()) {
-        CAutomate *automate = CAutomate::getInstance();
+
         const QStringList names = object.toStringList();
-        bindings = automate->getVariables(names);
+        bindings = m_automate->getVariables(names);
     }
     else {
         Q_ASSERT(false);
@@ -418,7 +415,7 @@ void CVariableIVariableInBindsDescriber::describe(const QVariant &object)
 
     int i = 0;
     foreach (IVariable *ivar, bindings) {
-        CVariableMutable *inBind = CVariableFactory::castedBuild<CVariableMutable *>(type_mutable, e_type_organ_none, ivar->getName());
+        CVariableMutable *inBind = CVariableFactory::castedBuild<CVariableMutable *>(m_automate, this, type_mutable, e_type_organ_none, ivar->getName());
         setVariableAccess(inBind, e_access_read);
         inBind->setName(QString("source_%1").arg(++i));
         inBind->setLabel(ivar->getLabel());
@@ -433,8 +430,8 @@ void CVariableIVariableInBindsDescriber::describe(const QVariant &object)
 
 // CVariableCStepActionsDescriber
 
-CVariableCStepActionsDescriber::CVariableCStepActionsDescriber(IVariableUIHandler *parent)
-    : IVariableObjectDescriber(parent)
+CVariableCStepActionsDescriber::CVariableCStepActionsDescriber(CAutomate* arg_automate,IVariableUIHandler *parent)
+    : IVariableObjectDescriber(arg_automate,parent)
 {
 }
 
@@ -448,11 +445,11 @@ void CVariableCStepActionsDescriber::describe(const QVariant &object)
         actions << step->getListActions();
     }
     else if (object.canConvert<QStringList>()) {
-        CAutomate *automate = CAutomate::getInstance();
+
         QStringList names = object.toStringList();
 
         foreach (const QString &name, names) {
-            IAction *action = automate->getAction(name);
+            IAction *action = m_automate->getAction(name);
             Q_ASSERT(action);
             actions << action;
         }
@@ -466,7 +463,7 @@ void CVariableCStepActionsDescriber::describe(const QVariant &object)
     IVariablePtrList ivars;
 
     foreach (IAction *action, actions) {
-        CVariableMutable *ivar = CVariableFactory::castedBuild<CVariableMutable *>(type_mutable, e_type_organ_none, action->getName());
+        CVariableMutable *ivar = CVariableFactory::castedBuild<CVariableMutable *>(m_automate, this, type_mutable, e_type_organ_none, action->getName());
         ivar->setName(CVariableFactory::buildTemporaryName(QStringLiteral("actionName")));
         ivar->setMutableType(CVariableMutable::Action);
         ivar->setLabel(action->getLabel());

@@ -7,13 +7,13 @@
 class CPushButton;
 class CVariableMeasure;
 class CVariableStream;
-
+class CAutomate;
 class LIBCOT_EXPORT ConfiguratorStreamsUIHandler : public IConfiguratorUIHandler
 {
     Q_OBJECT
 
 public:
-    explicit ConfiguratorStreamsUIHandler(CScrollableWidget *scrollable = Q_NULLPTR, QObject *parent = Q_NULLPTR);
+    explicit ConfiguratorStreamsUIHandler(CAutomate* arg_automate, CScrollableWidget *scrollable = Q_NULLPTR, QObject *parent = Q_NULLPTR);
     ~ConfiguratorStreamsUIHandler();
 
     void layout();
@@ -31,7 +31,7 @@ private:
     CToolButton *newAddMeasureButton(IVariable *ivar);
 
     CVariableStream *getStreamForMeasure(CVariableMeasure *measure);
-
+    CAutomate* m_automate;
     /**
      * @brief asks the user for a name, then add a new measure in the passed stream
      */

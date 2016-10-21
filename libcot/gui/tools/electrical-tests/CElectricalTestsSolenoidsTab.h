@@ -8,13 +8,13 @@ class CElectricalTestsSolenoidsTab;
 }
 
 class IVariableUIHandler;
-
+class CAutomate;
 class CElectricalTestsSolenoidsTab : public IElectricalTestsTab
 {
     Q_OBJECT
 
 public:
-    explicit CElectricalTestsSolenoidsTab(QWidget *parent = Q_NULLPTR);
+    explicit CElectricalTestsSolenoidsTab(CAutomate* arg_automate, QWidget *parent = Q_NULLPTR);
     ~CElectricalTestsSolenoidsTab();
 
 protected slots:
@@ -23,6 +23,7 @@ protected slots:
 private:
     Ui::CElectricalTestsSolenoidsTab *ui;
     IVariableUIHandler *m_elecTestRelaysHandler;
+    CAutomate* m_automate;
 };
 
 #endif // CELECTRICALTESTSSOLENOIDSTAB_H

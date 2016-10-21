@@ -14,8 +14,8 @@ class CVariableAlarm : public CVariableOutputBool
     Q_OBJECT
 public:
 
-    CVariableAlarm(QObject *parent = Q_NULLPTR);
-    CVariableAlarm(const QMap<QString, QVariant> &mapVar);
+    CVariableAlarm(CAutomate* arg_automate, QObject *parent = Q_NULLPTR);
+    CVariableAlarm(const QMap<QString, QVariant> &mapVar, CAutomate* arg_automate, QObject* parent);
     ~CVariableAlarm();
 
     //IVariableInput

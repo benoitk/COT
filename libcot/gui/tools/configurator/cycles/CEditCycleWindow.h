@@ -6,13 +6,13 @@
 class ICycle;
 class CEditCycleTab;
 class CEditStepListTab;
-
+class CAutomate;
 class CEditCycleWindow : public IConfiguratorEditWindow
 {
     Q_OBJECT
 
 public:
-    explicit CEditCycleWindow(ICycle *cycle, QWidget *parent = Q_NULLPTR);
+    explicit CEditCycleWindow(CAutomate* arg_automate, ICycle *cycle, QWidget *parent = Q_NULLPTR);
 
 private slots:
     void slotRetranslate();
@@ -23,6 +23,7 @@ private:
     CEditCycleTab *m_ceditCycleTab;
     CEditStepListTab *m_ceditCycleStepListTab;
     ICycle * m_cycle;
+    CAutomate* m_automate;
 };
 
 #endif // CEDITCYCLEWINDOW_H

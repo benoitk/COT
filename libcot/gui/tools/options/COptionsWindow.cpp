@@ -7,12 +7,13 @@
 #include <CConfiguratorSequencerTab.h>
 #include "CAutomate.h"
 
-COptionsWindow::COptionsWindow(QWidget *parent)
+COptionsWindow::COptionsWindow(CAutomate* arg_automate, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::COptionsWindow)
+    , m_automate(arg_automate)
 {
     ui->setupUi(this);
-    addTab(new COptionsOptionsTab(this), tr("OPTIONS"));
+    addTab(new COptionsOptionsTab(arg_automate, this), tr("OPTIONS"));
  //   addTab(new COptionsAutoCyclesTab(this), tr("AUTO. CYCLES"));
  //   addTab(new CConfiguratorSequencerTab(this), tr("SCHEDULER"));
  //   addTab(new COptionsThresholdTab(this), tr("THRESHOLD"));
@@ -26,7 +27,7 @@ COptionsWindow::~COptionsWindow()
 
 void COptionsWindow::backTriggered()
 {
-    CAutomate::getInstance()->slotSerializeAndSave();
+    m_automate->slotSerializeAndSave();
     close();
 }
 

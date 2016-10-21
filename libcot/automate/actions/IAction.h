@@ -32,12 +32,13 @@ enum actionType{
 };
 
 class ICycle;
+class CAutomate;
 class IAction : public QObject
 {
     Q_OBJECT
 
 public:
-    IAction(const QVariantMap &mapAction, QObject *parent);
+    IAction(const QVariantMap &mapAction, CAutomate *parent);
 
     ~IAction();
 
@@ -72,6 +73,7 @@ protected:
     QString m_name;
     bool m_abort;
     mutable QMutex m_mutex;
+    CAutomate* m_automate;
 };
 
 #endif // IACTION_H

@@ -12,13 +12,13 @@ class IVariableUIHandler;
 
 typedef IVariable* IVariablePtr;
 typedef QList<IVariablePtr> IVariablePtrList;
-
+class CAutomate;
 class CMeasureMeasureTab : public IMeasureTab
 {
     Q_OBJECT
 
 public:
-    explicit CMeasureMeasureTab(const IVariablePtrList &variables, QWidget *parent = Q_NULLPTR);
+    explicit CMeasureMeasureTab(CAutomate* arg_automate, const IVariablePtrList &variables, QWidget *parent = Q_NULLPTR);
     ~CMeasureMeasureTab();
 
 private:

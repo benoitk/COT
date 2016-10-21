@@ -11,14 +11,13 @@
 #include "qelapsedtimer.h"
 #include "qthreadpool.h"
 
-CActionTitration::CActionTitration(const QVariantMap &mapAction, QObject *parent)
+CActionTitration::CActionTitration(const QVariantMap &mapAction, CAutomate *parent)
     : IAction(mapAction, parent)
 {
-    CAutomate* automate = CAutomate::getInstance();
-    m_measureCell = automate->getVariable(mapAction[QStringLiteral("cellule")].toString());
-    m_timeFirstInflection = automate->getVariable(mapAction[QStringLiteral("output_time_first_inflection")].toString());
-    m_threshold = automate->getVariable(mapAction[QStringLiteral("input_threshold")].toString());
-    m_timeout = automate->getVariable(mapAction[QStringLiteral("timeout")].toString());
+    m_measureCell = m_automate->getVariable(mapAction[QStringLiteral("cellule")].toString());
+    m_timeFirstInflection = m_automate->getVariable(mapAction[QStringLiteral("output_time_first_inflection")].toString());
+    m_threshold = m_automate->getVariable(mapAction[QStringLiteral("input_threshold")].toString());
+    m_timeout = m_automate->getVariable(mapAction[QStringLiteral("timeout")].toString());
     m_waitUntilFinished = mapAction[QStringLiteral("wait_until_finished")].toBool();
 
 
@@ -30,20 +29,20 @@ CActionTitration::CActionTitration(const QVariantMap &mapAction, QObject *parent
     m_OriginReturnPump = Q_NULLPTR;
     m_defaultPump = Q_NULLPTR;
     m_alarmPump = Q_NULLPTR;
-    if(automate->getVariable(mapAction[QStringLiteral("pump_alim")].toString())->getOrganType() == e_type_organ_output)
-        m_alimPump = dynamic_cast<CVariableOutputBool*>(automate->getVariable(mapAction[QStringLiteral("pump_alim")].toString()));
-    if(automate->getVariable(mapAction[QStringLiteral("pump_run_stop")].toString())->getOrganType() == e_type_organ_output)
-        m_runOrStopPump = dynamic_cast<CVariableOutputBool*>(automate->getVariable(mapAction[QStringLiteral("pump_run_stop")].toString()));
-    if(automate->getVariable(mapAction[QStringLiteral("pump_clockwise")].toString())->getOrganType() == e_type_organ_output)
-        m_clockwisePump =  dynamic_cast<CVariableOutputBool*>(automate->getVariable(mapAction[QStringLiteral("pump_clockwise")].toString()));
-    if(automate->getVariable(mapAction[QStringLiteral("pump_speed")].toString())->getOrganType() == e_type_organ_output)
-        m_speedPump =dynamic_cast<CVariableOutputInt*>( automate->getVariable(mapAction[QStringLiteral("pump_speed")].toString()));
-//    if(automate->getVariable(mapAction[QStringLiteral("pump_origin_return_before")].toString())->getOrganType() == e_type_organ_output)
-//        m_OriginReturnPump = dynamic_cast<CVariableOutputBool*>(automate->getVariable(mapAction[QStringLiteral("pump_origin_return_before")].toString()));
-    if(automate->getVariable(mapAction[QStringLiteral("pump_default")].toString())->getOrganType() == e_type_organ_input)
-        m_defaultPump = dynamic_cast<CVariableInputBool*>(automate->getVariable(mapAction[QStringLiteral("pump_default")].toString()));
-    if(automate->getVariable(mapAction[QStringLiteral("pump_alarm")].toString())->getOrganType() == e_type_organ_output)
-        m_alarmPump = dynamic_cast<CVariableAlarm*>(automate->getVariable(mapAction[QStringLiteral("pump_alarm")].toString()));
+    if(m_automate->getVariable(mapAction[QStringLiteral("pump_alim")].toString())->getOrganType() == e_type_organ_output)
+        m_alimPump = dynamic_cast<CVariableOutputBool*>(m_automate->getVariable(mapAction[QStringLiteral("pump_alim")].toString()));
+    if(m_automate->getVariable(mapAction[QStringLiteral("pump_run_stop")].toString())->getOrganType() == e_type_organ_output)
+        m_runOrStopPump = dynamic_cast<CVariableOutputBool*>(m_automate->getVariable(mapAction[QStringLiteral("pump_run_stop")].toString()));
+    if(m_automate->getVariable(mapAction[QStringLiteral("pump_clockwise")].toString())->getOrganType() == e_type_organ_output)
+        m_clockwisePump =  dynamic_cast<CVariableOutputBool*>(m_automate->getVariable(mapAction[QStringLiteral("pump_clockwise")].toString()));
+    if(m_automate->getVariable(mapAction[QStringLiteral("pump_speed")].toString())->getOrganType() == e_type_organ_output)
+        m_speedPump =dynamic_cast<CVariableOutputInt*>( m_automate->getVariable(mapAction[QStringLiteral("pump_speed")].toString()));
+//    if(m_automate->getVariable(mapAction[QStringLiteral("pump_origin_return_before")].toString())->getOrganType() == e_type_organ_output)
+//        m_OriginReturnPump = dynamic_cast<CVariableOutputBool*>(m_automate->getVariable(mapAction[QStringLiteral("pump_origin_return_before")].toString()));
+    if(m_automate->getVariable(mapAction[QStringLiteral("pump_default")].toString())->getOrganType() == e_type_organ_input)
+        m_defaultPump = dynamic_cast<CVariableInputBool*>(m_automate->getVariable(mapAction[QStringLiteral("pump_default")].toString()));
+    if(m_automate->getVariable(mapAction[QStringLiteral("pump_alarm")].toString())->getOrganType() == e_type_organ_output)
+        m_alarmPump = dynamic_cast<CVariableAlarm*>(m_automate->getVariable(mapAction[QStringLiteral("pump_alarm")].toString()));
 
     //si autodelete à true, risque d'utilisation de l'objet alors qu'il est détruit à la fin du run.
     this->setAutoDelete(false);

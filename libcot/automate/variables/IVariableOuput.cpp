@@ -6,10 +6,9 @@
 IVariableOutput::IVariableOutput(): m_organ(Q_NULLPTR){
 
 }
-IVariableOutput::IVariableOutput(const QVariantMap & mapVar){
-    CAutomate* automate = CAutomate::getInstance();
-    CModelExtensionCard* extCard = automate->getExtensionCard(mapVar.value(QStringLiteral("extension_name")).toString());
-    m_organ  =extCard->getOrgan(mapVar.value(QStringLiteral("organ_name")).toString());
+IVariableOutput::IVariableOutput(IOrgan* arg_organ)
+    : m_organ(arg_organ)
+{
 }
 
 IVariableOutput::~IVariableOutput()

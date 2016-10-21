@@ -10,29 +10,27 @@
 #include "qmap.h"
 #include "qthreadpool.h"
 
-CActionTest::CActionTest(const QVariantMap &mapAction, QObject *parent)
+CActionTest::CActionTest(const QVariantMap &mapAction, CAutomate *parent)
     : IAction(mapAction, parent)
 {
     IVariable* var = Q_NULLPTR;
+    m_setpoint = m_automate->getVariable(mapAction[QStringLiteral("setpoint")].toString());
 
-    CAutomate* automate = CAutomate::getInstance();
-    m_setpoint = automate->getVariable(mapAction[QStringLiteral("setpoint")].toString());
-
-    m_waiting = automate->getVariable(mapAction[QStringLiteral("waiting")].toString());
-    m_errorMargin = automate->getVariable(mapAction[QStringLiteral("error_margin")].toString());
-    m_timeout = automate->getVariable(mapAction[QStringLiteral("timeout")].toString());
-    m_nbMinimumTry = automate->getVariable(mapAction[QStringLiteral("nb_minimum_try")].toString());
+    m_waiting = m_automate->getVariable(mapAction[QStringLiteral("waiting")].toString());
+    m_errorMargin = m_automate->getVariable(mapAction[QStringLiteral("error_margin")].toString());
+    m_timeout = m_automate->getVariable(mapAction[QStringLiteral("timeout")].toString());
+    m_nbMinimumTry = m_automate->getVariable(mapAction[QStringLiteral("nb_minimum_try")].toString());
 
     m_result = Q_NULLPTR;
-    var =  automate->getVariable(mapAction[QStringLiteral("result")].toString());
+    var =  m_automate->getVariable(mapAction[QStringLiteral("result")].toString());
     if(var->getType() == e_type_alarm)
         m_result = dynamic_cast<CVariableAlarm*>(var);
 //    m_target = Q_NULLPTR;
-//    var = automate->getVariable(mapAction[QStringLiteral("target")].toString());
+//    var = m_automate->getVariable(mapAction[QStringLiteral("target")].toString());
 //    if(var->getOrganType() == e_type_organ_input)
 //        m_target = dynamic_cast<IVariableInput*>(var);
 
-    m_target = automate->getVariable(mapAction[QStringLiteral("target")].toString());
+    m_target = m_automate->getVariable(mapAction[QStringLiteral("target")].toString());
 
     QString sCondition = mapAction[QStringLiteral("condition")].toString();
     if(sCondition == QStringLiteral("target_equal_to_setpoint")) m_condition = m_eEqualToSetpoint;

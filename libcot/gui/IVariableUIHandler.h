@@ -23,12 +23,13 @@ class CToolButton;
  *
  * The widgets get created inside the scrollable widget passed to setScrollableWidget.
  */
+class CAutomate;
 class LIBCOT_EXPORT IVariableUIHandler : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit IVariableUIHandler(CScrollableWidget *scrollable, QObject *parent = Q_NULLPTR);
+    explicit IVariableUIHandler(CAutomate* arg_automate, CScrollableWidget *scrollable, QObject *parent = Q_NULLPTR);
     virtual ~IVariableUIHandler();
 
     void layout(const QList<IVariable *> &variables, bool addDeleteButton = false);
@@ -82,7 +83,7 @@ public:
 
     virtual IVariable *getVariable(const QString &name) const;
     QStringList variableNames() const;
-
+    CAutomate* m_automate;
 protected:
     struct Row {
         Row() { }

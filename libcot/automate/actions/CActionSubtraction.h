@@ -8,7 +8,7 @@ class CActionSubtraction: public IAction
 {
     Q_OBJECT
 public:
-    CActionSubtraction(const QVariantMap&, QObject *parent);
+    CActionSubtraction(const QVariantMap&, CAutomate *parent);
 
     bool runAction(ICycle* arg_stepParent) Q_DECL_OVERRIDE;
     QList<IVariable*> getListParameters()const Q_DECL_OVERRIDE;

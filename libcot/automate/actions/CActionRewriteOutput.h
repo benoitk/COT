@@ -7,7 +7,7 @@ class CActionRewriteOutput : public IAction
 {
     Q_OBJECT
 public:
-    CActionRewriteOutput(const QVariantMap&, QObject *parent);
+    CActionRewriteOutput(const QVariantMap&, CAutomate *parent);
     ~CActionRewriteOutput();
 
 

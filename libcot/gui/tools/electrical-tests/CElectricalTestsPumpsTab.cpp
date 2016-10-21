@@ -5,9 +5,10 @@
 #include "CAutomate.h"
 #include "CDisplayConf.h"
 
-CElectricalTestsPumpsTab::CElectricalTestsPumpsTab(QWidget *parent)
+CElectricalTestsPumpsTab::CElectricalTestsPumpsTab(CAutomate* arg_automate, QWidget *parent)
     : IElectricalTestsTab(parent)
     , ui(new Ui::CElectricalTestsPumpsTab)
+    , m_automate(arg_automate)
 {
     ui->setupUi(this);
     ui->vbbButtons->addAction(CToolButton::ScrollUp, ui->swCentral->moveUp());
@@ -16,9 +17,9 @@ CElectricalTestsPumpsTab::CElectricalTestsPumpsTab(QWidget *parent)
             this, &IElectricalTestsTab::backTriggered);
 
 
-    m_elecTestPumpHandler = new IVariableUIHandler(ui->swCentral, this);
+    m_elecTestPumpHandler = new IVariableUIHandler(arg_automate, ui->swCentral, this);
     updateElecTestPump();
-    connect(CAutomate::getInstance(), &CAutomate::signalDisplayUpdated,
+    connect(arg_automate, &CAutomate::signalDisplayUpdated,
             this, &CElectricalTestsPumpsTab::updateElecTestPump);
 }
 
@@ -29,8 +30,7 @@ CElectricalTestsPumpsTab::~CElectricalTestsPumpsTab()
 
 void CElectricalTestsPumpsTab::updateElecTestPump()
 {
-    CAutomate *automate = CAutomate::getInstance();
-    CDisplayConf *displayConf = automate->getDisplayConf();
+    CDisplayConf *displayConf = m_automate->getDisplayConf();
     QMap<QString, QList<IVariable*> > screenElecVariables = displayConf->getMapForScreenElectricalTests();
     IVariablePtrList screenElecPump = screenElecVariables.value(CDisplayConf::STR_ELEC_PUMP);
     m_elecTestPumpHandler->layout(screenElecPump);

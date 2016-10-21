@@ -7,7 +7,7 @@ class CActionFindClosestFromReference : public IAction
 {
     Q_OBJECT
 public:
-    CActionFindClosestFromReference(const QVariantMap&, QObject *parent);
+    CActionFindClosestFromReference(const QVariantMap&, CAutomate *parent);
     ~CActionFindClosestFromReference();
 
     bool runAction(ICycle* arg_stepParent) Q_DECL_OVERRIDE;

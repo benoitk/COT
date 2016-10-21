@@ -8,13 +8,13 @@ class COptionsWindow;
 }
 
 class IOptionsTab;
-
+class CAutomate;
 class COptionsWindow : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit COptionsWindow(QWidget *parent = Q_NULLPTR);
+    explicit COptionsWindow(CAutomate* arg_automate, QWidget *parent = Q_NULLPTR);
     ~COptionsWindow();
 
 private slots:
@@ -24,6 +24,7 @@ private:
     Ui::COptionsWindow *ui;
 
     void addTab(QWidget *tab, const QString &title);
+    CAutomate* m_automate;
 };
 
 #endif // COPTIONSWINDOW_H

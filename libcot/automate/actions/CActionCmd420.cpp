@@ -8,18 +8,17 @@
 
 
 
-CActionCmd420::CActionCmd420(const QVariantMap &mapAction, QObject *parent)
+CActionCmd420::CActionCmd420(const QVariantMap &mapAction, CAutomate *parent)
     : IAction(mapAction, parent)
 {
-    CAutomate* automate = CAutomate::getInstance();
-    m_inputVar= automate->getVariable(mapAction[QStringLiteral("input_var")].toString());
-    m_inputVarMin= automate->getVariable(mapAction[QStringLiteral("input_var_min")].toString());
-    m_inputVarMax= automate->getVariable(mapAction[QStringLiteral("input_var_max")].toString());
-    m_minAdjustement= automate->getVariable(mapAction[QStringLiteral("min_adjustement")].toString());
-    m_maxAdjustement= automate->getVariable(mapAction[QStringLiteral("max_adjustement")].toString());
+    m_inputVar= m_automate->getVariable(mapAction[QStringLiteral("input_var")].toString());
+    m_inputVarMin= m_automate->getVariable(mapAction[QStringLiteral("input_var_min")].toString());
+    m_inputVarMax= m_automate->getVariable(mapAction[QStringLiteral("input_var_max")].toString());
+    m_minAdjustement= m_automate->getVariable(mapAction[QStringLiteral("min_adjustement")].toString());
+    m_maxAdjustement= m_automate->getVariable(mapAction[QStringLiteral("max_adjustement")].toString());
 
     m_outputVar = Q_NULLPTR;
-    IVariable* tmp = automate->getVariable(mapAction[QStringLiteral("output_var")].toString());
+    IVariable* tmp = m_automate->getVariable(mapAction[QStringLiteral("output_var")].toString());
     if(tmp->getOrganType() == e_type_organ_output && tmp->getType() == e_type_int){
         m_outputVar = dynamic_cast<CVariableOutputInt*>(tmp);
     }

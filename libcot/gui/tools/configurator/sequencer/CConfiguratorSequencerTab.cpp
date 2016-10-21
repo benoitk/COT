@@ -3,14 +3,15 @@
 
 #include <CAutomate.h>
 
-CConfiguratorSequencerTab::CConfiguratorSequencerTab(QWidget *parent)
+CConfiguratorSequencerTab::CConfiguratorSequencerTab(CAutomate* arg_automate, QWidget *parent)
     : IConfiguratorTab(parent)
-    , m_handler(new ConfiguratorSequencerUIHandler(scrollableWidget(), this))
+    , m_handler(new ConfiguratorSequencerUIHandler(arg_automate, scrollableWidget(), this))
+    , m_automate(arg_automate)
 {
     slotUpdateLayout();
 
     connect(buttonBar()->addAction(CToolButton::Add), &QAction::triggered, this, &CConfiguratorSequencerTab::slotAddSequencer);
-    connect(CAutomate::getInstance(), &CAutomate::signalSchedulerUpdated, this, &CConfiguratorSequencerTab::slotUpdateLayout);
+    connect(m_automate, &CAutomate::signalSchedulerUpdated, this, &CConfiguratorSequencerTab::slotUpdateLayout);
     initBaseTab();
 }
 
@@ -28,8 +29,7 @@ void CConfiguratorSequencerTab::slotAddSequencer()
         return;
     }
 
-    CAutomate *automate = CAutomate::getInstance();
-    ICycle *cycle = automate->getCycle(cycleName);
+    ICycle *cycle = m_automate->getCycle(cycleName);
     Q_ASSERT(cycle);
 
     if (cycle->getType() != e_cycle_measure && cycle->getType() != e_cycle_pause) {

@@ -5,8 +5,8 @@
 #include "ICom.h"
 #include "CUnit.h"
 #include "qdebug.h"
-CVariableAlarm::CVariableAlarm(QObject *parent)
-    : CVariableOutputBool()
+CVariableAlarm::CVariableAlarm(CAutomate* arg_automate, QObject *parent)
+    : CVariableOutputBool(arg_automate, parent)
 {
 
 }
@@ -16,13 +16,13 @@ CVariableAlarm::~CVariableAlarm()
 
 }
 
-CVariableAlarm::CVariableAlarm(const QMap<QString, QVariant> &mapVar)
-    : CVariableOutputBool(mapVar)
+CVariableAlarm::CVariableAlarm(const QMap<QString, QVariant> &mapVar, CAutomate* arg_automate, QObject* parent)
+    : CVariableOutputBool(mapVar, arg_automate, parent)
 {
-    connect(this, &CVariableAlarm::signalNewAlarm, CAutomate::getInstance(), &CAutomate::slotNewAlarm);
-    connect(this, &CVariableAlarm::signalAquitedAlarm, CAutomate::getInstance(), &CAutomate::slotAcquitedAlarm);
-    connect(this, &CVariableAlarm::signalStillInAlarm, CAutomate::getInstance(), &CAutomate::slotStillInAlarm);
-    connect(CAutomate::getInstance(), &CAutomate::signalAquitAllAlarm, this, &CVariableAlarm::slotAcquit);
+    connect(this, &CVariableAlarm::signalNewAlarm, m_automate, &CAutomate::slotNewAlarm);
+    connect(this, &CVariableAlarm::signalAquitedAlarm, m_automate, &CAutomate::slotAcquitedAlarm);
+    connect(this, &CVariableAlarm::signalStillInAlarm, m_automate, &CAutomate::slotStillInAlarm);
+    connect(m_automate, &CAutomate::signalAquitAllAlarm, this, &CVariableAlarm::slotAcquit);
     QString alarmType = mapVar.value(QStringLiteral("alarm_type")).toString();
 
     if(alarmType == QStringLiteral("not_critical_error_skip_cycle_try_again")) m_alarmType = e_not_critical_error_skip_cycle_try_again;
@@ -42,15 +42,15 @@ void CVariableAlarm::setInhibited(bool arg){
     m_inhibited = arg;
 }
 void CVariableAlarm::deconnectFromAutomate(){
-    disconnect(this, &CVariableAlarm::signalNewAlarm, CAutomate::getInstance(), &CAutomate::slotNewAlarm);
-    disconnect(this, &CVariableAlarm::signalAquitedAlarm, CAutomate::getInstance(), &CAutomate::slotAcquitedAlarm);
-    disconnect(this, &CVariableAlarm::signalStillInAlarm, CAutomate::getInstance(), &CAutomate::slotStillInAlarm);
+    disconnect(this, &CVariableAlarm::signalNewAlarm, m_automate, &CAutomate::slotNewAlarm);
+    disconnect(this, &CVariableAlarm::signalAquitedAlarm, m_automate, &CAutomate::slotAcquitedAlarm);
+    disconnect(this, &CVariableAlarm::signalStillInAlarm, m_automate, &CAutomate::slotStillInAlarm);
 }
 
 void CVariableAlarm::connectFromAutomate(){
-    connect(this, &CVariableAlarm::signalNewAlarm, CAutomate::getInstance(), &CAutomate::slotNewAlarm);
-    connect(this, &CVariableAlarm::signalAquitedAlarm, CAutomate::getInstance(), &CAutomate::slotAcquitedAlarm);
-    connect(this, &CVariableAlarm::signalStillInAlarm, CAutomate::getInstance(), &CAutomate::slotStillInAlarm);
+    connect(this, &CVariableAlarm::signalNewAlarm, m_automate, &CAutomate::slotNewAlarm);
+    connect(this, &CVariableAlarm::signalAquitedAlarm, m_automate, &CAutomate::slotAcquitedAlarm);
+    connect(this, &CVariableAlarm::signalStillInAlarm, m_automate, &CAutomate::slotStillInAlarm);
 }
 
  void CVariableAlarm::setValue(bool arg_value){

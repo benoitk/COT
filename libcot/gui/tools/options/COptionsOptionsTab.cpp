@@ -5,8 +5,9 @@
 #include "CAutomate.h"
 #include "CDisplayConf.h"
 
-COptionsOptionsTab::COptionsOptionsTab(QWidget *parent)
+COptionsOptionsTab::COptionsOptionsTab(CAutomate* arg_automate, QWidget *parent)
     : IOptionsTab(parent)
+    , m_automate(arg_automate)
     , ui(new Ui::COptionsOptionsTab)
 {
     ui->setupUi(this);
@@ -15,9 +16,9 @@ COptionsOptionsTab::COptionsOptionsTab(QWidget *parent)
     connect(ui->vbbButtons->addAction(CToolButton::Back), &QAction::triggered,
             this, &IOptionsTab::backTriggered);
 
-    m_optionHandler = new IVariableUIHandler(ui->swCentral, this);
+    m_optionHandler = new IVariableUIHandler(arg_automate, ui->swCentral, this);
     updateOptions();
-    connect(CAutomate::getInstance(), &CAutomate::signalDisplayUpdated,
+    connect(arg_automate, &CAutomate::signalDisplayUpdated,
             this, &COptionsOptionsTab::updateOptions);
 }
 
@@ -28,8 +29,7 @@ COptionsOptionsTab::~COptionsOptionsTab()
 
 void COptionsOptionsTab::updateOptions()
 {
-    CAutomate *automate = CAutomate::getInstance();
-    CDisplayConf *displayConf = automate->getDisplayConf();
+    CDisplayConf *displayConf = m_automate->getDisplayConf();
     IVariablePtrList screenOptions = displayConf->getListForScreenOptions();
     m_optionHandler->layout(screenOptions);
 }

@@ -4,13 +4,13 @@
 #include "IConfiguratorTab.h"
 
 class ConfiguratorVariablesUIHandler;
-
+class CAutomate;
 class CConfiguratorVariablesTab : public IConfiguratorTab
 {
     Q_OBJECT
 
 public:
-    explicit CConfiguratorVariablesTab(QWidget *parent = Q_NULLPTR);
+    explicit CConfiguratorVariablesTab(CAutomate* arg_automate, QWidget *parent = Q_NULLPTR);
 
 private slots:
     void slotAddVariable();
@@ -18,6 +18,7 @@ private slots:
 
 private:
     ConfiguratorVariablesUIHandler *m_ivariableUIHandler;
+    CAutomate* m_automate;
 };
 
 #endif // CCONFIGURATORVARIABLESTAB_H

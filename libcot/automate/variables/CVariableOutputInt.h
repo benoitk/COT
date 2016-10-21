@@ -12,8 +12,8 @@ class CVariableOutputInt : public CVariableInt, public IVariableOutput
     Q_OBJECT
 
 public:
-    CVariableOutputInt(QObject *parent = Q_NULLPTR);
-    CVariableOutputInt(const QMap<QString, QVariant> &mapVar);
+    CVariableOutputInt(CAutomate* arg_automate, QObject *parent = Q_NULLPTR);
+    CVariableOutputInt(const QMap<QString, QVariant> &mapVar, CAutomate* arg_automate, QObject* parent);
     ~CVariableOutputInt();
 
 //IVariableOutput

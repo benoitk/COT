@@ -9,6 +9,7 @@ class QTabWidget;
 class QLabel;
 class IVariableUIHandler;
 class IVariable;
+class CAutomate;
 /**
  * @brief This is the base class for dialogs.
  * Use CPCWindow::openModal or openExec to show it.
@@ -18,7 +19,7 @@ class LIBCOT_EXPORT CDialogMaintenance : public QDialog
 {
     Q_OBJECT
 public:
-    explicit CDialogMaintenance(QWidget *parent = Q_NULLPTR);
+    explicit CDialogMaintenance(CAutomate* arg_automate, QWidget *parent = Q_NULLPTR);
 
     void setTitle(const QString &title);
     void setMainWidget(QWidget *widget);

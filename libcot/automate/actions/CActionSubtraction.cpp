@@ -4,15 +4,14 @@
 #include "CVariableFactory.h"
 #include "CAutomate.h"
 #include "cotautomate_debug.h"
-CActionSubtraction::CActionSubtraction(const QVariantMap &mapAction, QObject *parent)
+CActionSubtraction::CActionSubtraction(const QVariantMap &mapAction, CAutomate *parent)
     : IAction(mapAction, parent)
 {
-    CAutomate* automate = CAutomate::getInstance();
-    m_result = automate->getVariable(mapAction[QStringLiteral("result")].toString());
-    m_diminuande = automate->getVariable(mapAction[QStringLiteral("diminuende_variable")].toString());
+    m_result = m_automate->getVariable(mapAction[QStringLiteral("result")].toString());
+    m_diminuande = m_automate->getVariable(mapAction[QStringLiteral("diminuende_variable")].toString());
     QStringList listVarName = mapAction[QStringLiteral("subtrahend_variables")].toStringList();
     foreach(QString varName, listVarName){
-        m_listVar.append(automate->getVariable(varName));
+        m_listVar.append(m_automate->getVariable(varName));
     }
 }
 

@@ -3,13 +3,14 @@
 #include "CUnit.h"
 
 #include "qdebug.h"
-CVariableCurve::CVariableCurve(QObject *parent)
-    : IVariable(parent)
+CVariableCurve::CVariableCurve(CAutomate* arg_automate, QObject *parent)
+    : IVariable(arg_automate, parent)
 
 {
 
 }
-CVariableCurve::CVariableCurve(const QVariantMap& mapVar):IVariable(mapVar){
+CVariableCurve::CVariableCurve(const QVariantMap& mapVar,CAutomate* arg_automate, QObject* parent)
+    :IVariable(mapVar, arg_automate, parent){
     QVariantList listPair = mapVar.value(QStringLiteral("values")).toList();
     foreach (QVariant variantPair, listPair) {
         QVariantMap mapPair = variantPair.toMap();
@@ -40,8 +41,8 @@ float CVariableCurve::getLiearisedX(float arg_y){
 }
 
 
-CVariableCurve::CVariableCurve(bool arg_value, int arg_address, enumVariableAccess arg_access)
-    : IVariable()
+CVariableCurve::CVariableCurve(CAutomate* arg_automate, QObject *parent, bool arg_value, int arg_address, enumVariableAccess arg_access)
+    : IVariable(arg_automate, parent)
 {
 
     m_access = arg_access;

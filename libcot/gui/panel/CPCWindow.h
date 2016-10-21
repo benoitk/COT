@@ -17,6 +17,7 @@ class CPCWindow;
 class IPCTab;
 class CUpdateManager;
 class CDialog;
+class CAutomate;
 class LIBCOT_EXPORT CPCWindow : public QWidget
 {
     Q_OBJECT
@@ -24,7 +25,7 @@ class LIBCOT_EXPORT CPCWindow : public QWidget
 public:
 
 
-    explicit CPCWindow(QWidget *parent = Q_NULLPTR);
+    explicit CPCWindow(CAutomate*, QWidget *parent = Q_NULLPTR);
     ~CPCWindow();
 
     static int openExec(CDialog *dialog);
@@ -65,7 +66,15 @@ public:
         return window;
     }
 
-    static bool showGraphInMainScreen();
+    template <typename T, typename Arg1,  typename Arg2>
+    static T* openModal(const Arg1 &arg1, const Arg2 &arg2) {
+        QWidget *parent = QApplication::activeWindow();
+        T *window = new T(arg1, arg2, parent);
+        openModal(window);
+        return window;
+    }
+
+    static bool showGraphInMainScreen(CAutomate*);
 
 public slots:
     void retranslate();
@@ -86,6 +95,8 @@ private:
     class CPCHistogramTab *m_graphTab;
     class CPCPlusTab *m_plusTab;
     CUpdateManager *m_updateManager;
+
+    CAutomate* m_automate;
 
     void addTab(IPCTab *tab);
     bool canShowUpdatePopup() const;

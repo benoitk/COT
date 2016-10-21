@@ -15,7 +15,7 @@ class CActionWaitForAction : public IAction, QRunnable
     Q_OBJECT
 
 public:
-    CActionWaitForAction(const QVariantMap&, QObject *parent);
+    CActionWaitForAction(const QVariantMap&, CAutomate *parent);
     ~CActionWaitForAction();
 
 

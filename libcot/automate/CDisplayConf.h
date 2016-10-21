@@ -6,12 +6,13 @@
 
 class IVariable;
 class IAction;
+class CAutomate;
 class CDisplayConf : public QObject
 {
     Q_OBJECT
 
 public:
-    CDisplayConf(const QJsonArray&, QObject *parent);
+    CDisplayConf(const QJsonArray&, CAutomate *parent);
     ~CDisplayConf();
 
     QVariantList serialize();
@@ -67,6 +68,8 @@ private:
     QList<IAction*> m_listInitialTestActions;
     QList<IVariable*> m_listInitialTestVariablesTest;
     QList<IVariable*> m_listInitialTestVariablesIndicator;
+
+    CAutomate* m_automate;
 };
 
 #endif // CDisplayConf_H

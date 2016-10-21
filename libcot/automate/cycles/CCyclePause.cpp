@@ -4,14 +4,15 @@
 #include "qthread.h"
 #include "qtimer.h"
 #include "CAutomate.h"
+#include "CScheduler.h"
 #include "CVariableStream.h"
 
-CCyclePause::CCyclePause(QObject *parent)
+CCyclePause::CCyclePause(CScheduler *parent)
     : ICycle(parent)
 {
     initTimer();
 }
-CCyclePause::CCyclePause(const QVariantMap &mapCycle, QObject* parent)
+CCyclePause::CCyclePause(const QVariantMap &mapCycle, CScheduler* parent)
     : ICycle(mapCycle, parent)
 {
     m_fTempsCycle = mapCycle[QStringLiteral("timer")].toInt();
@@ -21,15 +22,15 @@ CCyclePause::CCyclePause(const QVariantMap &mapCycle, QObject* parent)
     this->moveToThread(&m_thread);
     m_thread.start();
 }
-CCyclePause::CCyclePause(int temps, QObject* parent): ICycle(parent) {
+CCyclePause::CCyclePause(int temps, CScheduler* parent): ICycle(parent) {
     m_fTempsCycle = temps;
     initTimer();
 }
 
-CCyclePause::CCyclePause(int temps): ICycle() {
-    m_fTempsCycle = temps;
-    initTimer();
-}
+//CCyclePause::CCyclePause(int temps): ICycle() {
+//    m_fTempsCycle = temps;
+//    initTimer();
+//}
 CCyclePause::~CCyclePause()
 {
 
@@ -56,7 +57,7 @@ void CCyclePause::slotRunCycle(){
     qCDebug(COTAUTOMATE_LOG) << "CCyclePause::slotRunCycle()";
     m_fTimer = 0;
 
-    emit CAutomate::getInstance()->signalUpdateCountStep(m_fTempsCycle);
+    emit m_scheduler->getAutomate()->signalUpdateCountStep(m_fTempsCycle);
     updateCycleInfosStep(0, tr("Paused"));
 
     m_isRunning = true;

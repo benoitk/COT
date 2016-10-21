@@ -6,10 +6,11 @@
 #include <CVariableStream.h>
 #include <CVariableMeasure.h>
 
-CEditVariableTabUIHandler::CEditVariableTabUIHandler(CScrollableWidget *scrollable, QObject *parent)
-    : IConfiguratorUIHandler(scrollable, parent)
+CEditVariableTabUIHandler::CEditVariableTabUIHandler(CAutomate* arg_automate,CScrollableWidget *scrollable, QObject *parent)
+    : IConfiguratorUIHandler(arg_automate, scrollable, parent)
+    , m_automate(arg_automate)
 {
-    setDescriber(new CVariableIVariableDescriber(this));
+    setDescriber(new CVariableIVariableDescriber(arg_automate, this));
 }
 
 CEditVariableTabUIHandler::~CEditVariableTabUIHandler()
@@ -27,13 +28,12 @@ void CEditVariableTabUIHandler::rowChanged(const IVariableUIHandler::Row &row, I
     IConfiguratorUIHandler::rowChanged(row, ivar);
 
     if (ivar->getName() == "streamOrMeasure") {
-        const CAutomate *automate = CAutomate::getInstance();
         QWidget *editor = row.widgetAt<QWidget *>(1);
-        CVariableStream *stream = automate->getStream(ivar->toString());
-        CVariableMeasure *measure = automate->getMeasure(ivar->toString());
+        CVariableStream *stream = m_automate->getStream(ivar->toString());
+        CVariableMeasure *measure = m_automate->getMeasure(ivar->toString());
 
         if (measure) {
-            stream = automate->getMeasureStream(measure);
+            stream = m_automate->getMeasureStream(measure);
             QStringList texts;
 
             if (stream) {

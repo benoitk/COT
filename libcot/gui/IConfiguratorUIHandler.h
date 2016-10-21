@@ -9,12 +9,13 @@
 /**
  * Extends IVariableUIHandler to add support for deletion.
  */
+class CAutomate;
 class LIBCOT_EXPORT IConfiguratorUIHandler : public IVariableUIHandler
 {
     Q_OBJECT
 
 public:
-    explicit IConfiguratorUIHandler(CScrollableWidget *scrollable = Q_NULLPTR, QObject *parent = Q_NULLPTR);
+    explicit IConfiguratorUIHandler(CAutomate* arg_automate, CScrollableWidget *scrollable = Q_NULLPTR, QObject *parent = Q_NULLPTR);
 
 protected:
     virtual CToolButton *newDeleteButton(IVariable *ivar);

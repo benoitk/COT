@@ -5,9 +5,10 @@
 
 #include <QScrollBar>
 
-CHistoryWindow::CHistoryWindow(QTextDocument *document, QWidget *parent)
+CHistoryWindow::CHistoryWindow(CAutomate* arg_automate,QTextDocument *document, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::CHistoryWindow)
+    , m_automate(arg_automate)
 {
     ui->setupUi(this);
     ui->pteHistory->setDocument(document);
@@ -15,7 +16,7 @@ CHistoryWindow::CHistoryWindow(QTextDocument *document, QWidget *parent)
     ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->pteHistory->moveDown());
     connect(ui->vbbButtons->addAction(CToolButton::Back), &QAction::triggered,
             this, &CHistoryWindow::backTriggered);
-    connect(CAutomate::getInstance(), &CAutomate::signalVariableChanged, this, &CHistoryWindow::slotVariableChanged);
+    connect(m_automate, &CAutomate::signalVariableChanged, this, &CHistoryWindow::slotVariableChanged);
 }
 
 CHistoryWindow::~CHistoryWindow()
@@ -33,10 +34,9 @@ void CHistoryWindow::slotVariableChanged(const QString &name)
     // The QTextDocument is modified by CPCToolsTab::slotVariableChanged
     // All we have to do here is scroll down.
 
-    CAutomate *automate = CAutomate::getInstance();
-    IVariable *ivar = automate->getVariable(name);
+    IVariable *ivar = m_automate->getVariable(name);
 
-    if (!automate->getDisplayConf()->getListForScreenHistory().contains(ivar)) {
+    if (!m_automate->getDisplayConf()->getListForScreenHistory().contains(ivar)) {
         return;
     }
 

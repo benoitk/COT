@@ -5,7 +5,7 @@
 #include "cot_global.h"
 
 class CPushButton;
-
+class CAutomate;
 class LIBCOT_EXPORT ConfiguratorSequencerUIHandler : public IConfiguratorUIHandler
 {
     Q_OBJECT
@@ -14,7 +14,7 @@ public:
     typedef QPair<ICycle *, int> CyclePair;
     typedef QList<CyclePair> CyclePairList;
 
-    explicit ConfiguratorSequencerUIHandler(CScrollableWidget *scrollable = Q_NULLPTR, QObject *parent = Q_NULLPTR);
+    explicit ConfiguratorSequencerUIHandler(CAutomate* arg_automate, CScrollableWidget *scrollable = Q_NULLPTR, QObject *parent = Q_NULLPTR);
     ~ConfiguratorSequencerUIHandler();
 
     void layout();
@@ -43,6 +43,7 @@ private:
 
     CPushButton *newCycleButton(IVariable *ivar);
     CPushButton *newValueButton(IVariable *ivar);
+    CAutomate* m_automate;
 };
 
 #endif // CONFIGURATORSEQUENCERUIHANDLER_H

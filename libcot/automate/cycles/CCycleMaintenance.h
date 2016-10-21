@@ -9,9 +9,9 @@ class CCycleMaintenance : public CCycleMesure
     Q_OBJECT
 
 public:
-    CCycleMaintenance(QObject *parent = Q_NULLPTR);
-    CCycleMaintenance(enumTypeCycle type, QObject *parent = Q_NULLPTR);
-     CCycleMaintenance(const QVariantMap&,QObject *parent);
+    CCycleMaintenance(CScheduler *parent = Q_NULLPTR);
+    CCycleMaintenance(enumTypeCycle type, CScheduler *parent = Q_NULLPTR);
+     CCycleMaintenance(const QVariantMap&,CScheduler *parent);
     ~CCycleMaintenance();
 
     enumTypeCycle getType()const Q_DECL_OVERRIDE;

@@ -5,17 +5,19 @@
 #include "CAutomate.h"
 #include "CDisplayConf.h"
 
-CMaintenanceDiagnosticTab::CMaintenanceDiagnosticTab(QWidget *parent)
+
+CMaintenanceDiagnosticTab::CMaintenanceDiagnosticTab(CAutomate* arg_automate, QWidget *parent)
     : IMaintenanceTab(parent)
     , ui(new Ui::CMaintenanceDiagnosticTab)
+    , m_automate(arg_automate)
 {
     ui->setupUi(this);
     ui->vbbButtons->addAction(CToolButton::ScrollUp, ui->swCentral->moveUp());
     ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->swCentral->moveDown());
 
-    m_diagnosticHandler = new IVariableUIHandler(ui->swCentral, this);
+    m_diagnosticHandler = new IVariableUIHandler(arg_automate, ui->swCentral, this);
     slotUpdateLayout();
-    connect(CAutomate::getInstance(), &CAutomate::signalDisplayUpdated,
+    connect(m_automate, &CAutomate::signalDisplayUpdated,
             this, &CMaintenanceDiagnosticTab::slotUpdateLayout);
 
 }
@@ -27,8 +29,7 @@ CMaintenanceDiagnosticTab::~CMaintenanceDiagnosticTab()
 
 void CMaintenanceDiagnosticTab::slotUpdateLayout()
 {
-    CAutomate *automate = CAutomate::getInstance();
-    CDisplayConf *displayConf = automate->getDisplayConf();
+    CDisplayConf *displayConf = m_automate->getDisplayConf();
     IVariablePtrList screenDiagnostics = displayConf->getListForScreenDiagnostic();
     m_diagnosticHandler->layout(screenDiagnostics);
 }

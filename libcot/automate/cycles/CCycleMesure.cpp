@@ -7,15 +7,16 @@
 #include "IAction.h"
 #include "CStep.h"
 #include "CAutomate.h"
+#include "CScheduler.h"
 #include "CVariableStream.h"
 
-CCycleMesure::CCycleMesure(QObject *parent)
+CCycleMesure::CCycleMesure(CScheduler *parent)
     : ICycle(parent)
 {
 
 }
 
-CCycleMesure::CCycleMesure(const QVariantMap &mapCycle, QObject *parent): ICycle(mapCycle, parent) {
+CCycleMesure::CCycleMesure(const QVariantMap &mapCycle, CScheduler *parent): ICycle(mapCycle, parent) {
     //qCDebug(COTAUTOMATE_LOG) << "constructor CCycleMesure(const QVariantMap &mapCycle) mapCycle:" << mapCycle;
     //m_timer = Q_NULLPTR;
      qDebug() << "moveThread CCycleMesure";
@@ -59,7 +60,7 @@ void CCycleMesure::slotStepFinished(CStep* arg_step){
     if(m_itListStepsPasEnCours == m_listSteps.end()) { //fin du cycle
         m_isRunning = false; //a changer avec m_itListStepsPasEnCours = m_listSteps.end pour savoir si un cycle est en cours ou pas
 
-        emit CAutomate::getInstance()->signalUpdatePlotting();
+        emit m_scheduler->getAutomate()->signalUpdatePlotting();
         slotGetReadyForPlayNextCycle();
     }else{
         if((m_itListStepsPasEnCours != m_listSteps.begin())){

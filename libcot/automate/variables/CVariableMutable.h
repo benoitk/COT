@@ -29,9 +29,9 @@ public:
         StreamOrMeasure
     };
 
-    explicit CVariableMutable(QObject *parent = 0);
-    explicit CVariableMutable(const QVariantMap &data, QObject *parent = 0);
-    explicit CVariableMutable(const QVariant &data, QObject *parent = 0);
+    explicit CVariableMutable(CAutomate* arg_automate, QObject *parent = 0);
+    explicit CVariableMutable(const QVariantMap &data, CAutomate* arg_automate, QObject *parent = 0);
+    explicit CVariableMutable(const QVariant &data, CAutomate* arg_automate, QObject *parent = 0);
     ~CVariableMutable();
 
     virtual enumVariableOrganType getOrganType() const;

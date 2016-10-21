@@ -1,20 +1,22 @@
 #include "CVariableInt.h"
 #include "CUnit.h"
 
-CVariableInt::CVariableInt(QObject *parent)
-    : IVariable(parent)
+CVariableInt::CVariableInt(CAutomate* arg_automate, QObject *parent)
+    : IVariable(arg_automate, parent)
     , m_value(-1)
 {
 
 }
 
-CVariableInt::CVariableInt(const QVariantMap& mapVar):IVariable(mapVar){
+CVariableInt::CVariableInt(const QVariantMap& mapVar, CAutomate* arg_automate, QObject* parent)
+    :IVariable(mapVar, arg_automate, parent)
+{
     m_value = mapVar.value(QStringLiteral("value")).toInt();
     m_valueMin = mapVar.value(QStringLiteral("value_min")).toInt();
     m_valueMax = mapVar.value(QStringLiteral("value_max")).toInt();
 }
-CVariableInt::CVariableInt(int arg_int, int arg_address, enumVariableAccess arg_access)
-    : IVariable()
+CVariableInt::CVariableInt(CAutomate* arg_automate, QObject *parent, int arg_int, int arg_address, enumVariableAccess arg_access)
+    : IVariable(arg_automate, parent)
 {
     m_value = arg_int;
     m_access = arg_access;

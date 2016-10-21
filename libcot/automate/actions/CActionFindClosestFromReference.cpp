@@ -5,15 +5,15 @@
 #include "cotautomate_debug.h"
 
 
-CActionFindClosestFromReference::CActionFindClosestFromReference(const QVariantMap &mapAction, QObject *parent)
+CActionFindClosestFromReference::CActionFindClosestFromReference(const QVariantMap &mapAction, CAutomate *parent)
     : IAction(mapAction, parent)
 {
-    CAutomate* automate = CAutomate::getInstance();
-    m_ref = automate->getVariable(mapAction[QStringLiteral("reference")].toString());
-    m_result = automate->getVariable(mapAction[QStringLiteral("result")].toString());
+
+    m_ref = m_automate->getVariable(mapAction[QStringLiteral("reference")].toString());
+    m_result = m_automate->getVariable(mapAction[QStringLiteral("result")].toString());
     QStringList list = mapAction[QStringLiteral("variables")].toStringList();
     foreach(QString varName, list){
-        IVariable* var = automate->getVariable(varName);
+        IVariable* var = m_automate->getVariable(varName);
         if(var->getType() != e_type_unknow) m_listVar.append(var);
     }
 }

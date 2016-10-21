@@ -9,12 +9,13 @@ class QByteArray;
 class IAction;
 class ICycle;
 class CScheduler;
+class CAutomate;
 class CModelConfigFile : public QObject
 {
     Q_OBJECT
 
 public:
-    CModelConfigFile(QObject *parent, CScheduler* scheduler);
+    CModelConfigFile(CAutomate *parent, CScheduler* scheduler);
     ~CModelConfigFile();
 
     QString getLabelAnalyser(const QLocale &);

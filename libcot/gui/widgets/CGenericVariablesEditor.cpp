@@ -4,9 +4,9 @@
 
 #include <CVariableFactory.h>
 
-CGenericVariablesEditor::CGenericVariablesEditor(QWidget *parent)
+CGenericVariablesEditor::CGenericVariablesEditor(CAutomate* arg_automate, QWidget *parent)
     : IScrollableUIWidget(parent)
-    , m_handler(new CGenericVariablesUIHandler(scrollableWidget(), this))
+    , m_handler(new CGenericVariablesUIHandler(arg_automate, scrollableWidget(), this))
     , m_validator(Q_NULLPTR)
     , m_userData1(Q_NULLPTR)
     , m_userData2(Q_NULLPTR)

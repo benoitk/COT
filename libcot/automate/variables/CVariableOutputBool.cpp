@@ -4,8 +4,9 @@
 #include "ICom.h"
 #include "CUnit.h"
 #include "qdebug.h"
-CVariableOutputBool::CVariableOutputBool(QObject *parent)
-    : CVariableBool(parent),IVariableOutput()
+#include "CAutomate.h"
+CVariableOutputBool::CVariableOutputBool(CAutomate* arg_automate, QObject *parent)
+    : CVariableBool(arg_automate, parent),IVariableOutput()
 {
 
 }
@@ -15,8 +16,10 @@ CVariableOutputBool::~CVariableOutputBool()
 
 }
 
-CVariableOutputBool::CVariableOutputBool(const QMap<QString, QVariant> &mapVar)
-    : CVariableBool(mapVar),IVariableOutput(mapVar)
+CVariableOutputBool::CVariableOutputBool(const QMap<QString, QVariant> &mapVar, CAutomate* arg_automate, QObject* parent)
+    : CVariableBool(mapVar, arg_automate, parent)
+    ,IVariableOutput(arg_automate->getExtensionCard(mapVar.value(QStringLiteral("extension_name")).toString())
+                                              ->getOrgan(mapVar.value(QStringLiteral("organ_name")).toString()))
 {
     m_passive = mapVar.value(QStringLiteral("passive")).toBool(); //false par défaut même si il n'y a de champs passive dans le json
 }

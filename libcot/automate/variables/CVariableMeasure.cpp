@@ -7,12 +7,12 @@
 
 #define QSL QStringLiteral
 
-CVariableMeasure::CVariableMeasure(QObject *parent)
-    :IVariable(parent)
+CVariableMeasure::CVariableMeasure(CAutomate* arg_automate, QObject *parent)
+    :IVariable(arg_automate, parent)
 {
 }
-CVariableMeasure::CVariableMeasure(const QMap<QString, QVariant> &mapVar)
-    :IVariable()
+CVariableMeasure::CVariableMeasure(const QMap<QString, QVariant> &mapVar, CAutomate* arg_automate, QObject *parent)
+    :IVariable(arg_automate, parent)
 {
     m_name = mapVar.value(QSL("name")).toString();
     if (m_name.isEmpty())
@@ -22,13 +22,13 @@ CVariableMeasure::CVariableMeasure(const QMap<QString, QVariant> &mapVar)
     if (m_label.isEmpty())
         m_label = tr("Stream no label");
 
-    m_measure = CAutomate::getInstance()->getVariable(mapVar.value(QSL("variable_measure")).toString());
-    m_measureMax = CAutomate::getInstance()->getVariable(mapVar.value(QSL("variable_range_max")).toString());
-    m_measureMin = CAutomate::getInstance()->getVariable(mapVar.value(QSL("variable_range_min")).toString());
+    m_measure = m_automate->getVariable(mapVar.value(QSL("variable_measure")).toString());
+    m_measureMax = m_automate->getVariable(mapVar.value(QSL("variable_range_max")).toString());
+    m_measureMin = m_automate->getVariable(mapVar.value(QSL("variable_range_min")).toString());
 
     QVariantList listVariable = mapVar.value(QStringLiteral("variables")).toList();
     foreach(const QVariant &variant, listVariable){
-        m_listVariables.append(CAutomate::getInstance()->getVariable(variant.toString()));
+        m_listVariables.append(m_automate->getVariable(variant.toString()));
     }
 }
 IVariable* CVariableMeasure::getMeasureMax(){

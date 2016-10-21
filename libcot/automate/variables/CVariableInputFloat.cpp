@@ -4,11 +4,11 @@
 #include "CUnit.h"
 #include "IOrgan.h"
 #include "ICom.h"
-
+#include "CAutomate.h"
 #include "qmutex.h"
 
-CVariableInputFloat::CVariableInputFloat(QObject *parent)
-    : CVariableFloat(parent), IVariableInput()
+CVariableInputFloat::CVariableInputFloat(CAutomate* arg_automate, QObject *parent)
+    : CVariableFloat(arg_automate, parent), IVariableInput()
 {
 
 }
@@ -18,8 +18,10 @@ CVariableInputFloat::~CVariableInputFloat()
 
 }
 
-CVariableInputFloat::CVariableInputFloat(const QMap<QString, QVariant> &mapVar)
-    : CVariableFloat(mapVar), IVariableInput(mapVar)
+CVariableInputFloat::CVariableInputFloat(const QMap<QString, QVariant> &mapVar, CAutomate* arg_automate, QObject* parent)
+    : CVariableFloat(mapVar, arg_automate, parent)
+    ,IVariableInput(arg_automate->getExtensionCard(mapVar.value(QStringLiteral("extension_name")).toString())
+                                              ->getOrgan(mapVar.value(QStringLiteral("organ_name")).toString()))
 {
 
 }

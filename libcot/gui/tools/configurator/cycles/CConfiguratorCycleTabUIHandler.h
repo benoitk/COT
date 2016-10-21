@@ -10,7 +10,7 @@ class CConfiguratorCycleTabUIHandler : public IConfiguratorUIHandler
     Q_OBJECT
 
 public:
-    explicit CConfiguratorCycleTabUIHandler(CScrollableWidget *scrollable = Q_NULLPTR, QObject *parent = Q_NULLPTR);
+    explicit CConfiguratorCycleTabUIHandler(CAutomate* arg_automate, CScrollableWidget *scrollable = Q_NULLPTR, QObject *parent = Q_NULLPTR);
     ~CConfiguratorCycleTabUIHandler();
 
     void layout();
@@ -31,6 +31,7 @@ private:
     QHash<QString, IVariable *> m_internalVariables;
 
     CPushButton *newButton(IVariable *ivar);
+    CAutomate* m_automate;
 };
 
 #endif // CCYCLETABUIHANDLER_H

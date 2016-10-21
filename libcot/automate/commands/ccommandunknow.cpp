@@ -1,6 +1,6 @@
 #include "ccommandunknow.h"
 
-CCommandUnknow::CCommandUnknow(const QVariantMap &mapCmd, QObject *parent): ICommand(mapCmd, parent)
+CCommandUnknow::CCommandUnknow(const QVariantMap &mapCmd, CAutomate *parent): ICommand(mapCmd, parent)
 {
 
 }

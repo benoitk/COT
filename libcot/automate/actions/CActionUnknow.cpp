@@ -2,7 +2,7 @@
 
 #include "cotautomate_debug.h"
 
-CActionUnknow::CActionUnknow(const QVariantMap &mapAction, QObject *parent)
+CActionUnknow::CActionUnknow(const QVariantMap &mapAction, CAutomate *parent)
     : IAction(mapAction, parent)
 {
     m_name =  QStringLiteral("unknow_action");

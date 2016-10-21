@@ -7,7 +7,7 @@ class CActionFindBiggerValue : public IAction
 {
     Q_OBJECT
 public:
-    CActionFindBiggerValue(const QVariantMap&, QObject *parent);
+    CActionFindBiggerValue(const QVariantMap&, CAutomate *parent);
     ~CActionFindBiggerValue();
 
     bool runAction(ICycle* arg_stepParent) Q_DECL_OVERRIDE;

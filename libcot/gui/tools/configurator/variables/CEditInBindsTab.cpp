@@ -4,9 +4,9 @@
 
 #include <IVariableObjectDescriber.h>
 
-CEditInBindsTab::CEditInBindsTab(IVariable *ivar, QWidget *parent)
+CEditInBindsTab::CEditInBindsTab(CAutomate* arg_automate, IVariable *ivar, QWidget *parent)
     : IConfiguratorEditTab(parent)
-    , m_handler(new CEditInBindsUIHandler(scrollableWidget(), this))
+    , m_handler(new CEditInBindsUIHandler(arg_automate, scrollableWidget(), this))
 {
     Q_ASSERT(ivar);
     m_handler->layout(ivar);

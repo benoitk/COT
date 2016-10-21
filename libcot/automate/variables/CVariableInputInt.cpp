@@ -3,11 +3,11 @@
 #include "CUnit.h"
 #include "ICom.h"
 #include "IOrgan.h"
-
+#include "CAutomate.h"
 #include "qmutex.h"
 
-CVariableInputInt::CVariableInputInt(QObject *parent)
-    : CVariableInt(parent)
+CVariableInputInt::CVariableInputInt(CAutomate* arg_automate, QObject *parent)
+    : CVariableInt(arg_automate, parent)
 {
 
 }
@@ -17,8 +17,10 @@ CVariableInputInt::~CVariableInputInt()
 
 }
 
-CVariableInputInt::CVariableInputInt(const QMap<QString, QVariant> &mapVar)
-    : CVariableInt(mapVar), IVariableInput(mapVar)
+CVariableInputInt::CVariableInputInt(const QMap<QString, QVariant> &mapVar, CAutomate* arg_automate, QObject* parent)
+    : CVariableInt(mapVar, arg_automate, parent)
+    ,IVariableInput(arg_automate->getExtensionCard(mapVar.value(QStringLiteral("extension_name")).toString())
+                                              ->getOrgan(mapVar.value(QStringLiteral("organ_name")).toString()))
 {
 
 }

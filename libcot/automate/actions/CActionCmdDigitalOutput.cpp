@@ -6,18 +6,17 @@
 
 
 
-CActionCmdDigitalOutput::CActionCmdDigitalOutput(const QVariantMap &mapAction, QObject *parent)
+CActionCmdDigitalOutput::CActionCmdDigitalOutput(const QVariantMap &mapAction, CAutomate *parent)
     : IAction(mapAction, parent)
 {
-    CAutomate* automate = CAutomate::getInstance();
-    m_varDigitalOutput = automate->getVariable(mapAction[QStringLiteral("target")].toString()); //l'automate assure qu'il n'y ai pas de pointeur vide
+    m_varDigitalOutput = m_automate->getVariable(mapAction[QStringLiteral("target")].toString()); //l'automate assure qu'il n'y ai pas de pointeur vide
 
     QVariantMap variantMap;
     variantMap.insert(QStringLiteral("name"), QStringLiteral("state"));
     variantMap.insert(tr("en_US"), tr("State output"));
     variantMap.insert(QStringLiteral("type"), QStringLiteral("boolean"));
     variantMap.insert(QStringLiteral("value"), mapAction[QStringLiteral("state")].toBool());
-    m_state = dynamic_cast<CVariableBool*>(CVariableFactory::build(variantMap));
+    m_state = dynamic_cast<CVariableBool*>(CVariableFactory::build(m_automate, this, variantMap));
 
 
 }

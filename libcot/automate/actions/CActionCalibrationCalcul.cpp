@@ -6,18 +6,17 @@
 #include "cotautomate_debug.h"
 
 
-CActionCalibrationCalcul::CActionCalibrationCalcul(const QVariantMap &mapAction, QObject *parent)
+CActionCalibrationCalcul::CActionCalibrationCalcul(const QVariantMap &mapAction, CAutomate *parent)
     : IAction(mapAction, parent)
 {
-    CAutomate* automate = CAutomate::getInstance();
-    m_measure = automate->getVariable(mapAction[QStringLiteral("measure")].toString());
-    m_standardValue = automate->getVariable(mapAction[QStringLiteral("standard_value")].toString());
-    m_coefCalibration = automate->getVariable(mapAction[QStringLiteral("coef_calibration")].toString());
-    m_coefCalibrationNew = automate->getVariable(mapAction[QStringLiteral("new_coef_calibration")].toString());
-    m_default= automate->getVariable(mapAction[QStringLiteral("default")].toString());
-    m_marginDefault = automate->getVariable(mapAction[QStringLiteral("margin_default")].toString());
-    m_co2g= automate->getVariable(mapAction[QStringLiteral("co2g")].toString());
-    m_vesselVolume= automate->getVariable(mapAction[QStringLiteral("vessel_volume")].toString());
+    m_measure = m_automate->getVariable(mapAction[QStringLiteral("measure")].toString());
+    m_standardValue = m_automate->getVariable(mapAction[QStringLiteral("standard_value")].toString());
+    m_coefCalibration = m_automate->getVariable(mapAction[QStringLiteral("coef_calibration")].toString());
+    m_coefCalibrationNew = m_automate->getVariable(mapAction[QStringLiteral("new_coef_calibration")].toString());
+    m_default= m_automate->getVariable(mapAction[QStringLiteral("default")].toString());
+    m_marginDefault = m_automate->getVariable(mapAction[QStringLiteral("margin_default")].toString());
+    m_co2g= m_automate->getVariable(mapAction[QStringLiteral("co2g")].toString());
+    m_vesselVolume= m_automate->getVariable(mapAction[QStringLiteral("vessel_volume")].toString());
 }
 
 CActionCalibrationCalcul::~CActionCalibrationCalcul()

@@ -10,9 +10,9 @@ class CCycleAutonome : public CCycleMesure
     Q_OBJECT
 
 public:
-    CCycleAutonome(QObject *parent = Q_NULLPTR);
-    CCycleAutonome(const QVariantMap&, QObject *parent);
-    CCycleAutonome(const QVariantMap&, const QMap<QString, IAction*> &, QObject *parent);
+    CCycleAutonome(CScheduler *parent = Q_NULLPTR);
+    CCycleAutonome(const QVariantMap&, CScheduler *parent);
+    CCycleAutonome(const QVariantMap&, const QMap<QString, IAction*> &, CScheduler *parent);
     ~CCycleAutonome();
 
 

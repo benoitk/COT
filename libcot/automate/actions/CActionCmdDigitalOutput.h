@@ -11,7 +11,7 @@ class CActionCmdDigitalOutput : public IAction
 public:
 
 
-    CActionCmdDigitalOutput(const QVariantMap&, QObject *parent);
+    CActionCmdDigitalOutput(const QVariantMap&, CAutomate *parent);
     ~CActionCmdDigitalOutput();
 
 

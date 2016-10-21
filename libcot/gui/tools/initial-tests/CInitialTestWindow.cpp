@@ -13,8 +13,9 @@
 #include <QHBoxLayout>
 #include "CVariableAlarm.h"
 
-CInitialTestsWindow::CInitialTestsWindow(QWidget *parent) :
-    CDialog(parent)
+CInitialTestsWindow::CInitialTestsWindow(CAutomate* arg_automate,QWidget *parent)
+    : CDialog(parent)
+    , m_automate(arg_automate)
 
 {
   setTitle(tr("Initial tests"));
@@ -41,16 +42,16 @@ CInitialTestsWindow::CInitialTestsWindow(QWidget *parent) :
 
   m_actBack = buttonBar()->addAction(CToolButton::Back);
   connect(m_actBack, &QAction::triggered, this, &CInitialTestsWindow::slotBackTriggered);
-  connect(m_actBack, &QAction::triggered, CAutomate::getInstance()->getScheduler(), &CScheduler::signalGetReadyForPlayCycleMesure);
+  connect(m_actBack, &QAction::triggered, m_automate->getScheduler(), &CScheduler::signalGetReadyForPlayCycleMesure);
 
-  m_testVarHandler = new IVariableUIHandler(widgetLeft, this);
-  m_indicatorVarHandler = new IVariableUIHandler(widgetRight, this);
+  m_testVarHandler = new IVariableUIHandler(arg_automate, widgetLeft, this);
+  m_indicatorVarHandler = new IVariableUIHandler(arg_automate, widgetRight, this);
   slotUpdateWindow();
-  connect(CAutomate::getInstance(), &CAutomate::signalDisplayUpdated,
+  connect(m_automate, &CAutomate::signalDisplayUpdated,
           this, &CInitialTestsWindow::slotUpdateWindow);
 
   //init tout les relais au démarage, toutes cartes confondues
-  foreach(IVariable* var, CAutomate::getInstance()->getMapVariables()){
+  foreach(IVariable* var, m_automate->getMapVariables()){
       if(var->getOrganType() == e_type_organ_output && (var->getType() == e_type_bool || var->getType() == e_type_alarm)){
           (dynamic_cast<IVariableOutput*>(var))->writeValue();
       }
@@ -58,20 +59,20 @@ CInitialTestsWindow::CInitialTestsWindow(QWidget *parent) :
 
   //et des alarm des init qui doivent toujours être à faux au démarage.
   //problème pour les alarm dans l'init qui ont l'autoacquit à false
-  foreach(IVariable* var, CAutomate::getInstance()->getDisplayConf()->getListInitialsTestVariablesTest()){
+  foreach(IVariable* var, m_automate->getDisplayConf()->getListInitialsTestVariablesTest()){
         var->setValue(true);
         if(var->getType() == e_type_alarm)
             dynamic_cast<CVariableAlarm*>(var)->deconnectFromAutomate();
   }
-  CAutomate::getInstance()->getScheduler()->slotStartAllCyleAutonome();
+  m_automate->getScheduler()->slotStartAllCyleAutonome();
   m_timerTests.singleShot(1000, this, SLOT(slotTests()));
 
 }
 
 void CInitialTestsWindow::slotBackTriggered()
 {
-    CAutomate::getInstance()->acquitAlarms();
-    foreach(IVariable* var, CAutomate::getInstance()->getDisplayConf()->getListInitialsTestVariablesTest()){
+   m_automate->acquitAlarms();
+    foreach(IVariable* var, m_automate->getDisplayConf()->getListInitialsTestVariablesTest()){
           if(var->getType() == e_type_alarm)
               dynamic_cast<CVariableAlarm*>(var)->connectFromAutomate();
     }
@@ -81,7 +82,7 @@ void CInitialTestsWindow::slotBackTriggered()
 
 void CInitialTestsWindow::slotUpdateWindow()
 {
-    CAutomate *automate = CAutomate::getInstance();
+    CAutomate *automate = m_automate;
     CDisplayConf *displayConf = automate->getDisplayConf();
     IVariablePtrList screenInitialTest = displayConf->getListInitialsTestVariablesTest();
     IVariablePtrList screenInitialIndicator = displayConf->getListInitialsTestVariablesIndicator();
@@ -91,7 +92,7 @@ void CInitialTestsWindow::slotUpdateWindow()
 
 void CInitialTestsWindow::slotTests(){
     bool test = true;
-    foreach(IVariable* var, CAutomate::getInstance()->getDisplayConf()->getListInitialsTestVariablesTest()){
+    foreach(IVariable* var, m_automate->getDisplayConf()->getListInitialsTestVariablesTest()){
         if(var->toBool())
             test = false;
 

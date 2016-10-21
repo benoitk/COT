@@ -5,12 +5,12 @@
 #include "IConfiguratorUIHandler.h"
 
 class CPushButton;
-
+class CAutomate;
 class LIBCOT_EXPORT ConfiguratorVariablesUIHandler : public IConfiguratorUIHandler
 {
     Q_OBJECT
 public:
-    explicit ConfiguratorVariablesUIHandler(CScrollableWidget *scrollable = Q_NULLPTR, QObject *parent = Q_NULLPTR);
+    explicit ConfiguratorVariablesUIHandler(CAutomate* arg_automate, CScrollableWidget *scrollable = Q_NULLPTR, QObject *parent = Q_NULLPTR);
     ~ConfiguratorVariablesUIHandler();
 
     IVariable *getVariable(const QString &name) const Q_DECL_OVERRIDE;
@@ -37,6 +37,7 @@ private slots:
 private:
     CPushButton *newButton(IVariable *ivar);
     IVariable *getStreamOrMeasure(IVariable *ivar) const;
+    CAutomate* m_automate;
 };
 
 #endif // CONFIGURATORVARIABLESUIHANDLER_H

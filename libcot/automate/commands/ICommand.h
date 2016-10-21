@@ -16,11 +16,12 @@ enum enumCommandType{
 };
 
 class IVariable;
+class CAutomate;
 class ICommand : public QObject
 {
     Q_OBJECT
 public:
-    explicit ICommand(const QVariantMap &mapCmd, QObject *parent);
+    explicit ICommand(const QVariantMap &mapCmd, CAutomate *parent);
     ~ICommand();
     QString getName();
     enumCommandType getType();
@@ -35,6 +36,9 @@ private:
     QString m_name;
     QString m_label;
     enumCommandType m_type;
+
+protected:
+    CAutomate * m_automate;
 };
 
 #endif // ICOMMANDS_H

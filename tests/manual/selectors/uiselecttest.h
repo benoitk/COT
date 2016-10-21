@@ -9,13 +9,13 @@ class UISelectTest;
 }
 
 class IConfiguratorUIHandler;
-
+class CAutomate;
 class UISelectTest : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit UISelectTest(QWidget *parent = 0);
+    explicit UISelectTest(CAutomate* arg_automate, QWidget *parent = 0);
     ~UISelectTest();
 
 private slots:

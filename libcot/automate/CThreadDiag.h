@@ -6,11 +6,12 @@
 //#include "qtimer.h"
 
 class IVariableInput;
+class CAutomate;
 class CThreadDiag : public QObject, QRunnable
 {
     Q_OBJECT
 public:
-    CThreadDiag(QObject* parent);
+    CThreadDiag(CAutomate* parent);
 
     void run();
 
@@ -23,6 +24,7 @@ private:
     QList<IVariableInput*> m_listDiagInputVars;
     bool m_stoped;
     //QTimer m_timer;
+    CAutomate* m_automate;
 };
 
 #endif // CTHREADDIAG_H

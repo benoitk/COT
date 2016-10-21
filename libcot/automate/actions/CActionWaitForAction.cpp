@@ -10,12 +10,9 @@
 #include "qmap.h"
 #include "qthreadpool.h"
 
-CActionWaitForAction::CActionWaitForAction(const QVariantMap &mapAction, QObject *parent)
+CActionWaitForAction::CActionWaitForAction(const QVariantMap &mapAction, CAutomate *parent)
     : IAction(mapAction, parent)
 {
-    IVariable* var = Q_NULLPTR;
-
-    CAutomate* automate = CAutomate::getInstance();
     m_listActionNamesToWait = mapAction[QStringLiteral("actions")].toStringList();
 
 
@@ -61,7 +58,7 @@ void CActionWaitForAction::run(){
 
     foreach(QString actionName, m_listActionNamesToWait){
         IAction *action;
-        if( (action = CAutomate::getInstance()->getAction(actionName)) && action->getType() != type_action_unknow){
+        if( (action = m_automate->getAction(actionName)) && action->getType() != type_action_unknow){
             connect(action, &IAction::signalActionFinished, this, &CActionWaitForAction::slotActionFinished);
             m_listActionConnectedToWait.append(action);
         }

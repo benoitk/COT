@@ -9,7 +9,7 @@ class CActionDCEngine : public IAction
 {
     Q_OBJECT
 public:
-    CActionDCEngine(const QVariantMap&, QObject *parent);
+    CActionDCEngine(const QVariantMap&, CAutomate *parent);
     ~CActionDCEngine();
 
     bool runAction(ICycle* arg_stepParent) Q_DECL_OVERRIDE;

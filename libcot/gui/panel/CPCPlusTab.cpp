@@ -10,8 +10,8 @@
 
 #include <QProcess>
 
-CPCPlusTab::CPCPlusTab(QWidget *parent)
-    : IPCTab(parent)
+CPCPlusTab::CPCPlusTab(CAutomate* arg_automate, QWidget *parent)
+    : IPCTab(arg_automate, parent)
     , ui(new Ui::CPCPlusTab)
     , m_buttons(new CLabelledToolButtonGrid(2, this))
 {

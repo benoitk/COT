@@ -5,6 +5,7 @@
 #include "qvariant.h"
 #include "qmap.h"
 #include "cotautomate_debug.h"
+#include "CScheduler.h"
 
 #include <unistd.h>
 #include "qthread.h"
@@ -22,7 +23,7 @@ CStep::CStep(ICycle *parent, const QVariantMap &mapStep)
         const QVariantList listActions = mapStep.value(QStringLiteral("actions")).toList();
         foreach(const QVariant &varAction, listActions){
             const QString actionName = varAction.toString();
-            IAction* action = CAutomate::getInstance()->getAction(actionName);
+            IAction* action = m_parentCycle->getScheduler()->getAutomate()->getAction(actionName);
             if(action->getType() != actionType::type_action_unknow){
                 m_listActions.append(action);
             }else{

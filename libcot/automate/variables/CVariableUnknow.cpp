@@ -1,14 +1,14 @@
 #include "CVariableUnknow.h"
 #include "CUnit.h"
 #include "qlinkedlist.h"
-CVariableUnknow::CVariableUnknow()
-    : IVariable()
+CVariableUnknow::CVariableUnknow(CAutomate* arg_automate, QObject* parent)
+    : IVariable(arg_automate, parent)
 {
     m_name = QStringLiteral("unknown_var");
     m_label = tr("Type unknow variable ");
 }
-CVariableUnknow::CVariableUnknow(const QVariantMap& mapVar)
-    :IVariable(mapVar){
+CVariableUnknow::CVariableUnknow(const QVariantMap& mapVar, CAutomate* arg_automate, QObject* parent)
+    :IVariable(mapVar, arg_automate, parent){
     m_label = m_label + tr("Type unknow ") + mapVar.value(QStringLiteral("type")).toString();
 }
 CVariableUnknow::~CVariableUnknow()

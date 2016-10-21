@@ -9,7 +9,7 @@ class IAction;
 class CStepWidgetUIHandler;
 class IScrollableUIWidget;
 class CVariableCStepDescriber;
-
+class CAutomate;
 class QLabel;
 
 class CStepWidget : public QGroupBox
@@ -19,7 +19,7 @@ class CStepWidget : public QGroupBox
 public:
     static const float STEP_STOP_INTERVAL;
 
-    CStepWidget(CStep *step, CEditStepListTab *parent);
+    CStepWidget(CAutomate* arg_automate, CStep *step, CEditStepListTab *parent);
 
     bool isSelected() const;
     void setSelected(bool selected);
@@ -45,6 +45,8 @@ private:
 
     QString getLabel() const;
     QList<IAction *> getActions() const;
+
+    CAutomate* m_automate;
 
 private slots:
     void slotUpdateInfos(bool emitSignal);

@@ -5,11 +5,10 @@
 #include "cotautomate_debug.h"
 
 
-CActionRewriteOutput::CActionRewriteOutput(const QVariantMap &mapAction, QObject *parent)
+CActionRewriteOutput::CActionRewriteOutput(const QVariantMap &mapAction, CAutomate *parent)
     : IAction(mapAction, parent)
 {
-    CAutomate* automate = CAutomate::getInstance();
-    m_varDigitalOutput = automate->getVariable(mapAction[QStringLiteral("target")].toString()); //l'automate assure qu'il n'y ai pas de pointeur vide
+    m_varDigitalOutput = m_automate->getVariable(mapAction[QStringLiteral("target")].toString()); //l'automate assure qu'il n'y ai pas de pointeur vide
 
 }
 QVariantMap CActionRewriteOutput::serialize(){

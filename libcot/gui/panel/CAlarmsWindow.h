@@ -46,17 +46,19 @@ private:
 /**
  * @brief This window displays the current alarms.
  */
+class CAutomate;
 class CAlarmsWindow : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit CAlarmsWindow(CPendingAlarms *alarms, QWidget *parent = Q_NULLPTR);
+    explicit CAlarmsWindow(CAutomate* arg_automate, CPendingAlarms *alarms, QWidget *parent = Q_NULLPTR);
     ~CAlarmsWindow();
 
 private:
     Ui::CAlarmsWindow *ui;
     CPendingAlarms *m_pendingAlarms;
+    CAutomate* m_automate;
 
 private slots:
     void backTriggered();

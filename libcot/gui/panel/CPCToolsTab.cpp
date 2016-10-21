@@ -19,8 +19,8 @@
 #include <QTextBlock>
 #include <QTextCursor>
 
-CPCToolsTab::CPCToolsTab(QWidget *parent)
-    : IPCTab(parent)
+CPCToolsTab::CPCToolsTab(CAutomate* arg_automate, QWidget *parent)
+    : IPCTab(arg_automate, parent)
     , ui(new Ui::CPCToolsTab)
     , m_buttons(new CLabelledToolButtonGrid(2, this))
     , m_history(new QTextDocument(this))
@@ -41,7 +41,7 @@ CPCToolsTab::CPCToolsTab(QWidget *parent)
     slotInitializeHistoryDocument();
     retranslate();
 
-    connect(CAutomate::getInstance(), &CAutomate::signalVariableChanged, this, &CPCToolsTab::slotVariableChanged);
+    connect(m_automate, &CAutomate::signalVariableChanged, this, &CPCToolsTab::slotVariableChanged);
     connect(m_buttons, &CLabelledToolButtonGrid::clicked, this, &CPCToolsTab::slotButtonClicked);
 }
 
@@ -79,15 +79,15 @@ void CPCToolsTab::slotButtonClicked(CLabelledToolButton *button)
     if(CUserSession::getInstance()->loginUser()){
         switch (button->type()) {
         case CToolButton::Maintenance:
-            if((CAutomate::getInstance()->isCyclesRunning() && CPCWindow::openExec<CDialogConfirmation>(tr("Are you sure ? \nIt will stop the current measurment"),this))
-                    || !CAutomate::getInstance()->isCyclesRunning()){
-                CAutomate::getInstance()->enterMaintenanceMode();
-                //CPCWindow::openModal<CMaintenanceWindow>();
+            if((m_automate->isCyclesRunning() && CPCWindow::openExec<CDialogConfirmation>(tr("Are you sure ? \nIt will stop the current measurment"),this))
+                    || !m_automate->isCyclesRunning()){
+                m_automate->enterMaintenanceMode();
+                CPCWindow::openModal<CMaintenanceWindow>(m_automate);
 //                connect(CUserSession::getInstance(), &CUserSession::signalUserSessionClosed,
 //                              CMaintenanceWindow::getInstance(), &CMaintenanceWindow::slotUserSessionClosed);
-                CPCWindow::openModal(CMaintenanceWindow::getInstance(), false);
-//            }else if(!CAutomate::getInstance()->isCyclesRunning()){
-//                CAutomate::getInstance()->enterMaintenanceMode();
+                //CPCWindow::openModal(CMaintenanceWindow::getInstance(), false);
+//            }else if(!m_automate->isCyclesRunning()){
+//                m_automate->enterMaintenanceMode();
 //                //CPCWindow::openModal<CMaintenanceWindow>();
 //                connect(CUserSession::getInstance(), &CUserSession::signalUserSessionClosed,
 //                              CMaintenanceWindow::getInstance(), &CMaintenanceWindow::slotUserSessionClosed);
@@ -96,22 +96,22 @@ void CPCToolsTab::slotButtonClicked(CLabelledToolButton *button)
             break;
 
         case CToolButton::ElectricalTests:
-            CPCWindow::openModal<CElectricalTestsWindow>();
+            CPCWindow::openModal<CElectricalTestsWindow>(m_automate);
             break;
 
         case CToolButton::Options:
-            CPCWindow::openModal<COptionsWindow>();
+            CPCWindow::openModal<COptionsWindow>(m_automate);
             break;
 
         case CToolButton::History:
-            CPCWindow::openModal<CHistoryWindow>(m_history);
+            CPCWindow::openModal<CHistoryWindow>(m_automate, m_history);
             break;
 
         case CToolButton::LogFiles:
             CPCWindow::openExec<CLogFilesWindow>(this);
             break;
         case CToolButton::Configure:
-            CPCWindow::openModal<CConfiguratorWindow>();
+            CPCWindow::openModal<CConfiguratorWindow>(m_automate);
             break;
         default:
             Q_ASSERT(false);
@@ -138,14 +138,14 @@ void CPCToolsTab::slotInitializeHistoryDocument()
 // changes, even when the window isn't visible (created).
 void CPCToolsTab::slotVariableChanged(const QString &name, const QDateTime &dateTime)
 {
-    CAutomate *automate = CAutomate::getInstance();
+    CAutomate *automate = m_automate;
     IVariable *ivar = automate->getVariable(name);
 
     if (!automate->getDisplayConf()->getListForScreenHistory().contains(ivar)) {
         return;
     }
 
-    const QString text = CAutomate::getInstance()->formatHistoryEntry(name, dateTime);
+    const QString text = m_automate->formatHistoryEntry(name, dateTime);
     QTextCursor cursor(m_history);
 
     cursor.movePosition(QTextCursor::End);

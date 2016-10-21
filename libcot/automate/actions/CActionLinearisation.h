@@ -10,7 +10,7 @@ class CActionLinearisation : public IAction, QRunnable
 {
        Q_OBJECT
 public:
-    CActionLinearisation(const QVariantMap&, QObject *parent);
+    CActionLinearisation(const QVariantMap&, CAutomate *parent);
 
 
     void run() Q_DECL_OVERRIDE; //fom QRunnable

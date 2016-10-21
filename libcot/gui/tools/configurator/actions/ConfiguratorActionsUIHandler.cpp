@@ -11,8 +11,9 @@
 #include <cotgui_debug.h>
 #include <CEditActionWindow.h>
 
-ConfiguratorActionsUIHandler::ConfiguratorActionsUIHandler(CScrollableWidget *scrollable, QObject *parent)
-    : IConfiguratorUIHandler(scrollable, parent)
+ConfiguratorActionsUIHandler::ConfiguratorActionsUIHandler(CAutomate* arg_automate, CScrollableWidget *scrollable, QObject *parent)
+    : IConfiguratorUIHandler(arg_automate, scrollable, parent)
+    , m_automate(arg_automate)
 {
 }
 
@@ -25,15 +26,14 @@ void ConfiguratorActionsUIHandler::layout()
 {
     CVariableFactory::deleteVariables(m_internalVariables);
 
-    CAutomate *automate = CAutomate::getInstance();
-    const QList<IAction *> actions = automate->getListActions();
+    const QList<IAction *> actions = m_automate->getListActions();
     IVariablePtrList ivars;
 
     foreach (IAction *action, actions) {
         // All this assumes that actions have a unique name. But of course so does CAutomate::getAction.
         QString actionName = action->getName();
         QString actionLbl = action->getLabel();
-        CVariableMutable *ivar = qobject_cast<CVariableMutable *>(CVariableFactory::buildTemporary(actionName, actionLbl, type_mutable));
+        CVariableMutable *ivar = qobject_cast<CVariableMutable *>(CVariableFactory::buildTemporary(m_automate, this, actionName, actionLbl, type_mutable));
         ivar->setAccess(e_access_read_write);
 
         if (m_internalVariables.contains(action->getName())) {
@@ -82,12 +82,11 @@ void ConfiguratorActionsUIHandler::rowChanged(const IVariableUIHandler::Row &row
 void ConfiguratorActionsUIHandler::rowAboutToBeDeleted(const IVariableUIHandler::Row &row, IVariable *ivar)
 {
     Q_UNUSED(row);
-    CAutomate *automate = CAutomate::getInstance();
     const QString actionName = ivar->getName();
     m_internalVariables.take(actionName);
-    IAction *action = automate->getAction(actionName);
+    IAction *action = m_automate->getAction(actionName);
     Q_ASSERT(action);
-    automate->delAction(action);
+    m_automate->delAction(action);
     delete ivar;
 }
 
@@ -103,9 +102,8 @@ IVariable *ConfiguratorActionsUIHandler::getVariable(const QString &name) const
 
 void ConfiguratorActionsUIHandler::slotEditClicked()
 {
-    CAutomate *automate = CAutomate::getInstance();
     CPushButton *editor = qobject_cast<CPushButton *>(sender());
-    IAction *action = automate->getAction(editor->userData().toString());
+    IAction *action = m_automate->getAction(editor->userData().toString());
     Q_ASSERT(action);
-    CPCWindow::openModal<CEditActionWindow>(action);
+    CPCWindow::openModal<CEditActionWindow>(m_automate, action);
 }

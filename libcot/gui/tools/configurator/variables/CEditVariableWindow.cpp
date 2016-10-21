@@ -5,13 +5,14 @@
 #include "CAutomate.h"
 #include <IVariable.h>
 
-CEditVariableWindow::CEditVariableWindow(IVariable *ivar, QWidget *parent)
+CEditVariableWindow::CEditVariableWindow(CAutomate* arg_automate, IVariable *ivar, QWidget *parent)
     : IConfiguratorEditWindow(QVariant::fromValue(ivar), parent)
     , m_variable(ivar)
+    , m_automate(arg_automate)
 {
-    addTab(new CEditVariableTab(ivar, this));
-    addTab(new CEditOutBindsTab(ivar, this));
-    addTab(new CEditInBindsTab(ivar, this));
+    addTab(new CEditVariableTab(arg_automate, ivar, this));
+    addTab(new CEditOutBindsTab(arg_automate, ivar, this));
+    addTab(new CEditInBindsTab(arg_automate, ivar, this));
 
     initBaseWindow();
 }
@@ -25,13 +26,12 @@ void CEditVariableWindow::slotRetranslate()
 
 void CEditVariableWindow::slotCancelTriggered()
 {
-    CAutomate *automate = CAutomate::getInstance();
     IVariable *variable = editedObject().value<IVariable *>();
     Q_ASSERT(variable);
-    const bool isNew = !CAutomate::getInstance()->getMapVariables().values().contains(variable);
+    const bool isNew = !m_automate->getMapVariables().values().contains(variable);
     if (isNew) {
-        automate->changeVariableMeasure(variable, Q_NULLPTR);
-        automate->changeVariableStream(variable, Q_NULLPTR);
+        m_automate->changeVariableMeasure(variable, Q_NULLPTR);
+        m_automate->changeVariableStream(variable, Q_NULLPTR);
         delete variable;
     }
     close();
@@ -42,8 +42,7 @@ void CEditVariableWindow::slotOkTriggered()
     IVariable *variable = editedObject().value<IVariable *>();
     Q_ASSERT(variable);
     const QVariantMap oldVarMap = variable->serialize();
-    CAutomate *automate = CAutomate::getInstance();
     applyProperties();
-    automate->informAboutVariableChanges(variable, oldVarMap);
+    m_automate->informAboutVariableChanges(variable, oldVarMap);
     close();
 }

@@ -4,11 +4,11 @@
 #include "CVariableFactory.h"
 #include "CAutomate.h"
 #include "cotautomate_debug.h"
-CActionInhibiDisinhibitAlarm::CActionInhibiDisinhibitAlarm(const QVariantMap &mapAction, QObject *parent)
+CActionInhibiDisinhibitAlarm::CActionInhibiDisinhibitAlarm(const QVariantMap &mapAction, CAutomate *parent)
     : IAction(mapAction, parent)
 {
-    CAutomate* automate = CAutomate::getInstance();
-    IVariable* var = automate->getVariable(mapAction[QStringLiteral("alarm")].toString());
+
+    IVariable* var = m_automate->getVariable(mapAction[QStringLiteral("alarm")].toString());
     m_state = mapAction[QStringLiteral("state")].toBool();
 
     if(var->getType() == e_type_alarm)

@@ -6,11 +6,10 @@
 
 #include <QTimer>
 
-CCommandPlayStopCycle::CCommandPlayStopCycle(const QVariantMap &mapCmd, QObject *parent):ICommand(mapCmd, parent)
+CCommandPlayStopCycle::CCommandPlayStopCycle(const QVariantMap &mapCmd, CAutomate *parent):ICommand(mapCmd, parent)
 {
     m_cmdStop = Q_NULLPTR;
-    CAutomate* a = CAutomate::getInstance();
-    m_inputVariable = a->getVariable( mapCmd.value(QStringLiteral("input_variable")).toString());
+    m_inputVariable = m_automate->getVariable( mapCmd.value(QStringLiteral("input_variable")).toString());
     if(m_inputVariable->getType() != e_type_unknow)
         connect(m_inputVariable, &IVariable::signalVariableChanged, this, &ICommand::slotRunCommand);
     m_currentValue = true;
@@ -27,25 +26,25 @@ void CCommandPlayStopCycle::setOtherCmdStop(CCommandPlayStopCycle* arg_cmd){
 bool CCommandPlayStopCycle::slotRunCommand(bool arg_externalCmdOnly){
     //si arg_var =  Q_NULLPTR -> IHM
     if(m_inputVariable->getType() != e_type_unknow && m_inputVariable->toBool()
-            && !m_currentValue && !CAutomate::getInstance()->isLocalControlForced() ){
+            && !m_currentValue && !m_automate->isLocalControlForced() ){
         m_currentValue = !m_currentValue;
         if (!m_cmdStop || m_cmdStop->getStateCommand())
-            CAutomate::getInstance()->requestPlayScheduler();
+            m_automate->requestPlayScheduler();
     }
     else if( (m_inputVariable->getType() != e_type_unknow && !m_inputVariable->toBool())
-             && m_currentValue && !CAutomate::getInstance()->isLocalControlForced()){
+             && m_currentValue && !m_automate->isLocalControlForced()){
         m_currentValue = !m_currentValue;
-        CAutomate::getInstance()->requestStopScheduler();
+        m_automate->requestStopScheduler();
     }
-    else if( (m_inputVariable->getType() == e_type_unknow || CAutomate::getInstance()->isLocalControlForced())
+    else if( (m_inputVariable->getType() == e_type_unknow || m_automate->isLocalControlForced())
              && !m_currentValue && !arg_externalCmdOnly ){
         m_currentValue = !m_currentValue;
         if (!m_cmdStop || m_cmdStop->getStateCommand())
-        CAutomate::getInstance()->requestPlayScheduler();
+        m_automate->requestPlayScheduler();
     }
-    else if((m_inputVariable->getType() == e_type_unknow || CAutomate::getInstance()->isLocalControlForced())&& m_currentValue && !arg_externalCmdOnly){
+    else if((m_inputVariable->getType() == e_type_unknow || m_automate->isLocalControlForced())&& m_currentValue && !arg_externalCmdOnly){
         m_currentValue = !m_currentValue;
-        CAutomate::getInstance()->requestStopScheduler();
+        m_automate->requestStopScheduler();
     }
     return m_currentValue;
 }

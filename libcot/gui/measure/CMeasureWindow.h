@@ -9,12 +9,12 @@ class CMeasureWindow;
 
 class IMeasureTab;
 class CVariableStream;
-
+class CAutomate;
 class CMeasureWindow : public QWidget
 {
     Q_OBJECT
 public:
-    explicit CMeasureWindow(CVariableStream *stream, QWidget *parent = Q_NULLPTR);
+    explicit CMeasureWindow(CAutomate* arg_automate, CVariableStream *stream, QWidget *parent = Q_NULLPTR);
     ~CMeasureWindow();
 
 private slots:
@@ -22,7 +22,7 @@ private slots:
 
 private:
     Ui::CMeasureWindow *ui;
-
+    CAutomate* m_automate;
     void addTab(IMeasureTab *tab, const QString &title);
 };
 

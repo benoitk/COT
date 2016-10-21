@@ -12,8 +12,8 @@ class CVariableOutputListVariables : public IVariable, public IVariableOutput
     Q_OBJECT
 
 public:
-    CVariableOutputListVariables(QObject *parent = Q_NULLPTR);
-    CVariableOutputListVariables(const QMap<QString, QVariant> &mapVar);
+    CVariableOutputListVariables(CAutomate* arg_automate, QObject *parent = Q_NULLPTR);
+    CVariableOutputListVariables(const QMap<QString, QVariant> &mapVar, CAutomate* arg_automate, QObject* parent);
     ~CVariableOutputListVariables();
 
     //IVariableOutput

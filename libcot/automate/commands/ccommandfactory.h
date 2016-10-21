@@ -10,7 +10,7 @@ class CCommandFactory: public QObject
     Q_OBJECT
 
 public:
-    static ICommand* build(const QVariantMap&, QObject *parent);
+    static ICommand* build(const QVariantMap&, CAutomate *parent);
 };
 
 #endif // CCOMMANDFACTORY_H

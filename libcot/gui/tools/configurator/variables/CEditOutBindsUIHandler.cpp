@@ -6,10 +6,11 @@
 
 #include <CAutomate.h>
 
-CEditOutBindsUIHandler::CEditOutBindsUIHandler(CScrollableWidget *scrollable, QObject *parent)
-    : IConfiguratorUIHandler(scrollable, parent)
+CEditOutBindsUIHandler::CEditOutBindsUIHandler(CAutomate* arg_automate,CScrollableWidget *scrollable, QObject *parent)
+    : IConfiguratorUIHandler(arg_automate, scrollable, parent)
+    , m_automate(arg_automate)
 {
-    setDescriber(new CVariableIVariableOutBindsDescriber(this));
+    setDescriber(new CVariableIVariableOutBindsDescriber(arg_automate, this));
 }
 
 CEditOutBindsUIHandler::~CEditOutBindsUIHandler()
@@ -69,10 +70,9 @@ void CEditOutBindsUIHandler::rowInserted(const IVariableUIHandler::Row &row, IVa
 
 void CEditOutBindsUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariable *ivar)
 {
-    CAutomate *automate = CAutomate::getInstance();
     applyEditorConstraints(row.widgetAt<CPushButton *>(1), ivar);
     row.widgetAt<CClickableLabel *>(0)->setText(tr("Target"));
-    row.widgetAt<CPushButton *>(1)->setText(automate->getVariable(ivar->toString())->getLabel());
+    row.widgetAt<CPushButton *>(1)->setText(m_automate->getVariable(ivar->toString())->getLabel());
 }
 
 void CEditOutBindsUIHandler::rowAboutToBeDeleted(const IVariableUIHandler::Row &row, IVariable *ivar)

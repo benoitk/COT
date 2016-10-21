@@ -4,8 +4,9 @@
 #include "IOrgan.h"
 #include "ICom.h"
 #include "cotautomate_debug.h"
-CVariableOutputFloat::CVariableOutputFloat(QObject *parent)
-    : CVariableFloat(parent),IVariableOutput()
+#include "CAutomate.h"
+CVariableOutputFloat::CVariableOutputFloat(CAutomate* arg_automate, QObject *parent)
+    : CVariableFloat(arg_automate, parent),IVariableOutput()
 {
 
 }
@@ -15,8 +16,10 @@ CVariableOutputFloat::~CVariableOutputFloat()
 
 }
 
-CVariableOutputFloat::CVariableOutputFloat(const QMap<QString, QVariant> &mapVar)
-    : CVariableFloat(mapVar),IVariableOutput(mapVar)
+CVariableOutputFloat::CVariableOutputFloat(const QMap<QString, QVariant> &mapVar, CAutomate* arg_automate, QObject *parent)
+    : CVariableFloat(mapVar, arg_automate, parent)
+    ,IVariableOutput(arg_automate->getExtensionCard(mapVar.value(QStringLiteral("extension_name")).toString())
+                                              ->getOrgan(mapVar.value(QStringLiteral("organ_name")).toString()))
 {
 
 }

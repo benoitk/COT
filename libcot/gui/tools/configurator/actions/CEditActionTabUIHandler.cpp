@@ -9,10 +9,10 @@
 #include <QGridLayout>
 #include <QDebug>
 
-CEditActionTabUIHandler::CEditActionTabUIHandler(CScrollableWidget *scrollable, QObject *parent)
-    : IConfiguratorUIHandler(scrollable, parent)
+CEditActionTabUIHandler::CEditActionTabUIHandler(CAutomate* arg_automate,CScrollableWidget *scrollable, QObject *parent)
+    : IConfiguratorUIHandler(arg_automate, scrollable, parent)
 {
-    setDescriber(new CVariableIActionDescriber(this));
+    setDescriber(new CVariableIActionDescriber(arg_automate,this));
 }
 
 CEditActionTabUIHandler::~CEditActionTabUIHandler()
@@ -120,7 +120,7 @@ void CEditActionTabUIHandler::slotRequestVariable()
 
         // Build new variable, see CVariableIActionDescriber::describe for logic here.
         IVariable *selectedVariable = getVariable(newVariableName);
-        IVariable *property = CVariableFactory::castedBuild<IVariable *>(selectedVariable->getType(), e_type_organ_none, selectedVariable->toVariant());
+        IVariable *property = CVariableFactory::castedBuild<IVariable *>(ivar->getAutomate(), this, selectedVariable->getType(), e_type_organ_none, selectedVariable->toVariant());
         setVariableAccess(property, e_access_read_write);
         property->setName(name);
         property->setLabel(newVariableName);

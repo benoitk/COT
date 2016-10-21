@@ -18,7 +18,7 @@ class LIBCOT_EXPORT IVariableObjectDescriber : public QObject
     Q_OBJECT
 
 public:
-    explicit IVariableObjectDescriber(IVariableUIHandler *parent);
+    explicit IVariableObjectDescriber(CAutomate* arg_automate, IVariableUIHandler *parent);
     virtual ~IVariableObjectDescriber();
 
     IVariablePtrList getVariables() const;
@@ -34,6 +34,8 @@ public:
 protected:
     void setVariables(IVariablePtrList variables);
     void setVariableAccess(IVariable *ivar, int access);
+
+    CAutomate* m_automate;
 
 protected slots:
     void slotVariableChanged();
@@ -52,7 +54,7 @@ class CVariableICycleDescriber : public IVariableObjectDescriber
     Q_OBJECT
 
 public:
-    explicit CVariableICycleDescriber(IVariableUIHandler *parent);
+    explicit CVariableICycleDescriber(CAutomate* arg_automate, IVariableUIHandler *parent);
     void describe(const QVariant &object) Q_DECL_OVERRIDE;
 };
 
@@ -62,7 +64,7 @@ class CVariableIVariableDescriber : public IVariableObjectDescriber
     Q_OBJECT
 
 public:
-    explicit CVariableIVariableDescriber(IVariableUIHandler *parent);
+    explicit CVariableIVariableDescriber(CAutomate* arg_automate, IVariableUIHandler *parent);
     void describe(const QVariant &object) Q_DECL_OVERRIDE;
 };
 
@@ -72,7 +74,7 @@ class CVariableIVariableOutBindsDescriber : public IVariableObjectDescriber
     Q_OBJECT
 
 public:
-    explicit CVariableIVariableOutBindsDescriber(IVariableUIHandler *parent);
+    explicit CVariableIVariableOutBindsDescriber(CAutomate* arg_automate, IVariableUIHandler *parent);
     void describe(const QVariant &object) Q_DECL_OVERRIDE;
 };
 
@@ -82,7 +84,7 @@ class CVariableIVariableInBindsDescriber : public IVariableObjectDescriber
     Q_OBJECT
 
 public:
-    explicit CVariableIVariableInBindsDescriber(IVariableUIHandler *parent);
+    explicit CVariableIVariableInBindsDescriber(CAutomate* arg_automate,IVariableUIHandler *parent);
     void describe(const QVariant &object) Q_DECL_OVERRIDE;
 };
 
@@ -92,7 +94,7 @@ class CVariableIActionDescriber : public IVariableObjectDescriber
     Q_OBJECT
 
 public:
-    explicit CVariableIActionDescriber(IVariableUIHandler *parent);
+    explicit CVariableIActionDescriber(CAutomate* arg_automate, IVariableUIHandler *parent);
     void describe(const QVariant &object) Q_DECL_OVERRIDE;
 };
 
@@ -102,7 +104,7 @@ class CVariableCStepDescriber : public IVariableObjectDescriber
     Q_OBJECT
 
 public:
-    explicit CVariableCStepDescriber(IVariableUIHandler *parent);
+    explicit CVariableCStepDescriber(CAutomate* arg_automate, IVariableUIHandler *parent);
     void describe(const QVariant &object) Q_DECL_OVERRIDE;
 };
 
@@ -112,7 +114,7 @@ class CVariableCStepActionsDescriber : public IVariableObjectDescriber
     Q_OBJECT
 
 public:
-    explicit CVariableCStepActionsDescriber(IVariableUIHandler *parent);
+    explicit CVariableCStepActionsDescriber(CAutomate* arg_automate,IVariableUIHandler *parent);
     void describe(const QVariant &object) Q_DECL_OVERRIDE;
 
     QStringList getActionList() const;

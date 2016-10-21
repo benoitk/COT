@@ -7,20 +7,21 @@
 namespace Ui {
 class CStatusWidget;
 }
-
+class CAutomate;
 class CStatusWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit CStatusWidget(QWidget *parent = Q_NULLPTR);
+    explicit CStatusWidget( QWidget *parent = Q_NULLPTR);
     ~CStatusWidget();
+    void setupStatusWidget(CAutomate* arg_automate);
 
 private Q_SLOTS:
     void slotTimeChanged();
 
-    void slotUpdateStateRunning(bool);
-    void slotUpdateStateRunningWillStioEndCycle(bool);
+    void slotUpdateStateRunning(bool,const QString& runningCycleName);
+    void slotUpdateStateRunningWillStioEndCycle(bool,const QString& runningCycleName);
     void slotUpdateStateCurrentCyclePaused(bool);
     void slotUpdateStateRunningAutoCalibration(bool);
     void slotUpdateStateRunningAutoBlank(bool);
@@ -36,11 +37,12 @@ private Q_SLOTS:
     void slotUpdateCurrentAction(const QString &label);
     void slotUpdateCountStep(int stepCount);
 
+
+
 private:
 
     void setStateAutomate(QString state);
     Ui::CStatusWidget *ui;
-
     QString m_lblInfoStep;
     int m_stepCount;
 };

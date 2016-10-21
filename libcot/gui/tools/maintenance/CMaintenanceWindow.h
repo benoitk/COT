@@ -8,16 +8,17 @@ class CMaintenanceWindow;
 }
 
 class IMaintenanceTab;
-
+class CAutomate;
 class CMaintenanceWindow : public QWidget
 {
     Q_OBJECT
 public :
-    static CMaintenanceWindow* getInstance();
-private:
-    explicit CMaintenanceWindow();
+    explicit CMaintenanceWindow(CAutomate* arg_automate, QWidget* parent);
     ~CMaintenanceWindow();
-    static CMaintenanceWindow* singleton;
+
+//    static CMaintenanceWindow* getInstance();
+private:
+//    static CMaintenanceWindow* singleton;
 public slots:
     void retranslate();
     void slotUserSessionClosed();
@@ -33,6 +34,7 @@ private:
     Ui::CMaintenanceWindow *ui;
 
     void addTab(IMaintenanceTab *tab, const QString &title);
+    CAutomate* m_automate;
 };
 
 #endif // CMAINTENANCEWINDOW_H

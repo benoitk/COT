@@ -4,9 +4,10 @@
 
 #include <IVariableObjectDescriber.h>
 
-CEditOutBindsTab::CEditOutBindsTab(IVariable *ivar, QWidget *parent)
+CEditOutBindsTab::CEditOutBindsTab(CAutomate* arg_automate, IVariable *ivar, QWidget *parent)
     : IConfiguratorEditTab(parent)
-    , m_handler(new CEditOutBindsUIHandler(scrollableWidget(), this))
+    , m_handler(new CEditOutBindsUIHandler(arg_automate, scrollableWidget(), this))
+    , m_automate(arg_automate)
 {
     Q_ASSERT(ivar);
     m_handler->layout(ivar);
@@ -16,11 +17,10 @@ CEditOutBindsTab::CEditOutBindsTab(IVariable *ivar, QWidget *parent)
 
 void CEditOutBindsTab::applyProperties(const QVariant &object)
 {
-    CAutomate * automate = CAutomate::getInstance();
     IVariable *ivar = object.value<IVariable *>();
     Q_ASSERT(ivar);
 
-    IVariablePtrList bindings = automate->getVariables(m_handler->getBindingNames());
+    IVariablePtrList bindings = m_automate->getVariables(m_handler->getBindingNames());
     ivar->setListOutBinds(bindings);
 }
 

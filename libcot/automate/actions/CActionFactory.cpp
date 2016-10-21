@@ -27,7 +27,7 @@
 #include "cotautomate_debug.h"
 
 
-IAction* CActionFactory::build(const QVariantMap &mapAction, QObject *parent){
+IAction* CActionFactory::build(const QVariantMap &mapAction, CAutomate*parent){
 
     IAction* action = Q_NULLPTR;
     const QString type = mapAction[QStringLiteral("type")].toString();
@@ -102,7 +102,7 @@ IAction* CActionFactory::build(const QVariantMap &mapAction, QObject *parent){
     return action;
 }
 
-IAction* CActionFactory::build(actionType arg_type, QObject* parent){
+IAction* CActionFactory::build(actionType arg_type, CAutomate* parent){
     IAction* action = Q_NULLPTR;
     switch(arg_type){
     case actionType::type_block:

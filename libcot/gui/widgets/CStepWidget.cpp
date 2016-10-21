@@ -20,14 +20,15 @@
 
 const float CStepWidget::STEP_STOP_INTERVAL = -1.0;
 
-CStepWidget::CStepWidget(CStep *step, CEditStepListTab *parent)
+CStepWidget::CStepWidget(CAutomate* arg_automate, CStep *step, CEditStepListTab *parent)
     : QGroupBox(parent)
     , m_interval(new QLabel(this))
     , m_scrollable(new IScrollableUIWidget(false, this))
-    , m_handler(new CStepWidgetUIHandler(m_scrollable->scrollableWidget(), this))
-    , m_stepDescriber(new CVariableCStepDescriber(m_handler)) // m_handler is absolutly not related to this describer, but ctor do need one.
+    , m_handler(new CStepWidgetUIHandler(arg_automate, m_scrollable->scrollableWidget(), this))
+    , m_stepDescriber(new CVariableCStepDescriber(arg_automate, m_handler)) // m_handler is absolutly not related to this describer, but ctor do need one.
     , m_selected(false)
     , m_oldValue(step->getNumStep())
+    , m_automate(arg_automate)
 {
     Q_ASSERT(step);
     Q_ASSERT(parent);
@@ -100,11 +101,9 @@ float CStepWidget::getInterval() const
 
 QList<IAction *> CStepWidget::getActions() const
 {
-    CAutomate *automate = CAutomate::getInstance();
     QList<IAction *> actions;
-
     foreach (IVariable *ivar, m_handler->describer()->getVariables()) {
-        IAction *action = automate->getAction(ivar->toString());
+        IAction *action = m_automate->getAction(ivar->toString());
         Q_ASSERT(action);
         actions << action;
     }
@@ -180,7 +179,7 @@ void CStepWidget::slotAddTriggered()
 void CStepWidget::slotEditTriggered()
 {
     m_oldValue = getInterval();
-    CGenericVariablesEditorWindow *window = new CGenericVariablesEditorWindow(this);
+    CGenericVariablesEditorWindow *window = new CGenericVariablesEditorWindow(m_automate, this);
     window->setValidator(CEditStepListTab::validateStepWidget, this, parentWidget());
     window->setVariables(tr("Step"), m_stepDescriber->getVariables(), true);
     connect(window, &CGenericVariablesEditorWindow::signalPropertiesApplied, this, &CStepWidget::slotUpdateInfosWithSignal);

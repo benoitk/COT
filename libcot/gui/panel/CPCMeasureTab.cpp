@@ -12,14 +12,15 @@
 
 #include <QDebug>
 
-CPCMeasureTab::CPCMeasureTab(QWidget *parent)
-    : IPCTab(parent)
+CPCMeasureTab::CPCMeasureTab(CAutomate* arg_automate, QWidget *parent)
+    : IPCTab(arg_automate, parent)
     , ui(new Ui::CPCMeasureTab)
     , m_pendingAlarms(new CPendingAlarms(this))
 {
     ui->setupUi(this);
+    ui->swStatus->setupStatusWidget(m_automate);
     IVariableMeasuresUIHandler::Flags flags = IVariableMeasuresUIHandler::ShowStreamButton;
-    m_measuresHandler = new IVariableMeasuresUIHandler(flags, ui->swCentral, this);
+    m_measuresHandler = new IVariableMeasuresUIHandler(flags, ui->swCentral, m_automate,this);
 
     connect(ui->vbbButtons->addAction(CToolButton::Alarms), &QAction::triggered,
             this, &CPCMeasureTab::slotAlarmsTriggered);
@@ -35,13 +36,13 @@ CPCMeasureTab::CPCMeasureTab(QWidget *parent)
             this, &CPCMeasureTab::slotNextStreamTriggered);
     ui->vbbButtons->addAction(CToolButton::ScrollUp, ui->swCentral->moveUp());
     ui->vbbButtons->addAction(CToolButton::ScrollDown, ui->swCentral->moveDown());
-    connect(CAutomate::getInstance(), &CAutomate::signalStreamsUpdated,
+    connect(m_automate, &CAutomate::signalStreamsUpdated,
             this, &CPCMeasureTab::slotUpdateStreamsMeasures);
-    connect(CAutomate::getInstance(), &CAutomate::signalVariableChanged,
+    connect(m_automate, &CAutomate::signalVariableChanged,
             this, &CPCMeasureTab::slotVariableChanged);
     connect(m_pendingAlarms, &CPendingAlarms::changed, this, &CPCMeasureTab::slotUpdateAlarmsAction);
-    connect(CAutomate::getInstance(), &CAutomate::signalStateRunning, this, &CPCMeasureTab::slotUpdatePlayStopButton);
-    connect(CAutomate::getInstance(), &CAutomate::signalStateRunningWillStopEndCycle, this, &CPCMeasureTab::slotUpdateStopEndCycleButton);
+    connect(m_automate, &CAutomate::signalStateRunning, this, &CPCMeasureTab::slotUpdatePlayStopButton);
+    connect(m_automate, &CAutomate::signalStateRunningWillStopEndCycle, this, &CPCMeasureTab::slotUpdateStopEndCycleButton);
     slotUpdateAlarmsAction();
     slotUpdateStreamsMeasures();
 }
@@ -56,30 +57,30 @@ CVerticalButtonBar *CPCMeasureTab::buttonBar() const
     return ui->vbbButtons;
 }
 
-void CPCMeasureTab::slotUpdatePlayStopButton(bool arg_running){
+void CPCMeasureTab::slotUpdatePlayStopButton(bool arg_running,const QString& runningCycleName){
     ui->vbbButtons->button(CToolButton::PlayStop)->setChecked(arg_running);
     ui->vbbButtons->button(CToolButton::StopEndCycle)->setChecked(false);
 }
-void CPCMeasureTab::slotUpdateStopEndCycleButton(bool arg_stopEndCycle){
+void CPCMeasureTab::slotUpdateStopEndCycleButton(bool arg_stopEndCycle,const QString& runningCycleName){
     ui->vbbButtons->button(CToolButton::StopEndCycle)->setChecked(arg_stopEndCycle);
 }
 
 void CPCMeasureTab::slotAlarmsTriggered()
 {
-    CPCWindow::openModal<CAlarmsWindow>(m_pendingAlarms);
+    CPCWindow::openModal<CAlarmsWindow>(m_automate, m_pendingAlarms);
 }
 
 void CPCMeasureTab::slotPlayStopTriggered()
 {
     if(CUserSession::getInstance()->loginUser() )
-        CAutomate::getInstance()->getCommandPlayStop()->slotRunCommand();
+        m_automate->getCommandPlayStop()->slotRunCommand();
 
 }
 
 void CPCMeasureTab::slotStopTriggered()
 {
     if(CUserSession::getInstance()->loginUser())
-        CAutomate::getInstance()->requestStopScheduler();
+        m_automate->requestStopScheduler();
 }
 
 void CPCMeasureTab::slotStopEndCycleTriggered()
@@ -88,23 +89,22 @@ void CPCMeasureTab::slotStopEndCycleTriggered()
     {
         if(!ui->vbbButtons->button(CToolButton::StopEndCycle)->isChecked() &&
                 CPCWindow::openExec<CDialogConfirmation>(tr("Are you sure ? \nThe measurment will stop after this cycle"),this))
-            CAutomate::getInstance()->getCommandStopEndCycle()->slotRunCommand();
+            m_automate->getCommandStopEndCycle()->slotRunCommand();
         else if(ui->vbbButtons->button(CToolButton::StopEndCycle)->isChecked() &&
                 CPCWindow::openExec<CDialogConfirmation>(tr("Cancel stop end cycle ? \n"),this))
-            CAutomate::getInstance()->getCommandStopEndCycle()->slotRunCommand();
+            m_automate->getCommandStopEndCycle()->slotRunCommand();
     }
 }
 
 void CPCMeasureTab::slotNextStreamTriggered()
 {
     if(CUserSession::getInstance()->loginUser() && CPCWindow::openExec<CDialogConfirmation>(tr("Are you sure ? \nIt will stop the current measurment"),this))
-        CAutomate::getInstance()->requestPlayNextSequenceMesure();
+        m_automate->requestPlayNextSequenceMesure();
 }
 
 void CPCMeasureTab::slotUpdateStreamsMeasures()
 {
-    CAutomate *automate = CAutomate::getInstance();
-    const QList<CVariableStream*> streams = automate->getListStreams();
+    const QList<CVariableStream*> streams = m_automate->getListStreams();
     IVariablePtrList ivars;
 
     foreach (CVariableStream *streamVar, streams) {
@@ -117,14 +117,14 @@ void CPCMeasureTab::slotUpdateStreamsMeasures()
 
     m_measuresHandler->layout(ivars);
 
-    if (CPCWindow::showGraphInMainScreen()) {
-        connect(CAutomate::getInstance(), &CAutomate::signalUpdatePlotting,
+    if (CPCWindow::showGraphInMainScreen(m_automate)) {
+        connect(m_automate, &CAutomate::signalUpdatePlotting,
                 this, &CPCMeasureTab::slotUpdatePlotting, Qt::UniqueConnection);
         ui->swCentral->setScrollable(false);
         ui->graphicsWidget->show();
     }
     else {
-        disconnect(CAutomate::getInstance(), &CAutomate::signalUpdatePlotting,
+        disconnect(m_automate, &CAutomate::signalUpdatePlotting,
                 this, &CPCMeasureTab::slotUpdatePlotting);
         ui->swCentral->setScrollable(false); //si scrollable, ne met que deux mesures alors qu'il y a plein de place
         ui->graphicsWidget->hide();
@@ -133,9 +133,8 @@ void CPCMeasureTab::slotUpdateStreamsMeasures()
 
 void CPCMeasureTab::slotVariableChanged(const QString &name, const QDateTime &dateTime)
 {
-    CAutomate *automate = CAutomate::getInstance();
-    IVariable *ivar = automate->getVariable(name);
-    if (!automate->getDisplayConf()->getListForScreenAlarms().contains(ivar)) {
+    IVariable *ivar = m_automate->getVariable(name);
+    if (!m_automate->getDisplayConf()->getListForScreenAlarms().contains(ivar)) {
         return;
     }
 
@@ -155,8 +154,7 @@ void CPCMeasureTab::slotUpdateAlarmsAction()
 
 void CPCMeasureTab::slotUpdatePlotting()
 {
-    CAutomate *automate = CAutomate::getInstance();
-    const QList<CVariableStream*> streams = automate->getListStreams();
+    const QList<CVariableStream*> streams = m_automate->getListStreams();
     foreach (CVariableStream *streamVar, streams) {
         foreach (IVariable *measure, streamVar->getListMeasures()) {
             CVariableMeasure *measureVar = static_cast<CVariableMeasure *>(measure);

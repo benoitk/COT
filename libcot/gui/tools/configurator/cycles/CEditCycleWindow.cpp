@@ -6,11 +6,12 @@
 #include <IVariable.h>
 #include <ICycle.h>
 
-CEditCycleWindow::CEditCycleWindow(ICycle *cycle, QWidget *parent)
+CEditCycleWindow::CEditCycleWindow(CAutomate* arg_automate, ICycle *cycle, QWidget *parent)
     : IConfiguratorEditWindow(QVariant::fromValue(cycle), parent)
-    , m_ceditCycleTab(new CEditCycleTab(cycle, this))
-    , m_ceditCycleStepListTab(new CEditStepListTab(cycle, this))
+    , m_ceditCycleTab(new CEditCycleTab(arg_automate, cycle, this))
+    , m_ceditCycleStepListTab(new CEditStepListTab(arg_automate, cycle, this))
     , m_cycle(cycle)
+    , m_automate(arg_automate)
 {
     addTab(m_ceditCycleTab);
     addTab(m_ceditCycleStepListTab);
@@ -25,16 +26,15 @@ void CEditCycleWindow::slotRetranslate()
 
 void CEditCycleWindow::slotOkTriggered()
 {
-    CAutomate *automate = CAutomate::getInstance();
     ICycle *cycle = editedObject().value<ICycle *>();
     Q_ASSERT(cycle);
-    const bool isNew = !automate->getListCycles().contains(cycle);
+    const bool isNew = !m_automate->getListCycles().contains(cycle);
     const QVariantMap oldData = isNew ? QVariantMap() : cycle->serialize();
 
     applyProperties();
 
     if (oldData != cycle->serialize()) {
-        automate->informAboutCycleChanges(cycle, oldData);
+        m_automate->informAboutCycleChanges(cycle, oldData);
     }
 
     close();
@@ -42,13 +42,12 @@ void CEditCycleWindow::slotOkTriggered()
 
 void CEditCycleWindow::slotCancelTriggered()
 {
-    CAutomate *automate = CAutomate::getInstance();
     ICycle *cycle = editedObject().value<ICycle *>();
     Q_ASSERT(cycle);
-    const bool isNew = !automate->getListCycles().contains(cycle);
+    const bool isNew = !m_automate->getListCycles().contains(cycle);
 
     if (isNew) {
-        automate->changeCycleStream(cycle, Q_NULLPTR);
+        m_automate->changeCycleStream(cycle, Q_NULLPTR);
         delete cycle;
     }
 

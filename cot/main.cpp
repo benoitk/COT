@@ -5,7 +5,8 @@
 #include <QTranslator>
 #include <qdebug.h>
 
-#include "CControlerAutomate.h"
+//#include "CControlerAutomate.h"
+#include "CAutomate.h"
 #include "CPCWindow.h"
 #include "CInitialTestWindow.h"
 #include "StyleRepository.h"
@@ -42,12 +43,12 @@ int main(int argc, char *argv[])
     StyleRepository::installFont();
 
     // Create automate and run it
-    CControlerAutomate controlerAutomate;
-
+    //CControlerAutomate controlerAutomate;
+    CAutomate automate;
     // The main PC Panel Window
-    CPCWindow w;
+    CPCWindow w(&automate);
 
-    CInitialTestsWindow initialTestWindow(&w);
+    CInitialTestsWindow initialTestWindow(&automate, &w);
 
 #if defined(DEVICE_BUILD)
     initialTestWindow.showFullScreen();

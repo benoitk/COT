@@ -8,13 +8,13 @@ class CElectricalTestsRelaysTab;
 }
 
 class IVariableUIHandler;
-
+class CAutomate;
 class CElectricalTestsRelaysTab : public IElectricalTestsTab
 {
     Q_OBJECT
 
 public:
-    explicit CElectricalTestsRelaysTab(QWidget *parent = Q_NULLPTR);
+    explicit CElectricalTestsRelaysTab(CAutomate* arg_automate, QWidget *parent = Q_NULLPTR);
     ~CElectricalTestsRelaysTab();
 
 protected slots:
@@ -23,6 +23,7 @@ protected slots:
 private:
     Ui::CElectricalTestsRelaysTab *ui;
     IVariableUIHandler *m_elecTestRelaysHandler;
+    CAutomate* m_automate;
 };
 
 #endif // CELECTRICALTESTSRELAYSTAB_H

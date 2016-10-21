@@ -2,8 +2,8 @@
 
 #include <CVariableFactory.h>
 
-CGenericVariablesUIHandler::CGenericVariablesUIHandler(CScrollableWidget *scrollable, QObject *parent)
-    : IVariableUIHandler(scrollable, parent)
+CGenericVariablesUIHandler::CGenericVariablesUIHandler(CAutomate* arg_automate, CScrollableWidget *scrollable, QObject *parent)
+    : IVariableUIHandler(arg_automate, scrollable, parent)
 {
 }
 
@@ -36,7 +36,7 @@ void CGenericVariablesUIHandler::layoutVariables(const QList<IVariable *> &varia
         Q_ASSERT(!ivar->getName().isEmpty());
 
         if (makeCopies) {
-            IVariable *ivarCopy = CVariableFactory::duplicateTemporary(ivar);
+            IVariable *ivarCopy = CVariableFactory::duplicateTemporary(ivar->getAutomate(), this, ivar);
             m_variablesCopies << ivarCopy;
             m_editedVariables[ivarCopy->getName()] = ivarCopy;
         }

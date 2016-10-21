@@ -9,10 +9,11 @@
 
 #include <QDebug>
 
-CStepWidgetUIHandler::CStepWidgetUIHandler(CScrollableWidget *scrollable, QObject *parent)
-    : IConfiguratorUIHandler(scrollable, parent)
+CStepWidgetUIHandler::CStepWidgetUIHandler(CAutomate* arg_automate, CScrollableWidget *scrollable, QObject *parent)
+    : IConfiguratorUIHandler(arg_automate, scrollable, parent)
+    , m_automate(arg_automate)
 {
-    setDescriber(new CVariableCStepActionsDescriber(this));
+    setDescriber(new CVariableCStepActionsDescriber(arg_automate, this));
 }
 
 void CStepWidgetUIHandler::layout(CStep *step)
@@ -53,9 +54,8 @@ void CStepWidgetUIHandler::rowInserted(const IVariableUIHandler::Row &row, IVari
 
 void CStepWidgetUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariable *ivar)
 {
-    CAutomate *automate = CAutomate::getInstance();
     const QString actionName = ivar->toString();
-    IAction *action = automate->getAction(actionName);
+    IAction *action = m_automate->getAction(actionName);
 
     Q_ASSERT(action);
 

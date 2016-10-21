@@ -12,8 +12,8 @@ class CVariableOutputFloat : public CVariableFloat, public IVariableOutput
     Q_OBJECT
 
 public:
-    CVariableOutputFloat(QObject *parent = Q_NULLPTR);
-    CVariableOutputFloat(const QMap<QString, QVariant> &mapVar);
+    CVariableOutputFloat(CAutomate* arg_automate, QObject *parent = Q_NULLPTR);
+    CVariableOutputFloat(const QMap<QString, QVariant> &mapVar,CAutomate* arg_automate, QObject *parent);
     ~CVariableOutputFloat();
 
 //IVariableOutput

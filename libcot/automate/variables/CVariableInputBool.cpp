@@ -5,11 +5,11 @@
 #include "CUnit.h"
 #include "IOrgan.h"
 #include "ICom.h"
-
+#include "CAutomate.h"
 #include "qmutex.h"
 
-CVariableInputBool::CVariableInputBool(QObject *parent)
-    : CVariableBool(parent), IVariableInput()
+CVariableInputBool::CVariableInputBool(CAutomate* arg_automate, QObject *parent)
+    : CVariableBool(arg_automate,parent), IVariableInput()
 {
 
 }
@@ -18,8 +18,10 @@ CVariableInputBool::~CVariableInputBool()
 {
 
 }
-CVariableInputBool::CVariableInputBool(const QMap<QString, QVariant> &mapVar)
-    : CVariableBool(mapVar), IVariableInput(mapVar)
+CVariableInputBool::CVariableInputBool(const QMap<QString, QVariant> &mapVar, CAutomate* arg_automate, QObject* parent)
+    : CVariableBool(mapVar, arg_automate, parent)
+    ,IVariableInput(arg_automate->getExtensionCard(mapVar.value(QStringLiteral("extension_name")).toString())
+                                              ->getOrgan(mapVar.value(QStringLiteral("organ_name")).toString()))
 {
     m_passive = mapVar.value(QStringLiteral("passive")).toBool(); //false par défaut même si il n'y a de champs passive dans le json
 

@@ -5,12 +5,12 @@
 #include "CVariableFactory.h"
 #include "CAutomate.h"
 #include "cotautomate_debug.h"
-CActionCopy::CActionCopy(const QVariantMap &mapAction, QObject *parent)
+CActionCopy::CActionCopy(const QVariantMap &mapAction, CAutomate *parent)
     : IAction(mapAction, parent)
 {
-    CAutomate* automate = CAutomate::getInstance();
-    m_target = automate->getVariable(mapAction[QStringLiteral("target")].toString());
-    m_inputVar = automate->getVariable(mapAction[QStringLiteral("input_variable")].toString());
+
+    m_target = m_automate->getVariable(mapAction[QStringLiteral("target")].toString());
+    m_inputVar = m_automate->getVariable(mapAction[QStringLiteral("input_variable")].toString());
 
 }
 

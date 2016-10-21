@@ -3,15 +3,7 @@
 #include "qdebug.h"
 CControlerAutomate::CControlerAutomate()
 {
-    CAutomate *automate = CAutomate::getInstance();
-    qDebug() << "moveThread CControlerAutomate";
-    automate->moveToThread(&m_automateThread);
-    automate->initConfig();
 
-    connect(&m_automateThread, &QThread::started, automate, &CAutomate::slotStartAutomate);
-//    connect(&m_automateThread, &QThread::finished, automate, &QObject::deleteLater);
-    connect(&m_automateThread, &QThread::finished, this, &CControlerAutomate::automateStopped);
-    m_automateThread.start();
 }
 
 CControlerAutomate::~CControlerAutomate()

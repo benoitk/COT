@@ -9,7 +9,7 @@ class CActionUnknow : public IAction
 
 public:
 
-    CActionUnknow(const QVariantMap &mapAction, QObject *parent);
+    CActionUnknow(const QVariantMap &mapAction, CAutomate *parent);
     ~CActionUnknow();
 
     bool runAction(ICycle* arg_stepParent) Q_DECL_OVERRIDE;

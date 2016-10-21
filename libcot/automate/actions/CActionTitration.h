@@ -14,7 +14,7 @@ class CActionTitration : public IAction, QRunnable
 {
     Q_OBJECT
 public:
-    CActionTitration(const QVariantMap&, QObject *parent);
+    CActionTitration(const QVariantMap&, CAutomate *parent);
 
 
     void run() Q_DECL_OVERRIDE; //fom QRunnable

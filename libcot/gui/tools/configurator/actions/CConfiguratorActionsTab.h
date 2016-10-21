@@ -8,12 +8,13 @@ class ConfiguratorActionsUIHandler;
 /**
  * Tab "Actions" in the configurator GUI.
  */
+class CAutomate;
 class CConfiguratorActionsTab : public IConfiguratorTab
 {
     Q_OBJECT
 
 public:
-    explicit CConfiguratorActionsTab(QWidget *parent = Q_NULLPTR);
+    explicit CConfiguratorActionsTab(CAutomate* arg_automate, QWidget *parent = Q_NULLPTR);
 
 private slots:
     void slotAddAction();
@@ -21,6 +22,7 @@ private slots:
 
 private:
     ConfiguratorActionsUIHandler *m_iactionUIHandler;
+    CAutomate* m_automate;
 };
 
 #endif // CCONFIGURATORACTIONSTAB_H

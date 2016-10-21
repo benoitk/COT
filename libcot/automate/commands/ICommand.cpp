@@ -1,7 +1,8 @@
 #include "ICommand.h"
+#include "CAutomate.h"
 #include <QVariantMap>
 
-ICommand::ICommand(const QVariantMap &mapCmd, QObject *parent) : QObject(parent)
+ICommand::ICommand(const QVariantMap &mapCmd, CAutomate *parent) : QObject(parent), m_automate(parent)
 {
     m_label = mapCmd.value(tr("en_US")).toString();
     if(m_label == "" ) m_label = tr("None given label");

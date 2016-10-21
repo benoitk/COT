@@ -7,13 +7,13 @@ namespace Ui {
 class COptionsOptionsTab;
 }
 class IVariableUIHandler;
-
+class CAutomate;
 class COptionsOptionsTab : public IOptionsTab
 {
     Q_OBJECT
 
 public:
-    explicit COptionsOptionsTab(QWidget *parent = Q_NULLPTR);
+    explicit COptionsOptionsTab(CAutomate* arg_automate, QWidget *parent = Q_NULLPTR);
     ~COptionsOptionsTab();
 
 protected slots:
@@ -22,6 +22,7 @@ protected slots:
 private:
     Ui::COptionsOptionsTab *ui;
     IVariableUIHandler *m_optionHandler;
+    CAutomate* m_automate;
 };
 
 #endif // COPTIONSOPTIONSTAB_H

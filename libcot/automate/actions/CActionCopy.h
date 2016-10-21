@@ -8,7 +8,7 @@ class CActionCopy: public IAction
 {
     Q_OBJECT
 public:
-    CActionCopy(const QVariantMap&, QObject *parent);
+    CActionCopy(const QVariantMap&, CAutomate *parent);
 
     bool runAction(ICycle* arg_stepParent) Q_DECL_OVERRIDE;
     QList<IVariable*> getListParameters()const Q_DECL_OVERRIDE;

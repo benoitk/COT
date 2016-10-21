@@ -5,7 +5,7 @@
 #include "qvariant.h"
 
 
-IAction::IAction(const QVariantMap &mapAction, QObject *parent):QObject(parent), m_abort(false){
+IAction::IAction(const QVariantMap &mapAction, CAutomate *parent):QObject(parent), m_abort(false), m_automate(parent){
     m_label = mapAction[tr("en_US")].toString();
     if(m_label == "" ) m_label = tr("None given label");
     m_name = mapAction[QStringLiteral("name")].toString();

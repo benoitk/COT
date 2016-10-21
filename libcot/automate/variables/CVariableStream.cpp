@@ -6,12 +6,12 @@
 #include "CVariableFactory.h"
 
 #include "qlinkedlist.h"
-CVariableStream::CVariableStream(QObject *parent)
-    : IVariable(parent)
+CVariableStream::CVariableStream(CAutomate* arg_automate, QObject *parent)
+    : IVariable(arg_automate, parent)
 {
 }
-CVariableStream::CVariableStream(const QMap<QString, QVariant> &mapVar)
-    : IVariable()
+CVariableStream::CVariableStream(const QMap<QString, QVariant> &mapVar, CAutomate* arg_automate, QObject* parent)
+    : IVariable(arg_automate, parent)
 {
     if(mapVar.contains(QStringLiteral("name")))
         m_name = mapVar.value(QStringLiteral("name")).toString();
@@ -21,20 +21,19 @@ CVariableStream::CVariableStream(const QMap<QString, QVariant> &mapVar)
         m_label = mapVar.value(tr("en_US")).toString();
     else m_label = QStringLiteral("Stream no label");
 
-    m_activeState = CAutomate::getInstance()->getVariable(mapVar.value(QStringLiteral("active_state")).toString());
+    m_activeState = m_automate->getVariable(mapVar.value(QStringLiteral("active_state")).toString());
 
     if(mapVar.contains(QStringLiteral("variables"))){
         QVariantList listVariable = mapVar.value(QStringLiteral("variables")).toList();
         foreach(const QVariant &variant, listVariable){
-            m_listVariables.append(CAutomate::getInstance()->getVariable(variant.toString()));
+            m_listVariables.append(m_automate->getVariable(variant.toString()));
         }
     }
 
     if(mapVar.contains(QStringLiteral("cycles"))){
         QVariantList listVariable = mapVar.value(QStringLiteral("cycles")).toList();
         foreach(const QVariant &variant, listVariable){
-            ICycle *cycle = CAutomate::getInstance()->getCycle(variant.toString(), e_cycle_measure);
-            // SERES_TODO: avoid null cycles in list.
+            ICycle *cycle = m_automate->getCycle(variant.toString(), e_cycle_measure);
             if (cycle) {
                 cycle->setRelatedStreamName(getName());
                 m_listCycles.append(cycle);
@@ -49,7 +48,7 @@ CVariableStream::CVariableStream(const QMap<QString, QVariant> &mapVar)
         foreach(QVariant variant, listVariable){
             QVariantMap map = variant.toMap();
             map.insert(QStringLiteral("type"), QStringLiteral("measure"));
-            IVariable* var = CVariableFactory::build(map);
+            IVariable* var = CVariableFactory::build(m_automate, this, map);
             m_listMeasures.append(var);
         }
     }

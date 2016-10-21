@@ -7,7 +7,7 @@
 
 #include "QThread"
 #include "qdebug.h"
-CThreadDiag::CThreadDiag(QObject* parent): QObject(parent), QRunnable(){
+CThreadDiag::CThreadDiag(CAutomate* parent): QObject(parent), QRunnable(), m_automate(parent){
     this->setAutoDelete(false);
     m_stoped = false;
 //    m_timer.setInterval(1000);
@@ -16,7 +16,7 @@ CThreadDiag::CThreadDiag(QObject* parent): QObject(parent), QRunnable(){
 void CThreadDiag::run(){
 
     m_stoped = false;
-    QList<IVariable*> listVars(CAutomate::getInstance()->getDisplayConf()->getListForScreenDiagnostic());
+    QList<IVariable*> listVars(m_automate->getDisplayConf()->getListForScreenDiagnostic());
     foreach (IVariable* var, listVars) {
         if(var->getOrganType() == e_type_organ_input)
             m_listDiagInputVars.append(dynamic_cast<IVariableInput*>(var));

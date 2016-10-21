@@ -13,9 +13,9 @@ class LIBCOT_EXPORT CVariableString : public IVariable
     Q_OBJECT
 
 public:
-    CVariableString(QObject *parent = Q_NULLPTR);
-    CVariableString(const QVariantMap& mapVar);
-    CVariableString(const QString&);
+    CVariableString(CAutomate* arg_automate, QObject *parent = Q_NULLPTR);
+    CVariableString(const QVariantMap& mapVar, CAutomate* arg_automate, QObject* parent);
+    CVariableString(const QString&, CAutomate* arg_automate, QObject* parent);
     ~CVariableString();
 
     QVariant toVariant() Q_DECL_OVERRIDE;

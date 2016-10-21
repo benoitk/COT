@@ -8,7 +8,7 @@ class CActionCalibrationCalcul : public IAction
 {
     Q_OBJECT
 public:
-    CActionCalibrationCalcul(const QVariantMap&, QObject *parent);
+    CActionCalibrationCalcul(const QVariantMap&, CAutomate *parent);
     ~CActionCalibrationCalcul();
 
     bool runAction(ICycle* arg_stepParent) Q_DECL_OVERRIDE;

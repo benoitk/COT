@@ -7,14 +7,13 @@
 
 #include "qtimer.h"
 #include "qthread.h"
-CActionDCEngine::CActionDCEngine(const QVariantMap &mapAction, QObject *parent)
+CActionDCEngine::CActionDCEngine(const QVariantMap &mapAction, CAutomate *parent)
     : IAction(mapAction, parent)
 {
 
-    CAutomate* automate = CAutomate::getInstance();
-    m_varPump = automate->getVariable(mapAction[QStringLiteral("target")].toString()); //l'automate assure qu'il n'y ai pas de pointeur vide
-    m_varClockwise = automate->getVariable(mapAction[QStringLiteral("clockwise")].toString()); //l'automate assure qu'il n'y ai pas de pointeur vide
-    m_varTimeout = automate->getVariable(mapAction[QStringLiteral("timeout")].toString()); //l'automate assure qu'il n'y ai pas de pointeur vide
+    m_varPump = m_automate->getVariable(mapAction[QStringLiteral("target")].toString()); //l'automate assure qu'il n'y ai pas de pointeur vide
+    m_varClockwise = m_automate->getVariable(mapAction[QStringLiteral("clockwise")].toString()); //l'automate assure qu'il n'y ai pas de pointeur vide
+    m_varTimeout = m_automate->getVariable(mapAction[QStringLiteral("timeout")].toString()); //l'automate assure qu'il n'y ai pas de pointeur vide
 
 }
 QVariantMap CActionDCEngine::serialize(){

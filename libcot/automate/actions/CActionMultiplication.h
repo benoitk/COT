@@ -8,7 +8,7 @@ class CActionMultiplication: public IAction
 {
     Q_OBJECT
 public:
-    CActionMultiplication(const QVariantMap&, QObject *parent);
+    CActionMultiplication(const QVariantMap&, CAutomate *parent);
 
     bool runAction(ICycle* arg_stepParent) Q_DECL_OVERRIDE;
     QList<IVariable*> getListParameters()const Q_DECL_OVERRIDE;

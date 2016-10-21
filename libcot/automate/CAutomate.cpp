@@ -39,25 +39,20 @@
 #include <QApplication>
 #include <QTranslator>
 
-CAutomate* CAutomate::singleton = 0;
-
-CAutomate* CAutomate::getInstance(){
-    if(!singleton)
-        singleton = new CAutomate();
-    return singleton;
-}
-
 CAutomate::CAutomate():
-    m_stateInMaintenance(this), m_stateCurrentCycleIsPaused(this), m_stateCycleIsRunning(this),
-    m_stateWillStopEndCycle(this), m_stateCycleAutoRunning(this)
+    m_stateInMaintenance(this),
+    m_stateCycleIsRunning(this),
+    m_stateCurrentCycleIsPaused(this),
+    m_stateWillStopEndCycle(this),
+    m_stateCycleAutoRunning(this)
 {
+    m_scheduler = new CScheduler(this);
     m_debug = false;
     m_schedulerStoppedFromIHM = false;
-//    m_isInMaintenanceMode = false; //remplacé par m_stateInMaintenance
     m_stateInMaintenance.setState(false);
     m_lang = "en_US";
     m_countBeforeCheckLogFileToDelete = 0;
-//    m_stateScheduler = CYCLE_STATE_STOP;
+
     m_commandNextCycle = Q_NULLPTR;
     m_commandStopEndCycle = Q_NULLPTR;
     m_commandPlayStop = Q_NULLPTR;
@@ -67,10 +62,8 @@ CAutomate::CAutomate():
 
     addVariable(m_localControlForced->getName(), m_localControlForced); //va me peter à la gueule dès que le configurateur sera en place
     connect(m_localControlForced, &CVariableBool::signalVariableChanged, this, &CAutomate::slotResetCommands);
-    //    m_localControlForced->setAccess(e_access_read_write);
-    //    m_localControlForced->setValue(false);
 
-    // m_mappingCom.insert(QStringLiteral("0xffff"), CVariableFactory::build(QVariantMap())); //unknown address com
+
 
  //   QTimer* timer = new QTimer(this);
     m_iClock = 0;
@@ -80,6 +73,12 @@ CAutomate::CAutomate():
 
     // for use in queued signal/slot connections
     qRegisterMetaType<CAutomate::eStateStream>();
+
+    moveToThread(&m_automateThread);
+    initConfig();
+
+    connect(&m_automateThread, &QThread::started, this, &CAutomate::slotStartAutomate);
+    m_automateThread.start();
 }
 bool CAutomate::isLocalControlForced(){
     return m_localControlForced->toBool();
@@ -104,6 +103,36 @@ void CAutomate::initConfig(){
 
 }
 
+QList<CVariableMeasure *> CAutomate::allMeasures()
+{
+    QList<CVariableMeasure *> ret;
+    const QList<CVariableStream*> streams = this->getListStreams();
+    foreach (CVariableStream *streamVar, streams) {
+        foreach (IVariable *measure, streamVar->getListMeasures()) {
+            CVariableMeasure *measureVar = static_cast<CVariableMeasure *>(measure);
+            ret.append(measureVar);
+        }
+    }
+    return ret;
+}
+QPair<CVariableStream *, int> CAutomate::findStreamForMeasure(const QString &measureName) {
+
+    foreach ( CVariableStream *streamVar, getListStreams()) {
+
+        const QList<IVariable *> measures = streamVar->getListMeasures();
+        for (int i = 0 ; i < measures.count(); ++i) {
+            CVariableMeasure *measureVar = static_cast<CVariableMeasure *>(measures.at(i));
+            IVariable *measureMeasureVariable = measureVar->getMeasureVariable();
+
+            if (measureMeasureVariable && measureMeasureVariable->getName() == measureName) {
+                return qMakePair<CVariableStream *,int >(streamVar, i);
+            }
+        }
+    }
+
+    qWarning() << "Stream not found for measure" << measureName;
+    return qMakePair<CVariableStream *,int >(Q_NULLPTR, -1);
+}
 
 CState* CAutomate::getStateInMaintenance(){return &m_stateInMaintenance;}
 CState* CAutomate::getStateIsRunning(){return &m_stateCycleIsRunning;}
@@ -114,7 +143,6 @@ CState* CAutomate::getStateCycleAutoRunning(){return &m_stateCycleAutoRunning;}
 
 
 void CAutomate::slotStartAutomate(){
-    m_scheduler = CScheduler::getInstance();
     connect(m_scheduler, &CScheduler::signalUpdated, this, &CAutomate::signalSchedulerUpdated);
     m_threadDiag = new CThreadDiag(this);
 
@@ -161,7 +189,7 @@ void CAutomate::addCyclePrivate(ICycle * cycle)
 
         //case e_cycle_pause:
         //    break;
-
+        case e_cycle_invalid:
         case e_cycle_all:
             Q_ASSERT(false);
             break;
@@ -222,7 +250,7 @@ IVariable* CAutomate::getVariable(const QString &name){
 
     IVariable* var = m_mapVariables.value(name);
     if(!var && !(var = m_mapVariables.value(QStringLiteral("unknown_var")))){
-         var = CVariableFactory::build(QVariantMap());
+         var = CVariableFactory::build(this, this, QVariantMap());
          m_mapVariables.insert(var->getName(), var);
     }
     return var;
@@ -236,7 +264,7 @@ QList<IVariable *> CAutomate::getVariables(const QStringList &names)
     foreach (const QString &name, names) {
         IVariable *ivar = m_mapVariables.value(name, 0);
         if(!ivar && !(ivar = m_mapVariables.value(QStringLiteral("unknown_var")))){
-            ivar = CVariableFactory::build(QVariantMap());
+            ivar = CVariableFactory::build(this, this, QVariantMap());
             m_mapVariables.insert(ivar->getName(), ivar);
         }
         ivars << ivar;
@@ -354,19 +382,19 @@ void CAutomate::setCommandNextCycle(ICommand* cmd){
 
 ICommand* CAutomate::getCommandPlayStop(){
     if(!m_commandPlayStop)
-        m_commandPlayStop = CCommandFactory::build(QVariantMap(), QThread::currentThread()->parent());
+        m_commandPlayStop = CCommandFactory::build(QVariantMap(), this);
     return m_commandPlayStop;
 }
 
 ICommand* CAutomate::getCommandStopEndCycle(){
     if(m_commandStopEndCycle)
         return m_commandStopEndCycle;
-    return CCommandFactory::build(QVariantMap(), QThread::currentThread()->parent());
+    return CCommandFactory::build(QVariantMap(), this);
 }
 ICommand* CAutomate::getCommandNextCycle(){
     if(m_commandNextCycle)
         return m_commandNextCycle;
-    return CCommandFactory::build(QVariantMap(), QThread::currentThread()->parent());
+    return CCommandFactory::build(QVariantMap(), this);
 }
 
 
@@ -585,11 +613,11 @@ void CAutomate::requestStopEndCycleScheduler(){
         m_scheduler->slotRequestStopEndCycleSequence();
 }
 //Si la request à réussi, confirmation ici
-void CAutomate::setStateWillStopEndCycle(bool arg){
+void CAutomate::setStateWillStopEndCycle(bool arg,const QString& runningCycleName){
     if(arg)
-        emit signalStateRunningWillStopEndCycle(true);
+        emit signalStateRunningWillStopEndCycle(true, runningCycleName);
     else
-        setStateIsRunning(true); //emit signalStateRunning(true);
+        setStateIsRunning(true, runningCycleName); //emit signalStateRunning(true);
     m_stateWillStopEndCycle.setState(arg);
 }
 void CAutomate::requestCancelStopEndCycleScheduler(){
@@ -599,9 +627,9 @@ void CAutomate::requestCancelStopEndCycleScheduler(){
 void CAutomate::setStateCycleAutoRunning(bool arg){
      m_stateCycleAutoRunning.setState(arg);
 }
-void CAutomate::setStateIsRunning(bool arg){
+void CAutomate::setStateIsRunning(bool arg,const QString& runningCycleName){
      m_stateCycleIsRunning.setState(arg);
-     emit CAutomate::getInstance()->signalStateRunning(arg);
+     emit signalStateRunning(arg, runningCycleName);
 }
 void CAutomate::setStateCurrentCycleIsPaused(bool arg){
     m_stateCurrentCycleIsPaused.setState(arg);
@@ -746,7 +774,7 @@ void CAutomate::delCycle(ICycle *cycle)
 
 //        case e_cycle_pause:
 //            break;
-
+    case e_cycle_invalid:
         case e_cycle_all:
             Q_ASSERT(false);
             break;
@@ -796,29 +824,31 @@ ICycle *CAutomate::getCycle(const QString &name, int type) const
     QMutexLocker locker(&m_mutex);
 
     switch(static_cast<enumTypeCycle>(type)){
-        case e_cycle_measure:
+    case e_cycle_measure:
     case e_cycle_pause:
-            return m_listCycleMesures.value(name, Q_NULLPTR);
-        case e_cycle_maintenance :
-            return m_listCycleMaintenances.value(name, Q_NULLPTR);
-        case e_cycle_autonome:
-            return m_listlCycleAutonomes.value(name, Q_NULLPTR);
-//        case e_cycle_pause:
-//            break;
+        return m_listCycleMesures.value(name, Q_NULLPTR);
+    case e_cycle_maintenance :
+        return m_listCycleMaintenances.value(name, Q_NULLPTR);
+    case e_cycle_autonome:
+        return m_listlCycleAutonomes.value(name, Q_NULLPTR);
+        //        case e_cycle_pause:
+        //            break;
 
-        case e_cycle_all: {
-            ICycle * cycle = m_listCycleMesures.value(name, Q_NULLPTR);
+    case e_cycle_all: {
+        ICycle * cycle = m_listCycleMesures.value(name, Q_NULLPTR);
 
-            if (!cycle) {
-                cycle = m_listCycleMaintenances.value(name, Q_NULLPTR);
-            }
-
-            if (!cycle) {
-                cycle = m_listlCycleAutonomes.value(name, Q_NULLPTR);
-            }
-
-            return cycle;
+        if (!cycle) {
+            cycle = m_listCycleMaintenances.value(name, Q_NULLPTR);
         }
+
+        if (!cycle) {
+            cycle = m_listlCycleAutonomes.value(name, Q_NULLPTR);
+        }
+
+        return cycle;
+    }
+    case e_cycle_invalid:
+    default: break;
     }
 
     return Q_NULLPTR;
@@ -998,7 +1028,7 @@ void CAutomate::informAboutVariableChanges(IVariable *variable, const QVariantMa
 
 QString CAutomate::formatHistoryEntry(const QString &name, const QDateTime &dateTime)
 {
-    IVariable *ivar = getInstance()->getVariable(name);
+    IVariable *ivar = this->getVariable(name);
     Q_ASSERT(ivar);
     return tr("%1: %2 updated to value %3")
             .arg(dateTime.toString())

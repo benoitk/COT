@@ -9,16 +9,15 @@
 #include "QThreadPool"
 
 
-CActionSlope::CActionSlope(const QVariantMap &mapAction, QObject *parent)
+CActionSlope::CActionSlope(const QVariantMap &mapAction, CAutomate *parent)
     : IAction(mapAction, parent)
 {
-    CAutomate* automate = CAutomate::getInstance();
 
-    m_startSetpoint = automate->getVariable(mapAction[QStringLiteral("start_setpoint")].toString());
-    m_inibitedAlarm = automate->getVariable(mapAction[QStringLiteral("inhibited_alarm")].toString());
-    m_setpoint = automate->getVariable(mapAction[QStringLiteral("setpoint")].toString());
-    m_duration = automate->getVariable(mapAction[QStringLiteral("duration")].toString());
-    m_nbSection = automate->getVariable(mapAction[QStringLiteral("nb_sections")].toString());
+    m_startSetpoint = m_automate->getVariable(mapAction[QStringLiteral("start_setpoint")].toString());
+    m_inibitedAlarm = m_automate->getVariable(mapAction[QStringLiteral("inhibited_alarm")].toString());
+    m_setpoint = m_automate->getVariable(mapAction[QStringLiteral("setpoint")].toString());
+    m_duration = m_automate->getVariable(mapAction[QStringLiteral("duration")].toString());
+    m_nbSection = m_automate->getVariable(mapAction[QStringLiteral("nb_sections")].toString());
 
     //si autodelete à true, risque d'utilisation de l'objet alors qu'il est détruit à la fin du run.
     this->setAutoDelete(false);

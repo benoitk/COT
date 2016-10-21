@@ -1,21 +1,36 @@
 #include "ICycle.h"
 #include "CStep.h"
 #include "CAutomate.h"
+#include "CScheduler.h"
 #include "cotautomate_debug.h"
 #include "qthread.h"
 
-ICycle::ICycle(QObject *parent)
-    : QObject(parent), m_stepStop(Q_NULLPTR), m_mutex(QMutex::Recursive), m_editInProgress(false)
+ICycle::ICycle(CScheduler *parent)
+    : QObject(parent)
+    , m_stepStop(Q_NULLPTR)
+    , m_editInProgress(false)
+    , m_mutex(QMutex::Recursive)
+    , m_scheduler(parent)
 {
 
 }
-ICycle::ICycle()
-    : QObject(), m_isRunning(false), m_stepStop(Q_NULLPTR), m_mutex(QMutex::Recursive), m_editInProgress(false)
-{
+//ICycle::ICycle()
+//    : QObject()
+//    , m_isRunning(false)
+//    , m_stepStop(Q_NULLPTR)
+//    , m_editInProgress(false)
+//    , m_mutex(QMutex::Recursive)
+//{
 
-}
-ICycle::ICycle(const QVariantMap &mapCycle, QObject *parent)
-    : QObject(), m_isRunning(false), m_stepStop(Q_NULLPTR), m_mutex(QMutex::Recursive), m_editInProgress(false){
+//}
+ICycle::ICycle(const QVariantMap &mapCycle, CScheduler *parent)
+    : QObject(parent)
+    , m_isRunning(false)
+    , m_stepStop(Q_NULLPTR)
+    , m_editInProgress(false)
+    , m_mutex(QMutex::Recursive)
+    ,m_scheduler(parent)
+{
 
     if(mapCycle.contains(QStringLiteral("name")))
         m_name = mapCycle[QStringLiteral("name")].toString();
@@ -43,6 +58,10 @@ ICycle::ICycle(const QVariantMap &mapCycle, QObject *parent)
     else
         m_stepStop = new CStep(this, QVariantMap());
 }
+CScheduler* ICycle::getScheduler(){
+    return m_scheduler;
+}
+
 void ICycle::abortCycle(){
     QThread* currentThread = QThread::currentThread();
     if(m_mapTimerSchedulerStep.contains(currentThread) && m_mapTimerInfoNumStep.contains(currentThread)){
@@ -130,22 +149,22 @@ bool ICycle::swapStep(float from, float to){
     int indexFrom = m_listSteps.count();
     int indexTo = m_listSteps.count();
 
-    bool indexFound = false;
+
     for(int  i = 0; i < m_listSteps.count() && indexFrom == m_listSteps.count(); ++i){
         if(m_listSteps.at(i)->getNumStep() == from ){
             indexFrom = i;
             m_listSteps.value(i)->setNumStep(to);
-            indexFound = true;
+
         }
     }
     if(indexFrom == m_listSteps.count()) return false; //le pas de départ n'éxiste pas
 
-    indexFound = false;
+
     for(int  i = 0; i < m_listSteps.count() && indexTo == m_listSteps.count(); ++i){
         if(m_listSteps.value(i)->getNumStep() == to ){
             indexTo = i;
             m_listSteps.value(i)->setNumStep(from);
-            indexFound = true;
+
         }
     }
     if(indexTo == m_listSteps.count()) return false; //le pas d'arrivé n'éxiste pas
@@ -452,7 +471,7 @@ void ICycle::setName(const QString &name){
 void ICycle::updateCycleInfosStep(float arg_numStep, QString arg_info){
     QMutexLocker lock(&m_mutex);
     m_numStepInfo = arg_numStep;
-    emit CAutomate::getInstance()->signalUpdateCurrentStep(arg_numStep, arg_info);
+    emit m_scheduler->getAutomate()->signalUpdateCurrentStep(arg_numStep, arg_info);
 }
 void ICycle::slotUpdateCycleInfosNumStep(){
     if(*m_itListStepsPasEnCours && (*m_itListStepsPasEnCours)->getNumStep() > m_numStepInfo)
@@ -460,15 +479,15 @@ void ICycle::slotUpdateCycleInfosNumStep(){
         QMutexLocker lock(&m_mutex);
         m_numStepInfo+=0.1f;
 
-        emit CAutomate::getInstance()->signalUpdateNumStep(m_numStepInfo);
+        emit m_scheduler->getAutomate()->signalUpdateNumStep(m_numStepInfo);
     }
 }
 
 void ICycle::updateCycleInfosAction(QString arg_info){
     QMutexLocker lock(&m_mutex);
-    emit CAutomate::getInstance()->signalUpdateCurrentAction(arg_info);
+    emit m_scheduler->getAutomate()->signalUpdateCurrentAction(arg_info);
 }
 void ICycle::updateCycleInfosCountStep(){
     QMutexLocker lock(&m_mutex);
-    emit CAutomate::getInstance()->signalUpdateCountStep(m_listSteps.last()->getNumStep());
+    emit m_scheduler->getAutomate()->signalUpdateCountStep(m_listSteps.last()->getNumStep());
 }

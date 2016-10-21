@@ -12,7 +12,7 @@ class CCycleFactory : public QObject
 
 public:
     static ICycle* build(enumTypeCycle type);
-    static ICycle* build(const QVariantMap &mapCycle, QObject* paren);
+    static ICycle* build(const QVariantMap &mapCycle, CScheduler* paren);
 
 
 private:

@@ -17,15 +17,15 @@ enum enumTypeCycle{
 class IAction;
 class CStep;
 class CVariableStream;
-
+class CScheduler;
 class ICycle : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit ICycle(QObject *parent);
-    ICycle(const QVariantMap &mapCycle, QObject *parent);
-    ICycle();
+    explicit ICycle(CScheduler *parent);
+    ICycle(const QVariantMap &mapCycle, CScheduler *parent);
+//    ICycle();
 
     virtual enumTypeCycle getType()const=0;
     virtual void addAction(float arg_step, IAction* action);
@@ -63,6 +63,8 @@ public:
 
     virtual void updateCycleInfosAction(QString arg_info);
     virtual void updateCycleInfosCountStep();
+
+    virtual CScheduler* getScheduler();
 
 public slots:
     virtual void slotUpdateCycleInfosNumStep();
@@ -112,6 +114,7 @@ protected:
 
     bool m_editInProgress;
     QMutex m_mutex;
+    CScheduler*  m_scheduler;
 
 };
 

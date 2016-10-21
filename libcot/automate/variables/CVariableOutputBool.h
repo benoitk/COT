@@ -12,8 +12,8 @@ class CVariableOutputBool : public CVariableBool, public IVariableOutput
     Q_OBJECT
 
 public:
-    CVariableOutputBool(QObject *parent = Q_NULLPTR);
-    CVariableOutputBool(const QMap<QString, QVariant> &mapVar);
+    CVariableOutputBool(CAutomate* arg_automate, QObject *parent = Q_NULLPTR);
+    CVariableOutputBool(const QMap<QString, QVariant> &mapVar, CAutomate* arg_automate, QObject * parent);
     ~CVariableOutputBool();
 
     //IVariableOutput

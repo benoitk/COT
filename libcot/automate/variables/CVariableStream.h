@@ -12,8 +12,8 @@ class CVariableStream : public IVariable
     Q_OBJECT
 
 public:
-    CVariableStream(QObject *parent = Q_NULLPTR);
-    CVariableStream(const QMap<QString, QVariant> &mapVar);
+    CVariableStream(CAutomate* arg_automate, QObject *parent = Q_NULLPTR);
+    CVariableStream(const QMap<QString, QVariant> &mapVar, CAutomate* arg_automate, QObject* parent);
     ~CVariableStream();
 
     QString toString() Q_DECL_OVERRIDE;

@@ -7,10 +7,10 @@
 #include <QAction>
 #include <QTabWidget>
 
-CGenericVariablesEditorWindow::CGenericVariablesEditorWindow(QWidget *parent)
+CGenericVariablesEditorWindow::CGenericVariablesEditorWindow(CAutomate* arg_automate, QWidget *parent)
     : QWidget(parent)
     , m_tabWidget(new QTabWidget(this))
-    , m_editor(new CGenericVariablesEditor(this))
+    , m_editor(new CGenericVariablesEditor(arg_automate, this))
 {
     QVBoxLayout *vl = new QVBoxLayout(this);
     vl->addWidget(m_tabWidget);

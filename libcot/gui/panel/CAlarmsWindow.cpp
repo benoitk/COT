@@ -38,10 +38,11 @@ QString CPendingAlarms::alarmsFormattedText() const
 
 /// GUI
 
-CAlarmsWindow::CAlarmsWindow(CPendingAlarms *alarms, QWidget *parent)
+CAlarmsWindow::CAlarmsWindow(CAutomate* arg_automate, CPendingAlarms *alarms, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::CAlarmsWindow)
     , m_pendingAlarms(alarms)
+    , m_automate(arg_automate)
 {
     ui->setupUi(this);
 
@@ -75,5 +76,5 @@ void CAlarmsWindow::slotAlarmsChanged()
 void CAlarmsWindow::slotRemoveAlarms()
 {
     m_pendingAlarms->clearAlarms();
-    CAutomate::getInstance()->acquitAlarms();
+    m_automate->acquitAlarms();
 }

@@ -9,7 +9,8 @@
 #include "cotautomate_debug.h"
 
 
-ICommand* CCommandFactory::build(const QVariantMap &mapCommand, QObject *parent){
+
+ICommand* CCommandFactory::build(const QVariantMap &mapCommand, CAutomate *parent){
 
     ICommand* command = Q_NULLPTR;
     const QString type = mapCommand[QStringLiteral("name")].toString();

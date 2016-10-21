@@ -10,7 +10,7 @@ class CActionCmd420: public IAction
 
 public:
 
-    CActionCmd420(const QVariantMap &, QObject *parent);
+    CActionCmd420(const QVariantMap &, CAutomate *parent);
 
     bool runAction(ICycle* arg_stepParent) Q_DECL_OVERRIDE;
     QList<IVariable*> getListParameters()const Q_DECL_OVERRIDE;

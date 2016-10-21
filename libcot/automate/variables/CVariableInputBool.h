@@ -12,8 +12,8 @@ class CVariableInputBool : public CVariableBool, public IVariableInput
     Q_OBJECT
 
 public:
-    CVariableInputBool(QObject *parent = Q_NULLPTR);
-    CVariableInputBool(const QMap<QString, QVariant> &mapVar);
+    CVariableInputBool(CAutomate* arg_automate, QObject *parent = Q_NULLPTR);
+    CVariableInputBool(const QMap<QString, QVariant> &mapVar, CAutomate* arg_automate, QObject* parent);
     ~CVariableInputBool();
 
     //IVariableInput

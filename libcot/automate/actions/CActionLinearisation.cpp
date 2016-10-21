@@ -12,16 +12,15 @@
 #include "qthreadpool.h"
 
 
-CActionLinearisation::CActionLinearisation(const QVariantMap &mapAction, QObject *parent)
+CActionLinearisation::CActionLinearisation(const QVariantMap &mapAction, CAutomate *parent)
     : IAction(mapAction, parent)
 {
-    CAutomate* automate = CAutomate::getInstance();
 
-   m_rawValue = automate->getVariable(mapAction[QStringLiteral("raw_value")].toString());
-   m_value = automate->getVariable(mapAction[QStringLiteral("value")].toString());
+   m_rawValue = m_automate->getVariable(mapAction[QStringLiteral("raw_value")].toString());
+   m_value = m_automate->getVariable(mapAction[QStringLiteral("value")].toString());
    m_curve = Q_NULLPTR;
-   if(automate->getVariable(mapAction[QStringLiteral("curve")].toString())->getType() == e_type_curve)
-        m_curve = dynamic_cast<CVariableCurve*>(automate->getVariable(mapAction[QStringLiteral("curve")].toString()));
+   if(m_automate->getVariable(mapAction[QStringLiteral("curve")].toString())->getType() == e_type_curve)
+        m_curve = dynamic_cast<CVariableCurve*>(m_automate->getVariable(mapAction[QStringLiteral("curve")].toString()));
 
 
      //si autodelete à true, risque d'utilisation de l'objet alors qu'il est détruit à la fin du run.

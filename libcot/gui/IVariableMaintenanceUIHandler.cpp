@@ -1,161 +1,161 @@
-#include "IVariableMaintenanceUIHandler.h"
-#include "CScrollableWidget.h"
-#include "CScrollablePagerWidget.h"
-#include "CToolButton.h"
-#include "CAutomate.h"
-#include "ICycle.h"
-#include "CVariableString.h"
-#include "StyleRepository.h"
-#include "CClickableLabel.h"
+//#include "IVariableMaintenanceUIHandler.h"
+//#include "CScrollableWidget.h"
+//#include "CScrollablePagerWidget.h"
+//#include "CToolButton.h"
+//#include "CAutomate.h"
+//#include "ICycle.h"
+//#include "CVariableString.h"
+//#include "StyleRepository.h"
+//#include "CClickableLabel.h"
 
-#include <QDebug>
+//#include <QDebug>
 
-IVariableMaintenanceUIHandler::IVariableMaintenanceUIHandler(CScrollableWidget *scrollable, QObject *parent)
-    : IVariableUIHandler(scrollable, parent)
-{
-    CAutomate *automate = CAutomate::getInstance();
-    connect(automate, &CAutomate::signalCycleChanged, this, &IVariableMaintenanceUIHandler::slotCycleChanged);
-}
+//IVariableMaintenanceUIHandler::IVariableMaintenanceUIHandler(CScrollableWidget *scrollable, QObject *parent)
+//    : IVariableUIHandler(scrollable, parent)
+//{
+//    CAutomate *automate = CAutomate::getInstance();
+//    connect(automate, &CAutomate::signalCycleChanged, this, &IVariableMaintenanceUIHandler::slotCycleChanged);
+//}
 
-void IVariableMaintenanceUIHandler::layout()
-{
-    CAutomate *automate = CAutomate::getInstance();
-    QList<ICycle *> cycles = automate->getListCycles(e_cycle_maintenance);
-    IVariablePtrList variables;
+//void IVariableMaintenanceUIHandler::layout()
+//{
+//    CAutomate *automate = CAutomate::getInstance();
+//    QList<ICycle *> cycles = automate->getListCycles(e_cycle_maintenance);
+//    IVariablePtrList variables;
 
-    foreach (ICycle *cycle, cycles) {
-        IVariable *variable = new CVariableString;
-        variable->setName(cycle->getName());
-        variable->setLabel(cycle->getLabel());
-        variables << variable;
-    }
+//    foreach (ICycle *cycle, cycles) {
+//        IVariable *variable = new CVariableString(automate, this);
+//        variable->setName(cycle->getName());
+//        variable->setLabel(cycle->getLabel());
+//        variables << variable;
+//    }
 
-    IVariableUIHandler::layout(variables);
-    qDeleteAll(variables);
-}
+//    IVariableUIHandler::layout(variables);
+//    qDeleteAll(variables);
+//}
 
-int IVariableMaintenanceUIHandler::columnCount() const
-{
-    return 3;
-}
+//int IVariableMaintenanceUIHandler::columnCount() const
+//{
+//    return 3;
+//}
 
-QWidget *IVariableMaintenanceUIHandler::createWidget(int index, IVariable *ivar)
-{
-    switch (index) {
-        case 0:
-            return newLabel(ivar);
+//QWidget *IVariableMaintenanceUIHandler::createWidget(int index, IVariable *ivar)
+//{
+//    switch (index) {
+//        case 0:
+//            return newLabel(ivar);
 
-        case 1:
-            return newStartEditor(ivar);
+//        case 1:
+//            return newStartEditor(ivar);
 
-        case 2:
-            return newStopEditor(ivar);
-    }
+//        case 2:
+//            return newStopEditor(ivar);
+//    }
 
-    Q_ASSERT(false);
-    return Q_NULLPTR;
-}
+//    Q_ASSERT(false);
+//    return Q_NULLPTR;
+//}
 
-void IVariableMaintenanceUIHandler::rowInserted(const IVariableUIHandler::Row &row, IVariable *ivar)
-{
-    Q_UNUSED(ivar);
-    connect(row.widgetAt<CToolButton *>(1), &CToolButton::clicked,
-            this, &IVariableMaintenanceUIHandler::slotButtonStartClicked);
-    connect(row.widgetAt<CToolButton *>(2), &CToolButton::clicked,
-            this, &IVariableMaintenanceUIHandler::slotButtonStopClicked);
-}
+//void IVariableMaintenanceUIHandler::rowInserted(const IVariableUIHandler::Row &row, IVariable *ivar)
+//{
+//    Q_UNUSED(ivar);
+//    connect(row.widgetAt<CToolButton *>(1), &CToolButton::clicked,
+//            this, &IVariableMaintenanceUIHandler::slotButtonStartClicked);
+//    connect(row.widgetAt<CToolButton *>(2), &CToolButton::clicked,
+//            this, &IVariableMaintenanceUIHandler::slotButtonStopClicked);
+//}
 
-void IVariableMaintenanceUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariable *ivar)
-{
-    CAutomate *automate = CAutomate::getInstance();
-    ICycle *cycle = automate->getCycle(ivar->getName(), e_cycle_maintenance);
+//void IVariableMaintenanceUIHandler::rowChanged(const IVariableUIHandler::Row &row, IVariable *ivar)
+//{
+//    CAutomate *automate = CAutomate::getInstance();
+//    ICycle *cycle = automate->getCycle(ivar->getName(), e_cycle_maintenance);
 
-    if (!cycle) {
-        Q_ASSERT(false);
-        return;
-    }
+//    if (!cycle) {
+//        Q_ASSERT(false);
+//        return;
+//    }
 
-    row.widgetAt<CClickableLabel *>(0)->setText(cycle->getLabel());
-    row.widgetAt<CToolButton *>(1)->setEnabled(!cycle->isRunning());
-    row.widgetAt<CToolButton *>(1)->setChecked(cycle->isRunning());
-    row.widgetAt<CToolButton *>(2)->setVisible(cycle->isRunning());
-}
+//    row.widgetAt<CClickableLabel *>(0)->setText(cycle->getLabel());
+//    row.widgetAt<CToolButton *>(1)->setEnabled(!cycle->isRunning());
+//    row.widgetAt<CToolButton *>(1)->setChecked(cycle->isRunning());
+//    row.widgetAt<CToolButton *>(2)->setVisible(cycle->isRunning());
+//}
 
-CToolButton *IVariableMaintenanceUIHandler::newStartEditor(IVariable *ivar)
-{
-    Q_UNUSED(ivar);
-    CToolButton *button = new CToolButton(CToolButton::Play, container());
-    button->setUserData(ivar->getName());
-    button->setFixedSize(StyleRepository::playStopButtonSize());
-    button->setCheckable(true);
-    return button;
-}
+//CToolButton *IVariableMaintenanceUIHandler::newStartEditor(IVariable *ivar)
+//{
+//    Q_UNUSED(ivar);
+//    CToolButton *button = new CToolButton(CToolButton::Play, container());
+//    button->setUserData(ivar->getName());
+//    button->setFixedSize(StyleRepository::playStopButtonSize());
+//    button->setCheckable(true);
+//    return button;
+//}
 
-CToolButton *IVariableMaintenanceUIHandler::newStopEditor(IVariable *ivar)
-{
-    Q_UNUSED(ivar);
-    CToolButton *button = new CToolButton(CToolButton::Stop, container());
-    button->setUserData(ivar->getName());
-    button->setFixedSize(StyleRepository::playStopButtonSize());
-    return button;
-}
+//CToolButton *IVariableMaintenanceUIHandler::newStopEditor(IVariable *ivar)
+//{
+//    Q_UNUSED(ivar);
+//    CToolButton *button = new CToolButton(CToolButton::Stop, container());
+//    button->setUserData(ivar->getName());
+//    button->setFixedSize(StyleRepository::playStopButtonSize());
+//    return button;
+//}
 
-void IVariableMaintenanceUIHandler::slotCycleChanged(const QString &name)
-{
-    CAutomate *automate = CAutomate::getInstance();
-    ICycle *cycle = automate->getCycle(name, e_cycle_maintenance);
-    Row *row = getRow(name);
+//void IVariableMaintenanceUIHandler::slotCycleChanged(const QString &name)
+//{
+//    CAutomate *automate = CAutomate::getInstance();
+//    ICycle *cycle = automate->getCycle(name, e_cycle_maintenance);
+//    Row *row = getRow(name);
 
-    if (!row || !cycle) {
-        return;
-    }
+//    if (!row || !cycle) {
+//        return;
+//    }
 
-    rowChanged(*row, Q_NULLPTR);
-}
+//    rowChanged(*row, Q_NULLPTR);
+//}
 
-void IVariableMaintenanceUIHandler::slotButtonStartClicked()
-{
-    const CToolButton *button = qobject_cast<CToolButton *>(sender());
-    const QString cycleName = button->userData().toString();
-    CAutomate *automate = CAutomate::getInstance();
-    ICycle *cycle = automate->getCycle(cycleName, e_cycle_maintenance);
-    if (!cycle) {
-        qWarning() << "Automat returned null for cycle" << cycleName;
-        return;
-    }
-    Row *row = getRow(cycleName);
-    if (!row) {
-        qWarning() << "Cycle not found" << cycleName;
-        return;
-    }
-    if (cycle->isPaused()) {
-        cycle->slotUnPauseCycle();
-    }
-    else if (cycle->isRunning()) {
-        cycle->slotPauseCycle();
-    }
-    else {
-        cycle->slotRunCycle();
-    }
-}
+//void IVariableMaintenanceUIHandler::slotButtonStartClicked()
+//{
+//    const CToolButton *button = qobject_cast<CToolButton *>(sender());
+//    const QString cycleName = button->userData().toString();
+//    CAutomate *automate = CAutomate::getInstance();
+//    ICycle *cycle = automate->getCycle(cycleName, e_cycle_maintenance);
+//    if (!cycle) {
+//        qWarning() << "Automat returned null for cycle" << cycleName;
+//        return;
+//    }
+//    Row *row = getRow(cycleName);
+//    if (!row) {
+//        qWarning() << "Cycle not found" << cycleName;
+//        return;
+//    }
+//    if (cycle->isPaused()) {
+//        cycle->slotUnPauseCycle();
+//    }
+//    else if (cycle->isRunning()) {
+//        cycle->slotPauseCycle();
+//    }
+//    else {
+//        cycle->slotRunCycle();
+//    }
+//}
 
-void IVariableMaintenanceUIHandler::slotButtonStopClicked()
-{
-    const CToolButton *button = qobject_cast<CToolButton *>(sender());
-    const QString cycleName = button->userData().toString();
-    CAutomate *automate = CAutomate::getInstance();
-    ICycle *cycle = automate->getCycle(cycleName, e_cycle_maintenance);
-    if (!cycle) {
-        qWarning() << "Automat returned null for cycle" << cycleName;
-        return;
-    }
-    Row *row = getRow(cycleName);
-    if (!row) {
-        qWarning() << "Cycle not found" << cycleName;
-        return;
-    }
+//void IVariableMaintenanceUIHandler::slotButtonStopClicked()
+//{
+//    const CToolButton *button = qobject_cast<CToolButton *>(sender());
+//    const QString cycleName = button->userData().toString();
+//    CAutomate *automate = CAutomate::getInstance();
+//    ICycle *cycle = automate->getCycle(cycleName, e_cycle_maintenance);
+//    if (!cycle) {
+//        qWarning() << "Automat returned null for cycle" << cycleName;
+//        return;
+//    }
+//    Row *row = getRow(cycleName);
+//    if (!row) {
+//        qWarning() << "Cycle not found" << cycleName;
+//        return;
+//    }
 
-    if (cycle->isRunning()) {
-        cycle->slotStopCycle();
-    }
-}
+//    if (cycle->isRunning()) {
+//        cycle->slotStopCycle();
+//    }
+//}

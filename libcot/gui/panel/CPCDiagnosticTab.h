@@ -18,7 +18,7 @@ class CPCDiagnosticTab : public IPCTab
     Q_OBJECT
 
 public:
-    explicit CPCDiagnosticTab(QWidget *parent = Q_NULLPTR);
+    explicit CPCDiagnosticTab(CAutomate* arg_automate, QWidget *parent = Q_NULLPTR);
     ~CPCDiagnosticTab();
 
     CVerticalButtonBar *buttonBar() const Q_DECL_OVERRIDE;

@@ -9,7 +9,7 @@ class CActionInhibiDisinhibitAlarm: public IAction
 {
     Q_OBJECT
 public:
-    CActionInhibiDisinhibitAlarm(const QVariantMap&, QObject *parent);
+    CActionInhibiDisinhibitAlarm(const QVariantMap&, CAutomate *parent);
 
     bool runAction(ICycle* arg_stepParent) Q_DECL_OVERRIDE;
     QList<IVariable*> getListParameters()const Q_DECL_OVERRIDE;

@@ -8,12 +8,12 @@ class CConfiguratorWindow;
 }
 
 class IConfiguratorTab;
-
+class CAutomate;
 class CConfiguratorWindow : public QWidget
 {
     Q_OBJECT
 public:
-    explicit CConfiguratorWindow(QWidget *parent = Q_NULLPTR);
+    explicit CConfiguratorWindow(CAutomate* arg_automate, QWidget *parent = Q_NULLPTR);
     ~CConfiguratorWindow();
 
 protected:

@@ -2,19 +2,21 @@
 #include "CUnit.h"
 
 #include "qdebug.h"
-CVariableBool::CVariableBool(QObject *parent)
-    : IVariable(parent)
+CVariableBool::CVariableBool(CAutomate* arg_automate, QObject *parent)
+    : IVariable(arg_automate, parent)
 
 {
 
 }
-CVariableBool::CVariableBool(const QVariantMap& mapVar):IVariable(mapVar){
+CVariableBool::CVariableBool(const QVariantMap& mapVar,CAutomate* arg_automate, QObject* parent)
+    :IVariable(mapVar, arg_automate, parent)
+{
     m_value = mapVar.value(QStringLiteral("value")).toBool();
     m_defaultValue = m_value;
 }
 
-CVariableBool::CVariableBool(bool arg_value, int arg_address, enumVariableAccess arg_access)
-    : IVariable(){
+CVariableBool::CVariableBool(CAutomate* arg_automate, QObject *parent,bool arg_value, int arg_address, enumVariableAccess arg_access)
+    : IVariable(arg_automate, parent){
     m_value = arg_value;
     m_access = arg_access;
     m_address = arg_address;

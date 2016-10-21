@@ -3,7 +3,6 @@
 
 #include "IComObserver.h"
 
-
 #include "CVariableFloat.h"
 #include "CVariableBool.h"
 #include "CVariableString.h"
@@ -21,6 +20,7 @@
 #include <QDateTime>
 #include "qmap.h"
 #include "qmutex.h"
+#include "qthread.h"
 
 //Automade de gestion des cycles
 class ICycle;
@@ -37,11 +37,15 @@ class IOrgan;
 class CVariableStream;
 class CThreadDiag;
 class CVariableMeasure;
-class CAutomate : public QObject, IComObserver
+class LIBCOT_EXPORT CAutomate : public QObject, IComObserver
 {
     Q_OBJECT
 
 public:
+
+    CAutomate();
+    ~CAutomate();
+
     bool isCycleStoppeByAlarm();
     void enterMaintenanceMode();
     void exitMaintenanceMode();
@@ -57,6 +61,8 @@ public:
     QList<CVariableStream*> getListStreams();
     void setMapVariables(QMap<QString, IVariable*>);
     CDisplayConf* getDisplayConf()const;
+    QPair<CVariableStream *, int> findStreamForMeasure(const QString &measureName) ;
+    QList<CVariableMeasure *> allMeasures();
     void acquitAlarms();
     // Those members are called by configurator once the user clicks Ok
     void informAboutCycleChanges(ICycle *cycle, const QVariantMap &oldData);
@@ -86,15 +92,15 @@ public:
     CState* getStateWillStopEndCycle();
     CState* getStateCycleAutoRunning();
 
-    void setStateWillStopEndCycle(bool);
+    void setStateWillStopEndCycle(bool,const QString& runningCycleName);
     void setStateCycleAutoRunning(bool);
-    void setStateIsRunning(bool);
+    void setStateIsRunning(bool, const QString &runningCycleName);
     void setStateCurrentCycleIsPaused(bool);
 
-    static QString formatHistoryEntry(const QString &name, const QDateTime &dateTime);
+    QString formatHistoryEntry(const QString &name, const QDateTime &dateTime);
 
     enum eStateStream{STREAM_DEFAULT, WATER_DEFAULT, ACTIVE, INACTIVE};
-    static CAutomate* getInstance();
+
 
     void setDisplayConf(CDisplayConf*);
 
@@ -219,9 +225,9 @@ signals:
     void signalStreamsUpdated();
 
 
-    //signals de mise à jours des états de l'automate TODO : virer l'enum stateAutomate
-    void signalStateRunning(bool);
-    void signalStateRunningWillStopEndCycle(bool);
+    //signals de mise à jours des états de l'automate
+    void signalStateRunning(bool, const QString& runningCycleName);
+    void signalStateRunningWillStopEndCycle(bool,const QString& runningCycleName);
     void signalStateCurrentCyclePaused(bool);
     void signalStateRunningAutoCalibration(bool);
     void signalStateRunningAutoBlank(bool);
@@ -253,9 +259,8 @@ private:
     bool m_schedulerStoppedFromIHM;
 
     void removeVariableFromTree(IVariable* arg_var);
-    static CAutomate* singleton;
-    CAutomate();
-    ~CAutomate();
+    //static CAutomate* singleton;
+
     bool shouldQuit();
 
     QList<IVariable*> m_listLoggedVar;
@@ -300,6 +305,8 @@ private:
     QString m_lang;
     bool m_debug;
     int m_countBeforeCheckLogFileToDelete;
+
+    QThread m_automateThread;
 
 };
 

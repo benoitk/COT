@@ -9,36 +9,35 @@
 
 #include "qthreadpool.h"
 
-CActionAcquisitionCitNpoc::CActionAcquisitionCitNpoc(const QVariantMap &mapAction, QObject *parent)
+CActionAcquisitionCitNpoc::CActionAcquisitionCitNpoc(const QVariantMap &mapAction, CAutomate *parent)
     : IAction(mapAction, parent)
 {
-    CAutomate* automate = CAutomate::getInstance();
-    m_measureCell = automate->getVariable(mapAction[QStringLiteral("cellule")].toString());
-    m_co2g = automate->getVariable(mapAction[QStringLiteral("co2g")].toString());
-    m_coef1 = automate->getVariable(mapAction[QStringLiteral("coef_1")].toString());
-    m_coef2 = automate->getVariable(mapAction[QStringLiteral("coef_2")].toString());
-    m_coef3 = automate->getVariable(mapAction[QStringLiteral("coef_3")].toString());
-    m_coef4 = automate->getVariable(mapAction[QStringLiteral("coef_4")].toString());
-    m_coef5 = automate->getVariable(mapAction[QStringLiteral("coef_5")].toString());
-    m_coefCorrection = automate->getVariable(mapAction[QStringLiteral("coef_correction")].toString());
-    m_coefCourbe = automate->getVariable(mapAction[QStringLiteral("coef_courbe")].toString());
-    m_Offset = automate->getVariable(mapAction[QStringLiteral("offset")].toString());
-    m_CstConversion = automate->getVariable(mapAction[QStringLiteral("co2_ppmv_to_co2_gm3_cst")].toString());
-    m_zero = automate->getVariable(mapAction[QStringLiteral("zero_point")].toString());
-    m_offsetCo2g = automate->getVariable(mapAction[QStringLiteral("offset_co2g")].toString());
-    m_result = automate->getVariable(mapAction[QStringLiteral("result")].toString());
+    m_measureCell = m_automate->getVariable(mapAction[QStringLiteral("cellule")].toString());
+    m_co2g = m_automate->getVariable(mapAction[QStringLiteral("co2g")].toString());
+    m_coef1 = m_automate->getVariable(mapAction[QStringLiteral("coef_1")].toString());
+    m_coef2 = m_automate->getVariable(mapAction[QStringLiteral("coef_2")].toString());
+    m_coef3 = m_automate->getVariable(mapAction[QStringLiteral("coef_3")].toString());
+    m_coef4 = m_automate->getVariable(mapAction[QStringLiteral("coef_4")].toString());
+    m_coef5 = m_automate->getVariable(mapAction[QStringLiteral("coef_5")].toString());
+    m_coefCorrection = m_automate->getVariable(mapAction[QStringLiteral("coef_correction")].toString());
+    m_coefCourbe = m_automate->getVariable(mapAction[QStringLiteral("coef_courbe")].toString());
+    m_Offset = m_automate->getVariable(mapAction[QStringLiteral("offset")].toString());
+    m_CstConversion = m_automate->getVariable(mapAction[QStringLiteral("co2_ppmv_to_co2_gm3_cst")].toString());
+    m_zero = m_automate->getVariable(mapAction[QStringLiteral("zero_point")].toString());
+    m_offsetCo2g = m_automate->getVariable(mapAction[QStringLiteral("offset_co2g")].toString());
+    m_result = m_automate->getVariable(mapAction[QStringLiteral("result")].toString());
     if(mapAction.contains("debits_airflow")){
         QVariantList listDebits  = mapAction[QStringLiteral("debits_airflow")].toList();
         foreach(QVariant var, listDebits)
-            m_listAirflows.append(automate->getVariable(var.toString()));
+            m_listAirflows.append(m_automate->getVariable(var.toString()));
     }
     else
-        m_listAirflows.append(automate->getVariable(mapAction[QStringLiteral("debit_airflow")].toString()));
-    m_vesselVolume = automate->getVariable(mapAction[QStringLiteral("vessel_volume")].toString());
-    m_timeout = automate->getVariable(mapAction[QStringLiteral("timeout")].toString());
-    m_derivativeIntervalTx = automate->getVariable(mapAction[QStringLiteral("derivative_interval")].toString());
-    m_derivativeThresold = automate->getVariable(mapAction[QStringLiteral("derivative_threshold")].toString());
-    m_linearisationCurve = automate->getVariable(mapAction[QStringLiteral("linearisation_curve")].toString());
+        m_listAirflows.append(m_automate->getVariable(mapAction[QStringLiteral("debit_airflow")].toString()));
+    m_vesselVolume = m_automate->getVariable(mapAction[QStringLiteral("vessel_volume")].toString());
+    m_timeout = m_automate->getVariable(mapAction[QStringLiteral("timeout")].toString());
+    m_derivativeIntervalTx = m_automate->getVariable(mapAction[QStringLiteral("derivative_interval")].toString());
+    m_derivativeThresold = m_automate->getVariable(mapAction[QStringLiteral("derivative_threshold")].toString());
+    m_linearisationCurve = m_automate->getVariable(mapAction[QStringLiteral("linearisation_curve")].toString());
 
     m_waitUntilFinished = mapAction[QStringLiteral("wait_until_finished")].toBool();
 
@@ -49,7 +48,7 @@ CActionAcquisitionCitNpoc::CActionAcquisitionCitNpoc(const QVariantMap &mapActio
     variantMapDerivativeCalcul.insert(tr("en_US"), tr("Generate critical error"));
     variantMapDerivativeCalcul.insert(QStringLiteral("type"), QStringLiteral("boolean"));
     variantMapDerivativeCalcul.insert(QStringLiteral("value"), mapAction[QStringLiteral("derivative_calcul")].toBool());
-    m_derivativeCalcul = dynamic_cast<CVariableBool*>(CVariableFactory::build(variantMapDerivativeCalcul));
+    m_derivativeCalcul = dynamic_cast<CVariableBool*>(CVariableFactory::build(m_automate, this, variantMapDerivativeCalcul));
 
     //si autodelete à true, risque d'utilisation de l'objet alors qu'il est détruit à la fin du run.
     this->setAutoDelete(false);
@@ -112,9 +111,9 @@ void CActionAcquisitionCitNpoc::run(){
         if(var->getOrganType() == e_type_organ_input)
             listMeasureAirflow.append(dynamic_cast<IVariableInput*>(var));
     }
-    IVariable* varLogZeroMesure = CAutomate::getInstance()->getVariable(QStringLiteral("var_log_zero_mesure"));
-    IVariable* varCo2ppmv = CAutomate::getInstance()->getVariable(QStringLiteral("var_co2ppmv"));
-    IVariable* varDerivee = CAutomate::getInstance()->getVariable(QStringLiteral("var_derivee"));
+    IVariable* varLogZeroMesure = m_automate->getVariable(QStringLiteral("var_log_zero_mesure"));
+    IVariable* varCo2ppmv = m_automate->getVariable(QStringLiteral("var_co2ppmv"));
+    IVariable* varDerivee = m_automate->getVariable(QStringLiteral("var_derivee"));
 
     if(measureCell && !listMeasureAirflow.isEmpty()){
         float mesure = 0;

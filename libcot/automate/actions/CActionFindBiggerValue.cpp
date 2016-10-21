@@ -5,15 +5,14 @@
 #include "cotautomate_debug.h"
 
 
-CActionFindBiggerValue::CActionFindBiggerValue(const QVariantMap &mapAction, QObject *parent)
+CActionFindBiggerValue::CActionFindBiggerValue(const QVariantMap &mapAction, CAutomate *parent)
     : IAction(mapAction, parent)
 {
-    CAutomate* automate = CAutomate::getInstance();
-    m_lowLimit = automate->getVariable(mapAction[QStringLiteral("low_limit")].toString());
-    m_result = automate->getVariable(mapAction[QStringLiteral("result")].toString());
+    m_lowLimit = m_automate->getVariable(mapAction[QStringLiteral("low_limit")].toString());
+    m_result = m_automate->getVariable(mapAction[QStringLiteral("result")].toString());
     QStringList list = mapAction[QStringLiteral("variables")].toStringList();
     foreach(QString varName, list){
-        IVariable* var = automate->getVariable(varName);
+        IVariable* var = m_automate->getVariable(varName);
         if(var->getType() != e_type_unknow) m_listVar.append(var);
     }
 }

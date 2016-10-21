@@ -10,7 +10,7 @@
 #include <QPainter>
 #include <QDebug>
 
-CDialogMaintenance::CDialogMaintenance(QWidget *parent)
+CDialogMaintenance::CDialogMaintenance(CAutomate* arg_automate, QWidget *parent)
     : QDialog(parent)
 {
     setAttribute(Qt::WA_TranslucentBackground, true);
@@ -33,7 +33,7 @@ CDialogMaintenance::CDialogMaintenance(QWidget *parent)
     QVBoxLayout* leftLayout  =new QVBoxLayout;
     m_errorLabel = new QLabel(page);
     m_errorLabel->setStyleSheet("QLabel { color : red; }");
-    m_calibValueHandler = new IVariableUIHandler(swWidget, page);
+    m_calibValueHandler = new IVariableUIHandler(arg_automate, swWidget, page);
     leftLayout->addWidget(swWidget);
     leftLayout->addWidget(m_errorLabel);
 

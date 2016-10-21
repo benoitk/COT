@@ -7,9 +7,10 @@
 #include <CUnit.h>
 #include <IOrgan.h>
 
-CEditVariableTab::CEditVariableTab(IVariable *ivar, QWidget *parent)
+CEditVariableTab::CEditVariableTab(CAutomate* arg_automate, IVariable *ivar, QWidget *parent)
     : IConfiguratorEditTab(parent)
-    , m_handler(new CEditVariableTabUIHandler(scrollableWidget(), this))
+    , m_handler(new CEditVariableTabUIHandler(arg_automate, scrollableWidget(), this))
+    , m_automate(arg_automate)
 {
     Q_ASSERT(ivar);
     m_handler->layout(ivar);
@@ -19,7 +20,6 @@ CEditVariableTab::CEditVariableTab(IVariable *ivar, QWidget *parent)
 void CEditVariableTab::applyProperties(const QVariant &object)
 {
     const IVariableObjectDescriber *describer = m_handler->describer();
-    CAutomate * automate = CAutomate::getInstance();
     IVariable *ivar = object.value<IVariable *>();
     Q_ASSERT(ivar);
 
@@ -27,14 +27,14 @@ void CEditVariableTab::applyProperties(const QVariant &object)
     ivar->setValue(describer->getVariable(QStringLiteral("value"))->toVariant());
 
     const QString unitName = describer->getVariable(QStringLiteral("unit"))->toString();
-    CUnit *unit = automate->getUnit(unitName);
+    CUnit *unit = m_automate->getUnit(unitName);
     if (ivar->getUnit() != unit) {
         ivar->switchToUnit(unit);
     }
 
     IVariable *organ = describer->getVariable(QStringLiteral("organ"));
     if (organ) {
-        IOrgan *iorgan = automate->getOrgan(organ->toString());
+        IOrgan *iorgan = m_automate->getOrgan(organ->toString());
 
         switch (ivar->getOrganType()) {
             case e_type_organ_input: {
@@ -56,22 +56,22 @@ void CEditVariableTab::applyProperties(const QVariant &object)
         }
     }
 
-    CVariableStream *stream = automate->getStream(describer->getVariable(QStringLiteral("streamOrMeasure"))->toString());
-    CVariableMeasure *measure = automate->getMeasure(describer->getVariable(QStringLiteral("streamOrMeasure"))->toString());
+    CVariableStream *stream = m_automate->getStream(describer->getVariable(QStringLiteral("streamOrMeasure"))->toString());
+    CVariableMeasure *measure = m_automate->getMeasure(describer->getVariable(QStringLiteral("streamOrMeasure"))->toString());
 
     if (measure) {
-        if (automate->getVariableMeasure(ivar) != measure) {
-            automate->changeVariableMeasure(ivar, measure);
+        if (m_automate->getVariableMeasure(ivar) != measure) {
+            m_automate->changeVariableMeasure(ivar, measure);
         }
     }
     else if (stream) {
-        if (automate->getVariableStream(ivar) != stream) {
-            automate->changeVariableStream(ivar, stream);
+        if (m_automate->getVariableStream(ivar) != stream) {
+            m_automate->changeVariableStream(ivar, stream);
         }
     }
     else {
-        automate->changeVariableMeasure(ivar, Q_NULLPTR);
-        automate->changeVariableStream(ivar, Q_NULLPTR);
+        m_automate->changeVariableMeasure(ivar, Q_NULLPTR);
+        m_automate->changeVariableStream(ivar, Q_NULLPTR);
     }
 }
 

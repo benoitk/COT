@@ -7,7 +7,7 @@ class CCommandStopEndCycle : public CCommandPlayStopCycle
 {
     Q_OBJECT
 public:
-   explicit CCommandStopEndCycle(const QVariantMap &mapCmd, QObject *parent);
+   explicit CCommandStopEndCycle(const QVariantMap &mapCmd, CAutomate *parent);
 
 public slots:
     bool slotRunCommand(bool arg_externalCmdOnly = false) Q_DECL_OVERRIDE;

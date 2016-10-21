@@ -2,10 +2,10 @@
 #include "ui_uiselecttest.h"
 #include "IConfiguratorUIHandler.h"
 
-UISelectTest::UISelectTest(QWidget *parent)
+UISelectTest::UISelectTest(CAutomate* arg_automate, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::UISelectTest)
-    , handler(new IConfiguratorUIHandler(0, this))
+    , handler(new IConfiguratorUIHandler(arg_automate, 0, this))
 {
     ui->setupUi(this);
 }

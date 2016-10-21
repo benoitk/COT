@@ -14,8 +14,9 @@
 #include <QDebug>
 #include <StyleRepository.h>
 
-ConfiguratorStreamsUIHandler::ConfiguratorStreamsUIHandler(CScrollableWidget *scrollable, QObject *parent)
-    : IConfiguratorUIHandler(scrollable, parent)
+ConfiguratorStreamsUIHandler::ConfiguratorStreamsUIHandler(CAutomate* arg_automate, CScrollableWidget *scrollable, QObject *parent)
+    : IConfiguratorUIHandler(arg_automate, scrollable, parent)
+    , m_automate(arg_automate)
 {
 }
 
@@ -26,7 +27,7 @@ ConfiguratorStreamsUIHandler::~ConfiguratorStreamsUIHandler()
 void ConfiguratorStreamsUIHandler::layout()
 {
     QList<IVariable *> listVar;
-    foreach(CVariableStream* stream, CAutomate::getInstance()->getListStreams()){
+    foreach(CVariableStream* stream, m_automate->getListStreams()){
         listVar << stream;
         listVar << stream->getListMeasures();
     }
@@ -76,12 +77,11 @@ void ConfiguratorStreamsUIHandler::rowChanged(const IVariableUIHandler::Row &row
 void ConfiguratorStreamsUIHandler::rowAboutToBeDeleted(const IVariableUIHandler::Row &row, IVariable *ivar)
 {
     Q_UNUSED(row);
-    CAutomate *automate = CAutomate::getInstance();
     CVariableStream *varStream = qobject_cast<CVariableStream *>(ivar);
 
     if (ivar->getType() == e_type_stream) {
         Q_ASSERT(varStream);
-        automate->delStream(varStream);
+        m_automate->delStream(varStream);
     } else if (ivar->getType() == e_type_measure) {
         CVariableMeasure *varMeasure = qobject_cast<CVariableMeasure *>(ivar);
         Q_ASSERT(varMeasure);
@@ -102,8 +102,7 @@ CPushButton *ConfiguratorStreamsUIHandler::newItemButton(IVariable *ivar)
 
 IVariable *ConfiguratorStreamsUIHandler::getVariable(const QString &name) const
 {
-    CAutomate *automate = CAutomate::getInstance();
-    const QList<CVariableStream*> streams = automate->getListStreams();
+    const QList<CVariableStream*> streams = m_automate->getListStreams();
 
     foreach (CVariableStream *streamVar, streams) {
         if (streamVar->getName() == name) {
@@ -131,8 +130,7 @@ CToolButton *ConfiguratorStreamsUIHandler::newAddMeasureButton(IVariable *ivar)
 
 CVariableStream *ConfiguratorStreamsUIHandler::getStreamForMeasure(CVariableMeasure *measure)
 {
-    CAutomate *automate = CAutomate::getInstance();
-    const QList<CVariableStream*> streams = automate->getListStreams();
+    const QList<CVariableStream*> streams = m_automate->getListStreams();
 
     foreach (CVariableStream *streamVar, streams) {
         if (streamVar->getName() == measure->getName()) {
@@ -160,7 +158,7 @@ void ConfiguratorStreamsUIHandler::addNewMeasureToStream(CVariableStream *stream
         return;
 
     const QString tempName = CVariableFactory::buildTemporaryName("Measure");
-    IVariable *varMeasure = CVariableFactory::buildTemporary(tempName, e_type_measure);
+    IVariable *varMeasure = CVariableFactory::buildTemporary(stream->getAutomate(), this, tempName, e_type_measure);
     Q_ASSERT(varMeasure);
 
     varMeasure->setLabel(label);
@@ -209,13 +207,13 @@ void ConfiguratorStreamsUIHandler::slotAddStreams()
         return;
 
     const QString tempName = CVariableFactory::buildTemporaryName("Stream");
-    CVariableStream *varStream = qobject_cast<CVariableStream *>(CVariableFactory::buildTemporary(tempName, e_type_stream));
+    CVariableStream *varStream = qobject_cast<CVariableStream *>(CVariableFactory::buildTemporary(m_automate, this, tempName, e_type_stream));
 
     varStream->setLabel(label);
     addNewMeasureToStream(varStream);
 
-    CAutomate *automate = CAutomate::getInstance();
-    automate->addStream(varStream, true);
+
+    m_automate->addStream(varStream, true);
 }
 
 

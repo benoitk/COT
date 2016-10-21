@@ -11,14 +11,15 @@
 
 #include <QAction>
 
-CConfiguratorActionsTab::CConfiguratorActionsTab(QWidget *parent)
+CConfiguratorActionsTab::CConfiguratorActionsTab(CAutomate* arg_automate, QWidget *parent)
     : IConfiguratorTab(parent)
+    , m_automate(arg_automate)
 {
-    m_iactionUIHandler = new ConfiguratorActionsUIHandler(scrollableWidget(), this);
+    m_iactionUIHandler = new ConfiguratorActionsUIHandler(arg_automate, scrollableWidget(), this);
     slotUpdateLayout();
 
     connect(buttonBar()->addAction(CToolButton::Add), &QAction::triggered, this, &CConfiguratorActionsTab::slotAddAction);
-    connect(CAutomate::getInstance(), &CAutomate::signalActionsUpdated, this, &CConfiguratorActionsTab::slotUpdateLayout);
+    connect(arg_automate, &CAutomate::signalActionsUpdated, this, &CConfiguratorActionsTab::slotUpdateLayout);
 
     initBaseTab();
 }
@@ -30,9 +31,9 @@ void CConfiguratorActionsTab::slotAddAction()
         return;
     }
 
-    IAction * action = CActionFactory::build(type, CAutomate::getInstance());
+    IAction * action = CActionFactory::build(type, m_automate);
     Q_ASSERT(action);
-    CPCWindow::openModal<CEditActionWindow>(action);
+    CPCWindow::openModal<CEditActionWindow>(m_automate, action);
 }
 
 void CConfiguratorActionsTab::slotUpdateLayout()

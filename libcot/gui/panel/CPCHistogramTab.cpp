@@ -8,14 +8,13 @@
 #include <IVariableMeasuresUIHandler.h>
 #include <qdebug.h>
 
-CPCHistogramTab::CPCHistogramTab(QWidget *parent)
-    : IPCTab(parent)
+CPCHistogramTab::CPCHistogramTab(CAutomate* arg_automate, QWidget *parent)
+    : IPCTab(arg_automate, parent)
     , ui(new Ui::CPCHistogramTab)
     , m_currentCurveNumber(0)
 {
     ui->setupUi(this);
-
-    m_measuresHandler = new IVariableMeasuresUIHandler(IVariableMeasuresUIHandler::NoFlags, ui->swCentral, this);
+    m_measuresHandler = new IVariableMeasuresUIHandler(IVariableMeasuresUIHandler::NoFlags, ui->swCentral,m_automate, this);
     ui->swCentral->setScrollable(false);
 
     connect(ui->vbbButtons->addAction(CToolButton::ScrollUp), &QAction::triggered,
@@ -23,8 +22,8 @@ CPCHistogramTab::CPCHistogramTab(QWidget *parent)
     connect(ui->vbbButtons->addAction(CToolButton::ScrollDown), &QAction::triggered,
             this, &CPCHistogramTab::moveDown);
 
-    CAutomate *automate = CAutomate::getInstance();
-    connect(automate, &CAutomate::signalUpdatePlotting,
+
+    connect(m_automate, &CAutomate::signalUpdatePlotting,
             this, &CPCHistogramTab::slotUpdatePlotting);
 
     updateCurves();
@@ -55,7 +54,7 @@ void CPCHistogramTab::moveDown()
 
 void CPCHistogramTab::slotUpdatePlotting()
 {
-    const QList<CVariableMeasure *> measures = allMeasures();
+    const QList<CVariableMeasure *> measures = m_automate->allMeasures();
     for (int i = 0 ; i < measures.count() ; ++i) {
         CVariableMeasure *measureVar = measures.at(i);
         const float value = measureVar->toFloat();
@@ -66,7 +65,7 @@ void CPCHistogramTab::slotUpdatePlotting()
 
 void CPCHistogramTab::updateCurves()
 {
-    const QList<CVariableMeasure *> measures = allMeasures();
+    const QList<CVariableMeasure *> measures = m_automate->allMeasures();
 
     if (m_plots.count() != measures.count()) {
         qDeleteAll(m_plots);
@@ -99,7 +98,7 @@ void CPCHistogramTab::showCurve(int num)
     m_currentCurveNumber = num;
     if(m_plots.count()>num && num > -1){
         ui->graphicsWidget->showPlotObject(m_plots.at(num));
-        const QList<CVariableMeasure *> measures = allMeasures();
+        const QList<CVariableMeasure *> measures = m_automate->allMeasures();
         IVariable *variable = measures.at(num)->getMeasureVariable();
         Q_ASSERT(variable);
         m_measuresHandler->layout(QList<IVariable *>() << variable);
@@ -108,16 +107,3 @@ void CPCHistogramTab::showCurve(int num)
         qDebug() << "Numéro de courbe inccorect";
 }
 
-QList<CVariableMeasure *> CPCHistogramTab::allMeasures() // could maybe be API in CAutomate.
-{
-    QList<CVariableMeasure *> ret;
-    CAutomate *automate = CAutomate::getInstance();
-    const QList<CVariableStream*> streams = automate->getListStreams();
-    foreach (CVariableStream *streamVar, streams) {
-        foreach (IVariable *measure, streamVar->getListMeasures()) {
-            CVariableMeasure *measureVar = static_cast<CVariableMeasure *>(measure);
-            ret.append(measureVar);
-        }
-    }
-    return ret;
-}

@@ -14,8 +14,8 @@ class CCycleMesure : public ICycle
     Q_OBJECT
 
 public:
-    CCycleMesure(QObject *parent = Q_NULLPTR);
-    CCycleMesure(const QVariantMap&, QObject *parent);
+    CCycleMesure(CScheduler *parent = Q_NULLPTR);
+    CCycleMesure(const QVariantMap&, CScheduler *parent);
     ~CCycleMesure();
 
 

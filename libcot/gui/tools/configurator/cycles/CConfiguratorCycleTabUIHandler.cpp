@@ -11,8 +11,9 @@
 #include <CVariableFactory.h>
 #include <CVariableStream.h>
 
-CConfiguratorCycleTabUIHandler::CConfiguratorCycleTabUIHandler(CScrollableWidget *scrollable, QObject *parent)
-    : IConfiguratorUIHandler(scrollable, parent)
+CConfiguratorCycleTabUIHandler::CConfiguratorCycleTabUIHandler(CAutomate* arg_automate, CScrollableWidget *scrollable, QObject *parent)
+    : IConfiguratorUIHandler(arg_automate, scrollable, parent)
+    , m_automate(arg_automate)
 {
 }
 
@@ -25,8 +26,7 @@ void CConfiguratorCycleTabUIHandler::layout()
 {
     CVariableFactory::deleteVariables(m_internalVariables);
 
-    CAutomate *automate = CAutomate::getInstance();
-    const QList<CVariableStream*> streams = automate->getListStreams();
+    const QList<CVariableStream*> streams = m_automate->getListStreams();
     IVariablePtrList ivars;
 
     foreach (CVariableStream *streamVar, streams) {
@@ -40,18 +40,18 @@ void CConfiguratorCycleTabUIHandler::layout()
                 continue;
             }
 
-            IVariable *ivar = CVariableFactory::buildTemporary(cycle->getName(), cycle->getLabel(), e_type_string);
+            IVariable *ivar = CVariableFactory::buildTemporary(m_automate, this, cycle->getName(), cycle->getLabel(), e_type_string);
             m_internalVariables[ivar->getName()] = ivar;
             ivars << ivar;
         }
     }
 
     // Add fake global stream
-    IVariable *streamVar = CVariableFactory::buildTemporary(QString("fake_stream"), tr("Global"), e_type_stream);
+    IVariable *streamVar = CVariableFactory::buildTemporary(m_automate, this, QString("fake_stream"), tr("Global"), e_type_stream);
     m_internalVariables[streamVar->getName()] = streamVar;
     ivars << streamVar;
 
-    foreach (ICycle *cycle, automate->getListCycles()) {
+    foreach (ICycle *cycle, m_automate->getListCycles()) {
         if (!cycle) {
             // KDAB_TODO: Uncomment me when using final api
             //Q_ASSERT(false);
@@ -63,7 +63,7 @@ void CConfiguratorCycleTabUIHandler::layout()
             continue;
         }
 
-        IVariable *ivar = CVariableFactory::buildTemporary(cycle->getName(), cycle->getLabel(), e_type_string);
+        IVariable *ivar = CVariableFactory::buildTemporary(m_automate, this, cycle->getName(), cycle->getLabel(), e_type_string);
         m_internalVariables[ivar->getName()] = ivar;
         ivars << ivar;
     }
@@ -130,20 +130,19 @@ void CConfiguratorCycleTabUIHandler::rowChanged(const IVariableUIHandler::Row &r
 void CConfiguratorCycleTabUIHandler::rowAboutToBeDeleted(const IVariableUIHandler::Row &row, IVariable *ivar)
 {
     Q_UNUSED(row);
-    CAutomate *automate = CAutomate::getInstance();
-    ICycle *cycle = automate->getCycle(ivar->getName());
+    ICycle *cycle = m_automate->getCycle(ivar->getName());
     Q_ASSERT(cycle);
-    CVariableStream * streamVar = automate->getCycleStream(cycle);
+    CVariableStream * streamVar = m_automate->getCycleStream(cycle);
     const bool isGlobal = streamVar == Q_NULLPTR;
 
     if (!isGlobal) {
-       automate->changeCycleStream(cycle, Q_NULLPTR);
+       m_automate->changeCycleStream(cycle, Q_NULLPTR);
     }
 
     delete m_internalVariables.take(cycle->getName());
 
     if (isGlobal) {
-        automate->delCycle(cycle);
+        m_automate->delCycle(cycle);
     }
 }
 
@@ -156,10 +155,9 @@ void CConfiguratorCycleTabUIHandler::rowDeleted(const QString &name)
 void CConfiguratorCycleTabUIHandler::slotEditClicked()
 {
     CPushButton *editor = qobject_cast<CPushButton *>(sender());
-    CAutomate *automate = CAutomate::getInstance();
-    ICycle *cycle = automate->getCycle(editor->userData().toString());
+    ICycle *cycle = m_automate->getCycle(editor->userData().toString());
     Q_ASSERT(cycle);
-    CPCWindow::openModal<CEditCycleWindow>(cycle);
+    CPCWindow::openModal<CEditCycleWindow>(m_automate, cycle);
 }
 
 CPushButton *CConfiguratorCycleTabUIHandler::newButton(IVariable *ivar)

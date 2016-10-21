@@ -8,17 +8,18 @@ class CHistoryWindow;
 }
 
 class QTextDocument;
-
+class CAutomate;
 class CHistoryWindow : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit CHistoryWindow(QTextDocument *document, QWidget *parent = Q_NULLPTR);
+    explicit CHistoryWindow(CAutomate* arg_automate, QTextDocument *document, QWidget *parent = Q_NULLPTR);
     ~CHistoryWindow();
 
 private:
     Ui::CHistoryWindow *ui;
+    CAutomate* m_automate;
 
 private slots:
     void backTriggered();

@@ -11,9 +11,9 @@ class CVariableFloat : public IVariable
     Q_OBJECT
 
 public:
-    CVariableFloat(QObject *parent = Q_NULLPTR);
-    CVariableFloat(const QVariantMap& mapVar);
-    CVariableFloat(float, int = 0, enumVariableAccess =e_access_read);
+    CVariableFloat(CAutomate* arg_automate, QObject *parent);
+    CVariableFloat(const QVariantMap& mapVar, CAutomate* arg_automate, QObject* parent);
+    CVariableFloat(CAutomate* arg_automate, QObject *parent, float, int = 0, enumVariableAccess =e_access_read);
     ~CVariableFloat();
 
 

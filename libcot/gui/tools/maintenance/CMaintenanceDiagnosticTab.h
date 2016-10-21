@@ -8,18 +8,19 @@ class CMaintenanceDiagnosticTab;
 }
 
 class IVariableUIHandler;
-
+class CAutomate;
 class CMaintenanceDiagnosticTab : public IMaintenanceTab
 {
     Q_OBJECT
 
 public:
-    explicit CMaintenanceDiagnosticTab(QWidget *parent = Q_NULLPTR);
+    explicit CMaintenanceDiagnosticTab(CAutomate* arg_automate, QWidget *parent = Q_NULLPTR);
     ~CMaintenanceDiagnosticTab();
 
 private:
     Ui::CMaintenanceDiagnosticTab *ui;
     IVariableUIHandler *m_diagnosticHandler;
+    CAutomate* m_automate;
 
 private slots:
     void slotUpdateLayout();

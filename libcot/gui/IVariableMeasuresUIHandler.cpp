@@ -4,7 +4,6 @@
 #include "CToolButton.h"
 #include "CPCWindow.h"
 #include "CMeasureWindow.h"
-#include "CAutomate.h"
 #include "IVariable.h"
 #include "CVariableStream.h"
 #include "CVariableMeasure.h"
@@ -20,35 +19,14 @@ QString valueAndUnit(IVariable *ivar) {
     const CUnit *unit = ivar->getUnit();
     return QString("%1%2").arg(ivar->toString()).arg(unit ? unit->getLabel() : QString());
 }
-
-QPair<CVariableStream *, int> findStreamForMeasure(const QString &measureName) {
-    CAutomate *automate = CAutomate::getInstance();
-
-    foreach ( CVariableStream *streamVar, automate->getListStreams()) {
-
-        const QList<IVariable *> measures = streamVar->getListMeasures();
-        for (int i = 0 ; i < measures.count(); ++i) {
-            CVariableMeasure *measureVar = static_cast<CVariableMeasure *>(measures.at(i));
-            IVariable *measureMeasureVariable = measureVar->getMeasureVariable();
-
-            if (measureMeasureVariable && measureMeasureVariable->getName() == measureName) {
-                return qMakePair<CVariableStream *,int >(streamVar, i);
-            }
-        }
-    }
-
-    qWarning() << "Stream not found for measure" << measureName;
-    return qMakePair<CVariableStream *,int >(Q_NULLPTR, -1);
 }
 
-}
-
-IVariableMeasuresUIHandler::IVariableMeasuresUIHandler(Flags flags, CScrollableWidget *scrollable, QObject *parent)
-    : IVariableUIHandler(scrollable, parent)
+IVariableMeasuresUIHandler::IVariableMeasuresUIHandler(Flags flags, CScrollableWidget *scrollable, CAutomate* arg_automate, QObject *parent)
+    : IVariableUIHandler(arg_automate, scrollable, parent)
     , m_flags(flags)
+    , m_automate(arg_automate)
 {
-    CAutomate *automate = CAutomate::getInstance();
-    connect(automate, &CAutomate::signalUpdateStateStream,
+    connect(m_automate, &CAutomate::signalUpdateStateStream,
             this, &IVariableMeasuresUIHandler::slotUpdateStateStream);
 }
 
@@ -113,7 +91,7 @@ void IVariableMeasuresUIHandler::rowChanged(const IVariableUIHandler::Row &row, 
 QWidget *IVariableMeasuresUIHandler::newDetailsButton(IVariable *ivar)
 {
     QWidget *widget;
-    if (findStreamForMeasure(ivar->getName()).second == 0) {
+    if (m_automate->findStreamForMeasure(ivar->getName()).second == 0) {
         widget = new CToolButton(CToolButton::MeasureDetails, container());
     } else {
         // Empty widget, so that it takes the same height as a button
@@ -171,8 +149,8 @@ void IVariableMeasuresUIHandler::slotButtonMeasureDetailsClicked()
 {
     const CToolButton *button = qobject_cast<CToolButton *>(sender());
     const QString measureName = button->userData().toString();
-    CVariableStream *streamVar = findStreamForMeasure(measureName).first;
-    CPCWindow::openModal<CMeasureWindow>(streamVar);
+    CVariableStream *streamVar = m_automate->findStreamForMeasure(measureName).first;
+    CPCWindow::openModal<CMeasureWindow>(m_automate, streamVar);
 
 }
 
@@ -193,8 +171,8 @@ QString IVariableMeasuresUIHandler::textForStreamState(CAutomate::eStateStream s
 
 void IVariableMeasuresUIHandler::slotUpdateStateStream(const QString &arg_streamName, CAutomate::eStateStream state)
 {
-    CAutomate *automate = CAutomate::getInstance();
-    CVariableStream *stream = automate->getStream(arg_streamName);
+
+    CVariableStream *stream = m_automate->getStream(arg_streamName);
     if (!stream) {
         qWarning() << "Automat error: updateStateStream emitted unknown stream name" << arg_streamName;
         return;

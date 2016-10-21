@@ -7,7 +7,7 @@
 #include "cotautomate_debug.h"
 #include "qvariant.h"
 
-ICycle* CCycleFactory::build(const QVariantMap &mapCycle, QObject* parent){
+ICycle* CCycleFactory::build(const QVariantMap &mapCycle, CScheduler* parent){
     //qCDebug(COTAUTOMATE_LOG) << "CCycleFactory::build mapCycle:"<< mapCycle;
     ICycle* cycle = NULL;
     if(mapCycle[QStringLiteral("type")].toString() == QStringLiteral("measure")){

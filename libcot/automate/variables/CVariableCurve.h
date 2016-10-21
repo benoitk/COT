@@ -11,9 +11,9 @@ class CVariableCurve : public IVariable
     Q_OBJECT
 
 public:
-    CVariableCurve(QObject *parent = Q_NULLPTR);
-    CVariableCurve(const QVariantMap&);
-    CVariableCurve(bool, int = 0, enumVariableAccess =e_access_read);
+    CVariableCurve(CAutomate* arg_automate, QObject *parent = Q_NULLPTR);
+    CVariableCurve(const QVariantMap&, CAutomate* arg_automate, QObject* parent);
+    CVariableCurve(CAutomate* arg_automate, QObject *parent, bool, int = 0, enumVariableAccess =e_access_read);
     ~CVariableCurve();
 
     QList<QPair<float,float>>  getListCurve();

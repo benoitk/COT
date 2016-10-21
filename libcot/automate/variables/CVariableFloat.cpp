@@ -1,11 +1,12 @@
 #include "CVariableFloat.h"
 #include "CUnit.h"
-CVariableFloat::CVariableFloat(QObject *parent)
-    : IVariable(parent)
+CVariableFloat::CVariableFloat(CAutomate* arg_automate, QObject *parent)
+    : IVariable(arg_automate, parent)
 {
 
 }
-CVariableFloat::CVariableFloat(const QVariantMap& mapVar):IVariable(mapVar){
+CVariableFloat::CVariableFloat(const QVariantMap& mapVar, CAutomate* arg_automate, QObject* parent)
+    :IVariable(mapVar, arg_automate, parent){
     m_value = mapVar.value(QStringLiteral("value")).toFloat();
     if(mapVar.contains(QStringLiteral("value_min")))
        m_valueMin = mapVar.value(QStringLiteral("value_min")).toFloat();
@@ -22,8 +23,8 @@ CVariableFloat::CVariableFloat(const QVariantMap& mapVar):IVariable(mapVar){
     else
         m_precision = 2;
 }
-CVariableFloat::CVariableFloat(float arg_value, int arg_address, enumVariableAccess arg_access)
-    : IVariable()
+CVariableFloat::CVariableFloat(CAutomate* arg_automate, QObject *parent, float arg_value, int arg_address, enumVariableAccess arg_access)
+    : IVariable(arg_automate, parent)
 {
     m_value = arg_value;
     m_access = arg_access;
@@ -52,9 +53,6 @@ void CVariableFloat::setValue(const QVariant & value){
     setValue(value.toFloat());
 }
 void CVariableFloat::setValue(float value){
-    QString yolo;
-    if(m_name == QString("var_measure_npoc") && value >= m_valueMax)
-        yolo = "bim";
     m_value = IVariable::setValue(value, m_valueMin, m_valueMax);
 
     checkBindedVariable(QVariant(value));
@@ -92,6 +90,5 @@ QVariantMap CVariableFloat::serialize(){
      return toFloat();
  }
 int CVariableFloat::getPrecision(){
-    //TO DO : mettre la precision en donnée membre
     return  m_precision;
 }

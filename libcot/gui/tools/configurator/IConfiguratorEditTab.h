@@ -33,6 +33,7 @@ public:
 signals:
     void signalOkTriggered();
     void signalCancelTriggered();
+
 };
 
 #endif // ICONFIGURATOREDITTAB_H

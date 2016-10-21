@@ -8,7 +8,7 @@ class CActionSum: public IAction
 {
     Q_OBJECT
 public:
-    CActionSum(const QVariantMap&, QObject *parent);
+    CActionSum(const QVariantMap&, CAutomate *parent);
 
     bool runAction(ICycle* arg_stepParent) Q_DECL_OVERRIDE;
     QList<IVariable*> getListParameters()const Q_DECL_OVERRIDE;

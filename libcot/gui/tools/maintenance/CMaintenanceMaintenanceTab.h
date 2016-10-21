@@ -8,12 +8,14 @@ class QVBoxLayout;
 class CDialogMaintenance;
 class CToolButton;
 class ICycle;
+class CScheduler;
+class CAutomate;
 class CMaintenanceMaintenanceTab : public IMaintenanceTab
 {
     Q_OBJECT
 
 public:
-    explicit CMaintenanceMaintenanceTab(QWidget *parent = Q_NULLPTR);
+    explicit CMaintenanceMaintenanceTab(CAutomate* arg_automate, QWidget *parent = Q_NULLPTR);
     ~CMaintenanceMaintenanceTab();
 
 private:
@@ -26,6 +28,7 @@ private:
     CVerticalButtonBar* m_vbbButtons;
 
     bool m_isStoppedByIHM;
+    CAutomate* m_automate;
 signals:
     void signalBtStopCyclePressed();
     void signalRunCycle(const QString&);

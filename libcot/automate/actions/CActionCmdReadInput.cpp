@@ -7,13 +7,12 @@
 #include "cotautomate_debug.h"
 
 
-CActionCmdReadInput::CActionCmdReadInput(const QVariantMap &mapAction, QObject *parent)
+CActionCmdReadInput::CActionCmdReadInput(const QVariantMap &mapAction, CAutomate *parent)
     : IAction(mapAction, parent)
 {
-    CAutomate* automate = CAutomate::getInstance();
 
-    m_organ =  automate->getVariable(mapAction[QStringLiteral("organ")].toString());
-    m_target =  CAutomate::getInstance()->getVariable(mapAction[QStringLiteral("target")].toString());
+    m_organ =  m_automate->getVariable(mapAction[QStringLiteral("organ")].toString());
+    m_target =  m_automate->getVariable(mapAction[QStringLiteral("target")].toString());
 }
 QVariantMap CActionCmdReadInput::serialize(){
     QVariantMap mapSerialize = IAction::serialize();

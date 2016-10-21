@@ -14,7 +14,7 @@ class CActionBlock : public IAction
 
 public:
 
-    CActionBlock(const QVariantMap&, QObject *parent);
+    CActionBlock(const QVariantMap&, CAutomate *parent);
 
     ~CActionBlock();
 

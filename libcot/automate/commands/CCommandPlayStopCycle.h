@@ -9,7 +9,7 @@ class CCommandPlayStopCycle: public ICommand
     Q_OBJECT
 public:
 
-    explicit CCommandPlayStopCycle(const QVariantMap &mapAction, QObject *parent);
+    explicit CCommandPlayStopCycle(const QVariantMap &mapAction, CAutomate *parent);
     void setOtherCmdStop(CCommandPlayStopCycle* arg_cmd);
     bool getStateCommand();
 signals:

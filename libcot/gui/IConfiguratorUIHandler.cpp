@@ -2,8 +2,8 @@
 #include "CToolButton.h"
 #include "StyleRepository.h"
 
-IConfiguratorUIHandler::IConfiguratorUIHandler(CScrollableWidget *scrollable, QObject *parent)
-    : IVariableUIHandler(scrollable, parent)
+IConfiguratorUIHandler::IConfiguratorUIHandler(CAutomate* arg_automate, CScrollableWidget *scrollable, QObject *parent)
+    : IVariableUIHandler(arg_automate, scrollable, parent)
 {
 }
 

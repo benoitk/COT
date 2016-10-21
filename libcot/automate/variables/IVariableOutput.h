@@ -12,7 +12,7 @@ class IVariableOutput
 {
 public:
     IVariableOutput();
-    IVariableOutput(const QVariantMap&);
+    IVariableOutput(IOrgan*);
     virtual ~IVariableOutput();
     virtual IOrgan* getOrgan()const;
     virtual QString getOrganName()const;

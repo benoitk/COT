@@ -2,8 +2,8 @@
 #include "CModelExtensionCard.h"
 #include "CUnit.h"
 #include "IOrgan.h"
-CVariableOutputListVariables::CVariableOutputListVariables(QObject *parent)
-    : IVariable(parent),IVariableOutput()
+CVariableOutputListVariables::CVariableOutputListVariables(CAutomate* arg_automate, QObject *parent)
+    : IVariable(arg_automate, parent),IVariableOutput()
 {
 
 }
@@ -13,8 +13,8 @@ CVariableOutputListVariables::~CVariableOutputListVariables()
 
 }
 
-CVariableOutputListVariables::CVariableOutputListVariables(const QMap<QString, QVariant> &mapVar)
-    : IVariable(),IVariableOutput()
+CVariableOutputListVariables::CVariableOutputListVariables(const QMap<QString, QVariant> &mapVar, CAutomate* arg_automate, QObject *parent)
+    : IVariable(arg_automate, parent),IVariableOutput()
 {
 
 }

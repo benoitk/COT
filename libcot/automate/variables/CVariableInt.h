@@ -11,9 +11,9 @@ class CVariableInt : public IVariable
     Q_OBJECT
 
 public:
-    CVariableInt(QObject *parent = Q_NULLPTR);
-    CVariableInt(const QVariantMap& mapVar);
-    CVariableInt(int, int address = 0, enumVariableAccess =e_access_read);
+    CVariableInt(CAutomate* arg_automate, QObject *parent = Q_NULLPTR);
+    CVariableInt(const QVariantMap& mapVar, CAutomate* arg_automate, QObject * parent);
+    CVariableInt(CAutomate* arg_automate, QObject *parent, int, int address = 0, enumVariableAccess =e_access_read);
     ~CVariableInt();
 
 

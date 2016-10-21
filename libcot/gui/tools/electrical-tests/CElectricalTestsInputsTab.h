@@ -9,12 +9,13 @@ class CElectricalTestsInputsTab;
 
 class IVariableUIHandler;
 class IVariable;
+class CAutomate;
 class CElectricalTestsInputsTab : public IElectricalTestsTab
 {
     Q_OBJECT
 
 public:
-    explicit CElectricalTestsInputsTab(QWidget *parent = Q_NULLPTR);
+    explicit CElectricalTestsInputsTab(CAutomate* arg_automate, QWidget *parent = Q_NULLPTR);
     ~CElectricalTestsInputsTab();
 
 protected slots:
@@ -26,6 +27,7 @@ private:
     Ui::CElectricalTestsInputsTab *ui;
     IVariableUIHandler *m_elecTestInputsHandler;
     QList<IVariable*> m_listInputVar;
+    CAutomate* m_automate;
 };
 
 #endif // CELECTRICALTESTSINPUTSTAB_H

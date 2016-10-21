@@ -11,16 +11,16 @@
 #include "CConfiguratorHardwareTab.h"
 #include "CConfiguratorNetworkTab.h"
 
-CConfiguratorWindow::CConfiguratorWindow(QWidget *parent)
+CConfiguratorWindow::CConfiguratorWindow(CAutomate* arg_automate, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::CConfiguratorWindow)
 {
     ui->setupUi(this);
-    addTab(new CConfiguratorCycleTab(this));
-    addTab(new CConfiguratorActionsTab(this));
-    addTab(new CConfiguratorVariablesTab(this));
-    addTab(new CConfiguratorSequencerTab(this));
-    addTab(new CConfiguratorStreamsTab(this));
+    addTab(new CConfiguratorCycleTab(arg_automate, this));
+    addTab(new CConfiguratorActionsTab(arg_automate, this));
+    addTab(new CConfiguratorVariablesTab(arg_automate, this));
+    addTab(new CConfiguratorSequencerTab(arg_automate, this));
+    addTab(new CConfiguratorStreamsTab(arg_automate, this));
     addTab(new CConfiguratorExtensionsTab(this));
     addTab(new CConfiguratorDisplayTab(this));
     addTab(new CConfiguratorHardwareTab(this));

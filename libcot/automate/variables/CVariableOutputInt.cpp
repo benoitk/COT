@@ -2,9 +2,10 @@
 #include "CModelExtensionCard.h"
 #include "CUnit.h"
 #include "ICom.h"
+#include "CAutomate.h"'
 #include "IOrgan.h"
-CVariableOutputInt::CVariableOutputInt(QObject *parent)
-    : CVariableInt(parent),IVariableOutput()
+CVariableOutputInt::CVariableOutputInt(CAutomate* arg_automate, QObject *parent)
+    : CVariableInt(arg_automate, parent),IVariableOutput()
 {
 
 }
@@ -14,8 +15,10 @@ CVariableOutputInt::~CVariableOutputInt()
 
 }
 
-CVariableOutputInt::CVariableOutputInt(const QMap<QString, QVariant> &mapVar)
-    : CVariableInt(mapVar),IVariableOutput(mapVar)
+CVariableOutputInt::CVariableOutputInt(const QMap<QString, QVariant> &mapVar, CAutomate* arg_automate, QObject* parent)
+    : CVariableInt(mapVar, arg_automate, parent)
+    ,IVariableOutput(arg_automate->getExtensionCard(mapVar.value(QStringLiteral("extension_name")).toString())
+                                              ->getOrgan(mapVar.value(QStringLiteral("organ_name")).toString()))
 {
 
 }

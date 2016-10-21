@@ -3,14 +3,13 @@
 #include "CVariableFactory.h"
 #include "CAutomate.h"
 #include "cotautomate_debug.h"
-CActionSum::CActionSum(const QVariantMap &mapAction, QObject *parent)
+CActionSum::CActionSum(const QVariantMap &mapAction, CAutomate *parent)
     : IAction(mapAction, parent)
 {
-    CAutomate* automate = CAutomate::getInstance();
-    m_result = automate->getVariable(mapAction[QStringLiteral("result")].toString());
+    m_result = m_automate->getVariable(mapAction[QStringLiteral("result")].toString());
     QStringList listVarName = mapAction[QStringLiteral("input_variables")].toStringList();
     foreach(QString varName, listVarName){
-        m_listVar.append(automate->getVariable(varName));
+        m_listVar.append(m_automate->getVariable(varName));
     }
 }
 

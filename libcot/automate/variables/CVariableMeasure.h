@@ -11,8 +11,8 @@ class CVariableMeasure : public IVariable
     Q_OBJECT
 
 public:
-    CVariableMeasure(QObject *parent = Q_NULLPTR);
-    CVariableMeasure(const QMap<QString, QVariant> &mapVar);
+    CVariableMeasure(CAutomate* arg_automate, QObject *parent = Q_NULLPTR);
+    CVariableMeasure(const QMap<QString, QVariant> &mapVar, CAutomate* arg_automate, QObject *parent);
 
 
 

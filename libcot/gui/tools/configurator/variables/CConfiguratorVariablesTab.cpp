@@ -6,10 +6,11 @@
 #include <CAutomate.h>
 #include <CVariableFactory.h>
 
-CConfiguratorVariablesTab::CConfiguratorVariablesTab(QWidget *parent)
+CConfiguratorVariablesTab::CConfiguratorVariablesTab(CAutomate* arg_automate, QWidget *parent)
     : IConfiguratorTab(parent)
+    , m_automate(arg_automate)
 {
-    m_ivariableUIHandler = new ConfiguratorVariablesUIHandler(scrollableWidget(), this);
+    m_ivariableUIHandler = new ConfiguratorVariablesUIHandler(arg_automate, scrollableWidget(), this);
     m_ivariableUIHandler->layout();
 
     connect(buttonBar()->addAction(CToolButton::Add), &QAction::triggered, this, &CConfiguratorVariablesTab::slotAddVariable);
@@ -19,7 +20,6 @@ CConfiguratorVariablesTab::CConfiguratorVariablesTab(QWidget *parent)
 
 void CConfiguratorVariablesTab::slotAddVariable()
 {
-    CAutomate *automate = CAutomate::getInstance();
 
     enumVariableType varType;
     if (!m_ivariableUIHandler->selectVariableType(varType) || (varType == e_type_unknow)) {
@@ -33,26 +33,27 @@ void CConfiguratorVariablesTab::slotAddVariable()
     m_ivariableUIHandler->selectStreamOrMeasure(name);
 
     // Create variable
-    IVariable *variable = CVariableFactory::build(varType, organType);
+    IVariable *variable = CVariableFactory::build(m_automate, this, varType, organType);
     variable->setName(CVariableFactory::buildTemporaryName(QStringLiteral("new_variable")));
     variable->setLabel(tr("New variable"));
 
-    CVariableStream *stream = automate->getStream(name);
-    CVariableMeasure *measure = automate->getMeasure(name);
+    CVariableStream *stream = m_automate->getStream(name);
+    CVariableMeasure *measure = m_automate->getMeasure(name);
 
     if (measure) {
-        automate->changeVariableMeasure(variable, measure);
+        m_automate->changeVariableMeasure(variable, measure);
     }
     else if (stream) {
-        automate->changeVariableStream(variable, stream);
+        m_automate->changeVariableStream(variable, stream);
     }
 
     // Edit variable
-    CPCWindow::openModal<CEditVariableWindow>(variable);
+    CPCWindow::openModal<CEditVariableWindow>(m_automate, variable);
 }
 
 void CConfiguratorVariablesTab::editVariable(const QString &variableName)
 {
-    IVariable *ivar = CAutomate::getInstance()->getVariable(variableName);
-    CPCWindow::openModal<CEditVariableWindow>(ivar);
+    IVariable *ivar = m_automate->getVariable(variableName);
+    if(ivar && (ivar->getType() != e_type_unknow))
+        CPCWindow::openModal<CEditVariableWindow>(m_automate, ivar);
 }

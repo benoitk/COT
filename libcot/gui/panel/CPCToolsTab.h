@@ -10,13 +10,12 @@ class CPCToolsTab;
 class CLabelledToolButton;
 class CLabelledToolButtonGrid;
 class QTextDocument;
-
 class CPCToolsTab : public IPCTab
 {
     Q_OBJECT
 
 public:
-    explicit CPCToolsTab(QWidget *parent = Q_NULLPTR);
+    explicit CPCToolsTab(CAutomate* arg_automate, QWidget *parent = Q_NULLPTR);
     ~CPCToolsTab();
 
     CVerticalButtonBar *buttonBar() const Q_DECL_OVERRIDE;
@@ -36,6 +35,7 @@ private slots:
     void slotButtonClicked(CLabelledToolButton *button);
     void slotInitializeHistoryDocument();
     void slotVariableChanged(const QString &name, const QDateTime &dateTime);
+
 };
 
 #endif // CPCTOOLSTAB_H

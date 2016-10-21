@@ -12,33 +12,35 @@ CStatusWidget::CStatusWidget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::CStatusWidget)
 {
+
+
+}
+void CStatusWidget::setupStatusWidget(CAutomate* arg_automate){
     ui->setupUi(this);
 
     QTimer *timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &CStatusWidget::slotTimeChanged);
     timer->start(1);
 
-    CAutomate *automate = CAutomate::getInstance();
-    connect(automate, &CAutomate::signalStateRunning, this, &CStatusWidget::slotUpdateStateRunning);
-    connect(automate, &CAutomate::signalStateCurrentCyclePaused, this, &CStatusWidget::slotUpdateStateCurrentCyclePaused);
-    connect(automate, &CAutomate::signalStateRunningAutoCalibration, this, &CStatusWidget::slotUpdateStateRunningAutoCalibration);
-    connect(automate, &CAutomate::signalStateRunningWillStopEndCycle, this, &CStatusWidget::slotUpdateStateRunningWillStioEndCycle);
-    connect(automate, &CAutomate::signalStateWaiting, this, &CStatusWidget::slotUpdateStateWaiting);
-    connect(automate, &CAutomate::signalUpdateCurrentStream,
+    connect(arg_automate, &CAutomate::signalStateRunning, this, &CStatusWidget::slotUpdateStateRunning);
+    connect(arg_automate, &CAutomate::signalStateCurrentCyclePaused, this, &CStatusWidget::slotUpdateStateCurrentCyclePaused);
+    connect(arg_automate, &CAutomate::signalStateRunningAutoCalibration, this, &CStatusWidget::slotUpdateStateRunningAutoCalibration);
+    connect(arg_automate, &CAutomate::signalStateRunningWillStopEndCycle, this, &CStatusWidget::slotUpdateStateRunningWillStioEndCycle);
+    connect(arg_automate, &CAutomate::signalStateWaiting, this, &CStatusWidget::slotUpdateStateWaiting);
+    connect(arg_automate, &CAutomate::signalUpdateCurrentStream,
             this, &CStatusWidget::slotUpdateCurrentStream);
-    connect(automate, &CAutomate::signalUpdateCurrentStep,
+    connect(arg_automate, &CAutomate::signalUpdateCurrentStep,
             this, &CStatusWidget::slotUpdateCurrentStep);
-    connect(automate, &CAutomate::signalUpdateNumStep,
+    connect(arg_automate, &CAutomate::signalUpdateNumStep,
             this, &CStatusWidget::slotUpdateNumStep);
-    connect(automate, &CAutomate::signalUpdateCountStep,
+    connect(arg_automate, &CAutomate::signalUpdateCountStep,
             this, &CStatusWidget::slotUpdateCountStep);
-    connect(automate, &CAutomate::signalUpdateCurrentAction,
+    connect(arg_automate, &CAutomate::signalUpdateCurrentAction,
             this, &CStatusWidget::slotUpdateCurrentAction);
-    connect(automate, &CAutomate::signalNewAlarm,
+    connect(arg_automate, &CAutomate::signalNewAlarm,
             this, &CStatusWidget::slotAddAlarm);
-    connect(automate, &CAutomate::signalRemoveAlarm,
+    connect(arg_automate, &CAutomate::signalRemoveAlarm,
             this, &CStatusWidget::slotRemoveAlarm);
-
 }
 
 CStatusWidget::~CStatusWidget()
@@ -67,17 +69,17 @@ void CStatusWidget::setStateAutomate(QString state){
     ui->lCycle->setText(text);
 }
 
-void  CStatusWidget::slotUpdateStateRunning(bool arg){
+void  CStatusWidget::slotUpdateStateRunning(bool arg,const QString& runningCycleName){
     if(arg)
-        setStateAutomate( tr("CYCLE IN PROGRESS : ") + CScheduler::getInstance()->getCycleInProgressName() + "\n");
+        setStateAutomate( tr("CYCLE IN PROGRESS : ") + runningCycleName + "\n");
     else
         setStateAutomate(tr("STOPPED"));
 
 }
 
-void  CStatusWidget::slotUpdateStateRunningWillStioEndCycle(bool arg){
+void  CStatusWidget::slotUpdateStateRunningWillStioEndCycle(bool arg,const QString& runningCycleName){
     if(arg)
-        setStateAutomate(tr("STOP END CYCLE : ") + CScheduler::getInstance()->getCycleInProgressName() + "\n");
+        setStateAutomate(tr("STOP END CYCLE : ") + runningCycleName + "\n");
     else
         setStateAutomate(tr("STOPPED"));
 }

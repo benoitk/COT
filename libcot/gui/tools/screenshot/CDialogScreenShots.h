@@ -2,7 +2,7 @@
 #define CDIALOGSCREENSHOTS_H
 
 #include <CDialog.h>
-#include "QTimer";
+#include "QTimer"
 
 #include "cot_global.h"
 

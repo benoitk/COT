@@ -9,8 +9,9 @@
 #include <CScheduler.h>
 #include <ICycle.h>
 
-ConfiguratorSequencerUIHandler::ConfiguratorSequencerUIHandler(CScrollableWidget *scrollable, QObject *parent)
-    : IConfiguratorUIHandler(scrollable, parent)
+ConfiguratorSequencerUIHandler::ConfiguratorSequencerUIHandler(CAutomate* arg_automate, CScrollableWidget *scrollable, QObject *parent)
+    : IConfiguratorUIHandler(arg_automate, scrollable, parent)
+    , m_automate(arg_automate)
 {
 }
 
@@ -30,7 +31,7 @@ void ConfiguratorSequencerUIHandler::layout()
         const CyclePair &pair = cycles[i];
         ICycle *cycle = pair.first;
         Q_ASSERT(cycle);
-        IVariable *ivar = CVariableFactory::buildTemporary(QString::number(i), cycle->getLabel(), e_type_string);
+        IVariable *ivar = CVariableFactory::buildTemporary(m_automate, this, QString::number(i), cycle->getLabel(), e_type_string);
         m_internalVariables[ivar->getName()] = ivar;
         ivars << ivar;
     }
@@ -40,15 +41,13 @@ void ConfiguratorSequencerUIHandler::layout()
 
 ConfiguratorSequencerUIHandler::CyclePairList ConfiguratorSequencerUIHandler::cyclePairList() const
 {
-    CAutomate *automate = CAutomate::getInstance();
-    CScheduler *scheduler = automate->getScheduler();
+    CScheduler *scheduler = m_automate->getScheduler();
     return fromCycleList(scheduler->getListSequenceCyclesMesures());
 }
 
 void ConfiguratorSequencerUIHandler::setCyclePairList(const ConfiguratorSequencerUIHandler::CyclePairList &pairs)
 {
-    CAutomate *automate = CAutomate::getInstance();
-    CScheduler *scheduler = automate->getScheduler();
+    CScheduler *scheduler = m_automate->getScheduler();
     scheduler->setListSequenceCyclesMesures(fromCyclePairList(pairs), true);
 }
 
@@ -171,7 +170,6 @@ CPushButton *ConfiguratorSequencerUIHandler::newValueButton(IVariable *ivar)
 void ConfiguratorSequencerUIHandler::slotEditCycleClicked()
 {
     const int index = qobject_cast<CPushButton *>(sender())->userData().toInt();
-    CAutomate *automate = CAutomate::getInstance();
     CyclePairList pairs = cyclePairList();
     CyclePair &pair = pairs[index];
     Q_ASSERT(pair.first);
@@ -181,7 +179,7 @@ void ConfiguratorSequencerUIHandler::slotEditCycleClicked()
         return;
     }
 
-    ICycle *cycle = automate->getCycle(cycleName);
+    ICycle *cycle = m_automate->getCycle(cycleName);
     Q_ASSERT(cycle);
 
     if (cycle->getType() != e_cycle_measure) {

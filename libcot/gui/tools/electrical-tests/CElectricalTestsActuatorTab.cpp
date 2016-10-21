@@ -5,9 +5,10 @@
 #include "CAutomate.h"
 #include "CDisplayConf.h"
 
-CElectricalTestsActuatorTab::CElectricalTestsActuatorTab(QWidget *parent)
+CElectricalTestsActuatorTab::CElectricalTestsActuatorTab(CAutomate* arg_automate, QWidget *parent)
     : IElectricalTestsTab(parent)
     , ui(new Ui::CElectricalTestsActuatorTab)
+    , m_automate(arg_automate)
 {
     ui->setupUi(this);
     ui->vbbButtons->addAction(CToolButton::ScrollUp, ui->swCentral->moveUp());
@@ -15,9 +16,9 @@ CElectricalTestsActuatorTab::CElectricalTestsActuatorTab(QWidget *parent)
     connect(ui->vbbButtons->addAction(CToolButton::Back), &QAction::triggered,
             this, &IElectricalTestsTab::backTriggered);
 
-    m_elecTestActuatorHandler = new IVariableUIHandler(ui->swCentral, this);
+    m_elecTestActuatorHandler = new IVariableUIHandler(arg_automate, ui->swCentral, this);
     updateElecTestActuator();
-    connect(CAutomate::getInstance(), &CAutomate::signalDisplayUpdated,
+    connect(arg_automate, &CAutomate::signalDisplayUpdated,
             this, &CElectricalTestsActuatorTab::updateElecTestActuator);
 }
 
@@ -29,8 +30,7 @@ CElectricalTestsActuatorTab::~CElectricalTestsActuatorTab()
 
 void CElectricalTestsActuatorTab::updateElecTestActuator()
 {
-    CAutomate *automate = CAutomate::getInstance();
-    CDisplayConf *displayConf = automate->getDisplayConf();
+    CDisplayConf *displayConf = m_automate->getDisplayConf();
     QMap<QString, QList<IVariable*> > screenElecVariables = displayConf->getMapForScreenElectricalTests();
     IVariablePtrList screenElecActuator =  screenElecVariables.value(CDisplayConf::STR_ELEC_ACTUATOR);
     m_elecTestActuatorHandler->layout(screenElecActuator);

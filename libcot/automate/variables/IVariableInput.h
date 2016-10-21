@@ -12,7 +12,7 @@ class IVariableInput
 {
 public:
     IVariableInput();
-    IVariableInput(const QVariantMap & mapVar);
+    IVariableInput(IOrgan*arg_organ);
     virtual ~IVariableInput();
     virtual IOrgan* getOrgan()const;
     virtual QString getOrganName()const;

@@ -8,13 +8,13 @@ class CElectricalTestsWindow;
 }
 
 class IElectricalTestsTab;
-
+class CAutomate;
 class CElectricalTestsWindow : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit CElectricalTestsWindow(QWidget *parent = Q_NULLPTR);
+    explicit CElectricalTestsWindow(CAutomate* arg_automate, QWidget *parent = Q_NULLPTR);
     ~CElectricalTestsWindow();
 
 private slots:

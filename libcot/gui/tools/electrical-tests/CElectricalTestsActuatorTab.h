@@ -9,13 +9,13 @@ class CElectricalTestsActuatorTab;
 
 class IVariableUIHandler;
 
-
+class CAutomate;
 class CElectricalTestsActuatorTab : public IElectricalTestsTab
 {
     Q_OBJECT
 
 public:
-    explicit CElectricalTestsActuatorTab(QWidget *parent = Q_NULLPTR);
+    explicit CElectricalTestsActuatorTab(CAutomate* arg_automate, QWidget *parent = Q_NULLPTR);
     ~CElectricalTestsActuatorTab();
 
 protected slots:
@@ -25,6 +25,7 @@ protected slots:
 private:
     Ui::CElectricalTestsActuatorTab *ui;
     IVariableUIHandler *m_elecTestActuatorHandler;
+    CAutomate* m_automate;
 };
 
 #endif // CELECTRICALTESTSACTUATORTAB_H

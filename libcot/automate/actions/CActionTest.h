@@ -14,7 +14,7 @@ class CActionTest : public IAction, QRunnable
     Q_OBJECT
 
 public:
-    CActionTest(const QVariantMap&, QObject *parent);
+    CActionTest(const QVariantMap&, CAutomate *parent);
     ~CActionTest();
 
 

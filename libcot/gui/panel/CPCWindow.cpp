@@ -17,10 +17,11 @@ static const int s_maxMeasuresMainScreen = 1;
 
 static CPCWindow *s_mainWindow = Q_NULLPTR;
 
-CPCWindow::CPCWindow(QWidget *parent)
+CPCWindow::CPCWindow(CAutomate* arg_automate, QWidget *parent)
     : QWidget(parent, Qt::Window | Qt::FramelessWindowHint)
     , ui(new Ui::CPCWindow)
     , m_updateManager(new CUpdateManager(this))
+    , m_automate(arg_automate)
 {
     if (!s_mainWindow)
         s_mainWindow = this;
@@ -34,19 +35,19 @@ CPCWindow::CPCWindow(QWidget *parent)
 
     ui->setupUi(this);
     ui->actionUpdate->setVisible(true);
-    addTab((m_measureTab = new CPCMeasureTab(this)));
-    addTab((m_diagnosticTab = new CPCDiagnosticTab(this)));
-    addTab((m_toolsTab = new CPCToolsTab(this)));
-    addTab((m_graphTab = new CPCHistogramTab(this)));
-    addTab((m_plusTab = new CPCPlusTab(this)));
+    addTab((m_measureTab = new CPCMeasureTab(arg_automate, this)));
+    addTab((m_diagnosticTab = new CPCDiagnosticTab(arg_automate, this)));
+    addTab((m_toolsTab = new CPCToolsTab(arg_automate, this)));
+    addTab((m_graphTab = new CPCHistogramTab(arg_automate, this)));
+    addTab((m_plusTab = new CPCPlusTab(arg_automate, this)));
 
     CVerticalButtonBar *vbb = qobject_cast<IPCTab *>(ui->twPages->widget(0))->buttonBar();
     vbb->addAction(CToolButton::Update, ui->actionUpdate);
 
     //connect(m_updateManager, &CUpdateManager::signalUpdateAvailable, this, &CPCWindow::slotUpdateAvailable);
     connect(ui->actionUpdate, &QAction::triggered, this, &CPCWindow::slotUpdateTriggered);
-    connect(ui->twPages, &QTabWidget::currentChanged, CAutomate::getInstance(), &CAutomate::slotTabChanged);
-    connect(CAutomate::getInstance(), &CAutomate::signalStreamsUpdated, this, &CPCWindow::slotStreamsUpdated);
+    connect(ui->twPages, &QTabWidget::currentChanged, m_automate, &CAutomate::slotTabChanged);
+    connect(m_automate, &CAutomate::signalStreamsUpdated, this, &CPCWindow::slotStreamsUpdated);
 
 #if !defined(DEVICE_BUILD)
     // Allow to quit the application on desktop
@@ -113,10 +114,10 @@ int CPCWindow::openExec(CDialog *dialog)
     return test;
 }
 
-bool CPCWindow::showGraphInMainScreen()
+bool CPCWindow::showGraphInMainScreen(CAutomate* arg_automate)
 {
     int numMeasures = 0;
-    const QList<CVariableStream*> streams = CAutomate::getInstance()->getListStreams();
+    const QList<CVariableStream*> streams = arg_automate->getListStreams();
     foreach(CVariableStream *stream, streams) {
         numMeasures += stream->getListMeasures().count();
     }
@@ -151,7 +152,7 @@ void CPCWindow::changeEvent(QEvent *event)
 
 void CPCWindow::slotStreamsUpdated()
 {
-     if (showGraphInMainScreen()) {
+     if (showGraphInMainScreen(m_automate)) {
          const int index = ui->twPages->indexOf(m_graphTab);
          if(index != -1)
              ui->twPages->removeTab(index);

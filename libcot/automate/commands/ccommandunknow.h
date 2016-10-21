@@ -9,7 +9,7 @@ class CCommandUnknow: public ICommand
     Q_OBJECT
 public:
 
-    explicit CCommandUnknow(const QVariantMap &mapCmd, QObject *parent);
+    explicit CCommandUnknow(const QVariantMap &mapCmd, CAutomate *parent);
     QVariantMap serialize() Q_DECL_OVERRIDE;
 signals:
 

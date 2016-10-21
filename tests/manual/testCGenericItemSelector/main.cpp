@@ -27,14 +27,14 @@ int main(int argc, char *argv[])
             << QStringLiteral("General medicine");
 
 
-    for (int i = 0; i < strList.count(); ++i) {
-        variableList.append(new CVariableString(strList.at(i)));
-    }
+//    for (int i = 0; i < strList.count(); ++i) {
+//        variableList.append(new CVariableString(strList.at(i)));
+//    }
 
-    // lots of items
-    for (int i = 0; i < 300; ++i) {
-        variableList.append(new CVariableString(QString::number(i)));
-    }
+//    // lots of items
+//    for (int i = 0; i < 300; ++i) {
+//        variableList.append(new CVariableString(QString::number(i)));
+//    }
 
     // display dialog with choices as buttons
     CGenericItemSelector dialog(variableList);

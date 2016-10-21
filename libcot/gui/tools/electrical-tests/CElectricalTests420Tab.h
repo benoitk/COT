@@ -10,12 +10,13 @@ class CElectricalTests420Tab;
 class IVariableUIHandler;
 class CVariableBool;
 class IVariable;
+class CAutomate;
 class CElectricalTests420Tab : public IElectricalTestsTab
 {
     Q_OBJECT
 
 public:
-    explicit CElectricalTests420Tab(QWidget *parent = Q_NULLPTR);
+    explicit CElectricalTests420Tab(CAutomate* arg_automate, QWidget *parent = Q_NULLPTR);
     ~CElectricalTests420Tab();
 
 protected slots:
@@ -29,6 +30,7 @@ private:
     IVariableUIHandler *m_elecTest420Handler;
     QList<CVariableBool*> m_listBtTests;
     QMap<QString, IVariable*> m_mapVar;
+    CAutomate* m_automate;
 };
 
 #endif // CELECTRICALTESTS420TAB_H

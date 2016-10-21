@@ -10,8 +10,8 @@ class CVariableUnknow : public IVariable
     Q_OBJECT
 
 public:
-    CVariableUnknow();
-    CVariableUnknow(const QVariantMap&);
+    CVariableUnknow(CAutomate* arg_automate, QObject * parent);
+    CVariableUnknow(const QVariantMap&, CAutomate* arg_automate, QObject* parent);
     ~CVariableUnknow();
 
 

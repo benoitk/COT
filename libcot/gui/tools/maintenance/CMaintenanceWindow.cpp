@@ -5,22 +5,23 @@
 #include "CUserSession.h"
 #include "CAutomate.h"
 
-CMaintenanceWindow* CMaintenanceWindow::singleton = 0;
+//CMaintenanceWindow* CMaintenanceWindow::singleton = 0;
 
-CMaintenanceWindow* CMaintenanceWindow::getInstance(){
-    if(!singleton)
-        singleton = new CMaintenanceWindow();
-    return singleton;
-}
+//CMaintenanceWindow* CMaintenanceWindow::getInstance(){
+//    if(!singleton)
+//        singleton = new CMaintenanceWindow();
+//    return singleton;
+//}
 
-CMaintenanceWindow::CMaintenanceWindow()
-    : QWidget()
+CMaintenanceWindow::CMaintenanceWindow(CAutomate* arg_automate, QWidget* parent)
+    : QWidget(parent)
     , ui(new Ui::CMaintenanceWindow)
+    , m_automate(arg_automate)
 {
     ui->setupUi(this);
-    addTab(new CMaintenanceMaintenanceTab(this), QString());
-    addTab(new CMaintenanceDiagnosticTab(this), QString());
-    connect(ui->twPages, &QTabWidget::currentChanged, CAutomate::getInstance(), &CAutomate::slotTabChanged);
+    addTab(new CMaintenanceMaintenanceTab(m_automate, this), QString());
+    addTab(new CMaintenanceDiagnosticTab(m_automate, this), QString());
+    connect(ui->twPages, &QTabWidget::currentChanged, m_automate, &CAutomate::slotTabChanged);
     retranslate();
 }
 
@@ -38,7 +39,7 @@ void CMaintenanceWindow::slotBackTriggered()
 {
     //a l'essais pour ne pas utiliser le slotUserSessionClosed
     CUserSession::getInstance()->loginAsLastUser(true);
-    CAutomate::getInstance()->exitMaintenanceMode();
+    m_automate->exitMaintenanceMode();
     disconnect(CUserSession::getInstance(), 0, this, 0);
     close();
 }

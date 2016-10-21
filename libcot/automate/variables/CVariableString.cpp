@@ -2,17 +2,19 @@
 #include "CUnit.h"
 
 
-CVariableString::CVariableString(QObject *parent)
-    : IVariable(parent)
+CVariableString::CVariableString(CAutomate* arg_automate, QObject *parent)
+    : IVariable(arg_automate, parent)
 {
 
 }
-CVariableString::CVariableString(const QString &arg_value)
-    : IVariable()
+CVariableString::CVariableString(const QString &arg_value, CAutomate* arg_automate, QObject* parent)
+    : IVariable(arg_automate, parent)
 {
     m_sValeur = arg_value;
 }
-CVariableString::CVariableString(const QVariantMap& mapVar):IVariable(mapVar){
+CVariableString::CVariableString(const QVariantMap& mapVar, CAutomate* arg_automate, QObject* parent)
+    :IVariable(mapVar, arg_automate, parent)
+{
     m_sValeur = mapVar.value(QStringLiteral("value")).toString();
 }
 CVariableString::~CVariableString()

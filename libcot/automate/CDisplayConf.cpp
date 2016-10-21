@@ -17,15 +17,15 @@ const QString CDisplayConf::STR_ELEC_PUMP = QString("tab_pump");
 const QString CDisplayConf::STR_ELEC_ACTUATOR = QString("tab_Actionneurs");
 const QString CDisplayConf::STR_ELEC_RELAYS = QString("tab_relay");
 
-CDisplayConf::CDisplayConf(const QJsonArray& jsonArray, QObject *parent)
-    : QObject(parent)
+CDisplayConf::CDisplayConf(const QJsonArray& jsonArray, CAutomate *arg_automate)
+    : QObject(arg_automate), m_automate(arg_automate)
 {
     foreach(QJsonValue jsonConteneur, jsonArray){
         QVariantMap mapScreen = jsonConteneur.toVariant().toMap();
         if(mapScreen.contains(QStringLiteral("name")) && mapScreen["name"].toString() == QStringLiteral("diagnostic")){
             QVariantList variantList = mapScreen.value(QStringLiteral("variables")).toList();
             foreach(QVariant variant, variantList){
-                IVariable* var = CAutomate::getInstance()->getVariable(variant.toString());
+                IVariable* var = arg_automate->getVariable(variant.toString());
                 if(var->getType() != e_type_unknow){
                     addVariableToScreenDiagnostic(var);
                 }
@@ -35,9 +35,9 @@ CDisplayConf::CDisplayConf(const QJsonArray& jsonArray, QObject *parent)
         }else if(mapScreen.contains(QStringLiteral("name")) && mapScreen["name"].toString() == QStringLiteral("options")){
             QVariantList variantList = mapScreen.value(QStringLiteral("variables")).toList();
 
-            addVariableToScreenOptions(CAutomate::getInstance()->getLocalControlForced());
+            addVariableToScreenOptions(arg_automate->getLocalControlForced());
             foreach(QVariant variant, variantList){
-                IVariable* var = CAutomate::getInstance()->getVariable(variant.toString());
+                IVariable* var = arg_automate->getVariable(variant.toString());
                 if(var->getType() != e_type_unknow){
                     addVariableToScreenOptions(var);
                 }
@@ -46,7 +46,7 @@ CDisplayConf::CDisplayConf(const QJsonArray& jsonArray, QObject *parent)
         }else if(mapScreen.contains(QStringLiteral("name")) && mapScreen["name"].toString() == QStringLiteral("history")){
             QVariantList variantList = mapScreen.value(QStringLiteral("variables")).toList();
             foreach(QVariant variant, variantList){
-                IVariable* var = CAutomate::getInstance()->getVariable(variant.toString());
+                IVariable* var = arg_automate->getVariable(variant.toString());
                 if(var->getType() != e_type_unknow){
                     addVariableToScreenHistory(var);
                 }
@@ -55,7 +55,7 @@ CDisplayConf::CDisplayConf(const QJsonArray& jsonArray, QObject *parent)
         }else if(mapScreen.contains(QStringLiteral("name")) && mapScreen["name"].toString() == QStringLiteral("alarms")){
             QVariantList variantList = mapScreen.value(QStringLiteral("variables")).toList();
             foreach(QVariant variant, variantList){
-                IVariable* var = CAutomate::getInstance()->getVariable(variant.toString());
+                IVariable* var = arg_automate->getVariable(variant.toString());
                 if(var->getType() != e_type_unknow){
                     addVariableToScreenAlarms(var);
                 }
@@ -68,7 +68,7 @@ CDisplayConf::CDisplayConf(const QJsonArray& jsonArray, QObject *parent)
                 QVariantList variantList = map.value(QStringLiteral("variables")).toList();
                 addTabToScreenElectricalTest(map.value(QStringLiteral("name")).toString());
                 foreach(QVariant variant, variantList){
-                    IVariable* var = CAutomate::getInstance()->getVariable(variant.toString());
+                    IVariable* var = arg_automate->getVariable(variant.toString());
                     //if(var->getType() != type_unknow){
                         addVariableToScreenElectricalTest(map.value(QStringLiteral("name")).toString(), var);
                     //}
@@ -78,7 +78,7 @@ CDisplayConf::CDisplayConf(const QJsonArray& jsonArray, QObject *parent)
         }else if(mapScreen.contains(QStringLiteral("name")) && mapScreen["name"].toString() == QStringLiteral("initial_tests")){
             QVariantList variantListActions = mapScreen.value(QStringLiteral("actions")).toList();
             foreach(QVariant variant, variantListActions){
-                IAction* action = CAutomate::getInstance()->getAction(variant.toString());
+                IAction* action = arg_automate->getAction(variant.toString());
                 addInitialTestsAction(action);
                 //if(var->getType() != type_unknow){
       //          add
@@ -88,8 +88,8 @@ CDisplayConf::CDisplayConf(const QJsonArray& jsonArray, QObject *parent)
             QVariantList variantListVariables = mapScreen.value(QStringLiteral("variables")).toList();
             foreach(QVariant variant, variantListVariables){
                 QVariantMap map = variant.toMap();
-                IVariable* varTest = CAutomate::getInstance()->getVariable(map.value(QStringLiteral("test")).toString());
-                IVariable* varIndicator = CAutomate::getInstance()->getVariable(map.value(QStringLiteral("indicator")).toString());
+                IVariable* varTest = arg_automate->getVariable(map.value(QStringLiteral("test")).toString());
+                IVariable* varIndicator = arg_automate->getVariable(map.value(QStringLiteral("indicator")).toString());
                 //if(var->getType() != type_unknow){
                 addInitialTestsVariableTest(varTest);
                 addInitialTestsVariableIndicator(varIndicator);
@@ -269,7 +269,7 @@ QVariantList CDisplayConf::serialize(){
         mapOption.insert(QStringLiteral("name"), QStringLiteral("options"));
         QVariantList listVar;
         foreach(IVariable* var, m_listForScrenOptions){
-            if(var != CAutomate::getInstance()->getLocalControlForced())
+            if(var != m_automate->getLocalControlForced())
                 listVar.append(var->getName());
         }
         mapOption.insert(QStringLiteral("variables"), listVar);

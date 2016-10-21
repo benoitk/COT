@@ -12,11 +12,12 @@
 
 #include <QDebug>
 
-ConfiguratorVariablesUIHandler::ConfiguratorVariablesUIHandler(CScrollableWidget *scrollable, QObject *parent)
-    : IConfiguratorUIHandler(scrollable, parent)
+ConfiguratorVariablesUIHandler::ConfiguratorVariablesUIHandler(CAutomate* arg_automate, CScrollableWidget *scrollable, QObject *parent)
+    : IConfiguratorUIHandler(arg_automate, scrollable, parent)
+    , m_automate(arg_automate)
 {
-    connect(CAutomate::getInstance(), &CAutomate::signalStreamsUpdated, this, &ConfiguratorVariablesUIHandler::layout);
-    connect(CAutomate::getInstance(), &CAutomate::signalVariablesUpdated, this, &ConfiguratorVariablesUIHandler::layout);
+    connect(arg_automate, &CAutomate::signalStreamsUpdated, this, &ConfiguratorVariablesUIHandler::layout);
+    connect(arg_automate, &CAutomate::signalVariablesUpdated, this, &ConfiguratorVariablesUIHandler::layout);
 }
 
 ConfiguratorVariablesUIHandler::~ConfiguratorVariablesUIHandler()
@@ -28,9 +29,8 @@ void ConfiguratorVariablesUIHandler::layout()
 {
     CVariableFactory::deleteVariables(m_internalVariables);
 
-    CAutomate *automate = CAutomate::getInstance();
     //const IVariablePtrList streams = automate->getMapStreams().values();
-    QList<CVariableStream*> streams = automate->getListStreams();
+    QList<CVariableStream*> streams = m_automate->getListStreams();
     IVariablePtrList ivars;
     QList<IVariable *> listVar;
     foreach ( CVariableStream *streamVar, streams) {
@@ -49,11 +49,11 @@ void ConfiguratorVariablesUIHandler::layout()
         }
     }
     // Add fake global stream
-    IVariable *streamVar = CVariableFactory::buildTemporary(QString("fake_stream"), tr("Global"), e_type_stream);
+    IVariable *streamVar = CVariableFactory::buildTemporary(m_automate, this, QString("fake_stream"), tr("Global"), e_type_stream);
     m_internalVariables[streamVar->getName()] = streamVar;
     ivars << streamVar;
 
-    foreach( IVariable *var, automate->getMapVariables().values()) {
+    foreach( IVariable *var, m_automate->getMapVariables().values()) {
         if (!listVar.contains(var)) {
             ivars << var;
         }
@@ -69,9 +69,7 @@ int ConfiguratorVariablesUIHandler::columnCount() const
 
 IVariable *ConfiguratorVariablesUIHandler::getStreamOrMeasure(IVariable *ivar) const
 {
-    CAutomate *automate = CAutomate::getInstance();
-//    const IVariablePtrList streams = automate->getMapStreams().values();
-    const QList<CVariableStream*> streams = automate->getListStreams();
+    const QList<CVariableStream*> streams = m_automate->getListStreams();
     foreach (CVariableStream *streamVar, streams) {
 //        Q_ASSERT(streamIVar->getType() == type_stream);
 //        CVariableStream *streamVar = static_cast<CVariableStream *>(streamIVar);
@@ -90,9 +88,7 @@ IVariable *ConfiguratorVariablesUIHandler::getStreamOrMeasure(IVariable *ivar) c
 
 IVariable *ConfiguratorVariablesUIHandler::getVariable(const QString &name) const
 {
-    CAutomate *automate = CAutomate::getInstance();
-    //    const IVariablePtrList streams = automate->getMapStreams().values();
-    const QList<CVariableStream*> streams = automate->getListStreams();
+    const QList<CVariableStream*> streams = m_automate->getListStreams();
     foreach (CVariableStream *streamVar, streams) {
     //        Q_ASSERT(streamIVar->getType() == type_stream);
     //        CVariableStream *streamVar = static_cast<CVariableStream *>(streamIVar);
@@ -190,8 +186,7 @@ void ConfiguratorVariablesUIHandler::rowAboutToBeDeleted(const Row &row, IVariab
 void ConfiguratorVariablesUIHandler::rowDeleted(const QString &name)
 {
     const bool locked = blockSignals(true);
-    CAutomate *automate = CAutomate::getInstance();
-    automate->delVariable(automate->getVariable(name));
+    m_automate->delVariable(m_automate->getVariable(name));
     blockSignals(locked);
     layout();
 }

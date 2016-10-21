@@ -6,9 +6,8 @@
 #include "CAutomate.h"
 #include <algorithm>
 
-CScheduler* CScheduler::singleton = 0;
-CScheduler::CScheduler()
-    : QObject()
+CScheduler::CScheduler(CAutomate *arg_automate)
+    : QObject(arg_automate), m_automate(arg_automate)
 {
 
     m_itListSequenceCyclesMesures = m_listSequenceCyclesMeasures.begin();
@@ -117,24 +116,24 @@ void CScheduler::slotPlayNextSequenceMeasure(){
             this->disconnectCycle(m_cycleEnCours);
         }
         ISequenceMaintenanceAuto* seq = Q_NULLPTR;
-        if(seq = haveToPlaySequenceMaintenanceAuto()){
+        if( (seq = haveToPlaySequenceMaintenanceAuto()) ){
             m_cycleEnCours = seq->getCycle();
-            CAutomate::getInstance()->setStateCycleAutoRunning(true);
+            m_automate->setStateCycleAutoRunning(true);
         }
         else if( (++m_itListSequenceCyclesMesures) == m_listSequenceCyclesMeasures.end()){
             m_itListSequenceCyclesMesures = m_listSequenceCyclesMeasures.begin();
             m_cycleEnCours = (*m_itListSequenceCyclesMesures);
-            CAutomate::getInstance()->setStateCycleAutoRunning(false);
+            m_automate->setStateCycleAutoRunning(false);
         }
         else{
             m_cycleEnCours = (*m_itListSequenceCyclesMesures);
-            CAutomate::getInstance()->setStateCycleAutoRunning(false);
+            m_automate->setStateCycleAutoRunning(false);
         }
         this->setSequence();
 
 
-        CAutomate::getInstance()->setStateIsRunning(true);
-        //emit CAutomate::getInstance()->signalStateRunning(true);
+        m_automate->setStateIsRunning(true, getCycleInProgressName());
+        //emit m_automate->signalStateRunning(true);
         emit signalRunCycle();
         emit signalCycleIsRunning(m_cycleEnCours->getName());
     }
@@ -153,13 +152,13 @@ void CScheduler::slotRequestStopSequence(){
 void  CScheduler::slotRequestStopEndCycleSequence(){
     if(m_cycleEnCours && m_cycleEnCours->isRunning()){
         m_haveToStopEndCycle = true;
-        CAutomate::getInstance()->setStateWillStopEndCycle(true);
+        m_automate->setStateWillStopEndCycle(true, getCycleInProgressName());
     }
 }
 void  CScheduler::slotRequestCancelStopSequenceEndCycle(){
     m_haveToStopEndCycle = false;
     if(m_cycleEnCours && m_cycleEnCours->isRunning()){
-        CAutomate::getInstance()->setStateWillStopEndCycle(false);
+        m_automate->setStateWillStopEndCycle(false, getCycleInProgressName());
     }
 }
 
@@ -176,8 +175,8 @@ void CScheduler::slotCycleIsStopped(){
         sequence->reset();
     }
     emit signalCycleIsStopped(m_cycleEnCours->getName());
-    CAutomate::getInstance()->setStateIsRunning(false);
-//    emit CAutomate::getInstance()->signalStateRunning(false);
+    m_automate->setStateIsRunning(false, getCycleInProgressName());
+//    emit m_automate->signalStateRunning(false);
 }
 
 //Fin Stop cycle Mesure
@@ -222,12 +221,6 @@ void CScheduler::slotPlayNextSequenceAutonome(){
 void CScheduler::slotCycleMesureIsRunning(){}
 
 void CScheduler::slotCycleMesureIsPaused(){}
-
-CScheduler* CScheduler::getInstance(){
-    if(!singleton)
-        singleton = new CScheduler();
-    return singleton;
-}
 
 QList<ICycle*>  CScheduler::getListSequenceCyclesMesures(){
     return m_listSequenceCyclesMeasures;
@@ -358,30 +351,32 @@ ICycle*  CScheduler::getCycleAutonomeAt(int arg_index) const{
 }
 
 void CScheduler::slotPlayMaintenance(const QString& arg_cycleName){
-    ICycle* cycle = CAutomate::getInstance()->getCycle(arg_cycleName);
+    ICycle* cycle = m_automate->getCycle(arg_cycleName);
     if(m_cycleEnCours){
         this->disconnectCycle(m_cycleEnCours);
     }
     if(cycle && cycle->getType() != e_cycle_invalid){
         m_cycleEnCours = cycle;
         setSequence(true);
-        CAutomate::getInstance()->setStateIsRunning(true);
-        //emit CAutomate::getInstance()->signalStateRunning(true);
+        m_automate->setStateIsRunning(true, getCycleInProgressName());
+        //emit m_automate->signalStateRunning(true);
         emit signalRunCycle();
     }
 }
-
+CAutomate* CScheduler::getAutomate(){
+    return m_automate;
+}
 
 //DEFINITION SEQUENCE MAINTENANCE
-ISequenceMaintenanceAuto::ISequenceMaintenanceAuto(const QVariantMap& arg_map,  QObject *parent):QObject(parent){
-    m_cycle = CAutomate::getInstance()->getCycle(arg_map.value("cycle_name").toString());
+ISequenceMaintenanceAuto::ISequenceMaintenanceAuto(const QVariantMap& arg_map,  CScheduler *parent):QObject(parent), m_scheduler(parent){
+    m_cycle = parent->getAutomate()->getCycle(arg_map.value("cycle_name").toString());
 }
 ICycle* ISequenceMaintenanceAuto::getCycle(){
     return m_cycle;
 }
-CSequenceMaintenanceAutoEveryNCycles::CSequenceMaintenanceAutoEveryNCycles(const QVariantMap& arg_map,  QObject *parent):
+CSequenceMaintenanceAutoEveryNCycles::CSequenceMaintenanceAutoEveryNCycles(const QVariantMap& arg_map,  CScheduler *parent):
     ISequenceMaintenanceAuto(arg_map, parent){
-    m_nbCycle = CAutomate::getInstance()->getVariable(arg_map.value(QStringLiteral("nb_cycles")).toString());
+    m_nbCycle = parent->getAutomate()->getVariable(arg_map.value(QStringLiteral("nb_cycles")).toString());
     m_cpt = 0;
 }
 
@@ -408,7 +403,7 @@ void CSequenceMaintenanceAutoEveryNCycles::reset(){
     m_cpt = 0;
 }
 
-CSequenceMaintenanceAutoUnknow::CSequenceMaintenanceAutoUnknow(const QVariantMap& arg_map,  QObject *parent):
+CSequenceMaintenanceAutoUnknow::CSequenceMaintenanceAutoUnknow(const QVariantMap& arg_map,  CScheduler *parent):
     ISequenceMaintenanceAuto(arg_map,  parent){}
 bool CSequenceMaintenanceAutoUnknow::haveToBeRun(){  return false; }
 void CSequenceMaintenanceAutoUnknow::reset(){  }
@@ -417,7 +412,7 @@ QVariantMap CSequenceMaintenanceAutoUnknow::serialize(){
     return mapSequence;
 }
 
-ISequenceMaintenanceAuto* CSequenceMaintenanceFactory::build(const QVariantMap& arg_map,  QObject *parent){
+ISequenceMaintenanceAuto* CSequenceMaintenanceFactory::build(const QVariantMap& arg_map,  CScheduler *parent){
     ISequenceMaintenanceAuto* sequence = Q_NULLPTR;
     const QString type = arg_map.value(QStringLiteral("sequence_type")).toString();
     if(type == QStringLiteral("n_cycles")){

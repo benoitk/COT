@@ -8,7 +8,7 @@ class CEditInBindsUIHandler : public IConfiguratorUIHandler
     Q_OBJECT
 
 public:
-    explicit CEditInBindsUIHandler(CScrollableWidget *scrollable, QObject *parent);
+    explicit CEditInBindsUIHandler(CAutomate* arg_automate,CScrollableWidget *scrollable, QObject *parent);
     ~CEditInBindsUIHandler();
 
     void layout(IVariable *ivar);
@@ -18,6 +18,8 @@ protected:
     QWidget *createWidget(int column, IVariable *ivar) Q_DECL_OVERRIDE;
     void rowInserted(const Row &row, IVariable *ivar) Q_DECL_OVERRIDE;
     void rowChanged(const Row &row, IVariable *ivar) Q_DECL_OVERRIDE;
+
+    CAutomate* m_automate;
 };
 
 #endif // CEDITINBINDSUIHANDLER_H

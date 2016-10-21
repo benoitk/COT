@@ -3,12 +3,13 @@
 
 #include "IVariableUIHandler.h"
 
+class CAutomate;
 class CGenericVariablesUIHandler : public IVariableUIHandler
 {
     Q_OBJECT
 
 public:
-    explicit CGenericVariablesUIHandler(CScrollableWidget *scrollable = Q_NULLPTR, QObject *parent = Q_NULLPTR);
+    explicit CGenericVariablesUIHandler(CAutomate* arg_automate,  CScrollableWidget *scrollable = Q_NULLPTR, QObject *parent = Q_NULLPTR);
     ~CGenericVariablesUIHandler();
 
     virtual IVariable *getVariable(const QString &name) const Q_DECL_OVERRIDE;

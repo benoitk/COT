@@ -3,13 +3,14 @@
 #include "cotautomate_debug.h"
 #include "CVariableStream.h"
 #include "CAutomate.h"
-CCycleAutonome::CCycleAutonome(QObject *parent)
+#include "CScheduler.h"
+CCycleAutonome::CCycleAutonome(CScheduler *parent)
     :CCycleMesure(parent) {}
 
-CCycleAutonome::CCycleAutonome(const QVariantMap &variantMap, QObject *parent)
+CCycleAutonome::CCycleAutonome(const QVariantMap &variantMap, CScheduler *parent)
     :CCycleMesure(variantMap, parent){}
 
-CCycleAutonome::CCycleAutonome(const QVariantMap &variantMap, const QMap<QString, IAction *> &actionMap, QObject *parent)
+CCycleAutonome::CCycleAutonome(const QVariantMap &variantMap, const QMap<QString, IAction *> &actionMap, CScheduler *parent)
     :CCycleMesure(variantMap, parent){}
 
 CCycleAutonome::~CCycleAutonome(){
@@ -23,7 +24,7 @@ QString CCycleAutonome::getRelatedStreamName()const{
     return CCycleMesure::getRelatedStreamName();
 }
 CVariableStream* CCycleAutonome::getRelatedStream()const{
-    return CAutomate::getInstance()->getStream(CCycleMesure::getRelatedStreamName());
+    return m_scheduler->getAutomate()->getStream(CCycleMesure::getRelatedStreamName());
 }
 QVariantMap CCycleAutonome::serialize(){
     QVariantMap mapSerialise = ICycle::serialize();

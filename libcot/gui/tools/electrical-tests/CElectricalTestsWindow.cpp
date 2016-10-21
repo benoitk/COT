@@ -10,18 +10,18 @@
 
 #include <qtimer.h>
 
-CElectricalTestsWindow::CElectricalTestsWindow(QWidget *parent)
+CElectricalTestsWindow::CElectricalTestsWindow(CAutomate* arg_automate, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::CElectricalTestsWindow)
 {
     m_timerInput = Q_NULLPTR;
     ui->setupUi(this);
-    addTab(new CElectricalTestsPumpsTab(this), tr("PUMPS"));
-    addTab(new CElectricalTestsRelaysTab(this), tr("RELAYS"));
-    addTab(new CElectricalTestsSolenoidsTab(this), tr("SOLENOIDS"));
-    addTab(new CElectricalTestsActuatorTab(this), tr("ACTUATOR"));
-    addTab(new CElectricalTests420Tab(this), tr("4-20mA OUTPUT"));
-    addTab(new CElectricalTestsInputsTab(this), tr("INPUTS"));
+    addTab(new CElectricalTestsPumpsTab(arg_automate, this), tr("PUMPS"));
+    addTab(new CElectricalTestsRelaysTab(arg_automate, this), tr("RELAYS"));
+    addTab(new CElectricalTestsSolenoidsTab(arg_automate, this), tr("SOLENOIDS"));
+    addTab(new CElectricalTestsActuatorTab(arg_automate, this), tr("ACTUATOR"));
+    addTab(new CElectricalTests420Tab(arg_automate, this), tr("4-20mA OUTPUT"));
+    addTab(new CElectricalTestsInputsTab(arg_automate, this), tr("INPUTS"));
 
     connect(ui->twPages, &QTabWidget::currentChanged, this, &CElectricalTestsWindow::slotTabChanged);
 

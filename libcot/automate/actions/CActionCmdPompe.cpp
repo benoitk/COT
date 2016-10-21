@@ -8,10 +8,10 @@
 #include "cotautomate_debug.h"
 
 
-CActionCmdPompe::CActionCmdPompe(const QVariantMap &mapAction, QObject *parent)
+CActionCmdPompe::CActionCmdPompe(const QVariantMap &mapAction, CAutomate *parent)
     : IAction(mapAction, parent)
 {
-    CAutomate* automate = CAutomate::getInstance();
+
 
     m_alim = Q_NULLPTR;
     m_nbTurns = Q_NULLPTR;
@@ -21,24 +21,24 @@ CActionCmdPompe::CActionCmdPompe(const QVariantMap &mapAction, QObject *parent)
     m_OriginReturn = Q_NULLPTR;
     m_default = Q_NULLPTR;
     m_alarm = Q_NULLPTR;
-    if(automate->getVariable(mapAction[QStringLiteral("alim")].toString())->getOrganType() == e_type_organ_output)
-        m_alim = dynamic_cast<CVariableOutputBool*>(automate->getVariable(mapAction[QStringLiteral("alim")].toString()));
-    if(automate->getVariable(mapAction[QStringLiteral("nbr_turns")].toString())->getOrganType() == e_type_organ_output)
-        m_nbTurns = dynamic_cast<CVariableOutputInt*>(automate->getVariable(mapAction[QStringLiteral("nbr_turns")].toString()));
-    if(automate->getVariable(mapAction[QStringLiteral("nbr_steps")].toString())->getOrganType() == e_type_organ_output)
-        m_nbSteps = dynamic_cast<CVariableOutputInt*>(automate->getVariable(mapAction[QStringLiteral("nbr_steps")].toString()));
-    if(automate->getVariable(mapAction[QStringLiteral("clockwise")].toString())->getOrganType() == e_type_organ_output)
-        m_clockwise =  dynamic_cast<CVariableOutputBool*>(automate->getVariable(mapAction[QStringLiteral("clockwise")].toString()));
-    if(automate->getVariable(mapAction[QStringLiteral("speed")].toString())->getOrganType() == e_type_organ_output)
-        m_speed =dynamic_cast<CVariableOutputInt*>( automate->getVariable(mapAction[QStringLiteral("speed")].toString()));
-    if(automate->getVariable(mapAction[QStringLiteral("origin_return_before")].toString())->getOrganType() == e_type_organ_output)
-        m_OriginReturn = dynamic_cast<CVariableOutputBool*>(automate->getVariable(mapAction[QStringLiteral("origin_return_before")].toString()));
-    if(automate->getVariable(mapAction[QStringLiteral("default")].toString())->getOrganType() == e_type_organ_input)
-        m_default = dynamic_cast<CVariableInputBool*>(automate->getVariable(mapAction[QStringLiteral("default")].toString()));
-    if(automate->getVariable(mapAction[QStringLiteral("alarm")].toString())->getOrganType() == e_type_organ_output)
-        m_alarm = dynamic_cast<CVariableAlarm*>(automate->getVariable(mapAction[QStringLiteral("alarm")].toString()));
+    if(m_automate->getVariable(mapAction[QStringLiteral("alim")].toString())->getOrganType() == e_type_organ_output)
+        m_alim = dynamic_cast<CVariableOutputBool*>(m_automate->getVariable(mapAction[QStringLiteral("alim")].toString()));
+    if(m_automate->getVariable(mapAction[QStringLiteral("nbr_turns")].toString())->getOrganType() == e_type_organ_output)
+        m_nbTurns = dynamic_cast<CVariableOutputInt*>(m_automate->getVariable(mapAction[QStringLiteral("nbr_turns")].toString()));
+    if(m_automate->getVariable(mapAction[QStringLiteral("nbr_steps")].toString())->getOrganType() == e_type_organ_output)
+        m_nbSteps = dynamic_cast<CVariableOutputInt*>(m_automate->getVariable(mapAction[QStringLiteral("nbr_steps")].toString()));
+    if(m_automate->getVariable(mapAction[QStringLiteral("clockwise")].toString())->getOrganType() == e_type_organ_output)
+        m_clockwise =  dynamic_cast<CVariableOutputBool*>(m_automate->getVariable(mapAction[QStringLiteral("clockwise")].toString()));
+    if(m_automate->getVariable(mapAction[QStringLiteral("speed")].toString())->getOrganType() == e_type_organ_output)
+        m_speed =dynamic_cast<CVariableOutputInt*>( m_automate->getVariable(mapAction[QStringLiteral("speed")].toString()));
+    if(m_automate->getVariable(mapAction[QStringLiteral("origin_return_before")].toString())->getOrganType() == e_type_organ_output)
+        m_OriginReturn = dynamic_cast<CVariableOutputBool*>(m_automate->getVariable(mapAction[QStringLiteral("origin_return_before")].toString()));
+    if(m_automate->getVariable(mapAction[QStringLiteral("default")].toString())->getOrganType() == e_type_organ_input)
+        m_default = dynamic_cast<CVariableInputBool*>(m_automate->getVariable(mapAction[QStringLiteral("default")].toString()));
+    if(m_automate->getVariable(mapAction[QStringLiteral("alarm")].toString())->getOrganType() == e_type_organ_output)
+        m_alarm = dynamic_cast<CVariableAlarm*>(m_automate->getVariable(mapAction[QStringLiteral("alarm")].toString()));
 
-    m_stepByStep = automate->getVariable(mapAction[QStringLiteral("step_by_step")].toString());
+    m_stepByStep = m_automate->getVariable(mapAction[QStringLiteral("step_by_step")].toString());
 
 
 }
