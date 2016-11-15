@@ -44,26 +44,25 @@ CAutomate::CAutomate():
     m_stateCycleIsRunning(this),
     m_stateCurrentCycleIsPaused(this),
     m_stateWillStopEndCycle(this),
-    m_stateCycleAutoRunning(this)
+    m_stateCycleAutoRunning(this),
+    m_localControlForced(new CVariableBool(this, this, false, 0,e_access_read_write)),
+    m_schedulerStoppedFromIHM(false),
+    m_scheduler(new CScheduler(this)),
+    m_commandPlayStop(Q_NULLPTR),
+    m_commandStopEndCycle(Q_NULLPTR),
+    m_commandNextCycle(Q_NULLPTR),
+    m_lang(QString("en_US")),
+    m_debug(false),
+    m_countBeforeCheckLogFileToDelete(0)
 {
-    m_scheduler = new CScheduler(this);
-    m_debug = false;
-    m_schedulerStoppedFromIHM = false;
-    m_stateInMaintenance.setState(false);
-    m_lang = "en_US";
-    m_countBeforeCheckLogFileToDelete = 0;
 
-    m_commandNextCycle = Q_NULLPTR;
-    m_commandStopEndCycle = Q_NULLPTR;
-    m_commandPlayStop = Q_NULLPTR;
-    m_localControlForced = new CVariableBool(false, 0,e_access_read_write);
+    m_stateInMaintenance.setState(false);
     m_localControlForced->setName("localControlForced");
 
+    CModelConfigFile configFile(this, m_scheduler);
 
     addVariable(m_localControlForced->getName(), m_localControlForced); //va me peter à la gueule dès que le configurateur sera en place
     connect(m_localControlForced, &CVariableBool::signalVariableChanged, this, &CAutomate::slotResetCommands);
-
-
 
  //   QTimer* timer = new QTimer(this);
     m_iClock = 0;
@@ -116,14 +115,11 @@ QList<CVariableMeasure *> CAutomate::allMeasures()
     return ret;
 }
 QPair<CVariableStream *, int> CAutomate::findStreamForMeasure(const QString &measureName) {
-
     foreach ( CVariableStream *streamVar, getListStreams()) {
-
         const QList<IVariable *> measures = streamVar->getListMeasures();
         for (int i = 0 ; i < measures.count(); ++i) {
             CVariableMeasure *measureVar = static_cast<CVariableMeasure *>(measures.at(i));
             IVariable *measureMeasureVariable = measureVar->getMeasureVariable();
-
             if (measureMeasureVariable && measureMeasureVariable->getName() == measureName) {
                 return qMakePair<CVariableStream *,int >(streamVar, i);
             }
@@ -143,15 +139,16 @@ CState* CAutomate::getStateCycleAutoRunning(){return &m_stateCycleAutoRunning;}
 
 
 void CAutomate::slotStartAutomate(){
-    connect(m_scheduler, &CScheduler::signalUpdated, this, &CAutomate::signalSchedulerUpdated);
-    m_threadDiag = new CThreadDiag(this);
 
-    CModelConfigFile configFile(this, m_scheduler);
+    m_threadDiag = new CThreadDiag(this);
     (dynamic_cast<CCommandPlayStopCycle*>(m_commandPlayStop))->setOtherCmdStop((dynamic_cast<CCommandPlayStopCycle*>(m_commandStopEndCycle)));
     (dynamic_cast<CCommandPlayStopCycle*>(m_commandStopEndCycle))->setOtherCmdStop((dynamic_cast<CCommandPlayStopCycle*>(m_commandPlayStop)));
     if(m_debug)
         QTimer::singleShot(1000, this, SLOT(slotLogVariable()));
     m_localControlForced->setLabel(tr("Local control forced"));
+    generateJBusTable();
+
+    connect(m_scheduler, &CScheduler::signalUpdated, this, &CAutomate::signalSchedulerUpdated);
 }
 
 CAutomate::~CAutomate()
@@ -971,6 +968,7 @@ void CAutomate::slotStillInAlarm(CVariableAlarm* arg_alarm){
 void CAutomate::slotVariableChanged()
 {
     IVariable *ivar = qobject_cast<IVariable *>(sender());
+    CVariableAlarm* arlaerm = dynamic_cast<CVariableAlarm*>(ivar);
     emit signalVariableChanged(ivar->getName(), QDateTime::currentDateTime());
 }
 
@@ -1312,6 +1310,7 @@ void CAutomate::slotLogVariable(){
     if(m_countBeforeCheckLogFileToDelete++ > 3600){
         m_countBeforeCheckLogFileToDelete = 0;
         dir.setSorting(QDir::Time|QDir::Reversed);
+        //TODO rendre configurable le temps de rétention
         if(dir.entryList().count()> 60){ //2 mois de rétention
             int count = dir.entryList().count() -60;
             for(int i=0; i< count; ++i){
@@ -1326,3 +1325,11 @@ void CAutomate::setLang(const QString& arg){
     m_lang = arg;
 }
 
+//TODO trop spécifique JBus. Déléguer au classes de COM
+void CAutomate::generateJBusTable(){
+
+    foreach(ICom* com, m_mapComs){
+        com->generateDocumentation();
+    }
+
+}

@@ -23,6 +23,7 @@ public:
 
     //IVariable
     QVariantMap serialize() Q_DECL_OVERRIDE;
+    using IVariable::getType;
     enumVariableType getType()const Q_DECL_OVERRIDE;
     enumVariableOrganType getOrganType() const Q_DECL_OVERRIDE;
     void setValue(bool arg_value);

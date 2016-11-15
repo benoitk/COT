@@ -20,6 +20,7 @@ public:
     void addVariableOnDataTable(IVariable*) Q_DECL_OVERRIDE;
     void writeData(bool, const QString&) Q_DECL_OVERRIDE;
     void triggerUpdateAllData() Q_DECL_OVERRIDE;
+    void generateDocumentation()Q_DECL_OVERRIDE;
 
     QString getName()const Q_DECL_OVERRIDE;
     enumComType getType()const Q_DECL_OVERRIDE;

@@ -239,7 +239,8 @@ protected slots:
 
 private:
 
-//    bool m_isInMaintenanceMode;
+    void generateJBusTable();
+    //    bool m_isInMaintenanceMode;
 
     CState m_stateInMaintenance;
     CState m_stateCycleIsRunning;

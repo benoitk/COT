@@ -8,6 +8,7 @@
 #include "IOrgan.h"
 #include "CVariableFloat.h"
 #include <QThread>
+#include <QDir>
 
 #include <cstring>
 #include <cerrno>
@@ -258,29 +259,18 @@ void CComJBus::runJBusReceiveReply(){
 
                     if(mapping.tab_bits_updated){
                         for(int i =0; i < m_listDataTableVariableBool.count(); ++i) {
-
-                            int wordAddr = i / 16;
-                            int value = m_dataTableWords.value(wordAddr);
-                            int valueBit = m_dataTableBits.at(i);
-                            int adressBit = m_listDataTableVariableBool.at(i)->getAddress()%16;
-                            if(valueBit)
-                                value |=  valueBit << adressBit;
-                            else
-                                value &=  ((1 << adressBit) ^ 0xFF);
-                            m_dataTableWords.replace(wordAddr, value);
-
                             m_listDataTableVariableBool.value(i)->setValue(m_dataTableBits.at(i));
                         }
                         mapping.tab_bits_updated = false;
                     }
                     if(mapping.tab_registers_updated){
-                        for(int i =0; i < m_listDataTableVariableWords.count(); ++i) {
+                        for(int i =0; i < m_listDataTableVariableNumeric.count(); ++i) {
                             WordArray words; //sert pour la gestion des flottant et des entiers large
-                            IVariable* var = m_listDataTableVariableWords.value(i);
+                            IVariable* var = m_listDataTableVariableNumeric.value(i);
                             if(var->getType() == e_type_float){
                                 //si un jour on se décide à gérer les flotants avec le JBus, remplacer le code suivant avec celui en commentaire
                                 float fValue = m_dataTableWords.value(i);
-                                for(int k=0; k<((CVariableFloat*)var)->getPrecision();++k)
+                                for(int k=0; k<(dynamic_cast<CVariableFloat*>(var))->getPrecision();++k)
                                     fValue = fValue/10;
 
                                 //                                for(int j=0; j<sizeof(float) / sizeof(uint16_t); ++j)
@@ -298,18 +288,7 @@ void CComJBus::runJBusReceiveReply(){
                                 //                                    iValue += ((int)words.at(k)) << (16*k);
                                 var->setValue(iValue);
                             }
-                            else if(var->getType() == e_type_bool){
-                                short int iValue = m_dataTableWords.value(i);
-                                int numBit = 1;
-                                int addrBase = m_listDataTableVariableBool.at(m_listDataTableVariableWords.at(i)->getAddress())
-                                        ->getAddress();
-                                for(int k=addrBase; k< (addrBase + 16);++k){
-                                    int valueBit = iValue & numBit;
-                                    m_listDataTableVariableBool.value(k)->setValue(valueBit);
-                                    m_dataTableBits.replace(k, valueBit);
-                                    numBit *= 2;
-                                }
-                            }
+
                         }
                     }
                     mapping.tab_registers_updated = false;
@@ -526,21 +505,6 @@ void CComJBus::addVariableOnDataTable(IVariable* arg_var){
     case e_type_alarm:
     case e_type_bool:
         arg_var->setAddress(m_dataTableBits.count());
-        if( (m_dataTableBits.count() % 16) == 0){
-            m_listDataTableVariableWords.append(arg_var);
-            m_dataTableWords.append(arg_var->toInt());
-        }
-        else{
-            int wordAddr = m_dataTableBits.count() / 16;
-            int value = m_dataTableWords.value(wordAddr);
-            if(arg_var->toBool())
-                value |=  arg_var->toInt() << (arg_var->getAddress()%16);
-            else
-                value &=  ((1 << (arg_var->getAddress()%16)) ^ 0xFF);
-
-            m_dataTableWords.replace(wordAddr, value);
-
-        }
         m_dataTableBits.append(arg_var->toBool());
         m_listDataTableVariableBool.append(arg_var);
 
@@ -561,7 +525,7 @@ void CComJBus::addVariableOnDataTable(IVariable* arg_var){
         //            m_dataTableWords.append(words.at(i));;
         //        }
 
-        m_listDataTableVariableWords.append(arg_var);
+        m_listDataTableVariableNumeric.append(arg_var);
     }
         break;
     case e_type_int:
@@ -577,7 +541,7 @@ void CComJBus::addVariableOnDataTable(IVariable* arg_var){
         //        for(int i=0; i < words.count(); ++i){
         //            m_dataTableWords.append(words.at(i));;
         //        }
-        m_listDataTableVariableWords.append(arg_var);
+        m_listDataTableVariableNumeric.append(arg_var);
     }
         break;
     default:
@@ -658,4 +622,68 @@ QVariantMap CComJBus::serialize(){
 
     return mapSerialize;
 }
-#include "CComJBus.moc"
+
+void CComJBus::generateDocumentation(){
+    QString dirPath = QString(LOG_SOURCE_DIRECTORY);
+    QDir dir = QDir(dirPath);
+    if(!dir.exists()){
+        dir.mkdir(dirPath);
+    }
+    QString path = dirPath+ "/JBusTable.tex";
+    QFile data(path);
+    if(data.exists())
+        data.remove();
+    if (data.open(QFile::Append)) {
+        QTextStream out(&data);
+        out.setCodec("UTF-8");
+        out << "\\documentclass[a4paper,10pt,oneside]{article}"<< endl;
+        out << "\\title{"<< QString(tr("JBUS Data table")) << "}"<< endl;
+        out << "\\author{" << QString(tr("Generated by SERES TOC")) << "}"<< endl;
+        out << "\\begin{document}"<< endl;
+        out << "\\maketitle"<< endl;
+
+        //Bits data table
+        out << QString(tr("Input/Ouput bits data table")) << endl;
+        out << "\\begin{tabular}{|l|l|l|}"<< endl;
+        out << "\\hline"<< endl;
+        out << "\\textbf{Data Name} & \\textbf{Data type} & \\textbf{Address} \\\\"<< endl;
+        out << "\\hline"<< endl;
+        foreach(IVariable* arg_var, m_listDataTableVariableBool){
+
+            out << arg_var->getLabel() << " & "
+                << "argvargetType()"<< " & ";
+            out << "0x";
+            //addresse en hexa
+            QString addr = QString::number( arg_var->getAddress(), 16).rightJustified(4, '0');
+            out << addr  << " \\\\" << endl;
+            out << "\\hline" << endl;
+
+        }
+        out << "\\end{tabular}\\end{document}" << endl;
+
+        //Words data table
+        out << QString(tr("Input/Ouput words data table")) << endl;
+        out << "\\begin{tabular}{|l|l|l|}"<< endl;
+        out << "\\hline"<< endl;
+        out << "\\textbf{Data Name} & \\textbf{Data type} & \\textbf{Address} \\\\"<< endl;
+        out << "\\hline"<< endl;
+        foreach(IVariable* arg_var, m_listDataTableVariableNumeric){
+
+            out << arg_var->getLabel() << " & "
+                << "argvargetType()"<< " & ";
+            out << "0x";
+            //addresse en hexa
+            QString addr = QString::number( arg_var->getAddress(), 16).rightJustified(4, '0');
+            out << addr  << " \\\\" << endl;
+            out << "\\hline" << endl;
+
+        }
+        out << "\\end{tabular}\\end{document}" << endl;
+    }else{
+        qDebug() << "Can't open file";
+    }
+    data.close();
+
+}
+
+ #include "CComJBus.moc"

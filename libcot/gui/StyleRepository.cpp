@@ -28,12 +28,13 @@ QSize StyleRepository::configuratorButtonSize()
 {
     switch (screenSize()) {
     case SevenInch:
-        return QSize(100, 100);
+        return QSize(40, 40);
     case TenInch:
-        return QSize(100, 100);
+        return QSize(50, 50);
     }
     return QSize(); // not reached
 }
+
 
 QSize StyleRepository::measuresStreamButtonSize()
 {
@@ -50,9 +51,9 @@ QSize StyleRepository::playStopButtonSize()
 {
     switch (screenSize()) {
     case SevenInch:
-        return QSize(90, 90);
+        return QSize(60, 60);
     case TenInch:
-        return QSize(90, 90);
+        return QSize(60, 60);
     }
     return QSize(); // not reached
 }
@@ -72,9 +73,9 @@ QSize StyleRepository::keyboardButtonSize()
 {
     switch (screenSize()) {
     case SevenInch:
-        return QSize(70, 70);
+        return QSize(50, 50);
     case TenInch:
-        return QSize(70, 70);
+        return QSize(50, 50);
     }
     return QSize(); // not reached
 }
@@ -110,7 +111,7 @@ void StyleRepository::installFont()
         }
 
         //qDebug() << "system font" << qApp->font().family() << "resolved to" << QFontInfo(qApp->font()).family();
-        QFont defaultFont(mainFontFamilies.at(0), 16);
+        QFont defaultFont(mainFontFamilies.at(0), 20);
         QApplication::setFont(defaultFont);
         //qDebug() << "our font" << qApp->font().family() << "resolved to" << QFontInfo(qApp->font()).family();
     }
@@ -138,7 +139,7 @@ QFont StyleRepository::tabBarFont()
 {
     QFont font = QApplication::font();
     // When changing this, ensure that the tabs of the configurator still fit ;)
-    font.setPointSize(18);
+    font.setPointSize(20);
     return font;
 }
 
@@ -146,6 +147,20 @@ QFont StyleRepository::measureFont()
 {
     QFont font = QApplication::font();
     font.setPointSize(48);
+    return font;
+}
+
+QFont StyleRepository::winMaintenanceFont()
+{
+    QFont font = QApplication::font();
+    font.setPointSize(20);
+    return font;
+}
+
+QFont StyleRepository::labelledToolButtonFont()
+{
+    QFont font = QApplication::font();
+    font.setPointSize(25);
     return font;
 }
 

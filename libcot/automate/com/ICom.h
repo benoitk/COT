@@ -43,6 +43,7 @@ public:
     virtual QString getName()const =0;
     virtual enumComType getType()const=0;
     virtual QVariantMap serialize();
+    virtual void generateDocumentation()=0;
 
 private:
 

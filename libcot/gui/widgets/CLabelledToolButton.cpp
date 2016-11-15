@@ -1,5 +1,5 @@
 #include "CLabelledToolButton.h"
-
+#include "StyleRepository.h"
 #include <QLabel>
 #include <QVBoxLayout>
 
@@ -46,5 +46,6 @@ void CLabelledToolButton::initialize()
     vl->addWidget(m_toolButton, 0, Qt::AlignCenter);
     vl->addWidget(m_label, 0, Qt::AlignCenter);
     setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+    m_label->setFont(StyleRepository::labelledToolButtonFont());
     connect(m_toolButton, &CToolButton::clicked, this, &CLabelledToolButton::clicked);
 }

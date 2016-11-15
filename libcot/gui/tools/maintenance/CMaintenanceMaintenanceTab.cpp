@@ -60,7 +60,7 @@ void CMaintenanceMaintenanceTab::slotUpdateLayout()
         QHBoxLayout* row = new QHBoxLayout;
 
         QLabel* label = new QLabel(cycle->getLabel());
-        label->setFont(StyleRepository::measureFont());
+        label->setFont(StyleRepository::winMaintenanceFont());
         row->addWidget(label);
         row->addStretch();
 

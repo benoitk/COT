@@ -37,7 +37,7 @@ void CComUnknow::addVariableInputOnDataTable(IVariableInput* arg_varInput){
 }
 void CComUnknow::addVariableOutputOnDataTable(IVariableOutput* arg_varOutput){
 }
-void CComUnknow::addVariableOnDataTable(IVariable* arg_varOutput){
+void CComUnknow::addVariableOnDataTable( IVariable* arg_varOutput){
 }
 
 QString CComUnknow::getName()const{
@@ -46,5 +46,7 @@ QString CComUnknow::getName()const{
 enumComType CComUnknow::getType()const{
     return e_type_com_unknow;
 }
-
+void CComUnknow::generateDocumentation(){
+    //TODO générer un fichier d'erreur
+}
 

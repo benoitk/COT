@@ -17,8 +17,8 @@ CVariableCurve::CVariableCurve(const QVariantMap& mapVar,CAutomate* arg_automate
         const QPair<float, float> pair(mapPair.value("x").toFloat(), mapPair.value("y").toFloat());
         m_listCurve.append(pair);
     }
-
 }
+
 float CVariableCurve::getLiearisedY(float arg_x){
     QPair<float, float> pair;
     float value;
@@ -44,7 +44,6 @@ float CVariableCurve::getLiearisedX(float arg_y){
 CVariableCurve::CVariableCurve(CAutomate* arg_automate, QObject *parent, bool arg_value, int arg_address, enumVariableAccess arg_access)
     : IVariable(arg_automate, parent)
 {
-
     m_access = arg_access;
     m_address = arg_address;
 }

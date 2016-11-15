@@ -97,9 +97,9 @@ CModelConfigFile::CModelConfigFile(CAutomate *arg_automate, CScheduler* schedule
         QJsonArray jsonArrayVariables = jsonObjectAll[QStringLiteral("slave_coms_available")].toArray();
         foreach(QJsonValue jsonValueVariable, jsonArrayVariables){
             QVariantMap mapVariable = jsonValueVariable.toVariant().toMap();
-            ICom* var = CComFactory::build(mapVariable);
-            if(var)
-                arg_automate->addCom(var);
+            ICom* com = CComFactory::build(mapVariable);
+            if(com)
+                arg_automate->addCom(com);
             else
                 qCDebug(COTAUTOMATE_LOG) << "slave_coms_available null : map = " << mapVariable;
         }
@@ -180,9 +180,9 @@ CModelConfigFile::CModelConfigFile(CAutomate *arg_automate, CScheduler* schedule
         foreach(QJsonValue jsonValueVariable, jsonArrayVariables){
             QVariantMap mapVariable = jsonValueVariable.toVariant().toMap();
             IVariable* var = CVariableFactory::build(arg_automate, arg_automate, mapVariable);
+            var->initComs();
             if(var){
                 arg_automate->addVariable(mapVariable[QStringLiteral("name")].toString(),var);
-                var->initComs();
             }
             else
                 qCDebug(COTAUTOMATE_LOG) << "Variables null : map = " << mapVariable;
@@ -261,7 +261,7 @@ CModelConfigFile::CModelConfigFile(CAutomate *arg_automate, CScheduler* schedule
             CState* state = Q_NULLPTR;
             if(mapState.value("name").toString() == QStringLiteral("state_in_maintenance")){
                 state = arg_automate->getStateInMaintenance();
-            }else  if(mapState.value("name").toString() == QStringLiteral("state_cycle_runnning")){
+            }else  if(mapState.value("name").toString() == QStringLiteral("state_cycle_running")){
                 state = arg_automate->getStateIsRunning();
             }else  if(mapState.value("name").toString() == QStringLiteral("state_cycle_paused")){
                 state = arg_automate->getStateCurrentCycleIsPaused();

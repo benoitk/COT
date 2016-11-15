@@ -19,6 +19,8 @@ public:
     // size of the new/delete/... buttons in the configurator
     static QSize configuratorButtonSize();
 
+
+
     // size of the stream button near measures in the main screen
     static QSize measuresStreamButtonSize();
 
@@ -45,6 +47,9 @@ public:
 
     // Font for measures in the main screen
     static QFont measureFont();
+
+    static QFont labelledToolButtonFont();
+    static QFont winMaintenanceFont();
 
 private:
     StyleRepository();

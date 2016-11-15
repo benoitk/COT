@@ -31,6 +31,7 @@ public:
     QVariantMap serialize() Q_DECL_OVERRIDE;
     QString getName()const Q_DECL_OVERRIDE;
     enumComType getType()const Q_DECL_OVERRIDE;
+    void generateDocumentation()Q_DECL_OVERRIDE;
     bool isMaster()const;
 
     void runJBusReceiveReply();
@@ -82,7 +83,7 @@ private:
     QMap<int, IVariableInput*> m_mapInputTable;
     QMap<int, IVariableOutput*> m_mapOutputTable;
     QList<IVariable*> m_listDataTableVariableBool;
-    QList<IVariable*> m_listDataTableVariableWords;
+    QList<IVariable*> m_listDataTableVariableNumeric;
 
     BitArray m_dataTableBits;
     BitArray m_dataTableInputBits; //not used yet
