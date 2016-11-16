@@ -203,7 +203,7 @@
                     {"name":"var_default_measure_card", "fr_FR" : "Défaut carte mesure", "en_US" : "Measure card failure", "type":"alarm","auto_acquit":false , "delay":0, "alarm_type":"warning_do_nothing", "value" : false, "access":"read_write"},
                     {"name":"var_measure_card_default_register", "fr_FR" : "Registre défault carte mesure", "en_US" : "Measure card register failure", "type":"input_boolean", "extension_name":"measure_card_1", "organ_name":"defaults_register", "value" : 0},
                    
-                    {"name":"var_nb_cycles_after_maintenance", "fr_FR" : "Nb cycles av maintenance auto", "type":"integer", "value" : 3, "access":"read_write", "coms_name_used":[]},
+                    {"name":"var_nb_cycles_after_maintenance", "fr_FR" : "Nb cycles av maintenance auto", "type":"integer", "value" : 50, "access":"read_write", "coms_name_used":[]},
 
                     {"name":"var_measure_seuil_1", "fr_FR" : "Seuil Mesure 1", "en_US" : "Threshold 1", "type":"float", "value" : 100, "unit":"mg_l", "access":"read_write"},
                     {"name":"var_measure_seuil_1_default", "fr_FR" : "Défaut Seuil 1", "en_US" : "Exceeded Threshold 1", "type":"alarm", "extension_name":"io_card_1", "organ_name":"tor_output_0", "alarm_type":"warning_do_nothing", "auto_acquit":true, "delay":1, "value" : false, "passive":true, "access":"read_write"},
@@ -1673,7 +1673,7 @@
             "step_stop" : {"fr_FR":"Arrêt cycle", "actions":["action_ev_sample_close", "action_ev_reactor_filling_close", "action_ev_nettoyage_close", "action_ev_sample_inerting_close", "action_ev_air_ozone_close", "action_ev_air_direct_close", "action_ev_emptying_close", "action_ev_purge_close", "action_ev_zero_close", "var_ev_air_decolmatage", "action_pump_sample_off", "action_cmd_pump_acide_off", "action_cmd_pump_persulfate_off", "action_cmd_pump_soude_off", "action_cmd_pump_dilution_off", "action_uv_lamp_off"]},
             "steps" : [{"name":"step_09", "step":0,"fr_FR":"Initialisation", "en_US" : "Initialization", "actions":["action_ev_sample_close", "action_ev_reactor_filling_close", "action_ev_nettoyage_close", "action_ev_sample_inerting_close", "action_ev_air_ozone_close", "action_ev_air_direct_close", "action_ev_emptying_close", "action_ev_purge_close", "action_ev_zero_close", "var_ev_air_decolmatage", "action_pump_sample_off", "action_cmd_pump_acide_off", "action_cmd_pump_persulfate_off", "action_cmd_pump_soude_off", "action_cmd_pump_dilution_off", "action_uv_lamp_off"]},
                       {"name":"step_19", "step":1.5,"fr_FR":"Ouverture EV purge", "en_US" : "Purging Solenoid open", "actions":["action_ev_purge_open"]}, 
-                      {"name":"step_29", "step":2,"fr_FR":"Fermeture EV purge", "en_US" : "Purging Solenoid close", "actions":["action_ev_purge_close"]}
+                      {"name":"step_29", "step":1.2,"fr_FR":"Fermeture EV purge", "en_US" : "Purging Solenoid close", "actions":["action_ev_purge_close"]}
                       ]
         },
         {

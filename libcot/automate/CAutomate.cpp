@@ -968,7 +968,6 @@ void CAutomate::slotStillInAlarm(CVariableAlarm* arg_alarm){
 void CAutomate::slotVariableChanged()
 {
     IVariable *ivar = qobject_cast<IVariable *>(sender());
-    CVariableAlarm* arlaerm = dynamic_cast<CVariableAlarm*>(ivar);
     emit signalVariableChanged(ivar->getName(), QDateTime::currentDateTime());
 }
 

@@ -26,9 +26,11 @@ DEFINES *= \
 
 DEVICE_BUILD {
       DEFINES += JSON_DIRECTORY=\"\\\"/home/seres/\\\"\"
-      DEFINES += LOG_SOURCE_DIRECTORY=\"\\\"/home/seres/logs\\\"\"
+      DEFINES += DOC_DIRECTORY=\"\\\"/home/seres/documentations/\\\"\"
+      DEFINES += LOG_SOURCE_DIRECTORY=\"\\\"/home/seres/logs/\\\"\"
 } else {
       DEFINES += JSON_DIRECTORY=\"\\\"$${top_srcdir}/libcot/\\\"\"
+      DEFINES += DOC_DIRECTORY=\"\\\"$${top_srcdir}/libcot/documentations/\\\"\"
       DEFINES += LOG_SOURCE_DIRECTORY=\"\\\"$${top_srcdir}/libcot/logs/\\\"\"
 }
 

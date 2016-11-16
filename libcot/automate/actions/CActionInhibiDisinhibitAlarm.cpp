@@ -20,7 +20,8 @@ CActionInhibiDisinhibitAlarm::CActionInhibiDisinhibitAlarm(const QVariantMap &ma
 
 QVariantMap CActionInhibiDisinhibitAlarm::serialize(){
     QVariantMap mapSerialize = IAction::serialize();
-    if(!m_alarm)
+    mapSerialize.insert(QStringLiteral("type"), QStringLiteral("cmd_inhibit_desinhibit_alarm"));
+    if(m_alarm)
         mapSerialize.insert(QStringLiteral("alarm"), m_alarm->getName());
     else
         mapSerialize.insert(QStringLiteral("alarm"), tr("No alarm set"));
