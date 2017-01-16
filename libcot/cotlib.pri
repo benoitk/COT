@@ -47,7 +47,6 @@ HEADERS *= \
     $$PWD/automate/CControlerCycle.h \
     $$PWD/automate/CDisplayConf.h \
     $$PWD/automate/CLinkAction.h \
-    $$PWD/automate/CModelConfigFile.h \
     $$PWD/automate/CModelExtensionCard.h \
     $$PWD/automate/CRunnableCycle.h \
     $$PWD/automate/CStep.h \
@@ -262,7 +261,8 @@ HEADERS *= \
     $$PWD/automate/actions/CActionMultiplication.h \
     $$PWD/automate/actions/CActionDoubleTitration.h \
     $$PWD/automate/actions/CActionTitration.h \
-    $$PWD/automate/CState.h
+    $$PWD/automate/CState.h \
+    $$PWD/automate/CConfigFileHandler.h
 
 SOURCES *= \
     $$PWD/automate/CAutomate.cpp \
@@ -271,7 +271,6 @@ SOURCES *= \
     $$PWD/automate/CControlerCycle.cpp \
     $$PWD/automate/CDisplayConf.cpp \
     $$PWD/automate/CLinkAction.cpp \
-    $$PWD/automate/CModelConfigFile.cpp \
     $$PWD/automate/CModelExtensionCard.cpp \
     $$PWD/automate/CRunnableCycle.cpp \
     $$PWD/automate/CStep.cpp \
@@ -478,7 +477,8 @@ SOURCES *= \
     $$PWD/automate/actions/CActionMultiplication.cpp \
     $$PWD/automate/actions/CActionDoubleTitration.cpp \
     $$PWD/automate/actions/CActionTitration.cpp \
-    $$PWD/automate/CState.cpp
+    $$PWD/automate/CState.cpp \
+    $$PWD/automate/CConfigFileHandler.cpp
 
 DISTFILES +=
 

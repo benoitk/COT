@@ -110,7 +110,7 @@ void JBusTest::testInitialize_data()
         map["ip"] = m_tcp.serverAddress().toString();
         map["port"] = m_tcp.serverPort();
         map["debug"] = true;
-        QTest::newRow("jbus_over_tcpip") << map << "com_jbus_tcpip_master" << e_type_jbus_over_tcpip << true;
+        QTest::newRow("jbus_over_tcpip") << map << "com_jbus_tcpip_master" << e_type_jbus_over_tcpip_rtu << true;
     }
     {
         QVariantMap map;
@@ -130,7 +130,7 @@ void JBusTest::testInitialize_data()
         map["ip"] = m_tcp.serverAddress().toString();
         map["port"] = m_tcp.serverPort();
         map["debug"] = true;
-        QTest::newRow("tcpip") << map << "com_tcpip_master" << e_type_tcpip << true;
+        QTest::newRow("tcpip") << map << "com_tcpip_master" << e_type_jbus_over_tcpip << true;
     }
     {
         QVariantMap map;
@@ -230,20 +230,20 @@ void JBusTest::testSlave()
         const enumComType type = stringToComType(config["type"].toString());
         switch (type)
         {
+        case e_type_jbus_over_tcpip_rtu:
         case e_type_jbus_over_tcpip:
-        case e_type_tcpip:
             {
                 const QByteArray ip = config["ip"].toByteArray();
                 const int port = config["port"].toInt();
 
-                if (type == e_type_tcpip)
+                if (type == e_type_jbus_over_tcpip)
                     ctx.reset(modbus_new_tcp(ip.constData(), port));
                 else
                     ctx.reset(modbus_new_rtutcp(ip.constData(), port));
 
                 if (!ctx) {
                     fprintf(stderr, "%s failed on %s:%d: %s\n",
-                            (type == e_type_tcpip ? "modbus_new_tcp" : "modbus_new_rtutcp"),
+                            (type == e_type_jbus_over_tcpip ? "modbus_new_tcp" : "modbus_new_rtutcp"),
                             ip.constData(), port, modbus_strerror(errno));
                 }
 

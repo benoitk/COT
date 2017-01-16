@@ -34,7 +34,7 @@ public:
     void generateDocumentation()Q_DECL_OVERRIDE;
     bool isMaster()const;
 
-    void runJBusReceiveReply();
+    void runJBusReceiveAndReply();
 
 signals:
     void connected(bool success);
@@ -92,6 +92,7 @@ private:
 
     QString m_name;
     enumComType m_type;
+    int m_port;
     QString m_ip;
     friend class JBusTest;
     bool m_masterMode;

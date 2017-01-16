@@ -19,6 +19,7 @@ CCommandPlayStopCycle::CCommandPlayStopCycle(const QVariantMap &mapCmd, CAutomat
 void CCommandPlayStopCycle::setOtherCmdStop(CCommandPlayStopCycle* arg_cmd){
     if(arg_cmd)
         m_cmdStop = arg_cmd;
+
     slotReadInput();
     slotRunCommand(true);
 }

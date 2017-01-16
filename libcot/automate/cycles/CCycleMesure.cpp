@@ -19,8 +19,8 @@ CCycleMesure::CCycleMesure(CScheduler *parent)
 CCycleMesure::CCycleMesure(const QVariantMap &mapCycle, CScheduler *parent): ICycle(mapCycle, parent) {
     //qCDebug(COTAUTOMATE_LOG) << "constructor CCycleMesure(const QVariantMap &mapCycle) mapCycle:" << mapCycle;
     //m_timer = Q_NULLPTR;
-     qDebug() << "moveThread CCycleMesure";
-    this->moveToThread(&m_thread);
+//     qDebug() << "moveThread CCycleMesure";
+//    this->moveToThread(&m_thread);
     m_thread.start();
 
 

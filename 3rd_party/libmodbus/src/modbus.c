@@ -32,6 +32,7 @@
 #include "modbus.h"
 #include "modbus-private.h"
 
+
 /* Internal use */
 #define MSG_LENGTH_UNDEFINED -1
 
@@ -174,6 +175,7 @@ static int send_msg(modbus_t *ctx, uint8_t *msg, int msg_length)
         for (i = 0; i < msg_length; i++)
             printf("[%.2X]", msg[i]);
         printf("\n");
+        fflush(stdout);
     }
 
     /* In recovery mode, the write command will be issued until to be
@@ -360,8 +362,14 @@ static int receive_msg(modbus_t *ctx, uint8_t *msg, msg_type_t msg_type)
 
     if (msg_type == MSG_INDICATION) {
         /* Wait for a message, we don't know when the message will be
-         * received */
-        p_tv = NULL;
+                  * received */
+        if (ctx->indication_timeout.tv_usec==-1) {
+            p_tv=NULL;
+        } else {
+            tv.tv_sec = ctx->indication_timeout.tv_sec;
+            tv.tv_usec = ctx->indication_timeout.tv_usec;
+            p_tv = &tv;
+        }
     } else {
         tv.tv_sec = ctx->response_timeout.tv_sec;
         tv.tv_usec = ctx->response_timeout.tv_usec;
@@ -455,8 +463,10 @@ static int receive_msg(modbus_t *ctx, uint8_t *msg, msg_type_t msg_type)
         }
     }
 
-    if (ctx->debug)
+    if (ctx->debug){
         printf("\n");
+        fflush(stdout);
+    }
 
     return ctx->backend->check_integrity(ctx, msg, msg_length);
 }
@@ -1507,6 +1517,11 @@ void modbus_get_response_timeout(modbus_t *ctx, struct timeval *timeout)
 void modbus_set_response_timeout(modbus_t *ctx, const struct timeval *timeout)
 {
     ctx->response_timeout = *timeout;
+}
+
+void modbus_set_indication_timeout(modbus_t *ctx, const struct timeval *timeout)
+{
+    ctx->indication_timeout = *timeout;
 }
 
 /* Get the timeout interval between two consecutive bytes of a message */

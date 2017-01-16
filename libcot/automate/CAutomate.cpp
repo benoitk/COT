@@ -8,7 +8,7 @@
 #include "CCycleMaintenance.h"
 #include "CCycleAutonome.h"
 #include "CActionCmdPompe.h"
-#include "CModelConfigFile.h"
+#include "CConfigFileHandler.h"
 #include "CVariableFactory.h"
 #include "CDisplayConf.h"
 #include "ICom.h"
@@ -38,6 +38,7 @@
 
 #include <QApplication>
 #include <QTranslator>
+#include <QJsonArray>
 
 CAutomate::CAutomate():
     m_stateInMaintenance(this),
@@ -45,22 +46,26 @@ CAutomate::CAutomate():
     m_stateCurrentCycleIsPaused(this),
     m_stateWillStopEndCycle(this),
     m_stateCycleAutoRunning(this),
-    m_localControlForced(new CVariableBool(this, this, false, 0,e_access_read_write)),
+//    m_localControlForced(new CVariableBool(this, this, false, 0,e_access_read_write)),
+    m_localControlForced(new CVariableBool(this, this, true, 0,e_access_read_write)),
     m_schedulerStoppedFromIHM(false),
     m_scheduler(new CScheduler(this)),
     m_commandPlayStop(Q_NULLPTR),
     m_commandStopEndCycle(Q_NULLPTR),
     m_commandNextCycle(Q_NULLPTR),
+    m_displayConf(Q_NULLPTR),
     m_lang(QString("en_US")),
     m_debug(false),
     m_countBeforeCheckLogFileToDelete(0)
 {
-
+    bool bIsConfigLoaded = false;
     m_stateInMaintenance.setState(false);
     m_localControlForced->setName("localControlForced");
 
-    CModelConfigFile configFile(this, m_scheduler);
-
+    CConfigFileHandler configFile(this, m_scheduler);
+    if(configFile.checkSyntaxeError()){
+        bIsConfigLoaded = configFile.loadConf();
+    }
     addVariable(m_localControlForced->getName(), m_localControlForced); //va me peter à la gueule dès que le configurateur sera en place
     connect(m_localControlForced, &CVariableBool::signalVariableChanged, this, &CAutomate::slotResetCommands);
 
@@ -77,7 +82,9 @@ CAutomate::CAutomate():
     initConfig();
 
     connect(&m_automateThread, &QThread::started, this, &CAutomate::slotStartAutomate);
-    m_automateThread.start();
+    if(bIsConfigLoaded)
+        m_automateThread.start();
+
 }
 bool CAutomate::isLocalControlForced(){
     return m_localControlForced->toBool();
@@ -971,8 +978,12 @@ void CAutomate::slotVariableChanged()
     emit signalVariableChanged(ivar->getName(), QDateTime::currentDateTime());
 }
 
-CDisplayConf* CAutomate::getDisplayConf()const{
+CDisplayConf* CAutomate::getDisplayConf(){
     QMutexLocker locker(&m_mutex);
+    if(m_displayConf == Q_NULLPTR){
+       qDebug() << "CDisplayConf* CAutomate::getDisplayConf() m_displayConf non initialisé avant le get -> problème de json ?";
+        m_displayConf = new CDisplayConf(QJsonArray(), this);
+    }
     return m_displayConf;
 }
 
@@ -1218,7 +1229,17 @@ void CAutomate::slotSerializeAndSave(){
         listTmp.append(m_stateInMaintenance.serialize());
         listTmp.append(m_stateCycleIsRunning.serialize());
         listTmp.append(m_stateCurrentCycleIsPaused.serialize());
-        mapSerialize.insert(QStringLiteral("states"), listTmp);
+
+    }
+
+    //slave com
+    {
+        QVariantList listTmp;
+        foreach(ICom* com, m_mapComs){
+           listTmp.append(com->serialize());
+        }
+        mapSerialize.insert(QStringLiteral("slave_coms_available"), listTmp);
+
     }
 
     QJsonDocument doc = QJsonDocument::fromVariant(mapSerialize);
@@ -1257,8 +1278,9 @@ void CAutomate::slotLogVariable(IVariable* arg_var){
         QTextStream out(&data);
         out.setCodec("UTF-8");
         out << QDateTime::currentDateTime().toString(Qt::ISODate);
-        QString tmp = QString::number(arg_var->toFloat(), 'f', 10);
-        out << ";" << arg_var->getLabel() << ";" << tmp;
+        out << ";" << arg_var->getLabel() << ";" << arg_var->toString();
+        //QString tmp = QString::number(arg_var->toFloat(), 'f', 10);
+        //out << ";" << arg_var->getLabel() << ";" << tmp;
         // qDebug() << ";" << arg_var->getLabel() << ";" << tmp;
         out << endl;
     }else{

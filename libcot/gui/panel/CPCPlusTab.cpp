@@ -79,7 +79,7 @@ void CPCPlusTab::slotButtonClicked(CLabelledToolButton *button)
     }
 
     case CToolButton::RestoreConfig: {
-        if(CUserSession::getInstance()->loginAdmin()){
+        if(CUserSession::getInstance()->loginUser()){
             QString backupFile;
             CConfigurationBackup bckp;
             const QString error = bckp.overwriteConfigurationFile(&backupFile);

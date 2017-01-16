@@ -6,8 +6,8 @@
     "debug" : true,
     "lang" : "fr_FR",
 
-    "slave_coms_available":[{"name":"com_jbus_tcp_slave","type":"tcpip", "slave":55 , "ip":"127.0.0.1", "port":2000, "debug":true},
-                            {"name":"com_jbus_rtutcp_slave","type":"jbus_over_tcpip", "slave":55 , "ip":"192.168.1.10", "port":5485, "debug":true}],
+    "slave_coms_available":[
+    {"name":"com_jbus_tcp_slave","type":"jbus_over_tcpip", "slave":55 , "ip":"192.168.1.10", "port":5485, "debug":true}],
    
    
     "extensions" : [
@@ -159,74 +159,36 @@
 
     ],
     "variables" : [ 
-            {"name":"var_test_jbus_0", "fr_FR" : "Test Jbus 0", "type":"boolean", "value" : true, "access":"read_write", "coms_name_used":["com_jbus_rtutcp_slave"]},
-                    {"name":"var_test_jbus_0_1", "fr_FR" : "Test Jbus 0 1", "type":"boolean", "value" : true, "access":"read_write", "coms_name_used":["com_jbus_rtutcp_slave"]},
-                    {"name":"var_test_jbus_0_2", "fr_FR" : "Test Jbus 0 1", "type":"boolean", "value" : false, "access":"read_write", "coms_name_used":["com_jbus_rtutcp_slave"]},
-                    {"name":"var_test_jbus_0_3", "fr_FR" : "Test Jbus 0 1", "type":"boolean", "value" : true, "access":"read_write", "coms_name_used":["com_jbus_rtutcp_slave"]},
-                    {"name":"var_test_jbus_0_4", "fr_FR" : "Test Jbus 0 1", "type":"boolean", "value" : true, "access":"read_write", "coms_name_used":["com_jbus_rtutcp_slave"]},
-                    {"name":"var_test_jbus_0_5", "fr_FR" : "Test Jbus 0 1", "type":"boolean", "value" : false, "access":"read_write", "coms_name_used":["com_jbus_rtutcp_slave"]},
-                    {"name":"var_test_jbus_0_6", "fr_FR" : "Test Jbus 0 1", "type":"boolean", "value" : true, "access":"read_write", "coms_name_used":["com_jbus_rtutcp_slave"]},
-                    {"name":"var_test_jbus_0_7", "fr_FR" : "Test Jbus 0 1", "type":"boolean", "value" : true, "access":"read_write", "coms_name_used":["com_jbus_rtutcp_slave"]},
-                    {"name":"var_test_jbus_0_8", "fr_FR" : "Test Jbus 0 1", "type":"boolean", "value" : false, "access":"read_write", "coms_name_used":["com_jbus_rtutcp_slave"]},
-                    {"name":"var_test_jbus_0_9", "fr_FR" : "Test Jbus 0 1", "type":"boolean", "value" : true, "access":"read_write", "coms_name_used":["com_jbus_rtutcp_slave"]},
-                    {"name":"var_test_jbus_0_10", "fr_FR" : "Test Jbus 0 1", "type":"boolean", "value" : true, "access":"read_write", "coms_name_used":["com_jbus_rtutcp_slave"]},
-                    {"name":"var_test_jbus_0_11", "fr_FR" : "Test Jbus 0 1", "type":"boolean", "value" : true, "access":"read_write", "coms_name_used":["com_jbus_rtutcp_slave"]},
-                    {"name":"var_test_jbus_0_12", "fr_FR" : "Test Jbus 0 1", "type":"boolean", "value" : true, "access":"read_write", "coms_name_used":["com_jbus_rtutcp_slave"]},
-                    {"name":"var_test_jbus_0_13", "fr_FR" : "Test Jbus 0 1", "type":"boolean", "value" : true, "access":"read_write", "coms_name_used":["com_jbus_rtutcp_slave"]},
-                    {"name":"var_test_jbus_0_14", "fr_FR" : "Test Jbus 0 1", "type":"boolean", "value" : true, "access":"read_write", "coms_name_used":["com_jbus_rtutcp_slave"]},
-                    {"name":"var_test_jbus_0_15", "fr_FR" : "Test Jbus 0 1", "type":"boolean", "value" : true, "access":"read_write", "coms_name_used":["com_jbus_rtutcp_slave"]},
-                    {"name":"var_test_jbus_0_16", "fr_FR" : "Test Jbus 0 1", "type":"boolean", "value" : true, "access":"read_write", "coms_name_used":["com_jbus_rtutcp_slave"]},
-                    {"name":"var_test_jbus_0_17", "fr_FR" : "Test Jbus 0 1", "type":"boolean", "value" : true, "access":"read_write", "coms_name_used":["com_jbus_rtutcp_slave"]},
-                    {"name":"var_test_jbus_0_18", "fr_FR" : "Test Jbus 0 1", "type":"boolean", "value" : true, "access":"read_write", "coms_name_used":["com_jbus_rtutcp_slave"]},
-                    {"name":"var_test_jbus_0_19", "fr_FR" : "Test Jbus 0 1", "type":"boolean", "value" : true, "access":"read_write", "coms_name_used":["com_jbus_rtutcp_slave"]},
-                    {"name":"var_test_jbus_0_20", "fr_FR" : "Test Jbus 0 1", "type":"boolean", "value" : true, "access":"read_write", "coms_name_used":["com_jbus_rtutcp_slave"]},
-                    {"name":"var_test_jbus_0_21", "fr_FR" : "Test Jbus 0 1", "type":"boolean", "value" : true, "access":"read_write", "coms_name_used":["com_jbus_rtutcp_slave"]},
-                    {"name":"var_test_jbus_0_22", "fr_FR" : "Test Jbus 0 1", "type":"boolean", "value" : true, "access":"read_write", "coms_name_used":["com_jbus_rtutcp_slave"]},
-                    {"name":"var_test_jbus_0_23", "fr_FR" : "Test Jbus 0 1", "type":"boolean", "value" : true, "access":"read_write", "coms_name_used":["com_jbus_rtutcp_slave"]},
-                    {"name":"var_test_jbus_0_24", "fr_FR" : "Test Jbus 0 1", "type":"boolean", "value" : true, "access":"read_write", "coms_name_used":["com_jbus_rtutcp_slave"]},
-                    {"name":"var_test_jbus_0_25", "fr_FR" : "Test Jbus 0 1", "type":"boolean", "value" : true, "access":"read_write", "coms_name_used":["com_jbus_rtutcp_slave"]},
-                    {"name":"var_test_jbus_0_26", "fr_FR" : "Test Jbus 0 1", "type":"boolean", "value" : true, "access":"read_write", "coms_name_used":["com_jbus_rtutcp_slave"]},
-                    {"name":"var_test_jbus_0_27", "fr_FR" : "Test Jbus 0 1", "type":"boolean", "value" : true, "access":"read_write", "coms_name_used":["com_jbus_rtutcp_slave"]},
-                    {"name":"var_test_jbus_0_28", "fr_FR" : "Test Jbus 0 1", "type":"boolean", "value" : true, "access":"read_write", "coms_name_used":["com_jbus_rtutcp_slave"]},
-                    {"name":"var_test_jbus_0_29", "fr_FR" : "Test Jbus 0 1", "type":"boolean", "value" : true, "access":"read_write", "coms_name_used":["com_jbus_rtutcp_slave"]},
-                    {"name":"var_test_jbus_0_30", "fr_FR" : "Test Jbus 0 1", "type":"boolean", "value" : true, "access":"read_write", "coms_name_used":["com_jbus_rtutcp_slave"]},
-                    {"name":"var_test_jbus_0_31", "fr_FR" : "Test Jbus 0 1", "type":"boolean", "value" : true, "access":"read_write", "coms_name_used":["com_jbus_rtutcp_slave"]},
-                    {"name":"var_test_jbus_1", "fr_FR" : "Test Jbus 1", "type":"integer", "value" : 1, "access":"read_write", "coms_name_used":["com_jbus_rtutcp_slave"]},
-                    {"name":"var_test_jbus_2", "fr_FR" : "Test Jbus 2", "type":"integer", "value" : 3, "access":"read_write", "coms_name_used":["com_jbus_rtutcp_slave"]},
-                    {"name":"var_test_jbus_3", "fr_FR" : "Test Jbus 3", "type":"integer", "value" : 9, "access":"read_write", "coms_name_used":["com_jbus_rtutcp_slave"]},
-                    {"name":"var_test_jbus_4", "fr_FR" : "Test Jbus 4", "type":"integer", "value" : 12, "access":"read_write", "coms_name_used":["com_jbus_rtutcp_slave"]},
-                    {"name":"var_test_jbus_5", "fr_FR" : "Test Jbus 5", "type":"float", "value" : 24.4, "access":"read_write", "coms_name_used":["com_jbus_rtutcp_slave"]},
-                    {"name":"var_test_jbus_6", "fr_FR" : "Test Jbus 6", "type":"float", "value" : 56.1, "access":"read_write", "coms_name_used":["com_jbus_rtutcp_slave"]},
-                    
-                    {"name":"var_general_default", "fr_FR" : "Défaut général", "en_US" : "General failure", "type":"alarm", "extension_name":"io_card_1", "organ_name":"tor_output_2", "auto_acquit":false , "delay":0, "alarm_type":"warning_do_nothing", "value" : true, "passive":false, "access":"read_write"},
-                    {"name":"var_water_default", "fr_FR" : "Défaut d'eau", "en_US" : "Water failure", "type":"alarm", "extension_name":"io_card_1", "organ_name":"tor_output_3", "auto_acquit":true , "delay":0, "alarm_type":"warning_do_nothing", "value" : false, "passive":true, "access":"read_write"},
-                    {"name":"var_default_measure_card", "fr_FR" : "Défaut carte mesure", "en_US" : "Measure card failure", "type":"alarm","auto_acquit":false , "delay":0, "alarm_type":"warning_do_nothing", "value" : false, "access":"read_write"},
-                    {"name":"var_measure_card_default_register", "fr_FR" : "Registre défault carte mesure", "en_US" : "Measure card register failure", "type":"input_boolean", "extension_name":"measure_card_1", "organ_name":"defaults_register", "value" : 0},
+              
+                    {"name":"var_general_default", "fr_FR" : "Défaut général", "en_US" : "General failure", "type":"alarm", "extension_name":"io_card_1", "organ_name":"tor_output_2", "auto_acquit":false , "delay":0, "alarm_type":"warning_do_nothing", "value" : true, "passive":false, "access":"read_write", "coms_name_used":["com_jbus_tcp_slave"]},
+                    {"name":"var_water_default", "fr_FR" : "Défaut d'eau", "en_US" : "Water failure", "type":"alarm", "extension_name":"io_card_1", "organ_name":"tor_output_3", "auto_acquit":true , "delay":0, "alarm_type":"warning_do_nothing", "value" : false, "passive":true, "access":"read_write", "coms_name_used":["com_jbus_tcp_slave"]},
+                    {"name":"var_default_measure_card", "fr_FR" : "Défaut carte mesure", "en_US" : "Measure card failure", "type":"alarm","auto_acquit":false , "delay":0, "alarm_type":"warning_do_nothing", "value" : false, "access":"read_write", "coms_name_used":["com_jbus_tcp_slave"]},
+                    {"name":"var_measure_card_default_register", "fr_FR" : "Registre défault carte mesure", "en_US" : "Measure card register failure", "type":"input_boolean", "extension_name":"measure_card_1", "organ_name":"defaults_register", "value" : 0, "coms_name_used":["com_jbus_tcp_slave"]},
                    
                     {"name":"var_nb_cycles_after_maintenance", "fr_FR" : "Nb cycles av maintenance auto", "type":"integer", "value" : 50, "access":"read_write", "coms_name_used":[]},
 
-                    {"name":"var_measure_seuil_1", "fr_FR" : "Seuil Mesure 1", "en_US" : "Threshold 1", "type":"float", "value" : 100, "unit":"mg_l", "access":"read_write"},
+                    {"name":"var_measure_seuil_1", "fr_FR" : "Seuil Mesure 1", "en_US" : "Threshold 1", "type":"float", "value" : 100, "unit":"mg_l", "access":"read_write", "coms_name_used":["com_jbus_tcp_slave"]},
                     {"name":"var_measure_seuil_1_default", "fr_FR" : "Défaut Seuil 1", "en_US" : "Exceeded Threshold 1", "type":"alarm", "extension_name":"io_card_1", "organ_name":"tor_output_0", "alarm_type":"warning_do_nothing", "auto_acquit":true, "delay":1, "value" : false, "passive":true, "access":"read_write"},
                     {"name":"var_measure_seuil_1_control_needed", "fr_FR" : "Défaut Seuil 1 bloquant", "en_US" : "Threshold 1 default blocker", "type":"boolean", "value" : true, "access":"read_write"},
                     {"name":"var_measure_seuil_1_error_margin", "fr_FR" : "Marge d'erreur défaut seuil 1", "en_US" : "Threshold 1 default error margin", "type":"float", "value" : 0, "unit":"percent", "access":"read_write"},
                     {"name":"var_measure_seuil_1_control_timeout", "fr_FR" : "Temps stabilisation seuil 1", "en_US" : "Threshold 1 stabilization time", "type":"integer", "value" : 2, "unit":"second", "access":"read_write"},
                     
-                    {"name":"var_measure_seuil_2", "fr_FR" : "Seuil Mesure 2", "en_US" : "Threshold 2", "type":"float", "value" : 100, "unit":"mg_l", "access":"read_write"},
+                    {"name":"var_measure_seuil_2", "fr_FR" : "Seuil Mesure 2", "en_US" : "Threshold 2", "type":"float", "value" : 100, "unit":"mg_l", "access":"read_write", "coms_name_used":["com_jbus_tcp_slave"]},
                     {"name":"var_measure_seuil_2_default", "fr_FR" : "Défaut Seuil 2", "en_US" : "Exceeded Threshold 2", "type":"alarm", "extension_name":"io_card_1", "organ_name":"tor_output_1", "alarm_type":"warning_do_nothing", "auto_acquit":true, "delay":1, "value" : false, "passive":true, "access":"read_write"},
                     {"name":"var_measure_seuil_2_control_needed", "fr_FR" : "Défaut Seuil 2 bloquant", "en_US" : "Threshold 2 default blocker", "type":"boolean", "value" : true, "access":"read_write"},
                     {"name":"var_measure_seuil_2_error_margin", "fr_FR" : "Marge d'erreur défaut seuil 2", "en_US" : "Threshold 2 default error margin", "type":"float", "value" : 0, "unit":"percent", "access":"read_write"},
                     {"name":"var_measure_seuil_2_control_timeout", "fr_FR" : "Temps stabilisation seuil 2", "en_US" : "Threshold 2 stabilization time", "type":"integer", "value" : 2, "unit":"second", "access":"read_write"},
                      
                     {"name":"var_reactor_volume", "fr_FR" : "Volume réacteur", "en_US" : "Reactor volume", "type":"float", "value" : 21, "unit":"mL", "access":"read_write"},
-                    {"name":"var_calcul_cot_coef_1", "fr_FR" : "Coef calib Co2 ppmv 1", "type":"float", "value" : 571035, "access":"read_write"},
-                    {"name":"var_calcul_cot_coef_2", "fr_FR" : "Coef calib Co2 ppmv 2", "type":"float", "value" : -456946, "access":"read_write"},
+                    {"name":"var_calcul_cot_coef_1", "fr_FR" : "Coef calib Co2 ppmv 1", "type":"float", "value" : 571035, "access":"read_write", "coms_name_used":["com_jbus_tcp_slave"]},
+                    {"name":"var_calcul_cot_coef_2", "fr_FR" : "Coef calib Co2 ppmv 2", "type":"float", "value" : -456946, "access":"read_write", "coms_name_used":["com_jbus_tcp_slave"]},
                     {"name":"var_calcul_cot_coef_3", "fr_FR" : "Coef calib Co2 ppmv 3", "type":"float", "value" : 129483, "access":"read_write"},
                     {"name":"var_calcul_cot_coef_4", "fr_FR" : "Coef calib Co2 ppmv 4", "type":"float", "value" : 21130, "access":"read_write"},
                     {"name":"var_calcul_cot_coef_5", "fr_FR" : "Coef calib Co2 ppmv 5", "type":"float", "value" : 5496.2, "access":"read_write"},
                     {"name":"var_calcul_cot_offset", "fr_FR" : "Offset calib Co2 ppmv", "type":"float", "value" : -2.99, "access":"read_write"},
                     {"name":"var_co2_ppmv_to_co2_gm3_cst", "fr_FR" : "Constante conversion Co2(ppmv)/Co2(g/m3)", "type":"float", "value" : 0.0019642857, "access":"read_write"},
                     {"name":"var_co2g", "fr_FR" : "CO2(g/m3)", "en_US" : "CO2(g/m3)", "type":"float", "value" : 0, "access":"read_write"},
-                    {"name":"var_zero_reference", "fr_FR" : "Zéro de référence", "en_US" : "Reference zero", "type":"float", "value" : 2.5, "unit":"volt", "access":"read_write"},
+                    {"name":"var_zero_reference", "fr_FR" : "Zéro de référence", "en_US" : "Reference zero", "type":"float", "value" : 2.5, "unit":"volt", "access":"read_write", "coms_name_used":["com_jbus_tcp_slave"]},
                     
                     {"name":"var_zero_measured_maintenance_cycle", "fr_FR" : "Zéro mesuré", "en_US" : "Measured zero", "type":"float", "value" : 0, "unit":"volt", "access":"read"},
                     {"name":"var_zero_measured_maintenance_cycle_default", "fr_FR" : "Défaut zéro cellule mesure", "en_US" : "Measure cell zero default", "type":"alarm", "alarm_type":"warning_do_nothing", "auto_acquit":true, "delay":1, "value" : true, "access":"read_write"},
@@ -1673,7 +1635,7 @@
             "step_stop" : {"fr_FR":"Arrêt cycle", "actions":["action_ev_sample_close", "action_ev_reactor_filling_close", "action_ev_nettoyage_close", "action_ev_sample_inerting_close", "action_ev_air_ozone_close", "action_ev_air_direct_close", "action_ev_emptying_close", "action_ev_purge_close", "action_ev_zero_close", "var_ev_air_decolmatage", "action_pump_sample_off", "action_cmd_pump_acide_off", "action_cmd_pump_persulfate_off", "action_cmd_pump_soude_off", "action_cmd_pump_dilution_off", "action_uv_lamp_off"]},
             "steps" : [{"name":"step_09", "step":0,"fr_FR":"Initialisation", "en_US" : "Initialization", "actions":["action_ev_sample_close", "action_ev_reactor_filling_close", "action_ev_nettoyage_close", "action_ev_sample_inerting_close", "action_ev_air_ozone_close", "action_ev_air_direct_close", "action_ev_emptying_close", "action_ev_purge_close", "action_ev_zero_close", "var_ev_air_decolmatage", "action_pump_sample_off", "action_cmd_pump_acide_off", "action_cmd_pump_persulfate_off", "action_cmd_pump_soude_off", "action_cmd_pump_dilution_off", "action_uv_lamp_off"]},
                       {"name":"step_19", "step":1.5,"fr_FR":"Ouverture EV purge", "en_US" : "Purging Solenoid open", "actions":["action_ev_purge_open"]}, 
-                      {"name":"step_29", "step":1.2,"fr_FR":"Fermeture EV purge", "en_US" : "Purging Solenoid close", "actions":["action_ev_purge_close"]}
+                      {"name":"step_29", "step":2,"fr_FR":"Fermeture EV purge", "en_US" : "Purging Solenoid close", "actions":["action_ev_purge_close"]}
                       ]
         },
         {

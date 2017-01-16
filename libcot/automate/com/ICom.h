@@ -7,9 +7,9 @@
 #include "cot_global.h"
 
 enum enumComType{
-        e_type_tcpip = 0,
+        e_type_jbus_over_tcpip = 0,
         e_type_jbus,
-        e_type_jbus_over_tcpip,
+        e_type_jbus_over_tcpip_rtu,
         e_type_com_unknow
 
 };

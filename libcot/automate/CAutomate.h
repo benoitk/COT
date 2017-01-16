@@ -60,7 +60,7 @@ public:
     QMap<QString, IVariable*> getMapVariables();
     QList<CVariableStream*> getListStreams();
     void setMapVariables(QMap<QString, IVariable*>);
-    CDisplayConf* getDisplayConf()const;
+    CDisplayConf* getDisplayConf();
     QPair<CVariableStream *, int> findStreamForMeasure(const QString &measureName) ;
     QList<CVariableMeasure *> allMeasures();
     void acquitAlarms();

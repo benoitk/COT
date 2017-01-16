@@ -10,13 +10,13 @@ class IAction;
 class ICycle;
 class CScheduler;
 class CAutomate;
-class CModelConfigFile : public QObject
+class CConfigFileHandler : public QObject
 {
     Q_OBJECT
 
 public:
-    CModelConfigFile(CAutomate *parent, CScheduler* scheduler);
-    ~CModelConfigFile();
+    CConfigFileHandler(CAutomate *parent, CScheduler* scheduler);
+    ~CConfigFileHandler();
 
     QString getLabelAnalyser(const QLocale &);
     QList<ICycle*> getListSequencesMesure();
@@ -26,6 +26,8 @@ public:
     ICycle* getCycle(int);
 
     void saveJson(const QVariantMap& arg_mapSerialized);
+    bool loadConf();
+    bool checkSyntaxeError(const QString & arg_fileName = "");
 
 private:
     QJsonDocument* m_jsonDoc;
@@ -35,6 +37,7 @@ private:
     //QMap<QString, ICycle*> m_mapSequences;
     QList<ICycle*> m_listSequences;
     CScheduler* m_scheduler;
+    CAutomate* m_automate;
 
 };
 

@@ -41,6 +41,12 @@ CVariableAlarm::CVariableAlarm(const QMap<QString, QVariant> &mapVar, CAutomate*
 void CVariableAlarm::setInhibited(bool arg){
     m_inhibited = arg;
 }
+QString CVariableAlarm::toString(){
+    if(m_value)
+        return tr("levée");
+    return tr("acquitée");
+}
+
 void CVariableAlarm::deconnectFromAutomate(){
     disconnect(this, &CVariableAlarm::signalNewAlarm, m_automate, &CAutomate::slotNewAlarm);
     disconnect(this, &CVariableAlarm::signalAquitedAlarm, m_automate, &CAutomate::slotAcquitedAlarm);

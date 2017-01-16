@@ -108,6 +108,7 @@ struct _modbus {
     int s;
     int debug;
     int error_recovery;
+    struct timeval indication_timeout;
     struct timeval response_timeout;
     struct timeval byte_timeout;
     const modbus_backend_t *backend;

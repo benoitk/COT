@@ -29,6 +29,7 @@ public:
     void setValue(bool arg_value);
     using CVariableOutputBool::setValue;
     void setToBindedValue(const QVariant & value) Q_DECL_OVERRIDE;
+    QString toString() Q_DECL_OVERRIDE;
 
     enumAlarmType getAlarmType();
     bool haveToStopAfterToMuchSkip();

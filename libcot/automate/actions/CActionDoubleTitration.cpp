@@ -20,8 +20,6 @@ CActionDoubleTitration::CActionDoubleTitration(const QVariantMap &mapAction, CAu
     m_timeout = m_automate->getVariable(mapAction[QStringLiteral("timeout")].toString());
     m_waitUntilFinished = mapAction[QStringLiteral("wait_until_finished")].toBool();
 
-
-
     m_alimPump = Q_NULLPTR;
     m_runOrStopPump = Q_NULLPTR;
     m_clockwisePump = Q_NULLPTR;

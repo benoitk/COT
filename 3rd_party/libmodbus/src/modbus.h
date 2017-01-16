@@ -153,6 +153,7 @@ int modbus_get_socket(modbus_t *ctx);
 
 void modbus_get_response_timeout(modbus_t *ctx, struct timeval *timeout);
 void modbus_set_response_timeout(modbus_t *ctx, const struct timeval *timeout);
+void modbus_set_indication_timeout(modbus_t *ctx, const struct timeval *timeout);
 
 void modbus_get_byte_timeout(modbus_t *ctx, struct timeval *timeout);
 void modbus_set_byte_timeout(modbus_t *ctx, const struct timeval *timeout);
